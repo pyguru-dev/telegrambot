@@ -21,7 +21,7 @@
 				background-color: #1B1D23;
 			}
 			.container {
-				width: 500px;
+				width: 600px;
 				height: 325px;
 
 				left: 0;
@@ -38,21 +38,24 @@
 			}
 			.heading{
 				text-align: center;
-
+				
+				margin-left: 0px;
+				margin-right: 0px;
 				margin-top: 0px;
 				margin-bottom: 10px;
 
 				font-weight: bold;
 				font-size: 80px;
+				letter-spacing: 3px;
 
 				color: #FFFFFF;
 			}
-			.login-form-input-control, .password-form-input-control {
+			.login-input-control, .password-input-control {
 				width: 450px;
 				height: 45px;
 
-				margin-left: 25px;
-				margin-right: 25px;
+				margin-left: 75px;
+				margin-right: 75px;
 				margin-top: 4px;
 				margin-bottom: 4px;
 
@@ -63,15 +66,22 @@
 				border: 0;
 				border-radius: 10px;
 			}
-			/* .have-account-form-button-control {
+			.have-account-button-control {
+				margin-left: 105px;
+				margin-right: 25px;
+				margin-top: 5px;
+				margin-bottom: 5px;
 
-			} */
-			.authorization-form-button-control {
+				font-size: 14px;
+
+				color: #FFFFFF;
+			}
+			.authorization-button-control {
 				width: 200px;
 				height: 60px;
 
-				margin-left: 150px;
-				margin-right: 150px;
+				margin-left: 10px;
+				margin-right: 10px;
 				margin-top: 5px;
 				margin-bottom: 5px;
 
@@ -84,10 +94,10 @@
 				background-color: #595F76;
 				color: #FFFFFF;
 			}
-			.authorization-form-button-control:hover{
+			.authorization-button-control:hover{
 				background-color: #50566E;
 			}
-			.authorization-form-button-control:active{
+			.authorization-button-control:active{
 				background-color: #434965;
 			}
 			.errorMessage{
@@ -96,7 +106,7 @@
 				margin-top: 5px;
 				margin-bottom: 5px;
 
-				font-size: 20px;
+				font-size: 18px;
 
 				color: #ff006a;
 			}
@@ -106,15 +116,15 @@
 		<div class="container">
 			<h1 class="heading">АВТОРИЗАЦИЯ</h1>
 			<div class="authorization_form">
-				<input type="login" class="login-form-input-control" id="inputLogin" placeholder="Login"></input>
+				<input type="text" class="login-input-control" id="inputLogin" placeholder="Login"></input>
 			</div>
 			<div class="authorization_form">
-				<input type="password" class="password-form-input-control" id="inputPassword" placeholder="Password"></input>
+				<input type="password" class="password-input-control" id="inputPassword" placeholder="Password"></input>
 			</div>
 			<h1 class="errorMessage" id="errorMessage"></h1>
 			<div class="buttons">
-				<!-- <a type="have-account" class="have-account-form-button-control" id="haveAccountButton" href="reg">Уже есть аккаунт?</a> -->
-				<button type="authorization" class="authorization-form-button-control" id="authorizationButton" onclick="authorizationButtonClick()">Авторизоваться</button>
+				<a class="have-account-button-control" id="haveAccountButton" href="..">Уже есть аккаунт?</a>
+				<button class="authorization-button-control" id="authorizationButton" onclick="authorizationButtonClick()">Авторизоваться</button>
 			</div>
 		</div>
 	</body>
