@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+		<title>Авторизация</title>
+		<script>
+			function authorizationButtonClick() {
+				var login = document.querySelector('.login-form-input-control').value;
+				var password = document.querySelector('.password-form-input-control').value;
+				if (login | password == '' || login == '' || password == '') {
+					document.getElementById('errorMessage').innerHTML = 'Неверный "Login" или "Password"!';
+				};
+			};
+		</script>
+		<style>
+			*, *::before, *::after {
+				box-sizing: border-box;
+			}
+			body {
+				background-color: #1B1D23;
+			}
+			.container {
+				width: 500px;
+				height: 325px;
+
+				left: 0;
+				right: 0;
+				margin: 0 auto;
+				position: absolute;
+
+				top: 50%;
+				transform: translate(0, -50%);
+
+				font-family: monospace;
+
+				/* background-color: #1B1D23; */
+			}
+			.heading{
+				text-align: center;
+
+				margin-top: 0px;
+				margin-bottom: 10px;
+
+				font-weight: bold;
+				font-size: 80px;
+
+				color: #FFFFFF;
+			}
+			.login-form-input-control, .password-form-input-control {
+				width: 450px;
+				height: 45px;
+
+				margin-left: 25px;
+				margin-right: 25px;
+				margin-top: 4px;
+				margin-bottom: 4px;
+
+				font-size: 25px;
+
+				outline: 0;
+
+				border: 0;
+				border-radius: 10px;
+			}
+			/* .have-account-form-button-control {
+
+			} */
+			.authorization-form-button-control {
+				width: 200px;
+				height: 60px;
+
+				margin-left: 150px;
+				margin-right: 150px;
+				margin-top: 5px;
+				margin-bottom: 5px;
+
+				font-size: 20px;
+				font-weight: bold;
+
+				border: 0;
+				border-radius: 12px;
+
+				background-color: #595F76;
+				color: #FFFFFF;
+			}
+			.authorization-form-button-control:hover{
+				background-color: #50566E;
+			}
+			.authorization-form-button-control:active{
+				background-color: #434965;
+			}
+			.errorMessage{
+				text-align: center;
+
+				margin-top: 5px;
+				margin-bottom: 5px;
+
+				font-size: 20px;
+
+				color: #ff006a;
+			}
+		</style>
+		</head>
+	<body>
+		<div class="container">
+			<h1 class="heading">АВТОРИЗАЦИЯ</h1>
+			<div class="authorization_form">
+				<input type="login" class="login-form-input-control" id="inputLogin" placeholder="Login"></input>
+			</div>
+			<div class="authorization_form">
+				<input type="password" class="password-form-input-control" id="inputPassword" placeholder="Password"></input>
+			</div>
+			<h1 class="errorMessage" id="errorMessage"></h1>
+			<div class="buttons">
+				<!-- <a type="have-account" class="have-account-form-button-control" id="haveAccountButton" href="reg">Уже есть аккаунт?</a> -->
+				<button type="authorization" class="authorization-form-button-control" id="authorizationButton" onclick="authorizationButtonClick()">Авторизоваться</button>
+			</div>
+		</div>
+	</body>
+</html>
