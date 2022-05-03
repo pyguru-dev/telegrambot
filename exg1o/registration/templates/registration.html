@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+		<title>Регистрация</title>
+		<link rel="stylesheet" href="{% static 'registration/registration.css' %}">
+		</head>
+	<body>
+		<div class="container">
+			<h1 class="heading">РЕГИСТРАЦИЯ</h1>
+			<div class="registration-form">
+				<input type="text" class="login-input-control" id="inputLogin" placeholder="Login"></input>
+				<input type="text" class="email-input-control" id="inputEmail" placeholder="Email"></input>
+				<input type="password" class="password-input-control" id="inputPassword" placeholder="Password"></input>
+				<input type="password" class="again-password-input-control" id="inputAgainPassword" placeholder="Password"></input>
+			</div>
+			<h1 class="error-message" id="errorMessage"></h1>
+			<div class="buttons">
+				<a class="have-account-button-control" id="haveAccountButton" href="../authorization">Уже есть аккаунт?</a>
+				<button class="registration-button-control" id="registrationButton" onclick="registrationButtonClick()">Создать аккаунт</button>
+			</div>
+		</div>
+		<script src="{% static 'registration/registration.js' %}"></script>
+	</body>
+</html>

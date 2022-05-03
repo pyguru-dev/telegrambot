@@ -1,131 +1,25 @@
 <!DOCTYPE html>
 
+{% load static %}
 <html lang="ru">
 	<head>
 		<meta charset="UTF-8">
 		<title>Авторизация</title>
-		<script>
-			function authorizationButtonClick() {
-				var login = document.querySelector('.login-form-input-control').value;
-				var password = document.querySelector('.password-form-input-control').value;
-				if (login | password == '' || login == '' || password == '') {
-					document.getElementById('errorMessage').innerHTML = 'Неверный "Login" или "Password"!';
-				};
-			};
-		</script>
-		<style>
-			*, *::before, *::after {
-				box-sizing: border-box;
-			}
-			body {
-				background-color: #1B1D23;
-			}
-			.container {
-				width: 600px;
-				height: 325px;
-
-				left: 0;
-				right: 0;
-				margin: 0 auto;
-				position: absolute;
-
-				top: 50%;
-				transform: translate(0, -50%);
-
-				font-family: monospace;
-
-				/* background-color: #1B1D23; */
-			}
-			.heading{
-				text-align: center;
-
-				margin-left: 0px;
-				margin-right: 0px;
-				margin-top: 0px;
-				margin-bottom: 10px;
-
-				font-weight: bold;
-				font-size: 80px;
-				letter-spacing: 3px;
-
-				color: #FFFFFF;
-			}
-			.login-input-control, .password-input-control {
-				width: 450px;
-				height: 45px;
-
-				margin-left: 75px;
-				margin-right: 75px;
-				margin-top: 4px;
-				margin-bottom: 4px;
-
-				font-size: 25px;
-
-				outline: 0;
-
-				border: 0;
-				border-radius: 10px;
-			}
-			.have-account-button-control {
-				margin-left: 110px;
-				margin-right: 25px;
-				margin-top: 5px;
-				margin-bottom: 5px;
-
-				font-size: 14px;
-
-				color: #FFFFFF;
-			}
-			.authorization-button-control {
-				width: 200px;
-				height: 60px;
-
-				margin-left: 10px;
-				margin-right: 10px;
-				margin-top: 5px;
-				margin-bottom: 5px;
-
-				font-size: 20px;
-				font-weight: bold;
-
-				border: 0;
-				border-radius: 12px;
-
-				background-color: #595F76;
-				color: #FFFFFF;
-			}
-			.authorization-button-control:hover{
-				background-color: #50566E;
-			}
-			.authorization-button-control:active{
-				background-color: #434965;
-			}
-			.errorMessage{
-				text-align: center;
-
-				margin-top: 5px;
-				margin-bottom: 5px;
-
-				font-size: 18px;
-
-				color: #ff006a;
-			}
-		</style>
+		<link rel="stylesheet" href="{% static 'authorization/authorization.css' %}">
 		</head>
 	<body>
 		<div class="container">
 			<h1 class="heading">АВТОРИЗАЦИЯ</h1>
-			<div class="authorization_form">
+			<div class="authorization-form">
 				<input type="text" class="login-input-control" id="inputLogin" placeholder="Login"></input>
-			</div>
-			<div class="authorization_form">
 				<input type="password" class="password-input-control" id="inputPassword" placeholder="Password"></input>
 			</div>
-			<h1 class="errorMessage" id="errorMessage"></h1>
+			<h1 class="error-message" id="errorMessage"></h1>
 			<div class="buttons">
-				<a class="have-account-button-control" id="haveAccountButton" href="..">Уже есть аккаунт?</a>
+				<a class="not-have-account-button-control" id="notHaveAccountButton" href="../registration">Ещё нет аккаунта?</a>
 				<button class="authorization-button-control" id="authorizationButton" onclick="authorizationButtonClick()">Авторизоваться</button>
 			</div>
 		</div>
+		<script src="{% static 'authorization/authorization.js' %}"></script>
 	</body>
 </html>

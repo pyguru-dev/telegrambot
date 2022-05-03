@@ -1,0 +1,96 @@
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+body {
+	background-color: #1B1D23;
+}
+.container {
+	width: 600px;
+	height: 325px;
+
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	position: absolute;
+
+	top: 50%;
+	transform: translate(0, -50%);
+
+	font-family: monospace;
+
+	/* background-color: #1B1D23; */
+}
+.heading{
+	text-align: center;
+
+	margin-top: 0px;
+	margin-bottom: 10px;
+
+	font-weight: bold;
+	font-size: 80px;
+	letter-spacing: 3px;
+
+	color: #FFFFFF;
+}
+
+.authorization-form{
+	margin-left: 75px;
+	margin-right: 75px;
+}
+
+.login-input-control, .password-input-control {
+	width: 450px;
+	height: 45px;
+
+	margin-top: 4px;
+	margin-bottom: 4px;
+
+	font-size: 25px;
+
+	outline: 0;
+
+	border: 0;
+	border-radius: 10px;
+}
+.buttons {
+	margin-top: 9px;
+	margin-left: 110px;
+	margin-right: 110px;
+}
+
+.not-have-account-button-control {
+	font-size: 14px;
+
+	color: #FFFFFF;
+}
+.authorization-button-control {
+	width: 200px;
+	height: 60px;
+
+	margin-left: 40px;
+
+	font-size: 20px;
+	font-weight: bold;
+
+	border: 0;
+	border-radius: 12px;
+
+	background-color: #595F76;
+	color: #FFFFFF;
+}
+.authorization-button-control:hover{
+	background-color: #50566E;
+}
+.authorization-button-control:active{
+	background-color: #434965;
+}
+.error-message{
+	text-align: center;
+
+	margin-top: 5px;
+	margin-bottom: 5px;
+
+	font-size: 18px;
+
+	color: #ff006a;
+}
