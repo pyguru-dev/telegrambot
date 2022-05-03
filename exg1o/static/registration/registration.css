@@ -6,7 +6,7 @@ body {
 }
 .container {
 	width: 600px;
-	height: 500px;
+	height: 400px;
 
 	left: 0;
 	right: 0;
@@ -17,8 +17,6 @@ body {
 	transform: translate(0, -50%);
 
 	font-family: monospace;
-
-	/* background-color: #1B1D23; */
 }
 .heading{
 	text-align: center;

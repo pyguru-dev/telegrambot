@@ -5,11 +5,11 @@ import sqlite3
 import json
 
 # Create your views here.
-def registration(request):
+def registration(request): # Отрисовка registration.html
 	return render(request, 'registration.html')
 
 @csrf_exempt
-def register_account(request):
+def register_account(request): # Регистрация
 	if request.method == 'POST':
 		data = json.loads(request.body)
 		data_items = tuple(data.items())
@@ -20,14 +20,13 @@ def register_account(request):
 			sql.execute(f"SELECT * FROM Accounts WHERE Login = \'{data['Login']}\'")
 			other_account = sql.fetchone()
 			if other_account == None:
-
 				sql.execute("INSERT INTO Accounts VALUES (?, ?, ?)", (data['Login'], data['Email'], data['Password']))
 				db.commit()
 
-				return HttpResponse(request)
+				return HttpResponse('Успешная регистрация.')
 			else:
-				return HttpResponseBadRequest(request)
+				return HttpResponseBadRequest(f"Login \"{data['Login']}\" уже занят!")
 		else:
-			return HttpResponseBadRequest(request)
+			return HttpResponseBadRequest('В тело запроса переданы неправильные данные!')
 	else:
-		return HttpResponseBadRequest(request)
+		return HttpResponseBadRequest('Неправильный метод запроса!')

@@ -17,7 +17,7 @@ function registrationButtonClick() {
 				}
 			);
 			request.send(data);
-			request.onreadystatechange = function () {
+			request.onreadystatechange = function() {
 				if (request.readyState == 4 && request.status == 200) {
 					window.location.href = '../authorization';
 				} else {

@@ -17,8 +17,6 @@ body {
 	transform: translate(0, -50%);
 
 	font-family: monospace;
-
-	/* background-color: #1B1D23; */
 }
 .heading{
 	text-align: center;
