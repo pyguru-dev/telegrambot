@@ -1,9 +1,28 @@
-function hideOrShowButtonClick() {
-	var inputPasswordElement = document.getElementById('inputAgainPassword');
+function hideOrShowButtonClick(elemet) {
+	var inputPasswordElement = document.getElementById(elemet);
+
 	if (inputPasswordElement.getAttribute('type') == 'password') {
 		inputPasswordElement.setAttribute('type', 'text');
+
+		if (elemet == 'inputPassword') {
+			var buttonElement = document.getElementById('hidePassword');
+			buttonElement.setAttribute('id', 'showPassword')
+		} else {
+			var buttonElement = document.getElementById('hideAgainPassword');
+			buttonElement.setAttribute('id', 'showAgainPassword')		
+		}
+		buttonElement.setAttribute('class', 'show-password-button-control')
 	} else {
 		inputPasswordElement.setAttribute('type', 'password');
+
+		if (elemet == 'inputPassword') {
+			var buttonElement = document.getElementById('showPassword');
+			buttonElement.setAttribute('id', 'hidePassword')	
+		} else {
+			var buttonElement = document.getElementById('showAgainPassword');
+			buttonElement.setAttribute('id', 'hideAgainPassword')	
+		}
+		buttonElement.setAttribute('class', 'hide-password-button-control')
 	}
 }
 

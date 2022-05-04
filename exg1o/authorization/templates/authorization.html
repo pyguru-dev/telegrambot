@@ -11,13 +11,14 @@
 		<div class="container">
 			<h1 class="heading">АВТОРИЗАЦИЯ</h1>
 			<div class="authorization-form">
-				<input type="text" class="login-input-control" id="inputLogin" placeholder="Login"></input>
-				<input type="password" class="password-input-control" id="inputPassword" placeholder="Password"></input>
+				<input id="inputLogin" class="login-input-control" type="text" placeholder="Login"></input>
+				<input id="inputPassword" class="password-input-control" type="password" placeholder="Password"></input>
+				<button id="hidePassword" class="hide-password-button-control" onclick="hideOrShowButtonClick()"></button>
 			</div>
-			<h1 class="error-message" id="errorMessage"></h1>
+			<h1 id="errorMessage" class="error-message"></h1>
 			<div class="buttons">
-				<a class="not-have-account-button-control" id="notHaveAccountButton" href="../registration">Ещё нет аккаунта?</a>
-				<button class="authorization-button-control" id="authorizationButton" onclick="authorizationButtonClick()">Авторизоваться</button>
+				<a id="notHaveAccountButton" class="not-have-account-button-control" href="../registration">Ещё нет аккаунта?</a>
+				<button id="authorizationButton" class="authorization-button-control" onclick="authorizationButtonClick()">Авторизоваться</button>
 			</div>
 		</div>
 		<script src="{% static 'authorization/authorization.js' %}"></script>
