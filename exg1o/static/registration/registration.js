@@ -1,8 +1,18 @@
+function hideOrShowButtonClick() {
+	var inputPasswordElement = document.getElementById('inputAgainPassword');
+	if (inputPasswordElement.getAttribute('type') == 'password') {
+		inputPasswordElement.setAttribute('type', 'text');
+	} else {
+		inputPasswordElement.setAttribute('type', 'password');
+	}
+}
+
 function registrationButtonClick() {
 	var login = document.querySelector('.login-input-control').value;
 	var email = document.querySelector('.email-input-control').value;
 	var password_1 = document.querySelector('.password-input-control').value;
 	var password_2 = document.querySelector('.again-password-input-control').value;
+
 	if (login && email && password_1 && password_2 != '') {
 		if (password_1 == password_2) {
 			if (password_1.length >= 8) {
@@ -18,12 +28,12 @@ function registrationButtonClick() {
 			);
 			request.send(data);
 			request.onreadystatechange = function() {
-				if (request.readyState == 4 && request.status == 200) {
-					window.location.href = '../authorization';
-				} else {
-					document.getElementById('errorMessage').innerHTML = request.responseText;
+					if (request.status == 200) {
+						window.location.href = '../authorization';
+					} else {
+						document.getElementById('errorMessage').innerHTML = request.responseText;
+					}
 				}
-			}
 			} else {
 				document.getElementById('errorMessage').innerHTML = 'Пароль должен содержать не менее 8 символов!';
 			}

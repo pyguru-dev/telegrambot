@@ -54,6 +54,17 @@ body {
 	border-radius: 10px;
 }
 
+.show-or-hide-password-button-control {
+	width: 40px;
+	height: 45px;
+
+	position: absolute;
+
+	background-image: url('../images/eyeOn.png');
+	background-repeat: no-repeat;
+	background-size: 10px 10px;
+}
+
 .buttons {
 	margin-top: 9px;
 	margin-left: 110px;
