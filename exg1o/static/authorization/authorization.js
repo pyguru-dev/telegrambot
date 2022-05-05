@@ -19,13 +19,31 @@ function hideOrShowButtonClick() {
 function authorizationButtonClick() {
 	var login = document.querySelector('.login-input-control').value;
 	var password = document.querySelector('.password-input-control').value;
+	var error_message = document.getElementById('errorMessage')
+
 	if (login | password != '') {
-		var request = new XMLHttpRequest();
-		request.open("POST", 'authorize_in_account/', true);
-		request.setRequestHeader("Content-Type", "application/json");
-		var data = JSON.stringify({ "Login": login, "Password": password});
-		request.send(data)
+		if (password.length > 8) {
+			var request = new XMLHttpRequest();
+			request.open("POST", 'authorize_in_account/', true);
+			request.setRequestHeader("Content-Type", "application/json");
+			var data = JSON.stringify(
+				{
+					"Login": login,
+					"Password": password
+				}
+			);
+			request.onreadystatechange = function() {
+				if (request.status == 200) {
+					window.location.href = '..';
+				} else {
+					error_message.innerHTML = request.responseText;
+				}
+			}
+			request.send(data)
+		} else {
+			error_message.innerHTML = 'Пароль должен содержать не менее 8 символов!';
+		}
 	} else {
-		document.getElementById('errorMessage').innerHTML = 'Неверный "Login" или "Password"!';
+		error_message.innerHTML = 'Вы не ввели "Login" или "Password"!';
 	}
 }

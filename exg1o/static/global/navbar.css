@@ -1,0 +1,29 @@
+.navbar {
+	height: 80px;
+
+	left: 0;
+	right: 0;
+	top: 0;
+	margin: 0 auto;
+	position: absolute;
+
+	background-color: #2C313C;
+}
+
+.banner-button-control {
+	width: 160px;
+	height: 60px;
+
+	left: 50px;
+	top: 9px;
+	position: absolute;
+
+	font-family: monospace;
+	font-weight: bold;
+	font-size: 50px;
+
+	border: 0;
+	background: none;
+	text-decoration: none;
+	color: #FFFFFF;
+}

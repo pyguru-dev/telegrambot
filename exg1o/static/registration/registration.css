@@ -101,7 +101,7 @@ body {
 	margin-right: 15px;
 
 	font-size: 14px;
-	
+
 	color: #FFFFFF;
 }
 
@@ -120,12 +120,15 @@ body {
 	background-color: #595F76;
 	color: #FFFFFF;
 }
+
 .registration-button-control:hover{
 	background-color: #50566E;
 }
+
 .registration-button-control:active{
 	background-color: #434965;
 }
+
 .error-message{
 	text-align: center;
 

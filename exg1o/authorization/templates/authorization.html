@@ -5,17 +5,23 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>Авторизация</title>
+		<link rel="stylesheet" href="{% static 'global/navbar.css' %}">
 		<link rel="stylesheet" href="{% static 'authorization/authorization.css' %}">
 		</head>
 	<body>
+		<nav class="navbar">
+			<a id="bannerButton" class="banner-button-control" href="/">Exg1o</a> 
+		</nav>
 		<div class="container">
 			<h1 class="heading">АВТОРИЗАЦИЯ</h1>
 			<div class="authorization-form">
-				<input id="inputLogin" class="login-input-control" type="text" placeholder="Login"></input>
-				<input id="inputPassword" class="password-input-control" type="password" placeholder="Password"></input>
+				<input id="inputLogin" class="login-input-control" type="text" placeholder="Введите login"></input>
+				<input id="inputPassword" class="password-input-control" type="password" placeholder="Введите password"></input>
 				<button id="hidePassword" class="hide-password-button-control" onclick="hideOrShowButtonClick()"></button>
 			</div>
-			<h1 id="errorMessage" class="error-message"></h1>
+			<div class="message-div">
+				<h1 id="errorMessage" class="error-message"></h1>
+			</div>
 			<div class="buttons">
 				<a id="notHaveAccountButton" class="not-have-account-button-control" href="../registration">Ещё нет аккаунта?</a>
 				<button id="authorizationButton" class="authorization-button-control" onclick="authorizationButtonClick()">Авторизоваться</button>
