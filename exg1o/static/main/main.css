@@ -1,0 +1,42 @@
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+body {
+	background-color: #1B1D23;
+}
+
+.container {
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	position: absolute;
+
+	font-family: monospace;
+}
+
+.site-info {
+	top: 100px;
+	left: 25%;
+	right: 25%;
+	position: absolute;
+}
+
+.heading {
+	text-align: center;
+
+	margin-top: 0px;
+	margin-bottom: 10px;
+
+	font-weight: bold;
+	font-size: 120px;
+	letter-spacing: 3px;
+
+	color: #FFFFFF;
+}
+
+.site-info-text{
+	letter-spacing: 1px;
+	font-size: 24px;
+
+	color: #FFFFFF;
+}

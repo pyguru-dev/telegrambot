@@ -117,6 +117,7 @@ body {
 	color: #FFFFFF;
 }
 .authorization-button-control:hover{
+	transition: 0.4s;
 	background-color: #50566E;
 }
 .authorization-button-control:active{

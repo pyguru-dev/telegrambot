@@ -10,14 +10,17 @@
 	background-color: #2C313C;
 }
 
-.banner-button-control {
-	width: 160px;
+.banner-button-link-control {
+	width: 140px;
 	height: 60px;
 
+	margin-top: 9px;
+	margin-bottom: 11px;
+
 	left: 50px;
-	top: 9px;
 	position: absolute;
 
+	text-align: center;
 	font-family: monospace;
 	font-weight: bold;
 	font-size: 50px;
@@ -26,4 +29,42 @@
 	background: none;
 	text-decoration: none;
 	color: #FFFFFF;
+}
+
+.authorization-button-link-control,
+.registration-button-link-control {
+	width: 160px;
+	height: 50px;
+
+	margin-top: 15px;
+	margin-bottom: 15px;
+
+	position: absolute;
+
+	font-size: 20px;
+	font-weight: bold;
+
+	border: 0;
+	border-radius: 12px;
+
+	background-color: #595F76;
+	color: #FFFFFF;
+}
+
+.authorization-button-link-control {
+	right: 230px;
+}
+
+.registration-button-link-control{
+	right: 50px;
+}
+
+.authorization-button-link-control:hover,
+.registration-button-link-control:hover {
+	transition: 0.4s;
+	background-color: #50566E;
+}
+.authorization-button-link-control:active, 
+.registration-button-link-control:active {
+	background-color: #434965;
 }

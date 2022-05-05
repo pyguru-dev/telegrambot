@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+		<title>Главная страница</title>
+		<link rel="stylesheet" href="{% static 'global/navbar.css' %}">
+		<link rel="stylesheet" href="{% static 'main/main.css' %}">
+		</head>
+	<body>
+		<nav class="navbar">
+			<a id="bannerButtonLink" class="banner-button-link-control" href="/">Exg1o</a>
+			<button id="authorizationButtonLink" class="authorization-button-link-control" onclick="window.location.href = '/authorization/';">Авторизация</a>
+			<button id="registrationButtonLink" class="registration-button-link-control" onclick="window.location.href = '/registration/';">Регистарция</a>
+		</nav>
+		<div class="container">
+			<div class="site-info">
+				<h1 class="heading">Exg1o</h1>
+				<p class="site-info-text">
+					Exg1o - сайт с помощью которого вы сможете легко и без каких либо навыков в программирование сделать своего Telegram бота.
+				</p>
+			</div>
+		</div>
+	</body>
+</html>

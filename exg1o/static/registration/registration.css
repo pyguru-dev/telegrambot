@@ -4,6 +4,7 @@
 body {
 	background-color: #1B1D23;
 }
+
 .container {
 	width: 600px;
 	height: 400px;
@@ -122,6 +123,7 @@ body {
 }
 
 .registration-button-control:hover{
+	transition: 0.4s;
 	background-color: #50566E;
 }
 
