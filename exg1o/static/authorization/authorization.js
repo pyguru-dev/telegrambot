@@ -28,8 +28,8 @@ function authorizationButtonClick() {
 			request.setRequestHeader("Content-Type", "application/json");
 			var data = JSON.stringify(
 				{
-					"Login": login,
-					"Password": password
+					"login": login,
+					"password": password
 				}
 			);
 			request.onreadystatechange = function() {

@@ -41,9 +41,9 @@ function registrationButtonClick() {
 				request.setRequestHeader('Content-Type', 'application/json');
 				var data = JSON.stringify(
 					{
-						'Login': login,
-						'Email': email,
-						'Password': password_1
+						'login': login,
+						'email': email,
+						'password': password_1
 					}
 				);
 				request.onreadystatechange = function() {
