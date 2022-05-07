@@ -1,35 +1,28 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 
-{% load static %}
-<html lang="ru">
-	<head>
-		<meta charset="UTF-8">
-		<title>Главная страница</title>
-		<link rel="stylesheet" href="{% static 'global/navbar.css' %}">
-		<link rel="stylesheet" href="{% static 'main/main.css' %}">
-		</head>
-	<body>
-		<nav class="navbar">
-			<a id="bannerButtonLink" class="banner-button-link-control" href="/">Exg1o</a>
-			<button id="authorizationButtonLink" class="authorization-button-link-control" onclick="window.location.href = '/authorization/';">Авторизация</a>
-			<button id="registrationButtonLink" class="registration-button-link-control" onclick="window.location.href = '/registration/';">Регистарция</a>
-		</nav>
-		<div class="container">
-			<div class="site-info">
-				<h1 class="heading">Exg1o</h1>
-				<p class="site-info-text">
-					Exg1o - сайт с помощью которого вы сможете легко и без каких либо навыков в программирование сделать своего Telegram бота.
-				</p>
-				<p class="site-info-text">
-					Возможности конструктора Telegram бота:
-					<!-- <ol class="site-info-text">
-						<li>Первый</li>
-						<li>Первый</li>
-						<li>Первый</li>
-						<li>Первый</li>
-					</ol> -->
-				</p>
-			</div>
-		</div>
-	</body>
-</html>
+{% block title %}
+	<title>Главная страница</title>
+{% endblock title %}
+
+{% block styles %}
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'main/main.css' %}">
+{% endblock styles %}
+
+{% block content %}
+	<div class="site-info">
+		<h1 class="heading">Exg1o</h1>
+		<p class="site-info-text">
+			Exg1o - сайт с помощью которого вы сможете легко и без каких либо навыков в программирование сделать своего Telegram бота.
+		</p>
+		<p class="site-info-text">
+			Возможности конструктора Telegram бота:
+			<!-- <ol class="site-info-text">
+				<li>Первый</li>
+				<li>Первый</li>
+				<li>Первый</li>
+				<li>Первый</li>
+			</ol> -->
+		</p>
+	</div>
+{% endblock content %}

@@ -1,3 +1,10 @@
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+body {
+	background-color: #1B1D23;
+}
+
 .navbar {
 	height: 80px;
 

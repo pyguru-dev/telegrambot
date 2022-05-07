@@ -1,9 +1,3 @@
-*, *::before, *::after {
-	box-sizing: border-box;
-}
-body {
-	background-color: #1B1D23;
-}
 .container {
 	width: 600px;
 	height: 325px;
@@ -48,7 +42,6 @@ body {
 	font-size: 25px;
 
 	outline: 0;
-
 	border: 0;
 }
 

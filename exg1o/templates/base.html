@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+		{% block title %} {% endblock title %}
+		<link rel="stylesheet" href="{% static 'global/base.css' %}">
+		{% block styles %} {% endblock styles %}
+		</head>
+	<body>
+		{% block navbar %}
+		<nav class="navbar">
+			<a id="bannerButtonLink" class="banner-button-link-control" href="/">Exg1o</a>
+			<button id="authorizationButtonLink" class="authorization-button-link-control" onclick="window.location.href = '{{ button_1.link }}';">{{ button_1.text }}</a>
+			<button id="registrationButtonLink" class="registration-button-link-control" onclick="window.location.href = ' {{ button_2.link }} ';">{{ button_2.text}}</a>
+		</nav>
+		{% endblock navbar %}
+		<div class="container">
+			{% block content %} {% endblock content %}
+		</div>
+	</body>
+	{% block scripts %} {% endblock scripts %}
+</html>

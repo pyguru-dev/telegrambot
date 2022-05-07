@@ -1,34 +1,30 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 
-{% load static %}
-<html lang="ru">
-	<head>
-		<meta charset="UTF-8">
-		<title>Авторизация</title>
-		<link rel="stylesheet" href="{% static 'global/navbar.css' %}">
-		<link rel="stylesheet" href="{% static 'authorization/authorization.css' %}">
-		</head>
-	<body>
-		<nav class="navbar">
-			<a id="bannerButtonLink" class="banner-button-link-control" href="/">Exg1o</a>
-			<button id="authorizationButtonLink" class="authorization-button-link-control" onclick="window.location.href = '/authorization/';">Авторизация</a>
-			<button id="registrationButtonLink" class="registration-button-link-control" onclick="window.location.href = '/registration/';">Регистарция</a>
-		</nav>
-		<div class="container">
-			<h1 class="heading">АВТОРИЗАЦИЯ</h1>
-			<div class="authorization-form">
-				<input id="inputLogin" class="login-input-control" type="text" placeholder="Введите login"></input>
-				<input id="inputPassword" class="password-input-control" type="password" placeholder="Введите password"></input>
-				<button id="hidePassword" class="hide-password-button-control" onclick="hideOrShowButtonClick()"></button>
-			</div>
-			<div class="message-div">
-				<h1 id="errorMessage" class="error-message"></h1>
-			</div>
-			<div class="buttons">
-				<a id="notHaveAccountButton" class="not-have-account-button-control" href="../registration/">Ещё нет аккаунта?</a>
-				<button id="authorizationButton" class="authorization-button-control" onclick="authorizationButtonClick()">Авторизоваться</button>
-			</div>
-		</div>
-		<script src="{% static 'authorization/authorization.js' %}"></script>
-	</body>
-</html>
+{% block title %}
+	<title>Авторизация</title>
+{% endblock title %}
+
+{% block styles %}
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'authorization/authorization.css' %}">
+{% endblock styles %}
+
+{% block content %}
+	<h1 class="heading">АВТОРИЗАЦИЯ</h1>
+	<div class="authorization-form">
+		<input id="inputLogin" class="login-input-control" type="text" placeholder="Введите login"></input>
+		<input id="inputPassword" class="password-input-control" type="password" placeholder="Введите password"></input>
+		<button id="hidePassword" class="hide-password-button-control" onclick="hideOrShowButtonClick()"></button>
+	</div>
+	<div class="message-div">
+		<h1 id="errorMessage" class="error-message"></h1>
+	</div>
+	<div class="buttons">
+		<a id="notHaveAccountButton" class="not-have-account-button-control" href="../registration/">Ещё нет аккаунта?</a>
+		<button id="authorizationButton" class="authorization-button-control" onclick="authorizationButtonClick()">Авторизоваться</button>
+	</div>
+{% endblock content %}
+
+{% block scripts %}
+	<script src="{% static 'authorization/authorization.js' %}"></script>
+{% endblock scripts %}

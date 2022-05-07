@@ -1,35 +1,31 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 
-{% load static %}
-<html lang="ru">
-	<head>
-		<meta charset="UTF-8">
-		<title>Регистрация</title>
-		<link rel="stylesheet" href="{% static 'global/navbar.css' %}">
-		<link rel="stylesheet" href="{% static 'registration/registration.css' %}">
-		</head>
-	<body>
-		<nav class="navbar">
-			<a id="bannerButtonLink" class="banner-button-link-control" href="/">Exg1o</a>
-			<button id="authorizationButtonLink" class="authorization-button-link-control" onclick="window.location.href = '/authorization/';">Авторизация</a>
-			<button id="registrationButtonLink" class="registration-button-link-control" onclick="window.location.href = '/registration/';">Регистарция</a>
-		</nav>
-		<div class="container">
-			<h1 class="heading">РЕГИСТРАЦИЯ</h1>
-			<div class="registration-form">
-				<input id="inputLogin" class="login-input-control" type="text" placeholder="Придумайте login"></input>
-				<input id="inputEmail" class="email-input-control" type="text" placeholder="Введите свой email"></input>
-				<input id="inputPassword" class="password-input-control" type="password" placeholder="Придумайте password"></input>
-				<button id="hidePassword" class="hide-password-button-control" onclick="hideOrShowButtonClick('inputPassword')"></button>
-				<input id="inputAgainPassword" class="again-password-input-control" type="password" placeholder="Повторите password"></input>
-				<button id="hideAgainPassword" class="hide-password-button-control" onclick="hideOrShowButtonClick('inputAgainPassword')"></button>
-			</div>
-			<h1 id="errorMessage" class="error-message"></h1>
-			<div class="buttons">
-				<a id="haveAccountButton" class="have-account-button-control" href="../authorization">Уже есть аккаунт?</a>
-				<button id="registrationButton" class="registration-button-control" onclick="registrationButtonClick()">Создать аккаунт</button>
-			</div>
-		</div>
-		<script src="{% static 'registration/registration.js' %}"></script>
-	</body>
-</html>
+{% block title %}
+	<title>Регистрация</title>
+{% endblock title %}
+
+{% block styles %}
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'registration/registration.css' %}">
+{% endblock styles %}
+
+{% block content %}
+	<h1 class="heading">РЕГИСТРАЦИЯ</h1>
+	<div class="registration-form">
+		<input id="inputLogin" class="login-input-control" type="text" placeholder="Придумайте login"></input>
+		<input id="inputEmail" class="email-input-control" type="text" placeholder="Введите свой email"></input>
+		<input id="inputPassword" class="password-input-control" type="password" placeholder="Придумайте password"></input>
+		<button id="hidePassword" class="hide-password-button-control" onclick="hideOrShowButtonClick('inputPassword')"></button>
+		<input id="inputAgainPassword" class="again-password-input-control" type="password" placeholder="Повторите password"></input>
+		<button id="hideAgainPassword" class="hide-password-button-control" onclick="hideOrShowButtonClick('inputAgainPassword')"></button>
+	</div>
+	<h1 id="errorMessage" class="error-message"></h1>
+	<div class="buttons">
+		<a id="haveAccountButton" class="have-account-button-control" href="../authorization">Уже есть аккаунт?</a>
+		<button id="registrationButton" class="registration-button-control" onclick="registrationButtonClick()">Создать аккаунт</button>
+	</div>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{% static 'registration/registration.js' %}"></script>
+{% endblock scripts %}

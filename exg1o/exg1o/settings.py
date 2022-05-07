@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 	'authorization.apps.AuthorizationConfig',
 	'registration.apps.RegistrationConfig',
 	'main.apps.MainConfig',
+	'account.apps.AccountConfig',
 ]
 
 MIDDLEWARE = [
@@ -60,7 +61,7 @@ ROOT_URLCONF = 'exg1o.urls'
 TEMPLATES = [
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': [],
+		'DIRS': [BASE_DIR / 'templates'],
 		'APP_DIRS': True,
 		'OPTIONS': {
 			'context_processors': [
