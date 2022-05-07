@@ -6,11 +6,13 @@
 
 {% block styles %}
 	{% load static %}
-	
+	<link rel="stylesheet" href="{% static 'account/view_profile.css' %}">
 {% endblock styles %}
 
 {% block content %}
-	
+	<div class="profile">
+		<img class="user-icon" src="{% static 'images/user.png' %}">
+	</div>
 {% endblock content %}
 
 {% block scripts %}
