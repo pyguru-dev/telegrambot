@@ -34,7 +34,7 @@ function authorizationButtonClick() {
 			);
 			request.onreadystatechange = function() {
 				if (request.status == 200) {
-					window.location.href = '..';
+					window.location.href = '/account/view/' + login + '/';
 				} else {
 					error_message.innerHTML = request.responseText;
 				}

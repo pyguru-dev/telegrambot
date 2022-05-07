@@ -4,22 +4,22 @@ def get_navbar_buttons_data(request: WSGIRequest):
 	if request.user.is_authenticated:
 		data = {
 			'button_1': {
-				'link': f'/account/view/{request.user.username}',
+				'onclick': f"window.location.href = '/account/view/{request.user.username}';",
 				'text': 'Профиль'
 			},
 			'button_2': {
-				'link': '/account/sign_out/',
+				'onclick': 'signOut();',
 				'text': 'Выйти'
 			}
 		}
 	else:
 		data = {
 			'button_1': {
-				'link': '/authorization/',
+				'onclick': "window.location.href = '/authorization/';",
 				'text': 'Авторизация'
 			},
 			'button_2': {
-				'link': '/registration/',
+				'onclick': "window.location.href = '/registration/';",
 				'text': 'Регистарция'
 			}
 		}
