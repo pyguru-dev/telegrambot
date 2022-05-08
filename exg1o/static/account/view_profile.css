@@ -1,6 +1,6 @@
 .container {
     width: 800px;
-	height: 400px;
+	height: 290px;
 
 	left: 0;
 	right: 0;
@@ -11,6 +11,46 @@
 	transform: translate(0, -50%);
 
 	font-family: monospace;
-    background-color: #FFFFFF;
+
+	border-color: #FFFFFF;
+	border-radius: 8px;
+	border-style: solid;
+	border-width: 2px;
+
+	background-color: #2C313C;
 }
 
+.user {
+	width: 280px;
+	height: 288px;
+
+	border-right-color: #FFFFFF;
+	border-right-style: solid;
+	border-right-width: 2px;
+}
+
+.user-site {
+	margin-top: 0;
+	margin-bottom: 10px;
+
+	text-align: center;
+	font-size: 24px;
+
+	color: #FFFFFF;
+}
+
+.user-icon {
+	width: 200px;
+	height: 200px;
+
+	margin-left: 40px;
+
+	border-color: #FFFFFF;
+	border-style: solid;
+	border-width: 2px;
+	border-radius: 50%;
+}
+
+.profile-info {
+	background-color: blue;
+}
