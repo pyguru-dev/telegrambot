@@ -33,7 +33,7 @@ def authorize_in_account(request: WSGIRequest): # Авторизация в ак
 					else:
 						return HttpResponseBadRequest('Вы ввели неверный "Password"!')
 				else:
-					return HttpResponseBadRequest(f"Пользователя \"{data['Login']}\" не существует!")
+					return HttpResponseBadRequest(f'Пользователя "{login}\" не существует!')
 			else:
 				return HttpResponseBadRequest('В тело запроса переданы неправильные данные!')
 		else:

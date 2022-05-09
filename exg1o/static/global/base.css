@@ -1,18 +1,25 @@
 *, *::before, *::after {
 	box-sizing: border-box;
+
+	font-family: monospace;
+	color: #FFFFFF;
 }
+
 body {
 	background-color: #1B1D23;
 }
 
-.navbar {
+input {
+	color: #000000
+}
+
+.top-navbar {
 	height: 80px;
 
 	left: 0;
 	right: 0;
 	top: 0;
-	margin: 0 auto;
-	position: absolute;
+	position: fixed;
 
 	background-color: #2C313C;
 }
@@ -25,17 +32,15 @@ body {
 	margin-bottom: 11px;
 
 	left: 50px;
-	position: absolute;
+	position: fixed;
 
 	text-align: center;
-	font-family: monospace;
 	font-weight: bold;
 	font-size: 50px;
 
 	border: 0;
 	background: none;
 	text-decoration: none;
-	color: #FFFFFF;
 }
 
 .authorization-button-link-control,
@@ -46,16 +51,16 @@ body {
 	margin-top: 15px;
 	margin-bottom: 15px;
 
-	position: absolute;
+	position: fixed;
 
 	font-size: 20px;
 	font-weight: bold;
+	letter-spacing: 1px;
 
 	border: 0;
 	border-radius: 12px;
 
 	background-color: #595F76;
-	color: #FFFFFF;
 }
 
 .authorization-button-link-control {

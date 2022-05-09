@@ -9,8 +9,6 @@
 
 	top: 50%;
 	transform: translate(0, -50%);
-
-	font-family: monospace;
 }
 .heading{
 	text-align: center;
@@ -21,8 +19,6 @@
 	font-weight: bold;
 	font-size: 80px;
 	letter-spacing: 3px;
-
-	color: #FFFFFF;
 }
 
 .authorization-form{
@@ -91,8 +87,6 @@
 	margin-right: 15px;
 
 	font-size: 14px;
-
-	color: #FFFFFF;
 }
 .authorization-button-control {
 	width: 200px;
@@ -107,15 +101,16 @@
 	border-radius: 12px;
 
 	background-color: #595F76;
-	color: #FFFFFF;
 }
 .authorization-button-control:hover{
 	transition: 0.4s;
 	background-color: #50566E;
 }
+
 .authorization-button-control:active{
 	background-color: #434965;
 }
+
 .error-message{
 	text-align: center;
 

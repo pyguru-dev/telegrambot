@@ -10,8 +10,6 @@
 	top: 50%;
 	transform: translate(0, -50%);
 
-	font-family: monospace;
-
 	border-color: #FFFFFF;
 	border-radius: 8px;
 	border-style: solid;
@@ -20,37 +18,96 @@
 	background-color: #2C313C;
 }
 
-.user {
-	width: 280px;
-	height: 288px;
+.titles {
+	width: 796px;
+	height: 49px;
 
+	border-bottom-color: #FFFFFF;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+}
+
+.site-user,
+.user {
 	border-right-color: #FFFFFF;
 	border-right-style: solid;
 	border-right-width: 2px;
 }
 
-.user-site {
-	margin-top: 0;
-	margin-bottom: 10px;
+.site-user-text,
+.profile-data-text {
+	top: 0px;
+	margin-top: 8px;
+	margin-bottom: 8px;
+	position: absolute;
+}
+
+.site-user {
+	width: 300px;
+	height: 47px;
+}
+
+.site-user-text {
+	margin-left: 21px;
+	margin-right: 21px;
+}
+
+.profile-data {
+	width: 494px;
+	height: 47px;
+
+	top: 0;
+	margin-left: 300px;
+	position: absolute;
+}
+
+.profile-data-text {
+	margin-left: 89.7px;
+	margin-right: 89.7px;
+}
+
+.user {
+	width: 300px;
+	height: 237px;
+}
+
+.user-nickname {
+	width: 300px;
+
+	margin-top: 4px;
+	position: absolute;
 
 	text-align: center;
-	font-size: 24px;
-
-	color: #FFFFFF;
+	font-size: 40px;
 }
 
 .user-icon {
-	width: 200px;
-	height: 200px;
+	width: 150px;
 
-	margin-left: 40px;
+	margin-top: 60px;
+	margin-bottom: 27px;
+	margin-left: 74.5px;
+	margin-right: 74.5px;
 
 	border-color: #FFFFFF;
 	border-style: solid;
-	border-width: 2px;
 	border-radius: 50%;
+	border-width: 2px;
 }
 
 .profile-info {
-	background-color: blue;
+	width: 496px;
+	height: 237px;
+
+	top: 49px;
+	left: 300px;
+	position: absolute;
+
+	font-size: 11px;
+}
+
+.account-status,
+.account-reg {
+	margin-left: 8px;
+	margin-right: 8px;
 }
