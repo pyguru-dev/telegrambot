@@ -10,18 +10,18 @@
 {% endblock styles %}
 
 {% block content %}
-	<h1 class="heading">АВТОРИЗАЦИЯ</h1>
-	<div class="authorization-form">
-		<input id="inputLogin" class="login-input-control" type="text" placeholder="Введите login"></input>
-		<input id="inputPassword" class="password-input-control" type="password" placeholder="Введите password"></input>
-		<button id="hidePassword" class="hide-password-button-control" onclick="hideOrShowButtonClick()"></button>
-	</div>
-	<div class="message-div">
+	<div class="container">
+		<h1 class="heading">АВТОРИЗАЦИЯ</h1>
+		<div class="authorization-form">
+			<input id="inputLogin" class="login-input-control" type="text" placeholder="Введите login"></input>
+			<input id="inputPassword" class="password-input-control" type="password" placeholder="Введите password"></input>
+			<button id="hidePassword" class="hide-password-button-control" onclick="hideOrShowButtonClick()"></button>
+		</div>
 		<h1 id="errorMessage" class="error-message"></h1>
-	</div>
-	<div class="buttons">
-		<a id="notHaveAccountButton" class="not-have-account-button-control" href="../registration/">Ещё нет аккаунта?</a>
-		<button id="authorizationButton" class="authorization-button-control" onclick="authorizationButtonClick()">Авторизоваться</button>
+		<div id="buttons" class="buttons">
+			<a id="notHaveAccountButton" class="not-have-account-button-control" href="../registration/">Ещё нет аккаунта?</a>
+			<button id="authorizationButton" class="authorization-button-control" onclick="authorizationButtonClick()">Авторизоваться</button>
+		</div>
 	</div>
 {% endblock content %}
 

@@ -16,10 +16,17 @@ function hideOrShowButtonClick() {
 	}
 }
 
+function showErrorMessage(errorMessage) {
+	var errorMessageElememt = document.getElementById('errorMessage')
+	var buttonsDiv = document.getElementById('buttons')
+
+	buttonsDiv.style = "top: 256px;";
+	errorMessageElememt.innerHTML = errorMessage;
+}
+
 function authorizationButtonClick() {
 	var login = document.querySelector('.login-input-control').value;
 	var password = document.querySelector('.password-input-control').value;
-	var error_message = document.getElementById('errorMessage')
 
 	if (login | password != '') {
 		if (password.length > 8) {
@@ -36,14 +43,14 @@ function authorizationButtonClick() {
 				if (request.status == 200) {
 					window.location.href = '/account/view/' + login + '/';
 				} else {
-					error_message.innerHTML = request.responseText;
+					showErrorMessage(request.responseText);
 				}
 			}
 			request.send(data)
 		} else {
-			error_message.innerHTML = 'Пароль должен содержать не менее 8 символов!';
+			showErrorMessage('Пароль должен содержать не менее 8 символов!');
 		}
 	} else {
-		error_message.innerHTML = 'Вы не ввели "Login" или "Password"!';
+		showErrorMessage('Вы не ввели "Login" или "Password"!');
 	}
 }

@@ -12,13 +12,11 @@
 		{% block navbar %}
 		<nav class="top-navbar">
 			<a id="bannerButtonLink" class="banner-button-link-control" href="/">Exg1o</a>
-			<button id="authorizationButtonLink" class="authorization-button-link-control" onclick="{{ button_1.onclick }}">{{ button_1.text }}</a>
-			<button id="registrationButtonLink" class="registration-button-link-control" onclick="{{ button_2.onclick }}">{{ button_2.text}}</a>
+			<button id="{{ button_1.id }}" class="button-link-control" onclick="{{ button_1.onclick }}">{{ button_1.text }}</a>
+			<button id="{{ button_2.id }}" class="button-link-control" onclick="{{ button_2.onclick }}">{{ button_2.text}}</a>
 		</nav>
 		{% endblock navbar %}
-		<div class="container">
-			{% block content %} {% endblock content %}
-		</div>
+		{% block content %} {% endblock content %}
 	</body>
 	<script src="{% static 'global/base.js' %}"></script>
 	{% block scripts %} {% endblock scripts %}

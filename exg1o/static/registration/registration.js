@@ -26,12 +26,20 @@ function hideOrShowButtonClick(elemet) {
 	}
 }
 
+
+function showErrorMessage(errorMessage) {
+	var errorMessageElememt = document.getElementById('errorMessage')
+	var buttonsDiv = document.getElementById('buttons')
+
+	buttonsDiv.style = "top: 370px;";
+	errorMessageElememt.innerHTML = errorMessage;
+}
+
 function registrationButtonClick() {
 	var login = document.querySelector('.login-input-control').value;
 	var email = document.querySelector('.email-input-control').value;
 	var password_1 = document.querySelector('.password-input-control').value;
 	var password_2 = document.querySelector('.again-password-input-control').value;
-	var error_message = document.getElementById('errorMessage')
 
 	if (login && email && password_1 && password_2 != '') {
 		if (password_1 == password_2) {
@@ -50,17 +58,17 @@ function registrationButtonClick() {
 					if (request.status == 200) {
 						window.location.href = '../authorization';
 					} else {
-						error_message.innerHTML = request.responseText;
+						showErrorMessage(request.responseText);
 					}
 				}
 				request.send(data);
 			} else {
-				error_message.innerHTML = 'Пароль должен содержать не менее 8 символов!';
+				showErrorMessage('Пароль должен содержать не менее 8 символов!');
 			}
 		} else {
-			error_message.innerHTML = 'Пароли не совпадают!';
+			showErrorMessage('Пароли не совпадают!');
 		}
 	} else {
-		error_message.innerHTML = 'Заполните форму регистрации!';
+		showErrorMessage('Заполните форму регистрации!');
 	}
 }

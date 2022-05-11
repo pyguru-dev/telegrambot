@@ -43,8 +43,7 @@ input {
 	text-decoration: none;
 }
 
-.authorization-button-link-control,
-.registration-button-link-control {
+*.button-link-control {
 	width: 160px;
 	height: 50px;
 
@@ -63,20 +62,20 @@ input {
 	background-color: #595F76;
 }
 
-.authorization-button-link-control {
-	right: 230px;
-}
-
-.registration-button-link-control{
+.button-link-control#registrationButtonLink,
+.button-link-control#signOutButtonLink {
 	right: 50px;
 }
 
-.authorization-button-link-control:hover,
-.registration-button-link-control:hover {
+.button-link-control#authorizationButtonLink,
+.button-link-control#profileButtonLink {
+	right: 230px;
+}
+
+*.button-link-control:hover {
 	transition: 0.4s;
 	background-color: #50566E;
 }
-.authorization-button-link-control:active, 
-.registration-button-link-control:active {
+*.button-link-control:active {
 	background-color: #434965;
 }

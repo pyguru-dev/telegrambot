@@ -1,76 +1,72 @@
 .container {
-	width: 600px;
-	height: 400px;
+	width: 650px;
+	height: 425px;
 
+	top: 200px;
 	left: 0;
 	right: 0;
-	margin: 0 auto;
-	position: absolute;
-
-	top: 50%;
-	transform: translate(0, -50%);
+	margin: auto;
+	position: relative;
 }
-.heading{
-	text-align: center;
 
+.heading{
 	margin-top: 0px;
 	margin-bottom: 10px;
 
+	text-align: center;
 	font-weight: bold;
-	font-size: 80px;
+	font-size: 100px;
 	letter-spacing: 3px;
 }
 
 .registration-form{
-	margin-left: 75px;
-	margin-right: 75px;
+	left: 75px;
+	right: 75px;
+	position: absolute;
 }
 
 .login-input-control,
 .email-input-control,
 .password-input-control,
-.again-password-input-control,
-.hide-password-button-control,
-.show-password-button-control {
+.again-password-input-control {
+	width: 500px;
 	height: 45px;
 
 	margin-top: 4px;
 	margin-bottom: 4px;
 
-	font-size: 25px;
+	font-size: 28px;
 
 	outline: 0;
 	border: 0;
-}
-
-.login-input-control,
-.email-input-control {
-	width: 450px;
-
-	border-radius: 10px;
-}
-
-.password-input-control,
-.again-password-input-control {
-	width: 410px;
-
-	border-top-left-radius: 10px;
-	border-bottom-left-radius: 10px;
+	border-radius: 8px;
 }
 
 .hide-password-button-control,
 .show-password-button-control {
 	width: 40px;
+	height: 45px;
 
+	right: 0;
 	position: absolute;
 
-	border-top-right-radius: 10px;
-	border-bottom-right-radius: 10px;
+	border: 0;
+	border-radius: 8px;
 
-	background-color: #FFFFFF;
+	background: none;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 36px 24px;
+}
+
+.hide-password-button-control#hidePassword,
+.show-password-button-control#showPassword {
+	top: 110px;
+}
+
+.hide-password-button-control#hideAgainPassword,
+.show-password-button-control#showAgainPassword {
+	top: 163px;
 }
 
 .hide-password-button-control {
@@ -82,25 +78,34 @@
 }
 
 .buttons {
-	margin-top: 8px;
-	margin-left: 110px;
-	margin-right: 110px;
+	height: 60px;
+
+	top: 344px;
+	left: 75px;
+	right: 75px;
+	position: absolute;
 }
 
 .have-account-button-control {
-	margin-right: 15px;
+	left: 64px;
+	position: absolute;
 
-	font-size: 14px;
+	top: 50%;
+	transform: translate(0, -50%);
+
+	font-size: 16px;
 }
 
 .registration-button-control {
 	width: 200px;
 	height: 60px;
 
-	margin-left: 15px;
+	right: 0;
+	position: absolute;
 
 	font-size: 20px;
 	font-weight: bold;
+	letter-spacing: 0.5px;
 
 	border: 0;
 	border-radius: 12px;
@@ -118,11 +123,16 @@
 }
 
 .error-message{
+	height: 25px;
+
+	top: 340px;
+	left: 75px;
+	right: 75px;
+	position: absolute;
+
+	margin: 0;
+
 	text-align: center;
-
-	margin-top: 5px;
-	margin-bottom: 5px;
-
 	font-size: 18px;
 
 	color: #ff006a;

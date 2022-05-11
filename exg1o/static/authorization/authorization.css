@@ -1,69 +1,56 @@
 .container {
-	width: 600px;
+	width: 650px;
 	height: 325px;
 
+	top: 200px;
 	left: 0;
 	right: 0;
-	margin: 0 auto;
-	position: absolute;
-
-	top: 50%;
-	transform: translate(0, -50%);
+	margin: auto;
+	position: relative;
 }
+
 .heading{
-	text-align: center;
-
 	margin-top: 0px;
-	margin-bottom: 10px;
+	margin-bottom: 6px;
 
+	text-align: center;
 	font-weight: bold;
-	font-size: 80px;
+	font-size: 100px;
 	letter-spacing: 3px;
 }
 
 .authorization-form{
-	margin-left: 75px;
-	margin-right: 75px;
+	left: 75px;
+	right: 75px;
+	position: absolute;
 }
 
 .login-input-control,
 .password-input-control,
 .hide-password-button-control,
 .show-password-button-control {
+	width: 500px;
 	height: 45px;
 
 	margin-top: 4px;
 	margin-bottom: 4px;
 
-	font-size: 25px;
+	font-size: 28px;
 
 	outline: 0;
 	border: 0;
-}
-
-.login-input-control {
-	width: 450px;
-
-	border-radius: 10px;
-}
-
-.password-input-control {
-	width: 410px;
-
-	border-top-left-radius: 10px;
-	border-bottom-left-radius: 10px;
+	border-radius: 8px;
 }
 
 .hide-password-button-control,
 .show-password-button-control {
 	width: 40px;
+	height: 45px;
 
+	right: 0px;
 	position: absolute;
 
-	border-top-right-radius: 10px;
-	border-bottom-right-radius: 10px;
-
-	background-color: #FFFFFF;
+	background: none;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 36px 24px;
@@ -78,30 +65,41 @@
 }
 
 .buttons {
-	margin-top: 8px;
-	margin-left: 110px;
-	margin-right: 110px;
+	height: 60px;
+
+	left: 75px;
+	right: 75px;
+	top: 233px;
+	position: absolute;
 }
 
 .not-have-account-button-control {
-	margin-right: 15px;
+	left: 64px;
+	position: absolute;
 
-	font-size: 14px;
+	top: 50%;
+	transform: translate(0, -50%);
+
+	font-size: 16px;
 }
+
 .authorization-button-control {
 	width: 200px;
 	height: 60px;
 
-	margin-left: 15px;
+	right: 0;
+	position: absolute;
 
 	font-size: 20px;
 	font-weight: bold;
+	letter-spacing: 0.5px;
 
 	border: 0;
 	border-radius: 12px;
 
 	background-color: #595F76;
 }
+
 .authorization-button-control:hover{
 	transition: 0.4s;
 	background-color: #50566E;
@@ -112,12 +110,17 @@
 }
 
 .error-message{
-	text-align: center;
+	height: 25px;
 
-	margin-top: 5px;
-	margin-bottom: 5px;
+	top: 228px;
+	left: 75px;
+	right: 75px;
+	position: absolute;
+
+	margin: 0;
 
 	font-size: 18px;
+	text-align: center;
 
 	color: #ff006a;
 }
