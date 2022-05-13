@@ -12,20 +12,16 @@
 {% block content %}
 	<div class="container">
 		<div class="titles">
-			<div class="site-user">
-				<h1 class="site-user-text">Пользователь сайта</h1>
-			</div>
-			<div class="profile-data">
-				<h1 class="profile-data-text">О профиле пользователя</h1>
-			</div>
+			<h1 class="site-user-title">Пользователь сайта</h1>
+			<h1 class="profile-info-title">О профиле пользователя</h1>
 		</div>
-		<div class="user">
+		<div class="site-user">
 			<h1 class="user-nickname">{{ user.nickname }}</h1>
 			<img class="user-icon" src="{% static 'images/user.png' %}">
 		</div>
 		<div class="profile-info">
-			<h1 class="account-status">Тариф: {{ user.status }}</h1>
-			<h1 class="account-reg">Регистрация: {{ user.reg }}</h1>
+			<h1 class="info">Тариф: {{ user.status }}</h1>
+			<h1 class="info">Регистрация: {{ user.reg }}</h1>
 		</div>
 	</div>
 {% endblock content %}

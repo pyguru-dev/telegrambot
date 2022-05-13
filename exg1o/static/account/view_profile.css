@@ -1,6 +1,6 @@
 .container {
-    width: 800px;
-	height: 290px;
+    width: 900px;
+	height: 350px;
 
 	top: 200px;
 	left: 0;
@@ -17,95 +17,94 @@
 }
 
 .titles {
-	width: 796px;
-	height: 49px;
+	width: 896px;
+	height: 46px;
 
 	border-bottom-color: #FFFFFF;
 	border-bottom-style: solid;
 	border-bottom-width: 2px;
 }
 
-.site-user,
-.user {
+.site-user-title {
+	width: 348px;
+	height: 36px;
+
+	top: 4px;
+	left: 0;
+	margin: 0;
+	position: absolute;
+
+	text-align: center;
+	font-size: 30px;
+	letter-spacing: 0.5px;
+}
+
+.site-user {
+	width: 350px;
+	height: 346px;
+
+	top: 0;
+	position: absolute;
+
 	border-right-color: #FFFFFF;
 	border-right-style: solid;
 	border-right-width: 2px;
 }
 
-.site-user-text,
-.profile-data-text {
-	top: 0px;
-	margin-top: 8px;
-	margin-bottom: 8px;
-	position: absolute;
-}
-
-.site-user {
-	width: 300px;
-	height: 47px;
-}
-
-.site-user-text {
-	margin-left: 21px;
-	margin-right: 21px;
-}
-
-.profile-data {
-	width: 494px;
-	height: 47px;
-
-	top: 0;
-	margin-left: 300px;
-	position: absolute;
-}
-
-.profile-data-text {
-	margin-left: 89.7px;
-	margin-right: 89.7px;
-}
-
-.user {
-	width: 300px;
-	height: 237px;
-}
-
 .user-nickname {
-	width: 300px;
+	width: 348px;
+	height: 59px;
 
-	margin-top: 4px;
+	top: 54px;
+	margin: 0;
 	position: absolute;
 
 	text-align: center;
-	font-size: 40px;
+	font-size: 50px;
+	letter-spacing: 0.5px;
 }
 
 .user-icon {
-	width: 150px;
+	width: 192px;
+	height: 192px;
 
-	margin-top: 60px;
-	margin-bottom: 27px;
-	margin-left: 74.5px;
-	margin-right: 74.5px;
+	top: 125px;
+	left: 0;
+	right: 0;
+	margin: auto;
+	position: absolute;
 
+	border-radius: 50%;
 	border-color: #FFFFFF;
 	border-style: solid;
-	border-radius: 50%;
-	border-width: 2px;
+	border-width: 3px;
+}
+
+.profile-info-title {
+	width: 546px;
+	height: 36px;
+
+	top: 4px;
+	left: 350px;
+	margin: 0;
+	position: absolute;
+
+	text-align: center;
+	font-size: 30px;
+	letter-spacing: 0.5px;
 }
 
 .profile-info {
-	width: 496px;
-	height: 237px;
+	width: 546px;
+	height: 300px;
 
-	top: 49px;
-	left: 300px;
+	left: 350px;
 	position: absolute;
-
-	font-size: 11px;
 }
 
-.account-status,
-.account-reg {
-	margin-left: 8px;
-	margin-right: 8px;
+.info {
+	width: 530px;
+	height: 31px;
+
+	margin: 8px;
 }

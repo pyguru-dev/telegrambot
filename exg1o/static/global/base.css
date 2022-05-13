@@ -16,9 +16,10 @@ input {
 .top-navbar {
 	height: 80px;
 
+	top: 0;
 	left: 0;
 	right: 0;
-	top: 0;
+	z-index: 9;
 	position: fixed;
 
 	background-color: #2C313C;
@@ -43,7 +44,7 @@ input {
 	text-decoration: none;
 }
 
-*.button-link-control {
+.button-link-control {
 	width: 160px;
 	height: 50px;
 
@@ -72,10 +73,10 @@ input {
 	right: 230px;
 }
 
-*.button-link-control:hover {
+.button-link-control:hover {
 	transition: 0.4s;
 	background-color: #50566E;
 }
-*.button-link-control:active {
+.button-link-control:active {
 	background-color: #434965;
 }
