@@ -24,7 +24,7 @@ def register_account(request: WSGIRequest): # Регистрация аккау�
 			if (data_items[0][0], data_items[1][0], data_items[2][0]) == ('login', 'email', 'password'):
 				login, email, password = data['login'], data['email'], data['password']
 
-				if User.objects.filter(username=login).exists() == False:
+				if User.objects.filter(username=login.lower()).exists() == False:
 					user = User.objects.create_user(login, email, password)
 
 					free_accounts_group = Group.objects.get(name='free_accounts')

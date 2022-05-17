@@ -10,7 +10,7 @@ def get_navbar_buttons_data(request: WSGIRequest):
 			},
 			'button_2': {
 				'id': 'signOutButtonLink',
-				'onclick': f'signOut();',
+				'onclick': 'signOut();',
 				'text': 'Выйти'
 			},
 			'button_3': {
