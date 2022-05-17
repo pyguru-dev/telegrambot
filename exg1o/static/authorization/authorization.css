@@ -1,12 +1,19 @@
 .container {
-	width: 650px;
+	width: 685px;
 	height: 325px;
 
 	top: 200px;
 	left: 0;
 	right: 0;
 	margin: auto;
-	position: relative;
+	position: absolute;
+
+	border-color: #FFFFFF;
+	border-radius: 8px;
+	border-style: solid;
+	border-width: 2px;
+
+	background-color: #2C313C;
 }
 
 .heading{
@@ -29,7 +36,7 @@
 .password-input-control,
 .hide-password-button-control,
 .show-password-button-control {
-	width: 500px;
+	width: 100%;
 	height: 45px;
 
 	margin-top: 4px;
@@ -75,7 +82,7 @@
 
 .not-have-account-button-control {
 	top: 50%;
-	left: 64px;
+	left: 75px;
 	transform: translate(0, -50%);
 	position: absolute;
 

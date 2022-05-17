@@ -1,0 +1,20 @@
+.container {
+	width: 650px;
+	height: 325px;
+
+	top: 200px;
+	left: 0;
+	right: 0;
+	margin: auto;
+	position: absolute;
+
+	background-color: #9b9b9b;
+}
+
+table {
+
+}
+
+td, th {
+	padding: 8px;
+}

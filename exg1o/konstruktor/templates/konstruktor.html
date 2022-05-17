@@ -6,9 +6,19 @@
 
 {% block styles %}
 	{% load static %}
-
+	<link rel="stylesheet" href="{% static 'konstruktor/konstruktor.css' %}">
 {% endblock styles %}
 
 {% block content %}
-
+	<div class="container">
+		<table>
+			<tr>
+				<th>Exg1o BOT</th>
+			</tr>
+		</table>
+	</div>
 {% endblock content %}
+
+{% block scripts %}
+	<script src="{% static 'konstruktor/konstruktor.js' %}"></script>
+{% endblock scripts %}

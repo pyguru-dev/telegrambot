@@ -6,7 +6,7 @@
 	left: 0;
 	right: 0;
 	margin: auto;
-	position: relative;
+	position: absolute;
 
 	border-color: #FFFFFF;
 	border-radius: 8px;
@@ -53,9 +53,9 @@
 
 .user-nickname {
 	width: 348px;
-	height: 59px;
+	height: 60px;
 
-	top: 54px;
+	top: 56px;
 	margin: 0;
 	position: absolute;
 

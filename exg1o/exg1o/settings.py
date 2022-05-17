@@ -22,6 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-rd35!g#r8hff2a7d#11_!5(y_2^-g71#qp(*v%$x#_idl^pth$'
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -84,7 +85,7 @@ WSGI_APPLICATION = 'exg1o.wsgi.application'
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': BASE_DIR / 'DataBase.db',
+		'NAME': BASE_DIR / 'files/DataBase.db',
 	}
 }
 

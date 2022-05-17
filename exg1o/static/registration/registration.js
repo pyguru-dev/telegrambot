@@ -43,7 +43,7 @@ function registrationButtonClick() {
 
 	if (login && email && password_1 && password_2 != '') {
 		if (password_1 == password_2) {
-			if (password_1.length >= 8) {
+			if (password_1.length >= 8 && password_1.length <= 128) {
 				var request = new XMLHttpRequest();
 				request.open('POST', 'register_account/', true);
 				request.setRequestHeader('Content-Type', 'application/json');
@@ -63,7 +63,7 @@ function registrationButtonClick() {
 				}
 				request.send(data);
 			} else {
-				showErrorMessage('Пароль должен содержать не менее 8 символов!');
+				showErrorMessage('Пароль должен содержать не менее 8 до 128 символов!');
 			}
 		} else {
 			showErrorMessage('Пароли не совпадают!');
