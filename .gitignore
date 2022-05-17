@@ -1,6 +1,6 @@
 # Папки
-files/users/
 __pycache__/
+files/
 venv/
 
 #Файлы
