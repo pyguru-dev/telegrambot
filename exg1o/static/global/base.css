@@ -60,7 +60,20 @@ input {
 	border: 0;
 	border-radius: 12px;
 
+	transition: 0.4s;
 	background-color: #595F76;
+}
+
+.button-link-control:hover {
+	transition: 0.4s;
+	background-color: #50566E;
+}
+.button-link-control:active {
+	background-color: #434965;
+}
+
+.button-link-control#hideKonstruktorButtonLink {
+	display: none;
 }
 
 .button-link-control#registrationButtonLink,
@@ -73,10 +86,7 @@ input {
 	right: 230px;
 }
 
-.button-link-control:hover {
-	transition: 0.4s;
-	background-color: #50566E;
-}
-.button-link-control:active {
-	background-color: #434965;
+.button-link-control#hideKonstruktorButtonLink,
+.button-link-control#konstruktorButtonLink {
+	right: 411px;
 }

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 	'registration.apps.RegistrationConfig',
 	'main.apps.MainConfig',
 	'account.apps.AccountConfig',
+	'konstruktor.apps.KonstruktorConfig',
 ]
 
 MIDDLEWARE = [

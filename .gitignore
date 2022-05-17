@@ -1,3 +1,7 @@
+# Папки
+files/users/
 __pycache__/
-DataBase.db
 venv/
+
+#Файлы
+DataBase.db

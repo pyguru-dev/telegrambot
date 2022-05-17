@@ -10,8 +10,13 @@ def get_navbar_buttons_data(request: WSGIRequest):
 			},
 			'button_2': {
 				'id': 'signOutButtonLink',
-				'onclick': 'signOut();',
+				'onclick': f'signOut();',
 				'text': 'Выйти'
+			},
+			'button_3': {
+				'id': 'konstruktorButtonLink',
+				'onclick': f"window.location.href = '/account/konstruktor/{request.user.username}';",
+				'text': 'Конструктор'
 			}
 		}
 	else:
@@ -25,6 +30,11 @@ def get_navbar_buttons_data(request: WSGIRequest):
 				'id': 'registrationButtonLink',
 				'onclick': "window.location.href = '/registration/';",
 				'text': 'Регистарция'
+			},
+			'button_3': {
+				'id': 'hideKonstruktorButtonLink',
+				'onclick': '',
+				'text': ''
 			}
 		}
 	return data

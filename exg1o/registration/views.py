@@ -2,9 +2,10 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponseBadRequest, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import HttpResponse, render
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 import global_methods as GlobalMethods
 import json
+import os
 
 # Create your views here.
 def registration(request: WSGIRequest): # Отрисовка registration.html
@@ -25,6 +26,12 @@ def register_account(request: WSGIRequest): # Регистрация аккау�
 
 				if User.objects.filter(username=login).exists() == False:
 					user = User.objects.create_user(login, email, password)
+
+					free_accounts_group = Group.objects.get(name='free_accounts')
+					user.groups.add(free_accounts_group)
+
+					os.mkdir(f'files/users/{login.lower()}')
+
 					user.save()
 
 					return HttpResponse('Успешная регистрация.')
