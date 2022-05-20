@@ -10,3 +10,10 @@ def konstruktor(request: WSGIRequest, nickname: str): # Отрисовка konst
 		return render(request, 'konstruktor.html', data)
 	else:
 		raise Http404('Сначала войдите в акканут!')
+
+def add_bot(request: WSGIRequest, nickname: str): # Отрисовка add_bot.html
+	if request.user.is_authenticated:
+		data = GlobalMethods.get_navbar_buttons_data(request)
+		return render(request, 'add_bot.html', data)
+	else:
+		raise Http404('Сначала войдите в акканут!')

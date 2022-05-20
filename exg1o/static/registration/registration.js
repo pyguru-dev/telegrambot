@@ -6,31 +6,31 @@ function hideOrShowButtonClick(elemet) {
 
 		if (elemet == 'inputPassword') {
 			var buttonElement = document.getElementById('hidePassword');
-			buttonElement.setAttribute('id', 'showPassword')
+			buttonElement.setAttribute('id', 'showPassword');
 		} else {
 			var buttonElement = document.getElementById('hideAgainPassword');
-			buttonElement.setAttribute('id', 'showAgainPassword')		
+			buttonElement.setAttribute('id', 'showAgainPassword');
 		}
-		buttonElement.setAttribute('class', 'show-password-button-control')
 	} else {
 		inputPasswordElement.setAttribute('type', 'password');
 
 		if (elemet == 'inputPassword') {
 			var buttonElement = document.getElementById('showPassword');
-			buttonElement.setAttribute('id', 'hidePassword')	
+			buttonElement.setAttribute('id', 'hidePassword');
 		} else {
 			var buttonElement = document.getElementById('showAgainPassword');
-			buttonElement.setAttribute('id', 'hideAgainPassword')	
+			buttonElement.setAttribute('id', 'hideAgainPassword');
 		}
-		buttonElement.setAttribute('class', 'hide-password-button-control')
 	}
 }
 
 
 function showErrorMessage(errorMessage) {
-	var errorMessageElememt = document.getElementById('errorMessage')
-	var buttonsDiv = document.getElementById('buttons')
+	var errorMessageElememt = document.getElementById('errorMessage');
+	var containerDiv = document.getElementById('container');
+	var buttonsDiv = document.getElementById('buttons');
 
+	containerDiv.style = 'height: 463px;';
 	buttonsDiv.style = "top: 370px;";
 	errorMessageElememt.innerHTML = errorMessage;
 }

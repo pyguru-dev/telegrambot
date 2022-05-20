@@ -6,19 +6,36 @@
 
 {% block styles %}
 	{% load static %}
-	<link rel="stylesheet" href="{% static 'konstruktor/konstruktor.css' %}">
+	<link rel="stylesheet" href="{% static 'konstruktor/konstruktor/konstruktor.css' %}">
 {% endblock styles %}
 
 {% block content %}
 	<div class="container">
-		<table>
-			<tr>
-				<th>Exg1o BOT</th>
-			</tr>
-		</table>
+		<h1 class="heading">СПИСОК БОТОВ</h1>
+		<div class="bots-list">
+			<button id="showBot1" class="bot-button-control">
+				<a href="">Bot 1</a>
+			</button>
+			<button id="showBot2" class="bot-button-control">
+				<a href="">Bot 2</a>
+			</button>
+			<button id="showBot3" class="bot-button-control">
+				<a href="">Bot 3</a>
+			</button>
+			<button id="showBot4" class="bot-button-control">
+				<a href="">Bot 4</a>
+			</button>
+			<button id="showBot5" class="bot-button-control">
+				<a href="">Bot 5</a>
+			</button>
+		</div>
+		<div class="buttons">
+			<button class="button-control" onclick="window.location.href = 'add_bot/';">Добавить бота</button>
+			<button class="button-control">Удалить бота</button>
+		</div>
 	</div>
 {% endblock content %}
 
 {% block scripts %}
-	<script src="{% static 'konstruktor/konstruktor.js' %}"></script>
+	<script src="{% static 'konstruktor/konstruktor/konstruktor.js' %}"></script>
 {% endblock scripts %}

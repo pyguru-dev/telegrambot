@@ -49,8 +49,7 @@
 	border-radius: 8px;
 }
 
-.hide-password-button-control,
-.show-password-button-control {
+.password-button-control {
 	width: 40px;
 	height: 45px;
 
@@ -66,21 +65,23 @@
 	background-size: 36px 24px;
 }
 
-.hide-password-button-control#hidePassword,
-.show-password-button-control#showPassword {
+.password-button-control#hidePassword,
+.password-button-control#showPassword {
 	top: 110px;
 }
 
-.hide-password-button-control#hideAgainPassword,
-.show-password-button-control#showAgainPassword {
+.password-button-control#hideAgainPassword,
+.password-button-control#showAgainPassword {
 	top: 163px;
 }
 
-.hide-password-button-control {
+.password-button-control#hidePassword,
+.password-button-control#hideAgainPassword {
 	background-image: url('../images/eyeOn.png');
 }
 
-.show-password-button-control {
+.password-button-control#showPassword,
+.password-button-control#showAgainPassword {
 	background-image: url('../images/eyeOff.png');
 }
 

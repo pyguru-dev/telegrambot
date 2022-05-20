@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	<title>Добавление бота</title>
+{% endblock title %}
+
+{% block styles %}
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'konstruktor/add_bot/add_bot.css' %}">
+{% endblock styles %}
+
+{% block content %}
+	<div class="container">
+		<h1 class="heading">ДОБАВЛЕНИЕ БОТА</h1>
+		<div class="add-bot-form">
+			<input id="inputBotName" class="bot-name-input-control" type="text" placeholder="Придуймайте имя боту"></input>
+			<input id="inputBotToken" class="bot-token-input-control" type="password" placeholder="Введите Token бота"></input>
+			<button id="hidePassword" class="bot-token-button-control" onclick="hideOrShowButtonClick()"></button>
+		</div>
+		<div class="buttons">
+			<button id="AddBotButton" class="add-bot-button-control" onclick="addBotButtonClick()">Добавить бота</button>
+		</div>
+	</div>
+{% endblock content %}
+
+{% block scripts %}
+	<script src="{% static 'konstruktor/add_bot/add_bot.js' %}"></script>
+{% endblock scripts %}

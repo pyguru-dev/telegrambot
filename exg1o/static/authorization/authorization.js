@@ -5,22 +5,22 @@ function hideOrShowButtonClick() {
 		inputPasswordElement.setAttribute('type', 'text');
 
 		var buttonElement = document.getElementById('hidePassword');
-		buttonElement.setAttribute('id', 'showPassword')
-		buttonElement.setAttribute('class', 'show-password-button-control')
+		buttonElement.setAttribute('id', 'showPassword');
 	} else {
 		inputPasswordElement.setAttribute('type', 'password');
 
 		var buttonElement = document.getElementById('showPassword');
-		buttonElement.setAttribute('id', 'hidePassword')
-		buttonElement.setAttribute('class', 'hide-password-button-control')
+		buttonElement.setAttribute('id', 'hidePassword');
 	}
 }
 
 function showErrorMessage(errorMessage) {
 	var errorMessageElememt = document.getElementById('errorMessage')
-	var buttonsDiv = document.getElementById('buttons')
+	var containerDiv = document.getElementById('container');
+	var buttonsDiv = document.getElementById('buttons');
 
-	buttonsDiv.style = "top: 256px;";
+	containerDiv.style = 'height: 350px;';
+	buttonsDiv.style = 'top: 256px;';
 	errorMessageElememt.innerHTML = errorMessage;
 }
 
@@ -46,7 +46,7 @@ function authorizationButtonClick() {
 					showErrorMessage(request.responseText);
 				}
 			}
-			request.send(data)
+			request.send(data);
 		} else {
 			showErrorMessage('Пароль должен содержать не менее 8 символов!');
 		}
