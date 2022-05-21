@@ -10,14 +10,15 @@
 {% endblock styles %}
 
 {% block content %}
-	<div class="container">
+	<div id="container" class="container">
 		<h1 class="heading">ДОБАВЛЕНИЕ БОТА</h1>
 		<div class="add-bot-form">
 			<input id="inputBotName" class="bot-name-input-control" type="text" placeholder="Придуймайте имя боту"></input>
 			<input id="inputBotToken" class="bot-token-input-control" type="password" placeholder="Введите Token бота"></input>
 			<button id="hidePassword" class="bot-token-button-control" onclick="hideOrShowButtonClick()"></button>
 		</div>
-		<div class="buttons">
+		<h1 id="errorMessage" class="error-message"></h1>
+		<div id="buttons" class="buttons">
 			<button id="AddBotButton" class="add-bot-button-control" onclick="addBotButtonClick()">Добавить бота</button>
 		</div>
 	</div>

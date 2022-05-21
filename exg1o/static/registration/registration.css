@@ -85,6 +85,21 @@
 	background-image: url('../images/eyeOff.png');
 }
 
+.error-message{
+	width: 100%;
+	height: 25px;
+
+	top: 340px;
+	position: absolute;
+
+	margin: 0;
+
+	text-align: center;
+	font-size: 18px;
+
+	color: #ff006a;
+}
+
 .buttons {
 	height: 60px;
 
@@ -128,20 +143,4 @@
 
 .registration-button-control:active{
 	background-color: #434965;
-}
-
-.error-message{
-	height: 25px;
-
-	top: 340px;
-	left: 75px;
-	right: 75px;
-	position: absolute;
-
-	margin: 0;
-
-	text-align: center;
-	font-size: 18px;
-
-	color: #ff006a;
 }

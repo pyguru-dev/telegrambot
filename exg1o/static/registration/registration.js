@@ -24,7 +24,6 @@ function hideOrShowButtonClick(elemet) {
 	}
 }
 
-
 function showErrorMessage(errorMessage) {
 	var errorMessageElememt = document.getElementById('errorMessage');
 	var containerDiv = document.getElementById('container');

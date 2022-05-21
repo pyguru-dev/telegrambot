@@ -72,49 +72,33 @@
 	background-color: #50566E;
 }
 
-.bot-button-control#hideBot1,
-.bot-button-control#hideBot2,
-.bot-button-control#hideBot3,
-.bot-button-control#hideBot4,
-.bot-button-control#hideBot5 {
-	display: none;
-}
-
-.bot-button-control#showBot1,
-.bot-button-control#showBot2,
-.bot-button-control#showBot3,
-.bot-button-control#showBot4,
-.bot-button-control#showBot5 {
-	display: block;
-}
-
-.bot-button-control#showBot1,
-.bot-button-control#showBot2,
-.bot-button-control#showBot3,
-.bot-button-control#showBot4 {
+.bot-button-control#bot1,
+.bot-button-control#bot2,
+.bot-button-control#bot3,
+.bot-button-control#bot4 {
 	border-bottom-color: #FFFFFF;
 	border-bottom-style: solid;
 	border-bottom-width: 2px;
 }
 
-.bot-button-control#showBot1 {
+.bot-button-control#bot1 {
 	border-top-right-radius: 8px;
 	border-top-left-radius: 8px;
 }
 
-.bot-button-control#showBot2 {
+.bot-button-control#bot2 {
 	top: 50px;
 }
 
-.bot-button-control#showBot3 {
+.bot-button-control#bot3 {
 	top: 100px;
 }
 
-.bot-button-control#showBot4 {
+.bot-button-control#bot4 {
 	top: 150px;
 }
 
-.bot-button-control#showBot5 {
+.bot-button-control#bot5 {
 	top: 200px;
 }
 

@@ -8,7 +8,7 @@ import global_methods as GlobalMethods
 import json
 
 # Create your views here.
-def authorization(request: WSGIRequest): # Отрисовка authorization.html
+def authorization_page(request: WSGIRequest): # Отрисовка authorization.html
 	if request.user.is_authenticated == False:
 		data = GlobalMethods.get_navbar_buttons_data(request)
 		return render(request, 'authorization.html', data)

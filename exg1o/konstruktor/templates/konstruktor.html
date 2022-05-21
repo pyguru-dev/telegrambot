@@ -13,21 +13,35 @@
 	<div class="container">
 		<h1 class="heading">СПИСОК БОТОВ</h1>
 		<div class="bots-list">
-			<button id="showBot1" class="bot-button-control">
-				<a href="">Bot 1</a>
-			</button>
-			<button id="showBot2" class="bot-button-control">
-				<a href="">Bot 2</a>
-			</button>
-			<button id="showBot3" class="bot-button-control">
-				<a href="">Bot 3</a>
-			</button>
-			<button id="showBot4" class="bot-button-control">
-				<a href="">Bot 4</a>
-			</button>
-			<button id="showBot5" class="bot-button-control">
-				<a href="">Bot 5</a>
-			</button>
+			{% if 'bot_1' in bots %}
+				<button id="bot1" class="bot-button-control">
+					<a href="">{{ bots.bot_1.bot_name }}</a>
+				</button>
+			{% endif %}
+
+			{% if 'bot_2' in bots %}
+				<button id="bot2" class="bot-button-control">
+					<a href="">{{ bots.bot_2.bot_name }}</a>
+				</button>
+			{% endif %}
+
+			{% if 'bot_3' in bots %}
+				<button id="bot3" class="bot-button-control">
+					<a href="">{{ bots.bot_3.bot_name }}</a>
+				</button>
+			{% endif %}
+
+			{% if 'bot_4' in bots %}
+				<button id="bot4" class="bot-button-control">
+					<a href="">{{ bots.bot_4.bot_name }}</a>
+				</button>
+			{% endif %}
+
+			{% if 'bot_5' in bots %}
+				<button id="bot5" class="bot-button-control">
+					<a href="">{{ bots.bot_5.bot_name }}</a>
+				</button>
+			{% endif %}
 		</div>
 		<div class="buttons">
 			<button class="button-control" onclick="window.location.href = 'add_bot/';">Добавить бота</button>

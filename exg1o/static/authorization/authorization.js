@@ -51,6 +51,6 @@ function authorizationButtonClick() {
 			showErrorMessage('Пароль должен содержать не менее 8 символов!');
 		}
 	} else {
-		showErrorMessage('Вы не ввели "Login" или "Password"!');
+		showErrorMessage('Заполните форму авторизации!');
 	}
 }
