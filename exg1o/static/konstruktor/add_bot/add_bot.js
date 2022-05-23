@@ -29,7 +29,8 @@ function addBotButtonClick() {
 	var bot_token = document.querySelector('.bot-token-input-control').value;
 
 	if (bot_name && bot_token != '') {
-		var request = new XMLHttpRequest();
+		if (bot_name.length <= 22) {
+			var request = new XMLHttpRequest();
 			request.open('POST', '../add_bot_/', true);
 			request.setRequestHeader('Content-Type', 'application/json');
 			var data = JSON.stringify(
@@ -46,6 +47,7 @@ function addBotButtonClick() {
 				}
 			}
 			request.send(data);
+		}
 	} else {
 		showErrorMessage('Заполните форму добавление бота!')
 	}

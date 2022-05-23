@@ -46,24 +46,28 @@ def add_bot_page(request: WSGIRequest, nickname: str): # Отрисовка add_
 @csrf_exempt
 def add_bot(request: WSGIRequest, nickname: str): # Добавление бота
 	if request.user.is_authenticated:
-		if request.method == 'POST':
-			data = json.loads(request.body)
-			data_items = tuple(data.items())
-			if (data_items[0][0], data_items[1][0]) == ('bot_name', 'bot_token'):
-				owner, bot_name, bot_token = request.user.username , data['bot_name'], data['bot_token']
+		login = request.user.username
+		if nickname == login:
+			if request.method == 'POST':
+				data = json.loads(request.body)
+				data_items = tuple(data.items())
+				if (data_items[0][0], data_items[1][0]) == ('bot_name', 'bot_token'):
+					owner, bot_name, bot_token = request.user.username , data['bot_name'], data['bot_token']
 
-				if TelegramBot.objects.filter(owner=owner).count() >= 5 and request.user.groups.filter(name='paid_accounts').exists():
-					return HttpResponseBadRequest('У вас уже максимальное количество ботов!')
-				elif TelegramBot.objects.filter(owner=owner).count() >= 1 and request.user.groups.filter(name='free_accounts').exists():
-					return HttpResponseBadRequest('У вас уже максимальное количество ботов!')
+					if TelegramBot.objects.filter(owner=owner).count() >= 5 and request.user.groups.filter(name='paid_accounts').exists():
+						return HttpResponseBadRequest('У вас уже максимальное количество ботов!')
+					elif TelegramBot.objects.filter(owner=owner).count() >= 1 and request.user.groups.filter(name='free_accounts').exists():
+						return HttpResponseBadRequest('У вас уже максимальное количество ботов!')
+					else:
+						bot = TelegramBot(id, owner, bot_name, bot_token)
+						bot.save()
+
+						return HttpResponse('Успешное добавление бота.')
 				else:
-					bot = TelegramBot(id, owner, bot_name, bot_token)
-					bot.save()
-
-					return HttpResponse('Успешное добавление бота.')
+					return HttpResponseBadRequest('В тело запроса переданы неправильные данные!')
 			else:
-				return HttpResponseBadRequest('В тело запроса переданы неправильные данные!')
+				return HttpResponseBadRequest('Неправильный метод запроса!')
 		else:
-			return HttpResponseBadRequest('Неправильный метод запроса!')
+			HttpResponseBadRequest(f'Ваш Login "{login}", а не "{nickname}"')
 	else:
 		raise Http404('Сначала войдите в акканут!')

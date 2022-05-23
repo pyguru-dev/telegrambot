@@ -16,6 +16,7 @@
 			{% if 'bot_1' in bots %}
 				<button id="bot1" class="bot-button-control">
 					<a href="">{{ bots.bot_1.bot_name }}</a>
+					<!-- <button class="delete-bot-button-control">Удалить бота</button> -->
 				</button>
 			{% endif %}
 
@@ -44,8 +45,7 @@
 			{% endif %}
 		</div>
 		<div class="buttons">
-			<button class="button-control" onclick="window.location.href = 'add_bot/';">Добавить бота</button>
-			<button class="button-control">Удалить бота</button>
+			<button class="add-bot-button-control" onclick="window.location.href = 'add_bot/';">Добавить бота</button>
 		</div>
 	</div>
 {% endblock content %}

@@ -1,6 +1,6 @@
 .container {
 	width: 400px;
-	height: 490px;
+	height: 422px;
 
 	top: 200px;
 	left: 0;
@@ -44,6 +44,25 @@
 	background-color: #1B1D23;
 }
 
+.bot-button-control,
+.add-bot-button-control {
+	border: 0;
+
+	transition: 0.4s;
+	background-color: #595F76;
+}
+
+.bot-button-control:hover,
+.add-bot-button-control:hover {
+	transition: 0.4s;
+	background-color: #50566E;
+}
+
+.bot-button-control:active,
+.add-bot-button-control:active {
+	background-color: #50566E;
+}
+
 .bot-button-control {
 	width: 100%;
 	height: 50px;
@@ -56,20 +75,7 @@
 	text-align: left;
 	letter-spacing: 1px;
 
-	border: 0;
 	padding: 8px;
-
-	transition: 0.4s;
-	background-color: #595F76;
-}
-
-.bot-button-control:hover{
-	transition: 0.4s;
-	background-color: #50566E;
-}
-
-.bot-button-control:active{
-	background-color: #50566E;
 }
 
 .bot-button-control#bot1,
@@ -82,8 +88,8 @@
 }
 
 .bot-button-control#bot1 {
-	border-top-right-radius: 8px;
-	border-top-left-radius: 8px;
+	border-top-right-radius: 7px;
+	border-top-left-radius: 7px;
 }
 
 .bot-button-control#bot2 {
@@ -109,7 +115,7 @@
 	position: absolute;
 }
 
-.button-control {
+.add-bot-button-control {
 	width: 100%;
 	height: 60px;
 
@@ -120,18 +126,5 @@
 	font-weight: bold;
 	letter-spacing: 0.5px;
 
-	border: 0;
 	border-radius: 12px;
-
-	transition: 0.4s;
-	background-color: #595F76;
-}
-
-.button-control:hover{
-	transition: 0.4s;
-	background-color: #50566E;
-}
-
-.button-control:active{
-	background-color: #434965;
 }
