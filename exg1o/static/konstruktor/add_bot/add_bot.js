@@ -15,28 +15,28 @@ function hideOrShowButtonClick() {
 }
 
 function showErrorMessage(errorMessage) {
-	var errorMessageElememt = document.getElementById('errorMessage');
+	var errorMessageElement = document.getElementById('errorMessage');
 	var containerDiv = document.getElementById('container');
 	var buttonsDiv = document.getElementById('buttons');
 
-	containerDiv.style = 'height: 280px;';
-	buttonsDiv.style = "top: 200px;";
-	errorMessageElememt.innerHTML = errorMessage;
+	containerDiv.style = 'height: 370px;';
+	buttonsDiv.style = "top: 211px;";
+	errorMessageElement.innerHTML = errorMessage;
 }
 
 function addBotButtonClick() {
-	var bot_name = document.querySelector('.bot-name-input-control').value;
-	var bot_token = document.querySelector('.bot-token-input-control').value;
+	var botName = document.querySelector('.bot-name-input-control').value;
+	var botToken = document.querySelector('.bot-token-input-control').value;
 
-	if (bot_name && bot_token != '') {
-		if (bot_name.length <= 22) {
+	if (botName && botToken != '') {
+		if (botName.length <= 11) {
 			var request = new XMLHttpRequest();
 			request.open('POST', '../add_bot_/', true);
 			request.setRequestHeader('Content-Type', 'application/json');
 			var data = JSON.stringify(
 				{
-					'bot_name': bot_name,
-					'bot_token': bot_token
+					'bot_name': botName,
+					'bot_token': botToken
 				}
 			);
 			request.onreadystatechange = function() {
@@ -47,6 +47,8 @@ function addBotButtonClick() {
 				}
 			}
 			request.send(data);
+		} else {
+			showErrorMessage('Имя бота должно содержать не менее 11 символов!')
 		}
 	} else {
 		showErrorMessage('Заполните форму добавление бота!')

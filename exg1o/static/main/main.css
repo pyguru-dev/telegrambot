@@ -1,15 +1,11 @@
 .container {
-	top: 0;
+	width: 1000px;
+
+	margin: auto;
+
+	top: 150px;
 	left: 0;
 	right: 0;
-	margin: auto;
-	position: absolute;
-}
-
-.site-info {
-	top: 100px;
-	left: 25%;
-	right: 25%;
 	position: absolute;
 }
 
@@ -21,10 +17,12 @@
 
 	font-weight: bold;
 	font-size: 120px;
-	letter-spacing: 3px;
+	letter-spacing: 2px;
 }
 
 .site-info-text{
-	letter-spacing: 1px;
+	margin-top: 8px;
+
 	font-size: 24px;
+	letter-spacing: 0.8px;
 }

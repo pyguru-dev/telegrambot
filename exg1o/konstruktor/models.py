@@ -6,7 +6,8 @@ class TelegramBot(models.Model):
 	id = models.AutoField(primary_key=True)
 	owner = models.CharField(max_length=256)
 	bot_name = models.CharField(max_length=20)
-	bot_token = models.TextField()
+	bot_token = models.CharField(max_length=256)
+	bot_commands = models.TextField()
 
 	def save(self, *args, **kwargs):
 		max = TelegramBot.objects.aggregate(max=Max(F('id')))['max']
@@ -14,4 +15,4 @@ class TelegramBot(models.Model):
 		super().save(*args, **kwargs)
 
 	def __str__(self):
-		return self.bot_name
+		return f'{self.bot_name} | {self.owner}'

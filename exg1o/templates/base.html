@@ -4,6 +4,9 @@
 <html lang="ru">
 	<head>
 		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 		{% block title %} {% endblock title %}
 		<link rel="stylesheet" href="{% static 'global/base.css' %}">
 		{% block styles %} {% endblock styles %}
@@ -12,9 +15,11 @@
 		{% block navbar %}
 		<nav class="top-navbar">
 			<a id="bannerButtonLink" class="banner-button-link-control" href="/">Exg1o</a>
-			<button id="{{ button_1.id }}" class="button-link-control" onclick="{{ button_1.onclick }}">{{ button_1.text }}</button>
-			<button id="{{ button_2.id }}" class="button-link-control" onclick="{{ button_2.onclick }}">{{ button_2.text }}</button>
-			<button id="{{ button_3.id }}" class="button-link-control" onclick="{{ button_3.onclick }}">{{ button_3.text }}</button>
+			<button id="{{ buttons.button_1.id }}" class="button-link-control" onclick="{{ buttons.button_1.onclick }}">{{ buttons.button_1.text }}</button>
+			<button id="{{ buttons.button_2.id }}" class="button-link-control" onclick="{{ buttons.button_2.onclick }}">{{ buttons.button_2.text }}</button>
+			{% if 'button_3' in buttons %}
+				<button id="{{ buttons.button_3.id }}" class="button-link-control" onclick="{{ buttons.button_3.onclick }}">{{ buttons.button_3.text }}</button>
+			{% endif %}
 		</nav>
 		{% endblock navbar %}
 		{% block content %} {% endblock content %}

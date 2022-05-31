@@ -15,13 +15,13 @@ function hideOrShowButtonClick() {
 }
 
 function showErrorMessage(errorMessage) {
-	var errorMessageElememt = document.getElementById('errorMessage')
+	var errorMessageElement = document.getElementById('errorMessage')
 	var containerDiv = document.getElementById('container');
 	var buttonsDiv = document.getElementById('buttons');
 
 	containerDiv.style = 'height: 350px;';
-	buttonsDiv.style = 'top: 256px;';
-	errorMessageElememt.innerHTML = errorMessage;
+	buttonsDiv.style = 'top: 257px;';
+	errorMessageElement.innerHTML = errorMessage;
 }
 
 function authorizationButtonClick() {

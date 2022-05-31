@@ -20,6 +20,9 @@
 	width: 896px;
 	height: 46px;
 
+	text-align: center;
+	letter-spacing: 0.8px;
+
 	border-bottom-color: #FFFFFF;
 	border-bottom-style: solid;
 	border-bottom-width: 2px;
@@ -34,9 +37,7 @@
 	margin: 0;
 	position: absolute;
 
-	text-align: center;
-	font-size: 30px;
-	letter-spacing: 0.5px;
+	font-size: 32px;
 }
 
 .site-user {
@@ -52,26 +53,34 @@
 }
 
 .user-nickname {
-	width: 348px;
-	height: 60px;
+	width: 330px;
+	height: 72px;
 
-	top: 56px;
 	margin: 0;
+
+	top: 50px;
+	left: 10px;
+	right: 10px;
 	position: absolute;
 
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
 	text-align: center;
-	font-size: 50px;
-	letter-spacing: 0.5px;
+	font-size: 60px;
+	letter-spacing: 1px;
 }
 
 .user-icon {
 	width: 192px;
 	height: 192px;
 
-	top: 125px;
+	margin: auto;
+
+	top: 130px;
 	left: 0;
 	right: 0;
-	margin: auto;
 	position: absolute;
 
 	border-radius: 50%;
@@ -84,14 +93,13 @@
 	width: 546px;
 	height: 36px;
 
+	margin: 0;
+
 	top: 4px;
 	left: 350px;
-	margin: 0;
 	position: absolute;
 
-	text-align: center;
 	font-size: 30px;
-	letter-spacing: 0.5px;
 }
 
 .profile-info {
@@ -104,7 +112,12 @@
 
 .info {
 	width: 530px;
-	height: 31px;
+	height: 36px;
 
-	margin: 8px;
+	margin-top: 5px;
+	margin-bottom: 0px;
+	margin-left: 10px;
+	margin-right: 10px;
+
+	font-size: 26px;
 }

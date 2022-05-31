@@ -25,13 +25,13 @@ function hideOrShowButtonClick(elemet) {
 }
 
 function showErrorMessage(errorMessage) {
-	var errorMessageElememt = document.getElementById('errorMessage');
+	var errorMessageElement = document.getElementById('errorMessage');
 	var containerDiv = document.getElementById('container');
 	var buttonsDiv = document.getElementById('buttons');
 
-	containerDiv.style = 'height: 463px;';
-	buttonsDiv.style = "top: 370px;";
-	errorMessageElememt.innerHTML = errorMessage;
+	containerDiv.style = 'height: 454px;';
+	buttonsDiv.style = "top: 363px;";
+	errorMessageElement.innerHTML = errorMessage;
 }
 
 function registrationButtonClick() {

@@ -1,0 +1,229 @@
+.main-container {
+	left: 120px;
+
+	margin: 0;
+}
+
+.bot-container {
+	height: 422px;
+
+	top: 200px;
+	left: 540px;
+	right: 120px;
+	position: absolute;
+
+	border-color: #FFFFFF;
+	border-radius: 8px;
+	border-style: solid;
+	border-width: 2px;
+
+	background-color: #2C313C;
+}
+
+.bot-heading {
+	width: 100%;
+	height: 65px;
+
+	margin-top: 4px;
+	margin-bottom: 4px;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	text-align: center;
+	font-weight: bold;
+	font-size: 60px;
+	letter-spacing: 1px
+}
+
+.bot-konstruktor-form {
+	left: 20px;
+	right: 20px;
+	position: absolute;
+}
+
+.bot-data-konstruktor-inputs {
+	left: 0;
+	right: 800px;
+	position: absolute;
+}
+
+.bot-name-input-control,
+.bot-token-input-control {
+	height: 45px;
+
+	margin-top: 4px;
+	margin-bottom: 4px;
+
+	font-size: 28px;
+
+	outline: 0;
+	border: 0;
+}
+
+.bot-name-input-control {
+	width: 100%;
+
+	border-radius: 8px;
+}
+
+.bot-token-input-control {
+	width: calc(100% - 40px);
+
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
+}
+
+.bot-token-button-control {
+	width: 40px;
+	height: 45px;
+
+	margin-top: 4px;
+	margin-bottom: 4px;
+
+	right: 0px;
+	position: absolute;
+
+	background: #FFFFFF;
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 36px 24px;
+
+	border: 0;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
+
+.bot-token-button-control#hideBotToken {
+	background-image: url('../../images/eyeOn.png');
+}
+
+.bot-token-button-control#showBotToken {
+	background-image: url('../../images/eyeOff.png');
+}
+
+.bot-data-konstruktor-buttons {
+	width: 280px;
+	height: 106px;
+
+	right: 500px;
+	position: absolute;
+}
+
+.start-bot-button-control,
+.save-bot-settings-button-control {
+	width: 100%;
+	height: 45px;
+
+	margin-top: 4px;
+	margin-bottom: 4px;
+
+	font-weight: bold;
+	font-size: 24px;
+	letter-spacing: 0.8px;
+
+	border: 0;
+	border-radius: 12px;
+}
+
+.bot-commands-container {
+	top: 5px;
+	bottom: 20px;
+	left: calc(100% - 480px);
+	right: 0px;
+	position: absolute;
+}
+
+.bot-commands-table {
+	width: 100%;
+	height: 251px;
+
+	border-color: #FFFFFF;
+	border-radius: 8px;
+	border-style: solid;
+	border-width: 2px;
+
+	background-color: #1B1D23;
+	overflow: auto;
+}
+
+/* .bot-command-link {
+	top: 2px;
+	left: 8px;
+	right: 8px;
+	position: absolute;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	text-align: left;
+	text-decoration: none;
+} */
+
+.add-command-button-control,
+.clear-log-button-control {
+	width: 100%;
+	height: 60px;
+
+	font-size: 24px;
+	font-weight: bold;
+	letter-spacing: 0.8px;
+
+	border: 0;
+	border-radius: 12px;
+}
+
+.add-command-button-control {
+	top: 261px;
+	position: absolute;
+}
+
+.clear-log-button-control {
+	top: 144px;
+	position: absolute;
+}
+
+.bot-log-container {
+	top: 122px;
+	left: 0;
+	right: 500px;
+	position: absolute;
+}
+
+.bot-log-table {
+	width: 100%;
+	height: 134px;
+
+	border-color: #FFFFFF;
+	border-radius: 8px;
+	border-style: solid;
+	border-width: 2px;
+
+	background-color: #1B1D23;
+	overflow: auto;
+}
+
+.start-bot-button-control,
+.save-bot-settings-button-control,
+.add-command-button-control,
+.clear-log-button-control {
+	transition: 0.4s;
+	background-color: #595F76;
+}
+
+.start-bot-button-control:hover,
+.save-bot-settings-button-control:hover,
+.add-command-button-control:hover,
+.clear-log-button-control:hover {
+	transition: 0.4s;
+	background-color: #50566E;
+}
+
+.start-bot-button-control:active,
+.save-bot-settings-button-control:active,
+.add-command-button-control:active,
+.clear-log-button-control:active {
+	background-color: #434965;
+}

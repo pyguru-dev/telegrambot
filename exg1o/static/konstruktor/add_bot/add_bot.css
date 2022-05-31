@@ -1,11 +1,12 @@
 .container {
-	width: 500px;
-	height: 266px;
+	width: 620px;
+	height: 350px;
+
+	margin: auto;
 
 	top: 200px;
 	left: 0;
 	right: 0;
-	margin: auto;
 	position: absolute;
 
 	border-color: #FFFFFF;
@@ -22,8 +23,8 @@
 
 	text-align: center;
 	font-weight: bold;
-	font-size: 50px;
-	letter-spacing: 2px;
+	font-size: 60px;
+	letter-spacing: 1px;
 }
 
 .add-bot-form {
@@ -33,9 +34,7 @@
 }
 
 .bot-name-input-control,
-.bot-token-input-control,
-.bot-token-button-control {
-	width: 100%;
+.bot-token-input-control {
 	height: 45px;
 
 	margin-top: 4px;
@@ -45,20 +44,39 @@
 
 	outline: 0;
 	border: 0;
+}
+
+.bot-name-input-control {
+	width: 100%;
+
 	border-radius: 8px;
+}
+
+.bot-token-input-control {
+	width: calc(100% - 40px);
+
+	border-top-left-radius: 8px;
+	border-bottom-left-radius: 8px;
 }
 
 .bot-token-button-control {
 	width: 40px;
 	height: 45px;
 
+	margin-top: 4px;
+	margin-bottom: 4px;
+
 	right: 0px;
 	position: absolute;
 
-	background: none;
+	background: #FFFFFF;
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: 36px 24px;
+
+	border: 0;
+	border-top-right-radius: 8px;
+	border-bottom-right-radius: 8px;
 }
 
 .bot-token-button-control#hidePassword {
@@ -73,31 +91,35 @@
 	width: 100%;
 	height: 25px;
 
-	top: 173px;
-	position: absolute;
-
 	margin: 0;
 
-	font-size: 18px;
+	top: 186px;
+	position: absolute;
+
 	text-align: center;
+	font-size: 16px;
+	letter-spacing: 0.6px;
 
 	color: #ff006a;
 }
 
 .buttons {
-	top: 182px;
-	left: 75px;
-	right: 75px;
+	top: 192px;
+	left: 50px;
+	right: 50px;
 	position: absolute;
 }
 
-.add-bot-button-control {
+.add-bot-button-control,
+.back-button-control {
 	width: 100%;
 	height: 60px;
 
-	font-size: 20px;
+	margin-bottom: 8px;
+
 	font-weight: bold;
-	letter-spacing: 0.5px;
+	font-size: 24px;
+	letter-spacing: 0.8px;
 
 	border: 0;
 	border-radius: 12px;
@@ -106,11 +128,13 @@
 	background-color: #595F76;
 }
 
-.add-bot-button-control:hover {
+.add-bot-button-control:hover,
+.back-button-control:hover {
 	transition: 0.4s;
 	background-color: #50566E;
 }
 
-.add-bot-button-control:active {
+.add-bot-button-control:active,
+.back-button-control:active {
 	background-color: #434965;
 }

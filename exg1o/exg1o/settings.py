@@ -85,7 +85,7 @@ WSGI_APPLICATION = 'exg1o.wsgi.application'
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': BASE_DIR / 'files/DataBase.db',
+		'NAME': BASE_DIR / 'DataBase.db',
 	}
 }
 
@@ -127,7 +127,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
+    BASE_DIR / 'static',
 ]
 
 # Default primary key field type

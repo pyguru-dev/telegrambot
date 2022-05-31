@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	<title>Конструктор</title>
+{% endblock title %}
+
+{% block styles %}
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'konstruktor/main_konstruktor/main_konstruktor.css' %}">
+	{% block botStyles %} {% endblock botStyles %}
+{% endblock styles %}
+
+{% block content %}
+	<div id="mainContainer" class="main-container">
+		<h1 class="heading">СПИСОК БОТОВ</h1>
+		<div class="bots-container">
+			<div class="bots-table">
+				{% for bot in bots %}
+					<div id="{{ bot.bot_num }}" class="bot">
+						<a href="{% block viewBotLink %}view_bot{% endblock viewBotLink %}/{{ bot.bot_name }}/">{{ bot.bot_name }}</a>
+						<button id="{{ bot.bot_num }}" class="delete-bot-button-control" onclick="{{ bot.onclick }}">Удалить бота</button>
+					</div>
+				{% endfor %}
+			</div>
+			<h1 id="message" class="message"></h1>
+			<button id="addBotButton" class="add-bot-button-control" onclick="window.location.href = '{% block addBotLink %}add_bot{% endblock addBotLink %}/';">Добавить бота</button>
+		</div>
+	</div>
+	{% block botContainer %} {% endblock botContainer %}
+{% endblock content %}
+
+{% block scripts %}
+	<script src="{% static 'konstruktor/main_konstruktor/main_konstruktor.js' %}"></script>
+	{% block botScripts %} {% endblock botScripts %}
+{% endblock scripts %}
