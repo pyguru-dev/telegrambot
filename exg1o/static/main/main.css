@@ -1,3 +1,4 @@
+/* ------------ Главные контейнеры ------------ */
 .container {
 	width: 1000px;
 
@@ -9,6 +10,7 @@
 	position: absolute;
 }
 
+/* ------------ Заголовок ------------ */
 .heading {
 	text-align: center;
 
@@ -20,6 +22,7 @@
 	letter-spacing: 2px;
 }
 
+/* ------------ Информация о сайте ------------ */
 .site-info-text{
 	margin-top: 8px;
 

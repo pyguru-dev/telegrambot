@@ -14,11 +14,11 @@
 	<div id="mainContainer" class="main-container">
 		<h1 class="heading">СПИСОК БОТОВ</h1>
 		<div class="bots-container">
-			<div class="bots-table">
+			<div class="bots-list-container">
 				{% for bot in bots %}
-					<div id="{{ bot.bot_num }}" class="bot">
+					<div id="{{ bot.bot_positsion }}" class="bot">
 						<a href="{% block viewBotLink %}view_bot{% endblock viewBotLink %}/{{ bot.bot_name }}/">{{ bot.bot_name }}</a>
-						<button id="{{ bot.bot_num }}" class="delete-bot-button-control" onclick="{{ bot.onclick }}">Удалить бота</button>
+						<button class="delete-bot-button-control" onclick="{{ bot.onclick }}">Удалить бота</button>
 					</div>
 				{% endfor %}
 			</div>

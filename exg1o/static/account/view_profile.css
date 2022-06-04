@@ -1,3 +1,4 @@
+/* ------------ Главные контейнеры ------------ */
 .container {
     width: 900px;
 	height: 350px;
@@ -16,6 +17,7 @@
 	background-color: #2C313C;
 }
 
+/* ------------ Заголовки ------------ */
 .titles {
 	width: 896px;
 	height: 46px;
@@ -40,6 +42,19 @@
 	font-size: 32px;
 }
 
+.profile-info-title {
+	width: 546px;
+	height: 36px;
+
+	margin: 0;
+
+	top: 4px;
+	left: 350px;
+	position: absolute;
+
+	font-size: 30px;
+}
+
 .site-user {
 	width: 350px;
 	height: 346px;
@@ -52,6 +67,7 @@
 	border-right-width: 2px;
 }
 
+/* ------------ Nickname пользователя ------------ */
 .user-nickname {
 	width: 330px;
 	height: 72px;
@@ -72,6 +88,7 @@
 	letter-spacing: 1px;
 }
 
+/* ------------ Icon'ка пользователя ------------ */
 .user-icon {
 	width: 192px;
 	height: 192px;
@@ -89,19 +106,7 @@
 	border-width: 3px;
 }
 
-.profile-info-title {
-	width: 546px;
-	height: 36px;
-
-	margin: 0;
-
-	top: 4px;
-	left: 350px;
-	position: absolute;
-
-	font-size: 30px;
-}
-
+/* ------------ Информация о аккаунте пользователя ------------ */
 .profile-info {
 	width: 546px;
 	height: 300px;

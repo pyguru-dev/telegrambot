@@ -1,7 +1,7 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
-from django.shortcuts import HttpResponse, render
+from django.shortcuts import HttpResponse, redirect, render
 from konstruktor.models import TelegramBot
 import global_functions as GlobalFunctions
 import global_decorators as GlobalDecorators
@@ -15,8 +15,8 @@ def get_bots_data(request: WSGIRequest, nickname: str): # Функция для 
 	for bot in TelegramBot.objects.filter(owner=nickname).all():
 		bots['bots'].append(
 			{
-				'bot_num': f'bot{num}',
 				'bot_name': bot.bot_name,
+				'bot_positsion': 'normal' if num != 5 else 'last',
 				'onclick': f"deleteBotButtonClick('{bot.bot_name}', '{request.user.username}');"
 			}
 		)
@@ -31,23 +31,25 @@ def main_konstruktor_page(request: WSGIRequest, nickname: str): # Отрисов
 	data = get_bots_data(request, nickname)
 	return render(request, 'main_konstruktor.html', data)
 
+@csrf_exempt
 @GlobalDecorators.if_user_authed
-def view_konstruktor_bot_page(request: WSGIRequest, nickname: str, bot_name: str): # Отрисовка view_bot_konstruktor.html
-	bot = TelegramBot.objects.filter(owner=nickname).filter(bot_name=bot_name)
-	if bot.exists():
-		data = get_bots_data(request, nickname)
-		data.update(
-			{
-				'bot': {
-					'bot_name': bot_name,
-					'bot_token': bot[0].bot_token,
-					'bot_commands': json.loads(bot[0].bot_commands)
-				}
-			}
-		)
-		return render(request, 'view_bot_konstruktor.html', data)
+def delete_bot(request: WSGIRequest, nickname: str): # Удаление бота
+	if request.method == 'POST':
+		data = json.loads(request.body)
+		data_items = tuple(data.items())
+		if (data_items[0][0]) == ('bot_name'):
+			bot_name = data['bot_name']
+			if TelegramBot.objects.filter(owner=nickname).filter(bot_name=bot_name).exists():
+				bot: TelegramBot = TelegramBot.objects.filter(owner=nickname).get(bot_name=bot_name)
+				bot.delete()
+
+				return HttpResponse('Успешное удаление бота.')
+			else:
+				return HttpResponseBadRequest(f'У вас нет бота "{bot_name}"!')
+		else:
+			return HttpResponseBadRequest('В тело запроса переданы неправильные данные!')
 	else:
-		return HttpResponseBadRequest(f'Не существует бота "{bot_name}"')
+		return HttpResponseBadRequest('Неправильный метод запроса!')
 
 @GlobalDecorators.if_user_authed
 def add_bot_page(request: WSGIRequest, nickname: str): # Отрисовка add_bot.html
@@ -68,7 +70,7 @@ def add_bot(request: WSGIRequest, nickname: str): # Добавление бот�
 			elif TelegramBot.objects.filter(owner=owner).count() >= 1 and request.user.groups.filter(name='free_accounts').exists():
 				return HttpResponseBadRequest('У вас уже максимальное количество ботов!')
 			else:
-				bot: TelegramBot = TelegramBot(id, owner, bot_name, bot_token, '[]')
+				bot: TelegramBot = TelegramBot(id, owner, bot_name, bot_token, json.dumps([], ensure_ascii=False, indent=2))
 				bot.save()
 
 				return HttpResponse('Успешное добавление бота.')
@@ -77,21 +79,55 @@ def add_bot(request: WSGIRequest, nickname: str): # Добавление бот�
 	else:
 		return HttpResponseBadRequest('Неправильный метод запроса!')
 
+@GlobalDecorators.if_user_authed
+def view_konstruktor_bot_page(request: WSGIRequest, nickname: str, bot_name: str): # Отрисовка view_bot_konstruktor.html
+	if TelegramBot.objects.filter(owner=nickname).filter(bot_name=bot_name).exists():
+		bot = TelegramBot.objects.filter(owner=nickname).get(bot_name=bot_name)
+		bot_commands = json.loads(bot.bot_commands)
+		data = get_bots_data(request, nickname)
+		data.update(
+			{
+				'bot': {
+					'bot_name': bot_name,
+					'bot_token': bot.bot_token,
+					'bot_commands': bot_commands
+				}
+			}
+		)
+		data['bot']['bot_commands'][len(bot_commands) - 1].update(
+			{
+				'bot_commands_positsion': 'last'
+			}
+		)
+		return render(request, 'view_bot_konstruktor.html', data)
+	else:
+		return redirect(f'/account/konstruktor/{nickname}/')
+
+@GlobalDecorators.if_user_authed
+def add_command_page(request: WSGIRequest, nickname: str, bot_name: str):
+	data = GlobalFunctions.get_navbar_buttons_data(request)
+	return render(request, 'add_command.html', data)
+
 @csrf_exempt
 @GlobalDecorators.if_user_authed
-def delete_bot(request: WSGIRequest, nickname: str): # Удаление бота
+def add_command(request: WSGIRequest, nickname: str, bot_name: str):
 	if request.method == 'POST':
 		data = json.loads(request.body)
 		data_items = tuple(data.items())
-		if (data_items[0][0]) == ('bot_name'):
-			bot_name = data['bot_name']
-			if TelegramBot.objects.filter(owner=nickname).filter(bot_name=bot_name).exists():
-				bot: TelegramBot = TelegramBot.objects.filter(owner=nickname).filter(bot_name=bot_name)[0]
-				bot.delete()
+		if (data_items[0][0]) == ('command_name'):
+			command_name = data['command_name']
+			bot = TelegramBot.objects.filter(owner=nickname).get(bot_name=bot_name)
+			bot_commands = json.loads(bot.bot_commands)
+			bot_commands.append(
+				{
+					'command_name': command_name
+				}
+			)
+			bot.bot_commands = json.dumps(bot_commands, ensure_ascii=False, indent=2)
+			bot.delete()
+			bot.save()
 
-				return HttpResponse('Успешное удаление бота.')
-			else:
-				return HttpResponseBadRequest(f'У вас нет бота "{bot_name}"!')
+			return HttpResponse('Успешное добавление команды.')
 		else:
 			return HttpResponseBadRequest('В тело запроса переданы неправильные данные!')
 	else:

@@ -29,7 +29,7 @@ function showErrorMessage(errorMessage) {
 	var containerDiv = document.getElementById('container');
 	var buttonsDiv = document.getElementById('buttons');
 
-	containerDiv.style = 'height: 454px;';
+	containerDiv.style = 'height: 447px;';
 	buttonsDiv.style = "top: 363px;";
 	errorMessageElement.innerHTML = errorMessage;
 }

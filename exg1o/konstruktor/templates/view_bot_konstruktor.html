@@ -10,7 +10,7 @@
 
 {% block botContainer %}
 	<div class="bot-container">
-		<h1 class="bot-heading">Конструктор бота {{ bot.bot_name }}</h1>
+		<h1 class="bot-heading">КОНСТРУКТОР БОТА {{ bot.bot_name }}</h1>
 		<div class="bot-konstruktor-form">
 			<div class="bot-data-konstruktor-inputs">
 				<input id="inputBotName" class="bot-name-input-control" type="text" placeholder="Придуймайте имя боту" value="{{ bot.bot_name }}"></input>
@@ -23,9 +23,20 @@
 			</div>
 			<div class="bot-commands-container">
 				<div class="bot-commands-table">
+					{% for bot_command in bot.bot_commands %}
+						{% if 'bot_commands_positsion' not in bot_command %}
+						<div class="bot-command">
+						{% endif %}
 
+						{% if 'bot_commands_positsion' in bot_command %}
+						<div id="last" class="bot-command">
+						{% endif %}
+
+							<a class="bot-command-name" href="">{{ bot_command.command_name }}</a>
+						</div>
+					{% endfor %}
 				</div>
-				<button class="add-command-button-control" onclick="">Добавить команду</button>
+				<button class="add-command-button-control" onclick="window.location.href = 'add_command/';">Добавить команду</button>
 			</div>
 			<div class="bot-log-container">
 				<div class="bot-log-table">

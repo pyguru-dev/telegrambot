@@ -2,7 +2,7 @@ function editDivsForMessageElement() {
 	var containerDiv = document.getElementById('mainContainer');
 	var addBotButtonElement = document.getElementById('addBotButton');
 
-	containerDiv.style = 'height: 443px;';
+	containerDiv.style = 'height: 445px;';
 	addBotButtonElement.style = "top: 283px;";
 }
 

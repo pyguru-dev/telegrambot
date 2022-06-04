@@ -1,3 +1,4 @@
+/* ------------ Главные контейнеры ------------ */
 .main-container {
 	left: 120px;
 
@@ -5,7 +6,7 @@
 }
 
 .bot-container {
-	height: 422px;
+	height: 424px;
 
 	top: 200px;
 	left: 540px;
@@ -20,9 +21,10 @@
 	background-color: #2C313C;
 }
 
+/* ------------ Заголовок ------------ */
 .bot-heading {
 	width: 100%;
-	height: 65px;
+	height: 70px;
 
 	margin-top: 4px;
 	margin-bottom: 4px;
@@ -37,12 +39,14 @@
 	letter-spacing: 1px
 }
 
+/* ------------ Контейнер для основых элементов ------------ */
 .bot-konstruktor-form {
 	left: 20px;
 	right: 20px;
 	position: absolute;
 }
 
+/* ------------ Контейнер для inputs ------------ */
 .bot-data-konstruktor-inputs {
 	left: 0;
 	right: 800px;
@@ -53,8 +57,7 @@
 .bot-token-input-control {
 	height: 45px;
 
-	margin-top: 4px;
-	margin-bottom: 4px;
+	margin-bottom: 8px;
 
 	font-size: 28px;
 
@@ -79,8 +82,7 @@
 	width: 40px;
 	height: 45px;
 
-	margin-top: 4px;
-	margin-bottom: 4px;
+	margin-bottom: 8px;
 
 	right: 0px;
 	position: absolute;
@@ -103,6 +105,7 @@
 	background-image: url('../../images/eyeOff.png');
 }
 
+/* Контейнер для buttons, которые находяться рядом с контейнером inputs */
 .bot-data-konstruktor-buttons {
 	width: 280px;
 	height: 106px;
@@ -111,24 +114,9 @@
 	position: absolute;
 }
 
-.start-bot-button-control,
-.save-bot-settings-button-control {
-	width: 100%;
-	height: 45px;
-
-	margin-top: 4px;
-	margin-bottom: 4px;
-
-	font-weight: bold;
-	font-size: 24px;
-	letter-spacing: 0.8px;
-
-	border: 0;
-	border-radius: 12px;
-}
-
+/* ------------ Контейнер для команд бота ------------ */
 .bot-commands-container {
-	top: 5px;
+	top: 0;
 	bottom: 20px;
 	left: calc(100% - 480px);
 	right: 0px;
@@ -137,7 +125,7 @@
 
 .bot-commands-table {
 	width: 100%;
-	height: 251px;
+	height: 250px;
 
 	border-color: #FFFFFF;
 	border-radius: 8px;
@@ -148,45 +136,35 @@
 	overflow: auto;
 }
 
-/* .bot-command-link {
-	top: 2px;
-	left: 8px;
-	right: 8px;
-	position: absolute;
-
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-
-	text-align: left;
-	text-decoration: none;
-} */
-
-.add-command-button-control,
-.clear-log-button-control {
+.bot-command {
 	width: 100%;
-	height: 60px;
+	height: 50px;
 
-	font-size: 24px;
-	font-weight: bold;
-	letter-spacing: 0.8px;
+	padding: 8px;
 
+	border-bottom-color: #FFFFFF;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+
+	background-color: #595F76;
+}
+
+.bot-command#last {
 	border: 0;
-	border-radius: 12px;
 }
 
-.add-command-button-control {
-	top: 261px;
-	position: absolute;
+.bot-command-name {
+	width: 30px;
+
+	font-weight: bold;
+	text-align: left;
+	font-size: 24px;
+	letter-spacing: 0.8px;
 }
 
-.clear-log-button-control {
-	top: 144px;
-	position: absolute;
-}
-
+/* ------------ Контейнер для логов ------------ */
 .bot-log-container {
-	top: 122px;
+	top: 118px;
 	left: 0;
 	right: 500px;
 	position: absolute;
@@ -194,7 +172,7 @@
 
 .bot-log-table {
 	width: 100%;
-	height: 134px;
+	height: 133px;
 
 	border-color: #FFFFFF;
 	border-radius: 8px;
@@ -203,6 +181,46 @@
 
 	background-color: #1B1D23;
 	overflow: auto;
+}
+
+/* ------------ Кнопки ------------ */
+.start-bot-button-control,
+.save-bot-settings-button-control,
+.add-command-button-control,
+.clear-log-button-control {
+	width: 100%;
+
+	font-weight: bold;
+	font-size: 24px;
+	letter-spacing: 0.8px;
+
+	border: 0;
+	border-radius: 12px;
+
+	transition: 0.4s;
+	background-color: #595F76;
+}
+
+.start-bot-button-control,
+.save-bot-settings-button-control {
+	height: 45px;
+
+	margin-bottom: 8px;
+}
+
+.add-command-button-control,
+.clear-log-button-control {
+	height: 60px;
+}
+
+.add-command-button-control {
+	top: 260px;
+	position: absolute;
+}
+
+.clear-log-button-control {
+	top: 143px;
+	position: absolute;
 }
 
 .start-bot-button-control,

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	<title>Добавление команды</title>
+{% endblock title %}
+
+{% block styles %}
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'konstruktor/add_command/add_command.css' %}">
+{% endblock styles %}
+
+{% block content %}
+	<div id="container" class="container">
+		<h1 class="heading">ДОБАВЛЕНИЕ КОМАНДЫ</h1>
+		<div class="add-command-form">
+			<input id="inputCommandName" class="command-name-input-control" type="text" placeholder="Придуймайте название команде"></input>
+		</div>
+		<h1 id="errorMessage" class="error-message"></h1>
+		<div id="buttons" class="buttons">
+			<button id="addCommandButton" class="add-command-button-control" onclick="addCommandButtonClick()">Добавить бота</button>
+			<button id="backButton" class="back-button-control" onclick="window.location.href = '../';">Вернуться</button>
+		</div>
+	</div>
+{% endblock content %}
+
+{% block scripts %}
+	<script src="{% static 'konstruktor/add_command/add_command.js' %}"></script>
+{% endblock scripts %}
