@@ -23,5 +23,5 @@ urlpatterns = [
 	path('', include('authorization.urls')),
 	path('', include('registration.urls')),
 	path('account/', include('account.urls')),
-	path('account/', include('konstruktor.urls')),
+	path('account/konstruktor/<str:nickname>/', include('konstruktor.urls')),
 ]

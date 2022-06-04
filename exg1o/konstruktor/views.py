@@ -104,13 +104,13 @@ def view_konstruktor_bot_page(request: WSGIRequest, nickname: str, bot_name: str
 		return redirect(f'/account/konstruktor/{nickname}/')
 
 @GlobalDecorators.if_user_authed
-def add_command_page(request: WSGIRequest, nickname: str, bot_name: str):
+def add_command_page(request: WSGIRequest, nickname: str, bot_name: str): # Отрисовка add_command.html
 	data = GlobalFunctions.get_navbar_buttons_data(request)
 	return render(request, 'add_command.html', data)
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
-def add_command(request: WSGIRequest, nickname: str, bot_name: str):
+def add_command(request: WSGIRequest, nickname: str, bot_name: str): # Добавление команды
 	if request.method == 'POST':
 		data = json.loads(request.body)
 		data_items = tuple(data.items())
