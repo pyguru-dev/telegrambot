@@ -29,8 +29,18 @@ function showErrorMessage(errorMessage) {
 	var containerDiv = document.getElementById('container');
 	var buttonsDiv = document.getElementById('buttons');
 
-	containerDiv.style = 'height: 447px;';
-	buttonsDiv.style = "top: 363px;";
+	if (screen.width < 786) {
+		containerDiv.style = 'height: 351px;';
+		buttonsDiv.style = 'top: 260px;';
+	}
+	if (screen.width >= 768 && screen.width < 1000) {
+		containerDiv.style = 'height: 399px;';
+		buttonsDiv.style = 'top: 325px;';
+	}
+	if (screen.width > 1000) {
+		containerDiv.style = 'height: 451px;';
+		buttonsDiv.style = 'top: 367px;';
+	}
 	errorMessageElement.innerHTML = errorMessage;
 }
 

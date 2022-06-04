@@ -1,13 +1,5 @@
 /* ------------ Главные контейнеры ------------ */
 .container {
-	width: 750px;
-	height: 428px;
-
-	margin: auto;
-
-	top: 200px;
-	left: 0;
-	right: 0;
 	position: absolute;
 
 	border-color: #FFFFFF;
@@ -20,19 +12,16 @@
 
 /* ------------ Заголовок ------------ */
 .heading {
-	margin-top: 0px;
-	margin-bottom: 6px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 
 	text-align: center;
 	font-weight: bold;
-	font-size: 100px;
 	letter-spacing: 1px;
 }
 
 /* ------------ Контейнер для основых элементов ------------ */
 .registration-form {
-	left: 75px;
-	right: 75px;
 	position: absolute;
 }
 
@@ -41,12 +30,8 @@
 .email-input-control,
 .password-input-control,
 .again-password-input-control {
-	height: 45px;
-
 	margin-top: 4px;
 	margin-bottom: 4px;
-
-	font-size: 28px;
 
 	outline: 0;
 	border: 0;
@@ -69,12 +54,10 @@
 
 .password-button-control {
 	width: 40px;
-	height: 45px;
 
 	margin-top: 4px;
 	margin-bottom: 4px;
 
-	right: 0;
 	position: absolute;
 
 	background: #FFFFFF;
@@ -98,17 +81,15 @@
 }
 
 /* ------------ Сообщение ------------ */
-.error-message{
+.error-message {
 	width: 100%;
 	height: 25px;
 
-	top: 338px;
 	position: absolute;
 
 	margin: 0;
 
 	text-align: center;
-	font-size: 18px;
 	letter-spacing: 0.6px;
 
 	color: #ff006a;
@@ -116,17 +97,10 @@
 
 /* ------------ Кнопки ------------ */
 .buttons {
-	height: 60px;
-
-	top: 344px;
-	left: 75px;
-	right: 75px;
 	position: absolute;
 }
 
 .have-account-button-control {
-	top: 50%;
-	left: 60px;
 	transform: translate(0, -50%);
 	position: absolute;
 
@@ -135,10 +109,6 @@
 }
 
 .registration-button-control {
-	width: 228px;
-	height: 60px;
-
-	right: 0;
 	position: absolute;
 
 	font-size: 24px;
@@ -159,4 +129,201 @@
 
 .registration-button-control:active{
 	background-color: #434965;
+}
+
+/* ------------ Адаптация ------------ */
+@media (min-width: 320px) and (max-width: 767px) {
+	.container {
+		height: 332px;
+
+		top: 225px;
+		left: 10px;
+		right: 10px;
+	}
+
+	.heading {
+		font-size: 34px;
+	}
+
+	.registration-form {
+		left: 10px;
+		right: 10px;
+	}
+
+	.login-input-control,
+	.email-input-control,
+	.password-input-control,
+	.again-password-input-control {
+		height: 38px;
+
+		font-size: 21px;
+	}
+
+	.password-button-control {
+		height: 38px;
+	}
+
+	.error-message {
+		top: 235px;
+
+		font-size: 16px;
+	}
+
+	.buttons {
+		height: 45px;
+
+		top: 241px;
+		left: 10px;
+		right: 10px;
+	}
+
+	.have-account-button-control {
+		top: 65px;
+		right: 30px;
+		left: 30px;
+
+		text-align: center;
+		font-size: 18px;
+	}
+
+	.registration-button-control {
+		width: 100%;
+		height: 45px;
+
+		font-size: 22px;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 999px) {
+	.container {
+		width: 600px;
+		height: 380px;
+
+		margin: auto;
+
+		top: 150px;
+		left: 0;
+		right: 0;
+	}
+
+	.heading {
+		font-size: 75px;
+	}
+
+	.registration-form {
+		left: 50px;
+		right: 50px;
+	}
+
+	.login-input-control,
+	.email-input-control,
+	.password-input-control,
+	.again-password-input-control {
+		height: 42px;
+
+		font-size: 24px;
+	}
+
+	.password-button-control {
+		height: 42px;
+	}
+
+	.error-message {
+		top: 300px;
+
+		font-size: 16px;
+	}
+
+	.buttons {
+		height: 50px;
+
+		top: 306px;
+		left: 50px;
+		right: 50px;
+	}
+
+	.have-account-button-control {
+		top: 50%;
+		left: 50px;
+
+		text-align: center;
+		font-size: 18px;
+	}
+
+	.registration-button-control {
+		width: 200px;
+		height: 50px;
+
+		right: 0;
+
+		font-size: 22px;
+	}
+}
+
+@media (min-width: 1000px) {
+	.container {
+		width: 750px;
+		height: 432px;
+
+		margin: auto;
+
+		top: 150px;
+		left: 0;
+		right: 0;
+	}
+
+	.heading {
+		font-size: 100px;
+	}
+
+	.registration-form {
+		left: 75px;
+		right: 75px;
+	}
+
+	.login-input-control,
+	.email-input-control,
+	.password-input-control,
+	.again-password-input-control {
+		height: 45px;
+
+		font-size: 28px;
+	}
+
+	.password-button-control {
+		height: 45px;
+
+		right: 0;
+	}
+
+	.error-message {
+		top: 342px;
+
+		font-size: 18px;
+	}
+
+	.buttons {
+		height: 60px;
+
+		top: 348px;
+		left: 75px;
+		right: 75px;
+	}
+
+	.have-account-button-control {
+		top: 50%;
+		left: 75px;
+
+		text-align: center;
+		font-size: 18px;
+	}
+
+	.registration-button-control {
+		width: 228px;
+		height: 60px;
+
+		right: 0;
+
+		font-size: 22px;
+	}
 }

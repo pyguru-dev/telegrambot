@@ -1,0 +1,5 @@
+@media (min-width: 320px) and (max-width: 767px) {
+	.top-navbar {
+		height: 265px;
+	}
+}

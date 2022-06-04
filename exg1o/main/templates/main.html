@@ -7,6 +7,9 @@
 {% block styles %}
 	{% load static %}
 	<link rel="stylesheet" href="{% static 'main/main.css' %}">
+	{% if 'konstruktor_button' in navbar %}
+		<link rel="stylesheet" href="{% static 'main/mobile_main.css' %}">
+	{% endif %}
 {% endblock styles %}
 
 {% block content %}

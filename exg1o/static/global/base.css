@@ -16,8 +16,6 @@ input {
 }
 
 .top-navbar {
-	height: 80px;
-
 	top: 0;
 	left: 0;
 	right: 0;
@@ -38,16 +36,7 @@ input {
 }
 
 .banner-button-link-control {
-	width: 140px;
-	height: 60px;
-
-	margin-top: 9px;
-	margin-bottom: 11px;
-
-	left: 50px;
-
 	text-align: center;
-	font-size: 50px;
 	letter-spacing: 1px;
 
 	background: none;
@@ -55,11 +44,7 @@ input {
 }
 
 .button-link-control {
-	width: 160px;
 	height: 50px;
-
-	margin-top: 15px;
-	margin-bottom: 15px;
 
 	font-size: 22px;
 	letter-spacing: 0.8px;
@@ -74,20 +59,118 @@ input {
 	transition: 0.4s;
 	background-color: #50566E;
 }
+
 .button-link-control:active {
 	background-color: #434965;
 }
 
-.button-link-control#registrationButtonLink,
-.button-link-control#signOutButtonLink {
-	right: 50px;
+/* ------------ Адаптация ------------ */
+@media (min-width: 320px) and (max-width: 767px) {
+	.top-navbar {
+		height: 205px;
+	}
+
+	.banner-button-link-control {
+		width: calc(100% - 30px);
+		height: 72px;
+
+		left: 15px;
+
+		font-size: 60px;
+	}
+
+	.button-link-control {
+		width: calc(100% - 30px);
+		height: 50px;
+
+		right: 15px;
+	}
+
+	.button-link-control#registrationButtonLink,
+	.button-link-control#signOutButtonLink {
+		top: 80px;
+	}
+
+	.button-link-control#authorizationButtonLink,
+	.button-link-control#profileButtonLink {
+		top: 140px;
+	}
+
+	.button-link-control#konstruktorButtonLink {
+		top: 200px;
+	}
 }
 
-.button-link-control#authorizationButtonLink,
-.button-link-control#profileButtonLink {
-	right: 230px;
+@media (min-width: 768px) and (max-width: 999px) {
+	.top-navbar {
+		height: 80px;
+	}
+
+	.banner-button-link-control {
+		width: 150px;
+		height: 60px;
+
+		top: 10px;
+		left: 30px;
+
+		font-size: 50px;
+	}
+
+	.button-link-control {
+		width: 160px;
+		height: 50px;
+
+		top: 15px;
+	}
+
+	.button-link-control#registrationButtonLink,
+	.button-link-control#signOutButtonLink {
+		right: 20px;
+	}
+
+	.button-link-control#authorizationButtonLink,
+	.button-link-control#profileButtonLink {
+		right: 200px;
+	}
+
+	.button-link-control#konstruktorButtonLink {
+		right: 380px;
+	}
 }
 
-.button-link-control#konstruktorButtonLink {
-	right: 410px;
+@media (min-width: 1000px) {
+	.top-navbar {
+		height: 80px;
+	}
+
+	.banner-button-link-control {
+		width: 150px;
+		height: 60px;
+
+		top: 10px;
+		left: 50px;
+
+		font-size: 50px;
+	}
+
+	.button-link-control {
+		width: 160px;
+		height: 50px;
+
+		top: 15px;
+	}
+
+	.button-link-control#registrationButtonLink,
+	.button-link-control#signOutButtonLink {
+		right: 40px;
+	}
+
+	.button-link-control#authorizationButtonLink,
+	.button-link-control#profileButtonLink {
+		right: 220px;
+	}
+
+	.button-link-control#konstruktorButtonLink {
+		right: 400px;
+	}
 }

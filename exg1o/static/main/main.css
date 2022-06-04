@@ -1,12 +1,5 @@
 /* ------------ Главные контейнеры ------------ */
 .container {
-	width: 1000px;
-
-	margin: auto;
-
-	top: 150px;
-	left: 0;
-	right: 0;
 	position: absolute;
 }
 
@@ -18,14 +11,73 @@
 	margin-bottom: 10px;
 
 	font-weight: bold;
-	font-size: 120px;
 	letter-spacing: 2px;
 }
 
 /* ------------ Информация о сайте ------------ */
-.site-info-text{
+.site-info-text {
 	margin-top: 8px;
 
-	font-size: 24px;
 	letter-spacing: 0.8px;
+}
+
+/* ------------ Адаптация ------------ */
+@media (min-width: 320px) and (max-width: 767px) {
+	.container {
+		top: 220px;
+		left: 30px;
+		right: 30px;
+	}
+
+	.heading {
+		font-size: 85px;
+	}
+
+	.site-info-text {
+		font-size: 18px;
+	}
+}
+
+@media (min-width: 768px) {
+	.container {
+		top: 150px;
+	}
+
+	.heading {
+		font-size: 120px;
+	}
+
+	.site-info-text {
+		font-size: 24px;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 999px) {
+	.container {
+		top: 150px;
+		left: 60px;
+		right: 60px;
+	}
+}
+
+@media (min-width: 1000px) and (max-width: 1499px) {
+	.container {
+		width: 750px;
+
+		margin: auto;
+
+		left: 0;
+		right: 0;
+	}
+}
+
+@media (min-width: 1500px) {
+	.container {
+		width: 1000px;
+
+		margin: auto;
+
+		left: 0;
+		right: 0;
+	}
 }

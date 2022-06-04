@@ -1,8 +1,12 @@
+from turtle import width
 from django.core.handlers.wsgi import WSGIRequest
 
 def get_navbar_buttons_data(request: WSGIRequest): # Функция для получения данных для NavBar'а 
 	if request.user.is_authenticated:
 		data = {
+			'navbar': {
+				'konstruktor_button': 'on'
+			},
 			'buttons': {
 				'button_1': {
 					'id': 'profileButtonLink',
@@ -23,6 +27,7 @@ def get_navbar_buttons_data(request: WSGIRequest): # Функция для по�
 		}
 	else:
 		data = {
+			'navbar': {},
 			'buttons': {
 				'button_1': {
 					'id': 'authorizationButtonLink',
