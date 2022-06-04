@@ -27,6 +27,16 @@ input {
 	background-color: #2C313C;
 }
 
+/* ------------ Кнопки ------------ */
+.banner-button-link-control,
+.button-link-control {
+	position: fixed;
+
+	font-weight: bold;
+
+	border: 0;
+}
+
 .banner-button-link-control {
 	width: 140px;
 	height: 60px;
@@ -35,14 +45,11 @@ input {
 	margin-bottom: 11px;
 
 	left: 50px;
-	position: fixed;
 
 	text-align: center;
-	font-weight: bold;
 	font-size: 50px;
 	letter-spacing: 1px;
 
-	border: 0;
 	background: none;
 	text-decoration: none;
 }
@@ -54,13 +61,9 @@ input {
 	margin-top: 15px;
 	margin-bottom: 15px;
 
-	position: fixed;
-
 	font-size: 22px;
-	font-weight: bold;
 	letter-spacing: 0.8px;
 
-	border: 0;
 	border-radius: 12px;
 
 	transition: 0.4s;
@@ -86,5 +89,5 @@ input {
 }
 
 .button-link-control#konstruktorButtonLink {
-	right: 411px;
+	right: 410px;
 }
