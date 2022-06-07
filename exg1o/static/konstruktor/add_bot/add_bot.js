@@ -29,7 +29,7 @@ function addBotButtonClick() {
 	var botToken = document.querySelector('.bot-token-input-control').value;
 
 	if (botName && botToken != '') {
-		if (botName.length <= 11) {
+		if (botName.length <= 255) {
 			var request = new XMLHttpRequest();
 			request.open('POST', '../add_bot_/', true);
 			request.setRequestHeader('Content-Type', 'application/json');
@@ -48,7 +48,7 @@ function addBotButtonClick() {
 			}
 			request.send(data);
 		} else {
-			showErrorMessage('Имя бота должно содержать не менее 11 символов!')
+			showErrorMessage('Имя бота должно содержать не более 255 символов!')
 		}
 	} else {
 		showErrorMessage('Заполните форму добавление бота!')

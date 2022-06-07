@@ -5,7 +5,6 @@ from django.shortcuts import HttpResponse, render
 from django.contrib.auth.models import User, Group
 import global_functions as GlobalFunctions
 import json
-import os
 
 # Create your views here.
 def registration_page(request: WSGIRequest): # Отрисовка registration.html
@@ -26,13 +25,6 @@ def register_account(request: WSGIRequest): # Регистрация аккау�
 
 				if User.objects.filter(username=login).exists() == False:
 					user = User.objects.create_user(login, email, password)
-
-					if Group.objects.filter(name='free_accounts').exists() == False:
-						free_accounts_group = Group.objects.create(name='free_accounts')
-						free_accounts_group.save()
-					if Group.objects.filter(name='paid_accounts').exists() == False:
-						paid_accounts_group = Group.objects.create(name='paid_accounts')
-						paid_accounts_group.save()
 
 					free_accounts_group = Group.objects.get(name='free_accounts')
 					user.groups.add(free_accounts_group)

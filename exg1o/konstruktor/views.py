@@ -2,7 +2,7 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import HttpResponse, redirect, render
-from konstruktor.models import TelegramBot
+from konstruktor.models import TelegramBot, TelegramBotCommand
 import global_functions as GlobalFunctions
 import global_decorators as GlobalDecorators
 import json
@@ -15,9 +15,9 @@ def get_bots_data(request: WSGIRequest, nickname: str): # Функция для 
 	for bot in TelegramBot.objects.filter(owner=nickname).all():
 		bots['bots'].append(
 			{
-				'bot_name': bot.bot_name,
+				'bot_name': bot.name,
 				'bot_positsion': 'normal' if num != 5 else 'last',
-				'onclick': f"deleteBotButtonClick('{bot.bot_name}', '{request.user.username}');"
+				'onclick': f"deleteBotButtonClick('{bot.name}', '{request.user.username}');"
 			}
 		)
 		num += 1
@@ -39,8 +39,8 @@ def delete_bot(request: WSGIRequest, nickname: str): # Удаление бота
 		data_items = tuple(data.items())
 		if (data_items[0][0]) == ('bot_name'):
 			bot_name = data['bot_name']
-			if TelegramBot.objects.filter(owner=nickname).filter(bot_name=bot_name).exists():
-				bot: TelegramBot = TelegramBot.objects.filter(owner=nickname).get(bot_name=bot_name)
+			if TelegramBot.objects.filter(owner=nickname).filter(name=bot_name).exists():
+				bot: TelegramBot = TelegramBot.objects.filter(owner=nickname).get(name=bot_name)
 				bot.delete()
 
 				return HttpResponse('Успешное удаление бота.')
@@ -70,7 +70,7 @@ def add_bot(request: WSGIRequest, nickname: str): # Добавление бот�
 			elif TelegramBot.objects.filter(owner=owner).count() >= 1 and request.user.groups.filter(name='free_accounts').exists():
 				return HttpResponseBadRequest('У вас уже максимальное количество ботов!')
 			else:
-				bot: TelegramBot = TelegramBot(id, owner, bot_name, bot_token, json.dumps([], ensure_ascii=False, indent=2))
+				bot: TelegramBot = TelegramBot(id, owner, bot_name, bot_token)
 				bot.save()
 
 				return HttpResponse('Успешное добавление бота.')
@@ -81,24 +81,33 @@ def add_bot(request: WSGIRequest, nickname: str): # Добавление бот�
 
 @GlobalDecorators.if_user_authed
 def view_konstruktor_bot_page(request: WSGIRequest, nickname: str, bot_name: str): # Отрисовка view_bot_konstruktor.html
-	if TelegramBot.objects.filter(owner=nickname).filter(bot_name=bot_name).exists():
-		bot = TelegramBot.objects.filter(owner=nickname).get(bot_name=bot_name)
-		bot_commands = json.loads(bot.bot_commands)
+	bot = TelegramBot.objects.filter(owner=nickname)
+	if bot.filter(name=bot_name).exists():
+		bot = bot.get(name=bot_name)
+
 		data = get_bots_data(request, nickname)
 		data.update(
 			{
 				'bot': {
 					'bot_name': bot_name,
-					'bot_token': bot.bot_token,
-					'bot_commands': bot_commands
+					'bot_token': bot.token,
+					'bot_commands': []
 				}
 			}
 		)
-		data['bot']['bot_commands'][len(bot_commands) - 1].update(
-			{
-				'bot_commands_positsion': 'last'
-			}
-		)
+		for bot_command in TelegramBotCommand.objects.filter(owner=nickname).filter(bot_name=bot_name):
+			data['bot']['bot_commands'].append(
+				{
+					'command_name': bot_command.command_name
+				}
+			)
+		if len(data['bot']['bot_commands']) > 4:
+			data['bot']['bot_commands'][-1].update(
+				{
+					'bot_commands_positsion': 'last'
+				}
+			)
+
 		return render(request, 'view_bot_konstruktor.html', data)
 	else:
 		return redirect(f'/account/konstruktor/{nickname}/')
@@ -116,16 +125,8 @@ def add_command(request: WSGIRequest, nickname: str, bot_name: str): # Доба�
 		data_items = tuple(data.items())
 		if (data_items[0][0]) == ('command_name'):
 			command_name = data['command_name']
-			bot = TelegramBot.objects.filter(owner=nickname).get(bot_name=bot_name)
-			bot_commands = json.loads(bot.bot_commands)
-			bot_commands.append(
-				{
-					'command_name': command_name
-				}
-			)
-			bot.bot_commands = json.dumps(bot_commands, ensure_ascii=False, indent=2)
-			bot.delete()
-			bot.save()
+			bot_command: TelegramBotCommand = TelegramBotCommand(id, nickname, bot_name, command_name)
+			bot_command.save()
 
 			return HttpResponse('Успешное добавление команды.')
 		else:

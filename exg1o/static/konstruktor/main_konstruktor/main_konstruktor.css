@@ -59,11 +59,6 @@
 
 	padding: 8px;
 
-	font-weight: bold;
-	text-align: left;
-	font-size: 25px;
-	letter-spacing: 0.8px;
-
 	background-color: #595F76;
 }
 
@@ -71,6 +66,21 @@
 	border-bottom-color: #FFFFFF;
 	border-bottom-style: solid;
 	border-bottom-width: 2px;
+}
+
+.bot-name {
+	width: 190px;
+
+	position: absolute;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	font-weight: bold;
+	text-align: left;
+	font-size: 25px;
+	letter-spacing: 0.8px;
 }
 
 /* ------------ Сообщение ------------ */

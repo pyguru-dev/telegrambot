@@ -23,9 +23,11 @@
 
 /* ------------ Заголовок ------------ */
 .bot-heading {
-	width: 100%;
+	width: calc(100% - 36px);
 	height: 70px;
 
+	margin-left: 18px;
+	margin-right: 18px;
 	margin-top: 4px;
 	margin-bottom: 4px;
 
@@ -154,11 +156,9 @@
 }
 
 .bot-command-name {
-	width: 30px;
-
 	font-weight: bold;
 	text-align: left;
-	font-size: 24px;
+	font-size: 25px;
 	letter-spacing: 0.8px;
 }
 
@@ -201,6 +201,18 @@
 	background-color: #595F76;
 }
 
+.add-command-button-control,
+.clear-log-button-control {
+	position: absolute;
+
+	font-weight: bold;
+	letter-spacing: 0.8px;
+
+	border: 0;
+
+	transition: 0.4s;
+}
+
 .start-bot-button-control,
 .save-bot-settings-button-control {
 	height: 45px;
@@ -215,12 +227,10 @@
 
 .add-command-button-control {
 	top: 260px;
-	position: absolute;
 }
 
 .clear-log-button-control {
 	top: 143px;
-	position: absolute;
 }
 
 .start-bot-button-control,

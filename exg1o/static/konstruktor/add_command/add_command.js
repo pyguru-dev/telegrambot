@@ -12,7 +12,7 @@ function addCommandButtonClick() {
 	var commandName = document.querySelector('.command-name-input-control').value;
 
 	if (commandName != '') {
-		if (commandName.length <= 11) {
+		if (commandName.length <= 29) {
 			var request = new XMLHttpRequest();
 			request.open('POST', '../add_command_/', true);
 			request.setRequestHeader('Content-Type', 'application/json');
@@ -30,7 +30,7 @@ function addCommandButtonClick() {
 			}
 			request.send(data);
 		} else {
-			showErrorMessage('Имя команды должно содержать не менее (хуй знает) символов!')
+			showErrorMessage('Имя команды должно содержать не более 256 символов!')
 		}
 	} else {
 		showErrorMessage('Заполните форму добавление команды!')
