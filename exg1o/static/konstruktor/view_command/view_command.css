@@ -1,0 +1,35 @@
+/* ------------ Главные контейнеры ------------ */
+.container {
+	width: 950px;
+	height: 555px;
+}
+
+/* ------------ Кнопки ------------ */
+.save-command-button-control,
+.delete-command-button-control {
+	width: 100%;
+	height: 60px;
+
+	margin-bottom: 8px;
+
+	font-weight: bold;
+	font-size: 24px;
+	letter-spacing: 0.8px;
+
+	border: 0;
+	border-radius: 12px;
+
+	transition: 0.4s;
+	background-color: #595F76;
+}
+
+.save-command-button-control:hover,
+.delete-command-button-control:hover {
+	transition: 0.4s;
+	background-color: #50566E;
+}
+
+.save-command-button-control:active,
+.delete-command-button-control:active {
+	background-color: #434965;
+}

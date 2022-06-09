@@ -1,7 +1,7 @@
 /* ------------ Главные контейнеры ------------ */
 .container {
 	width: 800px;
-	height: 291px;
+	height: 487px;
 
 	margin: auto;
 
@@ -37,9 +37,10 @@
 }
 
 /* ------------ Inputs ------------ */
-.command-name-input-control {
+.command-name-input-control,
+.command-input-control,
+.command-answer-input-control {
 	width: 100%;
-	height: 45px;
 
 	margin-top: 4px;
 	margin-bottom: 4px;
@@ -51,6 +52,17 @@
 	border-radius: 8px;
 }
 
+.command-name-input-control,
+.command-input-control {
+	height: 45px;
+}
+
+.command-answer-input-control {
+	height: 135px;
+
+	resize: none;
+}
+
 /* ------------ Сообщение ------------ */
 .error-message{
 	width: 100%;
@@ -58,7 +70,7 @@
 
 	margin: 0;
 
-	top: 133px;
+	top: 329px;
 	position: absolute;
 
 	text-align: center;
@@ -70,7 +82,7 @@
 
 /* ------------ Кнопки ------------ */
 .buttons {
-	top: 139px;
+	top: 335px;
 	left: 50px;
 	right: 50px;
 	position: absolute;

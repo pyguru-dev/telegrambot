@@ -19,7 +19,7 @@ function showErrorMessage(errorMessage) {
 	var containerDiv = document.getElementById('container');
 	var buttonsDiv = document.getElementById('buttons');
 
-	containerDiv.style = 'height: 370px;';
+	containerDiv.style = 'height: 363px;';
 	buttonsDiv.style = "top: 211px;";
 	errorMessageElement.innerHTML = errorMessage;
 }

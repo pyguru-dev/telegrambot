@@ -24,13 +24,13 @@
 /* ------------ Адаптация ------------ */
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
-		top: 220px;
+		top: 200px;
 		left: 30px;
 		right: 30px;
 	}
 
 	.heading {
-		font-size: 85px;
+		font-size: 80px;
 	}
 
 	.site-info-text {

@@ -1,0 +1,25 @@
+{% extends 'add_command.html' %}
+
+{% block heading %}РЕДАКТИРОВАНИЕ КОМАНДЫ{% endblock heading %}
+{% block commandNameValue %}{{ bot_command.command_name }}{% endblock commandNameValue %}
+{% block commandValue %}{{ bot_command.command }}{% endblock commandValue %}
+{% block commandAnswerValue %}{{ bot_command.command_answer }}{% endblock commandAnswerValue %}
+{% block backButtonLink %}../../{% endblock backButtonLink %}
+
+{% block title %}
+	<title>Редактирование команды</title>
+{% endblock title %}
+
+{% block commandStyles %}
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'konstruktor/view_command/view_command.css' %}">
+{% endblock commandStyles %}
+
+{% block buttons %}
+	<button id="saveCommandButton" class="save-command-button-control" onclick="">Сохранить команду</button>
+	<button id="deleteCommandButton" class="delete-command-button-control" onclick="">Удалить команду</button>
+{% endblock buttons %}
+
+{% block commandScripts %}
+	<script src="{% static 'konstruktor/view_command/view_command.js' %}"></script>
+{% endblock commandScripts %}

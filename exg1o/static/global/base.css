@@ -11,7 +11,8 @@ body {
 	background-color: #1B1D23;
 }
 
-input {
+input,
+textarea {
 	color: #000000
 }
 
@@ -67,37 +68,37 @@ input {
 /* ------------ Адаптация ------------ */
 @media (min-width: 320px) and (max-width: 767px) {
 	.top-navbar {
-		height: 205px;
+		height: 180px;
 	}
 
 	.banner-button-link-control {
 		width: calc(100% - 30px);
-		height: 72px;
+		height: 66px;
 
 		left: 15px;
 
-		font-size: 60px;
+		font-size: 55px;
 	}
 
 	.button-link-control {
 		width: calc(100% - 30px);
-		height: 50px;
+		height: 40px;
 
 		right: 15px;
 	}
 
 	.button-link-control#registrationButtonLink,
 	.button-link-control#signOutButtonLink {
-		top: 80px;
+		top: 75px;
 	}
 
 	.button-link-control#authorizationButtonLink,
 	.button-link-control#profileButtonLink {
-		top: 140px;
+		top: 125px;
 	}
 
 	.button-link-control#konstruktorButtonLink {
-		top: 200px;
+		top: 175px;
 	}
 }
 

@@ -2,29 +2,42 @@ from django.db import models
 from django.db.models import Max, F
 
 # Create your models here.
-class TelegramBot(models.Model):
+class TelegramBotModel(models.Model):
 	id = models.AutoField(primary_key=True)
 	owner = models.CharField(max_length=256)
 	name = models.CharField(max_length=256)
 	token = models.CharField(max_length=256)
+	online = models.BooleanField(default=False)
+
+	class Meta:
+		verbose_name = 'Telegram Bot'
+		verbose_name_plural = 'Telegram Bots'
 
 	def save(self, *args, **kwargs):
-		max = TelegramBot.objects.aggregate(max=Max(F('id')))['max']
-		self.id = max + 1 if max else 1
+		if id != int:
+			max = TelegramBotModel.objects.aggregate(max=Max(F('id')))['max']
+			self.id = max + 1 if max else 1
 		super().save(*args, **kwargs)
 
 	def __str__(self):
 		return f'Владелец: {self.owner} | Бот: {self.name}'
 
-class TelegramBotCommand(models.Model):
+class TelegramBotCommandModel(models.Model):
 	id = models.AutoField(primary_key=True)
 	owner = models.CharField(max_length=256)
 	bot_name = models.CharField(max_length=256)
 	command_name = models.CharField(max_length=29)
+	command = models.CharField(max_length=256)
+	command_answer = models.TextField()
+
+	class Meta:
+		verbose_name = 'Telegram Bot Command'
+		verbose_name_plural = 'Telegram Bot Commands'
 
 	def save(self, *args, **kwargs):
-		max = TelegramBotCommand.objects.aggregate(max=Max(F('id')))['max']
-		self.id = max + 1 if max else 1
+		if id != int:
+			max = TelegramBotCommandModel.objects.aggregate(max=Max(F('id')))['max']
+			self.id = max + 1 if max else 1
 		super().save(*args, **kwargs)
 
 	def __str__(self):

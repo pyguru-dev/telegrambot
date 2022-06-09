@@ -18,7 +18,7 @@
 				<button id="hideBotToken" class="bot-token-button-control" onclick="hideOrShowButtonClick()"></button>
 			</div>
 			<div class="bot-data-konstruktor-buttons">
-				<button class="start-bot-button-control" onclick="">Запустить бота</button>
+				<button class="start-bot-button-control" onclick="startBotButtonClick()">Запустить бота</button>
 				<button class="save-bot-settings-button-control" onclick="">Сохранить настройки</button>
 			</div>
 			<div class="bot-commands-container">
@@ -32,7 +32,7 @@
 						<div id="last" class="bot-command">
 						{% endif %}
 
-							<a class="bot-command-name" href="">{{ bot_command.command_name }}</a>
+							<a class="bot-command-name" href="view_command/{{ bot_command.command_id }}/">{{ bot_command.command_name }}</a>
 						</div>
 					{% endfor %}
 				</div>

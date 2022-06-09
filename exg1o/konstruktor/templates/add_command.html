@@ -7,22 +7,28 @@
 {% block styles %}
 	{% load static %}
 	<link rel="stylesheet" href="{% static 'konstruktor/add_command/add_command.css' %}">
+	{% block commandStyles %} {% endblock commandStyles %}
 {% endblock styles %}
 
 {% block content %}
 	<div id="container" class="container">
-		<h1 class="heading">ДОБАВЛЕНИЕ КОМАНДЫ</h1>
+		<h1 class="heading">{% block heading %}ДОБАВЛЕНИЕ КОМАНДЫ{% endblock heading %}</h1>
 		<div class="add-command-form">
-			<input id="inputCommandName" class="command-name-input-control" type="text" placeholder="Придуймайте название команде"></input>
+			<input id="inputCommandName" class="command-name-input-control" type="text" placeholder="Придуймайте название команде" value="{% block commandNameValue %}{% endblock commandNameValue %}"></input>
+			<input id="inputCommand" class="command-input-control" type="text" placeholder="Придуймайте команду" value="{% block commandValue %}{% endblock commandValue %}"></input>
+			<textarea id="inputCommandAnswer" class="command-answer-input-control" name="text" placeholder="Придуймайте ответ команде">{% block commandAnswerValue %}{% endblock commandAnswerValue %}</textarea>
 		</div>
 		<h1 id="errorMessage" class="error-message"></h1>
 		<div id="buttons" class="buttons">
-			<button id="addCommandButton" class="add-command-button-control" onclick="addCommandButtonClick()">Добавить бота</button>
-			<button id="backButton" class="back-button-control" onclick="window.location.href = '../';">Вернуться</button>
+			{% block buttons %}
+				<button id="addCommandButton" class="add-command-button-control" onclick="addCommandButtonClick()">Добавить бота</button>
+			{% endblock buttons %}
+			<button id="backButton" class="back-button-control" onclick="window.location.href = '{% block backButtonLink %}../{% endblock backButtonLink %}';">Вернуться</button>
 		</div>
 	</div>
 {% endblock content %}
 
 {% block scripts %}
 	<script src="{% static 'konstruktor/add_command/add_command.js' %}"></script>
+	{% block commandScripts %} {% endblock commandScripts %}
 {% endblock scripts %}

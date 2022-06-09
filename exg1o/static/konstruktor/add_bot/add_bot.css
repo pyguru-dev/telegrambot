@@ -1,7 +1,7 @@
 /* ------------ Главные контейнеры ------------ */
 .container {
 	width: 620px;
-	height: 350px;
+	height: 345px;
 
 	margin: auto;
 
@@ -110,7 +110,7 @@
 
 /* ------------ Кнопки ------------ */
 .buttons {
-	top: 198px;
+	top: 192px;
 	left: 50px;
 	right: 50px;
 	position: absolute;
