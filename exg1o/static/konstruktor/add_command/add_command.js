@@ -1,5 +1,5 @@
 function showErrorMessage(errorMessage) {
-	var errorMessageElement = document.getElementById('errorMessage');
+	var errorMessageElement = document.getElementById('message');
 	var containerDiv = document.getElementById('container');
 	var buttonsDiv = document.getElementById('buttons');
 
@@ -34,7 +34,7 @@ function addCommandButtonClick() {
 			}
 			request.send(data);
 		} else {
-			showErrorMessage('Имя команды должно содержать не более 256 символов!')
+			showErrorMessage('Имя команды должно содержать не более 29 символов!')
 		}
 	} else {
 		showErrorMessage('Заполните форму добавление команды!')

@@ -10,5 +10,7 @@ urlpatterns = [
 	path('view_bot/<str:bot_name>/start_bot/', start_bot),
 	path('view_bot/<str:bot_name>/add_command/', add_command_page),
 	path('view_bot/<str:bot_name>/add_command_/', add_command),
-	path('view_bot/<str:bot_name>/view_command/<int:command_id>/', view_command)
+	path('view_bot/<str:bot_name>/view_command/<int:command_id>/', view_command),
+	path('view_bot/<str:bot_name>/view_command/<int:command_id>/save_command/', save_command),
+	path('view_bot/<str:bot_name>/view_command/<int:command_id>/delete_command/', delete_command)
 ]

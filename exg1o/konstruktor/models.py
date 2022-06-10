@@ -14,7 +14,7 @@ class TelegramBotModel(models.Model):
 		verbose_name_plural = 'Telegram Bots'
 
 	def save(self, *args, **kwargs):
-		if id != int:
+		if type(self.id) != int:
 			max = TelegramBotModel.objects.aggregate(max=Max(F('id')))['max']
 			self.id = max + 1 if max else 1
 		super().save(*args, **kwargs)
@@ -35,7 +35,7 @@ class TelegramBotCommandModel(models.Model):
 		verbose_name_plural = 'Telegram Bot Commands'
 
 	def save(self, *args, **kwargs):
-		if id != int:
+		if type(self.id) != int:
 			max = TelegramBotCommandModel.objects.aggregate(max=Max(F('id')))['max']
 			self.id = max + 1 if max else 1
 		super().save(*args, **kwargs)
