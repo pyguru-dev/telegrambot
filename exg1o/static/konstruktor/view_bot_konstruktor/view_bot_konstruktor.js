@@ -51,3 +51,42 @@ function stopBotButtonClick() {
 	}
 	request.send();
 }
+
+function saveBotSettingsButtonClick() {
+	var botName = document.getElementById('inputBotName').value;
+	var botToken = document.getElementById('inputBotToken').value;
+
+	var request = new XMLHttpRequest();
+	request.open('POST', 'save_bot_settings/', true);
+	request.setRequestHeader('Content-Type', 'application/json');
+	data = JSON.stringify(
+		{
+			'bot_name': botName,
+			'bot_token': botToken
+		}
+	)
+	request.onreadystatechange = function() {
+		setInterval("window.location.href = '';", 1200)
+		if (request.status == 200) {
+			showSuccessMessage(request.responseText);
+		} else {
+			showErrorMessage(request.responseText);
+		}
+	}
+	request.send(data);
+}
+
+function clearLogButtonClick() {
+	var request = new XMLHttpRequest();
+	request.open('POST', 'clear_log/', true);
+	request.setRequestHeader('Content-Type', 'application/json');
+	request.onreadystatechange = function() {
+		setInterval("window.location.href = '';", 1200)
+		if (request.status == 200) {
+			showSuccessMessage(request.responseText);
+		} else {
+			showErrorMessage(request.responseText);
+		}
+	}
+	request.send();
+}

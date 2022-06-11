@@ -1,7 +1,8 @@
-from konstruktor.models import TelegramBotCommandModel
+from konstruktor.models import TelegramBotLogModel, TelegramBotCommandModel
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
 import telegram.ext
 import telegram
+import datetime
 
 class TelegramBot: # Telegram Бот
 	def __init__(self, owner, bot_id, token):
@@ -19,9 +20,12 @@ class TelegramBot: # Telegram Бот
 
 	def get_user_id_and_messaage(func):
 		def wrapper(self, update: telegram.update.Update, context: telegram.ext.callbackcontext.CallbackContext):
-			id, message = update.effective_chat.id, update.message.text
+			_id, user_name, message = update.effective_chat.id, update.effective_user.full_name, update.message.text
 
-			func(self, update, context, id, message)
+			log = TelegramBotLogModel(id, self.bot_id, self.owner, user_name, message)
+			log.save()
+
+			func(self, update, context, _id, message)
 		wrapper.__name__ = func.__name__
 		return wrapper
 

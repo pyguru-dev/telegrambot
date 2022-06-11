@@ -30,15 +30,18 @@ urlpatterns = [
 	path('account/konstruktor/<str:nickname>/', include('konstruktor.urls'))
 ]
 
-for bot in TelegramBotModel.objects.filter(online=True):
-	telegram_bot = TelegramBot(bot.owner, bot.id, bot.token)
-	if telegram_bot.auth():
-		Thread(target=telegram_bot.start, daemon=True).start()
+try:
+	for bot in TelegramBotModel.objects.filter(online=True):
+		telegram_bot = TelegramBot(bot.owner, bot.id, bot.token)
+		if telegram_bot.auth():
+			Thread(target=telegram_bot.start, daemon=True).start()
 
-		GlobalVariable.online_bots.update(
-			{
-				bot.owner: {
-					bot.id: telegram_bot
+			GlobalVariable.online_bots.update(
+				{
+					bot.owner: {
+						bot.id: telegram_bot
+					}
 				}
-			}
-		)
+			)
+except:
+	pass

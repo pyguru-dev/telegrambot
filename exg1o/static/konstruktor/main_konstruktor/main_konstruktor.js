@@ -18,7 +18,7 @@ function deleteBotButtonClick(botId, botName, nickname) {
 				}
 			);
 			request.onreadystatechange = function() {
-				setInterval("window.location.href = '';", 1500)
+				setInterval("window.location.href = '';", 1200)
 				if (request.status == 200) {
 					showSuccessMessage(request.responseText)
 				} else {
