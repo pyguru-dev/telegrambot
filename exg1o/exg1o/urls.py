@@ -16,6 +16,10 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path, include
+from konstruktor.models import TelegramBotModel
+from telegram_bot import TelegramBot
+import global_variable as GlobalVariable
+from threading import Thread
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
@@ -25,3 +29,16 @@ urlpatterns = [
 	path('account/', include('account.urls')),
 	path('account/konstruktor/<str:nickname>/', include('konstruktor.urls'))
 ]
+
+for bot in TelegramBotModel.objects.filter(online=True):
+	telegram_bot = TelegramBot(bot.owner, bot.id, bot.token)
+	if telegram_bot.auth():
+		Thread(target=telegram_bot.start, daemon=True).start()
+
+		GlobalVariable.online_bots.update(
+			{
+				bot.owner: {
+					bot.id: telegram_bot
+				}
+			}
+		)

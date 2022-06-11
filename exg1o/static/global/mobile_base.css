@@ -2,4 +2,8 @@
 	.top-navbar {
 		height: 230px;
 	}
+
+	.message-container {
+		top: 230px;
+	}
 }

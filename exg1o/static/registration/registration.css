@@ -80,21 +80,6 @@
 	background-image: url('../images/eyeOff.png');
 }
 
-/* ------------ Сообщение ------------ */
-.error-message {
-	width: 100%;
-	height: 25px;
-
-	position: absolute;
-
-	margin: 0;
-
-	text-align: center;
-	letter-spacing: 0.6px;
-
-	color: #ff006a;
-}
-
 /* ------------ Кнопки ------------ */
 .buttons {
 	position: absolute;

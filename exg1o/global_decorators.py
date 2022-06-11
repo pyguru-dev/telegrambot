@@ -1,14 +1,14 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect
+from konstruktor.models import TelegramBotModel, TelegramBotCommandModel
 import json
 
 def if_user_authed(func): # Декоратор для проверки авторизован ли пользователь
 	def wrapper(*args, **kwargs):
 		request: WSGIRequest = args[0]
 		if request.user.is_authenticated == True:
-			login: str = request.user.username
-			nickname: str = kwargs['nickname']
+			login, nickname = request.user.username, kwargs['nickname']
 			if nickname == login:
 				return func(*args, **kwargs)
 			else:
@@ -35,6 +35,7 @@ def check_request_data_items(needs_items: dict): # Декоратор для п�
 							'data': data
 						}
 					)
+
 					return func(*args, **kwargs)
 				else:
 					return HttpResponseBadRequest('В тело запроса переданы неправильные данные!')
@@ -43,3 +44,45 @@ def check_request_data_items(needs_items: dict): # Декоратор для п�
 		wrapper.__name__ = func.__name__
 		return wrapper
 	return decorator
+
+def check_bot_id(func): # Декоратор для проверки ID бота
+	def wrapper(*args, **kwargs):
+		nickname, bot_id = kwargs['nickname'], kwargs['bot_id']
+
+		bot = TelegramBotModel.objects.filter(owner=nickname)
+		if bot.filter(id=bot_id).exists():
+			bot = bot.get(id=bot_id)
+
+			kwargs.update(
+				{
+					'bot': bot
+				}
+			)
+
+			return func(*args, **kwargs)
+		else:
+			return redirect(f'/account/konstruktor/{nickname}/')
+
+	wrapper.__name__ = func.__name__
+	return wrapper
+
+def check_command_id(func): # Декоратор для проверки ID команды бота
+	def wrapper(*args, **kwargs):
+		nickname, bot_id, command_id = kwargs['nickname'],  kwargs['bot_id'], kwargs['command_id']
+
+		bot_command = TelegramBotCommandModel.objects.filter(owner=nickname).filter(bot_id=bot_id)
+		if bot_command.filter(id=command_id).exists():
+			bot_command = bot_command.get(id=command_id)
+
+			kwargs.update(
+				{
+					'bot_command': bot_command
+				}
+			)
+
+			return func(*args, **kwargs)
+		else:
+			return redirect(f'/account/konstruktor/{nickname}/view_bot/{bot_id}/')
+
+	wrapper.__name__ = func.__name__
+	return wrapper

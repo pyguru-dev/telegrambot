@@ -1,27 +1,3 @@
-function editDivsForMessageElement() {
-	var containerDiv = document.getElementById('container');
-	var buttonsDiv = document.getElementById('buttons');
-
-	containerDiv.style = 'height: 574px;';
-	buttonsDiv.style = "top: 354px;";
-}
-
-function showSuccessMessage(successMessage) {
-	var messageElement = document.getElementById('message');
-
-	editDivsForMessageElement();
-	messageElement.style = 'color: #27c54a;';
-	messageElement.innerHTML = successMessage;
-}
-
-function showErrorMessage(errorMessage) {
-	var messageElement = document.getElementById('message');
-
-	editDivsForMessageElement();
-	messageElement.style = 'color: #ff006a;';
-	messageElement.innerHTML = errorMessage;
-}
-
 function saveOrDeleteCommandRequest(request_type) {
 	var commandName = document.querySelector('.command-name-input-control').value;
 	var command = document.querySelector('.command-input-control').value;
@@ -46,11 +22,7 @@ function saveOrDeleteCommandRequest(request_type) {
 			request.onreadystatechange = function() {
 				if (request.status == 200) {
 					setInterval("window.location.href = '../../';", 1500)
-					if (request_type == 'save_command') {
-						showSuccessMessage('Вы успешно сохранили команду.')
-					} else {
-						showSuccessMessage('Вы успешно удалили команду.')
-					}
+					showSuccessMessage(request.responseText)
 				} else {
 					showErrorMessage(request.responseText);
 				}

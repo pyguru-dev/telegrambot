@@ -24,26 +24,6 @@ function hideOrShowButtonClick(elemet) {
 	}
 }
 
-function showErrorMessage(errorMessage) {
-	var errorMessageElement = document.getElementById('errorMessage');
-	var containerDiv = document.getElementById('container');
-	var buttonsDiv = document.getElementById('buttons');
-
-	if (screen.width < 786) {
-		containerDiv.style = 'height: 351px;';
-		buttonsDiv.style = 'top: 260px;';
-	}
-	if (screen.width >= 768 && screen.width < 1000) {
-		containerDiv.style = 'height: 399px;';
-		buttonsDiv.style = 'top: 325px;';
-	}
-	if (screen.width > 1000) {
-		containerDiv.style = 'height: 451px;';
-		buttonsDiv.style = 'top: 367px;';
-	}
-	errorMessageElement.innerHTML = errorMessage;
-}
-
 function registrationButtonClick() {
 	var login = document.querySelector('.login-input-control').value;
 	var email = document.querySelector('.email-input-control').value;
@@ -52,7 +32,7 @@ function registrationButtonClick() {
 
 	if (login && email && password_1 && password_2 != '') {
 		if (password_1 == password_2) {
-			if (password_1.length >= 8 && password_1.length <= 128) {
+			if (password_1.length >= 8) {
 				var request = new XMLHttpRequest();
 				request.open('POST', 'register_account/', true);
 				request.setRequestHeader('Content-Type', 'application/json');
@@ -72,7 +52,7 @@ function registrationButtonClick() {
 				}
 				request.send(data);
 			} else {
-				showErrorMessage('Пароль должен содержать не менее 8 до 128 символов!');
+				showErrorMessage('Пароль должен содержать не менее 8 символов!');
 			}
 		} else {
 			showErrorMessage('Пароли не совпадают!');

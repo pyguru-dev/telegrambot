@@ -4,9 +4,9 @@ import telegram.ext
 import telegram
 
 class TelegramBot: # Telegram Бот
-	def __init__(self, owner, bot_name, token):
+	def __init__(self, owner, bot_id, token):
 		self.owner = owner
-		self.bot_name = bot_name
+		self.bot_id = bot_id
 		self.token = token
 
 	def auth(self):
@@ -27,13 +27,13 @@ class TelegramBot: # Telegram Бот
 
 	@get_user_id_and_messaage
 	def new_message(self, update: telegram.update.Update, context: telegram.ext.callbackcontext.CallbackContext, id: int, message: str):
-		for bot_command in TelegramBotCommandModel.objects.filter(owner=self.owner).filter(bot_name=self.bot_name):
+		for bot_command in TelegramBotCommandModel.objects.filter(owner=self.owner).filter(bot_id=self.bot_id):
 			if bot_command.command == message:
 				context.bot.send_message(chat_id=id, text=bot_command.command_answer)
 
 	@get_user_id_and_messaage
 	def execute_command(self, update: telegram.update.Update, context: telegram.ext.callbackcontext.CallbackContext, id: int, message: str):
-		for bot_command in TelegramBotCommandModel.objects.filter(owner=self.owner).filter(bot_name=self.bot_name):
+		for bot_command in TelegramBotCommandModel.objects.filter(owner=self.owner).filter(bot_id=self.bot_id):
 			if bot_command.command == message:
 				context.bot.send_message(chat_id=id, text=bot_command.command_answer)
 
@@ -41,12 +41,15 @@ class TelegramBot: # Telegram Бот
 		new_message_handler = MessageHandler(Filters.text & (~Filters.command), self.new_message)
 		self.dispatcher.add_handler(new_message_handler)
 
-		for bot_command in TelegramBotCommandModel.objects.filter(owner=self.owner).filter(bot_name=self.bot_name):
+		for bot_command in TelegramBotCommandModel.objects.filter(owner=self.owner).filter(bot_id=self.bot_id):
 			if list(bot_command.command)[0] == '/':
 				handler = CommandHandler(''.join(list(bot_command.command)[1:len(bot_command.command)]), self.execute_command)
 				self.dispatcher.add_handler(handler)
 
 		self.updater.start_polling()
+
+	def stop(self):
+		self.updater.stop()
 
 if __name__ == '__main__': # Тест для бота
 	bot = TelegramBot('Exg1o', 'Exg1oBot', '5573899324:AAF0DUX_sYa25-KTLTqrZBY7IvBXJSazYKA')

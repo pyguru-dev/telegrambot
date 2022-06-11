@@ -18,12 +18,21 @@
 				<button id="hideBotToken" class="bot-token-button-control" onclick="hideOrShowButtonClick()"></button>
 			</div>
 			<div class="bot-data-konstruktor-buttons">
-				<button class="start-bot-button-control" onclick="startBotButtonClick()">Запустить бота</button>
+
+				{% if bot.bot_online == False %}
+					<button class="start-bot-button-control" onclick="startBotButtonClick()">Запустить бота</button>
+				{% endif %}
+
+				{% if bot.bot_online == True %}
+					<button class="stop-bot-button-control" onclick="stopBotButtonClick()">Остоновить бота</button>
+				{% endif %}
+
 				<button class="save-bot-settings-button-control" onclick="">Сохранить настройки</button>
 			</div>
 			<div class="bot-commands-container">
 				<div class="bot-commands-table">
 					{% for bot_command in bot.bot_commands %}
+
 						{% if 'bot_commands_positsion' not in bot_command %}
 						<div class="bot-command">
 						{% endif %}

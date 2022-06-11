@@ -18,7 +18,6 @@
 			<input id="inputCommand" class="command-input-control" type="text" placeholder="Придуймайте команду" value="{% block commandValue %}{% endblock commandValue %}"></input>
 			<textarea id="inputCommandAnswer" class="command-answer-input-control" name="text" placeholder="Придуймайте ответ команде">{% block commandAnswerValue %}{% endblock commandAnswerValue %}</textarea>
 		</div>
-		<h1 id="message" class="message"></h1>
 		<div id="buttons" class="buttons">
 			{% block buttons %}
 				<button id="addCommandButton" class="add-command-button-control" onclick="addCommandButtonClick()">Добавить бота</button>

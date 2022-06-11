@@ -20,12 +20,12 @@ class TelegramBotModel(models.Model):
 		super().save(*args, **kwargs)
 
 	def __str__(self):
-		return f'Владелец: {self.owner} | Бот: {self.name}'
+		return f'Владелец: {self.owner} | ID бота: {self.id}'
 
 class TelegramBotCommandModel(models.Model):
 	id = models.AutoField(primary_key=True)
+	bot_id = models.IntegerField()
 	owner = models.CharField(max_length=256)
-	bot_name = models.CharField(max_length=256)
 	command_name = models.CharField(max_length=29)
 	command = models.CharField(max_length=256)
 	command_answer = models.TextField()
@@ -41,4 +41,4 @@ class TelegramBotCommandModel(models.Model):
 		super().save(*args, **kwargs)
 
 	def __str__(self):
-		return f'Владелец: {self.owner} | Бот: {self.bot_name} | Команда: {self.command_name}'
+		return f'Владелец: {self.owner} | ID бота: {self.bot_id} | Команда: {self.command_name}'

@@ -15,7 +15,6 @@
 		{% block styles %} {% endblock styles %}
 		</head>
 	<body>
-		{% block navbar %}
 		<nav class="top-navbar">
 			<a id="bannerButtonLink" class="banner-button-link-control" href="/">Exg1o</a>
 			<button id="{{ buttons.button_1.id }}" class="button-link-control" onclick="{{ buttons.button_1.onclick }}">{{ buttons.button_1.text }}</button>
@@ -24,9 +23,12 @@
 				<button id="{{ buttons.button_3.id }}" class="button-link-control" onclick="{{ buttons.button_3.onclick }}">{{ buttons.button_3.text }}</button>
 			{% endif %}
 		</nav>
-		{% endblock navbar %}
+		<div id="messageContainer" class="message-container">
+			<h1 id="message" class="message"></h1>
+		</div>
 		{% block content %} {% endblock content %}
 	</body>
+	<script src="{% static 'global/message.js' %}"></script>
 	<script src="{% static 'global/base.js' %}"></script>
 	{% block scripts %} {% endblock scripts %}
 </html>

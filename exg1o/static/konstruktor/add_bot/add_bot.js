@@ -14,16 +14,6 @@ function hideOrShowButtonClick() {
 	}
 }
 
-function showErrorMessage(errorMessage) {
-	var errorMessageElement = document.getElementById('errorMessage');
-	var containerDiv = document.getElementById('container');
-	var buttonsDiv = document.getElementById('buttons');
-
-	containerDiv.style = 'height: 363px;';
-	buttonsDiv.style = "top: 211px;";
-	errorMessageElement.innerHTML = errorMessage;
-}
-
 function addBotButtonClick() {
 	var botName = document.querySelector('.bot-name-input-control').value;
 	var botToken = document.querySelector('.bot-token-input-control').value;

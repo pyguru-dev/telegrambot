@@ -1,13 +1,3 @@
-function showErrorMessage(errorMessage) {
-	var errorMessageElement = document.getElementById('message');
-	var containerDiv = document.getElementById('container');
-	var buttonsDiv = document.getElementById('buttons');
-
-	containerDiv.style = 'height: 506px;';
-	buttonsDiv.style = "top: 354px;";
-	errorMessageElement.innerHTML = errorMessage;
-}
-
 function addCommandButtonClick() {
 	var commandName = document.querySelector('.command-name-input-control').value;
 	var command = document.querySelector('.command-input-control').value;

@@ -185,6 +185,7 @@
 
 /* ------------ Кнопки ------------ */
 .start-bot-button-control,
+.stop-bot-button-control,
 .save-bot-settings-button-control,
 .add-command-button-control,
 .clear-log-button-control {
@@ -198,6 +199,19 @@
 	border-radius: 12px;
 
 	transition: 0.4s;
+}
+
+.start-bot-button-control {
+	background-color: #5CC639;
+}
+
+.stop-bot-button-control {
+	background-color: #F04F53;
+}
+
+.save-bot-settings-button-control,
+.add-command-button-control,
+.clear-log-button-control {
 	background-color: #595F76;
 }
 
@@ -214,6 +228,7 @@
 }
 
 .start-bot-button-control,
+.stop-bot-button-control,
 .save-bot-settings-button-control {
 	height: 45px;
 
@@ -233,23 +248,35 @@
 	top: 145px;
 }
 
-.start-bot-button-control,
-.save-bot-settings-button-control,
-.add-command-button-control,
-.clear-log-button-control {
-	transition: 0.4s;
-	background-color: #595F76;
-}
-
 .start-bot-button-control:hover,
 .save-bot-settings-button-control:hover,
 .add-command-button-control:hover,
 .clear-log-button-control:hover {
 	transition: 0.4s;
+}
+
+.start-bot-button-control:hover {
+	background-color: #55B634;
+}
+
+.stop-bot-button-control:hover {
+	background-color: #EE3C40;
+}
+
+.save-bot-settings-button-control:hover,
+.add-command-button-control:hover,
+.clear-log-button-control:hover {
 	background-color: #50566E;
 }
 
-.start-bot-button-control:active,
+.start-bot-button-control:active {
+	background-color: #4EA530;
+}
+
+.stop-bot-button-control:active {
+	background-color: #ED272D;
+}
+
 .save-bot-settings-button-control:active,
 .add-command-button-control:active,
 .clear-log-button-control:active {
