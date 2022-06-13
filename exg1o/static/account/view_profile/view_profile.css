@@ -3,10 +3,11 @@
     width: 900px;
 	height: 350px;
 
+	margin: auto;
+
 	top: 200px;
 	left: 0;
 	right: 0;
-	margin: auto;
 	position: absolute;
 
 	border-color: #FFFFFF;
@@ -125,4 +126,34 @@
 	margin-right: 10px;
 
 	font-size: 26px;
+}
+
+/* ------------ Кнопки ------------ */
+.upgrade-account-buttom-control {
+	width: calc(100% - 20px);
+	height: 60px;
+
+	top: 120px;
+	left: 10px;
+	right: 10px;
+	position: absolute;
+
+	font-weight: bold;
+	letter-spacing: 0.8px;
+	font-size: 24px;
+
+	border: 0;
+	border-radius: 12px;
+
+	transition: 0.4s;
+	background-color: #595F76;
+}
+
+.upgrade-account-buttom-control:hover {
+	transition: 0.4s;
+	background-color: #50566E;
+}
+
+.upgrade-account-buttom-control:active {
+	background-color: #434965;
 }

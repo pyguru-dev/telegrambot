@@ -66,7 +66,7 @@ function saveBotSettingsButtonClick() {
 		}
 	)
 	request.onreadystatechange = function() {
-		setInterval("window.location.href = '';", 1200)
+		setInterval("window.location.href = '';", 1000)
 		if (request.status == 200) {
 			showSuccessMessage(request.responseText);
 		} else {
@@ -81,7 +81,7 @@ function clearLogButtonClick() {
 	request.open('POST', 'clear_log/', true);
 	request.setRequestHeader('Content-Type', 'application/json');
 	request.onreadystatechange = function() {
-		setInterval("window.location.href = '';", 1200)
+		setInterval("window.location.href = '';", 1000)
 		if (request.status == 200) {
 			showSuccessMessage(request.responseText);
 		} else {

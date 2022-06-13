@@ -81,24 +81,41 @@ def view_konstruktor_bot_page(request: WSGIRequest, nickname: str, bot_id: int, 
 	data.update(
 		{
 			'bot': {
-				'bot_name': bot.name,
-				'bot_token': bot.token,
-				'bot_online': bot.online,
-				'bot_commands': []
+				'name': bot.name,
+				'token': bot.token,
+				'online': bot.online,
+				'commands': [],
+				'log': []
 			}
 		}
 	)
+
 	for bot_command in TelegramBotCommandModel.objects.filter(owner=nickname).filter(bot_id=bot_id):
-		data['bot']['bot_commands'].append(
+		data['bot']['commands'].append(
 			{
-				'command_id': bot_command.id,
-				'command_name': bot_command.command_name
+				'id': bot_command.id,
+				'name': bot_command.command_name
 			}
 		)
-	if len(data['bot']['bot_commands']) > 4:
-		data['bot']['bot_commands'][-1].update(
+	if len(data['bot']['commands']) > 4:
+		data['bot']['commands'][-1].update(
 			{
-				'bot_commands_positsion': 'last'
+				'bot_command_positsion': 'last'
+			}
+		)
+
+	for log in TelegramBotLogModel.objects.filter(owner=nickname).filter(bot_id=bot_id):
+		data['bot']['log'].append(
+			{
+				'id': log.id,
+				'user_name': log.user_name,
+				'user_message': log.user_message
+			}
+		)
+	if len(data['bot']['log']) > 2:
+		data['bot']['log'][-1].update(
+			{
+				'log_data_positsion': 'last'
 			}
 		)
 

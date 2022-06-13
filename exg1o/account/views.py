@@ -6,6 +6,11 @@ import global_decorators as GlobalDecorators
 
 # Create your views here.
 @GlobalDecorators.if_user_authed
+def upgrade_account(request: WSGIRequest, nickname: str): # Отрисовка upgrade_account.html
+	data = GlobalFunctions.get_navbar_buttons_data(request)
+	return render(request, 'upgrade_account.html', data)
+
+@GlobalDecorators.if_user_authed
 def view_profile(request: WSGIRequest, nickname: str): # Отрисовка view_profile.html
 	data = GlobalFunctions.get_navbar_buttons_data(request)
 	data.update(

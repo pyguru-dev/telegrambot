@@ -6,7 +6,7 @@
 
 {% block styles %}
 	{% load static %}
-	<link rel="stylesheet" href="{% static 'account/view_profile.css' %}">
+	<link rel="stylesheet" href="{% static 'account/view_profile/view_profile.css' %}">
 {% endblock styles %}
 
 {% block content %}
@@ -22,6 +22,7 @@
 		<div class="profile-info">
 			<h1 class="info">Тариф: {{ user.status }}</h1>
 			<h1 class="info">Регистрация: {{ user.date_joined }}</h1>
+			<button class="upgrade-account-buttom-control" onclick="window.location.href = '../../{{ user.nickname }}/upgrade/';">Улучшить аккаунт</button>
 		</div>
 	</div>
 {% endblock content %}

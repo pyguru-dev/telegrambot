@@ -183,14 +183,39 @@
 	overflow: auto;
 }
 
+.bot-log {
+	width: 100%;
+
+	padding: 5px;
+
+	border-bottom-color: #FFFFFF;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+
+	background-color: #595F76;
+}
+
+.bot-log#last {
+	border: 0;
+}
+
+.log-data {
+	margin: 0;
+
+	word-break: break-all;
+	font-weight: bold;
+	text-align: left;
+	font-size: 16px;
+	letter-spacing: 0.8px;
+}
+
 /* ------------ Кнопки ------------ */
 .start-bot-button-control,
 .stop-bot-button-control,
 .save-bot-settings-button-control,
 .add-command-button-control,
-.clear-log-button-control {
-	width: 100%;
-
+.clear-log-button-control,
+.update-log-button-control {
 	font-weight: bold;
 	font-size: 24px;
 	letter-spacing: 0.8px;
@@ -199,6 +224,18 @@
 	border-radius: 12px;
 
 	transition: 0.4s;
+}
+
+.start-bot-button-control,
+.stop-bot-button-control,
+.save-bot-settings-button-control,
+.add-command-button-control {
+	width: 100%;
+}
+
+.clear-log-button-control,
+.update-log-button-control {
+	width: calc(50% - 5px);
 }
 
 .start-bot-button-control {
@@ -211,12 +248,14 @@
 
 .save-bot-settings-button-control,
 .add-command-button-control,
-.clear-log-button-control {
+.clear-log-button-control,
+.update-log-button-control {
 	background-color: #595F76;
 }
 
 .add-command-button-control,
-.clear-log-button-control {
+.clear-log-button-control,
+.update-log-button-control {
 	position: absolute;
 
 	font-weight: bold;
@@ -236,7 +275,8 @@
 }
 
 .add-command-button-control,
-.clear-log-button-control {
+.clear-log-button-control,
+.update-log-button-control {
 	height: 60px;
 }
 
@@ -244,14 +284,24 @@
 	top: 262px;
 }
 
-.clear-log-button-control {
+.clear-log-button-control,
+.update-log-button-control {
 	top: 145px;
+}
+
+.clear-log-button-control {
+	left: 0;
+}
+
+.update-log-button-control {
+	right: 0;
 }
 
 .start-bot-button-control:hover,
 .save-bot-settings-button-control:hover,
 .add-command-button-control:hover,
-.clear-log-button-control:hover {
+.clear-log-button-control:hover,
+.update-log-button-control:hover {
 	transition: 0.4s;
 }
 
@@ -265,7 +315,8 @@
 
 .save-bot-settings-button-control:hover,
 .add-command-button-control:hover,
-.clear-log-button-control:hover {
+.clear-log-button-control:hover,
+.update-log-button-control:hover {
 	background-color: #50566E;
 }
 
@@ -279,6 +330,7 @@
 
 .save-bot-settings-button-control:active,
 .add-command-button-control:active,
-.clear-log-button-control:active {
+.clear-log-button-control:active,
+.update-log-button-control:active {
 	background-color: #434965;
 }

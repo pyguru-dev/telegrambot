@@ -10,20 +10,20 @@
 
 {% block botContainer %}
 	<div class="bot-container">
-		<h1 class="bot-heading">КОНСТРУКТОР БОТА {{ bot.bot_name }}</h1>
+		<h1 class="bot-heading">КОНСТРУКТОР БОТА {{ bot.name }}</h1>
 		<div class="bot-konstruktor-form">
 			<div class="bot-data-konstruktor-inputs">
-				<input id="inputBotName" class="bot-name-input-control" type="text" placeholder="Придуймайте имя боту" value="{{ bot.bot_name }}"></input>
-				<input id="inputBotToken" class="bot-token-input-control" type="password" placeholder="Введите Token бота" value="{{ bot.bot_token }}"></input>
+				<input id="inputBotName" class="bot-name-input-control" type="text" placeholder="Придуймайте имя боту" value="{{ bot.name }}"></input>
+				<input id="inputBotToken" class="bot-token-input-control" type="password" placeholder="Введите Token бота" value="{{ bot.token }}"></input>
 				<button id="hideBotToken" class="bot-token-button-control" onclick="hideOrShowButtonClick()"></button>
 			</div>
 			<div class="bot-data-konstruktor-buttons">
 
-				{% if bot.bot_online == False %}
+				{% if bot.online == False %}
 					<button class="start-bot-button-control" onclick="startBotButtonClick()">Запустить бота</button>
 				{% endif %}
 
-				{% if bot.bot_online == True %}
+				{% if bot.online == True %}
 					<button class="stop-bot-button-control" onclick="stopBotButtonClick()">Остоновить бота</button>
 				{% endif %}
 
@@ -31,17 +31,17 @@
 			</div>
 			<div class="bot-commands-container">
 				<div class="bot-commands-table">
-					{% for bot_command in bot.bot_commands %}
+					{% for bot_command in bot.commands %}
 
 						{% if 'bot_commands_positsion' not in bot_command %}
-						<div class="bot-command">
+							<div class="bot-command">
 						{% endif %}
 
 						{% if 'bot_commands_positsion' in bot_command %}
-						<div id="last" class="bot-command">
+							<div id="last" class="bot-command">
 						{% endif %}
 
-							<a class="bot-command-name" href="view_command/{{ bot_command.command_id }}/">{{ bot_command.command_name }}</a>
+							<a class="bot-command-name" href="view_command/{{ bot_command.id }}/">{{ bot_command.name }}</a>
 						</div>
 					{% endfor %}
 				</div>
@@ -49,9 +49,23 @@
 			</div>
 			<div class="bot-log-container">
 				<div class="bot-log-table">
+					{% for log in bot.log %}
 
+						{% if 'log_data_positsion' not in log %}
+							<div class="bot-log">
+						{% endif %}
+
+						{% if 'log_data_positsion' in log %}
+							<div id="last" class="bot-log">
+						{% endif %}
+
+							<p class="log-data">{{ log.user_name }}:</p>
+							<p class="log-data">{{ log.user_message }}</p>
+						</div>
+					{% endfor %}
 				</div>
 				<button class="clear-log-button-control" onclick="clearLogButtonClick()">Очистить логи</button>
+				<button class="update-log-button-control" onclick="window.location.href = '';">Обновить логи</button>
 			</div>
 		</div>
 	</div>

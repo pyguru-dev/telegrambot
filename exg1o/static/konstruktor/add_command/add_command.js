@@ -17,7 +17,7 @@ function addCommandButtonClick() {
 			);
 			request.onreadystatechange = function() {
 				if (request.status == 200) {
-					setInterval("window.location.href = '../';", 1200)
+					setInterval("window.location.href = '../';", 1000)
 					showSuccessMessage(request.responseText);
 				} else {
 					showErrorMessage(request.responseText);
