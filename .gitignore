@@ -1,6 +1,7 @@
 # Папки
 __pycache__/
 venv/
+logs/
 
 #Файлы
 DataBase.db

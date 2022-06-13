@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -33,6 +34,96 @@ ALLOWED_HOSTS = [
 
 
 # Application definition
+find_folder = False
+for folder in os.listdir():
+	if folder == 'logs':
+		find_folder = True
+		break
+
+if find_folder == False:
+	os.mkdir('logs')
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{asctime}]: {name} > {funcName} || {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '[{asctime}]: {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'level': 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+		'info_file': { 
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/info.log',
+            'formatter': 'simple'
+        },
+		'debug_file': { 
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/debug.log',
+            'formatter': 'verbose'
+        },
+        'warning_file': { 
+            'level': 'WARNING',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/warning.log',
+            'formatter': 'verbose'
+        },
+        'error_file': { 
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'logs/error.log',
+            'formatter': 'verbose'
+        }
+    },
+    'loggers': {
+        'django': {
+            'handlers': [
+				'console',
+				'info_file',
+				'debug_file',
+				'warning_file',
+				'error_file'
+			],
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': [
+				'console',
+				'info_file',
+				'debug_file',
+				'warning_file',
+				'error_file'
+			],
+            'propagate': False,
+        },
+		'django.template': {
+            'handlers': [
+				'debug_file'
+			],
+            'propagate': False,
+        },
+		'django.db.backends': {
+			'handlers': [
+				'debug_file',
+				'warning_file',
+				'error_file'
+			],
+            'propagate': False,
+		}
+    }
+}
 
 INSTALLED_APPS = [
 	'django.contrib.admin',
