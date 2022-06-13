@@ -1,6 +1,13 @@
 /* ------------ Главные контейнеры ------------ */
 .container {
 	position: absolute;
+
+	border-color: #FFFFFF;
+	border-radius: 8px;
+	border-style: solid;
+	border-width: 2px;
+
+	background-color: #2C313C;
 }
 
 /* ------------ Заголовок ------------ */
@@ -15,19 +22,10 @@
 }
 
 /* ------------ Информация о сайте ------------ */
-.site-info {
-	border-color: #FFFFFF;
-	border-radius: 8px;
-	border-style: solid;
-	border-width: 2px;
-
-	background-color: #2C313C;
-}
-
 .site-info-text {
 	margin-top: 8px;
-	margin-left: 16px;
-	margin-right: 16px;
+	margin-left: 25px;
+	margin-right: 25px;
 
 	letter-spacing: 0.8px;
 }
