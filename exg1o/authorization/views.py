@@ -5,7 +5,7 @@ from django.shortcuts import HttpResponse, render
 from django.contrib.auth.models import User
 from django.contrib import auth
 import global_functions as GlobalFunctions
-import json
+import global_decorators as GlobalDecorators
 
 # Create your views here.
 def authorization_page(request: WSGIRequest): # Отрисовка authorization.html
@@ -16,27 +16,20 @@ def authorization_page(request: WSGIRequest): # Отрисовка authorization
 		raise Http404('Вы уже авторизованы!')
 
 @csrf_exempt
-def authorize_in_account(request: WSGIRequest): # Авторизация в аккаунт
+@GlobalDecorators.check_request_data_items(needs_items=['login', 'password'])
+def authorize_in_account(request: WSGIRequest, data: dict): # Авторизация в аккаунт
 	if request.user.is_authenticated == False:
-		if request.method == 'POST':
-			data = json.loads(request.body)
-			data_items = tuple(data.items())
-			if (data_items[0][0], data_items[1][0]) == ('login', 'password'):
-				login, password = data['login'], data['password']
+		login, password = data['login'], data['password']
 
-				if User.objects.filter(username=login).exists():
-					user = auth.authenticate(username=login, password=password)
-					if user != None:
-						auth.login(request, user)
+		if User.objects.filter(username=login).exists():
+			user = auth.authenticate(username=login, password=password)
+			if user != None:
+				auth.login(request, user)
 
-						return HttpResponse('Успешная авторизация.')
-					else:
-						return HttpResponseBadRequest('Вы ввели неверный "Password"!')
-				else:
-					return HttpResponseBadRequest(f'Пользователя "{login}\" не существует!')
+				return HttpResponse('Успешная авторизация.')
 			else:
-				return HttpResponseBadRequest('В тело запроса переданы неправильные данные!')
+				return HttpResponseBadRequest('Вы ввели неверный "Password"!')
 		else:
-			return HttpResponseBadRequest('Неправильный метод запроса!')
+			return HttpResponseBadRequest(f'Пользователя "{login}\" не существует!')
 	else:
-		raise Http404('Вы уже авторизованы!')
+		raise Http404('Сначала выйдите из акканута!')

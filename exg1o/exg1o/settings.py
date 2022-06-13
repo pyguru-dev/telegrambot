@@ -41,9 +41,9 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
-	'authorization.apps.AuthorizationConfig',
-	'registration.apps.RegistrationConfig',
 	'main.apps.MainConfig',
+	'registration.apps.RegistrationConfig',
+	'authorization.apps.AuthorizationConfig',
 	'account.apps.AccountConfig',
 	'konstruktor.apps.KonstruktorConfig',
 ]
