@@ -1,11 +1,7 @@
 /* ------------ Главные контейнеры ------------ */
 .container {
-	width: 1050px;
-	height: 379px;
-
 	margin: auto;
 
-	top: 200px;
 	left: 0;
 	right: 0;
 	position: absolute;
@@ -19,13 +15,12 @@
 }
 
 /* ------------ Заголовок ------------ */
-.heading{
+.heading { 
 	margin-top: 4px;
 	margin-bottom: 4px;
 
 	text-align: center;
 	font-weight: bold;
-	font-size: 60px;
 	letter-spacing: 1px;
 }
 
@@ -34,37 +29,17 @@
 .author-info {
 	margin: 0;
 
-	left: 25px;
-	right: 25px;
 	position: absolute;
 
 	letter-spacing: 0.4px;
-	font-size: 17px;
-}
-
-.author-info {
-	top: 230px;
-}
-
-.author-info#ol {
-	top: 250px;
-
-	padding-left: 20px;
 }
 
 /* ------------ Кнопки ------------ */
 .buy-paid-account-buttom-control {
-	width: calc(100% - 50px);
-	height: 50px;
-
-	top: 305px;
-	left: 25px;
-	right: 25px;
 	position: absolute;
 
 	font-weight: bold;
 	letter-spacing: 0.8px;
-	font-size: 24px;
 
 	border: 0;
 	border-radius: 12px;
@@ -80,4 +55,131 @@
 
 .buy-paid-account-buttom-control:active {
 	background-color: #434965;
+}
+
+/* ------------ Адаптация ------------ */
+@media (min-width: 320px) and (max-width: 767px) {
+	.container {
+		width: 300px;
+		height: 532px;
+
+		top: 250px;
+	}
+
+	.heading {
+		font-size: 25px;
+	}
+
+	.purchase-info,
+	.author-info {
+		left: 15px;
+		right: 15px;
+
+		font-size: 14px;
+	}
+
+	.author-info {
+		top: 380px;
+	}
+
+	.author-info#ol {
+		top: 414px;
+
+		padding-left: 18px;
+	}
+
+	.buy-paid-account-buttom-control {
+		width: calc(100% - 30px);
+		height: 40px;
+
+		top: 475px;
+		left: 15px;
+		right: 15px;
+
+		font-size: 20px;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 999px) {
+	.container {
+		width: 700px;
+		height: 360px;
+
+		top: 150px;
+	}
+
+	.heading {
+		font-size: 40px;
+	}
+
+	.purchase-info,
+	.author-info {
+		left: 25px;
+		right: 25px;
+
+		font-size: 16px;
+	}
+
+	.author-info {
+		top: 232px;
+	}
+
+	.author-info#ol {
+		top: 250px;
+
+		padding-left: 18px;
+	}
+
+	.buy-paid-account-buttom-control {
+		width: calc(100% - 50px);
+		height: 40px;
+
+		top: 300px;
+		left: 25px;
+		right: 25px;
+
+		font-size: 22px;
+	}
+}
+
+@media (min-width: 1000px) {
+	.container {
+		width: 1000px;
+		height: 386px;
+
+		top: 250px;
+	}
+
+	.heading {
+		font-size: 60px;
+	}
+
+	.purchase-info,
+	.author-info {
+		left: 25px;
+		right: 25px;
+
+		font-size: 17px;
+	}
+
+	.author-info {
+		top: 244px;
+	}
+
+	.author-info#ol {
+		top: 262px;
+
+		padding-left: 20px;
+	}
+
+	.buy-paid-account-buttom-control {
+		width: calc(100% - 50px);
+		height: 50px;
+
+		top: 315px;
+		left: 25px;
+		right: 25px;
+
+		font-size: 24px;
+	}
 }

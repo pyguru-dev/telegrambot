@@ -23,6 +23,10 @@ textarea {
 	z-index: 9;
 	position: fixed;
 
+	border-bottom-color: #FFFFFF;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+
 	background-color: #2C313C;
 }
 
@@ -88,7 +92,7 @@ textarea {
 /* ------------ Адаптация ------------ */
 @media (min-width: 320px) and (max-width: 767px) {
 	.top-navbar {
-		height: 180px;
+		height: 182px;
 	}
 
 	.banner-button-link-control {
@@ -130,7 +134,7 @@ textarea {
 
 @media (min-width: 768px) and (max-width: 999px) {
 	.top-navbar {
-		height: 80px;
+		height: 82px;
 	}
 
 	.banner-button-link-control {
@@ -173,7 +177,7 @@ textarea {
 
 @media (min-width: 1000px) {
 	.top-navbar {
-		height: 80px;
+		height: 82px;
 	}
 
 	.banner-button-link-control {

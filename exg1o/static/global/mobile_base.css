@@ -1,9 +1,9 @@
 @media (min-width: 320px) and (max-width: 767px) {
 	.top-navbar {
-		height: 230px;
+		height: 232px;
 	}
 
 	.message-container {
-		top: 230px;
+		top: 232px;
 	}
 }
