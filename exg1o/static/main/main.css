@@ -63,10 +63,6 @@
 }
 
 @media (min-width: 768px) {
-	.container {
-		top: 150px;
-	}
-
 	.heading {
 		font-size: 120px;
 	}
@@ -78,9 +74,10 @@
 
 @media (min-width: 768px) and (max-width: 999px) {
 	.container {
-		top: 150px;
 		left: 60px;
 		right: 60px;
+
+		top: 150px;
 	}
 }
 
@@ -90,7 +87,7 @@
 
 		margin: auto;
 
-		top: 175px;
+		top: 250px;
 		left: 0;
 		right: 0;
 	}
@@ -102,6 +99,7 @@
 
 		margin: auto;
 
+		top: 250px;
 		left: 0;
 		right: 0;
 	}
