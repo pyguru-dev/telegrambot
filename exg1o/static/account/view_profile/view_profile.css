@@ -101,7 +101,6 @@
 
 	font-weight: bold;
 	letter-spacing: 0.8px;
-	font-size: 24px;
 
 	border: 0;
 	border-radius: 12px;
@@ -189,13 +188,15 @@
 		height: 45px;
 
 		top: 60px;
+
+		font-size: 20px;
 	}
 }
 
 @media (min-width: 768px) and (max-width: 999px) {
 	.container {
 		width: 700px;
-		height: 536px;
+		height: 541px;
 
 		top: 150px;
 	}
@@ -258,9 +259,11 @@
 	}
 
 	.upgrade-account-buttom-control {
-		height: 45px;
+		height: 50px;
 
 		top: 80px;
+
+		font-size: 22px;
 	}
 }
 
@@ -330,5 +333,7 @@
 		height: 60px;
 
 		top: 120px;
+
+		font-size: 24px;
 	}
 }

@@ -84,9 +84,6 @@
 
 .add-bot-button-control {
 	width: 100%;
-	height: 60px;
-
-	font-size: 24px;
 
 	border-radius: 12px;
 }
@@ -126,7 +123,7 @@
 @media (min-width: 320px) and (max-width: 767px) {
 	.main-container {
 		width: 300px;
-		height: 636px;
+		height: 621px;
 
 		top: 250px;
 	}
@@ -154,7 +151,11 @@
 	}
 
 	.add-bot-button-control {
+		height: 45px;
+
 		top: 474px;
+
+		font-size: 20px;
 	}
 }
 
@@ -188,12 +189,30 @@
 	}
 
 	.add-bot-button-control {
+		height: 50px;
+
 		top: 264px;
+
+		font-size: 22px;
 	}
 }
 
 @media (min-width: 1000px) {
 	.main-container {
 		top: 250px;
+	}
+
+	.add-bot-button-control {
+		height: 60px;
+
+		top: 264px;
+
+		font-size: 24px;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 999px) {
+	.main-container {
+		height: 416px;
 	}
 }

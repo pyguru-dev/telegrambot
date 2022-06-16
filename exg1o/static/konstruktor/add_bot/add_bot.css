@@ -158,7 +158,22 @@
 @media (min-width: 768px) {
 	.container {
 		width: 620px;
-		height: 345px;
+	}
+
+	.add-bot-form {
+		left: 50px;
+		right: 50px;
+	}
+
+	.buttons {
+		left: 50px;
+		right: 50px;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 999px) {
+	.container {
+		height: 318px;
 
 		top: 150px;
 	}
@@ -167,9 +182,38 @@
 		font-size: 60px;
 	}
 
-	.add-bot-form {
-		left: 50px;
-		right: 50px;
+	.bot-name-input-control,
+	.bot-token-input-control {
+		height: 42px;
+
+		font-size: 24px;
+	}
+
+	.bot-token-button-control {
+		height: 42px;
+	}
+
+	.buttons {
+		top: 186px;
+	}
+
+	.add-bot-button-control,
+	.back-button-control {
+		height: 50px;
+
+		font-size: 22px;
+	}
+}
+
+@media (min-width: 1000px) {
+	.container {
+		height: 344px;
+
+		top: 250px;
+	}
+
+	.heading {
+		font-size: 60px;
 	}
 
 	.bot-name-input-control,
@@ -185,8 +229,6 @@
 
 	.buttons {
 		top: 192px;
-		left: 50px;
-		right: 50px;
 	}
 
 	.add-bot-button-control,
@@ -194,11 +236,5 @@
 		height: 60px;
 
 		font-size: 24px;
-	}
-}
-
-@media (min-width: 1000px) {
-	.container {
-		top: 250px;
 	}
 }

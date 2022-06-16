@@ -1,5 +1,9 @@
 /* ------------ Главные контейнеры ------------ */
 .container {
+	margin: auto;
+
+	left: 0;
+	right: 0;
 	position: absolute;
 
 	border-color: #FFFFFF;
@@ -114,11 +118,9 @@
 /* ------------ Адаптация ------------ */
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
-		height: 240px;
+		height: 246px;
 
 		top: 200px;
-		left: 10px;
-		right: 10px;
 	}
 
 	.heading {
@@ -126,33 +128,27 @@
 	}
 
 	.authorization-form {
-		left: 10px;
-		right: 10px;
+		left: 20px;
+		right: 20px;
 	}
 
 	.login-input-control,
 	.password-input-control {
 		height: 38px;
 
-		font-size: 21px;
+		font-size: 22px;
 	}
 
 	.password-button-control {
 		height: 38px;
 	}
 
-	.error-message {
-		top: 143px;
-
-		font-size: 16px;
-	}
-
 	.buttons {
 		height: 77px;
 
 		top: 149px;
-		left: 10px;
-		right: 10px;
+		left: 20px;
+		right: 20px;
 	}
 
 	.not-have-account-button-control {
@@ -168,7 +164,19 @@
 		width: 100%;
 		height: 45px;
 
-		font-size: 22px;
+		font-size: 20px;
+	}
+}
+
+@media (min-width: 768px) {
+	.authorization-form {
+		left: 50px;
+		right: 50px;
+	}
+
+	.buttons {
+		left: 50px;
+		right: 50px;
 	}
 }
 
@@ -177,20 +185,11 @@
 		width: 600px;
 		height: 275px;
 
-		margin: auto;
-
 		top: 150px;
-		left: 0;
-		right: 0;
 	}
 
 	.heading {
-		font-size: 70px;
-	}
-
-	.authorization-form {
-		left: 50px;
-		right: 50px;
+		font-size: 74px;
 	}
 
 	.login-input-control,
@@ -204,18 +203,10 @@
 		height: 42px;
 	}
 
-	.error-message {
-		top: 195px;
-
-		font-size: 16px;
-	}
-
 	.buttons {
 		height: 50px;
 
 		top: 201px;
-		left: 50px;
-		right: 50px;
 	}
 
 	.not-have-account-button-control {
@@ -241,47 +232,28 @@
 		width: 780px;
 		height: 326px;
 
-		margin: auto;
-
 		top: 250px;
-		left: 0;
-		right: 0;
 	}
 
 	.heading {
 		font-size: 100px;
 	}
 
-	.authorization-form {
-		left: 75px;
-		right: 75px;
-	}
-
 	.login-input-control,
 	.password-input-control {
 		height: 45px;
 
-		font-size: 24px;
+		font-size: 28px;
 	}
 
 	.password-button-control {
 		height: 45px;
 	}
 
-	.error-message {
-		height: 25px;
-
-		top: 236px;
-
-		font-size: 18px;
-	}
-
 	.buttons {
 		height: 60px;
 
 		top: 242px;
-		left: 75px;
-		right: 75px;
 	}
 
 	.not-have-account-button-control {

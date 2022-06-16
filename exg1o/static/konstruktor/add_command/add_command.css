@@ -1,11 +1,7 @@
 /* ------------ Главные контейнеры ------------ */
 .container {
-	width: 800px;
-	height: 487px;
-
 	margin: auto;
 
-	top: 250px;
 	left: 0;
 	right: 0;
 	position: absolute;
@@ -25,14 +21,11 @@
 
 	text-align: center;
 	font-weight: bold;
-	font-size: 60px;
 	letter-spacing: 1px;
 }
 
 /* ------------ Контейнер для основых элементов ------------ */
 .add-command-form {
-	left: 50px;
-	right: 50px;
 	position: absolute;
 }
 
@@ -45,41 +38,27 @@
 	margin-top: 4px;
 	margin-bottom: 4px;
 
-	font-size: 28px;
-
 	outline: 0;
 	border: 0;
 	border-radius: 8px;
 }
 
-.command-name-input-control,
-.command-input-control {
-	height: 45px;
-}
-
 .command-answer-input-control {
-	height: 135px;
-
 	resize: none;
 }
 
 /* ------------ Кнопки ------------ */
 .buttons {
-	top: 335px;
-	left: 50px;
-	right: 50px;
 	position: absolute;
 }
 
 .add-command-button-control,
 .back-button-control {
 	width: 100%;
-	height: 60px;
 
 	margin-bottom: 8px;
 
 	font-weight: bold;
-	font-size: 24px;
 	letter-spacing: 0.8px;
 
 	border: 0;
@@ -98,4 +77,140 @@
 .add-command-button-control:active,
 .back-button-control:active {
 	background-color: #434965;
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+	.container {
+		width: 300px;
+		height: 446px;
+
+		top: 250px;
+	}
+
+	.heading {
+		font-size: 40px;
+	}
+
+	.add-command-form {
+		left: 20px;
+		right: 20px;
+	}
+
+	.command-name-input-control,
+	.command-input-control,
+	.command-answer-input-control {
+		font-size: 22px;
+	}
+
+	.command-name-input-control,
+	.command-input-control {
+		height: 38px;
+	}
+
+	.command-answer-input-control {
+		height: 114px;
+	}
+
+	.buttons {
+		top: 324px;
+		left: 20px;
+		right: 20px;
+	}
+
+	.add-command-button-control,
+	.back-button-control {
+		height: 45px;
+
+		font-size: 20px;
+	}
+}
+
+@media (min-width: 768px) {
+	.add-command-form {
+		left: 50px;
+		right: 50px;
+	}
+
+	.buttons {
+		left: 50px;
+		right: 50px;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 999px) {
+	.container {
+		width: 700px;
+		height: 442px;
+
+		top: 150px;
+	}
+
+	.heading {
+		font-size: 52px;
+	}
+
+	.command-name-input-control,
+	.command-input-control,
+	.command-answer-input-control {
+		font-size: 24px;
+	}
+
+	.command-name-input-control,
+	.command-input-control {
+		height: 42px;
+	}
+
+	.command-answer-input-control {
+		height: 126px;
+	}
+
+	.buttons {
+		top: 310px;
+	}
+
+	.add-command-button-control,
+	.back-button-control {
+		height: 50px;
+
+		font-size: 22px;
+	}
+}
+
+@media (min-width: 1000px) {
+	.container {
+		width: 800px;
+		height: 487px;
+
+		top: 250px;
+	}
+
+	.heading {
+		font-size: 60px;
+	}
+
+	.command-name-input-control,
+	.command-input-control,
+	.command-answer-input-control {
+		font-size: 28px;
+	}
+
+	.command-name-input-control,
+	.command-input-control {
+		height: 45px;
+	}
+
+	.command-answer-input-control {
+		height: 135px;
+	}
+
+	.buttons {
+		top: 335px;
+	}
+
+	.add-command-button-control,
+	.back-button-control {
+		height: 60px;
+
+		font-size: 24px;
+	}
 }

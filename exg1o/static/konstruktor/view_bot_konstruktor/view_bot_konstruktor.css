@@ -1,16 +1,5 @@
-/* ------------ Главные контейнеры ------------ */
-.main-container {
-	left: 120px;
-
-	margin: 0;
-}
-
+/* ------------ Главный контейнеры ------------ */
 .bot-container {
-	height: 426px;
-
-	top: 250px;
-	left: 540px;
-	right: 120px;
 	position: absolute;
 
 	border-color: #FFFFFF;
@@ -23,21 +12,11 @@
 
 /* ------------ Заголовок ------------ */
 .bot-heading {
-	width: calc(100% - 36px);
-	height: 70px;
-
-	margin-left: 18px;
-	margin-right: 18px;
-	margin-top: 4px;
-	margin-bottom: 4px;
-
-	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 
 	text-align: center;
 	font-weight: bold;
-	font-size: 60px;
 	letter-spacing: 1px
 }
 
@@ -50,18 +29,12 @@
 
 /* ------------ Контейнер для inputs ------------ */
 .bot-data-konstruktor-inputs {
-	left: 0;
-	right: 800px;
 	position: absolute;
 }
 
 .bot-name-input-control,
 .bot-token-input-control {
-	height: 45px;
-
 	margin-bottom: 8px;
-
-	font-size: 28px;
 
 	outline: 0;
 	border: 0;
@@ -82,7 +55,6 @@
 
 .bot-token-button-control {
 	width: 40px;
-	height: 45px;
 
 	margin-bottom: 8px;
 
@@ -109,19 +81,11 @@
 
 /* Контейнер для buttons, которые находяться рядом с контейнером inputs */
 .bot-data-konstruktor-buttons {
-	width: 280px;
-	height: 106px;
-
-	right: 500px;
 	position: absolute;
 }
 
 /* ------------ Контейнер для команд бота ------------ */
 .bot-commands-container {
-	top: 0;
-	bottom: 20px;
-	left: calc(100% - 480px);
-	right: 0px;
 	position: absolute;
 }
 
@@ -164,9 +128,6 @@
 
 /* ------------ Контейнер для логов ------------ */
 .bot-log-container {
-	top: 118px;
-	left: 0;
-	right: 500px;
 	position: absolute;
 }
 
@@ -217,7 +178,6 @@
 .clear-log-button-control,
 .update-log-button-control {
 	font-weight: bold;
-	font-size: 24px;
 	letter-spacing: 0.8px;
 
 	border: 0;
@@ -231,11 +191,6 @@
 .save-bot-settings-button-control,
 .add-command-button-control {
 	width: 100%;
-}
-
-.clear-log-button-control,
-.update-log-button-control {
-	width: calc(50% - 5px);
 }
 
 .start-bot-button-control {
@@ -269,24 +224,11 @@
 .start-bot-button-control,
 .stop-bot-button-control,
 .save-bot-settings-button-control {
-	height: 45px;
-
 	margin-bottom: 8px;
-}
-
-.add-command-button-control,
-.clear-log-button-control,
-.update-log-button-control {
-	height: 60px;
 }
 
 .add-command-button-control {
 	top: 262px;
-}
-
-.clear-log-button-control,
-.update-log-button-control {
-	top: 145px;
 }
 
 .clear-log-button-control {
@@ -333,4 +275,341 @@
 .clear-log-button-control:active,
 .update-log-button-control:active {
 	background-color: #434965;
+}
+
+/* ------------ Адаптация ------------ */
+@media (min-width: 320px) and (max-width: 767px) {
+	.bot-container {
+		width: 300px;
+		height: 878px;
+
+		margin: auto;
+
+		top: 891px;
+		left: 0;
+		right: 0;
+	}
+
+	.bot-heading {
+		height: 52px;
+
+		margin-top: 10px;
+		margin-bottom: 10px;
+		margin-left: 10px;
+		margin-right: 10px;
+
+		line-height: 24px;
+		font-size: 26px;
+	}
+
+	.bot-name-input-control,
+	.bot-token-input-control {
+		height: 38px;
+
+		font-size: 22px;
+	}
+
+	.bot-token-button-control {
+		height: 38px;
+	}
+
+	.bot-data-konstruktor-buttons {
+		height: 106px;
+
+		top: 94px;
+		position: absolute;
+	}
+
+	.bot-commands-container {
+		width: 100%;
+
+		top: 475px;
+	}
+
+	.bot-log-container {
+		width: 100%;
+
+		top: 212px;
+	}
+
+	.clear-log-button-control,
+	.update-log-button-control {
+		width: 100%;
+	}
+
+	.clear-log-button-control {
+		top: 145px;
+	}
+
+	.update-log-button-control {
+		top: 198px;
+	}
+
+	.start-bot-button-control,
+	.stop-bot-button-control,
+	.save-bot-settings-button-control,
+	.add-command-button-control,
+	.clear-log-button-control,
+	.update-log-button-control {
+		height: 45px;
+
+		font-size: 20px;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 999px) {
+	.bot-container {
+		width: 400px;
+		height: 937px;
+
+		margin: auto;
+
+		top: 586px;
+		left: 0;
+		right: 0;
+	}
+
+	.bot-heading {
+		height: 70px;
+
+		margin-top: 14px;
+		margin-bottom: 14px;
+		margin-left: 20px;
+		margin-right: 20px;
+
+		line-height: 34px;
+		font-size: 34px;
+	}
+
+	.bot-name-input-control,
+	.bot-token-input-control {
+		height: 42px;
+
+		font-size: 24px;
+	}
+
+	.bot-token-button-control {
+		height: 42px;
+	}
+
+	.bot-data-konstruktor-buttons {
+		height: 106px;
+
+		top: 102px;
+	}
+
+	.bot-commands-container {
+		width: 100%;
+
+		top: 503px;
+	}
+
+	.bot-log-container {
+		width: 100%;
+
+		top: 230px;
+	}
+
+	.clear-log-button-control,
+	.update-log-button-control {
+		width: 100%;
+	}
+
+	.clear-log-button-control {
+		top: 145px;
+	}
+
+	.update-log-button-control {
+		top: 203px;
+	}
+
+	.start-bot-button-control,
+	.stop-bot-button-control,
+	.save-bot-settings-button-control,
+	.add-command-button-control,
+	.clear-log-button-control,
+	.update-log-button-control {
+		height: 50px;
+
+		font-size: 22px;
+	}
+}
+
+@media (min-width: 1000px) and (max-width: 1799px) {
+	.bot-container {
+		width: 400px;
+		height: 993px;
+
+		margin: auto;
+
+		top: 696px;
+		left: 0;
+		right: 0;
+	}
+
+	.bot-heading {
+		height: 70px;
+
+		margin-top: 14px;
+		margin-bottom: 14px;
+		margin-left: 20px;
+		margin-right: 20px;
+
+		line-height: 34px;
+		font-size: 34px;
+	}
+
+	.bot-name-input-control,
+	.bot-token-input-control {
+		height: 45px;
+
+		font-size: 24px;
+	}
+
+	.bot-token-button-control {
+		height: 45px;
+	}
+
+	.bot-data-konstruktor-buttons {
+		height: 106px;
+
+		top: 108px;
+	}
+
+	.bot-commands-container {
+		width: 100%;
+
+		top: 549px;
+	}
+
+	.bot-log-container {
+		width: 100%;
+
+		top: 256px;
+	}
+
+	.clear-log-button-control,
+	.update-log-button-control {
+		width: 100%;
+	}
+
+	.clear-log-button-control {
+		top: 145px;
+	}
+
+	.update-log-button-control {
+		top: 213px;
+	}
+
+	.start-bot-button-control,
+	.stop-bot-button-control,
+	.save-bot-settings-button-control,
+	.add-command-button-control,
+	.clear-log-button-control,
+	.update-log-button-control {
+		height: 60px;
+
+		font-size: 24px;
+	}
+}
+
+@media (min-width: 1800px) {
+	.main-container {
+		left: 120px;
+
+		margin: 0;
+	}
+
+	.bot-container {
+		height: 426px;
+
+		top: 250px;
+		left: 540px;
+		right: 120px;
+	}
+
+	.bot-heading {
+		width: calc(100% - 36px);
+		height: 70px;
+
+		margin-left: 18px;
+		margin-right: 18px;
+		margin-top: 4px;
+		margin-bottom: 4px;
+
+		white-space: nowrap;
+		font-size: 60px;
+	}
+
+	.bot-data-konstruktor-inputs {
+		left: 0;
+		right: 800px;
+	}
+
+	.bot-name-input-control,
+	.bot-token-input-control {
+		height: 45px;
+
+		font-size: 28px;
+	}
+
+	.bot-token-button-control {
+		height: 45px;
+	}
+
+	.bot-data-konstruktor-buttons {
+		width: 280px;
+		height: 106px;
+
+		right: 500px;
+	}
+
+	.bot-commands-container {
+		top: 0;
+		bottom: 20px;
+		left: calc(100% - 480px);
+		right: 0px;
+	}
+
+	.bot-log-container {
+		top: 118px;
+		left: 0;
+		right: 500px;
+	}
+
+	.clear-log-button-control,
+	.update-log-button-control {
+		width: 100%;
+	}
+
+	.clear-log-button-control,
+	.update-log-button-control {
+		width: calc(50% - 5px);
+	}
+
+	.clear-log-button-control,
+	.update-log-button-control {
+		top: 145px;
+	}
+
+	.start-bot-button-control,
+	.stop-bot-button-control,
+	.save-bot-settings-button-control,
+	.add-command-button-control,
+	.clear-log-button-control,
+	.update-log-button-control {
+		font-size: 24px;
+	}
+
+	.start-bot-button-control,
+	.stop-bot-button-control,
+	.save-bot-settings-button-control {
+		height: 45px;
+	}
+
+	.add-command-button-control,
+	.clear-log-button-control,
+	.update-log-button-control {
+		height: 60px;
+	}
 }
