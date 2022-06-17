@@ -20,7 +20,7 @@ class TelegramBotModel(models.Model):
 		super().save(*args, **kwargs)
 
 	def __str__(self):
-		return f'Владелец: {self.owner} | ID бота: {self.id}'
+		return f'ID: {self.id} | Владелец: {self.owner} | Название бота: {self.name} | Запушен ли бот: {self.online}'
 
 class TelegramBotLogModel(models.Model):
 	id = models.AutoField(primary_key=True)
@@ -40,7 +40,7 @@ class TelegramBotLogModel(models.Model):
 		super().save(*args, **kwargs)
 
 	def __str__(self):
-		return f'Владелец: {self.owner} | ID бота: {self.id} | Сообщение: {self.user_message}'
+		return f'ID: {self.id} | Владелец: {self.owner} | ID бота: {self.id}'
 
 class TelegramBotCommandModel(models.Model):
 	id = models.AutoField(primary_key=True)
@@ -61,4 +61,4 @@ class TelegramBotCommandModel(models.Model):
 		super().save(*args, **kwargs)
 
 	def __str__(self):
-		return f'Владелец: {self.owner} | ID бота: {self.bot_id} | Команда: {self.command_name}'
+		return f'ID: {self.id} | Владелец: {self.owner} | ID бота: {self.bot_id} | Название команды: {self.command_name}'
