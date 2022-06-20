@@ -36,20 +36,20 @@ Quit the server with CTRL-BREAK.
 
 # Демонстрация сайта
 ## Главное страница
-![site](demonstration_images/main_page.jpg)
+![site](site_pages_images/main_page.jpg)
 ## Страница регистрации
-![site](demonstration_images/registration_page.jpg)
+![site](site_pages_images/registration_page.jpg)
 ## Страница авторизации
-![site](demonstration_images/authorization_page.jpg)
+![site](site_pages_images/authorization_page.jpg)
 ## Страница аккаунта
-![site](demonstration_images/account_view_page.jpg)
+![site](site_pages_images/account_view_page.jpg)
 ## Страница улучшения аккаунта
-![site](demonstration_images/upgrade_account_page.jpg)
+![site](site_pages_images/upgrade_account_page.jpg)
 ## Страница списка ботов
-![site](demonstration_images/konstruktor_page.jpg)
+![site](site_pages_images/konstruktor_page.jpg)
 ## Страница добавления бота
-![site](demonstration_images/add_bot.jpg)
+![site](site_pages_images/add_bot.jpg)
 ## Страница конструктора бота
-![site](demonstration_images/view_bot_konstruktor_page.jpg)
+![site](site_pages_images/view_bot_konstruktor_page.jpg)
 ## Страница добавление команд боту
-![site](demonstration_images/add_command_page.jpg)
+![site](site_pages_images/add_command_page.jpg)
