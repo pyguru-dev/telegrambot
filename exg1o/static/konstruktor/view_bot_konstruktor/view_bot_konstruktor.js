@@ -1,5 +1,5 @@
 function hideOrShowButtonClick() {
-	var inputPasswordElement = document.getElementById('inputBotToken');
+	var inputPasswordElement = document.querySelector('bot-token-input-control');
 
 	if (inputPasswordElement.getAttribute('type') == 'password') {
 		inputPasswordElement.setAttribute('type', 'text');
@@ -22,7 +22,7 @@ function startBotButtonClick() {
 		if (request.status == 200) {
 			showSuccessMessage(request.responseText);
 
-			var startBotButtonElement = document.getElementsByClassName('start-bot-button-control')[0];
+			var startBotButtonElement = document.querySelector('.start-bot-button-control');
 			startBotButtonElement.setAttribute('class', 'stop-bot-button-control');
 			startBotButtonElement.setAttribute('onclick', 'stopBotButtonClick()');
 			startBotButtonElement.innerHTML = 'Остоновить бота';
@@ -41,7 +41,7 @@ function stopBotButtonClick() {
 		if (request.status == 200) {
 			showSuccessMessage(request.responseText);
 
-			var stopBotButtonElement = document.getElementsByClassName('stop-bot-button-control')[0];
+			var stopBotButtonElement = document.querySelector('.stop-bot-button-control');
 			stopBotButtonElement.setAttribute('class', 'start-bot-button-control');
 			stopBotButtonElement.setAttribute('onclick', 'startBotButtonClick()');
 			stopBotButtonElement.innerHTML = 'Запустить бота';
@@ -53,8 +53,8 @@ function stopBotButtonClick() {
 }
 
 function saveBotSettingsButtonClick() {
-	var botName = document.getElementById('inputBotName').value;
-	var botToken = document.getElementById('inputBotToken').value;
+	var botName = document.querySelector('.bot-name-input-control').value;
+	var botToken = document.getElementById('.bot-token-input-control').value;
 
 	var request = new XMLHttpRequest();
 	request.open('POST', 'save_bot_settings/', true);

@@ -1,5 +1,5 @@
 function hideOrShowButtonClick() {
-	var inputPasswordElement = document.getElementById('inputPassword');
+	var inputPasswordElement = document.querySelector('.password-input-control');
 
 	if (inputPasswordElement.getAttribute('type') == 'password') {
 		inputPasswordElement.setAttribute('type', 'text');

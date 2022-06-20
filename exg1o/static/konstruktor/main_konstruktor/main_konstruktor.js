@@ -1,11 +1,3 @@
-function editDivsForMessageElement() {
-	var containerDiv = document.getElementById('mainContainer');
-	var addBotButtonElement = document.getElementById('addBotButton');
-
-	containerDiv.style = 'height: 445px;';
-	addBotButtonElement.style = "top: 283px;";
-}
-
 function deleteBotButtonClick(botId, botName, nickname) {
 	var deleteBotAnswer = confirm('Вы точно хотите удалить бота "' + botName + '"?');
 	if (deleteBotAnswer == true) {

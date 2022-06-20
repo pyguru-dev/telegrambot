@@ -1,10 +1,13 @@
 function hideOrShowButtonClick(elemet) {
-	var inputPasswordElement = document.getElementById(elemet);
+	var inputPasswordElement = document.querySelector(elemet);
+
+	console.log(elemet)
+	console.log(inputPasswordElement)
 
 	if (inputPasswordElement.getAttribute('type') == 'password') {
 		inputPasswordElement.setAttribute('type', 'text');
 
-		if (elemet == 'inputPassword') {
+		if (elemet == '.password-input-control') {
 			var buttonElement = document.getElementById('hidePassword');
 			buttonElement.setAttribute('id', 'showPassword');
 		} else {
@@ -14,7 +17,7 @@ function hideOrShowButtonClick(elemet) {
 	} else {
 		inputPasswordElement.setAttribute('type', 'password');
 
-		if (elemet == 'inputPassword') {
+		if (elemet == '.password-input-control') {
 			var buttonElement = document.getElementById('showPassword');
 			buttonElement.setAttribute('id', 'hidePassword');
 		} else {

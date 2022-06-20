@@ -24,6 +24,48 @@
 	letter-spacing: 1px;
 }
 
+/* ------------ Контейнер для переменных ------------ */
+.variables {
+	position: absolute;
+
+	padding: 4px;
+
+	border-color: #FFFFFF;
+	border-radius: 8px;
+	border-style: solid;
+	border-width: 2px;
+
+	background-color: #1B1D23;
+}
+
+.user-name-variable-button-control,
+.user-surname-variable-control {
+	height: 28px;
+
+	margin-bottom: 4px;
+
+	font-weight: bold;
+	letter-spacing: 0.8px;
+	font-size: 17px;
+
+	border: 0;
+	border-radius: 8px;
+
+	transition: 0.4s;
+	background-color: #4d5163;
+}
+
+.user-name-variable-button-control:hover,
+.user-surname-variable-control:hover {
+	transition: 0.4s;
+	background-color: #50566E;
+}
+
+.user-name-variable-button-control:active,
+.user-surname-variable-control:active {
+	background-color: #434965;
+}
+
 /* ------------ Контейнер для основых элементов ------------ */
 .add-command-form {
 	position: absolute;
@@ -82,7 +124,7 @@
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
 		width: 300px;
-		height: 446px;
+		height: 524px;
 
 		top: 250px;
 	}
@@ -91,7 +133,15 @@
 		font-size: 40px;
 	}
 
+	.variables {
+		height: 72px;
+
+		left: 20px;
+		right: 20px;
+	}
+
 	.add-command-form {
+		top: 182px;
 		left: 20px;
 		right: 20px;
 	}
@@ -112,7 +162,7 @@
 	}
 
 	.buttons {
-		top: 324px;
+		top: 402px;
 		left: 20px;
 		right: 20px;
 	}
@@ -126,6 +176,13 @@
 }
 
 @media (min-width: 768px) {
+	.variables {
+		height: 40px;
+
+		left: 50px;
+		right: 50px;
+	}
+
 	.add-command-form {
 		left: 50px;
 		right: 50px;
@@ -140,13 +197,17 @@
 @media (min-width: 768px) and (max-width: 999px) {
 	.container {
 		width: 700px;
-		height: 442px;
+		height: 488px;
 
 		top: 150px;
 	}
 
 	.heading {
 		font-size: 52px;
+	}
+
+	.add-command-form {
+		top: 116px;
 	}
 
 	.command-name-input-control,
@@ -165,7 +226,7 @@
 	}
 
 	.buttons {
-		top: 310px;
+		top: 356px;
 	}
 
 	.add-command-button-control,
@@ -179,13 +240,17 @@
 @media (min-width: 1000px) {
 	.container {
 		width: 800px;
-		height: 487px;
+		height: 533px;
 
 		top: 250px;
 	}
 
 	.heading {
 		font-size: 60px;
+	}
+
+	.add-command-form {
+		top: 126px;
 	}
 
 	.command-name-input-control,
@@ -204,7 +269,7 @@
 	}
 
 	.buttons {
-		top: 335px;
+		top: 381px;
 	}
 
 	.add-command-button-control,

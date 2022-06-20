@@ -30,15 +30,19 @@
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
 		width: 300px;
-		height: 473px;
+		height: 551px;
 	}
 
 	.heading {
 		font-size: 29px;
 	}
 
+	.add-command-form {
+		top: 156px;
+	}
+
 	.buttons {
-		top: 298px;
+		top: 376px;
 	}
 
 	.save-command-button-control,
@@ -51,15 +55,19 @@
 @media (min-width: 768px) and (max-width: 999px) {
 	.container {
 		width: 700px;
-		height: 489px;
+		height: 535px;
 	}
 
 	.heading {
 		font-size: 42px;
 	}
 
+	.add-command-form {
+		top: 105px;
+	}
+
 	.buttons {
-		top: 299px;
+		top: 345px;
 	}
 
 	.save-command-button-control,
@@ -72,15 +80,19 @@
 @media (min-width: 1000px) {
 	.container {
 		width: 950px;
-		height: 555px;
+		height: 601px;
 	}
 
 	.heading {
 		font-size: 60px;
 	}
 
+	.add-command-form {
+		top: 126px;
+	}
+
 	.buttons {
-		top: 335px;
+		top: 381px;
 	}
 
 	.save-command-button-control,

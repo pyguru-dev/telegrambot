@@ -2,7 +2,6 @@ from konstruktor.models import TelegramBotLogModel, TelegramBotCommandModel
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
 import telegram.ext
 import telegram
-import datetime
 
 class TelegramBot: # Telegram Бот
 	def __init__(self, owner, bot_id, token):
@@ -10,7 +9,7 @@ class TelegramBot: # Telegram Бот
 		self.bot_id = bot_id
 		self.token = token
 
-	def auth(self):
+	def auth(self): # Авторизация бота в Telegram API
 		try:
 			self.updater = Updater(token=self.token)
 			self.dispatcher = self.updater.dispatcher
@@ -18,30 +17,46 @@ class TelegramBot: # Telegram Бот
 		except telegram.error.InvalidToken:
 			return False
 
-	def get_user_id_and_messaage(func):
+	def get_user_id_and_messaage(func): # Получение ID пользователя и его сообщения
 		def wrapper(self, update: telegram.update.Update, context: telegram.ext.callbackcontext.CallbackContext):
-			_id, user_name, message = update.effective_chat.id, update.effective_user.full_name, update.message.text
+			_id, user_full_name, message = update.effective_chat.id, update.effective_user.full_name, update.message.text
 
-			log = TelegramBotLogModel(id, self.bot_id, self.owner, user_name, message)
+			log = TelegramBotLogModel(id, self.bot_id, self.owner, user_full_name, message)
 			log.save()
 
 			func(self, update, context, _id, message)
 		wrapper.__name__ = func.__name__
 		return wrapper
 
-	@get_user_id_and_messaage
-	def new_message(self, update: telegram.update.Update, context: telegram.ext.callbackcontext.CallbackContext, id: int, message: str):
-		for bot_command in TelegramBotCommandModel.objects.filter(owner=self.owner).filter(bot_id=self.bot_id):
-			if bot_command.command == message:
-				context.bot.send_message(chat_id=id, text=bot_command.command_answer)
+	def send_message(func): # Отправка ответа пользователю на команду бота
+		def wrapper(self, update: telegram.update.Update, context: telegram.ext.callbackcontext.CallbackContext, id: int, message: str):
+			for bot_command in TelegramBotCommandModel.objects.filter(owner=self.owner).filter(bot_id=self.bot_id):
+				if bot_command.command == message:
+					command_answer = bot_command.command_answer
+					for variable in ('{user_name}', '{user_surname}'):
+						if command_answer.find(variable) != -1:
+							command_answer = command_answer.split(variable)
+							if variable == '{user_name}':
+								command_answer = update.effective_user.first_name.join(command_answer)
+							elif variable == '{user_surname}':
+								command_answer = update.effective_user.last_name.join(command_answer)
+					context.bot.send_message(chat_id=id, text=command_answer)
+
+			func(self, update, context, id, message)
+		wrapper.__name__ = func.__name__
+		return wrapper
 
 	@get_user_id_and_messaage
-	def execute_command(self, update: telegram.update.Update, context: telegram.ext.callbackcontext.CallbackContext, id: int, message: str):
-		for bot_command in TelegramBotCommandModel.objects.filter(owner=self.owner).filter(bot_id=self.bot_id):
-			if bot_command.command == message:
-				context.bot.send_message(chat_id=id, text=bot_command.command_answer)
+	@send_message
+	def new_message(self, update: telegram.update.Update, context: telegram.ext.callbackcontext.CallbackContext, id: int, message: str): # Получение обычного сообщения
+		pass
 
-	def start(self):
+	@get_user_id_and_messaage
+	@send_message
+	def execute_command(self, update: telegram.update.Update, context: telegram.ext.callbackcontext.CallbackContext, id: int, message: str): # Получение командного сообщения
+		pass
+
+	def start(self): # Запуск бота
 		new_message_handler = MessageHandler(Filters.text & (~Filters.command), self.new_message)
 		self.dispatcher.add_handler(new_message_handler)
 
@@ -52,7 +67,7 @@ class TelegramBot: # Telegram Бот
 
 		self.updater.start_polling()
 
-	def stop(self):
+	def stop(self): # Остоновка бота
 		self.updater.stop()
 
 if __name__ == '__main__': # Тест для бота

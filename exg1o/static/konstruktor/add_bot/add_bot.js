@@ -1,5 +1,5 @@
 function hideOrShowButtonClick() {
-	var inputPasswordElement = document.getElementById('inputBotToken');
+	var inputPasswordElement = document.querySelector('.bot-token-input-control');
 
 	if (inputPasswordElement.getAttribute('type') == 'password') {
 		inputPasswordElement.setAttribute('type', 'text');
