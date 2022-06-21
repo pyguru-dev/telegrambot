@@ -69,10 +69,3 @@ class TelegramBot: # Telegram Бот
 
 	def stop(self): # Остоновка бота
 		self.updater.stop()
-
-if __name__ == '__main__': # Тест для бота
-	bot = TelegramBot('Exg1o', 'Exg1oBot', '5573899324:AAF0DUX_sYa25-KTLTqrZBY7IvBXJSazYKA')
-	if bot.auth():
-		bot.start()
-	else:
-		print('Неверный "Token" бота!')

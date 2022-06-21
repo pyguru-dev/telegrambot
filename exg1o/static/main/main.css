@@ -34,11 +34,18 @@
 	margin-bottom: 0;
 }
 
+.site-info-text#importantSiteInfo {
+	margin-bottom: 0;
+}
+
 .site-info-text#ol {
 	margin-top: 0;
 	margin-bottom: 16px;
 
 	padding-left: 30px;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 /* ------------ Адаптация ------------ */
