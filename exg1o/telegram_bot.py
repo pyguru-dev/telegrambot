@@ -9,6 +9,11 @@ class TelegramBot: # Telegram Бот
 		self.bot_id = bot_id
 		self.token = token
 
+		self.variables = {
+			'{user_name}': 'update.effective_user.first_name',
+			'{user_surname}': 'update.effective_user.last_name'
+		}
+
 	def auth(self): # Авторизация бота в Telegram API
 		try:
 			self.updater = Updater(token=self.token)
@@ -33,13 +38,10 @@ class TelegramBot: # Telegram Бот
 			for bot_command in TelegramBotCommandModel.objects.filter(owner=self.owner).filter(bot_id=self.bot_id):
 				if bot_command.command == message:
 					command_answer = bot_command.command_answer
-					for variable in ('{user_name}', '{user_surname}'):
+					for variable in self.variables:
 						if command_answer.find(variable) != -1:
 							command_answer = command_answer.split(variable)
-							if variable == '{user_name}':
-								command_answer = update.effective_user.first_name.join(command_answer)
-							elif variable == '{user_surname}':
-								command_answer = update.effective_user.last_name.join(command_answer)
+							command_answer = eval(self.variables[variable]).join(command_answer)
 					context.bot.send_message(chat_id=id, text=command_answer)
 
 			func(self, update, context, id, message)

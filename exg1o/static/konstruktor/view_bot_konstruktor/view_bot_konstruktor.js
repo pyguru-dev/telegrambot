@@ -1,5 +1,5 @@
 function hideOrShowButtonClick() {
-	var inputPasswordElement = document.querySelector('bot-token-input-control');
+	var inputPasswordElement = document.querySelector('.bot-token-input-control');
 
 	if (inputPasswordElement.getAttribute('type') == 'password') {
 		inputPasswordElement.setAttribute('type', 'text');
@@ -54,7 +54,7 @@ function stopBotButtonClick() {
 
 function saveBotSettingsButtonClick() {
 	var botName = document.querySelector('.bot-name-input-control').value;
-	var botToken = document.getElementById('.bot-token-input-control').value;
+	var botToken = document.querySelector('.bot-token-input-control').value;
 
 	var request = new XMLHttpRequest();
 	request.open('POST', 'save_bot_settings/', true);
