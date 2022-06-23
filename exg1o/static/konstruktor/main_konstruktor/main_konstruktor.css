@@ -197,9 +197,15 @@
 	}
 }
 
+@media (min-width: 768px) and (max-width: 999px) {
+	.main-container {
+		height: 416px;
+	}
+}
+
 @media (min-width: 1000px) {
 	.main-container {
-		top: 250px;
+		top: 125px;
 	}
 
 	.add-bot-button-control {
@@ -208,11 +214,5 @@
 		top: 264px;
 
 		font-size: 24px;
-	}
-}
-
-@media (min-width: 768px) and (max-width: 999px) {
-	.main-container {
-		height: 416px;
 	}
 }

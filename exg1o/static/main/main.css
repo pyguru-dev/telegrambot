@@ -88,26 +88,24 @@
 	}
 }
 
+@media (min-width: 1000px) {
+	.container {
+		margin: auto;
+
+		top: 125px;
+		left: 0;
+		right: 0;
+	}
+}
+
 @media (min-width: 1000px) and (max-width: 1499px) {
 	.container {
 		width: 750px;
-
-		margin: auto;
-
-		top: 250px;
-		left: 0;
-		right: 0;
 	}
 }
 
 @media (min-width: 1500px) {
 	.container {
 		width: 1000px;
-
-		margin: auto;
-
-		top: 250px;
-		left: 0;
-		right: 0;
 	}
 }
