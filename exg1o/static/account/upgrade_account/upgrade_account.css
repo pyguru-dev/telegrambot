@@ -61,7 +61,7 @@
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
 		width: 300px;
-		height: 532px;
+		height: 482px;
 
 		top: 250px;
 	}
@@ -79,11 +79,11 @@
 	}
 
 	.author-info {
-		top: 380px;
+		top: 330px;
 	}
 
 	.author-info#ol {
-		top: 414px;
+		top: 364px;
 
 		padding-left: 18px;
 	}
@@ -92,7 +92,7 @@
 		width: calc(100% - 30px);
 		height: 40px;
 
-		top: 475px;
+		top: 425px;
 		left: 15px;
 		right: 15px;
 

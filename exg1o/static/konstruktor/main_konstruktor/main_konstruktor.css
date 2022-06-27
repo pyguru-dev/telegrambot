@@ -16,21 +16,16 @@
 
 /* ------------ Заголовок ------------ */
 .heading {
-	width: 100%;
-	height: 70px;
-
 	margin-top: 4px;
 	margin-bottom: 4px;
 
 	text-align: center;
 	font-weight: bold;
-	font-size: 60px;
 	letter-spacing: 1px;
 }
 
 /* ------------ Контейнер для основых элементов ------------ */
 .bots-container {
-	top: 78px;
 	bottom: 20px;
 	left: 20px;
 	right: 20px;
@@ -123,9 +118,19 @@
 @media (min-width: 320px) and (max-width: 767px) {
 	.main-container {
 		width: 300px;
-		height: 621px;
+		height: 591px;
 
 		top: 250px;
+	}
+
+	.heading {
+		height: 40px;
+
+		font-size: 34px;
+	}
+
+	.bots-container {
+		top: 48px;
 	}
 
 	.bots-list-container {
@@ -162,9 +167,19 @@
 @media (min-width: 768px) {
 	.main-container {
 		width: 400px;
-		height: 426px;
+		height: 401px;
 
 		top: 150px;
+	}
+
+	.heading {
+		height: 55px;
+
+		font-size: 46px;
+	}
+
+	.bots-container {
+		top: 63px;
 	}
 
 	.bots-list-container {
@@ -197,14 +212,10 @@
 	}
 }
 
-@media (min-width: 768px) and (max-width: 999px) {
-	.main-container {
-		height: 416px;
-	}
-}
-
 @media (min-width: 1000px) {
 	.main-container {
+		height: 411px;
+
 		top: 125px;
 	}
 

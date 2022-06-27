@@ -82,8 +82,12 @@ textarea {
 .message {
 	width: 100%;
 
-	margin-top: 4px;
-	margin-bottom: 4px;
+	margin: 0;
+	padding: 4px;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 
 	text-align: center;
 	font-size: 20px;

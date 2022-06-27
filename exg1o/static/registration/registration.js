@@ -1,3 +1,18 @@
+const inputElements = [
+	document.querySelector('.login-input-control'),
+	document.querySelector('.email-input-control'),
+	document.querySelector('.password-input-control'),
+	document.querySelector('.again-password-input-control')
+]
+
+for (let i = 0; i <= inputElements.length; i++) {
+	inputElements[i].addEventListener('keyup', function(event) {
+		if (event.keyCode == 13) {
+			document.querySelector('.registration-button-control').click();
+		}
+	})
+}
+
 function hideOrShowButtonClick(elemet) {
 	var inputPasswordElement = document.querySelector(elemet);
 
@@ -36,24 +51,28 @@ function registrationButtonClick() {
 	if (login && email && password_1 && password_2 != '') {
 		if (password_1 == password_2) {
 			if (password_1.length >= 8) {
-				var request = new XMLHttpRequest();
-				request.open('POST', 'register_account/', true);
-				request.setRequestHeader('Content-Type', 'application/json');
-				var data = JSON.stringify(
-					{
-						'login': login,
-						'email': email,
-						'password': password_1
+				if (password_1.length <= 255) {
+					var request = new XMLHttpRequest();
+					request.open('POST', 'register_account/', true);
+					request.setRequestHeader('Content-Type', 'application/json');
+					var data = JSON.stringify(
+						{
+							'login': login,
+							'email': email,
+							'password': password_1
+						}
+					);
+					request.onreadystatechange = function() {
+						if (request.status == 200) {
+							window.location.href = '../authorization';
+						} else {
+							showErrorMessage(request.responseText);
+						}
 					}
-				);
-				request.onreadystatechange = function() {
-					if (request.status == 200) {
-						window.location.href = '../authorization';
-					} else {
-						showErrorMessage(request.responseText);
-					}
+					request.send(data);
+				} else {
+					showErrorMessage('Пароль должен содержать не более 255 символов!');
 				}
-				request.send(data);
 			} else {
 				showErrorMessage('Пароль должен содержать не менее 8 символов!');
 			}

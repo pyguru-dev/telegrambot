@@ -14,9 +14,6 @@ def get_navbar_buttons_data(request: WSGIRequest): # Функция для по�
 
 	if request.user.is_authenticated:
 		data = {
-			'navbar': {
-				'konstruktor_button': 'on'
-			},
 			'buttons': {
 				'button_1': {
 					'id': 'profileButtonLink',

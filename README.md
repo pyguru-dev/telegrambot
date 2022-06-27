@@ -2,9 +2,10 @@
 **WebSite Exg1o** - сайт с помощью которого вы сможете легко и без каких либо навыков в программирование сделать своего Telegram бота.
 
 # Возможности сайта
-- Создавать своих ботов;
-- Глубокая настройка своих ботов;
-- Добавлять команды для своих ботов.
+- Создать собственного Telegram бота;
+- Легко и гипко настроить вашего Telegram бота;
+- Добавить команды с любым функционалом вашему Telegram боту;
+- Изменять или удалять ранее добавленные команду вашего Telegram бота.
 
 # Установка и использовани
 1. Устанавливаем **Python 3.9.0**;
@@ -35,21 +36,23 @@ Quit the server with CTRL-BREAK.
 6. Пользуемся сайтом 😊!
 
 # Демонстрация сайта
-## Главное страница
-![site](site_pages_images/main_page.jpg)
-## Страница регистрации
-![site](site_pages_images/registration_page.jpg)
+## Главная страница
+![site](other/site_pages_images/1_main_page.png)
 ## Страница авторизации
-![site](site_pages_images/authorization_page.jpg)
+![site](other/site_pages_images/2_authorization_page.png)
+## Страница регистрации
+![site](other/site_pages_images/3_registration_page.png)
 ## Страница аккаунта
-![site](site_pages_images/account_view_page.jpg)
+![site](other/site_pages_images/4_account_view_page.png)
 ## Страница улучшения аккаунта
-![site](site_pages_images/upgrade_account_page.jpg)
-## Страница списка ботов
-![site](site_pages_images/konstruktor_page.jpg)
-## Страница добавления бота
-![site](site_pages_images/add_bot.jpg)
-## Страница конструктора бота
-![site](site_pages_images/view_bot_konstruktor_page.jpg)
-## Страница добавление команд боту
-![site](site_pages_images/add_command_page.jpg)
+![site](other/site_pages_images/5_upgrade_account_page.png)
+## Страница списка Telegram ботов
+![site](other/site_pages_images/6_konstruktor_page.png)
+## Страница добавления Telegram бота
+![site](other/site_pages_images/7_add_bot_page.png)
+## Страница конструктора Telegram бота
+![site](other/site_pages_images/8_view_bot_konstruktor_page.png)
+## Страница добавление команды Telegram боту
+![site](other/site_pages_images/9_add_command_page.png)
+## Страница редактирования команды Telegram бота
+![site](other/site_pages_images/10_edit_command_page.png)

@@ -285,7 +285,7 @@
 
 		margin: auto;
 
-		top: 891px;
+		top: 861px;
 		left: 0;
 		right: 0;
 	}
@@ -364,7 +364,7 @@
 
 		margin: auto;
 
-		top: 586px;
+		top: 571px;
 		left: 0;
 		right: 0;
 	}
@@ -442,7 +442,7 @@
 
 		margin: auto;
 
-		top: 571px;
+		top: 556px;
 		left: 0;
 		right: 0;
 	}
@@ -521,7 +521,7 @@
 	}
 
 	.bot-container {
-		height: 426px;
+		height: 411px;
 
 		top: 125px;
 		left: 540px;
@@ -530,7 +530,7 @@
 
 	.bot-heading {
 		width: calc(100% - 36px);
-		height: 70px;
+		height: 55px;
 
 		margin-left: 18px;
 		margin-right: 18px;
@@ -538,7 +538,7 @@
 		margin-bottom: 4px;
 
 		white-space: nowrap;
-		font-size: 60px;
+		font-size: 46px;
 	}
 
 	.bot-data-konstruktor-inputs {

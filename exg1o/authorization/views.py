@@ -30,6 +30,6 @@ def authorize_in_account(request: WSGIRequest, data: dict): # Авторизац
 			else:
 				return HttpResponseBadRequest('Вы ввели неверный "Password"!')
 		else:
-			return HttpResponseBadRequest(f'Пользователя "{login}\" не существует!')
+			return HttpResponseBadRequest('Такого пользователя не существует!')
 	else:
 		raise Http404('Сначала выйдите из акканута!')
