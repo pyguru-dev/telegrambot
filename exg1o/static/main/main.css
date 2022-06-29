@@ -14,8 +14,7 @@
 .heading {
 	text-align: center;
 
-	margin-top: 0px;
-	margin-bottom: 10px;
+	margin: 0;
 
 	font-weight: bold;
 	letter-spacing: 2px;
@@ -23,7 +22,8 @@
 
 /* ------------ Информация о сайте ------------ */
 .site-info-text {
-	margin-top: 8px;
+	margin-top: 10px;
+	margin-bottom: 16px;
 	margin-left: 25px;
 	margin-right: 25px;
 
@@ -42,8 +42,6 @@
 	margin-top: 0;
 	margin-bottom: 16px;
 
-	padding-left: 30px;
-
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
@@ -61,11 +59,11 @@
 	}
 
 	.site-info-text {
-		font-size: 18px;
+		font-size: 16px;
 	}
 
 	.site-info-text#ol {
-		padding-left: 24px;
+		padding-left: 20px;
 	}
 }
 
@@ -73,18 +71,21 @@
 	.heading {
 		font-size: 120px;
 	}
-
-	.site-info-text {
-		font-size: 24px;
-	}
 }
 
 @media (min-width: 768px) and (max-width: 999px) {
 	.container {
-		left: 60px;
-		right: 60px;
+		top: 100px;
+		left: 50px;
+		right: 50px;
+	}
 
-		top: 150px;
+	.site-info-text {
+		font-size: 20px;
+	}
+
+	.site-info-text#ol {
+		padding-left: 25px;
 	}
 }
 
@@ -96,16 +97,25 @@
 		left: 0;
 		right: 0;
 	}
+
+
+	.site-info-text {
+		font-size: 24px;
+	}
+
+	.site-info-text#ol {
+		padding-left: 30px;
+	}
 }
 
 @media (min-width: 1000px) and (max-width: 1499px) {
 	.container {
-		width: 750px;
+		width: 900px;
 	}
 }
 
 @media (min-width: 1500px) {
 	.container {
-		width: 1000px;
+		width: 1200px;
 	}
 }

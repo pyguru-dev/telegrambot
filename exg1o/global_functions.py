@@ -34,7 +34,6 @@ def get_navbar_buttons_data(request: WSGIRequest): # Функция для по�
 		}
 	else:
 		data = {
-			'navbar': {},
 			'buttons': {
 				'button_1': {
 					'id': 'authorizationButtonLink',

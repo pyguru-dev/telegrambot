@@ -62,7 +62,6 @@ def check_bot_id(func): # Декоратор для проверки ID бота
 			return func(*args, **kwargs)
 		else:
 			return redirect(f'/account/konstruktor/{nickname}/')
-
 	wrapper.__name__ = func.__name__
 	return wrapper
 
@@ -83,6 +82,5 @@ def check_command_id(func): # Декоратор для проверки ID ко
 			return func(*args, **kwargs)
 		else:
 			return redirect(f'/account/konstruktor/{nickname}/view_bot/{bot_id}/')
-
 	wrapper.__name__ = func.__name__
 	return wrapper

@@ -27,16 +27,34 @@
 /* ------------ Информация ------------ */
 .purchase-info,
 .author-info {
-	margin: 0;
-
-	position: absolute;
+	margin-left: 25px;
+	margin-right: 25px;
 
 	letter-spacing: 0.4px;
 }
 
+.purchase-info {
+	margin-top: 4px;
+	margin-bottom: 0;
+}
+
+.author-info {
+	margin-top: 10px;
+	margin-bottom: 0;	
+}
+
+.author-info#ol {
+	margin-top: 0;
+}
+
 /* ------------ Кнопки ------------ */
 .buy-paid-account-buttom-control {
-	position: absolute;
+	width: calc(100% - 50px);
+
+	margin-top: 10px;
+	margin-bottom: 15px;
+	margin-left: 25px;
+	margin-right: 25px;
 
 	font-weight: bold;
 	letter-spacing: 0.8px;
@@ -61,49 +79,34 @@
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
 		width: 300px;
-		height: 482px;
+		height: min-content;
 
 		top: 250px;
 	}
 
 	.heading {
-		font-size: 25px;
+		font-size: 24px;
 	}
 
 	.purchase-info,
 	.author-info {
-		left: 15px;
-		right: 15px;
-
-		font-size: 14px;
-	}
-
-	.author-info {
-		top: 330px;
+		font-size: 16px;
 	}
 
 	.author-info#ol {
-		top: 364px;
-
-		padding-left: 18px;
+		padding-left: 20px;
 	}
 
 	.buy-paid-account-buttom-control {
-		width: calc(100% - 30px);
 		height: 40px;
 
-		top: 425px;
-		left: 15px;
-		right: 15px;
-
-		font-size: 20px;
+		font-size: 18px;
 	}
 }
 
 @media (min-width: 768px) and (max-width: 999px) {
 	.container {
 		width: 700px;
-		height: 360px;
 
 		top: 150px;
 	}
@@ -114,29 +117,15 @@
 
 	.purchase-info,
 	.author-info {
-		left: 25px;
-		right: 25px;
-
-		font-size: 16px;
-	}
-
-	.author-info {
-		top: 232px;
+		font-size: 20px;
 	}
 
 	.author-info#ol {
-		top: 250px;
-
-		padding-left: 18px;
+		padding-left: 25px;
 	}
 
 	.buy-paid-account-buttom-control {
-		width: calc(100% - 50px);
-		height: 40px;
-
-		top: 300px;
-		left: 25px;
-		right: 25px;
+		height: 50px;
 
 		font-size: 22px;
 	}
@@ -145,7 +134,6 @@
 @media (min-width: 1000px) {
 	.container {
 		width: 1000px;
-		height: 386px;
 
 		top: 125px;
 	}
@@ -156,29 +144,15 @@
 
 	.purchase-info,
 	.author-info {
-		left: 25px;
-		right: 25px;
-
-		font-size: 17px;
-	}
-
-	.author-info {
-		top: 244px;
+		font-size: 24px;
 	}
 
 	.author-info#ol {
-		top: 262px;
-
-		padding-left: 20px;
+		padding-left: 30px;
 	}
 
 	.buy-paid-account-buttom-control {
-		width: calc(100% - 50px);
-		height: 50px;
-
-		top: 315px;
-		left: 25px;
-		right: 25px;
+		height: 60px;
 
 		font-size: 24px;
 	}

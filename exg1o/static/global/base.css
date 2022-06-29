@@ -99,20 +99,22 @@ textarea {
 		height: 182px;
 	}
 
-	.banner-button-link-control {
-		width: calc(100% - 30px);
-		height: 66px;
-
+	.banner-button-link-control,
+	.button-link-control {
 		left: 15px;
+		right: 15px;
+	}
+
+	.banner-button-link-control {
+		height: 65px;
+
+		top: 4px;
 
 		font-size: 55px;
 	}
 
 	.button-link-control {
-		width: calc(100% - 30px);
 		height: 40px;
-
-		right: 15px;
 	}
 
 	.button-link-control#registrationButtonLink,
@@ -153,9 +155,9 @@ textarea {
 
 	.button-link-control {
 		width: 160px;
-		height: 50px;
 
 		top: 15px;
+		bottom: 15px;
 	}
 
 	.button-link-control#registrationButtonLink,
