@@ -1,4 +1,5 @@
 from konstruktor.models import TelegramBotLogModel, TelegramBotCommandModel
+import global_variable as GlobalVariable
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
 import telegram.ext
 import telegram
@@ -8,11 +9,6 @@ class TelegramBot: # Telegram Бот
 		self.owner = owner
 		self.bot_id = bot_id
 		self.token = token
-
-		self.variables = {
-			'{user_name}': 'update.effective_user.first_name',
-			'{user_surname}': 'update.effective_user.last_name'
-		}
 
 	def auth(self): # Авторизация бота в Telegram API
 		try:
@@ -38,10 +34,11 @@ class TelegramBot: # Telegram Бот
 			for bot_command in TelegramBotCommandModel.objects.filter(owner=self.owner).filter(bot_id=self.bot_id):
 				if bot_command.command == message:
 					command_answer = bot_command.command_answer
-					for variable in self.variables:
+					for variable_for_command in GlobalVariable.variables_for_commands:
+						variable = variable_for_command['variable']
 						if command_answer.find(variable) != -1:
 							command_answer = command_answer.split(variable)
-							command_answer = eval(self.variables[variable]).join(command_answer)
+							command_answer = str(eval(variable_for_command[variable])).join(command_answer)
 					context.bot.send_message(chat_id=id, text=command_answer)
 
 			func(self, update, context, id, message)

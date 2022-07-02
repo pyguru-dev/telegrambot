@@ -52,7 +52,7 @@
 	width: calc(100% - 50px);
 
 	margin-top: 10px;
-	margin-bottom: 15px;
+	margin-bottom: 20px;
 	margin-left: 25px;
 	margin-right: 25px;
 
@@ -79,7 +79,6 @@
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
 		width: 300px;
-		height: min-content;
 
 		top: 250px;
 	}

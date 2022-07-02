@@ -13,7 +13,7 @@ urlpatterns = [
 	path('view_bot/<int:bot_id>/add_command/', add_command_page),
 	path('view_bot/<int:bot_id>/clear_log/', clear_log),
 	path('view_bot/<int:bot_id>/add_command_/', add_command),
-	path('view_bot/<int:bot_id>/view_command/<int:command_id>/', view_command),
+	path('view_bot/<int:bot_id>/view_command/<int:command_id>/', view_command_page),
 	path('view_bot/<int:bot_id>/view_command/<int:command_id>/save_command/', save_command),
 	path('view_bot/<int:bot_id>/view_command/<int:command_id>/delete_command/', delete_command)
 ]
