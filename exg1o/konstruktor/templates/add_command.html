@@ -34,5 +34,7 @@
 
 {% block scripts %}
 	<script src="{% static 'konstruktor/add_command/add_command.js' %}"></script>
-	{% block commandScripts %} {% endblock commandScripts %}
+	{% block commandScripts %}
+		<script src="{% static 'konstruktor/add_command/inputs_enter.js' %}"></script>
+	{% endblock commandScripts %}
 {% endblock scripts %}

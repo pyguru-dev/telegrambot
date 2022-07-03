@@ -34,8 +34,7 @@
 .email-input-control,
 .password-input-control,
 .again-password-input-control {
-	margin-top: 4px;
-	margin-bottom: 4px;
+	margin-bottom: 8px;
 
 	outline: 0;
 	border: 0;
@@ -59,8 +58,7 @@
 .password-button-control {
 	width: 40px;
 
-	margin-top: 4px;
-	margin-bottom: 4px;
+	margin-bottom: 8px;
 
 	position: absolute;
 
@@ -121,20 +119,23 @@
 }
 
 /* ------------ Адаптация ------------ */
+@media (min-width: 320px) {
+	.registration-form,
+	.buttons {
+		left: 20px;
+		right: 20px;
+	}
+}
+
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
-		height: 332px;
+		height: 340px;
 
 		top: 200px;
 	}
 
 	.heading {
-		font-size: 34px;
-	}
-
-	.registration-form {
-		left: 20px;
-		right: 20px;
+		font-size: 38px;
 	}
 
 	.login-input-control,
@@ -153,9 +154,7 @@
 	.buttons {
 		height: 45px;
 
-		top: 241px;
-		left: 20px;
-		right: 20px;
+		top: 242px;
 	}
 
 	.have-account-button-control {
@@ -175,28 +174,16 @@
 	}
 }
 
-@media (min-width: 768px) {
-	.registration-form {
-		left: 50px;
-		right: 50px;
-	}
-
-	.buttons {
-		left: 50px;
-		right: 50px;
-	}
-}
-
 @media (min-width: 768px) and (max-width: 999px) {
 	.container {
 		width: 600px;
-		height: 380px;
+		height: 381px;
 
 		top: 100px;
 	}
 
 	.heading {
-		font-size: 75px;
+		font-size: 79px;
 	}
 
 	.login-input-control,
@@ -215,7 +202,7 @@
 	.buttons {
 		height: 50px;
 
-		top: 306px;
+		top: 307px;
 	}
 
 	.have-account-button-control {
@@ -239,7 +226,7 @@
 @media (min-width: 1000px) {
 	.container {
 		width: 750px;
-		height: 432px;
+		height: 428px;
 
 		top: 125px;
 	}
@@ -266,7 +253,7 @@
 	.buttons {
 		height: 60px;
 
-		top: 348px;
+		top: 344px;
 	}
 
 	.have-account-button-control {

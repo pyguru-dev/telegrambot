@@ -113,21 +113,24 @@
 	background-color: #434965;
 }
 
+@media (min-width: 320px) {
+	.add-bot-form,
+	.buttons {
+		left: 20px;
+		right: 20px;
+	}
+}
+
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
 		width: 300px;
-		height: 252px;
+		height: 262px;
 
 		top: 250px;
 	}
 
 	.heading {
 		font-size: 28px;
-	}
-
-	.add-bot-form {
-		left: 15px;
-		right: 15px;
 	}
 
 	.bot-name-input-control,
@@ -143,8 +146,6 @@
 
 	.buttons {
 		top: 140px;
-		left: 15px;
-		right: 15px;
 	}
 
 	.add-bot-button-control,
@@ -159,16 +160,6 @@
 	.container {
 		width: 620px;
 	}
-
-	.add-bot-form {
-		left: 50px;
-		right: 50px;
-	}
-
-	.buttons {
-		left: 50px;
-		right: 50px;
-	}
 }
 
 @media (min-width: 768px) and (max-width: 999px) {
@@ -179,7 +170,7 @@
 	}
 
 	.heading {
-		font-size: 60px;
+		font-size: 61px;
 	}
 
 	.bot-name-input-control,
@@ -213,7 +204,7 @@
 	}
 
 	.heading {
-		font-size: 60px;
+		font-size: 61px;
 	}
 
 	.bot-name-input-control,

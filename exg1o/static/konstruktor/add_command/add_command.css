@@ -110,6 +110,13 @@
 }
 
 @media (min-width: 320px) {
+	.variables,
+	.add-command-form,
+	.buttons {
+		margin-left: 20px;
+		margin-right: 20px;
+	}
+
 	.add-command-form {
 		margin-top: 6px;
 		margin-bottom: 3px;
@@ -131,13 +138,6 @@
 		font-size: 40px;
 	}
 
-	.variables,
-	.add-command-form,
-	.buttons {
-		margin-left: 20px;
-		margin-right: 20px;
-	}
-
 	.command-name-input-control,
 	.command-input-control,
 	.command-answer-input-control {
@@ -152,21 +152,12 @@
 	.command-answer-input-control {
 		height: 114px;
 	}
-	
+
 	.add-command-button-control,
 	.back-button-control {
 		height: 45px;
 
 		font-size: 20px;
-	}
-}
-
-@media (min-width: 768px) {
-	.variables,
-	.add-command-form,
-	.buttons {
-		margin-left: 50px;
-		margin-right: 50px;
 	}
 }
 
@@ -178,7 +169,7 @@
 	}
 
 	.heading {
-		font-size: 52px;
+		font-size: 54px;
 	}
 
 	.command-name-input-control,
@@ -212,7 +203,7 @@
 	}
 
 	.heading {
-		font-size: 60px;
+		font-size: 62px;
 	}
 
 	.command-name-input-control,

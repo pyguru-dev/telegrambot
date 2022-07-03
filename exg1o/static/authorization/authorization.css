@@ -16,8 +16,8 @@
 
 /* ------------ Заголовок ------------ */
 .heading {
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-top: 4px;
+	margin-bottom: 4px;
 
 	text-align: center;
 	font-weight: bold;
@@ -34,8 +34,7 @@
 .password-input-control {
 	width: 100%;
 
-	margin-top: 4px;
-	margin-bottom: 4px;
+	margin-bottom: 8px;
 
 	outline: 0;
 	border: 0;
@@ -57,8 +56,7 @@
 .password-button-control {
 	width: 40px;
 
-	margin-top: 4px;
-	margin-bottom: 4px;
+	margin-bottom: 8px;
 
 	right: 0px;
 	position: absolute;
@@ -116,20 +114,23 @@
 }
 
 /* ------------ Адаптация ------------ */
+@media (min-width: 320px) {
+	.authorization-form,
+	.buttons {
+		left: 20px;
+		right: 20px;
+	}
+}
+
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
-		height: 246px;
+		height: 242px;
 
 		top: 200px;
 	}
 
 	.heading {
-		font-size: 34px;
-	}
-
-	.authorization-form {
-		left: 20px;
-		right: 20px;
+		font-size: 36px;
 	}
 
 	.login-input-control,
@@ -146,9 +147,7 @@
 	.buttons {
 		height: 77px;
 
-		top: 149px;
-		left: 20px;
-		right: 20px;
+		top: 145px;
 	}
 
 	.not-have-account-button-control {
@@ -168,28 +167,16 @@
 	}
 }
 
-@media (min-width: 768px) {
-	.authorization-form {
-		left: 50px;
-		right: 50px;
-	}
-
-	.buttons {
-		left: 50px;
-		right: 50px;
-	}
-}
-
 @media (min-width: 768px) and (max-width: 999px) {
 	.container {
 		width: 600px;
-		height: 275px;
+		height: 273px;
 
 		top: 100px;
 	}
 
 	.heading {
-		font-size: 74px;
+		font-size: 76px;
 	}
 
 	.login-input-control,
@@ -206,7 +193,7 @@
 	.buttons {
 		height: 50px;
 
-		top: 201px;
+		top: 199px;
 	}
 
 	.not-have-account-button-control {
@@ -230,7 +217,7 @@
 @media (min-width: 1000px) {
 	.container {
 		width: 780px;
-		height: 326px;
+		height: 320px;
 
 		top: 125px;
 	}
@@ -253,7 +240,7 @@
 	.buttons {
 		height: 60px;
 
-		top: 242px;
+		top: 236px;
 	}
 
 	.not-have-account-button-control {

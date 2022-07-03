@@ -23,9 +23,9 @@
 /* ------------ Информация о сайте ------------ */
 .site-info-text {
 	margin-top: 10px;
-	margin-bottom: 16px;
-	margin-left: 25px;
-	margin-right: 25px;
+	margin-bottom: 15px;
+	margin-left: 20px;
+	margin-right: 20px;
 
 	letter-spacing: 0.8px;
 }
@@ -40,7 +40,7 @@
 
 .site-info-text#ol {
 	margin-top: 0;
-	margin-bottom: 16px;
+	margin-bottom: 20px;
 
 	overflow: hidden;
 	text-overflow: ellipsis;

@@ -1,3 +1,16 @@
+const inputElements = [
+	document.querySelector('.bot-name-input-control'),
+	document.querySelector('.bot-token-input-control')
+]
+
+for (let i = 0; i <= inputElements.length; i++) {
+	inputElements[i].addEventListener('keyup', function(event) {
+		if (event.keyCode == 13) {
+			document.querySelector('.add-bot-button-control').click();
+		}
+	})
+}
+
 function hideOrShowButtonClick() {
 	var inputPasswordElement = document.querySelector('.bot-token-input-control');
 

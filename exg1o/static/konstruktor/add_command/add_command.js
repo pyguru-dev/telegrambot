@@ -1,3 +1,8 @@
+const inputElements = [
+	document.querySelector('.command-name-input-control'),
+	document.querySelector('.command-input-control')
+]
+
 function addCommandButtonClick() {
 	var commandName = document.querySelector('.command-name-input-control').value;
 	var command = document.querySelector('.command-input-control').value;
