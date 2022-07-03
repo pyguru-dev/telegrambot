@@ -36,7 +36,7 @@ class AuthorizationTestCase(TestCase):
 		}
 
 		response_text = self.post_request(data)
-		self.assertEqual(response_text, 'Пользователя "Test" не существует!')
+		self.assertEqual(response_text, 'Такого пользователя не существует!')
 
 	def test_fail_authorize_in_account_2(self):
 		data = {

@@ -27,7 +27,7 @@ function addCommandButtonClick() {
 			}
 			request.send(data);
 		} else {
-			showErrorMessage('Команды должно содержать не более 255 символов!')
+			showErrorMessage('Команда должна содержать не более 255 символов!')
 		}
 	} else {
 		showErrorMessage('Заполните форму добавление команды!')
