@@ -1,10 +1,9 @@
 function saveOrDeleteCommandRequest(request_type) {
-	var commandName = document.querySelector('.command-name-input-control').value;
 	var command = document.querySelector('.command-input-control').value;
 	var commandAnswer = document.querySelector('.command-answer-input-control').value;
 
-	if (commandName && command && commandAnswer != '') {
-		if (commandName.length <= 29) {
+	if (command && commandAnswer != '') {
+		if (command.length <= 255) {
 			var request = new XMLHttpRequest();
 			if (request_type == 'save_command') {
 				request.open('POST', 'save_command/', true);
@@ -14,7 +13,6 @@ function saveOrDeleteCommandRequest(request_type) {
 			request.setRequestHeader('Content-Type', 'application/json');
 			var data = JSON.stringify(
 				{
-					'command_name': commandName,
 					'command': command,
 					'command_answer': commandAnswer
 				}
@@ -29,7 +27,7 @@ function saveOrDeleteCommandRequest(request_type) {
 			}
 			request.send(data);
 		} else {
-			showErrorMessage('Имя команды должно содержать не более 29 символов!')
+			showErrorMessage('Команда должна содержать не более 255 символов!')
 		}
 	} else {
 		showErrorMessage('Заполните форму добавление команды!')

@@ -12,4 +12,4 @@ class TelegramBotLogModelAdmin(admin.ModelAdmin):
 
 @admin.register(TelegramBotCommandModel)
 class TelegramBotCommandModelAdmin(admin.ModelAdmin):
-	list_display = ('id', 'owner', 'bot_id', 'command_name')
+	list_display = ('id', 'owner', 'bot_id', 'command')

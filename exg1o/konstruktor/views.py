@@ -94,13 +94,13 @@ def view_konstruktor_bot_page(request: WSGIRequest, nickname: str, bot_id: int, 
 		data['bot']['commands'].append(
 			{
 				'id': bot_command.id,
-				'name': bot_command.command_name
+				'command': bot_command.command
 			}
 		)
 	if len(data['bot']['commands']) > 4:
 		data['bot']['commands'][-1].update(
 			{
-				'bot_command_positsion': 'last'
+				'command_positsion': 'last'
 			}
 		)
 
@@ -192,12 +192,12 @@ def add_command_page(request: WSGIRequest, nickname: str, bot_id: int): # Отр
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
-@GlobalDecorators.check_request_data_items(needs_items=['command_name', 'command', 'command_answer'])
+@GlobalDecorators.check_request_data_items(needs_items=['command', 'command_answer'])
 @GlobalDecorators.check_bot_id
 def add_command(request: WSGIRequest, nickname: str, bot_id: int, data: dict, bot: TelegramBotModel): # Добавление команды
-	command_name, command, command_answer = data['command_name'], data['command'], data['command_answer']
+	command, command_answer = data['command'], data['command_answer']
 
-	bot_command = TelegramBotCommandModel(id, bot_id, nickname, command_name, command, command_answer)
+	bot_command = TelegramBotCommandModel(id, bot_id, nickname, command, command_answer)
 	bot_command.save()
 
 	return HttpResponse('Успешное добавление команды.')
@@ -211,7 +211,6 @@ def view_command_page(request: WSGIRequest, nickname: str, bot_id: int, command_
 		{
 			'variables_for_commands': GlobalVariable.variables_for_commands,
 			'bot_command': {
-				'command_name': bot_command.command_name,
 				'command': bot_command.command,
 				'command_answer': bot_command.command_answer
 			}
@@ -222,13 +221,13 @@ def view_command_page(request: WSGIRequest, nickname: str, bot_id: int, command_
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
-@GlobalDecorators.check_request_data_items(needs_items=['command_name', 'command', 'command_answer'])
+@GlobalDecorators.check_request_data_items(needs_items=['command', 'command_answer'])
 @GlobalDecorators.check_bot_id
 @GlobalDecorators.check_command_id
 def save_command(request: WSGIRequest, nickname: str, bot_id: int, command_id: int, data: dict, bot: TelegramBotModel, bot_command: TelegramBotCommandModel): # Сохранение команды
-	command_name, command, command_answer = data['command_name'], data['command'], data['command_answer']
+	command, command_answer = data['command'], data['command_answer']
 
-	bot_command = TelegramBotCommandModel(command_id, bot_id, nickname, command_name, command, command_answer)
+	bot_command = TelegramBotCommandModel(command_id, bot_id, nickname, command, command_answer)
 	bot_command.save()
 
 	return HttpResponse('Успешное cохранение команды.')

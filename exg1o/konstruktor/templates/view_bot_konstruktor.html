@@ -33,15 +33,15 @@
 				<div class="bot-commands-table">
 					{% for bot_command in bot.commands %}
 
-						{% if 'bot_commands_positsion' not in bot_command %}
+						{% if 'commands_positsion' not in bot_command %}
 							<div class="bot-command">
 						{% endif %}
 
-						{% if 'bot_commands_positsion' in bot_command %}
+						{% if 'commands_positsion' in bot_command %}
 							<div id="last" class="bot-command">
 						{% endif %}
 
-							<a class="bot-command-name" href="view_command/{{ bot_command.id }}/">{{ bot_command.name }}</a>
+							<a class="bot-command-name" href="view_command/{{ bot_command.id }}/">{{ bot_command.command }}</a>
 						</div>
 					{% endfor %}
 				</div>
