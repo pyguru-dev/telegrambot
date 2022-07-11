@@ -16,9 +16,6 @@ for (let i = 0; i <= inputElements.length; i++) {
 function hideOrShowButtonClick(elemet) {
 	var inputPasswordElement = document.querySelector(elemet);
 
-	console.log(elemet)
-	console.log(inputPasswordElement)
-
 	if (inputPasswordElement.getAttribute('type') == 'password') {
 		inputPasswordElement.setAttribute('type', 'text');
 
@@ -53,23 +50,24 @@ function registrationButtonClick() {
 			if (password_1.length >= 8) {
 				if (password_1.length <= 255) {
 					var request = new XMLHttpRequest();
-					request.open('POST', 'register_account/', true);
-					request.setRequestHeader('Content-Type', 'application/json');
-					var data = JSON.stringify(
-						{
-							'login': login,
-							'email': email,
-							'password': password_1
+					sendRequestToServer(
+						request,
+						'register_account/',
+							JSON.stringify(
+							{
+								'login': login,
+								'email': email,
+								'password': password_1
+							}
+						),
+						function() {
+							if (request.status == 200) {
+								window.location.href = '../authorization';
+							} else {
+								showErrorMessage(request.responseText);
+							}
 						}
-					);
-					request.onreadystatechange = function() {
-						if (request.status == 200) {
-							window.location.href = '../authorization';
-						} else {
-							showErrorMessage(request.responseText);
-						}
-					}
-					request.send(data);
+					)
 				} else {
 					showErrorMessage('Пароль должен содержать не более 255 символов!');
 				}

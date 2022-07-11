@@ -3,7 +3,7 @@ from django.db.models import Max, F
 
 # Create your models here.
 class TelegramBotModel(models.Model):
-	id = models.AutoField(primary_key=True)
+	id = models.BigIntegerField(primary_key=True)
 	owner = models.CharField(max_length=256)
 	name = models.CharField(max_length=256)
 	token = models.CharField(max_length=256)
@@ -23,9 +23,9 @@ class TelegramBotModel(models.Model):
 		return f'ID: {self.id} | Владелец: {self.owner} | Название бота: {self.name} | Запушен ли бот: {self.online}'
 
 class TelegramBotLogModel(models.Model):
-	id = models.AutoField(primary_key=True)
-	bot_id = models.IntegerField()
+	id = models.BigIntegerField(primary_key=True)
 	owner = models.CharField(max_length=256)
+	bot_id = models.BigIntegerField()
 	user_name = models.CharField(max_length=256)
 	user_message = models.TextField()
 
@@ -43,9 +43,9 @@ class TelegramBotLogModel(models.Model):
 		return f'ID: {self.id} | Владелец: {self.owner} | ID бота: {self.id}'
 
 class TelegramBotCommandModel(models.Model):
-	id = models.AutoField(primary_key=True)
-	bot_id = models.IntegerField()
+	id = models.BigIntegerField(primary_key=True)
 	owner = models.CharField(max_length=256)
+	bot_id = models.BigIntegerField()
 	command = models.CharField(max_length=256)
 	command_answer = models.TextField()
 

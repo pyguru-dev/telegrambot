@@ -197,7 +197,7 @@ def add_command_page(request: WSGIRequest, nickname: str, bot_id: int): # Отр
 def add_command(request: WSGIRequest, nickname: str, bot_id: int, data: dict, bot: TelegramBotModel): # Добавление команды
 	command, command_answer = data['command'], data['command_answer']
 
-	bot_command = TelegramBotCommandModel(id, bot_id, nickname, command, command_answer)
+	bot_command = TelegramBotCommandModel(id, nickname, bot_id, command, command_answer)
 	bot_command.save()
 
 	return HttpResponse('Успешное добавление команды.')
@@ -227,7 +227,7 @@ def view_command_page(request: WSGIRequest, nickname: str, bot_id: int, command_
 def save_command(request: WSGIRequest, nickname: str, bot_id: int, command_id: int, data: dict, bot: TelegramBotModel, bot_command: TelegramBotCommandModel): # Сохранение команды
 	command, command_answer = data['command'], data['command_answer']
 
-	bot_command = TelegramBotCommandModel(command_id, bot_id, nickname, command, command_answer)
+	bot_command = TelegramBotCommandModel(command_id, nickname, bot_id, command, command_answer)
 	bot_command.save()
 
 	return HttpResponse('Успешное cохранение команды.')

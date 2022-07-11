@@ -34,27 +34,28 @@ function addBotButtonClick() {
 	if (botName && botToken != '') {
 		if (botName.length <= 255) {
 			var request = new XMLHttpRequest();
-			request.open('POST', '../add_bot_/', true);
-			request.setRequestHeader('Content-Type', 'application/json');
-			var data = JSON.stringify(
-				{
-					'bot_name': botName,
-					'bot_token': botToken
+			sendRequestToServer(
+				request,
+				'../add_bot_/',
+				JSON.stringify(
+					{
+						'bot_name': botName,
+						'bot_token': botToken
+					}
+				),
+				function() {
+					if (request.status == 200) {
+						setInterval("window.location.href = '../';", 1000)
+						showSuccessMessage(request.responseText);
+					} else {
+						showErrorMessage(request.responseText);
+					}
 				}
 			);
-			request.onreadystatechange = function() {
-				if (request.status == 200) {
-					setInterval("window.location.href = '../';", 1000)
-					showSuccessMessage(request.responseText);
-				} else {
-					showErrorMessage(request.responseText);
-				}
-			}
-			request.send(data);
 		} else {
-			showErrorMessage('Имя бота должно содержать не более 255 символов!')
+			showErrorMessage('Имя бота должно содержать не более 255 символов!');
 		}
 	} else {
-		showErrorMessage('Заполните форму добавление бота!')
+		showErrorMessage('Заполните форму добавление бота!');
 	}
 }

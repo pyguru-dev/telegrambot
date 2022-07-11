@@ -22,7 +22,7 @@ class TelegramBot: # Telegram Бот
 		def wrapper(self, update: telegram.update.Update, context: telegram.ext.callbackcontext.CallbackContext):
 			_id, user_full_name, message = update.effective_chat.id, update.effective_user.full_name, update.message.text
 
-			log = TelegramBotLogModel(id, self.bot_id, self.owner, user_full_name, message)
+			log = TelegramBotLogModel(id, self.owner, self.bot_id, user_full_name, message)
 			log.save()
 
 			func(self, update, context, _id, message)
