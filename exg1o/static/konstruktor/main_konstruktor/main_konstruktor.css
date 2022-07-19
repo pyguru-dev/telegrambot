@@ -68,6 +68,26 @@
 	letter-spacing: 0.8px;
 }
 
+/* ------------ Для ограничений аккаунта ------------ */
+.account-max {
+	width: calc(100% + 8px);
+
+	left: -4px;
+	z-index: 2;
+	position: absolute;
+}
+
+.max-bots {
+	width: max-content;
+
+	margin: 0px;
+	padding-top: 1px;
+	padding-left: 3px;
+	padding-right: 3px;
+
+	border-radius: 4px;
+}
+
 /* ------------ Кнопки ------------ */
 .delete-bot-button-control {
 	height: 32px;
@@ -77,12 +97,22 @@
 	border-radius: 8px;
 }
 
+.upgrade-account-buttom-control {
+	height: 100%;
+
+	top: 0;
+	right: 0;
+
+	border-radius: 4px;
+}
+
 .add-bot-button-control {
 	width: 100%;
 
 	border-radius: 12px;
 }
 
+.upgrade-account-buttom-control,
 .delete-bot-button-control,
 .add-bot-button-control {
 	position: absolute;
@@ -95,7 +125,8 @@
 	transition: 0.4s;
 }
 
-.delete-bot-button-control {
+.delete-bot-button-control,
+.upgrade-account-buttom-control {
 	background-color: #4d5163;
 }
 
@@ -104,12 +135,14 @@
 }
 
 .delete-bot-button-control:hover,
+.upgrade-account-buttom-control:hover,
 .add-bot-button-control:hover {
 	transition: 0.4s;
 	background-color: #50566E;
 }
 
 .delete-bot-button-control:active,
+.upgrade-account-buttom-control:active,
 .add-bot-button-control:active {
 	background-color: #434965;
 }
@@ -146,6 +179,14 @@
 
 		text-align: center;
 		font-size: 28px;
+	}
+
+	.account-max#first {
+		top: 470px;
+	}
+
+	.max-bots {
+		font-size: 15px;
 	}
 
 	.delete-bot-button-control {
@@ -195,6 +236,14 @@
 
 		text-align: left;
 		font-size: 25px;
+	}
+
+	.account-max#first {
+		top: 260px;
+	}
+
+	.max-bots {
+		font-size: 18px;
 	}
 
 	.delete-bot-button-control {

@@ -84,6 +84,11 @@
 	position: absolute;
 }
 
+/* ------------ Для ограничений аккаунта ------------ */
+.account-max#second {
+	top: 258px;
+}
+
 /* ------------ Контейнер для команд бота ------------ */
 .bot-commands-container {
 	position: absolute;

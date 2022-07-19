@@ -79,7 +79,6 @@
 /* ------------ Информация о аккаунте пользователя ------------ */
 .profile-info {
 	width: 546px;
-	height: 300px;
 
 	position: absolute;
 }
@@ -91,38 +90,10 @@
 	margin-right: 10px;
 }
 
-/* ------------ Кнопки ------------ */
-.upgrade-account-buttom-control {
-	width: calc(100% - 20px);
-
-	left: 10px;
-	right: 10px;
-	position: absolute;
-
-	font-weight: bold;
-	letter-spacing: 0.8px;
-
-	border: 0;
-	border-radius: 12px;
-
-	transition: 0.4s;
-	background-color: #595F76;
-}
-
-.upgrade-account-buttom-control:hover {
-	transition: 0.4s;
-	background-color: #50566E;
-}
-
-.upgrade-account-buttom-control:active {
-	background-color: #434965;
-}
-
 /* ------------ Адаптация ------------ */
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
 		width: 300px;
-		height: 515px;
 
 		top: 250px;
 	}
@@ -168,7 +139,6 @@
 
 	.profile-info {
 		width: 296px;
-		height: 192px;
 
 		top: 390px;
 
@@ -183,20 +153,11 @@
 
 		font-size: 17px;
 	}
-
-	.upgrade-account-buttom-control {
-		height: 45px;
-
-		top: 60px;
-
-		font-size: 20px;
-	}
 }
 
 @media (min-width: 768px) and (max-width: 999px) {
 	.container {
 		width: 700px;
-		height: 541px;
 
 		top: 100px;
 	}
@@ -242,7 +203,6 @@
 
 	.profile-info {
 		width: 696px;
-		height: 192px;
 
 		top: 390px;
 
@@ -256,14 +216,6 @@
 		height: 30px;
 
 		font-size: 24px;
-	}
-
-	.upgrade-account-buttom-control {
-		height: 50px;
-
-		top: 80px;
-
-		font-size: 22px;
 	}
 }
 
@@ -317,7 +269,7 @@
 
 	.profile-info {
 		width: 546px;
-		height: 298px;
+		height: 300px;
 
 		left: 350px;
 	}
@@ -327,13 +279,5 @@
 		height: 36px;
 
 		font-size: 26px;
-	}
-
-	.upgrade-account-buttom-control {
-		height: 60px;
-
-		top: 120px;
-
-		font-size: 24px;
 	}
 }

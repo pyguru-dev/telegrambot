@@ -6,6 +6,12 @@
 
 {% block styles %}
 	{% load static %}
+	{% if user.status == 'Бесплатный' %}
+		<link rel="stylesheet" href="{% static 'account/view_profile/view_profile_for_free_account.css' %}">
+	{% endif %}
+	{% if user.status == 'Платный' %}
+		<link rel="stylesheet" href="{% static 'account/view_profile/view_profile_for_paid_account.css' %}">
+	{% endif %}
 	<link rel="stylesheet" href="{% static 'account/view_profile/view_profile.css' %}">
 {% endblock styles %}
 
@@ -22,7 +28,9 @@
 		<div class="profile-info">
 			<h1 class="info">Тариф: {{ user.status }}</h1>
 			<h1 class="info">Регистрация: {{ user.date_joined }}</h1>
-			<button class="upgrade-account-buttom-control" onclick="window.location.href = '../../{{ user.nickname }}/upgrade/';">Улучшить аккаунт</button>
+			{% if user.status == 'Бесплатный' %}
+				<button class="upgrade-account-buttom-control" onclick="window.location.href = '/account/{{ user.nickname }}/upgrade/';">Улучшить аккаунт</button>
+			{% endif %}
 		</div>
 	</div>
 {% endblock content %}

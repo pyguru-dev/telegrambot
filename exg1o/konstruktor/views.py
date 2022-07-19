@@ -26,6 +26,14 @@ def get_bots_data(request: WSGIRequest, nickname: str): # Функция для 
 		num += 1
 
 	data = GlobalFunctions.get_navbar_buttons_data(request)
+	data.update(
+		{
+			'user': {
+				'nickname': nickname,
+				'status': 'Бесплатный' if request.user.groups.get().name == 'free_accounts' else 'Платный'
+			}
+		}
+	)
 	data.update(bots)
 
 	return data
@@ -53,23 +61,29 @@ def delete_bot(request: WSGIRequest, nickname: str, data: dict): # Удален�
 	else:
 		return redirect(f'/account/konstruktor/{nickname}/')
 
+@csrf_exempt
 @GlobalDecorators.if_user_authed
 def add_bot_page(request: WSGIRequest, nickname: str): # Отрисовка add_bot.html
-	data = GlobalFunctions.get_navbar_buttons_data(request)
-	return render(request, 'add_bot.html', data)
+	if TelegramBotModel.objects.filter(owner=nickname).count() >= 1 and request.user.groups.filter(name='free_accounts').exists():
+		return HttpResponseBadRequest('У вас уже максимальное количество ботов!')
+	elif TelegramBotModel.objects.filter(owner=nickname).count() >= 5 and request.user.groups.filter(name='paid_accounts').exists():
+		return HttpResponseBadRequest('У вас уже максимальное количество ботов!')
+	else:
+		data = GlobalFunctions.get_navbar_buttons_data(request)
+		return render(request, 'add_bot.html', data)
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_request_data_items(needs_items=['bot_name', 'bot_token'])
 def add_bot(request: WSGIRequest, nickname: str, data: dict): # Добавление бота
-	owner, bot_name, bot_token = nickname, data['bot_name'], data['bot_token']
+	bot_name, bot_token = data['bot_name'], data['bot_token']
 
-	if TelegramBotModel.objects.filter(owner=owner).count() >= 5 and request.user.groups.filter(name='paid_accounts').exists():
+	if TelegramBotModel.objects.filter(owner=nickname).count() >= 1 and request.user.groups.filter(name='free_accounts').exists():
 		return HttpResponseBadRequest('У вас уже максимальное количество ботов!')
-	elif TelegramBotModel.objects.filter(owner=owner).count() >= 1 and request.user.groups.filter(name='free_accounts').exists():
+	elif TelegramBotModel.objects.filter(owner=nickname).count() >= 5 and request.user.groups.filter(name='paid_accounts').exists():
 		return HttpResponseBadRequest('У вас уже максимальное количество ботов!')
 	else:
-		bot = TelegramBotModel(id, owner, bot_name, bot_token)
+		bot = TelegramBotModel(id, nickname, bot_name, bot_token)
 		bot.save()
 
 		return HttpResponse('Успешное добавление бота.')
@@ -78,6 +92,14 @@ def add_bot(request: WSGIRequest, nickname: str, data: dict): # Добавлен
 @GlobalDecorators.check_bot_id
 def view_konstruktor_bot_page(request: WSGIRequest, nickname: str, bot_id: int, bot: TelegramBotModel): # Отрисовка view_bot_konstruktor.html
 	data = get_bots_data(request, nickname)
+	data.update(
+		{
+			'user': {
+				'nickname': nickname,
+				'status': 'Бесплатный' if request.user.groups.get().name == 'free_accounts' else 'Платный'
+			}
+		}
+	)
 	data.update(
 		{
 			'bot': {
@@ -180,15 +202,19 @@ def clear_log(request: WSGIRequest, nickname: str, bot_id: int, bot: TelegramBot
 
 	return HttpResponse('Успешная очистка логов.')
 
+@csrf_exempt
 @GlobalDecorators.if_user_authed
 def add_command_page(request: WSGIRequest, nickname: str, bot_id: int): # Отрисовка add_command.html
-	data = GlobalFunctions.get_navbar_buttons_data(request)
-	data.update(
-		{
-			'variables_for_commands': GlobalVariable.variables_for_commands
-		}
-	)
-	return render(request, 'add_command.html', data)
+	if TelegramBotCommandModel.objects.filter(owner=nickname).count() >= 15 and request.user.groups.filter(name='free_accounts').exists():
+		return HttpResponseBadRequest('У вас уже максимальное количество команд!')
+	else:
+		data = GlobalFunctions.get_navbar_buttons_data(request)
+		data.update(
+			{
+				'variables_for_commands': GlobalVariable.variables_for_commands
+			}
+		)
+		return render(request, 'add_command.html', data)
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
@@ -197,10 +223,13 @@ def add_command_page(request: WSGIRequest, nickname: str, bot_id: int): # Отр
 def add_command(request: WSGIRequest, nickname: str, bot_id: int, data: dict, bot: TelegramBotModel): # Добавление команды
 	command, command_answer = data['command'], data['command_answer']
 
-	bot_command = TelegramBotCommandModel(id, nickname, bot_id, command, command_answer)
-	bot_command.save()
+	if TelegramBotCommandModel.objects.filter(owner=nickname).count() >= 15 and request.user.groups.filter(name='free_accounts').exists():
+		return HttpResponseBadRequest('У вас уже максимальное количество команд!')
+	else:
+		bot_command = TelegramBotCommandModel(id, nickname, bot_id, command, command_answer)
+		bot_command.save()
 
-	return HttpResponse('Успешное добавление команды.')
+		return HttpResponse('Успешное добавление команды.')
 
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id

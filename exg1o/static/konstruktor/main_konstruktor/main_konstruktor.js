@@ -21,3 +21,20 @@ function deleteBotButtonClick(botId, botName, nickname) {
 		);
 	}
 }
+
+function addBotButtonClick(link) {
+	var request = new XMLHttpRequest();
+	sendRequestToServer(
+		request,
+		link,
+		'',
+		function() {
+			setInterval("window.location.href = '';", 1000)
+			if (request.status == 200) {
+				window.location.href = link;
+			} else {
+				showErrorMessage(request.responseText);
+			}
+		}
+	);
+}

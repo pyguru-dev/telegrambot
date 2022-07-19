@@ -18,47 +18,47 @@
 				<button id="hideBotToken" class="bot-token-button-control" onclick="hideOrShowButtonClick()"></button>
 			</div>
 			<div class="bot-data-konstruktor-buttons">
-
 				{% if bot.online == False %}
 					<button class="start-bot-button-control" onclick="startBotButtonClick()">Запустить бота</button>
 				{% endif %}
-
 				{% if bot.online == True %}
 					<button class="stop-bot-button-control" onclick="stopBotButtonClick()">Остоновить бота</button>
 				{% endif %}
-
 				<button class="save-bot-settings-button-control" onclick="saveBotSettingsButtonClick()">Сохранить настройки</button>
 			</div>
 			<div class="bot-commands-container">
 				<div class="bot-commands-table">
 					{% for bot_command in bot.commands %}
-
 						{% if 'commands_positsion' not in bot_command %}
 							<div class="bot-command">
 						{% endif %}
-
 						{% if 'commands_positsion' in bot_command %}
 							<div id="last" class="bot-command">
 						{% endif %}
-
 							<a class="bot-command-name" href="view_command/{{ bot_command.id }}/">{{ bot_command.command }}</a>
 						</div>
 					{% endfor %}
 				</div>
-				<button class="add-command-button-control" onclick="window.location.href = 'add_command/';">Добавить команду</button>
+				<div id="second" class="account-max">
+					{% if user.status == 'Бесплатный' %}
+						<h1 class="max-bots" style="background-color: #F04F53;">MAX: 15</h1>
+						<button class="upgrade-account-buttom-control" onclick="window.location.href = '/account/{{ user.nickname }}/upgrade/';">Улучшить аккаунт</button>
+					{% endif %}
+					{% if user.status == 'Платный' %}
+						<h1 class="max-bots" style="background-color: #5CC639;">MAX: ∞</h1>
+					{% endif %}
+				</div>
+				<button class="add-command-button-control" onclick="addCommandButtonClick('add_command/')">Добавить команду</button>
 			</div>
 			<div class="bot-log-container">
 				<div class="bot-log-table">
 					{% for log in bot.log %}
-
 						{% if 'log_data_positsion' not in log %}
 							<div class="bot-log">
 						{% endif %}
-
 						{% if 'log_data_positsion' in log %}
 							<div id="last" class="bot-log">
 						{% endif %}
-
 							<p class="log-data">{{ log.user_name }}:</p>
 							<p class="log-data">{{ log.user_message }}</p>
 						</div>
