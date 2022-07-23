@@ -83,6 +83,7 @@ def check_bot_id(func): # Декоратор для проверки ID бота
 
 def check_max_commands_count_for_account(func):
 	def wrapper(*args, **kwargs):
+		request: WSGIRequest = args[0]
 		bot_id = kwargs['bot_id']
 
 		if TelegramBotCommandModel.objects.filter(bot_id=bot_id).count() >= 15 and request.user.groups.filter(name='free_accounts').exists():

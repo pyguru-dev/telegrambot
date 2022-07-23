@@ -19,13 +19,12 @@ class AuthorizationTestCase(TestCase):
 		self.assertEqual(response.status_code, 200)
 
 	def test_successfully_authorize_in_account(self):
+		self.create_test_user()
+
 		data = {
 			'login': 'Test',
 			'password': 'TestTest'
 		}
-
-		self.create_test_user()
-
 		response_text = self.post_request(data)
 		self.assertEqual(response_text, 'Успешная авторизация.')
 
@@ -39,12 +38,11 @@ class AuthorizationTestCase(TestCase):
 		self.assertEqual(response_text, 'Такого пользователя не существует!')
 
 	def test_fail_authorize_in_account_2(self):
+		self.create_test_user()
+
 		data = {
 			'login': 'Test',
 			'password': 'Test'
 		}
-
-		self.create_test_user()
-
 		response_text = self.post_request(data)
 		self.assertEqual(response_text, 'Вы ввели неверный "Password"!')

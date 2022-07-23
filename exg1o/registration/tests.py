@@ -6,14 +6,12 @@ class RegistrationTestCase(TestCase):
 	def setUp(self):
 		self.client = Client(enforce_csrf_checks=True)
 
-	def create_test_user(self):
-		user = User.objects.create_user('Test', 'test@gmail.com', 'TestTest')
-		user.save()
-
-	def post_request(self, data: dict):
 		free_accounts_group = Group.objects.create(name='free_accounts')
 		free_accounts_group.save()
+		paid_accounts_group = Group.objects.create(name='paid_accounts')
+		paid_accounts_group.save()
 
+	def post_request(self, data: dict):
 		response = self.client.post('/registration/register_account/', data, content_type='application/json')
 		return response.content.decode('UTF-8')
 
@@ -38,7 +36,8 @@ class RegistrationTestCase(TestCase):
 			'password': 'TestTest'
 		}
 
-		self.create_test_user()
+		user = User.objects.create_user('Test', 'test@gmail.com', 'TestTest')
+		user.save()
 
 		response_text = self.post_request(data)
 		self.assertEqual(response_text, 'Login "Test" уже занят!')
