@@ -25,7 +25,7 @@
 			<div id="first" class="account-max">
 				{% if user.status == 'Бесплатный' %}
 					<h1 class="max-bots" style="background-color: #F04F53;">MAX: 1</h1>
-					<button class="upgrade-account-buttom-control" onclick="window.location.href = '/account/{{ user.nickname }}/upgrade/';">Улучшить аккаунт</button>
+					<button class="upgrade-account-buttom-control" onclick="window.location.href = '/account/{{ user.username }}/upgrade/';">Улучшить аккаунт</button>
 				{% endif %}
 				{% if user.status == 'Платный' %}
 					<h1 class="max-bots" style="background-color: #5CC639;">MAX: 5</h1>

@@ -10,12 +10,21 @@ from telegram_bot import TelegramBot
 from threading import Thread
 
 # Create your views here.
-def get_bots_data(request: WSGIRequest, nickname: str): # Функция для получения данных о ботах
-	bots, num = {
-		'bots': []
-	}, 1
-	for bot in TelegramBotModel.objects.filter(owner=nickname).all():
-		bots['bots'].append(
+def get_bots_data(request: WSGIRequest):
+	data = GlobalFunctions.get_navbar_buttons_data(request)
+	data.update(
+		{
+			'bots': [],
+			'user': {
+				'username': request.user.username,
+				'status': 'Бесплатный' if request.user.groups.get().name == 'free_accounts' else 'Платный'
+			}
+		}
+	)
+
+	num = 1
+	for bot in TelegramBotModel.objects.filter(owner_id=request.user.id):
+		data['bots'].append(
 			{
 				'bot_id': bot.id,
 				'bot_name': bot.name,
@@ -25,77 +34,55 @@ def get_bots_data(request: WSGIRequest, nickname: str): # Функция для 
 		)
 		num += 1
 
-	data = GlobalFunctions.get_navbar_buttons_data(request)
-	data.update(
-		{
-			'user': {
-				'nickname': nickname,
-				'status': 'Бесплатный' if request.user.groups.get().name == 'free_accounts' else 'Платный'
-			}
-		}
-	)
-	data.update(bots)
-
 	return data
 
 @GlobalDecorators.if_user_authed
-def main_konstruktor_page(request: WSGIRequest, nickname: str): # Отрисовка main_konstruktor.html
-	data = get_bots_data(request, nickname)
+def main_konstruktor_page(request: WSGIRequest, username: str): # Отрисовка main_konstruktor.html
+	data = get_bots_data(request)
 	return render(request, 'main_konstruktor.html', data)
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_request_data_items(needs_items=['bot_id'])
-def delete_bot(request: WSGIRequest, nickname: str, data: dict): # Удаление бота
+def delete_bot(request: WSGIRequest, username: str, data: dict): # Удаление бота
 	bot_id = int(data['bot_id'])
 
-	bot = TelegramBotModel.objects.filter(owner=nickname)
+	bot = TelegramBotModel.objects.filter(owner_id=request.user.id)
 	if bot.filter(id=bot_id).exists():
 		bot = bot.get(id=bot_id)
 		bot.delete()
 
-		for bot_command in TelegramBotCommandModel.objects.filter(owner=nickname).filter(bot_id=bot_id):
-			bot_command.delete()
-
 		return HttpResponse('Успешное удаление бота.')
 	else:
-		return redirect(f'/account/konstruktor/{nickname}/')
+		return redirect(f'/konstruktor/{username}/')
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
-def add_bot_page(request: WSGIRequest, nickname: str): # Отрисовка add_bot.html
-	if TelegramBotModel.objects.filter(owner=nickname).count() >= 1 and request.user.groups.filter(name='free_accounts').exists():
-		return HttpResponseBadRequest('У вас уже максимальное количество ботов!')
-	elif TelegramBotModel.objects.filter(owner=nickname).count() >= 5 and request.user.groups.filter(name='paid_accounts').exists():
-		return HttpResponseBadRequest('У вас уже максимальное количество ботов!')
-	else:
-		data = GlobalFunctions.get_navbar_buttons_data(request)
-		return render(request, 'add_bot.html', data)
+@GlobalDecorators.check_max_bots_count_for_account
+def add_bot_page(request: WSGIRequest, username: str): # Отрисовка add_bot.html
+	data = GlobalFunctions.get_navbar_buttons_data(request)
+	return render(request, 'add_bot.html', data)
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_request_data_items(needs_items=['bot_name', 'bot_token'])
-def add_bot(request: WSGIRequest, nickname: str, data: dict): # Добавление бота
+@GlobalDecorators.check_max_bots_count_for_account
+def add_bot(request: WSGIRequest, username: str, data: dict): # Добавление бота
 	bot_name, bot_token = data['bot_name'], data['bot_token']
 
-	if TelegramBotModel.objects.filter(owner=nickname).count() >= 1 and request.user.groups.filter(name='free_accounts').exists():
-		return HttpResponseBadRequest('У вас уже максимальное количество ботов!')
-	elif TelegramBotModel.objects.filter(owner=nickname).count() >= 5 and request.user.groups.filter(name='paid_accounts').exists():
-		return HttpResponseBadRequest('У вас уже максимальное количество ботов!')
-	else:
-		bot = TelegramBotModel(id, nickname, bot_name, bot_token)
-		bot.save()
+	bot = TelegramBotModel(None, request.user.id, bot_name, bot_token)
+	bot.save()
 
-		return HttpResponse('Успешное добавление бота.')
+	return HttpResponse('Успешное добавление бота.')
 
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
-def view_konstruktor_bot_page(request: WSGIRequest, nickname: str, bot_id: int, bot: TelegramBotModel): # Отрисовка view_bot_konstruktor.html
-	data = get_bots_data(request, nickname)
+def view_konstruktor_bot_page(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Отрисовка view_bot_konstruktor.html
+	data = get_bots_data(request)
 	data.update(
 		{
 			'user': {
-				'nickname': nickname,
+				'username': username,
 				'status': 'Бесплатный' if request.user.groups.get().name == 'free_accounts' else 'Платный'
 			}
 		}
@@ -112,7 +99,7 @@ def view_konstruktor_bot_page(request: WSGIRequest, nickname: str, bot_id: int, 
 		}
 	)
 
-	for bot_command in TelegramBotCommandModel.objects.filter(owner=nickname).filter(bot_id=bot_id):
+	for bot_command in TelegramBotCommandModel.objects.filter(bot_id=bot_id):
 		data['bot']['commands'].append(
 			{
 				'id': bot_command.id,
@@ -126,7 +113,7 @@ def view_konstruktor_bot_page(request: WSGIRequest, nickname: str, bot_id: int, 
 			}
 		)
 
-	for log in TelegramBotLogModel.objects.filter(owner=nickname).filter(bot_id=bot_id):
+	for log in TelegramBotLogModel.objects.filter(bot_id=bot_id):
 		data['bot']['log'].append(
 			{
 				'id': log.id,
@@ -146,8 +133,8 @@ def view_konstruktor_bot_page(request: WSGIRequest, nickname: str, bot_id: int, 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
-def start_bot(request: WSGIRequest, nickname: str, bot_id: int, bot: TelegramBotModel): # Запуск бота
-	telegram_bot = TelegramBot(nickname, bot_id, bot.token)
+def start_bot(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Запуск бота
+	telegram_bot = TelegramBot(username, bot_id, bot.token)
 	if telegram_bot.auth():
 		Thread(target=telegram_bot.start, daemon=True).start()
 
@@ -156,7 +143,7 @@ def start_bot(request: WSGIRequest, nickname: str, bot_id: int, bot: TelegramBot
 
 		GlobalVariable.online_bots.update(
 			{
-				nickname: {
+				username: {
 					bot_id: telegram_bot
 				}
 			}
@@ -169,14 +156,14 @@ def start_bot(request: WSGIRequest, nickname: str, bot_id: int, bot: TelegramBot
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
-def stop_bot(request: WSGIRequest, nickname: str, bot_id: int, bot: TelegramBotModel): # Остоновка бота
-	telegram_bot = GlobalVariable.online_bots[nickname][bot_id]
+def stop_bot(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Остоновка бота
+	telegram_bot = GlobalVariable.online_bots[username][bot_id]
 	Thread(target=telegram_bot.stop, daemon=True).start()
 
 	bot.online = False
 	bot.save()
 
-	del GlobalVariable.online_bots[nickname][bot_id]
+	del GlobalVariable.online_bots[username][bot_id]
 
 	return HttpResponse('Бот успешно остоновлен.')
 
@@ -184,7 +171,7 @@ def stop_bot(request: WSGIRequest, nickname: str, bot_id: int, bot: TelegramBotM
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_request_data_items(needs_items=['bot_name', 'bot_token'])
 @GlobalDecorators.check_bot_id
-def save_bot_settings(request: WSGIRequest, nickname: str, bot_id: int, data: dict, bot: TelegramBotModel):
+def save_bot_settings(request: WSGIRequest, username: str, bot_id: int, data: dict, bot: TelegramBotModel):
 	bot_name, bot_token = data['bot_name'], data['bot_token']
 
 	bot.name = bot_name
@@ -196,45 +183,41 @@ def save_bot_settings(request: WSGIRequest, nickname: str, bot_id: int, data: di
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
-def clear_log(request: WSGIRequest, nickname: str, bot_id: int, bot: TelegramBotModel): # Очистка логов
-	for log in TelegramBotLogModel.objects.filter(owner=nickname).filter(bot_id=bot_id):
+def clear_log(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Очистка логов
+	for log in TelegramBotLogModel.objects.filter(bot_id=bot_id):
 		log.delete()
 
 	return HttpResponse('Успешная очистка логов.')
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
-def add_command_page(request: WSGIRequest, nickname: str, bot_id: int): # Отрисовка add_command.html
-	if TelegramBotCommandModel.objects.filter(owner=nickname).count() >= 15 and request.user.groups.filter(name='free_accounts').exists():
-		return HttpResponseBadRequest('У вас уже максимальное количество команд!')
-	else:
-		data = GlobalFunctions.get_navbar_buttons_data(request)
-		data.update(
-			{
-				'variables_for_commands': GlobalVariable.variables_for_commands
-			}
-		)
-		return render(request, 'add_command.html', data)
+@GlobalDecorators.check_max_commands_count_for_account
+def add_command_page(request: WSGIRequest, username: str, bot_id: int): # Отрисовка add_command.html
+	data = GlobalFunctions.get_navbar_buttons_data(request)
+	data.update(
+		{
+			'variables_for_commands': GlobalVariable.variables_for_commands
+		}
+	)
+	return render(request, 'add_command.html', data)
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_request_data_items(needs_items=['command', 'command_answer'])
 @GlobalDecorators.check_bot_id
-def add_command(request: WSGIRequest, nickname: str, bot_id: int, data: dict, bot: TelegramBotModel): # Добавление команды
+@GlobalDecorators.check_max_commands_count_for_account
+def add_command(request: WSGIRequest, username: str, bot_id: int, data: dict, bot: TelegramBotModel): # Добавление команды
 	command, command_answer = data['command'], data['command_answer']
 
-	if TelegramBotCommandModel.objects.filter(owner=nickname).count() >= 15 and request.user.groups.filter(name='free_accounts').exists():
-		return HttpResponseBadRequest('У вас уже максимальное количество команд!')
-	else:
-		bot_command = TelegramBotCommandModel(id, nickname, bot_id, command, command_answer)
-		bot_command.save()
+	bot_command = TelegramBotCommandModel(None, bot_id, command, command_answer)
+	bot_command.save()
 
-		return HttpResponse('Успешное добавление команды.')
+	return HttpResponse('Успешное добавление команды.')
 
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
 @GlobalDecorators.check_command_id
-def view_command_page(request: WSGIRequest, nickname: str, bot_id: int, command_id: int, bot: TelegramBotModel, bot_command: TelegramBotCommandModel): # Отрисовка view_command.html
+def view_command_page(request: WSGIRequest, username: str, bot_id: int, command_id: int, bot: TelegramBotModel, bot_command: TelegramBotCommandModel): # Отрисовка view_command.html
 	data = GlobalFunctions.get_navbar_buttons_data(request)
 	data.update(
 		{
@@ -253,10 +236,10 @@ def view_command_page(request: WSGIRequest, nickname: str, bot_id: int, command_
 @GlobalDecorators.check_request_data_items(needs_items=['command', 'command_answer'])
 @GlobalDecorators.check_bot_id
 @GlobalDecorators.check_command_id
-def save_command(request: WSGIRequest, nickname: str, bot_id: int, command_id: int, data: dict, bot: TelegramBotModel, bot_command: TelegramBotCommandModel): # Сохранение команды
+def save_command(request: WSGIRequest, username: str, bot_id: int, command_id: int, data: dict, bot: TelegramBotModel, bot_command: TelegramBotCommandModel): # Сохранение команды
 	command, command_answer = data['command'], data['command_answer']
 
-	bot_command = TelegramBotCommandModel(command_id, nickname, bot_id, command, command_answer)
+	bot_command = TelegramBotCommandModel(command_id, bot_id, command, command_answer)
 	bot_command.save()
 
 	return HttpResponse('Успешное cохранение команды.')
@@ -265,6 +248,6 @@ def save_command(request: WSGIRequest, nickname: str, bot_id: int, command_id: i
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
 @GlobalDecorators.check_command_id
-def delete_command(request: WSGIRequest, nickname: str, bot_id: str, command_id: int, bot: TelegramBotModel, bot_command: TelegramBotCommandModel): # Удаление команды
+def delete_command(request: WSGIRequest, username: str, bot_id: str, command_id: int, bot: TelegramBotModel, bot_command: TelegramBotCommandModel): # Удаление команды
 	bot_command.delete()
 	return HttpResponse('Успешное удаление команды.')

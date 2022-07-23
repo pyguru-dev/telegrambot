@@ -101,6 +101,8 @@ textarea {
 
 	.banner-button-link-control,
 	.button-link-control {
+		width: calc(100% - 30px);
+
 		left: 15px;
 		right: 15px;
 	}

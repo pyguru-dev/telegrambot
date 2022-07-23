@@ -4,7 +4,7 @@ function deleteBotButtonClick(botId, botName, nickname) {
 		var request = new XMLHttpRequest();
 		sendRequestToServer(
 			request,
-			'/account/konstruktor/' + nickname + '/delete_bot/',
+			'/konstruktor/' + nickname + '/delete_bot/',
 			JSON.stringify(
 				{
 					'bot_id': botId

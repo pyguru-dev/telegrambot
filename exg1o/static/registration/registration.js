@@ -62,7 +62,8 @@ function registrationButtonClick() {
 						),
 						function() {
 							if (request.status == 200) {
-								window.location.href = '../authorization';
+								setInterval("window.location.href = '/authorization';", 1000)
+								showSuccessMessage(request.responseText);
 							} else {
 								showErrorMessage(request.responseText);
 							}

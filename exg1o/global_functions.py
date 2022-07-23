@@ -27,7 +27,7 @@ def get_navbar_buttons_data(request: WSGIRequest): # Функция для по�
 				},
 				'button_3': {
 					'id': 'konstruktorButtonLink',
-					'onclick': f"window.location.href = '/account/konstruktor/{request.user.username}/';",
+					'onclick': f"window.location.href = '/konstruktor/{request.user.username}/';",
 					'text': 'Конструктор'
 				}
 			}
