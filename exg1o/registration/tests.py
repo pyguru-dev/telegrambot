@@ -29,7 +29,7 @@ class RegistrationTestCase(TestCase):
 		response_text = self.post_request(data)
 		self.assertEqual(response_text, 'Успешная регистрация.')
 
-	def test_fail_register_account_1(self):
+	def test_fail_register_account(self):
 		data = {
 			'login': 'Test',
 			'email': 'test@gmail.com',
