@@ -6,7 +6,7 @@ class KonstruktorTestCase(TestCase):
 	def setUP(self):
 		self.client = Client(enforce_csrf_checks=True)
 
-	def auth_user(self, user_group='free_accounts'):
+	def auth_user(self):
 		free_accounts_group = Group.objects.create(name='free_accounts')
 		free_accounts_group.save()
 		paid_accounts_group = Group.objects.create(name='paid_accounts')
