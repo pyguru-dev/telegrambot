@@ -16,6 +16,10 @@ textarea {
 	color: #000000
 }
 
+button {
+	cursor: pointer;
+}
+
 .top-navbar {
 	top: 0;
 	left: 0;

@@ -3,6 +3,7 @@ from django.http import HttpResponseBadRequest, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import HttpResponse, render
 from django.contrib.auth.models import User, Group
+from account.models import AccountIconModel
 import global_functions as GlobalFunctions
 import global_decorators as GlobalDecorators
 
@@ -22,11 +23,13 @@ def register_account(request: WSGIRequest, data: dict): # Регистрация
 
 		if User.objects.filter(username=login).exists() == False:
 			user = User.objects.create_user(login, email, password)
+			user.save()
 
 			free_accounts_group = Group.objects.get(name='free_accounts')
 			user.groups.add(free_accounts_group)
 
-			user.save()
+			user_icon = AccountIconModel(None, user.id)
+			user_icon.save()
 
 			return HttpResponse('Успешная регистрация.')
 		else:

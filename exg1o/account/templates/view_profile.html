@@ -22,7 +22,11 @@
 			<h1 class="profile-info-title">О профиле пользователя</h1>
 		</div>
 		<div class="site-user">
-			<h1 class="user-nickname">{{ user.username }}</h1>
+			<h1 class="user-nickname">{{ user.name }}</h1>
+			<label class="update-user-icon-buttom-control" for="updateUserIconInput" style="cursor: pointer;">
+				<img class="update-user-icon" src="{% static 'images/edit.png' %}">
+			</label>
+			<input class="update-user-icon-input-control" id="updateUserIconInput" type="file" name="photo" accept=".jpg, .jpeg, .png" style="display: none;"></input>
 			<img class="user-icon" src="{% static 'images/user.png' %}">
 		</div>
 		<div class="profile-info">
@@ -34,3 +38,14 @@
 		</div>
 	</div>
 {% endblock content %}
+
+{% block scripts %}
+	<script>
+		var icon = '{{ user.icon }}';
+		if (icon != '') {
+			var userIconElement = document.querySelector('.user-icon');
+			userIconElement.src = icon;
+		}
+	</script>
+	<script src="{% static 'account/view_profile/view_profile.js' %}"></script>
+{% endblock scripts %}
