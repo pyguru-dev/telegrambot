@@ -1,5 +1,5 @@
 /* ------------ Главные контейнеры ------------ */
-.main-container {
+.container {
 	margin: auto;
 
 	left: 0;
@@ -149,11 +149,9 @@
 
 /* ------------ Адаптация ------------ */
 @media (min-width: 320px) and (max-width: 767px) {
-	.main-container {
+	.container {
 		width: 300px;
 		height: 591px;
-
-		top: 250px;
 	}
 
 	.heading {
@@ -208,11 +206,9 @@
 }
 
 @media (min-width: 768px) {
-	.main-container {
+	.container {
 		width: 400px;
 		height: 401px;
-
-		top: 100px;
 	}
 
 	.heading {
@@ -264,10 +260,8 @@
 }
 
 @media (min-width: 1000px) {
-	.main-container {
+	.container {
 		height: 411px;
-
-		top: 125px;
 	}
 
 	.add-bot-button-control {

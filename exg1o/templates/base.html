@@ -11,7 +11,7 @@
 		{% block title %} {% endblock title %}
 		<link rel="stylesheet" href="{% static 'global/base.css' %}">
 		{% if 'button_3' in buttons %}
-			<link rel="stylesheet" href="{% static 'global/mobile_base.css' %}">
+			<link rel="stylesheet" href="{% static 'global/auth_base.css' %}">
 		{% endif %}
 		{% block styles %} {% endblock styles %}
 		</head>
@@ -29,8 +29,14 @@
 		</div>
 		{% block content %} {% endblock content %}
 	</body>
+	{% if 'button_3' not in buttons %}
+		<script>const userAuth = false;</script>
+	{% endif %}
+	{% if 'button_3' in buttons %}
+		<script>const userAuth = true;</script>
+	{% endif %}
 	<script src="{% static 'global/base.js' %}"></script>
-	<script src="{% static 'global/send_request_to_server.js' %}"></script>
 	<script src="{% static 'global/message.js' %}"></script>
+	<script src="{% static 'global/send_request_to_server.js' %}"></script>
 	{% block scripts %} {% endblock scripts %}
 </html>

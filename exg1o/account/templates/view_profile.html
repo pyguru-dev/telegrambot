@@ -27,25 +27,18 @@
 				<img class="update-user-icon" src="{% static 'images/edit.png' %}">
 			</label>
 			<input class="update-user-icon-input-control" id="updateUserIconInput" type="file" name="photo" accept=".jpg, .jpeg, .png" style="display: none;"></input>
-			<img class="user-icon" src="{% static 'images/user.png' %}">
+			<img class="user-icon" src="/static/users_icons/{{ user.id }}.png">
 		</div>
 		<div class="profile-info">
 			<h1 class="info">Тариф: {{ user.status }}</h1>
 			<h1 class="info">Регистрация: {{ user.date_joined }}</h1>
 			{% if user.status == 'Бесплатный' %}
-				<button class="upgrade-account-buttom-control" onclick="window.location.href = '/account/{{ user.nickname }}/upgrade/';">Улучшить аккаунт</button>
+				<button class="upgrade-account-buttom-control" onclick="window.location.href = '/account/{{ user.name }}/upgrade/';">Улучшить аккаунт</button>
 			{% endif %}
 		</div>
 	</div>
 {% endblock content %}
 
 {% block scripts %}
-	<script>
-		var icon = '{{ user.icon }}';
-		if (icon != '') {
-			var userIconElement = document.querySelector('.user-icon');
-			userIconElement.src = icon;
-		}
-	</script>
 	<script src="{% static 'account/view_profile/view_profile.js' %}"></script>
 {% endblock scripts %}

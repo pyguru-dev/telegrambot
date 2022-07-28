@@ -20,6 +20,7 @@ from konstruktor.models import TelegramBotModel
 from telegram_bot import TelegramBot
 import global_variable as GlobalVariable
 from threading import Thread
+import os
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
@@ -30,18 +31,24 @@ urlpatterns = [
 	path('konstruktor/<str:username>/', include('konstruktor.urls'))
 ]
 
-try:
-	for bot in TelegramBotModel.objects.filter(online=True):
-		telegram_bot = TelegramBot(bot.owner, bot.id, bot.token)
-		if telegram_bot.auth():
-			Thread(target=telegram_bot.start, daemon=True).start()
+find_folder = False
+for folder in os.listdir():
+	if folder == 'users_icons':
+		find_folder = True
+		break
 
-			GlobalVariable.online_bots.update(
-				{
-					bot.owner: {
-						bot.id: telegram_bot
-					}
+if find_folder == False:
+	os.mkdir('users_icons')
+
+for bot in TelegramBotModel.objects.filter(online=True):
+	telegram_bot = TelegramBot(bot.id, bot.token)
+	if telegram_bot.auth():
+		Thread(target=telegram_bot.start, daemon=True).start()
+
+		GlobalVariable.online_bots.update(
+			{
+				bot.owner_id.id: {
+					bot.id: telegram_bot
 				}
-			)
-except:
-	pass
+			}
+		)

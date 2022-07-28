@@ -1,3 +1,5 @@
+var intervalId;
+
 function hideOrShowButtonClick() {
 	var inputPasswordElement = document.querySelector('.bot-token-input-control');
 
@@ -22,6 +24,8 @@ function startBotButtonClick() {
 		'',
 		function() {
 			if (request.status == 200) {
+				clearInterval(intervalId);
+				intervalId = setInterval(() => hideMessage(), 1000);
 				showSuccessMessage(request.responseText);
 
 				var startBotButtonElement = document.querySelector('.start-bot-button-control');
@@ -43,6 +47,8 @@ function stopBotButtonClick() {
 		'',
 		function() {
 			if (request.status == 200) {
+				clearInterval(intervalId);
+				intervalId = setInterval(() => hideMessage(), 1000);
 				showSuccessMessage(request.responseText);
 
 				var stopBotButtonElement = document.querySelector('.stop-bot-button-control');
@@ -70,9 +76,10 @@ function saveBotSettingsButtonClick() {
 				'bot_token': botToken
 			}
 		),
-		function() {
-			setInterval("window.location.href = '';", 1000)
+		function() {;
 			if (request.status == 200) {
+				clearInterval(intervalId);
+				intervalId = setInterval(() => hideMessage(), 1000);
 				showSuccessMessage(request.responseText);
 			} else {
 				showErrorMessage(request.responseText);
@@ -88,11 +95,32 @@ function clearLogButtonClick() {
 		'clear_log/',
 		'',
 		function() {
-			setInterval("window.location.href = '';", 1000)
 			if (request.status == 200) {
+				clearInterval(intervalId);
+				intervalId = setInterval(() => hideMessage(), 1000);
 				showSuccessMessage(request.responseText);
-			} else {
-				showErrorMessage(request.responseText);
+
+				var botLogTableElement = document.querySelector('.bot-log-table');
+				botLogTableElement.innerHTML = '';
+			}
+		}
+	);
+}
+
+function updateLogButtonClick() {
+	var request = new XMLHttpRequest();
+	sendRequestToServer(
+		request,
+		'get_log/',
+		'',
+		function() {
+			if (request.status == 200) {
+				clearInterval(intervalId);
+				intervalId = setInterval(() => hideMessage(), 1000);
+				showSuccessMessage('Успешная обвновление логов.');
+
+				var botLogTableElement = document.querySelector('.bot-log-table');
+				botLogTableElement.innerHTML = request.responseText;
 			}
 		}
 	);
@@ -105,10 +133,11 @@ function addCommandButtonClick(link) {
 		link,
 		'',
 		function() {
-			setInterval("window.location.href = '';", 1000)
 			if (request.status == 200) {
 				window.location.href = link;
 			} else {
+				clearInterval(intervalId);
+				intervalId = setInterval(() => hideMessage(), 1000);
 				showErrorMessage(request.responseText);
 			}
 		}

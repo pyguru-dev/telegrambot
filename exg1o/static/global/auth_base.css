@@ -1,0 +1,25 @@
+@media (min-width: 320px) and (max-width: 767px) {
+	.top-navbar {
+		height: 232px;
+	}
+
+	.message-container {
+		top: 232px;
+	}
+
+	.container {
+		top: 249px;
+	}
+}
+
+@media (min-width: 768px) and (max-width: 999px) {
+	.container {
+		top: 99px;
+	}
+}
+
+@media (min-width: 1000px) {
+	.container {
+		top: 124px;
+	}
+}

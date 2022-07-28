@@ -10,7 +10,7 @@ def if_user_authed(func): # Декоратор для проверки авто�
 		request: WSGIRequest = args[0]
 		if request.user.is_authenticated == True:
 			login, username = request.user.username, kwargs['username']
-			if username == login:
+			if login == username:
 				return func(*args, **kwargs)
 			else:
 				return HttpResponseBadRequest(f'Ваш Login "{login}", а не "{username}"')

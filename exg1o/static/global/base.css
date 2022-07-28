@@ -142,6 +142,10 @@ button {
 
 		top: 180px;
 	}
+
+	.container {
+		top: 199px;
+	}
 }
 
 @media (min-width: 768px) and (max-width: 999px) {
@@ -185,6 +189,10 @@ button {
 
 		top: 80px;
 	}
+
+	.container {
+		top: 99px;
+	}
 }
 
 @media (min-width: 1000px) {
@@ -227,5 +235,9 @@ button {
 		height: 32px;
 
 		top: 80px;
+	}
+
+	.container {
+		top: 124px;
 	}
 }

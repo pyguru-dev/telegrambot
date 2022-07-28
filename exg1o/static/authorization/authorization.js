@@ -46,7 +46,7 @@ function authorizationButtonClick() {
 					),
 					function() {
 						if (request.status == 200) {
-							setInterval("window.location.href = '/account/view/" + login + "/';", 1000)
+							setInterval("window.location.href = '/account/view/" + login + "/';", 1000);
 							showSuccessMessage(request.responseText);
 						} else {
 							showErrorMessage(request.responseText);

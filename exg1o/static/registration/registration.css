@@ -130,8 +130,6 @@
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
 		height: 340px;
-
-		top: 200px;
 	}
 
 	.heading {
@@ -178,8 +176,6 @@
 	.container {
 		width: 600px;
 		height: 381px;
-
-		top: 100px;
 	}
 
 	.heading {
@@ -227,8 +223,6 @@
 	.container {
 		width: 750px;
 		height: 428px;
-
-		top: 125px;
 	}
 
 	.heading {

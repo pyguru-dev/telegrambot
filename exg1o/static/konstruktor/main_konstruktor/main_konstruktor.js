@@ -1,3 +1,5 @@
+var intervalId;
+
 function deleteBotButtonClick(botId, botName, nickname) {
 	var deleteBotAnswer = confirm('Вы точно хотите удалить бота "' + botName + '"?');
 	if (deleteBotAnswer == true) {
@@ -11,8 +13,9 @@ function deleteBotButtonClick(botId, botName, nickname) {
 				}
 			),
 			function() {
-				setInterval("window.location.href = '';", 1000)
 				if (request.status == 200) {
+					clearInterval(intervalId);
+					intervalId = setInterval(() => hideMessage(), 1000);
 					showSuccessMessage(request.responseText);
 				} else {
 					showErrorMessage(request.responseText);
@@ -29,7 +32,6 @@ function addBotButtonClick(link) {
 		link,
 		'',
 		function() {
-			setInterval("window.location.href = '';", 1000)
 			if (request.status == 200) {
 				window.location.href = link;
 			} else {

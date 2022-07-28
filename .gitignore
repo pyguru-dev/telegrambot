@@ -2,6 +2,7 @@
 __pycache__/
 venv/
 logs/
+users_icons/
 
 #Файлы
 DataBase.db

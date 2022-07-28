@@ -134,7 +134,7 @@ def view_konstruktor_bot_page(request: WSGIRequest, username: str, bot_id: int, 
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
 def start_bot(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Запуск бота
-	telegram_bot = TelegramBot(username, bot_id, bot.token)
+	telegram_bot = TelegramBot(bot_id, bot.token)
 	if telegram_bot.auth():
 		Thread(target=telegram_bot.start, daemon=True).start()
 
@@ -143,7 +143,7 @@ def start_bot(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBot
 
 		GlobalVariable.online_bots.update(
 			{
-				username: {
+				request.user.id: {
 					bot_id: telegram_bot
 				}
 			}
@@ -157,13 +157,13 @@ def start_bot(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBot
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
 def stop_bot(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Остоновка бота
-	telegram_bot = GlobalVariable.online_bots[username][bot_id]
+	telegram_bot = GlobalVariable.online_bots[request.user.id][bot_id]
 	Thread(target=telegram_bot.stop, daemon=True).start()
 
 	bot.online = False
 	bot.save()
 
-	del GlobalVariable.online_bots[username][bot_id]
+	del GlobalVariable.online_bots[request.user.id][bot_id]
 
 	return HttpResponse('Бот успешно остоновлен.')
 
@@ -188,6 +188,26 @@ def clear_log(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBot
 		log.delete()
 
 	return HttpResponse('Успешная очистка логов.')
+
+@csrf_exempt
+@GlobalDecorators.if_user_authed
+@GlobalDecorators.check_bot_id
+def get_log(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Отправка логов
+	finally_log = ''
+	log = TelegramBotLogModel.objects.filter(bot_id=bot_id)
+	for i in range(log.count()):
+		if i == log.count() and log.count() > 2:
+			finally_log += '<div id="last" class="bot-log">'
+		else:
+			finally_log += '<div class="bot-log">'
+
+		finally_log += f"""
+				<p class="log-data">{log[i].user_name}:</p>
+				<p class="log-data">{log[i].user_message}</p>
+			</div>
+		"""
+
+	return HttpResponse(finally_log)
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed

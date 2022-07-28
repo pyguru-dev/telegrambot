@@ -1,7 +1,7 @@
 """
 Exemple:
 online_bots = {
-	'USER-NICKNAME': {
+	'USER-ID': {
 		'BOT-ID' : telegram_bot.object
 	}
 }
