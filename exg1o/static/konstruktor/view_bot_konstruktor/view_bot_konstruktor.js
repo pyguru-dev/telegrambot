@@ -16,6 +16,45 @@ function hideOrShowButtonClick() {
 	}
 }
 
+function checkUserWindowScreenForOtherContainer() {
+	const screenWidth = window.screen.width;
+	var otherContainerElement = document.querySelector('.container#other');
+	var messageElementHeight = document.querySelector('.message-container').clientHeight;
+
+	if (screenWidth >= 320 && screenWidth < 768) {
+		otherContainerElement.style = 'top: ' + (860 + messageElementHeight) + 'px;';
+	}
+	if (screenWidth >= 768 && screenWidth < 1000) {
+		otherContainerElement.style = 'top: ' + (520 + messageElementHeight) + 'px;';
+	}
+	if (screenWidth >= 1000 && screenWidth < 1799) {
+		otherContainerElement.style = 'top: ' + (555 + messageElementHeight) + 'px;';
+	}
+	if (screenWidth >= 1800) {
+		otherContainerElement.style = 'top: ' + (124 + messageElementHeight) + 'px;';
+	}
+}
+
+function hideMessageOther() {
+	const screenWidth = window.screen.width;
+	var otherContainerElement = document.querySelector('.container#other');
+
+	hideMessage();
+
+	if (screenWidth >= 320 && screenWidth < 768) {
+		otherContainerElement.style = 'top: 860px;';
+	}
+	if (screenWidth >= 768 && screenWidth < 1000) {
+		otherContainerElement.style = 'top: 520px;';
+	}
+	if (screenWidth >= 1000 && screenWidth < 1799) {
+		otherContainerElement.style = 'top: 555px;';
+	}
+	if (screenWidth >= 1800) {
+		otherContainerElement.style = 'top: 124px;';
+	}
+}
+
 function startBotButtonClick() {
 	var request = new XMLHttpRequest();
 	sendRequestToServer(
@@ -25,8 +64,9 @@ function startBotButtonClick() {
 		function() {
 			if (request.status == 200) {
 				clearInterval(intervalId);
-				intervalId = setInterval(() => hideMessage(), 1000);
+				intervalId = setInterval(() => hideMessageOther(), 1000);
 				showSuccessMessage(request.responseText);
+				checkUserWindowScreenForOtherContainer();
 
 				var startBotButtonElement = document.querySelector('.start-bot-button-control');
 				startBotButtonElement.setAttribute('class', 'stop-bot-button-control');
@@ -34,6 +74,7 @@ function startBotButtonClick() {
 				startBotButtonElement.innerHTML = 'Остоновить бота';
 			} else {
 				showErrorMessage(request.responseText);
+				checkUserWindowScreenForOtherContainer();
 			}
 		}
 	);
@@ -48,8 +89,9 @@ function stopBotButtonClick() {
 		function() {
 			if (request.status == 200) {
 				clearInterval(intervalId);
-				intervalId = setInterval(() => hideMessage(), 1000);
+				intervalId = setInterval(() => hideMessageOther(), 1000);
 				showSuccessMessage(request.responseText);
+				checkUserWindowScreenForOtherContainer();
 
 				var stopBotButtonElement = document.querySelector('.stop-bot-button-control');
 				stopBotButtonElement.setAttribute('class', 'start-bot-button-control');
@@ -57,6 +99,7 @@ function stopBotButtonClick() {
 				stopBotButtonElement.innerHTML = 'Запустить бота';
 			} else {
 				showErrorMessage(request.responseText);
+				checkUserWindowScreenForOtherContainer();
 			}
 		}
 	);
@@ -79,10 +122,12 @@ function saveBotSettingsButtonClick() {
 		function() {;
 			if (request.status == 200) {
 				clearInterval(intervalId);
-				intervalId = setInterval(() => hideMessage(), 1000);
+				intervalId = setInterval(() => hideMessageOther(), 1000);
 				showSuccessMessage(request.responseText);
+				checkUserWindowScreenForOtherContainer();
 			} else {
 				showErrorMessage(request.responseText);
+				checkUserWindowScreenForOtherContainer();
 			}
 		}
 	);
@@ -97,8 +142,9 @@ function clearLogButtonClick() {
 		function() {
 			if (request.status == 200) {
 				clearInterval(intervalId);
-				intervalId = setInterval(() => hideMessage(), 1000);
+				intervalId = setInterval(() => hideMessageOther(), 1000);
 				showSuccessMessage(request.responseText);
+				checkUserWindowScreenForOtherContainer();
 
 				var botLogTableElement = document.querySelector('.bot-log-table');
 				botLogTableElement.innerHTML = '';
@@ -116,8 +162,9 @@ function updateLogButtonClick() {
 		function() {
 			if (request.status == 200) {
 				clearInterval(intervalId);
-				intervalId = setInterval(() => hideMessage(), 1000);
+				intervalId = setInterval(() => hideMessageOther(), 1000);
 				showSuccessMessage('Успешная обвновление логов.');
+				checkUserWindowScreenForOtherContainer();
 
 				var botLogTableElement = document.querySelector('.bot-log-table');
 				botLogTableElement.innerHTML = request.responseText;
@@ -137,8 +184,9 @@ function addCommandButtonClick(link) {
 				window.location.href = link;
 			} else {
 				clearInterval(intervalId);
-				intervalId = setInterval(() => hideMessage(), 1000);
-				showErrorMessage(request.responseText);
+				intervalId = setInterval(() => hideMessageOther(), 1000);
+				showSuccessMessage(request.responseText);
+				checkUserWindowScreenForOtherContainer();
 			}
 		}
 	);

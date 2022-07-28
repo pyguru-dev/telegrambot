@@ -14,6 +14,7 @@ Including another URLconf
 	2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.db.utils import OperationalError
 from django.contrib import admin
 from django.urls import path, include
 from konstruktor.models import TelegramBotModel
@@ -39,16 +40,18 @@ for folder in os.listdir():
 
 if find_folder == False:
 	os.mkdir('users_icons')
+try:
+	for bot in TelegramBotModel.objects.filter(online=True):
+		telegram_bot = TelegramBot(bot.id, bot.token)
+		if telegram_bot.auth():
+			Thread(target=telegram_bot.start, daemon=True).start()
 
-for bot in TelegramBotModel.objects.filter(online=True):
-	telegram_bot = TelegramBot(bot.id, bot.token)
-	if telegram_bot.auth():
-		Thread(target=telegram_bot.start, daemon=True).start()
-
-		GlobalVariable.online_bots.update(
-			{
-				bot.owner_id.id: {
-					bot.id: telegram_bot
+			GlobalVariable.online_bots.update(
+				{
+					bot.owner_id.id: {
+						bot.id: telegram_bot
+					}
 				}
-			}
-		)
+			)
+except OperationalError:
+	pass
