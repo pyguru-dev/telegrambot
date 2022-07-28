@@ -111,7 +111,17 @@
 	border-radius: 50%;
 	border-width: 0;
 
+	transition: 0.4s;
 	background-color: #595F76;
+}
+
+.update-user-icon-buttom-control:hover {
+	transition: 0.4s;
+	background-color: #50566E;
+}
+
+.update-user-icon-buttom-control:active {
+	background-color: #434965;
 }
 
 /* ------------ Адаптация ------------ */

@@ -81,6 +81,8 @@ button {
 	right: 0;
 	z-index: 9;
 	position: fixed;
+
+	transition: 0.15s;
 }
 
 .message {
@@ -95,6 +97,8 @@ button {
 
 	text-align: center;
 	font-size: 20px;
+
+	transition: 0.15s;
 }
 
 /* ------------ Адаптация ------------ */
