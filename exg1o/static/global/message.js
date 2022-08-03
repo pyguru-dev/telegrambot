@@ -1,3 +1,5 @@
+var setIntervalId;
+
 function checkUserWindowScreen() {
 	const screenWidth = window.screen.width;
 	var containerElement = document.querySelector('.container');
@@ -30,16 +32,6 @@ function showSuccessMessage(successMessage) {
 	checkUserWindowScreen();
 }
 
-function showWarningMessage(warningMessage) {
-	var messageContainerElement = document.querySelector('.message-container');
-	var messageElement = document.querySelector('.message');
-
-	messageContainerElement.style = 'background-color: #F0AE24;';
-	messageElement.innerHTML = warningMessage;
-
-	checkUserWindowScreen();
-}
-
 function showErrorMessage(errorMessage) {
 	var messageContainerElement = document.querySelector('.message-container');
 	var messageElement = document.querySelector('.message');
@@ -51,22 +43,25 @@ function showErrorMessage(errorMessage) {
 }
 
 function hideMessage() {
-	const screenWidth = window.screen.width;
-	var containerElement = document.querySelector('.container');
+	clearInterval(setIntervalId);
+	setIntervalId = setInterval(function() {
+		const screenWidth = window.screen.width;
+		var containerElement = document.querySelector('.container');
 
-	if (screenWidth >= 320 && screenWidth < 768) {
-		containerElement.style = 'top: 249px;';
-	}
-	if (screenWidth >= 768 && screenWidth < 1000) {
-		containerElement.style = 'top: 99px;';
-	}
-	if (screenWidth >= 1000) {
-		containerElement.style = 'top: 124px;';
-	}
+		if (screenWidth >= 320 && screenWidth < 768) {
+			containerElement.style = 'top: 249px;';
+		}
+		if (screenWidth >= 768 && screenWidth < 1000) {
+			containerElement.style = 'top: 99px;';
+		}
+		if (screenWidth >= 1000) {
+			containerElement.style = 'top: 124px;';
+		}
 
-	var messageContainerElement = document.querySelector('.message-container');
-	var messageElement = document.querySelector('.message');
+		var messageContainerElement = document.querySelector('.message-container');
+		var messageElement = document.querySelector('.message');
 
-	messageContainerElement.style = '';
-	messageElement.innerHTML = '';
+		messageContainerElement.style = '';
+		messageElement.innerHTML = '';
+	}, 1000);
 }
