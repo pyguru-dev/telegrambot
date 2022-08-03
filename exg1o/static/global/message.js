@@ -1,4 +1,4 @@
-var setIntervalId;
+var intervalId;
 
 function checkUserWindowScreen() {
 	const screenWidth = window.screen.width;
@@ -43,8 +43,8 @@ function showErrorMessage(errorMessage) {
 }
 
 function hideMessage() {
-	clearInterval(setIntervalId);
-	setIntervalId = setInterval(function() {
+	clearInterval(intervalId);
+	intervalId = setInterval(function() {
 		const screenWidth = window.screen.width;
 		var containerElement = document.querySelector('.container');
 

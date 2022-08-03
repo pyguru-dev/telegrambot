@@ -16,7 +16,7 @@
 		<div class="bots-container">
 			<div class="bots-list-container">
 				{% for bot in bots %}
-					<div id="{{ bot.bot_positsion }}" class="bot">
+					<div id="{{ bot.bot_positsion }}" class="bot id-{{bot.bot_id}}">
 						<a class="bot-name" href="{% block viewBotLink %}view_bot{% endblock viewBotLink %}/{{ bot.bot_id }}/">{{ bot.bot_name }}</a>
 						<button class="delete-bot-button-control" onclick="{{ bot.onclick }}">Удалить бота</button>
 					</div>
