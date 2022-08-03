@@ -28,8 +28,8 @@ function hideOrShowButtonClick() {
 }
 
 function addBotButtonClick() {
-	var botName = document.querySelector('.bot-name-input-control').value;
-	var botToken = document.querySelector('.bot-token-input-control').value;
+	const botName = document.querySelector('.bot-name-input-control').value;
+	const botToken = document.querySelector('.bot-token-input-control').value;
 
 	if (botName && botToken != '') {
 		if (botName.length <= 255) {
@@ -45,8 +45,8 @@ function addBotButtonClick() {
 				),
 				function() {
 					if (request.status == 200) {
-						setInterval("window.location.href = '../';", 1000);
 						showSuccessMessage(request.responseText);
+						setInterval("window.location.href = '../';", 1000);
 					} else {
 						showErrorMessage(request.responseText);
 					}

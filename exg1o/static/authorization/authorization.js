@@ -28,8 +28,8 @@ function hideOrShowButtonClick() {
 }
 
 function authorizationButtonClick() {
-	var login = document.querySelector('.login-input-control').value;
-	var password = document.querySelector('.password-input-control').value;
+	const login = document.querySelector('.login-input-control').value;
+	const password = document.querySelector('.password-input-control').value;
 
 	if (login | password != '') {
 		if (password.length >= 8) {

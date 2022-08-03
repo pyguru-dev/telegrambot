@@ -20,8 +20,8 @@ function addCommandButtonClick() {
 				),
 				function() {
 					if (request.status == 200) {
-						setInterval("window.location.href = '../';", 1000);
 						showSuccessMessage(request.responseText);
+						setInterval("window.location.href = '../';", 1000);
 					} else {
 						showErrorMessage(request.responseText);
 					}

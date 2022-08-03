@@ -34,16 +34,22 @@ ALLOWED_HOSTS = [
 ]
 
 
-# Application definition
-find_folder = False
-for folder in os.listdir():
-	if folder == 'logs':
-		find_folder = True
-		break
+# Create desired folders
+def find_folder(directory: str, folder_name: str):
+	find_folder_name = False
+	for folder in os.listdir(directory):
+		if folder == folder_name:
+			find_folder_name = True
 
-if find_folder == False:
+	return find_folder_name
+
+if find_folder('.', 'logs') == False:
 	os.mkdir('logs')
 
+if find_folder('static', 'users_icons') == False:
+	os.mkdir('static/users_icons')
+
+# Logs settings
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
@@ -126,6 +132,8 @@ LOGGING = {
     }
 }
 
+
+# Application definition
 INSTALLED_APPS = [
 	'django.contrib.admin',
 	'django.contrib.auth',

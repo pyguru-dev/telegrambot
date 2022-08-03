@@ -21,7 +21,6 @@ from konstruktor.models import TelegramBotModel
 from telegram_bot import TelegramBot
 import global_variable as GlobalVariable
 from threading import Thread
-import os
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
@@ -32,14 +31,7 @@ urlpatterns = [
 	path('konstruktor/<str:username>/', include('konstruktor.urls'))
 ]
 
-find_folder = False
-for folder in os.listdir():
-	if folder == 'users_icons':
-		find_folder = True
-		break
-
-if find_folder == False:
-	os.mkdir('users_icons')
+# Запуск online ботов
 try:
 	for bot in TelegramBotModel.objects.filter(online=True):
 		telegram_bot = TelegramBot(bot.id, bot.token)

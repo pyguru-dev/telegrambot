@@ -40,10 +40,10 @@ function hideOrShowButtonClick(elemet) {
 }
 
 function registrationButtonClick() {
-	var login = document.querySelector('.login-input-control').value;
-	var email = document.querySelector('.email-input-control').value;
-	var password_1 = document.querySelector('.password-input-control').value;
-	var password_2 = document.querySelector('.again-password-input-control').value;
+	const login = document.querySelector('.login-input-control').value;
+	const email = document.querySelector('.email-input-control').value;
+	const password_1 = document.querySelector('.password-input-control').value;
+	const password_2 = document.querySelector('.again-password-input-control').value;
 
 	if (login && email && password_1 && password_2 != '') {
 		if (password_1 == password_2) {

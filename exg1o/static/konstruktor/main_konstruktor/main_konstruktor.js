@@ -1,7 +1,5 @@
-var intervalId;
-
 function deleteBotButtonClick(botId, botName, nickname) {
-	var deleteBotAnswer = confirm('Вы точно хотите удалить бота "' + botName + '"?');
+	const deleteBotAnswer = confirm('Вы точно хотите удалить бота "' + botName + '"?');
 	if (deleteBotAnswer == true) {
 		var request = new XMLHttpRequest();
 		sendRequestToServer(
@@ -14,9 +12,11 @@ function deleteBotButtonClick(botId, botName, nickname) {
 			),
 			function() {
 				if (request.status == 200) {
-					clearInterval(intervalId);
-					intervalId = setInterval(() => hideMessage(), 1000);
 					showSuccessMessage(request.responseText);
+					hideMessage();
+
+					var botElement = document.querySelector('.bot.id-' + botId);
+					botElement.remove();
 				} else {
 					showErrorMessage(request.responseText);
 				}
