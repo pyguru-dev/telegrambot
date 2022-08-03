@@ -16,13 +16,13 @@
 		<div class="bots-container">
 			<div class="bots-list-container">
 				{% for bot in bots %}
-					<div id="{{ bot.bot_positsion }}" class="bot id-{{bot.bot_id}}">
+					<div class="bot id-{{bot.bot_id}}" id="{{ bot.bot_positsion }}">
 						<a class="bot-name" href="{% block viewBotLink %}view_bot{% endblock viewBotLink %}/{{ bot.bot_id }}/">{{ bot.bot_name }}</a>
 						<button class="delete-bot-button-control" onclick="{{ bot.onclick }}">Удалить бота</button>
 					</div>
 				{% endfor %}
 			</div>
-			<div id="first" class="account-max">
+			<div class="account-max" id="first">
 				{% if user.status == 'Бесплатный' %}
 					<h1 class="max-bots" style="background-color: #F04F53;">MAX: 1</h1>
 					<button class="upgrade-account-buttom-control" onclick="window.location.href = '/account/{{ user.username }}/upgrade/';">Улучшить аккаунт</button>
