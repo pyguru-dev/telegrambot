@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	<title>Профиль пользователя сайта {{ other_user.username }}</title>
+{% endblock title %}
+
+{% block styles %}
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'main/view_site_user_profile/view_site_user_profile.css' %}">
+{% endblock styles %}
+
+{% block content %}
+	<div class="container">
+		<div class="titles">
+			<h1 class="site-user-title">Пользователь сайта</h1>
+			<h1 class="profile-info-title">О профиле пользователя</h1>
+		</div>
+		<div class="site-user">
+			<h1 class="user-nickname">{{ other_user.username }}</h1>
+			<img class="user-icon" src="/static/users_icons/{{ other_user.id }}.png">
+		</div>
+		<div class="profile-info">
+			<h1 class="info">Тариф: {{ other_user.status }}</h1>
+			<h1 class="info">Регистрация: {{ other_user.date_joined }}</h1>
+		</div>
+	</div>
+{% endblock content %}

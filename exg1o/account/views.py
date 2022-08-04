@@ -18,7 +18,7 @@ def view_profile_page(request: WSGIRequest, username: str): # Отрисовка
 		{
 			'user': {
 				'id': request.user.id,
-				'name': username,
+				'username': username,
 				'status': 'Бесплатный' if request.user.groups.get().name == 'free_accounts' else 'Платный',
 				'date_joined': request.user.date_joined
 			}
