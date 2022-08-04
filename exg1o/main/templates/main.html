@@ -6,17 +6,25 @@
 
 {% block styles %}
 	{% load static %}
-	<link rel="stylesheet" href="{% static 'main/main.css' %}">
+	<link rel="stylesheet" href="{% static 'main/main/main.css' %}">
 {% endblock styles %}
 
 {% block content %}
-	<div class="container">
-		<h1 class="heading">Exg1o</h1>
+	<div class="container" id="siteUsers">
+		<h1 class="heading" id="siteUsers">ПОЛЬЗОВАТЕЛИ САЙТА</h1>
+		<div class="site-users-list">
+			{% for user in users %}
+				<button class="site-user" onclick="window.location.href = '/view_site_user_profile/{{ user.id }}/'">{{ user.username }}</button>
+			{% endfor %}
+		</div>
+	</div>
+	<div class="container" id="siteInfo">
+		<h1 class="heading" id="siteInfo">Exg1o</h1>
 		<p class="site-info-text">
 			Exg1o - сайт с помощью которого вы сможете легко и без каких либо навыков в программирование сделать своего уникального Telegram бота.
 		</p>
-		<p id="botInfo" class="site-info-text">Возможности сайта Exg1o:</p>
-		<ol id="ol" class="site-info-text">
+		<p class="site-info-text" id="botInfo">Возможности сайта Exg1o:</p>
+		<ol class="site-info-text" id="ol">
 			<li>Создать собственного Telegram бота;</li>
 			<li>Легко и гипко настроить вашего Telegram бота;</li>
 			<li>Добавить команды с любым функционалом вашему Telegram боту;</li>
@@ -26,10 +34,14 @@
 			<b>Обратите внимания, что сайт находиться в разработке с 07.05.2022!</b><br>
 			При нахождении бага прошу сообщить о нём автору сайта!
 		</p>
-		<p id="importantSiteInfo" class="site-info-text">Связаться с автором сайта (Никитой Бороденко) можно через:</p>
-		<ol id="ol" class="site-info-text">
+		<p class="site-info-text" id="importantSiteInfo">Связаться с автором сайта (Никитой Бороденко) можно через:</p>
+		<ol class="site-info-text" id="ol">
 			<li>Telegram: <a href="https://t.me/exg1o">https://t.me/exg1o</a></li>
 			<li>VKontakte: <a href="https://vk.com/id599251585">https://vk.com/id599251585</a></li>
 		</ol>
 	</div>
 {% endblock content %}
+
+{% block scripts %}
+	<script src="{% static 'main/main/main.js' %}"></script>
+{% endblock scripts %}

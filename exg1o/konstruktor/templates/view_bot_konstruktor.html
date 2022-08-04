@@ -9,13 +9,13 @@
 {% endblock botStyles %}
 
 {% block botContainer %}
-	<div id="other" class="container">
+	<div class="container" id="other">
 		<h1 class="bot-heading">КОНСТРУКТОР БОТА {{ bot.name }}</h1>
 		<div class="bot-konstruktor-form">
 			<div class="bot-data-konstruktor-inputs">
 				<input class="bot-name-input-control" type="text" placeholder="Придуймайте имя боту" value="{{ bot.name }}"></input>
 				<input class="bot-token-input-control" type="password" placeholder="Введите Token бота" value="{{ bot.token }}"></input>
-				<button id="hideBotToken" class="bot-token-button-control" onclick="hideOrShowButtonClick()"></button>
+				<button class="bot-token-button-control" id="hideBotToken" onclick="hideOrShowButtonClick()"></button>
 			</div>
 			<div class="bot-data-konstruktor-buttons">
 				{% if bot.online == False %}
@@ -33,13 +33,13 @@
 							<div class="bot-command">
 						{% endif %}
 						{% if 'commands_positsion' in bot_command %}
-							<div id="last" class="bot-command">
+							<div class="bot-command" id="last">
 						{% endif %}
 							<a class="bot-command-name" href="view_command/{{ bot_command.id }}/">{{ bot_command.command }}</a>
 						</div>
 					{% endfor %}
 				</div>
-				<div id="second" class="account-max">
+				<div class="account-max" id="second">
 					{% if user.status == 'Бесплатный' %}
 						<h1 class="max-bots" style="background-color: #F04F53;">MAX: 15</h1>
 						<button class="upgrade-account-buttom-control" onclick="window.location.href = '/account/{{ user.nickname }}/upgrade/';">Улучшить аккаунт</button>
@@ -57,7 +57,7 @@
 							<div class="bot-log">
 						{% endif %}
 						{% if 'log_data_positsion' in log %}
-							<div id="last" class="bot-log">
+							<div class="bot-log" id="last">
 						{% endif %}
 							<p class="log-data">{{ log.user_name }}:</p>
 							<p class="log-data">{{ log.user_message }}</p>

@@ -46,6 +46,36 @@
 	text-overflow: ellipsis;
 }
 
+/* ------------ Кнопки ------------ */
+.site-user {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 6px;
+	padding-right: 6px;
+
+	font-weight: bold;
+	letter-spacing: 0.8px;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+
+	border: 0;
+	border-radius: 8px;
+
+	transition: 0.4s;
+	background-color: #595F76;
+}
+
+.site-user:hover {
+	transition: 0.4s;
+	background-color: #50566E;
+}
+
+.site-user:active {
+	background-color: #434965;
+}
+
 /* ------------ Адаптация ------------ */
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
@@ -53,7 +83,26 @@
 		right: 10px;
 	}
 
-	.heading {
+	.heading#siteUsers {
+		font-size: 31.5px;
+	}
+
+	.site-users-list {
+		margin-top: 5px;
+		margin-bottom: 10px;
+		margin-left: 10px;
+		margin-right: 10px;
+	}
+
+	.site-user {
+		max-width: 258px;
+
+		margin-right: 2px;
+
+		font-size: 18px;
+	}
+
+	.heading#siteInfo {
 		font-size: 80px;
 	}
 
@@ -67,7 +116,7 @@
 }
 
 @media (min-width: 768px) {
-	.heading {
+	.heading#siteInfo {
 		font-size: 120px;
 	}
 }
@@ -76,6 +125,24 @@
 	.container {
 		left: 50px;
 		right: 50px;
+	}
+
+	.heading#siteUsers {
+		font-size: 53px;
+	}
+
+	.site-users-list {
+		margin-bottom: 13px;
+		margin-left: 13px;
+		margin-right: 13px;
+	}
+
+	.site-user {
+		max-width: 622px;
+
+		margin-right: 4px;
+
+		font-size: 20px;
 	}
 
 	.site-info-text {
@@ -93,6 +160,24 @@
 
 		left: 0;
 		right: 0;
+	}
+
+	.heading#siteUsers {
+		font-size: 74.5px;
+	}
+
+	.site-users-list {
+		margin-bottom: 16px;
+		margin-left: 16px;
+		margin-right: 16px;
+	}
+
+	.site-user {
+		max-width: 864px;
+
+		margin-right: 6px;
+
+		font-size: 22px;
 	}
 
 
