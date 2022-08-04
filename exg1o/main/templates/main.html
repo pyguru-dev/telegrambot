@@ -6,12 +6,17 @@
 
 {% block styles %}
 	{% load static %}
-	<link rel="stylesheet" href="{% static 'main/main.css' %}">
+	<link rel="stylesheet" href="{% static 'main/main/main.css' %}">
 {% endblock styles %}
 
 {% block content %}
 	<div class="container" id="siteUsers">
-
+		<h1 class="heading" id="siteUsers">ПОЛЬЗОВАТЕЛИ САЙТА</h1>
+		<div class="site-users-list">
+			{% for user in users %}
+				<button class="site-user" onclick="window.location.href = '/view_site_user_profile/{{ user.id }}/'">{{ user.username }}</button>
+			{% endfor %}
+		</div>
 	</div>
 	<div class="container" id="siteInfo">
 		<h1 class="heading" id="siteInfo">Exg1o</h1>
@@ -36,3 +41,7 @@
 		</ol>
 	</div>
 {% endblock content %}
+
+{% block scripts %}
+	<script src="{% static 'main/main/main.js' %}"></script>
+{% endblock scripts %}
