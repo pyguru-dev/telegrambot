@@ -14,14 +14,14 @@
 		<h1 class="heading" id="siteUsers">ПОЛЬЗОВАТЕЛИ САЙТА</h1>
 		<div class="site-users-list">
 			{% for user in users %}
-				<button class="site-user" onclick="window.location.href = '/view_site_user_profile/{{ user.id }}/'">{{ user.username }}</button>
+				<button class="site-user" onclick="{{ user.onclick }}">{{ user.username }}</button>
 			{% endfor %}
 		</div>
 	</div>
 	<div class="container" id="siteInfo">
 		<h1 class="heading" id="siteInfo">Exg1o</h1>
 		<p class="site-info-text">
-			Exg1o - сайт с помощью которого вы сможете легко и без каких либо навыков в программирование сделать своего уникального Telegram бота.
+			Exg1o - сайт с помощью которого вы сможеwте легко и без каких либо навыков в программирование сделать своего уникального Telegram бота.
 		</p>
 		<p class="site-info-text" id="botInfo">Возможности сайта Exg1o:</p>
 		<ol class="site-info-text" id="ol">

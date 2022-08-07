@@ -10,8 +10,16 @@ def main_page(request: WSGIRequest): # Отрисовка main.html
 	for user in User.objects.all():
 		site_users.append(
 			{
-				'id': user.id,
+				'onclick': "window.location.href = '/view_site_user_profile/{user.id}/'",
 				'username': user.username
+			}
+		)
+
+	if site_users == []:
+		site_users.append(
+			{
+				'onclick': "",
+				'username': 'Пользователей сайта ещё нет.'
 			}
 		)
 
