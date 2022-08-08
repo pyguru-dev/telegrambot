@@ -2,6 +2,12 @@ const inputElements = [
 	document.querySelector('.command-input-control')
 ]
 
+function addVariableCommandClick(variableCommand) {
+	var commandAnswerInputControlElement = document.querySelector('.command-answer-input-control');
+	commandAnswerInputControlElement.value += variableCommand;
+	commandAnswerInputControlElement.focus();
+}
+
 function addCommandButtonClick() {
 	var command = document.querySelector('.command-input-control').value;
 	var commandAnswer = document.querySelector('.command-answer-input-control').value;

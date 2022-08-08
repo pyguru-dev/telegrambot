@@ -15,7 +15,7 @@
 		<h1 class="heading">{% block heading %}ДОБАВЛЕНИЕ КОМАНДЫ{% endblock heading %}</h1>
 		<div class="variables">
 			{% for variable_for_command in variables_for_commands %}
-				<button class="variable-button-control" onclick="document.querySelector('.command-answer-input-control').value += '{{ variable_for_command.variable }}';">{{ variable_for_command.variable_name }}</button>
+				<button class="variable-button-control" onclick="addVariableCommandClick('{{ variable_for_command.variable }}')">{{ variable_for_command.variable_name }}</button>
 			{% endfor %}	
 		</div>
 		<div class="add-command-form">

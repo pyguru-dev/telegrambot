@@ -10,7 +10,7 @@ def main_page(request: WSGIRequest): # Отрисовка main.html
 	for user in User.objects.all():
 		site_users.append(
 			{
-				'onclick': "window.location.href = '/view_site_user_profile/{user.id}/'",
+				'onclick': f"window.location.href = '/view_site_user_profile/{user.id}/'",
 				'username': user.username
 			}
 		)
