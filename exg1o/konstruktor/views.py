@@ -196,8 +196,8 @@ def get_log(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotMo
 	finally_log = ''
 	log = TelegramBotLogModel.objects.filter(bot_id=bot_id)
 	for i in range(log.count()):
-		if i == log.count() and log.count() > 2:
-			finally_log += '<div id="last" class="bot-log">'
+		if i + 1 == log.count() and log.count() > 2:
+			finally_log += '<div class="bot-log" id="last">'
 		else:
 			finally_log += '<div class="bot-log">'
 
