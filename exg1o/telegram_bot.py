@@ -13,6 +13,7 @@ class TelegramBot: # Telegram Бот
 		try:
 			self.updater = Updater(token=self.token)
 			self.dispatcher = self.updater.dispatcher
+
 			return True
 		except telegram.error.InvalidToken:
 			return False
@@ -33,7 +34,7 @@ class TelegramBot: # Telegram Бот
 			for bot_command in TelegramBotCommandModel.objects.filter(bot_id=self.bot_id):
 				if bot_command.command == user_message:
 					command_answer = bot_command.command_answer
-					for variable_for_command in GlobalVariable.variables_for_commands:
+					for variable_for_command in GlobalVariable.VARIABLES_FOR_COMMANDS:
 						variable = variable_for_command['variable']
 						if command_answer.find(variable) != -1:
 							command_answer = command_answer.split(variable)

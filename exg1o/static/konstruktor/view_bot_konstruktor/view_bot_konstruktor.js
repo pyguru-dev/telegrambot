@@ -1,5 +1,20 @@
 var intervalId_;
 
+setInterval(function() {
+		var request = new XMLHttpRequest();
+		sendRequestToServer(
+			request,
+			'get_log/',
+			'',
+			function() {
+				if (request.status == 200) {
+					var botLogTableElement = document.querySelector('.bot-log-table');
+					botLogTableElement.innerHTML = request.responseText;
+				}
+			}
+		);
+	}, 1000)
+
 function hideOrShowButtonClick() {
 	var inputPasswordElement = document.querySelector('.bot-token-input-control');
 
@@ -147,25 +162,6 @@ function clearLogButtonClick() {
 
 				var botLogTableElement = document.querySelector('.bot-log-table');
 				botLogTableElement.innerHTML = '';
-			}
-		}
-	);
-}
-
-function updateLogButtonClick() {
-	var request = new XMLHttpRequest();
-	sendRequestToServer(
-		request,
-		'get_log/',
-		'',
-		function() {
-			if (request.status == 200) {
-				showSuccessMessage('Успешная обвновление логов.');
-				checkUserWindowScreenForOtherContainer();
-				hideMessageOther();
-
-				var botLogTableElement = document.querySelector('.bot-log-table');
-				botLogTableElement.innerHTML = request.responseText;
 			}
 		}
 	);

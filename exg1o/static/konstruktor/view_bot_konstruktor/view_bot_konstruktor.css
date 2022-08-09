@@ -168,8 +168,7 @@
 .stop-bot-button-control,
 .save-bot-settings-button-control,
 .add-command-button-control,
-.clear-log-button-control,
-.update-log-button-control {
+.clear-log-button-control {
 	font-weight: bold;
 	letter-spacing: 0.8px;
 
@@ -196,14 +195,12 @@
 
 .save-bot-settings-button-control,
 .add-command-button-control,
-.clear-log-button-control,
-.update-log-button-control {
+.clear-log-button-control {
 	background-color: #595F76;
 }
 
 .add-command-button-control,
-.clear-log-button-control,
-.update-log-button-control {
+.clear-log-button-control {
 	position: absolute;
 
 	font-weight: bold;
@@ -228,15 +225,10 @@
 	left: 0;
 }
 
-.update-log-button-control {
-	right: 0;
-}
-
 .start-bot-button-control:hover,
 .save-bot-settings-button-control:hover,
 .add-command-button-control:hover,
-.clear-log-button-control:hover,
-.update-log-button-control:hover {
+.clear-log-button-control:hover {
 	transition: 0.4s;
 }
 
@@ -250,8 +242,7 @@
 
 .save-bot-settings-button-control:hover,
 .add-command-button-control:hover,
-.clear-log-button-control:hover,
-.update-log-button-control:hover {
+.clear-log-button-control:hover {
 	background-color: #50566E;
 }
 
@@ -265,8 +256,7 @@
 
 .save-bot-settings-button-control:active,
 .add-command-button-control:active,
-.clear-log-button-control:active,
-.update-log-button-control:active {
+.clear-log-button-control:active {
 	background-color: #434965;
 }
 
@@ -274,7 +264,7 @@
 @media (min-width: 320px) and (max-width: 767px) {
 	.container#other {
 		width: 300px;
-		height: 878px;
+		height: 825px;
 
 		margin: auto;
 
@@ -316,7 +306,7 @@
 	.bot-commands-container {
 		width: 100%;
 
-		top: 475px;
+		top: 422px;
 	}
 
 	.bot-log-container {
@@ -325,25 +315,17 @@
 		top: 212px;
 	}
 
-	.clear-log-button-control,
-	.update-log-button-control {
-		width: 100%;
-	}
-
 	.clear-log-button-control {
-		top: 145px;
-	}
+		width: 100%;
 
-	.update-log-button-control {
-		top: 198px;
+		top: 145px;
 	}
 
 	.start-bot-button-control,
 	.stop-bot-button-control,
 	.save-bot-settings-button-control,
 	.add-command-button-control,
-	.clear-log-button-control,
-	.update-log-button-control {
+	.clear-log-button-control {
 		height: 45px;
 
 		font-size: 20px;
@@ -353,7 +335,7 @@
 @media (min-width: 768px) and (max-width: 999px) {
 	.container#other {
 		width: 400px;
-		height: 937px;
+		height: 879px;
 
 		margin: auto;
 
@@ -394,7 +376,7 @@
 	.bot-commands-container {
 		width: 100%;
 
-		top: 503px;
+		top: 445px;
 	}
 
 	.bot-log-container {
@@ -403,25 +385,17 @@
 		top: 230px;
 	}
 
-	.clear-log-button-control,
-	.update-log-button-control {
-		width: 100%;
-	}
-
 	.clear-log-button-control {
-		top: 145px;
-	}
+		width: 100%;
 
-	.update-log-button-control {
-		top: 203px;
+		top: 145px;
 	}
 
 	.start-bot-button-control,
 	.stop-bot-button-control,
 	.save-bot-settings-button-control,
 	.add-command-button-control,
-	.clear-log-button-control,
-	.update-log-button-control {
+	.clear-log-button-control {
 		height: 50px;
 
 		font-size: 22px;
@@ -481,25 +455,17 @@
 		top: 256px;
 	}
 
-	.clear-log-button-control,
-	.update-log-button-control {
-		width: 100%;
-	}
-
 	.clear-log-button-control {
-		top: 145px;
-	}
+		width: 100%;
 
-	.update-log-button-control {
-		top: 213px;
+		top: 145px;
 	}
 
 	.start-bot-button-control,
 	.stop-bot-button-control,
 	.save-bot-settings-button-control,
 	.add-command-button-control,
-	.clear-log-button-control,
-	.update-log-button-control {
+	.clear-log-button-control {
 		height: 60px;
 
 		font-size: 24px;
@@ -571,18 +537,9 @@
 		right: 500px;
 	}
 
-	.clear-log-button-control,
-	.update-log-button-control {
+	.clear-log-button-control {
 		width: 100%;
-	}
 
-	.clear-log-button-control,
-	.update-log-button-control {
-		width: calc(50% - 5px);
-	}
-
-	.clear-log-button-control,
-	.update-log-button-control {
 		top: 145px;
 	}
 
@@ -590,8 +547,7 @@
 	.stop-bot-button-control,
 	.save-bot-settings-button-control,
 	.add-command-button-control,
-	.clear-log-button-control,
-	.update-log-button-control {
+	.clear-log-button-control {
 		font-size: 24px;
 	}
 
@@ -602,8 +558,7 @@
 	}
 
 	.add-command-button-control,
-	.clear-log-button-control,
-	.update-log-button-control {
+	.clear-log-button-control {
 		height: 60px;
 	}
 }
