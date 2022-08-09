@@ -33,7 +33,7 @@
 			<h1 class="info">Тариф: {{ user.status }}</h1>
 			<h1 class="info">Регистрация: {{ user.date_joined }}</h1>
 			{% if user.status == 'Бесплатный' %}
-				<button class="upgrade-account-buttom-control" onclick="window.location.href = '/account/{{ user.name }}/upgrade/';">Улучшить аккаунт</button>
+				<button class="upgrade-account-buttom-control" onclick="window.location.href = '/account/{{ user.username }}/upgrade/';">Улучшить аккаунт</button>
 			{% endif %}
 		</div>
 	</div>

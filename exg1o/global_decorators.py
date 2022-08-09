@@ -1,14 +1,71 @@
-from urllib import request
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponseBadRequest
 from django.shortcuts import redirect
+from django.contrib.auth.models import Group
 from konstruktor.models import TelegramBotModel, TelegramBotCommandModel
 import json
+
+def get_navbar_data(func): # Функция для получения данных для NavBar'а 
+	def wrapper(*args, **kwargs):
+		request: WSGIRequest = args[0]
+
+		if Group.objects.filter(name='free_accounts').exists() == False:
+			free_accounts_group = Group.objects.create(name='free_accounts')
+			free_accounts_group.save()
+		if Group.objects.filter(name='paid_accounts').exists() == False:
+			paid_accounts_group = Group.objects.create(name='paid_accounts')
+			paid_accounts_group.save()
+
+		if request.user.is_authenticated:
+			data = {
+				'buttons': {
+					'button_1': {
+						'id': 'profileButtonLink',
+						'onclick': f"window.location.href = '/account/view/{request.user.username}/';",
+						'text': 'Профиль'
+					},
+					'button_2': {
+						'id': 'signOutButtonLink',
+						'onclick': f"signOut('{request.user.username}');",
+						'text': 'Выйти'
+					},
+					'button_3': {
+						'id': 'konstruktorButtonLink',
+						'onclick': f"window.location.href = '/konstruktor/{request.user.username}/';",
+						'text': 'Конструктор'
+					}
+				}
+			}
+		else:
+			data = {
+				'buttons': {
+					'button_1': {
+						'id': 'authorizationButtonLink',
+						'onclick': "window.location.href = '/authorization/';",
+						'text': 'Авторизация'
+					},
+					'button_2': {
+						'id': 'registrationButtonLink',
+						'onclick': "window.location.href = '/registration/';",
+						'text': 'Регистарция'
+					}
+				}
+			}
+
+		kwargs.update(
+			{
+				'data': data
+			}
+		)
+
+		return func(*args, **kwargs)
+	wrapper.__name__ = func.__name__
+	return wrapper
 
 def if_user_authed(func): # Декоратор для проверки авторизован ли пользователь
 	def wrapper(*args, **kwargs):
 		request: WSGIRequest = args[0]
-		if request.user.is_authenticated == True:
+		if request.user.is_authenticated:
 			login, username = request.user.username, kwargs['username']
 			if login == username:
 				return func(*args, **kwargs)

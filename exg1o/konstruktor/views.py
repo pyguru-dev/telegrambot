@@ -3,15 +3,14 @@ from django.http import HttpResponseBadRequest
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import HttpResponse, redirect, render
 from konstruktor.models import TelegramBotModel, TelegramBotLogModel, TelegramBotCommandModel
-import global_functions as GlobalFunctions
 import global_decorators as GlobalDecorators
 import global_variable as GlobalVariable
 from telegram_bot import TelegramBot
 from threading import Thread
 
 # Create your views here.
-def get_bots_data(request: WSGIRequest):
-	data = GlobalFunctions.get_navbar_buttons_data(request)
+@GlobalDecorators.get_navbar_data
+def get_bots_data(request: WSGIRequest, data: dict):
 	data.update(
 		{
 			'bots': [],
@@ -59,8 +58,8 @@ def delete_bot(request: WSGIRequest, username: str, data: dict): # Удален�
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_max_bots_count_for_account
-def add_bot_page(request: WSGIRequest, username: str): # Отрисовка add_bot.html
-	data = GlobalFunctions.get_navbar_buttons_data(request)
+@GlobalDecorators.get_navbar_data
+def add_bot_page(request: WSGIRequest, username: str, data: dict): # Отрисовка add_bot.html
 	return render(request, 'add_bot.html', data)
 
 @csrf_exempt
@@ -212,11 +211,11 @@ def get_log(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotMo
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_max_commands_count_for_account
-def add_command_page(request: WSGIRequest, username: str, bot_id: int): # Отрисовка add_command.html
-	data = GlobalFunctions.get_navbar_buttons_data(request)
+@GlobalDecorators.get_navbar_data
+def add_command_page(request: WSGIRequest, username: str, bot_id: int, data: dict): # Отрисовка add_command.html
 	data.update(
 		{
-			'variables_for_commands': GlobalVariable.variables_for_commands
+			'variables_for_commands': GlobalVariable.VARIABLES_FOR_COMMANDS
 		}
 	)
 	return render(request, 'add_command.html', data)
@@ -237,11 +236,11 @@ def add_command(request: WSGIRequest, username: str, bot_id: int, data: dict, bo
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
 @GlobalDecorators.check_command_id
-def view_command_page(request: WSGIRequest, username: str, bot_id: int, command_id: int, bot: TelegramBotModel, bot_command: TelegramBotCommandModel): # Отрисовка view_command.html
-	data = GlobalFunctions.get_navbar_buttons_data(request)
+@GlobalDecorators.get_navbar_data
+def view_command_page(request: WSGIRequest, username: str, bot_id: int, command_id: int, bot: TelegramBotModel, bot_command: TelegramBotCommandModel, data: dict): # Отрисовка view_command.html
 	data.update(
 		{
-			'variables_for_commands': GlobalVariable.variables_for_commands,
+			'variables_for_commands': GlobalVariable.VARIABLES_FOR_COMMANDS,
 			'bot_command': {
 				'command': bot_command.command,
 				'command_answer': bot_command.command_answer

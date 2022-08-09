@@ -1,8 +1,8 @@
 """
 Exemple:
 online_bots = {
-	'USER-ID': {
-		'BOT-ID' : telegram_bot.object
+	USER-ID: {
+		BOT-ID : telegram_bot.object
 	}
 }
 """
@@ -11,7 +11,7 @@ online_bots = {
 online_bots = {}
 
 # Словарь переменных для команд
-variables_for_commands = [
+VARIABLES_FOR_COMMANDS = [
 	{
 		'variable_name': 'Имя пользователя',
 		'variable': '{user_name}',

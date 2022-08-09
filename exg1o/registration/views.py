@@ -3,13 +3,12 @@ from django.http import HttpResponseBadRequest, Http404
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import HttpResponse, render
 from django.contrib.auth.models import User, Group
-import global_functions as GlobalFunctions
 import global_decorators as GlobalDecorators
 
 # Create your views here.
-def registration_page(request: WSGIRequest): # Отрисовка registration.html
+@GlobalDecorators.get_navbar_data
+def registration_page(request: WSGIRequest, data: dict): # Отрисовка registration.html
 	if request.user.is_authenticated == False:
-		data = GlobalFunctions.get_navbar_buttons_data(request)
 		return render(request, 'registration.html', data)
 	else:
 		raise Http404('Сначала выйдите из акканута!')
