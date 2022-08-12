@@ -9,7 +9,7 @@
 
 # Установка и использовани
 1. Устанавливаем **Python 3.9.0**;
-2. Устанавливаем и запускаем сайт:
+2. Устанавливаем сайт:
 ```sh
 git clone https://github.com/EXG1O/WebSite-Exg1o.git
 cd WebSite-Exg1o/exg1o/exg1o
