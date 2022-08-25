@@ -27,11 +27,7 @@ SECRET_KEY = 'django-insecure-rd35!g#r8hff2a7d#11_!5(y_2^-g71#qp(*v%$x#_idl^pth$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-	'127.0.0.1',
-	'192.168.1.2',
-	'192.168.32.127'
-]
+ALLOWED_HOSTS = ['*']
 
 
 # Create desired folders
