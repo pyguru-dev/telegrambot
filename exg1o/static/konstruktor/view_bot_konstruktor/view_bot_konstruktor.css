@@ -405,7 +405,7 @@
 @media (min-width: 1000px) and (max-width: 1799px) {
 	.container#other {
 		width: 400px;
-		height: 993px;
+		height: 925px;
 
 		margin: auto;
 
@@ -446,7 +446,7 @@
 	.bot-commands-container {
 		width: 100%;
 
-		top: 549px;
+		top: 481px;
 	}
 
 	.bot-log-container {
