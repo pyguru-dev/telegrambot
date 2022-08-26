@@ -97,6 +97,7 @@
 	.site-user {
 		max-width: 258px;
 
+		margin-top: 4px;
 		margin-right: 2px;
 
 		font-size: 18px;
@@ -139,7 +140,8 @@
 
 	.site-user {
 		max-width: 622px;
-
+		
+		margin-top: 6px;
 		margin-right: 4px;
 
 		font-size: 20px;
@@ -175,6 +177,7 @@
 	.site-user {
 		max-width: 864px;
 
+		margin-top: 8px;
 		margin-right: 6px;
 
 		font-size: 22px;
