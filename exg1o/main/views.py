@@ -15,6 +15,7 @@ def main_page(request: WSGIRequest, data: dict): # Отрисовка main.html
 				'username': user.username
 			}
 		)
+	site_users.reverse()
 
 	if site_users == []:
 		site_users.append(
