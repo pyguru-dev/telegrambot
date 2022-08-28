@@ -133,38 +133,31 @@ def view_konstruktor_bot_page(request: WSGIRequest, username: str, bot_id: int, 
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
 def start_bot(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Запуск бота
-	telegram_bot = TelegramBot(bot_id, bot.token)
-	if telegram_bot.auth():
-		Thread(target=telegram_bot.start, daemon=True).start()
+	if bot.online == False:
+		telegram_bot = TelegramBot(bot.id, bot.token)
+		if telegram_bot.auth():
+			Thread(target=telegram_bot.start, daemon=True).start()
 
-		bot.online = True
-		bot.save()
+			bot.online = True
+			bot.save()
 
-		GlobalVariable.online_bots.update(
-			{
-				request.user.id: {
-					bot_id: telegram_bot
-				}
-			}
-		)
-
-		return HttpResponse('Бот успешно запушен.')
+			return HttpResponse('Бот успешно запушен.')
+		else:
+			return HttpResponseBadRequest('Неверный "Token" бота!')
 	else:
-		return HttpResponseBadRequest('Неверный "Token" бота!')
+		return HttpResponseBadRequest('Вы уже запустили бота!')
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
 def stop_bot(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Остоновка бота
-	telegram_bot = GlobalVariable.online_bots[request.user.id][bot_id]
-	Thread(target=telegram_bot.stop, daemon=True).start()
+	if bot.online:
+		bot.online = False
+		bot.save()
 
-	bot.online = False
-	bot.save()
-
-	del GlobalVariable.online_bots[request.user.id][bot_id]
-
-	return HttpResponse('Бот успешно остоновлен.')
+		return HttpResponse('Бот успешно остоновлен.')
+	else:
+		return HttpResponseBadRequest('Вы уже остоновили бота!')
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
