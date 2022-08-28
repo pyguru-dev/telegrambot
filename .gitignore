@@ -3,6 +3,7 @@ __pycache__/
 venv/
 logs/
 users_icons/
+staticfiles/
 
 #Файлы
 DataBase.db
