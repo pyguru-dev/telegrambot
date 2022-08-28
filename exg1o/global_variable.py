@@ -1,15 +1,3 @@
-"""
-Exemple:
-online_bots = {
-	USER-ID: {
-		BOT-ID : telegram_bot.object
-	}
-}
-"""
-
-# Словарь для ботов, которые сейчас онлайн
-online_bots = {}
-
 # Словарь переменных для команд
 VARIABLES_FOR_COMMANDS = [
 	{

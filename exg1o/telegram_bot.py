@@ -1,8 +1,10 @@
-from konstruktor.models import TelegramBotLogModel, TelegramBotCommandModel
+from konstruktor.models import TelegramBotModel, TelegramBotLogModel, TelegramBotCommandModel
 import global_variable as GlobalVariable
 from telegram.ext import Updater, MessageHandler, CommandHandler, Filters
+from threading import Thread
 import telegram.ext
 import telegram
+import time
 
 class TelegramBot: # Telegram Бот
 	def __init__(self, bot_id, token):
@@ -65,6 +67,12 @@ class TelegramBot: # Telegram Бот
 				self.dispatcher.add_handler(handler)
 
 		self.updater.start_polling()
-
+		Thread(target=self.stop, daemon=True).start()
+	
 	def stop(self): # Остоновка бота
-		self.updater.stop()
+		while True:
+			self.bot = TelegramBotModel.objects.get(id=self.bot_id)
+			if self.bot.online == False:
+				self.updater.stop()
+				break
+			time.sleep(1)
