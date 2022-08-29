@@ -5,4 +5,5 @@ logs/
 users_icons/
 
 #Файлы
+secret.key
 DataBase.db
