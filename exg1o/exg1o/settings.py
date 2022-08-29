@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import random
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -20,29 +21,39 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-rd35!g#r8hff2a7d#11_!5(y_2^-g71#qp(*v%$x#_idl^pth$'
-
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
 
-# Create desired folders
-def find_folder(directory: str, folder_name: str):
-	find_folder_name = False
-	for folder in os.listdir(directory):
-		if folder == folder_name:
-			find_folder_name = True
+# Create desired folders/files
+def find_folder_or_file(directory: str, name: str):
+	find_name = False
+	for i in os.listdir(directory):
+		if i == name:
+			find_name = True
 
-	return find_folder_name
+	return find_name
 
-if find_folder('.', 'logs') == False:
+# SECURITY WARNING: keep the secret key used in production secret!
+if find_folder_or_file('exg1o', 'secret.key') == False:
+	secret_key = ''
+	for i in range(50):
+		secret_key += random.choice('abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')
+	SECRET_KEY = f'django-insecure-{secret_key}'
+	
+	with open('exg1o/secret.key', 'w') as f:
+		f.write(SECRET_KEY)
+else:
+	with open('exg1o/secret.key', 'r') as f:
+		SECRET_KEY = f.read()
+
+# Check and create folders
+if find_folder_or_file('.', 'logs') == False:
 	os.mkdir('logs')
 
-if find_folder('static', 'users_icons') == False:
+if find_folder_or_file('static', 'users_icons') == False:
 	os.mkdir('static/users_icons')
 
 # Logs settings
