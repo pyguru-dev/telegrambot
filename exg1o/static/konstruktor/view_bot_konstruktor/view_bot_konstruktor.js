@@ -1,18 +1,21 @@
 var intervalId_;
 
 setInterval(function() {
-		var request = new XMLHttpRequest();
-		sendRequestToServer(
-			request,
-			'get_log/',
-			'',
-			function() {
-				if (request.status == 200) {
-					var botLogTableElement = document.querySelector('.bot-log-table');
-					botLogTableElement.innerHTML = request.responseText;
+		var startBotButtonElement = document.querySelector('.start-bot-button-control');
+		if (startBotButtonElement == null) {
+			var request = new XMLHttpRequest();
+			sendRequestToServer(
+				request,
+				'get_log/',
+				'',
+				function() {
+					if (request.status == 200) {
+						var botLogTableElement = document.querySelector('.bot-log-table');
+						botLogTableElement.innerHTML = request.responseText;
+					}
 				}
-			}
-		);
+			);
+		}
 	}, 1000)
 
 function hideOrShowButtonClick() {
