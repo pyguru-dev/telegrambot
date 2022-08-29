@@ -31,18 +31,18 @@ ALLOWED_HOSTS = ['*']
 
 
 # Create desired folders
-def find_folder(directory: str, folder_name: str):
-	find_folder_name = False
-	for folder in os.listdir(directory):
-		if folder == folder_name:
-			find_folder_name = True
+def find_folder_or_file(directory: str, name: str):
+	find_name = False
+	for i in os.listdir(directory):
+		if i == name:
+			find_name = True
 
-	return find_folder_name
+	return find_name
 
-if find_folder('.', 'logs') == False:
+if find_folder_or_file('.', 'logs') == False:
 	os.mkdir('logs')
 
-if find_folder('static', 'users_icons') == False:
+if find_folder_or_file('static', 'users_icons') == False:
 	os.mkdir('static/users_icons')
 
 # Logs settings
