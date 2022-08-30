@@ -58,85 +58,85 @@ if find_folder_or_file('static', 'users_icons') == False:
 
 # Logs settings
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '[{asctime}]: {name} > {funcName} || {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '[{asctime}]: {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        },
+	'version': 1,
+	'disable_existing_loggers': False,
+	'formatters': {
+		'verbose': {
+			'format': '[{asctime}]: {name} > {funcName} || {message}',
+			'style': '{',
+		},
+		'simple': {
+			'format': '[{asctime}]: {message}',
+			'style': '{',
+		},
+	},
+	'handlers': {
+		'console': {
+			'level': 'INFO',
+			'class': 'logging.StreamHandler',
+			'formatter': 'simple'
+		},
 		'info_file': { 
-            'level': 'INFO',
-            'class': 'logging.FileHandler',
-            'filename': 'logs/info.log',
-            'formatter': 'simple'
-        },
+			'level': 'INFO',
+			'class': 'logging.FileHandler',
+			'filename': 'logs/info.log',
+			'formatter': 'simple'
+		},
 		'debug_file': { 
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'logs/debug.log',
-            'formatter': 'verbose'
-        },
-        'warning_file': { 
-            'level': 'WARNING',
-            'class': 'logging.FileHandler',
-            'filename': 'logs/warning.log',
-            'formatter': 'verbose'
-        },
-        'error_file': { 
-            'level': 'ERROR',
-            'class': 'logging.FileHandler',
-            'filename': 'logs/error.log',
-            'formatter': 'verbose'
-        }
-    },
-    'loggers': {
-        'django': {
-            'handlers': [
+			'level': 'DEBUG',
+			'class': 'logging.FileHandler',
+			'filename': 'logs/debug.log',
+			'formatter': 'verbose'
+		},
+		'warning_file': { 
+			'level': 'WARNING',
+			'class': 'logging.FileHandler',
+			'filename': 'logs/warning.log',
+			'formatter': 'verbose'
+		},
+		'error_file': { 
+			'level': 'ERROR',
+			'class': 'logging.FileHandler',
+			'filename': 'logs/error.log',
+			'formatter': 'verbose'
+		}
+	},
+	'loggers': {
+		'django': {
+			'handlers': [
 				'console',
 				'info_file',
 				'debug_file',
 				'warning_file',
 				'error_file'
 			],
-            'propagate': True,
-        },
-        'django.request': {
-            'handlers': [
+			'propagate': True,
+		},
+		'django.request': {
+			'handlers': [
 				'console',
 				'info_file',
 				'debug_file',
 				'warning_file',
 				'error_file'
 			],
-            'propagate': False,
-        },
+			'propagate': False,
+		},
 		'django.template': {
-            'handlers': [
+			'handlers': [
 				'debug_file'
 			],
-            'propagate': False,
-        },
+			'propagate': False,
+		},
 		'django.db.backends': {
 			'handlers': [
 				'debug_file',
 				'warning_file',
 				'error_file'
 			],
-            'propagate': False,
+			'propagate': False,
 		}
-    }
+	}
 }
 
 
@@ -233,7 +233,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+	BASE_DIR / 'static',
 ]
 
 # Default primary key field type
