@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+	<title>Добавление команды</title>
+{% endblock title %}
+
+{% block styles %}
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'constructor/add_command/add_command.css' %}">
+	{% block commandStyles %} {% endblock commandStyles %}
+{% endblock styles %}
+
+{% block content %}
+	<div class="container">
+		<h1 class="heading">{% block heading %}ДОБАВЛЕНИЕ КОМАНДЫ{% endblock heading %}</h1>
+		<div class="variables">
+			{% for variable_for_command in variables_for_commands %}
+				<button class="variable-button-control" onclick="addVariableCommandClick('{{ variable_for_command.variable }}')">{{ variable_for_command.variable_name }}</button>
+			{% endfor %}	
+		</div>
+		<div class="add-command-form">
+			<input class="command-input-control" type="text" placeholder="Придуймайте команду" value="{% block commandValue %}{% endblock commandValue %}"></input>
+			<textarea class="command-answer-input-control" name="text" placeholder="Придуймайте ответ команде">{% block commandAnswerValue %}{% endblock commandAnswerValue %}</textarea>
+		</div>
+		<div class="buttons">
+			{% block buttons %}
+				<button class="add-command-button-control" onclick="addCommandButtonClick()">Добавить бота</button>
+			{% endblock buttons %}
+			<button class="back-button-control" onclick="window.location.href = '{% block backButtonLink %}../{% endblock backButtonLink %}';">Вернуться</button>
+		</div>
+	</div>
+{% endblock content %}
+
+{% block scripts %}
+	{% block commandScripts %}
+		<script src="{% static 'constructor/add_command/inputs_enter.js' %}"></script>
+	{% endblock commandScripts %}
+	<script src="{% static 'constructor/add_command/add_command.js' %}"></script>
+{% endblock scripts %}

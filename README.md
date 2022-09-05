@@ -1,5 +1,5 @@
-# WebSite Exg1o
-**WebSite Exg1o** - сайт с помощью которого вы сможете легко и без каких либо навыков в программирование сделать своего Telegram бота.
+# Constructor Telegram Bots
+**Constructor Telegram Bots** - сайт с помощью которого вы сможете легко и без каких либо навыков в программирование сделать своего Telegram бота.
 
 # Возможности сайта
 - Создать собственного Telegram бота;
@@ -11,8 +11,9 @@
 1. Устанавливаем **Python 3.9.0**;
 2. Устанавливаем сайт:
 ```sh
-git clone https://github.com/EXG1O/WebSite-Exg1o.git
-cd WebSite-Exg1o/exg1o/exg1o
+git clone https://github.com/EXG1O/Constructor-Telegram-Bots.git
+cd Constructor-Telegram-Bots/constructor_telegram_bots/constructor_telegram_bots
+nano settings.py
 ```
 3. В файле **settings.py** на **27** строке меняем константу **DEBUG**:
 ```sh
@@ -20,6 +21,7 @@ DEBUG = True
 ```
 4. Запускаем сайт:
 ```sh
+cd ..
 python manage.py runserver
 ```
 5. Если всё успешно запустилось, то в консоль должно вывестись это:
@@ -29,7 +31,7 @@ Performing system checks...
 
 System check identified no issues (0 silenced).
 June 13, 2022 - 11:49:34
-Django version 4.0.4, using settings 'exg1o.settings'
+Django version 4.0.6, using settings 'constructor_telegram_bots.settings'
 Starting development server at http://127.0.0.1:8000/
 Quit the server with CTRL-BREAK.
 ```
@@ -47,11 +49,11 @@ Quit the server with CTRL-BREAK.
 ## Страница улучшения аккаунта
 ![site](other/site_pages_images/5_upgrade_account_page.png)
 ## Страница списка Telegram ботов
-![site](other/site_pages_images/6_konstruktor_page.png)
+![site](other/site_pages_images/6_constructor_page.png)
 ## Страница добавления Telegram бота
 ![site](other/site_pages_images/7_add_bot_page.png)
 ## Страница конструктора Telegram бота
-![site](other/site_pages_images/8_view_bot_konstruktor_page.png)
+![site](other/site_pages_images/8_view_bot_constructor_page.png)
 ## Страница добавление команды Telegram боту
 ![site](other/site_pages_images/9_add_command_page.png)
 ## Страница редактирования команды Telegram бота

@@ -1,0 +1,33 @@
+@media (min-width: 320px) and (max-width: 767px) {
+	.top-navbar {
+		height: 223px;
+	}
+
+	.message-container {
+		top: 223px;
+	}
+
+	.container {
+		top: 240px;
+	}
+}
+
+@media (min-width: 1000px) {
+	.button-link-control#signOutButtonLink {
+		right: 20px;
+	}
+
+	.button-link-control#mainPageButtonLink {
+		width: 214px;
+		
+		right: 192px;
+	}
+
+	.button-link-control#profileButtonLink {
+		right: 417px;
+	}
+
+	.button-link-control#konstruktorButtonLink {
+		right: 589px;
+	}
+}
