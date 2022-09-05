@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+{% load static %}
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="icon" href="{% static 'images/favicon.ico' %}">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+		{% block title %} {% endblock title %}
+		<link rel="stylesheet" href="{% static 'global/base.css' %}">
+		{% if 'button_3' in buttons %}
+			<link rel="stylesheet" href="{% static 'global/auth_base.css' %}">
+		{% endif %}
+		{% block styles %} {% endblock styles %}
+		</head>
+	<body>
+		<nav class="top-navbar">
+			<button id="mainPageButtonLink" class="button-link-control" onclick="window.location.href = '/';">Главная страница</button>
+			<button id="{{ buttons.button_1.id }}" class="button-link-control" onclick="{{ buttons.button_1.onclick }}">{{ buttons.button_1.text }}</button>
+			<button id="{{ buttons.button_2.id }}" class="button-link-control" onclick="{{ buttons.button_2.onclick }}">{{ buttons.button_2.text }}</button>
+			{% if 'button_3' in buttons %}
+				<button id="{{ buttons.button_3.id }}" class="button-link-control" onclick="{{ buttons.button_3.onclick }}">{{ buttons.button_3.text }}</button>
+			{% endif %}
+		</nav>
+		<div id="messageContainer" class="message-container">
+			<h1 id="message" class="message"></h1>
+		</div>
+		{% block content %} {% endblock content %}
+	</body>
+	{% if 'button_3' not in buttons %}
+		<script>const userAuth = false;</script>
+	{% endif %}
+	{% if 'button_3' in buttons %}
+		<script>const userAuth = true;</script>
+	{% endif %}
+	<script src="{% static 'global/base.js' %}"></script>
+	<script src="{% static 'global/message.js' %}"></script>
+	<script src="{% static 'global/send_request_to_server.js' %}"></script>
+	{% block scripts %} {% endblock scripts %}
+</html>

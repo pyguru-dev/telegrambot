@@ -49,18 +49,18 @@ class DemonstrationSitePages:
 		other_pages = {
 			'4_account_view_page': 'account/view/Exg1o/',
 			'5_upgrade_account_page': 'account/Exg1o/upgrade/',
-			'6_konstruktor_page': 'konstruktor/Exg1o/',
-			'7_add_bot_page': 'konstruktor/Exg1o/add_bot/',
-			'8_view_bot_konstruktor_page': 'bot-name',
+			'6_constructor_page': 'constructor/Exg1o/',
+			'7_add_bot_page': 'constructor/Exg1o/add_bot/',
+			'8_view_bot_constructor_page': 'bot-name',
 			'9_add_command_page': 'add-command-button-control',
 			'10_edit_command_page': 'bot-command-name'
 		}
 
 		for page in other_pages:
-			if page in ['8_view_bot_konstruktor_page', '9_add_command_page', '10_edit_command_page']:
-				self.browser.get(f'{self.SITE}konstruktor/Exg1o/')
+			if page in ['8_view_bot_constructor_page', '9_add_command_page', '10_edit_command_page']:
+				self.browser.get(f'{self.SITE}constructor/Exg1o/')
 				self.click_button(By.CLASS_NAME, 'bot-name')
-				if page == 'view_bot_konstruktor_page':
+				if page == 'view_bot_constructor_page':
 					self.screenshot_page(page)
 				else:
 					self.click_button(By.CLASS_NAME, other_pages[page])
