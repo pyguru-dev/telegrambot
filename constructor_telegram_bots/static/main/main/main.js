@@ -11,11 +11,11 @@ intervalId = setInterval(
 
 		if (userAuth) {
 			if (screenWidth >= 320 && screenWidth < 768) {
-				containerSiteUsersElementTop = 249;
+				containerSiteUsersElementTop = 235;
 			}
 		} else {
 			if (screenWidth >= 320 && screenWidth < 768) {
-				containerSiteUsersElementTop = 199;
+				containerSiteUsersElementTop = 185;
 			}
 		}
 		if (screenWidth >= 768 && screenWidth < 1000) {
