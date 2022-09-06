@@ -58,7 +58,7 @@
 }
 
 .bot-name {
-	position: absolute;
+	margin: 0;
 
 	white-space: nowrap;
 	overflow: hidden;
@@ -151,7 +151,7 @@
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
 		width: 300px;
-		height: 591px;
+		height: 313px;
 	}
 
 	.heading {
@@ -165,7 +165,7 @@
 	}
 
 	.bots-list-container {
-		height: 464px;
+		height: 186px;
 	}
 
 	.bot {
@@ -180,7 +180,7 @@
 	}
 
 	.account-max#first {
-		top: 470px;
+		top: 192px;
 	}
 
 	.max-bots {
@@ -188,18 +188,16 @@
 	}
 
 	.delete-bot-button-control {
-		width: calc(100% - 20px);
+		width: 100%;
 
-		left: 10px;
-		right: 10px;
-
-		margin-top: 40px;
+		margin-top: 7px;
+		position: static;
 	}
 
 	.add-bot-button-control {
 		height: 45px;
 
-		top: 474px;
+		top: 196px;
 
 		font-size: 20px;
 	}
@@ -232,7 +230,8 @@
 	.bot-name {
 		width: 190px;
 
-		text-align: left;
+		position: absolute;
+
 		font-size: 25px;
 	}
 
