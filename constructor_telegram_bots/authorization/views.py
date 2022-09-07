@@ -7,28 +7,24 @@ from django.contrib import auth
 import global_decorators as GlobalDecorators
 
 # Create your views here.
+@GlobalDecorators.if_user_not_authed
 @GlobalDecorators.get_navbar_data
 def authorization_page(request: WSGIRequest, data: dict): # Отрисовка authorization.html
-	if request.user.is_authenticated == False:
-		return render(request, 'authorization.html', data)
-	else:
-		raise Http404('Вы уже авторизованы!')
+	return render(request, 'authorization.html', data)
 
 @csrf_exempt
+@GlobalDecorators.if_user_not_authed
 @GlobalDecorators.check_request_data_items(needs_items=['login', 'password'])
 def authorize_in_account(request: WSGIRequest, data: dict): # Авторизация в аккаунт
-	if request.user.is_authenticated == False:
-		login, password = data['login'], data['password']
+	login, password = data['login'], data['password']
 
-		if User.objects.filter(username=login).exists():
-			user = auth.authenticate(username=login, password=password)
-			if user != None:
-				auth.login(request, user)
+	if User.objects.filter(username=login).exists():
+		user = auth.authenticate(username=login, password=password)
+		if user != None:
+			auth.login(request, user)
 
-				return HttpResponse('Успешная авторизация.')
-			else:
-				return HttpResponseBadRequest('Вы ввели неверный "Password"!')
+			return HttpResponse('Успешная авторизация.')
 		else:
-			return HttpResponseBadRequest('Такого пользователя не существует!')
+			return HttpResponseBadRequest('Вы ввели неверный "Password"!')
 	else:
-		raise Http404('Сначала выйдите из акканута!')
+		return HttpResponseBadRequest('Такого пользователя не существует!')

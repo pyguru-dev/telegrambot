@@ -6,33 +6,31 @@ from django.contrib.auth.models import User, Group
 import global_decorators as GlobalDecorators
 
 # Create your views here.
+@GlobalDecorators.if_user_not_authed
 @GlobalDecorators.get_navbar_data
 def registration_page(request: WSGIRequest, data: dict): # Отрисовка registration.html
-	if request.user.is_authenticated == False:
-		return render(request, 'registration.html', data)
-	else:
-		raise Http404('Сначала выйдите из акканута!')
+	return render(request, 'registration.html', data)
 
 @csrf_exempt
+@GlobalDecorators.if_user_not_authed
 @GlobalDecorators.check_request_data_items(needs_items=['login', 'email', 'password'])
 def register_account(request: WSGIRequest, data: dict): # Регистрация аккаунта
-	if request.user.is_authenticated == False:
-		login, email, password = data['login'], data['email'], data['password']
+	login, email, password = data['login'], data['email'], data['password']
 
-		if User.objects.filter(username=login).exists() == False:
-			user = User.objects.create_user(login, email, password)
-			user.save()
+	if User.objects.filter(username=login).exists() == False:
+		user = User.objects.create_user(login, email, password)
+		user.save()
 
-			free_accounts_group = Group.objects.get(name='free_accounts')
-			user.groups.add(free_accounts_group)
+		free_accounts_group = Group.objects.get(name='free_accounts')
+		user.groups.add(free_accounts_group)
 
-			with open('static/images/user.png', 'rb') as file:
-				content = file.read()
-			with open(f'static/users_icons/{user.id}.png', 'wb') as file:
-				file.write(content)
+		with (
+			open('static/images/user.png', 'rb') as default_user_icon,
+			open(f'static/users_icons/{user.id}.png', 'wb') as user_icon,
+		):
+			content = default_user_icon.read()
+			user_icon.write(content)
 
-			return HttpResponse('Успешная регистрация.')
-		else:
-			return HttpResponseBadRequest(f'Login "{login}" уже занят!')
+		return HttpResponse('Успешная регистрация.')
 	else:
-		raise Http404('Сначала выйдите из акканута!')
+		return HttpResponseBadRequest(f'Login "{login}" уже занят!')
