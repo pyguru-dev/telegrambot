@@ -84,11 +84,11 @@
 	}
 
 	.heading#siteUsers {
-		font-size: 31px;
+		font-size: 30px;
 	}
 
 	.site-users-list {
-		margin-top: 5px;
+		margin-top: 2px;
 		margin-bottom: 6px;
 		margin-left: 10px;
 		margin-right: 10px;
@@ -104,7 +104,7 @@
 	}
 
 	.heading#siteInfo {
-		font-size: 46px;
+		font-size: 35px;
 	}
 
 	.site-info-text {
@@ -123,13 +123,14 @@
 	}
 
 	.heading#siteUsers {
-		font-size: 51px;
+		font-size: 52px;
 	}
 
 	.site-users-list {
-		margin-bottom: 9px;
-		margin-left: 15px;
-		margin-right: 15px;
+		margin-top: 2px;
+		margin-bottom: 10px;
+		margin-left: 16px;
+		margin-right: 16px;
 	}
 
 	.site-user {
@@ -142,7 +143,7 @@
 	}
 
 	.heading#siteInfo {
-		font-size: 86px;
+		font-size: 47px;
 	}
 
 	.site-info-text {
@@ -163,13 +164,13 @@
 	}
 
 	.heading#siteUsers {
-		font-size: 72px;
+		font-size: 73.5px;
 	}
 
 	.site-users-list {
-		margin-bottom: 8px;
-		margin-left: 16px;
-		margin-right: 16px;
+		margin-bottom: 12px;
+		margin-left: 20px;
+		margin-right: 20px;
 	}
 
 	.site-user {
@@ -179,10 +180,6 @@
 		margin-right: 6px;
 
 		font-size: 22px;
-	}
-
-	.heading#siteInfo {
-		font-size: 80px;
 	}
 
 	.site-info-text {
@@ -198,10 +195,18 @@
 	.container {
 		width: 900px;
 	}
+
+	.heading#siteInfo {
+		font-size: 68px;
+	}
 }
 
 @media (min-width: 1500px) {
 	.container {
 		width: 1200px;
+	}
+
+	.heading#siteInfo {
+		font-size: 80px;
 	}
 }
