@@ -76,6 +76,16 @@ def if_user_authed(func): # Декоратор для проверки авто�
 	wrapper.__name__ = func.__name__
 	return wrapper
 
+def if_user_not_authed(func): # Декоратор для проверки не авторизован ли пользователь
+	def wrapper(*args, **kwargs):
+		request: WSGIRequest = args[0]
+		if request.user.is_authenticated == False:
+			return func(*args, **kwargs)
+		else:
+			return redirect('/')
+	wrapper.__name__ = func.__name__
+	return wrapper
+
 def check_request_data_items(needs_items: dict): # Декоратор для проверки значений в request запросе
 	def decorator(func):
 		def wrapper(*args, **kwargs):

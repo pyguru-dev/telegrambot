@@ -28,8 +28,8 @@ def view_profile_page(request: WSGIRequest, username: str, data: dict): # Отр
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 def update_user_icon(request: WSGIRequest, username: str): # Обновление иконки пользователя
-	with open(f'static/users_icons/{request.user.id}.png', 'wb') as file:
-		file.write(request.body)
+	with open(f'static/users_icons/{request.user.id}.png', 'wb') as user_icon:
+		user_icon.write(request.body)
 
 	return HttpResponse('Успешная замена авы.')
 
