@@ -89,14 +89,6 @@
 }
 
 /* ------------ Кнопки ------------ */
-.delete-bot-button-control {
-	height: 32px;
-
-	font-size: 20px;
-
-	border-radius: 8px;
-}
-
 .upgrade-account-buttom-control {
 	height: 100%;
 
@@ -112,9 +104,17 @@
 	border-radius: 12px;
 }
 
+.delete-bot-button-control {
+	height: 32px;
+
+	font-size: 20px;
+
+	border-radius: 8px;
+}
+
 .upgrade-account-buttom-control,
-.delete-bot-button-control,
-.add-bot-button-control {
+.add-bot-button-control,
+.delete-bot-button-control {
 	position: absolute;
 
 	font-weight: bold;
@@ -125,8 +125,8 @@
 	transition: 0.4s;
 }
 
-.delete-bot-button-control,
-.upgrade-account-buttom-control {
+.upgrade-account-buttom-control,
+.delete-bot-button-control {
 	background-color: #4d5163;
 }
 
@@ -134,16 +134,16 @@
 	background-color: #595F76;
 }
 
-.delete-bot-button-control:hover,
 .upgrade-account-buttom-control:hover,
-.add-bot-button-control:hover {
+.add-bot-button-control:hover,
+.delete-bot-button-control:hover {
 	transition: 0.4s;
 	background-color: #50566E;
 }
 
-.delete-bot-button-control:active,
 .upgrade-account-buttom-control:active,
-.add-bot-button-control:active {
+.add-bot-button-control:active,
+.delete-bot-button-control:active {
 	background-color: #434965;
 }
 
@@ -173,8 +173,6 @@
 	}
 
 	.bot-name {
-		width: 236px;
-
 		text-align: center;
 		font-size: 28px;
 	}
@@ -187,19 +185,19 @@
 		font-size: 15px;
 	}
 
-	.delete-bot-button-control {
-		width: 100%;
-
-		margin-top: 7px;
-		position: static;
-	}
-
 	.add-bot-button-control {
 		height: 45px;
 
 		top: 196px;
 
 		font-size: 20px;
+	}
+
+	.delete-bot-button-control {
+		width: 100%;
+
+		margin-top: 7px;
+		position: static;
 	}
 }
 
@@ -243,18 +241,18 @@
 		font-size: 18px;
 	}
 
-	.delete-bot-button-control {
-		width: 150px;
-
-		right: 8px;
-	}
-
 	.add-bot-button-control {
 		height: 50px;
 
 		top: 264px;
 
 		font-size: 22px;
+	}
+
+	.delete-bot-button-control {
+		width: 150px;
+
+		right: 8px;
 	}
 }
 

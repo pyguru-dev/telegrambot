@@ -6,11 +6,11 @@ setInterval(function() {
 			var request = new XMLHttpRequest();
 			sendRequestToServer(
 				request,
-				'get_log/',
+				'get_bot_logs/',
 				'',
 				function() {
 					if (request.status == 200) {
-						var botLogTableElement = document.querySelector('.bot-log-table');
+						var botLogTableElement = document.querySelector('.bot-logs-table');
 						botLogTableElement.innerHTML = request.responseText;
 					}
 				}
@@ -151,11 +151,11 @@ function saveBotSettingsButtonClick() {
 	);
 }
 
-function clearLogButtonClick() {
+function clearBotLogsButtonClick() {
 	var request = new XMLHttpRequest();
 	sendRequestToServer(
 		request,
-		'clear_log/',
+		'clear_bot_logs/',
 		'',
 		function() {
 			if (request.status == 200) {
@@ -163,14 +163,14 @@ function clearLogButtonClick() {
 				checkUserWindowScreenForOtherContainer();
 				hideMessageOther();
 
-				var botLogTableElement = document.querySelector('.bot-log-table');
+				var botLogTableElement = document.querySelector('.bot-logs-table');
 				botLogTableElement.innerHTML = '';
 			}
 		}
 	);
 }
 
-function addCommandButtonClick(link) {
+function addBotCommandButtonClick(link) {
 	var request = new XMLHttpRequest();
 	sendRequestToServer(
 		request,
@@ -180,7 +180,24 @@ function addCommandButtonClick(link) {
 			if (request.status == 200) {
 				window.location.href = link;
 			} else {
+				showErrorMessage(request.responseText);
+				checkUserWindowScreenForOtherContainer();
+			}
+		}
+	);
+}
+
+function deleteBotCommandButtonClick(bot_id) {
+	var request = new XMLHttpRequest();
+	sendRequestToServer(
+		request,
+		bot_id + '/delete_bot_command/',
+		'',
+		function() {
+			if (request.status == 200) {
 				showSuccessMessage(request.responseText);
+			} else {
+				showErrorMessage(request.responseText);
 				checkUserWindowScreenForOtherContainer();
 			}
 		}

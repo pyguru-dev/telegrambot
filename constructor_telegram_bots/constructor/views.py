@@ -76,7 +76,7 @@ def add_bot(request: WSGIRequest, username: str, data: dict): # Добавлен
 
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
-def view_constructor_bot_page(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Отрисовка view_bot_constructor.html
+def view_bot_page(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Отрисовка view_bot_page.html
 	data = get_bots_data(request)
 	data.update(
 		{
@@ -93,7 +93,7 @@ def view_constructor_bot_page(request: WSGIRequest, username: str, bot_id: int, 
 				'token': bot.token,
 				'online': bot.online,
 				'commands': [],
-				'log': []
+				'logs': []
 			}
 		}
 	)
@@ -113,21 +113,21 @@ def view_constructor_bot_page(request: WSGIRequest, username: str, bot_id: int, 
 		)
 
 	for log in TelegramBotLogModel.objects.filter(bot_id=bot_id):
-		data['bot']['log'].append(
+		data['bot']['logs'].append(
 			{
 				'id': log.id,
 				'user_name': log.user_name,
 				'user_message': log.user_message
 			}
 		)
-	if len(data['bot']['log']) > 2:
-		data['bot']['log'][-1].update(
+	if len(data['bot']['logs']) > 2:
+		data['bot']['logs'][-1].update(
 			{
 				'log_data_positsion': 'last'
 			}
 		)
 
-	return render(request, 'view_bot_constructor.html', data)
+	return render(request, 'view_bot.html', data)
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
@@ -175,7 +175,7 @@ def save_bot_settings(request: WSGIRequest, username: str, bot_id: int, data: di
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
-def clear_log(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Очистка логов
+def clear_bot_logs(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Очистка логов бота
 	for log in TelegramBotLogModel.objects.filter(bot_id=bot_id):
 		log.delete()
 
@@ -184,7 +184,7 @@ def clear_log(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBot
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
-def get_log(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Отправка логов
+def get_bot_logs(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotModel): # Отправка логов бота
 	finally_log = ''
 	log = TelegramBotLogModel.objects.filter(bot_id=bot_id)
 	for i in range(log.count()):
@@ -194,8 +194,8 @@ def get_log(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotMo
 			finally_log += '<div class="bot-log">'
 
 		finally_log += f"""
-				<p class="log-data">{log[i].user_name}:</p>
-				<p class="log-data">{log[i].user_message}</p>
+				<p class="bot-log-data">{log[i].user_name}:</p>
+				<p class="bot-log-data">{log[i].user_message}</p>
 			</div>
 		"""
 
@@ -205,20 +205,20 @@ def get_log(request: WSGIRequest, username: str, bot_id: int, bot: TelegramBotMo
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_max_commands_count_for_account
 @GlobalDecorators.get_navbar_data
-def add_command_page(request: WSGIRequest, username: str, bot_id: int, data: dict): # Отрисовка add_command.html
+def add_bot_command_page(request: WSGIRequest, username: str, bot_id: int, data: dict): # Отрисовка view_bot_command.html
 	data.update(
 		{
 			'variables_for_commands': GlobalVariable.VARIABLES_FOR_COMMANDS
 		}
 	)
-	return render(request, 'add_command.html', data)
+	return render(request, 'view_bot_command.html', data)
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_request_data_items(needs_items=['command', 'command_answer'])
 @GlobalDecorators.check_bot_id
 @GlobalDecorators.check_max_commands_count_for_account
-def add_command(request: WSGIRequest, username: str, bot_id: int, data: dict, bot: TelegramBotModel): # Добавление команды
+def add_bot_command(request: WSGIRequest, username: str, bot_id: int, data: dict, bot: TelegramBotModel): # Добавление команды боту
 	command, command_answer = data['command'], data['command_answer']
 
 	bot_command = TelegramBotCommandModel(None, bot_id, command, command_answer)
@@ -230,7 +230,7 @@ def add_command(request: WSGIRequest, username: str, bot_id: int, data: dict, bo
 @GlobalDecorators.check_bot_id
 @GlobalDecorators.check_command_id
 @GlobalDecorators.get_navbar_data
-def view_command_page(request: WSGIRequest, username: str, bot_id: int, command_id: int, bot: TelegramBotModel, bot_command: TelegramBotCommandModel, data: dict): # Отрисовка view_command.html
+def view_bot_command_page(request: WSGIRequest, username: str, bot_id: int, command_id: int, bot: TelegramBotModel, bot_command: TelegramBotCommandModel, data: dict): # Отрисовка view_bot_command.html
 	data.update(
 		{
 			'variables_for_commands': GlobalVariable.VARIABLES_FOR_COMMANDS,
@@ -241,14 +241,14 @@ def view_command_page(request: WSGIRequest, username: str, bot_id: int, command_
 		}
 	)
 
-	return render(request, 'view_command.html', data)
+	return render(request, 'view_bot_command.html', data)
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_request_data_items(needs_items=['command', 'command_answer'])
 @GlobalDecorators.check_bot_id
 @GlobalDecorators.check_command_id
-def save_command(request: WSGIRequest, username: str, bot_id: int, command_id: int, data: dict, bot: TelegramBotModel, bot_command: TelegramBotCommandModel): # Сохранение команды
+def save_bot_command(request: WSGIRequest, username: str, bot_id: int, command_id: int, data: dict, bot: TelegramBotModel, bot_command: TelegramBotCommandModel): # Сохранение команды бота
 	command, command_answer = data['command'], data['command_answer']
 
 	bot_command = TelegramBotCommandModel(command_id, bot_id, command, command_answer)
@@ -260,6 +260,6 @@ def save_command(request: WSGIRequest, username: str, bot_id: int, command_id: i
 @GlobalDecorators.if_user_authed
 @GlobalDecorators.check_bot_id
 @GlobalDecorators.check_command_id
-def delete_command(request: WSGIRequest, username: str, bot_id: str, command_id: int, bot: TelegramBotModel, bot_command: TelegramBotCommandModel): # Удаление команды
+def delete_bot_command(request: WSGIRequest, username: str, bot_id: str, command_id: int, bot: TelegramBotModel, bot_command: TelegramBotCommandModel): # Удаление команды бота
 	bot_command.delete()
 	return HttpResponse('Успешное удаление команды.')

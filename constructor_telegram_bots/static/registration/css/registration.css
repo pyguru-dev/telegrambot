@@ -16,8 +16,8 @@
 
 /* ------------ Заголовок ------------ */
 .heading {
-	margin-top: 4px;
-	margin-bottom: 4px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 
 	text-align: center;
 	font-weight: bold;
@@ -25,28 +25,30 @@
 }
 
 /* ------------ Контейнер для основых элементов ------------ */
-.authorization-form {
+.registration-form {
 	position: absolute;
 }
 
 /* ------------ Inputs ------------ */
 .login-input-control,
-.password-input-control {
-	width: 100%;
-
+.email-input-control,
+.password-input-control,
+.again-password-input-control {
 	margin-bottom: 8px;
 
 	outline: 0;
 	border: 0;
 }
 
-.login-input-control {
+.login-input-control,
+.email-input-control {
 	width: 100%;
 
 	border-radius: 8px;
 }
 
-.password-input-control {
+.password-input-control,
+.again-password-input-control {
 	width: calc(100% - 40px);
 
 	border-top-left-radius: 8px;
@@ -58,7 +60,6 @@
 
 	margin-bottom: 8px;
 
-	right: 0px;
 	position: absolute;
 
 	background: #FFFFFF;
@@ -71,12 +72,14 @@
 	border-bottom-right-radius: 8px;
 }
 
-.password-button-control#hidePassword {
-	background-image: url('../images/eyeOn.png');
+.password-button-control#hidePassword,
+.password-button-control#hideAgainPassword {
+	background-image: url('../../global/img/eyeOn.png');
 }
 
-.password-button-control#showPassword {
-	background-image: url('../images/eyeOff.png');
+.password-button-control#showPassword,
+.password-button-control#showAgainPassword {
+	background-image: url('../../global/img/eyeOff.png');
 }
 
 /* ------------ Кнопки ------------ */
@@ -84,16 +87,18 @@
 	position: absolute;
 }
 
-.not-have-account-button-control {
+.have-account-button-control {
 	transform: translate(0, -50%);
 	position: absolute;
 
+	font-size: 18px;
 	letter-spacing: 0.4px;
 }
 
-.authorization-button-control {
+.registration-button-control {
 	position: absolute;
 
+	font-size: 24px;
 	font-weight: bold;
 	letter-spacing: 0.8px;
 
@@ -104,18 +109,18 @@
 	background-color: #595F76;
 }
 
-.authorization-button-control:hover {
+.registration-button-control:hover{
 	transition: 0.4s;
 	background-color: #50566E;
 }
 
-.authorization-button-control:active {
+.registration-button-control:active{
 	background-color: #434965;
 }
 
 /* ------------ Адаптация ------------ */
 @media (min-width: 320px) {
-	.authorization-form,
+	.registration-form,
 	.buttons {
 		left: 20px;
 		right: 20px;
@@ -124,15 +129,17 @@
 
 @media (min-width: 320px) and (max-width: 767px) {
 	.container {
-		height: 242px;
+		height: 340px;
 	}
 
 	.heading {
-		font-size: 36px;
+		font-size: 38px;
 	}
 
 	.login-input-control,
-	.password-input-control {
+	.email-input-control,
+	.password-input-control,
+	.again-password-input-control {
 		height: 38px;
 
 		font-size: 22px;
@@ -143,12 +150,12 @@
 	}
 
 	.buttons {
-		height: 77px;
+		height: 45px;
 
-		top: 145px;
+		top: 242px;
 	}
 
-	.not-have-account-button-control {
+	.have-account-button-control {
 		top: 65px;
 		right: 30px;
 		left: 30px;
@@ -157,7 +164,7 @@
 		font-size: 18px;
 	}
 
-	.authorization-button-control {
+	.registration-button-control {
 		width: 100%;
 		height: 45px;
 
@@ -168,15 +175,17 @@
 @media (min-width: 768px) and (max-width: 999px) {
 	.container {
 		width: 600px;
-		height: 273px;
+		height: 381px;
 	}
 
 	.heading {
-		font-size: 76px;
+		font-size: 79px;
 	}
 
 	.login-input-control,
-	.password-input-control {
+	.email-input-control,
+	.password-input-control,
+	.again-password-input-control {
 		height: 42px;
 
 		font-size: 24px;
@@ -189,10 +198,10 @@
 	.buttons {
 		height: 50px;
 
-		top: 199px;
+		top: 307px;
 	}
 
-	.not-have-account-button-control {
+	.have-account-button-control {
 		top: 50%;
 		left: 50px;
 
@@ -200,7 +209,7 @@
 		font-size: 18px;
 	}
 
-	.authorization-button-control {
+	.registration-button-control {
 		width: 200px;
 		height: 50px;
 
@@ -212,8 +221,8 @@
 
 @media (min-width: 1000px) {
 	.container {
-		width: 780px;
-		height: 320px;
+		width: 750px;
+		height: 428px;
 	}
 
 	.heading {
@@ -221,7 +230,9 @@
 	}
 
 	.login-input-control,
-	.password-input-control {
+	.email-input-control,
+	.password-input-control,
+	.again-password-input-control {
 		height: 45px;
 
 		font-size: 28px;
@@ -229,15 +240,17 @@
 
 	.password-button-control {
 		height: 45px;
+
+		right: 0;
 	}
 
 	.buttons {
 		height: 60px;
 
-		top: 236px;
+		top: 344px;
 	}
 
-	.not-have-account-button-control {
+	.have-account-button-control {
 		top: 50%;
 		left: 75px;
 
@@ -245,8 +258,8 @@
 		font-size: 18px;
 	}
 
-	.authorization-button-control {
-		width: 220px;
+	.registration-button-control {
+		width: 228px;
 		height: 60px;
 
 		right: 0;

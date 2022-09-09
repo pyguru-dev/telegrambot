@@ -60,11 +60,11 @@
 }
 
 .bot-token-button-control#hideBotToken {
-	background-image: url('../../images/eyeOn.png');
+	background-image: url('../../../global/img/eyeOn.png');
 }
 
 .bot-token-button-control#showBotToken {
-	background-image: url('../../images/eyeOff.png');
+	background-image: url('../../../global/img/eyeOff.png');
 }
 
 /* Контейнер для buttons, которые находяться рядом с контейнером inputs */
@@ -113,18 +113,21 @@
 }
 
 .bot-command-name {
+	margin: 0;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+
 	font-weight: bold;
-	text-align: left;
-	font-size: 25px;
 	letter-spacing: 0.8px;
 }
 
 /* ------------ Контейнер для логов ------------ */
-.bot-log-container {
+.bot-logs-container {
 	position: absolute;
 }
 
-.bot-log-table {
+.bot-logs-table {
 	width: 100%;
 	height: 135px;
 
@@ -153,7 +156,7 @@
 	border: 0;
 }
 
-.log-data {
+.bot-log-data {
 	margin: 0;
 
 	word-break: break-all;
@@ -167,8 +170,9 @@
 .start-bot-button-control,
 .stop-bot-button-control,
 .save-bot-settings-button-control,
-.add-command-button-control,
-.clear-log-button-control {
+.add-bot-command-button-control,
+.delete-bot-command-button-control,
+.clear-bot-logs-button-control {
 	font-weight: bold;
 	letter-spacing: 0.8px;
 
@@ -178,11 +182,15 @@
 	transition: 0.4s;
 }
 
-.start-bot-button-control,
-.stop-bot-button-control,
-.save-bot-settings-button-control,
-.add-command-button-control {
-	width: 100%;
+.delete-bot-command-button-control {
+	height: 32px;
+
+	font-size: 20px;
+
+	border: 0;
+	border-radius: 8px;
+
+	background-color: #4d5163;
 }
 
 .start-bot-button-control {
@@ -193,14 +201,21 @@
 	background-color: #F04F53;
 }
 
+.start-bot-button-control,
+.stop-bot-button-control,
 .save-bot-settings-button-control,
-.add-command-button-control,
-.clear-log-button-control {
+.add-bot-command-button-control {
+	width: 100%;
+}
+
+.save-bot-settings-button-control,
+.add-bot-command-button-control,
+.clear-bot-logs-button-control {
 	background-color: #595F76;
 }
 
-.add-command-button-control,
-.clear-log-button-control {
+.add-bot-command-button-control,
+.clear-bot-logs-button-control {
 	position: absolute;
 
 	font-weight: bold;
@@ -217,18 +232,19 @@
 	margin-bottom: 8px;
 }
 
-.add-command-button-control {
+.add-bot-command-button-control {
 	top: 262px;
 }
 
-.clear-log-button-control {
+.clear-bot-logs-button-control {
 	left: 0;
 }
 
 .start-bot-button-control:hover,
 .save-bot-settings-button-control:hover,
-.add-command-button-control:hover,
-.clear-log-button-control:hover {
+.add-bot-command-button-control:hover,
+.delete-bot-command-button-control:hover,
+.clear-bot-logs-button-control:hover {
 	transition: 0.4s;
 }
 
@@ -241,8 +257,8 @@
 }
 
 .save-bot-settings-button-control:hover,
-.add-command-button-control:hover,
-.clear-log-button-control:hover {
+.add-bot-command-button-control:hover,
+.clear-bot-logs-button-control:hover {
 	background-color: #50566E;
 }
 
@@ -255,8 +271,16 @@
 }
 
 .save-bot-settings-button-control:active,
-.add-command-button-control:active,
-.clear-log-button-control:active {
+.add-bot-command-button-control:active,
+.clear-bot-logs-button-control:active {
+	background-color: #434965;
+}
+
+.delete-bot-command-button-control:hover {
+	background-color: #50566E;
+}
+
+.delete-bot-command-button-control:active {
 	background-color: #434965;
 }
 
@@ -303,32 +327,49 @@
 		position: absolute;
 	}
 
+	.bot-logs-container {
+		width: 100%;
+
+		top: 212px;
+	}
+
+	.clear-bot-logs-button-control {
+		width: 100%;
+
+		top: 145px;
+	}
+
 	.bot-commands-container {
 		width: 100%;
 
 		top: 422px;
 	}
 
-	.bot-log-container {
-		width: 100%;
-
-		top: 212px;
-	}
-
-	.clear-log-button-control {
-		width: 100%;
-
-		top: 145px;
-	}
-
 	.start-bot-button-control,
 	.stop-bot-button-control,
 	.save-bot-settings-button-control,
-	.add-command-button-control,
-	.clear-log-button-control {
+	.add-bot-command-button-control,
+	.clear-bot-logs-button-control {
 		height: 45px;
 
 		font-size: 20px;
+	}
+}
+
+@media (min-width: 320px) {
+	.bot-command {
+		height: 92px;
+	}
+
+	.bot-command-name {
+		text-align: center;
+		font-size: 28px;
+	}
+
+	.delete-bot-command-button-control {
+		width: 100%;
+
+		margin-top: 7px;
 	}
 }
 
@@ -373,29 +414,29 @@
 		top: 102px;
 	}
 
+	.bot-logs-container {
+		width: 100%;
+
+		top: 230px;
+	}
+
+	.clear-bot-logs-button-control {
+		width: 100%;
+
+		top: 145px;
+	}
+
 	.bot-commands-container {
 		width: 100%;
 
 		top: 445px;
 	}
 
-	.bot-log-container {
-		width: 100%;
-
-		top: 230px;
-	}
-
-	.clear-log-button-control {
-		width: 100%;
-
-		top: 145px;
-	}
-
 	.start-bot-button-control,
 	.stop-bot-button-control,
 	.save-bot-settings-button-control,
-	.add-command-button-control,
-	.clear-log-button-control {
+	.add-bot-command-button-control,
+	.clear-bot-logs-button-control {
 		height: 50px;
 
 		font-size: 22px;
@@ -449,13 +490,13 @@
 		top: 481px;
 	}
 
-	.bot-log-container {
+	.bot-logs-container {
 		width: 100%;
 
 		top: 256px;
 	}
 
-	.clear-log-button-control {
+	.clear-bot-logs-button-control {
 		width: 100%;
 
 		top: 145px;
@@ -464,8 +505,8 @@
 	.start-bot-button-control,
 	.stop-bot-button-control,
 	.save-bot-settings-button-control,
-	.add-command-button-control,
-	.clear-log-button-control {
+	.add-bot-command-button-control,
+	.clear-bot-logs-button-control {
 		height: 60px;
 
 		font-size: 24px;
@@ -531,13 +572,13 @@
 		right: 0px;
 	}
 
-	.bot-log-container {
+	.bot-logs-container {
 		top: 118px;
 		left: 0;
 		right: 500px;
 	}
 
-	.clear-log-button-control {
+	.clear-bot-logs-button-control {
 		width: 100%;
 
 		top: 145px;
@@ -546,8 +587,8 @@
 	.start-bot-button-control,
 	.stop-bot-button-control,
 	.save-bot-settings-button-control,
-	.add-command-button-control,
-	.clear-log-button-control {
+	.add-bot-command-button-control,
+	.clear-bot-logs-button-control {
 		font-size: 24px;
 	}
 
@@ -557,8 +598,8 @@
 		height: 45px;
 	}
 
-	.add-command-button-control,
-	.clear-log-button-control {
+	.add-bot-command-button-control,
+	.clear-bot-logs-button-control {
 		height: 60px;
 	}
 }
