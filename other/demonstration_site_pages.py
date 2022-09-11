@@ -52,7 +52,7 @@ class DemonstrationSitePages:
 			'6_constructor_page': 'constructor/Exg1o/',
 			'7_add_bot_page': 'constructor/Exg1o/add_bot/',
 			'8_view_bot_constructor_page': 'bot-name',
-			'9_add_command_page': 'add-command-button-control',
+			'9_add_command_page': 'add-bot-command-button-control',
 			'10_edit_command_page': 'bot-command-name'
 		}
 

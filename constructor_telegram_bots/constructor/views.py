@@ -210,7 +210,7 @@ def add_bot_command_page(request: WSGIRequest, username: str, bot_id: int, data:
 			'variables_for_commands': GlobalVariable.VARIABLES_FOR_COMMANDS
 		}
 	)
-	return render(request, 'view_bot_command.html', data)
+	return render(request, 'add_bot_command.html', data)
 
 @csrf_exempt
 @GlobalDecorators.if_user_authed

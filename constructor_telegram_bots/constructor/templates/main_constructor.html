@@ -41,5 +41,9 @@
 
 {% block scripts %}
 	<script src="{% static 'constructor/main_constructor/js/main_constructor.js' %}"></script>
-	{% block botScripts %} {% endblock botScripts %}
+	{% block botScripts %}
+		<script>
+			const mainConstructorPage = true;
+		</script>
+	{% endblock botScripts %}
 {% endblock scripts %}

@@ -1,16 +1,19 @@
-var botElements = document.querySelectorAll('.bot');
-if (botElements.length > 2) {
-	const screenWidth = window.screen.width;
-	if (screenWidth >= 320 && screenWidth < 768) {
-		if (botElements.length >= 3) {
-			botElements[botElements.length - 1].setAttribute('id', 'last');
-		}
-	} else {
-		if (botElements.length >= 5) {
-			botElements[botElements.length - 1].setAttribute('id', 'last');
+function checkBotElements() {
+	var botElements = document.querySelectorAll('.bot');
+	if (botElements.length >= 2) {
+		const screenWidth = window.screen.width;
+		if (screenWidth >= 320 && screenWidth < 768) {
+			if (botElements.length >= 2) {
+				botElements[botElements.length - 1].setAttribute('id', 'last');
+			}
+		} else {
+			if (botElements.length >= 5) {
+				botElements[botElements.length - 1].setAttribute('id', 'last');
+			}
 		}
 	}
 }
+checkBotElements();
 
 function deleteBotButtonClick(botId, botName, nickname) {
 	const deleteBotAnswer = confirm('Вы точно хотите удалить бота "' + botName + '"?');
@@ -27,10 +30,17 @@ function deleteBotButtonClick(botId, botName, nickname) {
 			function() {
 				if (request.status == 200) {
 					showSuccessMessage(request.responseText);
-					hideMessage();
+					if (mainConstructorPage == false) {
+						checkUserWindowScreenForOtherContainer();
+						hideMessageOther();
+					} else {
+						hideMessage();
+					}
 
 					var botElement = document.querySelector('.bot.id-' + botId);
 					botElement.remove();
+
+					checkBotElements();
 				} else {
 					showErrorMessage(request.responseText);
 				}
