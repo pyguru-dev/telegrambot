@@ -24,11 +24,9 @@ def register_account(request: WSGIRequest, data: dict): # Регистрация
 		free_accounts_group = Group.objects.get(name='free_accounts')
 		user.groups.add(free_accounts_group)
 
-		with (
-			open('static/global/img/user.png', 'rb') as default_user_icon,
-			open(f'static/icons/users_icons/{user.id}.png', 'wb') as user_icon,
-		):
+		with open('static/global/img/user.png', 'rb') as default_user_icon:
 			content = default_user_icon.read()
+		with open(f'static/icons/users_icons/{user.id}.png', 'wb') as user_icon:
 			user_icon.write(content)
 
 		return HttpResponse('Успешная регистрация.')
