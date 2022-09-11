@@ -30,7 +30,7 @@ def get_navbar_data(func): # Функция для получения данны
 						'text': 'Выйти'
 					},
 					'button_3': {
-						'id': 'konstruktorButtonLink',
+						'id': 'constructorButtonLink',
 						'onclick': f"window.location.href = '/constructor/{request.user.username}/';",
 						'text': 'Конструктор'
 					}
@@ -144,7 +144,7 @@ def check_bot_id(func): # Декоратор для проверки ID бота
 
 			return func(*args, **kwargs)
 		else:
-			return redirect(f'/account/konstruktor/{request.user.username}/')
+			return redirect(f'/account/constructor/{request.user.username}/')
 	wrapper.__name__ = func.__name__
 	return wrapper
 
@@ -177,6 +177,6 @@ def check_command_id(func): # Декоратор для проверки ID ко
 
 			return func(*args, **kwargs)
 		else:
-			return redirect(f'/konstruktor/{username}/view_bot/{bot_id}/')
+			return redirect(f'/constructor/{username}/view_bot/{bot_id}/')
 	wrapper.__name__ = func.__name__
 	return wrapper

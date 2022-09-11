@@ -6,17 +6,32 @@ setInterval(function() {
 			var request = new XMLHttpRequest();
 			sendRequestToServer(
 				request,
-				'get_log/',
+				'get_bot_logs/',
 				'',
 				function() {
 					if (request.status == 200) {
-						var botLogTableElement = document.querySelector('.bot-log-table');
+						var botLogTableElement = document.querySelector('.bot-logs-table');
 						botLogTableElement.innerHTML = request.responseText;
 					}
 				}
 			);
 		}
 	}, 1000)
+
+	function checkBotCommandElements() {
+		var botCommandElements = document.querySelectorAll('.bot-command');
+		if (botCommandElements.length >= 2) {
+			const screenWidth = window.screen.width;
+			if (screenWidth >= 320 && screenWidth < 1800) {
+				botCommandElements[botCommandElements.length - 1].setAttribute('id', 'last');
+			} else {
+				if (botCommandElements.length > 3) {
+					botCommandElements[botCommandElements.length - 1].setAttribute('id', 'last');
+				}
+			}
+		}
+	}
+	checkBotCommandElements();
 
 function hideOrShowButtonClick() {
 	var inputPasswordElement = document.querySelector('.bot-token-input-control');
@@ -39,11 +54,8 @@ function checkUserWindowScreenForOtherContainer() {
 	var otherContainerElement = document.querySelector('.container#other');
 	const messageElementHeight = document.querySelector('.message-container').clientHeight;
 
-	if (screenWidth >= 320 && screenWidth < 768) {
-		otherContainerElement.style = 'top: ' + (860 + messageElementHeight) + 'px;';
-	}
-	if (screenWidth >= 768 && screenWidth < 1000) {
-		otherContainerElement.style = 'top: ' + (520 + messageElementHeight) + 'px;';
+	if (screenWidth >= 320 && screenWidth < 1000) {
+		otherContainerElement.style = 'top: ' + (563 + messageElementHeight) + 'px;';
 	}
 	if (screenWidth >= 1000 && screenWidth < 1799) {
 		otherContainerElement.style = 'top: ' + (555 + messageElementHeight) + 'px;';
@@ -61,11 +73,8 @@ function hideMessageOther() {
 		const screenWidth = window.screen.width;
 		var otherContainerElement = document.querySelector('.container#other');
 
-		if (screenWidth >= 320 && screenWidth < 768) {
-			otherContainerElement.style = 'top: 860px;';
-		}
-		if (screenWidth >= 768 && screenWidth < 1000) {
-			otherContainerElement.style = 'top: 520px;';
+		if (screenWidth >= 320 && screenWidth < 1000) {
+			otherContainerElement.style = 'top: 563px;';
 		}
 		if (screenWidth >= 1000 && screenWidth < 1799) {
 			otherContainerElement.style = 'top: 555px;';
@@ -151,11 +160,11 @@ function saveBotSettingsButtonClick() {
 	);
 }
 
-function clearLogButtonClick() {
+function clearBotLogsButtonClick() {
 	var request = new XMLHttpRequest();
 	sendRequestToServer(
 		request,
-		'clear_log/',
+		'clear_bot_logs/',
 		'',
 		function() {
 			if (request.status == 200) {
@@ -163,14 +172,38 @@ function clearLogButtonClick() {
 				checkUserWindowScreenForOtherContainer();
 				hideMessageOther();
 
-				var botLogTableElement = document.querySelector('.bot-log-table');
+				var botLogTableElement = document.querySelector('.bot-logs-table');
 				botLogTableElement.innerHTML = '';
 			}
 		}
 	);
 }
 
-function addCommandButtonClick(link) {
+function deleteBotCommandButtonClick(bot_id) {
+	var request = new XMLHttpRequest();
+	sendRequestToServer(
+		request,
+		bot_id + '/delete_bot_command/',
+		'',
+		function() {
+			if (request.status == 200) {
+				showSuccessMessage(request.responseText);
+				checkUserWindowScreenForOtherContainer();
+				hideMessageOther();
+
+				var botCommandElement = document.querySelector('.bot-command.id-' + bot_id);
+				botCommandElement.remove();
+
+				checkBotCommandElements();
+			} else {
+				showErrorMessage(request.responseText);
+				checkUserWindowScreenForOtherContainer();
+			}
+		}
+	);
+}
+
+function addBotCommandButtonClick(link) {
 	var request = new XMLHttpRequest();
 	sendRequestToServer(
 		request,
@@ -180,7 +213,7 @@ function addCommandButtonClick(link) {
 			if (request.status == 200) {
 				window.location.href = link;
 			} else {
-				showSuccessMessage(request.responseText);
+				showErrorMessage(request.responseText);
 				checkUserWindowScreenForOtherContainer();
 			}
 		}

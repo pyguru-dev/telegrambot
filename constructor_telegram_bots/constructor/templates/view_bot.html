@@ -5,7 +5,7 @@
 
 {% block botStyles %}
 	{% load static %}
-	<link rel="stylesheet" href="{% static 'constructor/view_bot_constructor/view_bot_constructor.css' %}">
+	<link rel="stylesheet" href="{% static 'constructor/view_bot/css/view_bot.css' %}">
 {% endblock botStyles %}
 
 {% block botContainer %}
@@ -26,16 +26,30 @@
 				{% endif %}
 				<button class="save-bot-settings-button-control" onclick="saveBotSettingsButtonClick()">Сохранить настройки</button>
 			</div>
+			<div class="bot-logs-container">
+				<div class="bot-logs-table">
+					{% for log in bot.logs %}
+						{% if 'log_data_positsion' not in log %}
+							<div class="bot-log">
+						{% endif %}
+						{% if 'log_data_positsion' in log %}
+							<div class="bot-log" id="last">
+						{% endif %}
+							<p class="bot-log-data">{{ log.user_name }}:</p>
+							<p class="bot-log-data">{{ log.user_message }}</p>
+						</div>
+					{% endfor %}
+				</div>
+				<button class="clear-bot-logs-button-control" onclick="clearBotLogsButtonClick()">Очистить логи</button>
+			</div>
 			<div class="bot-commands-container">
 				<div class="bot-commands-table">
 					{% for bot_command in bot.commands %}
-						{% if 'commands_positsion' not in bot_command %}
-							<div class="bot-command">
-						{% endif %}
-						{% if 'commands_positsion' in bot_command %}
-							<div class="bot-command" id="last">
-						{% endif %}
-							<a class="bot-command-name" href="view_command/{{ bot_command.id }}/">{{ bot_command.command }}</a>
+						<div class="bot-command id-{{ bot_command.id }}" id="normal">
+							<p class="bot-command-name">
+								<a href="view_bot_command/{{ bot_command.id }}/">{{ bot_command.command }}</a>
+							</p>
+							<button class="delete-bot-command-button-control" onclick="deleteBotCommandButtonClick('{{ bot_command.id }}')">Удалить команду</button>
 						</div>
 					{% endfor %}
 				</div>
@@ -48,28 +62,15 @@
 						<h1 class="max-bots" style="background-color: #5CC639;">MAX: ∞</h1>
 					{% endif %}
 				</div>
-				<button class="add-command-button-control" onclick="addCommandButtonClick('add_command/')">Добавить команду</button>
-			</div>
-			<div class="bot-log-container">
-				<div class="bot-log-table">
-					{% for log in bot.log %}
-						{% if 'log_data_positsion' not in log %}
-							<div class="bot-log">
-						{% endif %}
-						{% if 'log_data_positsion' in log %}
-							<div class="bot-log" id="last">
-						{% endif %}
-							<p class="log-data">{{ log.user_name }}:</p>
-							<p class="log-data">{{ log.user_message }}</p>
-						</div>
-					{% endfor %}
-				</div>
-				<button class="clear-log-button-control" onclick="clearLogButtonClick()">Очистить логи</button>
+				<button class="add-bot-command-button-control" onclick="addBotCommandButtonClick('add_bot_command/')">Добавить команду</button>
 			</div>
 		</div>
 	</div>
 {% endblock botContainer %}
 
 {% block botScripts %}
-	<script src="{% static 'constructor/view_bot_constructor/view_bot_constructor.js' %}"></script>
+	<script>
+		const mainConstructorPage = false;
+	</script>
+	<script src="{% static 'constructor/view_bot/js/view_bot.js' %}"></script>
 {% endblock botScripts %}

@@ -60,11 +60,11 @@
 }
 
 .bot-token-button-control#hideBotToken {
-	background-image: url('../../images/eyeOn.png');
+	background-image: url('../../../global/img/eyeOn.png');
 }
 
 .bot-token-button-control#showBotToken {
-	background-image: url('../../images/eyeOff.png');
+	background-image: url('../../../global/img/eyeOff.png');
 }
 
 /* Контейнер для buttons, которые находяться рядом с контейнером inputs */
@@ -72,59 +72,12 @@
 	position: absolute;
 }
 
-/* ------------ Для ограничений аккаунта ------------ */
-.account-max#second {
-	top: 258px;
-}
-
-/* ------------ Контейнер для команд бота ------------ */
-.bot-commands-container {
-	position: absolute;
-}
-
-.bot-commands-table {
-	width: 100%;
-	height: 252px;
-
-	border-color: #FFFFFF;
-	border-radius: 8px;
-	border-style: solid;
-	border-width: 2px;
-
-	background-color: #1B1D23;
-	overflow: auto;
-}
-
-.bot-command {
-	width: 100%;
-	height: 50px;
-
-	padding: 8px;
-
-	border-bottom-color: #FFFFFF;
-    border-bottom-style: solid;
-    border-bottom-width: 2px;
-
-	background-color: #595F76;
-}
-
-.bot-command#last {
-	border: 0;
-}
-
-.bot-command-name {
-	font-weight: bold;
-	text-align: left;
-	font-size: 25px;
-	letter-spacing: 0.8px;
-}
-
 /* ------------ Контейнер для логов ------------ */
-.bot-log-container {
+.bot-logs-container {
 	position: absolute;
 }
 
-.bot-log-table {
+.bot-logs-table {
 	width: 100%;
 	height: 135px;
 
@@ -143,8 +96,8 @@
 	padding: 5px;
 
 	border-bottom-color: #FFFFFF;
-    border-bottom-style: solid;
-    border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
 
 	background-color: #595F76;
 }
@@ -153,7 +106,7 @@
 	border: 0;
 }
 
-.log-data {
+.bot-log-data {
 	margin: 0;
 
 	word-break: break-all;
@@ -163,12 +116,55 @@
 	letter-spacing: 0.8px;
 }
 
+/* ------------ Контейнер для команд бота ------------ */
+.bot-commands-container {
+	position: absolute;
+}
+
+.bot-commands-table {
+	width: 100%;
+
+	border-color: #FFFFFF;
+	border-radius: 8px;
+	border-style: solid;
+	border-width: 2px;
+
+	background-color: #1B1D23;
+	overflow: auto;
+}
+
+.bot-command {
+	width: 100%;
+	height: 50px;
+
+	padding: 8px;
+
+	background-color: #595F76;
+}
+
+.bot-command#normal {
+	border-bottom-color: #FFFFFF;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
+}
+
+.bot-command-name {
+	margin: 0;
+
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	font-weight: bold;
+	letter-spacing: 0.8px;
+}
+
 /* ------------ Кнопки ------------ */
 .start-bot-button-control,
 .stop-bot-button-control,
 .save-bot-settings-button-control,
-.add-command-button-control,
-.clear-log-button-control {
+.add-bot-command-button-control,
+.delete-bot-command-button-control,
+.clear-bot-logs-button-control {
 	font-weight: bold;
 	letter-spacing: 0.8px;
 
@@ -178,11 +174,15 @@
 	transition: 0.4s;
 }
 
-.start-bot-button-control,
-.stop-bot-button-control,
-.save-bot-settings-button-control,
-.add-command-button-control {
-	width: 100%;
+.delete-bot-command-button-control {
+	height: 32px;
+
+	font-size: 20px;
+
+	border: 0;
+	border-radius: 8px;
+
+	background-color: #4d5163;
 }
 
 .start-bot-button-control {
@@ -193,14 +193,21 @@
 	background-color: #F04F53;
 }
 
+.start-bot-button-control,
+.stop-bot-button-control,
 .save-bot-settings-button-control,
-.add-command-button-control,
-.clear-log-button-control {
+.add-bot-command-button-control {
+	width: 100%;
+}
+
+.save-bot-settings-button-control,
+.add-bot-command-button-control,
+.clear-bot-logs-button-control {
 	background-color: #595F76;
 }
 
-.add-command-button-control,
-.clear-log-button-control {
+.add-bot-command-button-control,
+.clear-bot-logs-button-control {
 	position: absolute;
 
 	font-weight: bold;
@@ -217,18 +224,15 @@
 	margin-bottom: 8px;
 }
 
-.add-command-button-control {
-	top: 262px;
-}
-
-.clear-log-button-control {
+.clear-bot-logs-button-control {
 	left: 0;
 }
 
 .start-bot-button-control:hover,
 .save-bot-settings-button-control:hover,
-.add-command-button-control:hover,
-.clear-log-button-control:hover {
+.add-bot-command-button-control:hover,
+.delete-bot-command-button-control:hover,
+.clear-bot-logs-button-control:hover {
 	transition: 0.4s;
 }
 
@@ -241,8 +245,8 @@
 }
 
 .save-bot-settings-button-control:hover,
-.add-command-button-control:hover,
-.clear-log-button-control:hover {
+.add-bot-command-button-control:hover,
+.clear-bot-logs-button-control:hover {
 	background-color: #50566E;
 }
 
@@ -255,8 +259,16 @@
 }
 
 .save-bot-settings-button-control:active,
-.add-command-button-control:active,
-.clear-log-button-control:active {
+.add-bot-command-button-control:active,
+.clear-bot-logs-button-control:active {
+	background-color: #434965;
+}
+
+.delete-bot-command-button-control:hover {
+	background-color: #50566E;
+}
+
+.delete-bot-command-button-control:active {
 	background-color: #434965;
 }
 
@@ -264,7 +276,7 @@
 @media (min-width: 320px) and (max-width: 767px) {
 	.container#other {
 		width: 300px;
-		height: 825px;
+		height: 760px;
 
 		margin: auto;
 
@@ -303,43 +315,74 @@
 		position: absolute;
 	}
 
+	.bot-logs-container {
+		width: 100%;
+
+		top: 212px;
+	}
+
+	.clear-bot-logs-button-control {
+		width: 100%;
+
+		top: 145px;
+	}
+
 	.bot-commands-container {
 		width: 100%;
 
 		top: 422px;
 	}
 
-	.bot-log-container {
-		width: 100%;
-
-		top: 212px;
+	.account-max#second {
+		top: 193px;
 	}
 
-	.clear-log-button-control {
-		width: 100%;
-
-		top: 145px;
+	.add-bot-command-button-control {
+		top: 197px;
 	}
 
 	.start-bot-button-control,
 	.stop-bot-button-control,
 	.save-bot-settings-button-control,
-	.add-command-button-control,
-	.clear-log-button-control {
+	.add-bot-command-button-control,
+	.clear-bot-logs-button-control {
 		height: 45px;
 
 		font-size: 20px;
 	}
 }
 
+@media (min-width: 320px) and (max-width: 1799px) {
+	.bot-commands-table {
+		height: 186px;
+	}
+}
+
+@media (min-width: 320px) {	
+	.bot-command {
+		height: 92px;
+	}
+
+	.bot-command-name {
+		text-align: center;
+		font-size: 28px;
+	}
+
+	.delete-bot-command-button-control {
+		width: 100%;
+
+		margin-top: 7px;
+	}
+}
+
 @media (min-width: 768px) and (max-width: 999px) {
 	.container#other {
 		width: 400px;
-		height: 879px;
+		height: 813px;
 
 		margin: auto;
 
-		top: 520px;
+		top: 563px;
 		left: 0;
 		right: 0;
 	}
@@ -373,29 +416,37 @@
 		top: 102px;
 	}
 
+	.bot-logs-container {
+		width: 100%;
+
+		top: 230px;
+	}
+
+	.clear-bot-logs-button-control {
+		width: 100%;
+
+		top: 145px;
+	}
+
 	.bot-commands-container {
 		width: 100%;
 
 		top: 445px;
 	}
 
-	.bot-log-container {
-		width: 100%;
-
-		top: 230px;
+	.account-max#second {
+		top: 192px;
 	}
 
-	.clear-log-button-control {
-		width: 100%;
-
-		top: 145px;
+	.add-bot-command-button-control {
+		top: 196px;
 	}
 
 	.start-bot-button-control,
 	.stop-bot-button-control,
 	.save-bot-settings-button-control,
-	.add-command-button-control,
-	.clear-log-button-control {
+	.add-bot-command-button-control,
+	.clear-bot-logs-button-control {
 		height: 50px;
 
 		font-size: 22px;
@@ -405,7 +456,7 @@
 @media (min-width: 1000px) and (max-width: 1799px) {
 	.container#other {
 		width: 400px;
-		height: 925px;
+		height: 859px;
 
 		margin: auto;
 
@@ -443,29 +494,37 @@
 		top: 108px;
 	}
 
+	.bot-logs-container {
+		width: 100%;
+
+		top: 256px;
+	}
+
+	.clear-bot-logs-button-control {
+		width: 100%;
+
+		top: 145px;
+	}
+
 	.bot-commands-container {
 		width: 100%;
 
 		top: 481px;
 	}
 
-	.bot-log-container {
-		width: 100%;
-
-		top: 256px;
+	.account-max#second {
+		top: 192px;
 	}
 
-	.clear-log-button-control {
-		width: 100%;
-
-		top: 145px;
+	.add-bot-command-button-control {
+		top: 196px;
 	}
 
 	.start-bot-button-control,
 	.stop-bot-button-control,
 	.save-bot-settings-button-control,
-	.add-command-button-control,
-	.clear-log-button-control {
+	.add-bot-command-button-control,
+	.clear-bot-logs-button-control {
 		height: 60px;
 
 		font-size: 24px;
@@ -524,6 +583,18 @@
 		right: 500px;
 	}
 
+	.bot-logs-container {
+		top: 118px;
+		left: 0;
+		right: 500px;
+	}
+
+	.clear-bot-logs-button-control {
+		width: 100%;
+
+		top: 145px;
+	}
+
 	.bot-commands-container {
 		top: 0;
 		bottom: 20px;
@@ -531,23 +602,23 @@
 		right: 0px;
 	}
 
-	.bot-log-container {
-		top: 118px;
-		left: 0;
-		right: 500px;
+	.bot-commands-table {
+		height: 253px;
 	}
 
-	.clear-log-button-control {
-		width: 100%;
+	.account-max#second {
+		top: 259px;
+	}
 
-		top: 145px;
+	.add-bot-command-button-control {
+		top: 263px;
 	}
 
 	.start-bot-button-control,
 	.stop-bot-button-control,
 	.save-bot-settings-button-control,
-	.add-command-button-control,
-	.clear-log-button-control {
+	.add-bot-command-button-control,
+	.clear-bot-logs-button-control {
 		font-size: 24px;
 	}
 
@@ -557,8 +628,8 @@
 		height: 45px;
 	}
 
-	.add-command-button-control,
-	.clear-log-button-control {
+	.add-bot-command-button-control,
+	.clear-bot-logs-button-control {
 		height: 60px;
 	}
 }

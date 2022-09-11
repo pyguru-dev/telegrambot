@@ -17,7 +17,7 @@ function addCommandButtonClick() {
 			var request = new XMLHttpRequest();
 			sendRequestToServer(
 				request,
-				'../add_command_/',
+				'../add_bot_command_/',
 				JSON.stringify(
 					{
 						'command': command,

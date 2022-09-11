@@ -5,15 +5,15 @@
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<link rel="icon" href="{% static 'images/favicon.ico' %}">
+		<link rel="icon" href="{% static 'icons/favicon.ico' %}">
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 		{% block title %} {% endblock title %}
 		<meta name="description" content="Сайт с помощью которого вы сможете легко и без каких либо навыков в программирование сделать своего уникального Telegram бота.">
 		<meta name="keywords" content="Constructor Telegram, Constructor Telegram Bots, Constructor">
-		<link rel="stylesheet" href="{% static 'global/base.css' %}">
+		<link rel="stylesheet" href="{% static 'global/css/base.css' %}">
 		{% if 'button_3' in buttons %}
-			<link rel="stylesheet" href="{% static 'global/auth_base.css' %}">
+			<link rel="stylesheet" href="{% static 'global/css/auth_base.css' %}">
 		{% endif %}
 		{% block styles %} {% endblock styles %}
 		</head>
@@ -37,8 +37,8 @@
 	{% if 'button_3' in buttons %}
 		<script>const userAuth = true;</script>
 	{% endif %}
-	<script src="{% static 'global/base.js' %}"></script>
-	<script src="{% static 'global/message.js' %}"></script>
-	<script src="{% static 'global/send_request_to_server.js' %}"></script>
+	<script src="{% static 'global/js/base.js' %}"></script>
+	<script src="{% static 'global/js/message.js' %}"></script>
+	<script src="{% static 'global/js/send_request_to_server.js' %}"></script>
 	{% block scripts %} {% endblock scripts %}
 </html>

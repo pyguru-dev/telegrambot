@@ -6,7 +6,7 @@
 
 {% block styles %}
 	{% load static %}
-	<link rel="stylesheet" href="{% static 'constructor/main_constructor/main_constructor.css' %}">
+	<link rel="stylesheet" href="{% static 'constructor/main_constructor/css/main_constructor.css' %}">
 	{% block botStyles %} {% endblock botStyles %}
 {% endblock styles %}
 
@@ -16,7 +16,7 @@
 		<div class="bots-container">
 			<div class="bots-list-container">
 				{% for bot in bots %}
-					<div class="bot id-{{bot.bot_id}}" id="{{ bot.bot_positsion }}">
+					<div class="bot id-{{bot.bot_id}}" id="normal">
 						<p class="bot-name">
 							<a href="{% block viewBotLink %}view_bot{% endblock viewBotLink %}/{{ bot.bot_id }}/">{{ bot.bot_name }}</a>
 						</p>
@@ -40,6 +40,10 @@
 {% endblock content %}
 
 {% block scripts %}
-	<script src="{% static 'constructor/main_constructor/main_constructor.js' %}"></script>
-	{% block botScripts %} {% endblock botScripts %}
+	<script src="{% static 'constructor/main_constructor/js/main_constructor.js' %}"></script>
+	{% block botScripts %}
+		<script>
+			const mainConstructorPage = true;
+		</script>
+	{% endblock botScripts %}
 {% endblock scripts %}

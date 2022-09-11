@@ -1,4 +1,4 @@
-{% extends 'add_command.html' %}
+{% extends 'add_bot_command.html' %}
 
 {% block heading %}РЕДАКТИРОВАНИЕ КОМАНДЫ{% endblock heading %}
 {% block commandValue %}{{ bot_command.command }}{% endblock commandValue %}
@@ -11,7 +11,7 @@
 
 {% block commandStyles %}
 	{% load static %}
-	<link rel="stylesheet" href="{% static 'constructor/view_command/view_command.css' %}">
+	<link rel="stylesheet" href="{% static 'constructor/view_bot_command/css/view_bot_command.css' %}">
 {% endblock commandStyles %}
 
 {% block buttons %}
@@ -20,6 +20,6 @@
 {% endblock buttons %}
 
 {% block commandScripts %}
-	<script src="{% static 'constructor/view_command/inputs_enter.js' %}"></script>
-	<script src="{% static 'constructor/view_command/view_command.js' %}"></script>
+	<script src="{% static 'constructor/view_bot_command/js/inputs_enter.js' %}"></script>
+	<script src="{% static 'constructor/view_bot_command/js/view_bot_command.js' %}"></script>
 {% endblock commandScripts %}

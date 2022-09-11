@@ -6,7 +6,7 @@
 
 {% block styles %}
 	{% load static %}
-	<link rel="stylesheet" href="{% static 'constructor/add_command/add_command.css' %}">
+	<link rel="stylesheet" href="{% static 'constructor/add_bot_command/css/add_bot_command.css' %}">
 	{% block commandStyles %} {% endblock commandStyles %}
 {% endblock styles %}
 
@@ -33,7 +33,7 @@
 
 {% block scripts %}
 	{% block commandScripts %}
-		<script src="{% static 'constructor/add_command/inputs_enter.js' %}"></script>
+		<script src="{% static 'constructor/add_bot_command/js/inputs_enter.js' %}"></script>
 	{% endblock commandScripts %}
-	<script src="{% static 'constructor/add_command/add_command.js' %}"></script>
+	<script src="{% static 'constructor/add_bot_command/js/add_bot_command.js' %}"></script>
 {% endblock scripts %}

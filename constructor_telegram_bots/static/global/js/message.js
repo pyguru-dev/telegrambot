@@ -5,13 +5,11 @@ function checkUserWindowScreen() {
 	var containerElement = document.querySelector('.container');
 	var messageElementHeight = document.querySelector('.message-container').clientHeight;
 
-	if (userAuth) {
-		if (screenWidth >= 320 && screenWidth < 768) {
-			containerElement.style = 'top: ' + (249 + messageElementHeight) + 'px;';
-		}
-	} else {
-		if (screenWidth >= 320 && screenWidth < 768) {
-			containerElement.style = 'top: ' + (199 + messageElementHeight) + 'px;';
+	if (screenWidth >= 320 && screenWidth < 768) {
+		if (userAuth) {
+			containerElement.style = 'top: ' + (235 + messageElementHeight) + 'px;';
+		} else {
+			containerElement.style = 'top: ' + (185 + messageElementHeight) + 'px;';
 		}
 	}
 	if (screenWidth >= 768 && screenWidth < 1000) {
@@ -49,7 +47,11 @@ function hideMessage() {
 		var containerElement = document.querySelector('.container');
 
 		if (screenWidth >= 320 && screenWidth < 768) {
-			containerElement.style = 'top: 249px;';
+			if (userAuth) {
+				containerElement.style = 'top: 235px;';
+			} else {
+				containerElement.style = 'top: 185px;';
+			}
 		}
 		if (screenWidth >= 768 && screenWidth < 1000) {
 			containerElement.style = 'top: 99px;';

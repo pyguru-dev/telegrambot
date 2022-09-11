@@ -74,11 +74,11 @@
 }
 
 .bot-token-button-control#hidePassword {
-	background-image: url('../../images/eyeOn.png');
+	background-image: url('../../../global/img/eyeOn.png');
 }
 
 .bot-token-button-control#showPassword {
-	background-image: url('../../images/eyeOff.png');
+	background-image: url('../../../global/img/eyeOff.png');
 }
 
 /* ------------ Кнопки ------------ */
