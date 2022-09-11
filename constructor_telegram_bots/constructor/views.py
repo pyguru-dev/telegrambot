@@ -27,7 +27,6 @@ def get_bots_data(request: WSGIRequest, data: dict):
 			{
 				'bot_id': bot.id,
 				'bot_name': bot.name,
-				'bot_positsion': 'normal' if num != 5 else 'last',
 				'onclick': f"deleteBotButtonClick('{bot.id}', '{bot.name}', '{request.user.username}');"
 			}
 		)

@@ -1,3 +1,17 @@
+var botElements = document.querySelectorAll('.bot');
+if (botElements.length > 2) {
+	const screenWidth = window.screen.width;
+	if (screenWidth >= 320 && screenWidth < 768) {
+		if (botElements.length >= 3) {
+			botElements[botElements.length - 1].setAttribute('id', 'last');
+		}
+	} else {
+		if (botElements.length >= 5) {
+			botElements[botElements.length - 1].setAttribute('id', 'last');
+		}
+	}
+}
+
 function deleteBotButtonClick(botId, botName, nickname) {
 	const deleteBotAnswer = confirm('Вы точно хотите удалить бота "' + botName + '"?');
 	if (deleteBotAnswer == true) {

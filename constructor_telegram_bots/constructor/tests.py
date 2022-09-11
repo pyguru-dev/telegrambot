@@ -193,7 +193,7 @@ class KonstruktorTestCase(TestCase):
 		}
 		self.client.post('/constructor/Test/add_bot_/', data, content_type='application/json')
 
-		response = self.client.post('/constructor/Test/view_bot/1/clear_log/')
+		response = self.client.post('/constructor/Test/view_bot/1/clear_bot_logs/')
 		response_text = response.content.decode('UTF-8')
 		self.assertEqual(response_text, 'Успешная очистка логов.')
 
@@ -206,7 +206,7 @@ class KonstruktorTestCase(TestCase):
 		}
 		self.client.post('/constructor/Test/add_bot_/', data, content_type='application/json')
 
-		response = self.client.get('/constructor/Test/view_bot/1/add_command/')
+		response = self.client.get('/constructor/Test/view_bot/1/add_bot_command/')
 		self.assertEqual(response.status_code, 200)
 
 	def test_successfully_add_command_1(self):
@@ -222,7 +222,7 @@ class KonstruktorTestCase(TestCase):
 			'command': '/start',
 			'command_answer': 'Привет!'
 		}
-		response = self.client.post('/constructor/Test/view_bot/1/add_command_/', data, content_type='application/json')
+		response = self.client.post('/constructor/Test/view_bot/1/add_bot_command_/', data, content_type='application/json')
 		response_text = response.content.decode('UTF-8')
 		self.assertEqual(response_text, 'Успешное добавление команды.')
 
@@ -240,13 +240,13 @@ class KonstruktorTestCase(TestCase):
 				'command': '/start',
 				'command_answer': 'Привет!'
 			}
-			self.client.post('/constructor/Test/view_bot/1/add_command_/', data, content_type='application/json')
+			self.client.post('/constructor/Test/view_bot/1/add_bot_command_/', data, content_type='application/json')
 
 		data = {
 			'command': '/start',
 			'command_answer': 'Привет!'
 		}
-		response = self.client.post('/constructor/Test/view_bot/1/add_command_/', data, content_type='application/json')
+		response = self.client.post('/constructor/Test/view_bot/1/add_bot_command_/', data, content_type='application/json')
 		response_text = response.content.decode('UTF-8')
 		self.assertEqual(response_text, 'Успешное добавление команды.')
 
@@ -264,13 +264,13 @@ class KonstruktorTestCase(TestCase):
 				'command': '/start',
 				'command_answer': 'Привет!'
 			}
-			self.client.post('/constructor/Test/view_bot/1/add_command_/', data, content_type='application/json')
+			self.client.post('/constructor/Test/view_bot/1/add_bot_command_/', data, content_type='application/json')
 
 		data = {
 			'command': '/start',
 			'command_answer': 'Привет!'
 		}
-		response = self.client.post('/constructor/Test/view_bot/1/add_command_/', data, content_type='application/json')
+		response = self.client.post('/constructor/Test/view_bot/1/add_bot_command_/', data, content_type='application/json')
 		response_text = response.content.decode('UTF-8')
 		self.assertEqual(response_text, 'У вас уже максимальное количество команд!')
 
@@ -287,9 +287,9 @@ class KonstruktorTestCase(TestCase):
 			'command': '/start',
 			'command_answer': 'Привет!'
 		}
-		self.client.post('/constructor/Test/view_bot/1/add_command_/', data, content_type='application/json')
+		self.client.post('/constructor/Test/view_bot/1/add_bot_command_/', data, content_type='application/json')
 
-		response = self.client.get('/constructor/Test/view_bot/1/view_command/1/')
+		response = self.client.get('/constructor/Test/view_bot/1/view_bot_command/1/')
 		self.assertEqual(response.status_code, 200)
 
 	def test_fail_view_command_page(self):
@@ -301,7 +301,7 @@ class KonstruktorTestCase(TestCase):
 		}
 		self.client.post('/constructor/Test/add_bot_/', data, content_type='application/json')
 
-		response = self.client.get('/constructor/Test/view_bot/1/view_command/1/')
+		response = self.client.get('/constructor/Test/view_bot/1/view_bot_command/1/')
 		self.assertEqual(response.status_code, 302)
 
 	def test_successfully_save_command(self):
@@ -317,13 +317,13 @@ class KonstruktorTestCase(TestCase):
 			'command': '/start',
 			'command_answer': 'Привет!'
 		}
-		self.client.post('/constructor/Test/view_bot/1/add_command_/', data, content_type='application/json')
+		self.client.post('/constructor/Test/view_bot/1/add_bot_command_/', data, content_type='application/json')
 
 		data = {
 			'command': '/hi',
 			'command_answer': 'Привет!'
 		}
-		response = self.client.post('/constructor/Test/view_bot/1/view_command/1/save_command/', data, content_type='application/json')
+		response = self.client.post('/constructor/Test/view_bot/1/view_bot_command/1/save_bot_command/', data, content_type='application/json')
 		response_text = response.content.decode('UTF-8')
 		self.assertEqual(response_text, 'Успешное cохранение команды.')
 
@@ -340,8 +340,8 @@ class KonstruktorTestCase(TestCase):
 			'command': '/start',
 			'command_answer': 'Привет!'
 		}
-		self.client.post('/constructor/Test/view_bot/1/add_command_/', data, content_type='application/json')
+		self.client.post('/constructor/Test/view_bot/1/add_bot_command_/', data, content_type='application/json')
 
-		response = self.client.post('/constructor/Test/view_bot/1/view_command/1/delete_command/')
+		response = self.client.post('/constructor/Test/view_bot/1/1/delete_bot_command/')
 		response_text = response.content.decode('UTF-8')
 		self.assertEqual(response_text, 'Успешное удаление команды.')

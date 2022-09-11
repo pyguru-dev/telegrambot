@@ -16,7 +16,7 @@ jobs:
     strategy:
       max-parallel: 4
       matrix:
-        python-version: [3.9]
+        python-version: [3.10.7]
 
     steps:
     - uses: actions/checkout@v3
@@ -31,4 +31,4 @@ jobs:
     - name: Run Tests
       run: |
         cd constructor_telegram_bots
-        python manage.py test
+        python manage.py test --parallel

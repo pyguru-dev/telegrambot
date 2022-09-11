@@ -101,15 +101,13 @@
 
 	padding: 8px;
 
-	border-bottom-color: #FFFFFF;
-    border-bottom-style: solid;
-    border-bottom-width: 2px;
-
 	background-color: #595F76;
 }
 
-.bot-command#last {
-	border: 0;
+.bot-command#normal {
+	border-bottom-color: #FFFFFF;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
 }
 
 .bot-command-name {
@@ -146,8 +144,8 @@
 	padding: 5px;
 
 	border-bottom-color: #FFFFFF;
-    border-bottom-style: solid;
-    border-bottom-width: 2px;
+	border-bottom-style: solid;
+	border-bottom-width: 2px;
 
 	background-color: #595F76;
 }

@@ -29,12 +29,7 @@
 			<div class="bot-commands-container">
 				<div class="bot-commands-table">
 					{% for bot_command in bot.commands %}
-						{% if 'commands_positsion' not in bot_command %}
-							<div class="bot-command">
-						{% endif %}
-						{% if 'commands_positsion' in bot_command %}
-							<div class="bot-command" id="last">
-						{% endif %}
+						<div class="bot-command" id="normal">
 							<p class="bot-command-name">
 								<a href="view_bot_command/{{ bot_command.id }}/">{{ bot_command.command }}</a>
 							</p>

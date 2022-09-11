@@ -16,7 +16,7 @@
 		<div class="bots-container">
 			<div class="bots-list-container">
 				{% for bot in bots %}
-					<div class="bot id-{{bot.bot_id}}" id="{{ bot.bot_positsion }}">
+					<div class="bot id-{{bot.bot_id}}" id="normal">
 						<p class="bot-name">
 							<a href="{% block viewBotLink %}view_bot{% endblock viewBotLink %}/{{ bot.bot_id }}/">{{ bot.bot_name }}</a>
 						</p>
