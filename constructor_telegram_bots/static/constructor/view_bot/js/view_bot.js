@@ -18,20 +18,20 @@ setInterval(function() {
 		}
 	}, 1000)
 
-	function checkBotCommandElements() {
-		var botCommandElements = document.querySelectorAll('.bot-command');
-		if (botCommandElements.length >= 2) {
-			const screenWidth = window.screen.width;
-			if (screenWidth >= 320 && screenWidth < 1800) {
+function checkBotCommandElements() {
+	var botCommandElements = document.querySelectorAll('.bot-command');
+	if (botCommandElements.length >= 2) {
+		const screenWidth = window.screen.width;
+		if (screenWidth >= 320 && screenWidth < 1800) {
+			botCommandElements[botCommandElements.length - 1].setAttribute('id', 'last');
+		} else {
+			if (botCommandElements.length > 3) {
 				botCommandElements[botCommandElements.length - 1].setAttribute('id', 'last');
-			} else {
-				if (botCommandElements.length > 3) {
-					botCommandElements[botCommandElements.length - 1].setAttribute('id', 'last');
-				}
 			}
 		}
 	}
-	checkBotCommandElements();
+}
+checkBotCommandElements();
 
 function hideOrShowButtonClick() {
 	var inputPasswordElement = document.querySelector('.bot-token-input-control');
