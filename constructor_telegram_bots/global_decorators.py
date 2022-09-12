@@ -22,19 +22,19 @@ def get_navbar_data(func): # Функция для получения данны
 					'button_1': {
 						'id': 'profileButtonLink',
 						'onclick': f"window.location.href = '/account/view/{request.user.username}/';",
-						'text': 'Профиль'
+						'text': 'Профиль',
 					},
 					'button_2': {
 						'id': 'signOutButtonLink',
 						'onclick': f"signOut('{request.user.username}');",
-						'text': 'Выйти'
+						'text': 'Выйти',
 					},
 					'button_3': {
 						'id': 'constructorButtonLink',
 						'onclick': f"window.location.href = '/constructor/{request.user.username}/';",
-						'text': 'Конструктор'
-					}
-				}
+						'text': 'Конструктор',
+					},
+				},
 			}
 		else:
 			data = {
@@ -42,19 +42,19 @@ def get_navbar_data(func): # Функция для получения данны
 					'button_1': {
 						'id': 'authorizationButtonLink',
 						'onclick': "window.location.href = '/authorization/';",
-						'text': 'Авторизация'
+						'text': 'Авторизация',
 					},
 					'button_2': {
 						'id': 'registrationButtonLink',
 						'onclick': "window.location.href = '/registration/';",
-						'text': 'Регистарция'
-					}
-				}
+						'text': 'Регистарция',
+					},
+				},
 			}
 
 		kwargs.update(
 			{
-				'data': data
+				'data': data,
 			}
 		)
 
@@ -100,7 +100,7 @@ def check_request_data_items(needs_items: dict): # Декоратор для п�
 				if data_items == needs_items:
 					kwargs.update(
 						{
-							'data': data
+							'data': data,
 						}
 					)
 
@@ -138,7 +138,7 @@ def check_bot_id(func): # Декоратор для проверки ID бота
 
 			kwargs.update(
 				{
-					'bot': bot
+					'bot': bot,
 				}
 			)
 
@@ -171,7 +171,7 @@ def check_command_id(func): # Декоратор для проверки ID ко
 
 			kwargs.update(
 				{
-					'bot_command': bot_command
+					'bot_command': bot_command,
 				}
 			)
 

@@ -16,8 +16,8 @@ def get_bots_data(request: WSGIRequest, data: dict):
 			'bots': [],
 			'user': {
 				'username': request.user.username,
-				'status': 'Бесплатный' if request.user.groups.get().name == 'free_accounts' else 'Платный'
-			}
+				'status': 'Бесплатный' if request.user.groups.get().name == 'free_accounts' else 'Платный',
+			},
 		}
 	)
 
@@ -27,7 +27,7 @@ def get_bots_data(request: WSGIRequest, data: dict):
 			{
 				'bot_id': bot.id,
 				'bot_name': bot.name,
-				'onclick': f"deleteBotButtonClick('{bot.id}', '{bot.name}', '{request.user.username}');"
+				'onclick': f"deleteBotButtonClick('{bot.id}', '{bot.name}', '{request.user.username}');",
 			}
 		)
 		num += 1
@@ -81,8 +81,8 @@ def view_bot_page(request: WSGIRequest, username: str, bot_id: int, bot: Telegra
 		{
 			'user': {
 				'username': username,
-				'status': 'Бесплатный' if request.user.groups.get().name == 'free_accounts' else 'Платный'
-			}
+				'status': 'Бесплатный' if request.user.groups.get().name == 'free_accounts' else 'Платный',
+			},
 		}
 	)
 	data.update(
@@ -92,8 +92,8 @@ def view_bot_page(request: WSGIRequest, username: str, bot_id: int, bot: Telegra
 				'token': bot.token,
 				'online': bot.online,
 				'commands': [],
-				'logs': []
-			}
+				'logs': [],
+			},
 		}
 	)
 
@@ -101,13 +101,13 @@ def view_bot_page(request: WSGIRequest, username: str, bot_id: int, bot: Telegra
 		data['bot']['commands'].append(
 			{
 				'id': bot_command.id,
-				'command': bot_command.command
+				'command': bot_command.command,
 			}
 		)
 	if len(data['bot']['commands']) > 4:
 		data['bot']['commands'][-1].update(
 			{
-				'command_positsion': 'last'
+				'command_positsion': 'last',
 			}
 		)
 
@@ -116,13 +116,13 @@ def view_bot_page(request: WSGIRequest, username: str, bot_id: int, bot: Telegra
 			{
 				'id': log.id,
 				'user_name': log.user_name,
-				'user_message': log.user_message
+				'user_message': log.user_message,
 			}
 		)
 	if len(data['bot']['logs']) > 2:
 		data['bot']['logs'][-1].update(
 			{
-				'log_data_positsion': 'last'
+				'log_data_positsion': 'last',
 			}
 		)
 
@@ -207,7 +207,7 @@ def get_bot_logs(request: WSGIRequest, username: str, bot_id: int, bot: Telegram
 def add_bot_command_page(request: WSGIRequest, username: str, bot_id: int, data: dict): # Отрисовка view_bot_command.html
 	data.update(
 		{
-			'variables_for_commands': GlobalVariable.VARIABLES_FOR_COMMANDS
+			'variables_for_commands': GlobalVariable.VARIABLES_FOR_COMMANDS,
 		}
 	)
 	return render(request, 'add_bot_command.html', data)
@@ -235,8 +235,8 @@ def view_bot_command_page(request: WSGIRequest, username: str, bot_id: int, comm
 			'variables_for_commands': GlobalVariable.VARIABLES_FOR_COMMANDS,
 			'bot_command': {
 				'command': bot_command.command,
-				'command_answer': bot_command.command_answer
-			}
+				'command_answer': bot_command.command_answer,
+			},
 		}
 	)
 
@@ -261,4 +261,5 @@ def save_bot_command(request: WSGIRequest, username: str, bot_id: int, command_i
 @GlobalDecorators.check_command_id
 def delete_bot_command(request: WSGIRequest, username: str, bot_id: str, command_id: int, bot: TelegramBotModel, bot_command: TelegramBotCommandModel): # Удаление команды бота
 	bot_command.delete()
+
 	return HttpResponse('Успешное удаление команды.')

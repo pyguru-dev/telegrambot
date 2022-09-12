@@ -12,7 +12,7 @@ def main_page(request: WSGIRequest, data: dict): # Отрисовка main.html
 		site_users.append(
 			{
 				'onclick': f"window.location.href = '/view_site_user_profile/{user.id}/'",
-				'username': user.username
+				'username': user.username,
 			}
 		)
 	site_users.reverse()
@@ -21,13 +21,13 @@ def main_page(request: WSGIRequest, data: dict): # Отрисовка main.html
 		site_users.append(
 			{
 				'onclick': "",
-				'username': 'Пользователей сайта ещё нет.'
+				'username': 'Пользователей сайта ещё нет.',
 			}
 		)
 
 	data.update(
 		{
-			'users': site_users
+			'users': site_users,
 		}
 	)
 	return render(request, 'main.html', data)
@@ -45,8 +45,8 @@ def view_site_user_profile_page(request: WSGIRequest, other_user_id: int, data: 
 					'id': other_user.id,
 					'username': other_user.username,
 					'status': 'Бесплатный' if other_user.groups.get().name == 'free_accounts' else 'Платный',
-					'date_joined': other_user.date_joined
-				}
+					'date_joined': other_user.date_joined,
+				},
 			}
 		)
 		return render(request, 'view_site_user_profile.html', data)
