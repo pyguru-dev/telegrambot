@@ -25,7 +25,7 @@ function checkBotCommandElements() {
 		if (screenWidth >= 320 && screenWidth < 1800) {
 			botCommandElements[botCommandElements.length - 1].setAttribute('id', 'last');
 		} else {
-			if (botCommandElements.length > 3) {
+			if (botCommandElements.length >= 3) {
 				botCommandElements[botCommandElements.length - 1].setAttribute('id', 'last');
 			}
 		}

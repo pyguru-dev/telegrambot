@@ -73,32 +73,32 @@ LOGGING = {
 		'console': {
 			'level': 'INFO',
 			'class': 'logging.StreamHandler',
-			'formatter': 'simple'
+			'formatter': 'simple',
 		},
 		'info_file': { 
 			'level': 'INFO',
 			'class': 'logging.FileHandler',
 			'filename': 'logs/info.log',
-			'formatter': 'simple'
+			'formatter': 'simple',
 		},
 		'debug_file': { 
 			'level': 'DEBUG',
 			'class': 'logging.FileHandler',
 			'filename': 'logs/debug.log',
-			'formatter': 'verbose'
+			'formatter': 'verbose',
 		},
 		'warning_file': { 
 			'level': 'WARNING',
 			'class': 'logging.FileHandler',
 			'filename': 'logs/warning.log',
-			'formatter': 'verbose'
+			'formatter': 'verbose',
 		},
 		'error_file': { 
 			'level': 'ERROR',
 			'class': 'logging.FileHandler',
 			'filename': 'logs/error.log',
-			'formatter': 'verbose'
-		}
+			'formatter': 'verbose',
+		},
 	},
 	'loggers': {
 		'django': {
@@ -107,7 +107,7 @@ LOGGING = {
 				'info_file',
 				'debug_file',
 				'warning_file',
-				'error_file'
+				'error_file',
 			],
 			'propagate': True,
 		},
@@ -117,13 +117,13 @@ LOGGING = {
 				'info_file',
 				'debug_file',
 				'warning_file',
-				'error_file'
+				'error_file',
 			],
 			'propagate': False,
 		},
 		'django.template': {
 			'handlers': [
-				'debug_file'
+				'debug_file',
 			],
 			'propagate': False,
 		},
@@ -131,11 +131,11 @@ LOGGING = {
 			'handlers': [
 				'debug_file',
 				'warning_file',
-				'error_file'
+				'error_file',
 			],
 			'propagate': False,
-		}
-	}
+		},
+	},
 }
 
 

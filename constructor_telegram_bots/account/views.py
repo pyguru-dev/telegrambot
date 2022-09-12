@@ -19,9 +19,9 @@ def view_profile_page(request: WSGIRequest, username: str, data: dict): # Отр
 				'id': request.user.id,
 				'username': username,
 				'status': 'Бесплатный' if request.user.groups.get().name == 'free_accounts' else 'Платный',
-				'date_joined': request.user.date_joined
-			}
-		}
+				'date_joined': request.user.date_joined,
+			},
+		},
 	)
 	return render(request, 'view_profile.html', data)
 

@@ -26,7 +26,7 @@ def register_account(request: WSGIRequest, data: dict): # Регистрация
 
 		with (
 			open('static/global/img/user.png', 'rb') as default_user_icon,
-			open(f'static/icons/users_icons/{user.id}.png', 'wb') as user_icon
+			open(f'static/icons/users_icons/{user.id}.png', 'wb') as user_icon,
 		):
 			content = default_user_icon.read()
 			user_icon.write(content)
