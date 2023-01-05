@@ -39,25 +39,3 @@ Starting development server at http://127.0.0.1:8000/
 Quit the server with CTRL-BREAK.
 ```
 6. Пользуемся сайтом 😊!
-
-# Демонстрация сайта
-## Главная страница
-![site](other/site_pages_images/1_main_page.png)
-## Страница авторизации
-![site](other/site_pages_images/2_authorization_page.png)
-## Страница регистрации
-![site](other/site_pages_images/3_registration_page.png)
-## Страница аккаунта
-![site](other/site_pages_images/4_account_view_page.png)
-## Страница улучшения аккаунта
-![site](other/site_pages_images/5_upgrade_account_page.png)
-## Страница списка Telegram ботов
-![site](other/site_pages_images/6_constructor_page.png)
-## Страница добавления Telegram бота
-![site](other/site_pages_images/7_add_bot_page.png)
-## Страница конструктора Telegram бота
-![site](other/site_pages_images/8_view_bot_constructor_page.png)
-## Страница добавление команды Telegram боту
-![site](other/site_pages_images/9_add_command_page.png)
-## Страница редактирования команды Telegram бота
-![site](other/site_pages_images/10_edit_command_page.png)
