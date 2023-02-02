@@ -14,27 +14,10 @@ Including another URLconf
 	2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
-from django.db.utils import OperationalError
 from django.contrib import admin
 from django.urls import path, include
-from constructor.models import TelegramBotModel
-from telegram_bot import TelegramBot
-from threading import Thread
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	path('', include('main.urls')),
-	path('', include('authorization.urls')),
-	path('', include('registration.urls')),
-	path('account/', include('account.urls')),
-	path('constructor/<str:username>/', include('constructor.urls'))
+	path('', include('home.urls'))
 ]
-
-# Запуск online ботов
-try:
-	for bot in TelegramBotModel.objects.filter(online=True):
-		telegram_bot = TelegramBot(bot.id, bot.token)
-		if telegram_bot.auth():
-			Thread(target=telegram_bot.start, daemon=True).start()
-except OperationalError:
-	pass

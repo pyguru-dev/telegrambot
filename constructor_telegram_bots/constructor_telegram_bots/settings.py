@@ -52,9 +52,6 @@ else:
 if find_folder_or_file('.', 'logs') == False:
 	os.mkdir('logs')
 
-if find_folder_or_file('static', 'users_icons') == False:
-	os.mkdir('static/users_icons')
-
 # Logs settings
 LOGGING = {
 	'version': 1,
@@ -147,11 +144,7 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
-	'main.apps.MainConfig',
-	'registration.apps.RegistrationConfig',
-	'authorization.apps.AuthorizationConfig',
-	'account.apps.AccountConfig',
-	'constructor.apps.ConstructorConfig',
+	'home.apps.HomeConfig'
 ]
 
 MIDDLEWARE = [
