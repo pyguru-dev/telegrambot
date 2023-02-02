@@ -1,8 +1,7 @@
 # Папки
 __pycache__/
-venv/
+env/
 logs/
-users_icons/
 
 #Файлы
 secret.key
