@@ -30,6 +30,9 @@ ALLOWED_HOSTS = ['*']
 SITE_ADMINS_TELEGRAM_ID = [1144621661]
 
 # SECURITY WARNING: keep the secret key used in production secret!
+if Functions.if_find_folder_or_file('.', 'data') == False:
+	os.mkdir('./data')
+
 if Functions.if_find_folder_or_file('./data', 'secret.key') == False:
 	SECRET_KEY = f"django-insecure-{Functions.generator_secret_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}"
 	
