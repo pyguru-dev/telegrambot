@@ -6,8 +6,12 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+		<link rel="icon" href="{% static 'icons/favicon.ico' %}">
+
 		<meta name="description" content="Сайт, с помощью которого вы можете легко и без каких-либо знаний в программирование, создать своего многофункционального Telegram ботов.">
 		<meta name="keywords" content="Constructor Telegram, Constructor Telegram Bots, Constructor">
+
+		{% block meta %} {% endblock meta %}
 
 		<link rel="icon" href="{% static 'icons/favicon.ico' %}">
 		<title>{% block title %} {% endblock title %}</title>
@@ -25,23 +29,22 @@
 			 	</button>
 				
 				<div class="collapse navbar-collapse d-lg-flex" id="navbar">
-					<ul class="navbar-nav mx-auto">
+					<ul class="navbar-nav ms-lg-3 me-auto">
 						<li class="nav-item">
 							<a class="nav-link pt-0 pt-lg-2" href="/">Главная</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link pt-0 pt-lg-2" href="#">Тарифы</a>
+							<a class="nav-link disabled pt-0 pt-lg-2" href="#">Пожертвовать</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link pt-0 pt-lg-2" href="#">Команда</a>
+							<a class="nav-link disabled pt-0 pt-lg-2" href="#">Команда</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link pt-0 pt-lg-2" href="#">Блог</a>
+							<a class="nav-link disabled pt-0 pt-lg-2" href="#">Блог</a>
 						</li>
 					</ul>
 					<div class="d-lg-flex">
-						<button class="btn btn-outline-light me-2">Авторизация</button>
-						<button class="btn btn-outline-light">Регистрация</button>
+						<a class="btn btn-outline-light" href="{% if user.is_authenticated %}/personal_cabinet/{% else %}tg://resolve?domain=constructor_telegram_bots_bot&start=auth{% endif %}">Личный кабинет</a>
 					</div>
 			  </div>
 			</div>
@@ -56,11 +59,11 @@
 		<footer class="footer bg-dark">
 			<div class="container">
 				<ul class="nav justify-content-center border-bottom mb-2">
-					<li class="nav-item"><a href="https://t.me/pycoder39" class="nav-link link-light px-2">Telegram</a></li>
-					<li class="nav-item"><a href="https://t.me/pycoder3" class="nav-link link-light px-2">Telegram Channel</a></li>
-					<li class="nav-item"><a href="https://vk.com/id599251585" class="nav-link link-light px-2">VKontakte</a></li>
-					<li class="nav-item"><a href="https://github.com/EXG1O" class="nav-link link-light px-2">GitHub</a></li>
-					<li class="nav-item"><a href="https://github.com/EXG1O/Constructor-Telegram-Bots" class="nav-link link-light px-2">GitHub Project</a></li>
+					<li class="nav-item"><a class="nav-link link-light px-2" href="https://t.me/pycoder39" target="_blank">Telegram</a></li>
+					<li class="nav-item"><a class="nav-link link-light px-2" href="https://t.me/pycoder3" target="_blank">Telegram Channel</a></li>
+					<li class="nav-item"><a class="nav-link link-light px-2" href="https://vk.com/id599251585" target="_blank" >VKontakte</a></li>
+					<li class="nav-item"><a class="nav-link link-light px-2" href="https://github.com/EXG1O" target="_blank">GitHub</a></li>
+					<li class="nav-item"><a class="nav-link link-light px-2" href="https://github.com/EXG1O/Constructor-Telegram-Bots" target="_blank">GitHub Project</a></li>
 				</ul>
 				<p class="text-light text-center mb-2">&copy; 2023 Exg1o</p>
 			</div>

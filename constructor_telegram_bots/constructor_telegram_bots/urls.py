@@ -17,7 +17,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from scripts.telegram_bots import ConstructorTelegramBot
+
+from threading import Thread
+
 urlpatterns = [
 	path('admin/', admin.site.urls),
-	path('', include('home.urls'))
+	path('', include('home.urls')),
+	path('user/', include('user.urls')),
+    path('personal_cabinet/', include('personal_cabinet.urls')),
 ]
+
+constructor_telegram_bot = ConstructorTelegramBot()
+th = Thread(target=constructor_telegram_bot.start, daemon=True)
+th.start()

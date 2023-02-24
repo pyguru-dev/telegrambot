@@ -11,8 +11,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
-import random
 import os
+
+import scripts.functions as Functions
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,31 +27,21 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-# Create desired folders/files
-def find_folder_or_file(directory: str, name: str):
-	find_name = False
-	for i in os.listdir(directory):
-		if i == name:
-			find_name = True
-
-	return find_name
+SITE_ADMINS_TELEGRAM_ID = [1144621661]
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if find_folder_or_file('constructor_telegram_bots', 'secret.key') == False:
-	secret_key = ''
-	for i in range(50):
-		secret_key += random.choice('abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')
-	SECRET_KEY = f'django-insecure-{secret_key}'
+if Functions.if_find_folder_or_file('./data', 'secret.key') == False:
+	SECRET_KEY = f"django-insecure-{Functions.generator_secret_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}"
 	
-	with open('constructor_telegram_bots/secret.key', 'w') as f:
+	with open('./data/secret.key', 'w') as f:
 		f.write(SECRET_KEY)
 else:
-	with open('constructor_telegram_bots/secret.key', 'r') as f:
+	with open('./data/secret.key', 'r') as f:
 		SECRET_KEY = f.read()
 
 # Check and create folders
-if find_folder_or_file('.', 'logs') == False:
-	os.mkdir('logs')
+if Functions.if_find_folder_or_file('.', 'logs') == False:
+	os.mkdir('./logs')
 
 # Logs settings
 LOGGING = {
@@ -144,7 +135,10 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
-	'home.apps.HomeConfig'
+	'home.apps.HomeConfig',
+	'user.apps.UserConfig',
+	'telegram_bot.apps.TelegramBotConfig',
+	'personal_cabinet.apps.PersonalCabinetConfig',
 ]
 
 MIDDLEWARE = [
@@ -172,7 +166,7 @@ TEMPLATES = [
 				'django.contrib.messages.context_processors.messages',
 			],
 		},
-	},
+	}
 ]
 
 WSGI_APPLICATION = 'constructor_telegram_bots.wsgi.application'
@@ -184,7 +178,7 @@ WSGI_APPLICATION = 'constructor_telegram_bots.wsgi.application'
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': BASE_DIR / 'DataBase.db',
+		'NAME': BASE_DIR / 'data/DataBase.db',
 	}
 }
 
@@ -193,23 +187,17 @@ DATABASES = {
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-	{
-		'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-	},
-	{
-		'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-	},
-	{
-		'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-	},
-	{
-		'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-	},
+	{'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+	{'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+	{'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+	{'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
+
+AUTH_USER_MODEL = 'user.User'
 
 LANGUAGE_CODE = 'ru'
 

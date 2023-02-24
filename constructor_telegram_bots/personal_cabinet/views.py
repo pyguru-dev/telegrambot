@@ -5,5 +5,5 @@ import scripts.decorators as Decorators
 
 # Create your views here.
 @Decorators.get_user_data
-def home(request: WSGIRequest, data: dict):
-	return render(request, 'home.html', context=data)
+def personal_cabinet(request: WSGIRequest, data: dict):
+	return render(request, 'personal_cabinet.html', context=data)

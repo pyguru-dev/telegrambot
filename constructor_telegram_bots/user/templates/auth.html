@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+    <meta http-equiv="refresh" content="3; url={{ meta.url }}">
+{% endblock meta %}
+
+{% block title %}Авторизация{% endblock title %}
+
+{% block main %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-12 col-lg-8">
+				<p class="h2 h1-lg text-center">{{ content.heading }}</p>
+				<p class="lead text-center mb-0">{{ content.text }}</p>
+			</div>
+		</div>
+	</div>
+{% endblock main %}
