@@ -25,6 +25,7 @@ urlpatterns = [
 	path('admin/', admin.site.urls),
 	path('', include('home.urls')),
 	path('user/', include('user.urls')),
+    path('telegram_bot/', include('telegram_bot.urls')),
     path('personal_cabinet/', include('personal_cabinet.urls')),
 ]
 

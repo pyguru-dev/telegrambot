@@ -5,8 +5,6 @@ from telegram.update import Update
 
 from user.models import User
 
-import scripts.functions as Functions
-
 class Decorators:
 	def get_attributes(need_attributes: tuple):
 		def decorator(func):
@@ -78,40 +76,37 @@ class ConstructorTelegramBot:
 		# }
 
 	# @Decorators.get_attributes(need_attributes=('update', 'context', 'callback_data',))
-	# def handle_callback_query(self, update: Update, context: CallbackContext, callback_data: str) -> None:
+	# def handle_callback_query(self, update: Update, context: CallbackContext, callback_data: str):
 	# 	callback_data: str = callback_data.split(':')[0]
 	# 	if callback_data in self.callback:
 	# 		self.callback[callback_data](update, context)
 	
 	# @Decorators.get_attributes(need_attributes=('message',))
-	# def new_message(self, message: str) -> None:
+	# def new_message(self, message: str):
 	# 	print(message)
 
 	@Decorators.get_attributes(need_attributes=('update', 'context', 'user_id', 'username', 'message',))
-	def start_command(self, update: Update, context: CallbackContext, user_id: int, username: str, message: str) -> None:
+	def start_command(self, update: Update, context: CallbackContext, user_id: int, username: str, message: str):
 		if len(message.split()) > 1:
 			if message.split()[1] == 'auth':
 				self.auth_command(update, context)
 
 	@Decorators.get_attributes(need_attributes=('update', 'context', 'user_id', 'username', 'message',))
-	def auth_command(self, update: Update, context: CallbackContext, user_id: int, username: str, message: str) -> None:
+	def auth_command(self, update: Update, context: CallbackContext, user_id: int, username: str, message: str):
 		if User.objects.filter(id=user_id).exists() == False:
-			password = Functions.generator_secret_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
-			user = User(id=user_id, username=username, password=password)
-			user.save()
+			User.objects.create_user(user_id=user_id, username=username)
 
-		user = User.objects.get(id=user_id)
 		keyboard = InlineKeyboardMarkup(
 			[
 				[
-					InlineKeyboardButton(text='Авторизация', url=f'http://127.0.0.1:8000/user/auth/{user_id}/{user.password}/'),
+					InlineKeyboardButton(text='Авторизация', url=User.objects.get_auth_url(user_id=user_id)),
 				],
 			]
 		)
 
 		context.bot.send_message(chat_id=user_id, text='Нажмите на кнопку ниже, чтобы авторизоваться на сайте.', reply_markup=keyboard)
 
-	def start(self) -> None:
+	def start(self):
 		with open('./data/constructor_telegram_bot.token', 'r') as constructor_telegram_bot_token_file:
 			constructor_telegram_bot_token = constructor_telegram_bot_token_file.read()
 

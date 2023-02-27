@@ -6,8 +6,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link rel="icon" href="{% static 'icons/favicon.ico' %}">
-
 		<meta name="description" content="Сайт, с помощью которого вы можете легко и без каких-либо знаний в программирование, создать своего многофункционального Telegram ботов.">
 		<meta name="keywords" content="Constructor Telegram, Constructor Telegram Bots, Constructor">
 
@@ -17,6 +15,7 @@
 		<title>{% block title %} {% endblock title %}</title>
 		
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+		<link href="{% static 'css/global/addition_bootstrap.css' %}"
 		{% block styles %} {% endblock styles %}
 	</head>
 	<body class="d-flex flex-column h-100">
@@ -31,7 +30,7 @@
 				<div class="collapse navbar-collapse d-lg-flex" id="navbar">
 					<ul class="navbar-nav ms-lg-3 me-auto">
 						<li class="nav-item">
-							<a class="nav-link pt-0 pt-lg-2" href="/">Главная</a>
+							<a class="nav-link {% if page.url == '/' %}active{% endif %} pt-0 pt-lg-2" href="/">Главная</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link disabled pt-0 pt-lg-2" href="#">Пожертвовать</a>
@@ -44,7 +43,11 @@
 						</li>
 					</ul>
 					<div class="d-lg-flex">
-						<a class="btn btn-outline-light" href="{% if user.is_authenticated %}/personal_cabinet/{% else %}tg://resolve?domain=constructor_telegram_bots_bot&start=auth{% endif %}">Личный кабинет</a>
+						{% if page.url == '/' %}
+							<a class="btn btn-outline-light" href="{% if user.is_authenticated %}/personal_cabinet/{% else %}tg://resolve?domain=constructor_telegram_bots_bot&start=auth{% endif %}">Личный кабинет</a>
+						{% else %}
+							<a class="nav-link text-light" href="#" role="button">@{{ user.username }}</a>
+						{% endif %}
 					</div>
 			  </div>
 			</div>
@@ -52,11 +55,11 @@
 
 		{% block body %} {% endblock body %}
 
-		<main class="my-auto">
+		<main class="{% block main_class %}my-auto{% endblock main_class %}">
 			{% block main %} {% endblock main %}
 		</main>
 
-		<footer class="footer bg-dark">
+		<footer class="footer bg-dark {% block footer_class %}{% endblock footer_class %}">
 			<div class="container">
 				<ul class="nav justify-content-center border-bottom mb-2">
 					<li class="nav-item"><a class="nav-link link-light px-2" href="https://t.me/pycoder39" target="_blank">Telegram</a></li>
@@ -71,5 +74,7 @@
 	</body>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+	
+	<script src="{% static 'js/global/my_alert.js' %}"></script>
 	{% block scripts %} {% endblock scripts %}
 </html>
