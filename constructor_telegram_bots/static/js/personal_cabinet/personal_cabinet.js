@@ -2,9 +2,9 @@ const addTelegramBotModalBootstrap = new bootstrap.Modal('#addTelegramBotModal')
 
 get_added_telegram_bots();
 function get_added_telegram_bots() {
+	var request = new XMLHttpRequest();
 	var num = 0;
 
-	var request = new XMLHttpRequest();
 	request.open('POST', '/user/get_added_telegram_bots/', true);
 	request.setRequestHeader('Content-Type', 'application/json');
 	request.onreadystatechange = function() {
@@ -39,6 +39,9 @@ telegramBotPrivateCheckBox.addEventListener('click', function() {
 
 const addTelegramBotButton = document.querySelector('#addTelegramBotButton');
 addTelegramBotButton.addEventListener('click', function() {
+	var request = new XMLHttpRequest();
+	var num = 0;
+
 	var telegramBotToken = document.querySelector('#addTelegramBotTokenInput').value;
 	var telegramBotPrivate = document.querySelector('#telegramBotPrivateCheckBox').value;
 
@@ -48,9 +51,6 @@ addTelegramBotButton.addEventListener('click', function() {
 		telegramBotPrivate = false;
 	}
 
-	var num = 0;
-
-	var request = new XMLHttpRequest();
 	request.open('POST', '/telegram_bot/add/', true);
 	request.setRequestHeader('Content-Type', 'application/json');
 	request.onreadystatechange = function() {
@@ -58,7 +58,7 @@ addTelegramBotButton.addEventListener('click', function() {
 
 		if (num > 2) {
 			if (request.status == 200) {
-				addTelegramBotModalBootstrap.toggle()
+				setTimeout('addTelegramBotModalBootstrap.toggle()', 1000);
 
 				get_added_telegram_bots();
 				myAlert(request.responseText, 'success');

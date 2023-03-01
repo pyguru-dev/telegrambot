@@ -21,9 +21,17 @@
 							<input class="form-control" id="addTelegramBotTokenInput" type="text">
 						</div>
 						<div class="col-12">
-							<div class="form-check form-switch">
-								<input class="form-check-input" id="telegramBotPrivateCheckBox" type="checkbox" value="ON" checked>
-								<label class="form-check-label" for="telegramBotPrivateCheckBox">Telegram бот будет доступен другим пользователям.</label>
+							<div class="form-check form-switch mb-0">
+								<table class="mb-0">
+									<tbody>
+										<td class="align-middle">
+											<input class="form-check-input" id="telegramBotPrivateCheckBox" type="checkbox" value="ON" checked>
+										</td>
+										<td>
+											<label class="form-check-label" for="telegramBotPrivateCheckBox">Telegram бот будет доступен другим пользователям.</label>
+										</td>
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
@@ -52,7 +60,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="container mt-1">
+	<div class="container mt-2 mt-lg-0">
 		<div class="row row-cols-1 row-cols-lg-3" id="addedTelegramBots"></div>
 	</div>
 {% endblock main %}

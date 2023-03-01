@@ -40,20 +40,16 @@ def is_auth(render_page: bool):
 				return func(*args, **kwargs)
 			else:
 				if render_page:
-					data: dict = kwargs['data']
-
-					data.update(
-						{
-							'title': 'Страница не найдена',
-							'meta': {
-								'url': '/',
-							},
-							'content': {
-								'heading': 'Ошибка 404!',
-								'text': 'Страница не найдена, автоматический переход на главную страницу через 3 секунды.',
-							},
-						}
-					)
+					data =	{
+						'title': 'Страница не найдена',
+						'meta': {
+							'url': '/',
+						},
+						'content': {
+							'heading': 'Ошибка 404!',
+							'text': 'Страница не найдена, автоматический переход на главную страницу через 3 секунды.',
+						},
+					}
 
 					return render(request, '.html', context=data)
 				else:
@@ -86,5 +82,42 @@ def check_request_data_items(needs_items: tuple):
 					return HttpResponseBadRequest('В тело запроса переданы неправильные данные!')
 			else:
 				return HttpResponseBadRequest('Неправильный метод запроса!')
+		return wrapper
+	return decorator
+
+def check_telegram_bot_id(render_page: bool):
+	def decorator(func):
+		def wrapper(*args, **kwargs,):
+			if 'telegram_bot_id' in kwargs:
+				request: WSGIRequest = args[0]
+				telegram_bot_id = kwargs['telegram_bot_id']
+
+				if request.user.telegram_bots.filter(id=telegram_bot_id).exists():
+					del kwargs['telegram_bot_id']
+					kwargs.update(
+						{
+							'telegram_bot': request.user.telegram_bots.get(id=telegram_bot_id)
+						}
+					)
+
+					return func(*args, **kwargs)
+				else:
+					if render_page:
+						data =	{
+							'title': 'Страница не найдена',
+							'meta': {
+								'url': '/personal_cabinet/',
+							},
+							'content': {
+								'heading': 'Ошибка 404!',
+								'text': 'Страница не найдена, автоматический переход в личный кабинет через 3 секунды.'
+							},
+						}
+
+						return render(request, '.html', context=data)
+					else:
+						return HttpResponseBadRequest('Telegram бот не найден!')
+			else:
+				raise ValueError('The argument telegram_bot_id is missing!')
 		return wrapper
 	return decorator

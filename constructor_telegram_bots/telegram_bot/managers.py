@@ -18,8 +18,7 @@ class TelegramBotManager(models.Manager):
 		telegram_bot = self.model(name=bot.username, token=token, private=private, **extra_fields)
 		telegram_bot.save()
 
-		user = request.user
-		user.telegram_bots.add(telegram_bot)
-		user.save()
+		request.user.telegram_bots.add(telegram_bot)
+		request.user.save()
 
 		return telegram_bot

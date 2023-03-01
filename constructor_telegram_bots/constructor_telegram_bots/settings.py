@@ -138,6 +138,7 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
+	'scripts.apps.ScriptsConfig',
 	'home.apps.HomeConfig',
 	'user.apps.UserConfig',
 	'telegram_bot.apps.TelegramBotConfig',

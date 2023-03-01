@@ -69,9 +69,9 @@ def get_added_telegram_bots(request: WSGIRequest):
 		added_telegram_bots += f'''\
 			<div class="col py-2">
 				<div class="card">
-					<div class="card-header h5 bg-danger text-center text-light fw-bold">Бот выключен</div>
-					<div class="<div class="card-body">
-						<p class="h5 card-title text-center p-2 mb-1">@<a class="link-dark" href="tg://resolve?domain={telegram_bot.name}">{telegram_bot.name}</a></p>
+					<h5 class="card-header bg-{'success' if telegram_bot.is_running else 'danger'} text-center text-light fw-bold">{'Бот включен' if telegram_bot.is_running else 'Бот выключен'}</h5>
+					<div class="card-body">
+						<h5 class="card-title text-center mb-0">@<a class="link-dark text-decoration-none" href="tg://resolve?domain={telegram_bot.name}">{telegram_bot.name}</a></h5>
 					</div>
 					<div class="card-footer">
 						<a class="btn btn-outline-dark my-1 w-100" href="/personal_cabinet/{telegram_bot.id}/">Меню Telegram бота</a>
