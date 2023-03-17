@@ -5,65 +5,7 @@ from telegram.update import Update
 
 from user.models import User
 
-class Decorators:
-	def get_attributes(need_attributes: tuple):
-		def decorator(func):
-			def wrapper(*args, **kwargs):
-				update: Update = args[1]
-
-				attributes = {
-					'update': update,
-					'context': args[2],
-				}
-
-				if update.callback_query != None:
-					attributes.update(
-						{
-							'callback_data': update.callback_query.data,
-						}
-					)
-				if update.effective_user != None:
-					attributes.update(
-						{
-							'user_id': update.effective_user.id,
-							'username': update.effective_user.username,
-						}
-					)
-				if update.effective_chat != None:
-					attributes.update(
-						{
-							'chat_id': update.effective_chat.id,
-						}
-					)
-				if update.effective_message != None:
-					attributes.update(
-						{
-							'message': update.effective_message.text,
-						}
-					)
-
-				kwargs = {}
-				for attribute in attributes:
-					for need_attribute in need_attributes:
-						if attribute == need_attribute:
-							kwargs.update(
-								{
-									attribute: attributes[attribute],
-								}
-							)
-
-				if tuple(kwargs.keys()) == need_attributes:
-					kwargs.update(
-						{
-							'self': args[0],
-						}
-					)
-
-					return func(**kwargs)
-				else:
-					return Exception('Func attributes != need attributes!')
-			return wrapper
-		return decorator
+from scripts.decorators import TelegramBotDecorators
 
 class ConstructorTelegramBot:
 	def __init__(self) -> None:
@@ -72,10 +14,10 @@ class ConstructorTelegramBot:
 			'auth': self.auth_command,
 		}
 		# self.callback = {
-		# 	'test': self.test,
+		# 	'delete_msg': self.delete_message,
 		# }
 
-	# @Decorators.get_attributes(need_attributes=('update', 'context', 'callback_data',))
+	# @TelegramBotDecorators.get_attributes(need_attributes=('update', 'context', 'callback_data',))
 	# def handle_callback_query(self, update: Update, context: CallbackContext, callback_data: str):
 	# 	callback_data: str = callback_data.split(':')[0]
 	# 	if callback_data in self.callback:
@@ -85,14 +27,14 @@ class ConstructorTelegramBot:
 	# def new_message(self, message: str):
 	# 	print(message)
 
-	@Decorators.get_attributes(need_attributes=('update', 'context', 'user_id', 'username', 'message',))
+	@TelegramBotDecorators.get_attributes(need_attributes=('update', 'context', 'user_id', 'username', 'message',))
 	def start_command(self, update: Update, context: CallbackContext, user_id: int, username: str, message: str):
 		if len(message.split()) > 1:
 			if message.split()[1] == 'auth':
 				self.auth_command(update, context)
 
-	@Decorators.get_attributes(need_attributes=('update', 'context', 'user_id', 'username', 'message',))
-	def auth_command(self, update: Update, context: CallbackContext, user_id: int, username: str, message: str):
+	@TelegramBotDecorators.get_attributes(need_attributes=('update', 'context', 'user_id', 'username',))
+	def auth_command(self, update: Update, context: CallbackContext, user_id: int, username: str):
 		if User.objects.filter(id=user_id).exists() == False:
 			User.objects.create_user(user_id=user_id, username=username)
 

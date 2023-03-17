@@ -14,21 +14,22 @@ Including another URLconf
 	2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from django.urls import re_path, path, include
+from django.views.static import serve
+from django.conf import settings
 from django.contrib import admin
-from django.urls import path, include
 
-from scripts.telegram_bots import ConstructorTelegramBot
-
-from threading import Thread
+from scripts.functions import start_all_telegram_bots
 
 urlpatterns = [
+	re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
+	re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
+
 	path('admin/', admin.site.urls),
 	path('', include('home.urls')),
 	path('user/', include('user.urls')),
-    path('telegram_bot/', include('telegram_bot.urls')),
-    path('personal_cabinet/', include('personal_cabinet.urls')),
+	path('telegram_bot/', include('telegram_bot.urls')),
+	path('personal_cabinet/', include('personal_cabinet.urls')),
 ]
 
-constructor_telegram_bot = ConstructorTelegramBot()
-th = Thread(target=constructor_telegram_bot.start, daemon=True)
-th.start()
+start_all_telegram_bots()

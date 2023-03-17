@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 		<meta name="description" content="Сайт, с помощью которого вы можете легко и без каких-либо знаний в программирование, создать своего многофункционального Telegram ботов.">
-		<meta name="keywords" content="Constructor Telegram, Constructor Telegram Bots, Constructor">
+		<meta name="keywords" content="telegram, bot, конструктор">
 
 		{% block meta %} {% endblock meta %}
 
@@ -17,7 +17,7 @@
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 		
-		<link href="{% static 'css/global/addition_bootstrap.css' %}"
+		<link rel="stylesheet" href="{% static 'css/global/addition_for_bootstrap.css' %}">
 		{% block styles %} {% endblock styles %}
 	</head>
 	<body class="d-flex flex-column h-100">
@@ -29,27 +29,23 @@
 					<span class="navbar-toggler-icon"></span>
 			 	</button>
 				
-				<div class="collapse navbar-collapse d-lg-flex" id="navbar">
+				<div class="navbar-collapse collapse d-lg-flex" id="navbar">
 					<ul class="navbar-nav ms-lg-3 me-auto">
 						<li class="nav-item">
 							<a class="nav-link {% if page.url == '/' %}active{% endif %} pt-0 pt-lg-2" href="/">Главная</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link disabled pt-0 pt-lg-2" href="#">Пожертвовать</a>
+							<a class="nav-link disabled pt-0 pt-lg-2" href="#">Инструкция</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link disabled pt-0 pt-lg-2" href="#">Команда</a>
+							<a class="nav-link disabled pt-0 pt-lg-2" href="#">Пожертвовать</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link disabled pt-0 pt-lg-2" href="#">Блог</a>
 						</li>
 					</ul>
 					<div class="d-lg-flex">
-						{% if page.url == '/' %}
-							<a class="btn btn-outline-light" href="{% if user.is_authenticated %}/personal_cabinet/{% else %}tg://resolve?domain=constructor_telegram_bots_bot&start=auth{% endif %}">Личный кабинет</a>
-						{% else %}
-							<a class="nav-link text-light" href="#" role="button">@{{ user.username }}</a>
-						{% endif %}
+						<a class="btn btn-outline-light" href="{% if user.is_authenticated %}/personal_cabinet/{% else %}tg://resolve?domain=constructor_telegram_bots_bot&start=auth{% endif %}">Личный кабинет</a>
 					</div>
 			  </div>
 			</div>
@@ -64,11 +60,10 @@
 		<footer class="footer bg-dark {% block footer_class %}{% endblock footer_class %}">
 			<div class="container">
 				<ul class="nav justify-content-center border-bottom mb-2">
-					<li class="nav-item"><a class="nav-link link-light px-2" href="https://t.me/pycoder39" target="_blank">Telegram</a></li>
-					<li class="nav-item"><a class="nav-link link-light px-2" href="https://t.me/pycoder3" target="_blank">Telegram Channel</a></li>
-					<li class="nav-item"><a class="nav-link link-light px-2" href="https://vk.com/id599251585" target="_blank" >VKontakte</a></li>
-					<li class="nav-item"><a class="nav-link link-light px-2" href="https://github.com/EXG1O" target="_blank">GitHub</a></li>
-					<li class="nav-item"><a class="nav-link link-light px-2" href="https://github.com/EXG1O/Constructor-Telegram-Bots" target="_blank">GitHub Project</a></li>
+					<li class="nav-item"><a class="nav-link text-light px-2" href="https://t.me/pycoder39" target="_blank">Telegram</a></li>
+					<li class="nav-item"><a class="nav-link text-light px-2" href="https://t.me/pycoder3" target="_blank">Telegram Channel</a></li>
+					<li class="nav-item"><a class="nav-link text-light px-2" href="https://github.com/EXG1O" target="_blank">GitHub</a></li>
+					<li class="nav-item"><a class="nav-link text-light px-2" href="https://github.com/EXG1O/Constructor-Telegram-Bots" target="_blank">GitHub Project</a></li>
 				</ul>
 				<p class="text-light text-center mb-2">&copy; 2023 Exg1o</p>
 			</div>
@@ -77,6 +72,6 @@
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 	
-	<script src="{% static 'js/global/my_alert.js' %}"></script>
+	<script src="{% static 'js/global/global.js' %}"></script>
 	{% block scripts %} {% endblock scripts %}
 </html>

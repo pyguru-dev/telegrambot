@@ -1,9 +1,8 @@
 from django.core.handlers.wsgi import WSGIRequest
-from django.shortcuts import render
+from django.shortcuts import HttpResponse, render
 
-import scripts.decorators as Decorators
+from scripts.decorators import SiteDecorators
 
-# Create your views here.
-@Decorators.get_user_data
-def home(request: WSGIRequest, data: dict):
+@SiteDecorators.get_user_data
+def home(request: WSGIRequest, data: dict) -> HttpResponse:
 	return render(request, 'home.html', context=data)

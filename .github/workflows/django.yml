@@ -4,10 +4,8 @@ on:
   push:
     branches:
     - dev
-    - master
   pull_request:
     branches:
-    - dev
     - master
 
 jobs:
@@ -31,4 +29,4 @@ jobs:
     - name: Run Tests
       run: |
         cd constructor_telegram_bots
-        python manage.py test --parallel
+        python manage.py test --verbosity 3

@@ -1,0 +1,38 @@
+<div class="modal fade" id="addTelegramBotModal" tabindex="-1" aria-labelledby="addTelegramBotModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addTelegramBotModalLabel">Добавление Telegram бота</h5>
+                <button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="addTelegramBotModalAlertPlaceholder"></div>
+                <div class="row">
+                    <div class="col-12 mb-2">
+                        <form class="form-floating">
+                            <input class="form-control" id="addTelegramBotTokenInput" type="text" placeholder="Введите токен Telegram бота">
+                            <label for="addTelegramBotTokenInput">Введите токен Telegram бота</label>
+                        </form>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check form-switch mb-0">
+                            <table class="mb-0">
+                                <tbody>
+                                    <td class="align-middle">
+                                        <input class="form-check-input" id="addTelegramBotPrivateCheckBox" type="checkbox" value="ON" checked>
+                                    </td>
+                                    <td>
+                                        <label class="form-check-label" for="addTelegramBotPrivateCheckBox">Telegram бот будет доступен другим пользователям.</label>
+                                    </td>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline-success w-100" id="addTelegramBotButton" type="button">Добавить Telegram бота</button>
+            </div>
+        </div>
+    </div>
+</div>

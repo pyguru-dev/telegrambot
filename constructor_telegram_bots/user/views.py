@@ -1,16 +1,22 @@
 from django.views.decorators.csrf import csrf_exempt
 from django.core.handlers.wsgi import WSGIRequest
-from django.shortcuts import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import HttpResponse, render
 from django.contrib.auth import login
 
 from user.models import User
 
-import scripts.decorators as Decorators
+from scripts.decorators import SiteDecorators
 
-# Create your views here.
-@Decorators.get_user_data
-def auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict):
+import json
+
+@SiteDecorators.get_user_data
+def user_auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict) -> HttpResponse:
+	data.update(
+		{
+			'title': 'Авторизация',
+		}
+	)
+	
 	if User.objects.filter(id=user_id).exists():
 		user = User.objects.get(id=user_id)
 
@@ -22,7 +28,6 @@ def auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict):
 
 			data.update(
 				{
-					'title': 'Авторизация',
 					'meta': {
 						'url': '/personal_cabinet/',
 					},
@@ -35,12 +40,11 @@ def auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict):
 		else:
 			data.update(
 				{
-					'title': 'Авторизация',
 					'meta': {
 						'url': '/',
 					},
 					'content': {
-						'heading': 'Неверный пароль!',
+						'heading': 'Неверный код подтверждения!',
 						'text': 'Автоматический переход на главную страницу через 3 секунды.',
 					},
 				}
@@ -48,7 +52,6 @@ def auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict):
 	else:
 		data.update(
 			{
-				'title': 'Авторизация',
 				'meta': {
 					'url': '/',
 				},
@@ -59,25 +62,21 @@ def auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict):
 			}
 		)
 
-	return render(request, '.html', context=data)
+	return render(request, 'auth.html', context=data)
 
 @csrf_exempt
-@Decorators.is_auth(render_page=False)
-def get_added_telegram_bots(request: WSGIRequest):
-	added_telegram_bots = ''
+@SiteDecorators.is_auth(render_page=False)
+def get_user_added_telegram_bots(request: WSGIRequest) -> HttpResponse:
+	added_telegram_bots = {}
 	for telegram_bot in request.user.telegram_bots.all():
-		added_telegram_bots += f'''\
-			<div class="col py-2">
-				<div class="card">
-					<h5 class="card-header bg-{'success' if telegram_bot.is_running else 'danger'} text-center text-light fw-bold">{'Бот включен' if telegram_bot.is_running else 'Бот выключен'}</h5>
-					<div class="card-body">
-						<h5 class="card-title text-center mb-0">@<a class="link-dark text-decoration-none" href="tg://resolve?domain={telegram_bot.name}">{telegram_bot.name}</a></h5>
-					</div>
-					<div class="card-footer">
-						<a class="btn btn-outline-dark my-1 w-100" href="/personal_cabinet/{telegram_bot.id}/">Меню Telegram бота</a>
-					</div>
-				</div>
-			</div>
-		'''
+		added_telegram_bots.update(
+			{
+				telegram_bot.id: {
+					'name': telegram_bot.name,
+					'is_running': telegram_bot.is_running,
+				},
+			}
+		)
+	added_telegram_bots = json.dumps(added_telegram_bots)
 
 	return HttpResponse(added_telegram_bots)

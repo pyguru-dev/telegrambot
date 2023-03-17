@@ -23,11 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
-
-SITE_ADMINS_TELEGRAM_ID = [1144621661]
 
 # SECURITY WARNING: keep the secret key used in production secret!
 if Functions.if_find_folder_or_file('.', 'data') == False:
@@ -141,8 +139,8 @@ INSTALLED_APPS = [
 	'scripts.apps.ScriptsConfig',
 	'home.apps.HomeConfig',
 	'user.apps.UserConfig',
-	'telegram_bot.apps.TelegramBotConfig',
 	'personal_cabinet.apps.PersonalCabinetConfig',
+	'telegram_bot.apps.TelegramBotConfig',
 ]
 
 MIDDLEWARE = [

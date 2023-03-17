@@ -1,18 +1,15 @@
-{% extends 'base.html' %}
-{% load static %}
+{% extends 'main.html' %}
 
 {% block meta %}
-    <meta http-equiv="refresh" content="3; url={{ meta.url }}">
+    <meta http-equiv="refresh" content="3; url={% block meta_url %}{% endblock meta_url %}">
 {% endblock meta %}
-
-{% block title %}{{ title }}{% endblock title %}
 
 {% block main %}
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-12 col-lg-8">
-				<p class="h2 h1-lg text-center">{{ content.heading }}</p>
-				<p class="lead text-center mb-0">{{ content.text }}</p>
+				<p class="h2 h1-lg text-center">{% block main_content_heading %}{% endblock main_content_heading %}</p>
+				<p class="lead text-center mb-0">{% block main_content_text %}{% endblock main_content_text %}</p>
 			</div>
 		</div>
 	</div>
