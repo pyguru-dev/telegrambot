@@ -3,7 +3,7 @@ const mainAlertPlaceholder = document.querySelector('#mainAlertPlaceholder');
 
 const telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCheckBox');
 
-function get_telegram_bot_commands() {
+function getTelegramBotCommands() {
 	let request = new XMLHttpRequest();
 	request.open('POST', `/telegram_bot/${telegramBotId}/get_commands/`, true);
 	request.setRequestHeader('Content-Type', 'application/json');
@@ -36,6 +36,11 @@ function get_telegram_bot_commands() {
 					].join('');
 					telegramBotCommandsDiv.append(wrapper);
 
+					document.querySelector(`.delete-telegram-bot-command-button[id="${telegramBotCommandsKeys[i]}"]`).addEventListener('click', () => askConfirmModal('Удаление команды Telegram бота', 'Вы точно хотите удалить команду Telegram бота?', function() {
+						let telegramBotCommandId = telegramBotCommandsKeys[i];
+
+						deleteTelegramBotCommandButton(telegramBotCommandId)
+					}));
 					document.querySelector(`.edit-telegram-bot-command-button[id="${telegramBotCommandsKeys[i]}"]`).addEventListener('click', editTelegramBotCommandButton);
 				}
 			} else {
@@ -49,7 +54,7 @@ function get_telegram_bot_commands() {
 	request.send();
 }
 
-function get_telegram_bot_users() {
+function getTelegramBotUsers() {
 	let request = new XMLHttpRequest();
 	request.open('POST', `/telegram_bot/${telegramBotId}/get_users/`, true);
 	request.setRequestHeader('Content-Type', 'application/json');
@@ -90,5 +95,5 @@ function get_telegram_bot_users() {
 	request.send();
 }
 
-get_telegram_bot_commands();
-get_telegram_bot_users();
+getTelegramBotCommands();
+getTelegramBotUsers();

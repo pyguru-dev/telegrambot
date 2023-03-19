@@ -1,13 +1,7 @@
 {
 	let startOrStopTelegramBotButton = document.querySelector('#startOrStopTelegramBotButton');
 	startOrStopTelegramBotButton.addEventListener('click', function() {
-		let startOrStopTelegramBotButtonBackground = this.getAttribute('class');
-		
-		if (startOrStopTelegramBotButtonBackground.search('danger') != -1) {
-			startOrStopTelegramBotButtonBackground = 'danger';
-		} else {
-			startOrStopTelegramBotButtonBackground = 'success';
-		}
+		let startOrStopTelegramBotButtonBackground = (this.getAttribute('class').search('danger') != -1) ? 'danger' : 'success';
 
 		let request = new XMLHttpRequest();
 		request.open('POST', (startOrStopTelegramBotButtonBackground == 'success') ? `/telegram_bot/${telegramBotId}/start/` : `/telegram_bot/${telegramBotId}/stop/`, true);
@@ -39,10 +33,10 @@
 
 	var duplicateTelegramBotModalBootstrap = new bootstrap.Modal('#duplicateTelegramBotModal');
 	document.querySelector('#duplicateTelegramBotModalButton').addEventListener('click', function() {
-		duplicateTelegramBotModalBootstrap.toggle()
+		duplicateTelegramBotModalBootstrap.toggle();
 	});
 
-	document.querySelector('#deleteTelegramBotButton').addEventListener('click', function() {
+	document.querySelector('#deleteTelegramBotButton').addEventListener('click', () => askConfirmModal('Удаление Telegram бота', 'Вы точно хотите удалить Telegram бота?', function() {
 		let request = new XMLHttpRequest();
 		request.open('POST', `/telegram_bot/${telegramBotId}/delete/`, true);
 		request.setRequestHeader('Content-Type', 'application/json');
@@ -56,7 +50,7 @@
 			}
 		});
 		request.send();
-	});
+	}));
 }
 
 {
@@ -133,7 +127,7 @@
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {
-				get_telegram_bot_commands();
+				getTelegramBotCommands();
 
 				addOrEditTelegramBotCommandModalBootstrap.toggle();
 
@@ -174,6 +168,20 @@
 
 		addOrEditTelegramBotCommandModalBootstrap.toggle();
 	});
+
+	function deleteTelegramBotCommandButton(telegramBotCommandId) {
+		let request = new XMLHttpRequest();
+		request.open('POST', `/telegram_bot/${telegramBotId}/command/${telegramBotCommandId}/delete/`, true);
+		request.setRequestHeader('Content-Type', 'application/json');
+		request.onreadystatechange = checkRequestResponse(function() {
+			if (request.status == 200) {
+				getTelegramBotCommands();
+
+				myAlert(mainAlertPlaceholder, request.responseText, 'success');
+			}
+		});
+		request.send();
+	}
 
 	function editTelegramBotCommandButton() {
 		let telegramBotCommandId = this.id;
