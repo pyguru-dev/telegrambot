@@ -81,7 +81,9 @@ function get_telegram_bot_users() {
 					telegramBotUsersDiv.append(wrapper);
 				}
 			} else {
-				telegramBotUsersDiv.innerHTML = '<p>Вашего Telegram бота ещё никто не активировал</p>';
+				let wrapper = document.createElement('tr');
+				wrapper.innerHTML = '<p class="pt-0">Вашего Telegram бота ещё никто не активировал</p>';
+				telegramBotUsersDiv.append(wrapper);
 			}
 		}
 	});
