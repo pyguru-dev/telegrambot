@@ -205,11 +205,11 @@ class SiteDecorators:
 				telegram_bot: TelegramBot = kwargs['telegram_bot']
 				telegram_bot_command_id: int = kwargs['telegram_bot_command_id']
 
-				if telegram_bot.commands.objects.filter(id=telegram_bot_command_id).exists():
+				if telegram_bot.commands.filter(id=telegram_bot_command_id).exists():
 					del kwargs['telegram_bot_command_id']
 					kwargs.update(
 						{
-							'telegram_bot_command': telegram_bot.commands.objects.get(id=telegram_bot_command_id),
+							'telegram_bot_command': telegram_bot.commands.get(id=telegram_bot_command_id),
 						}
 					)
 

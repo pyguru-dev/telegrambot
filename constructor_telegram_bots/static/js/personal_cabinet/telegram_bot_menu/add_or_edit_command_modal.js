@@ -1,10 +1,15 @@
 {
-	let keyboardButtonNum = 0;
+	var keyboardButtonNum = 0;
 
 	offKeybordRadio.addEventListener('click', offKeybord);
 
-	function keyboardButtonFunc(keyboardButton, keyboardButtonNum, keyboardType) {
-		keyboardButton.outerHTML = `<input class="${keyboardButton.getAttribute('class').replace('button w-100', 'input border-end-0')}" id="${keyboardButtonNum}" type="text">`;
+	function createKeyboardInput(keyboardType, value) {
+		let keyboardInput = document.createElement('input');
+		keyboardInput.setAttribute('class', `btn btn-sm btn-outline-dark ${keyboardType}-input border-end-0`);
+		keyboardInput.id = keyboardButtonNum;
+		keyboardInput.type = 'text';
+		keyboardInput.value = value;
+		keyboardButtons.append(keyboardInput);
 
 		let deleteKeyboardButton = document.createElement('button')
 		deleteKeyboardButton.setAttribute('class', 'btn btn-sm btn-danger delete-keyboard-button');
@@ -13,14 +18,18 @@
 		deleteKeyboardButton.type = 'button';
 		keyboardButtons.append(deleteKeyboardButton);
 
-		let keyboardInput = document.querySelector(`.${keyboardType}-input[id="${keyboardButtonNum}"]`);
-		keyboardInput.focus();
-
 		deleteKeyboardButton.addEventListener('click', function() {
 			keyboardInput.remove();
 			this.remove();
 		});
 
+		return keyboardInput;
+	}
+
+	function keyboardButtonFunc(keyboardButton, keyboardType) {
+		keyboardButton.remove();
+		
+		createKeyboardInput(keyboardType, '').focus();
 		createKeyboardButton(keyboardType);
 	}
 
@@ -32,7 +41,7 @@
 		keyboardButton.innerHTML = 'Добавить кнопку';
 		keyboardButtons.append(keyboardButton);
 
-		keyboardButton.addEventListener('click', () => keyboardButtonFunc(keyboardButton, keyboardButtonNum - 1, keyboardType));
+		keyboardButton.addEventListener('click', () => keyboardButtonFunc(keyboardButton, keyboardType));
 
 		keyboardButtonNum ++;
 	}

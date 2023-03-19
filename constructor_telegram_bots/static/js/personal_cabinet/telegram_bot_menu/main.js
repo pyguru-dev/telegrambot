@@ -1,93 +1,3 @@
-const telegramBotId = window.location.href.split('/')[4]
-const mainAlertPlaceholder = document.querySelector('#mainAlertPlaceholder');
-
-const telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCheckBox');
-
-get_telegram_bot_commands();
-function get_telegram_bot_commands() {
-	let request = new XMLHttpRequest();
-	request.open('POST', `/telegram_bot/${telegramBotId}/get_commands/`, true);
-	request.setRequestHeader('Content-Type', 'application/json');
-	request.onreadystatechange = checkRequestResponse(function() {
-		if (request.status == 200) {
-			let telegramBotCommandsDiv = document.querySelector('.telegram-bot-commands');
-			telegramBotCommandsDiv.innerHTML = '';
-
-			let telegramBotCommands = JSON.parse(request.responseText);
-			let telegramBotCommandsKeys = Object.keys(telegramBotCommands);
-
-			if (telegramBotCommandsKeys.length > 0) {
-				for (let i = 0; i < telegramBotCommandsKeys.length; i++) {
-					let wrapper = document.createElement('div');
-					wrapper.setAttribute('class', 'list-group-item pb-1');
-					wrapper.innerHTML = [
-						'<div class="row justify-content-between">',
-						'	<div class="col-auto">',
-						`		<p class="my-2">${telegramBotCommands[telegramBotCommandsKeys[i]]}</p>`,
-						'	</div>',
-						'	<div class="col-auto">',
-						`		<button class="btn delete-command-button rounded-0 p-0" id="${telegramBotCommandsKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Удалить команду">`,
-						'			<i class="bi bi-trash text-danger" style="font-size: 1.5rem;"></i>',
-						'		</button>',
-						`		<button class="btn edit-command-button rounded-0 p-0" id="${telegramBotCommandsKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Редактировать команду">`,
-						'			<i class="bi bi-pencil-square text-secondary" style="font-size: 1.5rem;"></i>',
-						'		</button>',
-						'	</div>',
-						'</div>',
-					].join('');
-					telegramBotCommandsDiv.append(wrapper);
-				}
-			} else {
-				let wrapper = document.createElement('div');
-				wrapper.setAttribute('class', 'list-group-item pb-1');
-				wrapper.innerHTML = `<p class="my-2">Вы ещё не добавили команды Telegram боту</p>`;
-				telegramBotCommandsDiv.append(wrapper);
-			}
-		}
-	});
-	request.send();
-}
-
-get_telegram_bot_users();
-function get_telegram_bot_users() {
-	let request = new XMLHttpRequest();
-	request.open('POST', `/telegram_bot/${telegramBotId}/get_users/`, true);
-	request.setRequestHeader('Content-Type', 'application/json');
-	request.onreadystatechange = checkRequestResponse(function() {
-		if (request.status == 200) {
-			let telegramBotUsersDiv = document.querySelector('.telegram-bot-users');
-			telegramBotUsersDiv.innerHTML = '';
-
-			let telegramBotUsers = JSON.parse(request.responseText);
-			let telegramBotUsersKeys = Object.keys(telegramBotUsers);
-
-			if (telegramBotUsersKeys.length > 0) {
-				for (let i = 0; i < telegramBotUsersKeys.length; i++) {
-					let wrapper = document.createElement('tr');
-					wrapper.setAttribute('class', 'text-center');
-					wrapper.innerHTML = [
-						`<th class="align-middle" scope="row">${i + 1}</th>`,
-						`<td class="align-middle">@${telegramBotUsers[telegramBotUsersKeys[i]]['username']}</td>`,
-						`<td class="align-middle">${telegramBotUsers[telegramBotUsersKeys[i]]['date_started']}</td>`,
-						'<td class="align-middle">',
-						'	<button class="btn rounded-0 p-0" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Удалить пользователя">',
-						'		<i class="bi bi-trash text-danger" style="font-size: 1.5rem;"></i>',
-						'	</button>',
-						`	<button class="btn rounded-0 p-0 ${(telegramBotPrivateCheckBox.checked) ? '' : 'd-none'}" id="giveUserAccessButton" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Дать пользователю доступ к Telegram боту">`,
-						'		<i class="bi bi-star text-warning" style="font-size: 1.5rem;"></i>',
-						'	</button>',
-						'</td>',
-					].join('');
-					telegramBotUsersDiv.append(wrapper);
-				}
-			} else {
-				telegramBotUsersDiv.innerHTML = '<p>Вашего Telegram бота ещё никто не активировал</p>';
-			}
-		}
-	});
-	request.send();
-}
-
 {
 	let startOrStopTelegramBotButton = document.querySelector('#startOrStopTelegramBotButton');
 	startOrStopTelegramBotButton.addEventListener('click', function() {
@@ -135,6 +45,7 @@ function get_telegram_bot_users() {
 	document.querySelector('#deleteTelegramBotButton').addEventListener('click', function() {
 		let request = new XMLHttpRequest();
 		request.open('POST', `/telegram_bot/${telegramBotId}/delete/`, true);
+		request.setRequestHeader('Content-Type', 'application/json');
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {
 				setTimeout("window.location.href = '../';", 1000);
@@ -197,6 +108,8 @@ function get_telegram_bot_users() {
 	var keyboard = document.querySelector('.keyboard');
 	var keyboardButtons = document.querySelector('#keyboardButtons');
 
+	let addOrEditTelegramBotCommandButton = document.querySelector('#addOrEditTelegramBotCommandButton');
+
 	function offKeybord() {
 		if (keyboard.id != 'offKeybord') {
 			keyboard.setAttribute('class', `${keyboard.getAttribute('class')} d-none`);
@@ -206,7 +119,8 @@ function get_telegram_bot_users() {
 		}
 	}
 
-	function addOrEditTelegramBotCommand(url) {
+	var addOrEditTelegramBotCommandUrl;
+	function addOrEditTelegramBotCommand() {
 		let telegramBotCommandKeyboard = [keyboard.id];
 
 		let telegramBotCommandKeyboardButtons = keyboardButtons.querySelectorAll('input');
@@ -215,11 +129,11 @@ function get_telegram_bot_users() {
 		}
 
 		let request = new XMLHttpRequest();
-		request.open('POST', url, true);
+		request.open('POST', addOrEditTelegramBotCommandUrl, true);
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {
-				get_telegram_bot_commands()
+				get_telegram_bot_commands();
 
 				addOrEditTelegramBotCommandModalBootstrap.toggle();
 
@@ -239,10 +153,10 @@ function get_telegram_bot_users() {
 			}
 		));
 	}
-	
+
 	document.querySelector('#addTelegramBotCommandModalButton').addEventListener('click', function() {
 		addOrEditTelegramBotCommandModallLabel.innerHTML = 'Добавление команды';
-		
+
 		addOrEditTelegramBotCommandNameInput.value = '';
 		addOrEditTelegramBotCommandCommandInput.value = '';
 		addOrEditTelegramBotCommandCallBackInput.value = '';
@@ -251,11 +165,64 @@ function get_telegram_bot_users() {
 
 		offKeybord();
 		offKeybordRadio.checked = true;
-		
-		document.querySelector('#addTelegramBotCommandButton').addEventListener('click', function() {
-			addOrEditTelegramBotCommand(`/telegram_bot/${telegramBotId}/command/add/`)
-		});
-		
+
+		addOrEditTelegramBotCommandUrl = `/telegram_bot/${telegramBotId}/command/add/`;
+
+		addOrEditTelegramBotCommandButton.innerHTML = 'Добавить команду';
+		addOrEditTelegramBotCommandButton.removeEventListener('click', addOrEditTelegramBotCommand);
+		addOrEditTelegramBotCommandButton.addEventListener('click', addOrEditTelegramBotCommand);
+
 		addOrEditTelegramBotCommandModalBootstrap.toggle();
 	});
+
+	function editTelegramBotCommandButton() {
+		let telegramBotCommandId = this.id;
+
+		let request = new XMLHttpRequest();
+		request.open('POST', `/telegram_bot/${telegramBotId}/get_command_data/${telegramBotCommandId}/`, true);
+		request.setRequestHeader('Content-Type', 'application/json');
+		request.onreadystatechange = checkRequestResponse(function() {
+			if (request.status == 200) {
+				let telegramBotCommandData = JSON.parse(request.responseText);
+
+				addOrEditTelegramBotCommandModallLabel.innerHTML = 'Редактирование команды';
+
+				addOrEditTelegramBotCommandNameInput.value = telegramBotCommandData['name'];
+				addOrEditTelegramBotCommandCommandInput.value = telegramBotCommandData['command'];
+				addOrEditTelegramBotCommandCallBackInput.value = telegramBotCommandData['callback'];
+				addOrEditTelegramBotCommandTextInput.value = telegramBotCommandData['message_text'];
+				addOrEditTelegramBotCommandEditLastMessageCheckBox.checked = telegramBotCommandData['is_edit_last_message'];
+
+				let telegramBotCommandKeyboard = JSON.parse(telegramBotCommandData['keyboard']);
+				if (telegramBotCommandKeyboard[0] != 'offKeybord') {
+					document.querySelector(`#${telegramBotCommandKeyboard[0]}Radio`).checked = true;
+
+					keyboard.setAttribute('class', keyboard.getAttribute('class').replace(' d-none', ''));
+					keyboard.id = telegramBotCommandKeyboard[0];
+					keyboardButtons.innerHTML = '';
+					
+					let keyboardType = (telegramBotCommandKeyboard[0] == 'defaultKeyboard') ? 'default-keyboard' : 'inline-keyboard';
+
+					for (let i = 0; i < telegramBotCommandKeyboard.length; i ++) {
+						if (i > 0) {
+							createKeyboardInput(keyboardType, telegramBotCommandKeyboard[i]);
+
+							keyboardButtonNum ++;
+						}
+					}
+
+					createKeyboardButton(keyboardType);
+				}
+
+				addOrEditTelegramBotCommandUrl = `/telegram_bot/${telegramBotId}/command/${telegramBotCommandId}/edit/`;
+
+				addOrEditTelegramBotCommandButton.innerHTML = 'Редактировать команду';
+				addOrEditTelegramBotCommandButton.removeEventListener('click', addOrEditTelegramBotCommand);
+				addOrEditTelegramBotCommandButton.addEventListener('click', addOrEditTelegramBotCommand);
+
+				addOrEditTelegramBotCommandModalBootstrap.toggle();
+			}
+		});
+		request.send();
+	}
 }

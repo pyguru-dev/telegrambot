@@ -129,9 +129,28 @@ def get_telegram_bot_commands(request: WSGIRequest, telegram_bot: TelegramBot) -
 				telegram_bot_command.id: telegram_bot_command.name,
 			}
 		)
-	telegram_bot_commands = json.dumps(telegram_bot_commands)
 
-	return HttpResponse(telegram_bot_commands)
+	return HttpResponse(
+		json.dumps(telegram_bot_commands)
+	)
+
+@csrf_exempt
+@SiteDecorators.is_auth(render_page=False)
+@SiteDecorators.check_telegram_bot_id(render_page=False)
+@SiteDecorators.check_telegram_bot_command_id
+def get_telegram_bot_command_data(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand) -> HttpResponse:
+	return HttpResponse(
+		json.dumps(
+			{
+				'name': telegram_bot_command.name,
+				'command': telegram_bot_command.command,
+				'callback': telegram_bot_command.callback,
+				'message_text': telegram_bot_command.message_text,
+				'is_edit_last_message': telegram_bot_command.is_edit_last_message,
+				'keyboard': telegram_bot_command.keyboard,
+			}
+		)
+	)
 
 @csrf_exempt
 @SiteDecorators.is_auth(render_page=False)
@@ -147,6 +166,7 @@ def get_telegram_bot_users(request: WSGIRequest, telegram_bot: TelegramBot) -> H
 				}
 			}
 		)
-	telegram_bot_users = json.dumps(telegram_bot_users)
 
-	return HttpResponse(telegram_bot_users)
+	return HttpResponse(
+		json.dumps(telegram_bot_users)
+	)
