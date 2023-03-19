@@ -8,7 +8,7 @@ from scripts.decorators import SiteDecorators
 @SiteDecorators.is_auth(render_page=True)
 @SiteDecorators.get_user_data
 def personal_cabinet(request: WSGIRequest, data: dict) -> HttpResponse:
-	return render(request, 'personal_cabinet/personal_cabinet.html', context=data)
+	return render(request, 'personal_cabinet.html', context=data)
 
 @SiteDecorators.is_auth(render_page=True)
 @SiteDecorators.get_user_data
@@ -29,4 +29,4 @@ def telegram_bot_menu(request: WSGIRequest, telegram_bot: TelegramBot, data: dic
 		}
 	)
 
-	return render(request, 'telegram_bot_menu/telegram_bot_menu.html', context=data)
+	return render(request, 'telegram_bot_menu.html', context=data)
