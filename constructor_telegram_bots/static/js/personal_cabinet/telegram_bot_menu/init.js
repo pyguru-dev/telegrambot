@@ -41,7 +41,7 @@ function get_telegram_bot_commands() {
 			} else {
 				let wrapper = document.createElement('div');
 				wrapper.setAttribute('class', 'list-group-item pb-1');
-				wrapper.innerHTML = `<p class="my-2">Вы ещё не добавили команды Telegram боту</p>`;
+				wrapper.innerHTML = `<p class="my-2">Вы ещё не добавили команды Telegram боту.</p>`;
 				telegramBotCommandsDiv.append(wrapper);
 			}
 		}
@@ -82,7 +82,7 @@ function get_telegram_bot_users() {
 				}
 			} else {
 				let wrapper = document.createElement('tr');
-				wrapper.innerHTML = '<p class="pt-0">Вашего Telegram бота ещё никто не активировал</p>';
+				wrapper.innerHTML = '<p class="pt-0">Вашего Telegram бота ещё никто не активировал.</p>';
 				telegramBotUsersDiv.append(wrapper);
 			}
 		}
