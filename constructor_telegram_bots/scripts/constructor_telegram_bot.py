@@ -28,14 +28,14 @@ class ConstructorTelegramBot:
 	# 	print(message)
 
 	@TelegramBotDecorators.get_attributes(need_attributes=('update', 'context', 'user_id', 'username', 'message',))
-	def start_command(self, update: Update, context: CallbackContext, user_id: int, username: str, message: str):
+	def start_command(self, update: Update, context: CallbackContext, user_id: int, username: str, message: str) -> None:
 		if len(message.split()) > 1:
 			if message.split()[1] == 'auth':
 				self.auth_command(update, context)
 
 	@TelegramBotDecorators.get_attributes(need_attributes=('update', 'context', 'user_id', 'username',))
-	def auth_command(self, update: Update, context: CallbackContext, user_id: int, username: str):
-		if User.objects.filter(id=user_id).exists() == False:
+	def auth_command(self, update: Update, context: CallbackContext, user_id: int, username: str) -> None:
+		if User.objects.filter(id=user_id).exists() is False:
 			User.objects.create_user(user_id=user_id, username=username)
 
 		keyboard = InlineKeyboardMarkup(
@@ -48,7 +48,7 @@ class ConstructorTelegramBot:
 
 		context.bot.send_message(chat_id=user_id, text='Нажмите на кнопку ниже, чтобы авторизоваться на сайте.', reply_markup=keyboard)
 
-	def start(self):
+	def start(self) -> None:
 		with open('./data/constructor_telegram_bot.token', 'r') as constructor_telegram_bot_token_file:
 			constructor_telegram_bot_token = constructor_telegram_bot_token_file.read()
 

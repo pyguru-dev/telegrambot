@@ -5,7 +5,7 @@ import sys
 
 import scripts.functions as Functions
 
-def main():
+def main() -> None:
 	"""Run administrative tasks."""
 	os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'constructor_telegram_bots.settings')
 	try:

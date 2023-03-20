@@ -6,8 +6,10 @@ from telegram.error import InvalidToken
 
 import telegram_bot.models as TelegramBotModels
 
+from typing import Union
+
 class TelegramBotManager(models.Manager):
-	def test_telegram_bot_token(self, token: str):
+	def test_telegram_bot_token(self, token: str) -> Union[Updater, None]:
 		try:
 			return Updater(token=token)
 		except InvalidToken:
@@ -31,7 +33,9 @@ class TelegramBotManager(models.Manager):
 		for telegram_bot_command in telegram_bot.commands.all():
 			TelegramBotModels.TelegramBotCommand.objects.add_telegram_bot_command(telegram_bot=duplicated_telegram_bot, name=telegram_bot_command.name, command=telegram_bot_command.command, callback=telegram_bot_command.callback, message_text=telegram_bot_command.message_text, is_edit_last_message=telegram_bot_command.is_edit_last_message, keyboard=telegram_bot_command.keyboard)
 
-	def delete_telegram_bot(self, telegram_bot):
+		return duplicated_telegram_bot
+
+	def delete_telegram_bot(self, telegram_bot) -> None:
 		for telegram_bot_command in telegram_bot.commands.all():
 			telegram_bot_command.delete()
 
@@ -47,3 +51,5 @@ class TelegramBotCommandManager(models.Manager):
 
 		telegram_bot.commands.add(telegram_bot_command)
 		telegram_bot.save()
+
+		return telegram_bot_command

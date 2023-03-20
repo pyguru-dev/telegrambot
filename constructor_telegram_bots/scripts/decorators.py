@@ -19,26 +19,26 @@ class TelegramBotDecorators:
 					'context': args[2],
 				}
 
-				if update.callback_query != None:
+				if update.callback_query is not None:
 					attributes.update(
 						{
 							'callback_data': update.callback_query.data,
 						}
 					)
-				if update.effective_user != None:
+				if update.effective_user is not None:
 					attributes.update(
 						{
 							'user_id': update.effective_user.id,
 							'username': update.effective_user.username,
 						}
 					)
-				if update.effective_chat != None:
+				if update.effective_chat is not None:
 					attributes.update(
 						{
 							'chat_id': update.effective_chat.id,
 						}
 					)
-				if update.effective_message != None:
+				if update.effective_message is not None:
 					attributes.update(
 						{
 							'message': update.effective_message.text,
@@ -89,7 +89,7 @@ class SiteDecorators:
 			if request.user.is_authenticated:
 				kwargs['data']['user'].update(
 					{
-						'username': request.user.username
+						'username': request.user.username,
 					}
 				)
 
@@ -104,7 +104,7 @@ class SiteDecorators:
 				if request.user.is_authenticated:
 					return func(*args, **kwargs)
 				else:
-					return render(request, '404.html') if render_page else HttpResponseBadRequest('Сначала авторизуйтесь на сайте!')
+					return render(request, '404.html', status=404) if render_page else HttpResponseBadRequest('Сначала авторизуйтесь на сайте!')
 			return wrapper
 		return decorator
 
@@ -135,7 +135,7 @@ class SiteDecorators:
 	
 	def check_telegram_bot_token(func):
 		def wrapper(*args, **kwargs):
-			token: bool = kwargs['token']
+			token: str = kwargs['token']
 
 			if len(token) > 0:
 				request: WSGIRequest = args[0]
@@ -168,7 +168,7 @@ class SiteDecorators:
 
 						return func(*args, **kwargs)
 					else:
-						return render(request, '404.html') if render_page else HttpResponseBadRequest('Telegram бот не найден!')
+						return render(request, '404.html', status=404) if render_page else HttpResponseBadRequest('Telegram бот не найден!')
 				else:
 					raise ValueError('The argument telegram_bot_id is missing!')
 			return wrapper

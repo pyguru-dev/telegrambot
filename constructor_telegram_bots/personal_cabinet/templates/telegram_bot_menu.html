@@ -7,8 +7,6 @@
 	<link rel="stylesheet" href="{% static 'css/personal_cabinet/telegram_bot_menu.css' %}">
 {% endblock styles %}
 
-{% block main_class %}my-3 my-lg-5{% endblock main_class %}
-
 {% block body %}
 	<div class="modal fade" id="askConfirmModal" tabindex="-1" aria-labelledby="askConfirmModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -21,11 +19,11 @@
 					<p class="mb-0" id="askConfirmText"></p>
 				</div>
 				<div class="modal-footer">
-					<div class="row w-100">
-						<div class="col-6 ps-0 pe-1">
+					<div class="row row-cols-2 w-100">
+						<div class="col ps-0 pe-1">
 							<button class="btn btn-outline-success w-100" id="askConfirmYesButton" type="button">Да</button>
 						</div>
-						<div class="col-6 ps-1 pe-0">
+						<div class="col ps-1 pe-0">
 							<button class="btn btn-outline-danger w-100" type="button" data-bs-dismiss="modal">Нет</button>
 						</div>
 					</div>
@@ -42,14 +40,14 @@
 				</div>
 				<div class="modal-body">
 					<div id="duplicateTelegramBotModalAlertPlaceholder"></div>
-					<div class="row">
-						<div class="col-12 mb-1">
+					<div class="row row-cols-1">
+						<div class="col mb-1">
 							<form class="form-floating">
 								<input class="form-control" id="duplicateTelegramBotTokenInput" type="text" placeholder="Введите токен нового Telegram бота">
 								<label for="aduplicateTelegramBotTokenInput">Введите токен нового Telegram бота</label>
 							</form>
 						</div>
-						<div class="col-12">
+						<div class="col">
 							<div class="form-check form-switch mb-0">
 								<table class="mb-0">
 									<tbody>
@@ -80,32 +78,32 @@
 				</div>
 				<div class="modal-body">
 					<div id="addOrEditTelegramBotCommandModalAlertPlaceholder"></div>
-					<div class="row">
-						<div class="col-12 mb-2">
+					<div class="row row-cols-1">
+						<div class="col mb-2">
 							<form class="form-floating">
 								<input class="form-control" id="addOrEditTelegramBotCommandNameInput" type="text" placeholder="Придумайте название команде">
 								<label for="addOrEditTelegramBotCommandNameInput">Придумайте название команде</label>
 							</form>
 						</div>
-						<div class="col-12 mb-2">
+						<div class="col mb-2">
 							<form class="form-floating">
 								<input class="form-control" id="addOrEditTelegramBotCommandCommandInput" type="text" placeholder="Придумайте команду"></input>
 								<label for="addOrEditTelegramBotCommandCommandInput">Придумайте команду</label>
 							</form>
 						</div>
-						<div class="col-12 mb-2">
+						<div class="col mb-2">
 							<form class="form-floating">
 								<input class="form-control" id="addOrEditTelegramBotCommandCallBackInput" type="text" placeholder="Введите CallBack текст">
 								<label for="addOrEditTelegramBotCommandCallBackInput">Введите CallBack текст</label>
 							</form>
 						</div>
-						<div class="col-12 mb-2">
+						<div class="col mb-2">
 							<form class="form-floating">
 								<textarea class="form-control" id="addOrEditTelegramBotCommandTextInput" type="text" placeholder="Введите текст сообщения"></textarea>
 								<label for="addOrEditTelegramBotCommandTextInput">Введите текст сообщения</label>
 							</form>
 						</div>
-						<div class="col-12 mb-2">
+						<div class="col mb-2">
 							<div class="form-check form-switch">
 								<table class="mb-0">
 									<tbody>
@@ -119,7 +117,7 @@
 								</table>
 							</div>
 						</div>
-						<div class="col-12">
+						<div class="col">
 							<label class="form-label mb-1" for="keyboardModes">Выбирите клавиатуру</label>
 							<div class="row" id="keyboardModes">
 								<div class="col-auto pe-0">
@@ -136,7 +134,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col-12 keyboard mt-2 d-none" id="offKeybord">
+						<div class="col keyboard mt-2 d-none" id="offKeybord">
 							<label class="form-label mb-1" for="keyboardButtons">Клавиатура</label>
 							<div id="keyboardButtons"></div>
 						</div>
@@ -149,6 +147,8 @@
 		</div>
 	</div>
 {% endblock body %}
+
+{% block main_class %}my-3 my-lg-5{% endblock main_class %}
 
 {% block main %}
 	<div class="container">

@@ -1,7 +1,8 @@
 from django.urls import path
-from personal_cabinet.views import *
+
+from personal_cabinet import views
 
 urlpatterns = [
-	path('', personal_cabinet),
-    path('<int:telegram_bot_id>/', telegram_bot_menu),
+	path('', views.personal_cabinet),
+    path('<int:telegram_bot_id>/', views.telegram_bot_menu),
 ]
