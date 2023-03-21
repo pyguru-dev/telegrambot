@@ -97,6 +97,23 @@
 								<label for="addOrEditTelegramBotCommandCallBackInput">Введите CallBack текст</label>
 							</form>
 						</div>
+						<div class="col mb-1">
+							<label class="form-label mb-0" for="variables">Переменные</label>
+							<div class="row w-100 ms-0" id="variables">
+								<div class="col-auto ps-0 pe-1 py-1">
+									<button class="btn btn-sm btn-outline-dark" type="button" onclick="addOrEditTelegramBotCommandTextInputInsert('${user_id}');">ID пользователя</button>
+								</div>
+								<div class="col-auto ps-1 pe-0 py-1">
+									<button class="btn btn-sm btn-outline-dark" type="button" onclick="addOrEditTelegramBotCommandTextInputInsert('${username}');">Имя пользователя</button>
+								</div>
+								<div class="col-auto px-0 py-1">
+									<button class="btn btn-sm btn-outline-dark" type="button" onclick="addOrEditTelegramBotCommandTextInputInsert('${account_url}');">Ссылка на аккаунт пользователя</button>
+								</div>
+								<div class="col-auto px-0 py-1">
+									<button class="btn btn-sm btn-outline-dark" type="button" onclick="addOrEditTelegramBotCommandTextInputInsert('${user_message}');">Полученное сообщения от пользователя</button>
+								</div>
+							</div>
+						</div>
 						<div class="col mb-2">
 							<form class="form-floating">
 								<textarea class="form-control" id="addOrEditTelegramBotCommandTextInput" type="text" placeholder="Введите текст сообщения"></textarea>

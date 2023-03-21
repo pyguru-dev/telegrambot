@@ -94,7 +94,7 @@
 	let addOrEditTelegramBotCommandNameInput = document.querySelector('#addOrEditTelegramBotCommandNameInput');
 	let addOrEditTelegramBotCommandCommandInput = document.querySelector('#addOrEditTelegramBotCommandCommandInput');
 	let addOrEditTelegramBotCommandCallBackInput = document.querySelector('#addOrEditTelegramBotCommandCallBackInput');
-	let addOrEditTelegramBotCommandTextInput = document.querySelector('#addOrEditTelegramBotCommandTextInput');
+	var addOrEditTelegramBotCommandTextInput = document.querySelector('#addOrEditTelegramBotCommandTextInput');
 	let addOrEditTelegramBotCommandEditLastMessageCheckBox = document.querySelector('#addOrEditTelegramBotCommandEditLastMessageCheckBox');
 
 	var offKeybordRadio = document.querySelector('#offKeybordRadio')

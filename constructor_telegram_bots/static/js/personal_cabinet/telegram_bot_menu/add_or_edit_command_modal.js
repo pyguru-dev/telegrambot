@@ -1,4 +1,9 @@
 {
+	function addOrEditTelegramBotCommandTextInputInsert(value) {
+		addOrEditTelegramBotCommandTextInput.value = `${addOrEditTelegramBotCommandTextInput.value} ${value}`;
+		addOrEditTelegramBotCommandTextInput.focus();
+	}
+
 	var keyboardButtonNum = 0;
 
 	offKeybordRadio.addEventListener('click', offKeybord);
