@@ -3,6 +3,10 @@ import scripts.functions as Functions
 from pathlib import Path
 import os
 
+# Constants for the site
+SITE_DOMAIN = 'http://127.0.0.1:8000/'
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,9 +32,11 @@ else:
 	with open('./data/secret.key', 'r') as f:
 		SECRET_KEY = f.read()
 
+
 # Check and create folders
 if Functions.if_find_folder_or_file('.', 'logs') == False:
 	os.mkdir('./logs')
+
 
 # Logs settings
 LOGGING = {

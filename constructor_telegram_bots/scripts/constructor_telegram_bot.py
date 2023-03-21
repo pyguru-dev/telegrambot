@@ -3,6 +3,8 @@ from telegram.ext.callbackcontext import CallbackContext
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.update import Update
 
+from django.conf import settings
+
 from user.models import User
 
 from scripts.decorators import TelegramBotDecorators
@@ -12,9 +14,11 @@ class ConstructorTelegramBot:
 		self.commands = {
 			'start': self.start_command,
 			'auth': self.auth_command,
+			'support': self.support_command,
 		}
 		# self.callback = {
-		# 	'delete_msg': self.delete_message,
+		# 	'auth': self.auth_command,
+		# 	'support': self.support_command,
 		# }
 
 	# @TelegramBotDecorators.get_attributes(need_attributes=('update', 'context', 'callback_data',))
@@ -29,15 +33,30 @@ class ConstructorTelegramBot:
 
 	@TelegramBotDecorators.get_attributes(need_attributes=('update', 'context', 'user_id', 'username', 'message',))
 	def start_command(self, update: Update, context: CallbackContext, user_id: int, username: str, message: str) -> None:
+		if User.objects.filter(id=user_id).exists() is False:
+			User.objects.create_user(user_id=user_id, username=username)
+
+			keyboard = InlineKeyboardMarkup(
+				[
+					[
+						InlineKeyboardButton(text='Constructor Telegram Bots', url=settings.SITE_DOMAIN),
+					],
+				]
+			)
+			
+			context.bot.send_message(chat_id=user_id, text=f"""\
+					Привет, @{username}!
+					Я являюсь Telegram ботом для сайта Constructor Telegram Bots.
+					Спасибо за то, что ты с нами ❤️
+				""".replace('	', ''), reply_markup=keyboard
+			)
+		
 		if len(message.split()) > 1:
 			if message.split()[1] == 'auth':
 				self.auth_command(update, context)
 
-	@TelegramBotDecorators.get_attributes(need_attributes=('update', 'context', 'user_id', 'username',))
-	def auth_command(self, update: Update, context: CallbackContext, user_id: int, username: str) -> None:
-		if User.objects.filter(id=user_id).exists() is False:
-			User.objects.create_user(user_id=user_id, username=username)
-
+	@TelegramBotDecorators.get_attributes(need_attributes=('context', 'user_id',))
+	def auth_command(self, context: CallbackContext, user_id: int) -> None:
 		keyboard = InlineKeyboardMarkup(
 			[
 				[
@@ -47,6 +66,18 @@ class ConstructorTelegramBot:
 		)
 
 		context.bot.send_message(chat_id=user_id, text='Нажмите на кнопку ниже, чтобы авторизоваться на сайте.', reply_markup=keyboard)
+
+	@TelegramBotDecorators.get_attributes(need_attributes=('context', 'user_id',))
+	def support_command(self, context: CallbackContext, user_id: int) -> None:
+		keyboard = InlineKeyboardMarkup(
+			[
+				[
+					InlineKeyboardButton(text='Написать автору сайта', url='https://t.me/pycoder39'),
+				],
+			]
+		)
+
+		context.bot.send_message(chat_id=user_id, text='Нажмите на кнопку ниже, чтобы написать автору сайта.', reply_markup=keyboard)
 
 	def start(self) -> None:
 		with open('./data/constructor_telegram_bot.token', 'r') as constructor_telegram_bot_token_file:
