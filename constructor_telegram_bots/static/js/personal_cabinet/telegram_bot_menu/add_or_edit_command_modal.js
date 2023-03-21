@@ -19,8 +19,8 @@
 		let deleteKeyboardButton = document.createElement('button')
 		deleteKeyboardButton.setAttribute('class', 'btn btn-sm btn-danger delete-keyboard-button');
 		deleteKeyboardButton.id = keyboardButtonNum;
-		deleteKeyboardButton.innerHTML = '<i class="bi bi-x-lg"></i>';
 		deleteKeyboardButton.type = 'button';
+		deleteKeyboardButton.innerHTML = '<i class="bi bi-x-lg"></i>';
 		keyboardButtons.append(deleteKeyboardButton);
 
 		deleteKeyboardButton.addEventListener('click', function() {
@@ -56,6 +56,8 @@
 		document.querySelector('#inlineKeyboardRadio'),
 	];
 
+	let examplekeyboardButton = document.querySelector('#examplekeyboardButton');
+
 	for (let i = 0; i < keyboardRadios.length; i++) {
 		keyboardRadios[i].addEventListener('click', function() {
 			let keyboardType = keyboardRadios[i].id.replace('Radio', '');
@@ -67,8 +69,12 @@
 
 				if (keyboardType == 'defaultKeyboard') {
 					keyboardType = 'default-keyboard';
+
+					examplekeyboardButton.innerHTML = '<b>Текст</b>';
 				} else {
 					keyboardType = 'inline-keyboard';
+
+					examplekeyboardButton.innerHTML = '<b>{Текст}:{CallBack текст}</b> или <b>{Текст}:{Ссылка}</b>';
 				}
 
 				createKeyboardButton(keyboardType);

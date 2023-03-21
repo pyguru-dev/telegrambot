@@ -16,20 +16,6 @@ class ConstructorTelegramBot:
 			'auth': self.auth_command,
 			'support': self.support_command,
 		}
-		# self.callback = {
-		# 	'auth': self.auth_command,
-		# 	'support': self.support_command,
-		# }
-
-	# @TelegramBotDecorators.get_attributes(need_attributes=('update', 'context', 'callback_data',))
-	# def handle_callback_query(self, update: Update, context: CallbackContext, callback_data: str):
-	# 	callback_data: str = callback_data.split(':')[0]
-	# 	if callback_data in self.callback:
-	# 		self.callback[callback_data](update, context)
-	
-	# @Decorators.get_attributes(need_attributes=('message',))
-	# def new_message(self, message: str):
-	# 	print(message)
 
 	@TelegramBotDecorators.get_attributes(need_attributes=('update', 'context', 'user_id', 'username', 'message',))
 	def start_command(self, update: Update, context: CallbackContext, user_id: int, username: str, message: str) -> None:
@@ -85,11 +71,6 @@ class ConstructorTelegramBot:
 
 		self.updater = Updater(token=constructor_telegram_bot_token)
 		self.dispatcher = self.updater.dispatcher
-
-		# self.dispatcher.add_handler(CallbackQueryHandler(self.handle_callback_query))
-
-		# new_message_handler = MessageHandler(Filters.text & (~Filters.command), self.new_message)
-		# self.dispatcher.add_handler(new_message_handler)
 
 		for command in self.commands:
 			handler = CommandHandler(command, self.commands[command])
