@@ -18,7 +18,7 @@ def user_auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict)
 	)
 	
 	if User.objects.filter(id=user_id).exists():
-		user = User.objects.get(id=user_id)
+		user: User = User.objects.get(id=user_id)
 
 		if user.confirm_code == confirm_code:
 			user.confirm_code = None
@@ -62,12 +62,13 @@ def user_auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict)
 			}
 		)
 
-	return render(request, 'auth.html', context=data)
+	return render(request=request, template_name='auth.html', context=data)
 
 @csrf_exempt
 @SiteDecorators.is_auth(render_page=False)
 def get_user_added_telegram_bots(request: WSGIRequest) -> HttpResponse:
-	added_telegram_bots = {}
+	added_telegram_bots: dict = {}
+
 	for telegram_bot in request.user.telegram_bots.all():
 		added_telegram_bots.update(
 			{
@@ -77,6 +78,7 @@ def get_user_added_telegram_bots(request: WSGIRequest) -> HttpResponse:
 				},
 			}
 		)
-	added_telegram_bots = json.dumps(added_telegram_bots)
 
-	return HttpResponse(added_telegram_bots)
+	return HttpResponse(
+		json.dumps(added_telegram_bots)
+	)

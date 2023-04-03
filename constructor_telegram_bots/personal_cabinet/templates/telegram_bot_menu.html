@@ -20,10 +20,10 @@
 				</div>
 				<div class="modal-footer">
 					<div class="row row-cols-2 w-100">
-						<div class="col ps-0 pe-1">
+						<div class="col ps-0 pe-2">
 							<button class="btn btn-outline-success w-100" id="askConfirmYesButton" type="button">Да</button>
 						</div>
-						<div class="col ps-1 pe-0">
+						<div class="col ps-2 pe-0">
 							<button class="btn btn-outline-danger w-100" type="button" data-bs-dismiss="modal">Нет</button>
 						</div>
 					</div>
@@ -52,10 +52,10 @@
 								<table class="mb-0">
 									<tbody>
 										<td class="align-middle">
-											<input class="form-check-input" id="duplicateTelegramBotPrivateCheckBox" type="checkbox" value="ON" checked>
+											<input class="form-check-input" id="duplicateTelegramBotPrivateCheckBox" type="checkbox" checked>
 										</td>
 										<td>
-											<label class="form-check-label" for="duplicateTelegramBotPrivateCheckBox">Новый Telegram бот будет доступен другим пользователям.</label>
+											<label class="form-check-label" for="duplicateTelegramBotPrivateCheckBox">Сделать нового Telegram бота приватным.</label>
 										</td>
 									</tbody>
 								</table>
@@ -120,26 +120,12 @@
 								<label for="addOrEditTelegramBotCommandTextInput">Введите текст сообщения</label>
 							</form>
 						</div>
-						<div class="col mb-2">
-							<div class="form-check form-switch">
-								<table class="mb-0">
-									<tbody>
-										<td class="align-middle">
-											<input class="form-check-input" id="addOrEditTelegramBotCommandEditLastMessageCheckBox" type="checkbox" value="ON">
-										</td>
-										<td>
-											<label class="form-check-label" for="addOrEditTelegramBotCommandEditLastMessageCheckBox">Изменить последние сообщение Telegram бота на текст выше.</label>
-										</td>
-									</tbody>
-								</table>
-							</div>
-						</div>
 						<div class="col">
 							<label class="form-label mb-1" for="keyboardModes">Выбирите клавиатуру</label>
 							<div class="row" id="keyboardModes">
 								<div class="col-auto pe-0">
-									<input class="btn-check" id="offKeybordRadio" name="options-outlined" type="radio" checked>
-									<label class="btn btn-sm btn-outline-dark rounded-0 rounded-start" for="offKeybordRadio">Выкл.</label>
+									<input class="btn-check" id="offKeyboardRadio" name="options-outlined" type="radio" checked>
+									<label class="btn btn-sm btn-outline-dark rounded-0 rounded-start" for="offKeyboardRadio">Выкл.</label>
 								</div>
 								<div class="col-auto px-0">
 									<input class="btn-check" id="defaultKeyboardRadio" name="options-outlined" type="radio">
@@ -151,7 +137,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="col keyboard mt-2 d-none" id="offKeybord">
+						<div class="col keyboard mt-2 d-none" id="offKeyboard">
 							<div class="row row-cols-1">
 								<div class="col">
 									<label class="form-label mb-1" for="examplekeyboardButton">Пример кнопки для клавиатуры</label>
@@ -199,12 +185,12 @@
 					</div>
 					<div class="card-footer">
 						{% if telegram_bot.is_running %}
-							<button class="btn btn-outline-danger w-100 mt-1 mb-2" id="startOrStopTelegramBotButton" type="button">Выключить Telegram бота</button>
+							<button class="btn btn-outline-danger w-100 my-2" id="startOrStopTelegramBotButton" type="button">Выключить Telegram бота</button>
 						{% else %}
-							<button class="btn btn-outline-success w-100 mt-1 mb-2" id="startOrStopTelegramBotButton" type="button">Включить Telegram бота</button>
+							<button class="btn btn-outline-success w-100 my-2" id="startOrStopTelegramBotButton" type="button">Включить Telegram бота</button>
 						{% endif %}
-						<button class="btn btn-outline-secondary w-100 mb-2" id="duplicateTelegramBotModalButton" type="button">Дублировать Telegram бота</button>
-						<button class="btn btn-outline-danger w-100 mb-1" id="deleteTelegramBotButton" type="button">Удалить Telegram бота</button>
+						<button class="btn btn-outline-secondary w-100" id="duplicateTelegramBotModalButton" type="button">Дублировать Telegram бота</button>
+						<button class="btn btn-outline-danger w-100 my-2" id="deleteTelegramBotButton" type="button">Удалить Telegram бота</button>
 					</div>
 				</div>
 			</div>
@@ -230,17 +216,17 @@
 							<th scope="row">Приватный:</th>
 							<td>
 								<div class="form-check form-switch mb-0">
-									<input class="form-check-input" id="telegramBotPrivateCheckBox" type="checkbox" value="{% if telegram_bot.private %}ON{% else %}OFF{% endif %}" {% if telegram_bot.private %}checked{% endif %}>
+									<input class="form-check-input" id="telegramBotPrivateCheckBox" type="checkbox" {% if telegram_bot.private %}checked{% endif %}>
 								</div>
 							</td>
 						</tr>
 						<tr>
 							<th scope="row">Количество активаций:</th>
-							<td class="align-middle">{{ telegram_bot.users_count }}</td>
+							<td class="align-middle users-count"></td>
 						</tr>
 						<tr>
 							<th scope="row">Количество команд:</th>
-							<td class="align-middle">{{ telegram_bot.commands_count }}</td>
+							<td class="align-middle commands-count"></td>
 						</tr>
 						<tr>
 							<th scope="row">Дата добавление:</th>
@@ -256,7 +242,7 @@
 						<div class="list-group telegram-bot-commands"></div>
 					</div>
 					<div class="card-footer">
-						<button class="btn btn-outline-dark w-100 my-1" id="addTelegramBotCommandModalButton" type="button">Добавить команду</button>
+						<button class="btn btn-outline-dark w-100 my-2" id="addTelegramBotCommandModalButton" type="button">Добавить команду</button>
 					</div>
 				</div>
 			</div>

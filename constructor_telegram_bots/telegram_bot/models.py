@@ -2,21 +2,15 @@ from django.db import models
 
 from telegram_bot.managers import TelegramBotManager, TelegramBotCommandManager
 
-class TelegramBotUserMessage(models.Model):
-	message = models.TextField()
-	date_sent = models.DateTimeField(auto_now_add=True)
-
 class TelegramBotUser(models.Model):
 	user_id = models.BigIntegerField()
 	username = models.CharField(max_length=32)
-	telegram_bot_user_messages = models.ManyToManyField(TelegramBotUserMessage)
 	date_started = models.DateTimeField(auto_now_add=True)
 
 class TelegramBotCommand(models.Model):
 	name = models.CharField(max_length=255)
 	command = models.CharField(max_length=32, null=True)
 	callback = models.CharField(max_length=64, null=True)
-	is_edit_last_message = models.BooleanField()
 	message_text = models.TextField()
 	keyboard = models.JSONField(null=True)
 

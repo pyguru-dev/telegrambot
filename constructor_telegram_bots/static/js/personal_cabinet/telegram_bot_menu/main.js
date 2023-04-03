@@ -36,21 +36,25 @@
 		duplicateTelegramBotModalBootstrap.toggle();
 	});
 
-	document.querySelector('#deleteTelegramBotButton').addEventListener('click', () => askConfirmModal('Удаление Telegram бота', 'Вы точно хотите удалить Telegram бота?', function() {
-		let request = new XMLHttpRequest();
-		request.open('POST', `/telegram_bot/${telegramBotId}/delete/`, true);
-		request.setRequestHeader('Content-Type', 'application/json');
-		request.onreadystatechange = checkRequestResponse(function() {
-			if (request.status == 200) {
-				setTimeout("window.location.href = '../';", 1000);
+	document.querySelector('#deleteTelegramBotButton').addEventListener('click', () => askConfirmModal(
+		'Удаление Telegram бота',
+		'Вы точно хотите удалить Telegram бота?',
+		function() {
+			let request = new XMLHttpRequest();
+			request.open('POST', `/telegram_bot/${telegramBotId}/delete/`, true);
+			request.setRequestHeader('Content-Type', 'application/json');
+			request.onreadystatechange = checkRequestResponse(function() {
+				if (request.status == 200) {
+					setTimeout("window.location.href = '../';", 1000);
 
-				myAlert(mainAlertPlaceholder, request.responseText, 'success');
-			} else {
-				myAlert(mainAlertPlaceholder, request.responseText, 'danger');
-			}
-		});
-		request.send();
-	}));
+					myAlert(mainAlertPlaceholder, request.responseText, 'success');
+				} else {
+					myAlert(mainAlertPlaceholder, request.responseText, 'danger');
+				}
+			});
+			request.send();
+		}
+	));
 }
 
 {
@@ -60,15 +64,15 @@
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {
-				let giveUserAccessButtons = document.querySelectorAll('#giveUserAccessButton');
+				let telegramBotAllowedUserButtons = document.querySelectorAll('.telegram-bot-allowed-user-button');
 
 				if (telegramBotPrivateCheckBox.checked) {
-					for (let i = 0; i < giveUserAccessButtons.length; i++) {
-						giveUserAccessButtons[i].setAttribute('class', giveUserAccessButtons[i].getAttribute('class').replace(' d-none', ''));
+					for (let i = 0; i < telegramBotAllowedUserButtons.length; i++) {
+						telegramBotAllowedUserButtons[i].setAttribute('class', telegramBotAllowedUserButtons[i].getAttribute('class').replace(' d-none', ''));
 					}
 				} else {
-					for (let i = 0; i < giveUserAccessButtons.length; i++) {
-						giveUserAccessButtons[i].setAttribute('class', `${giveUserAccessButtons[i].getAttribute('class')} d-none`);
+					for (let i = 0; i < telegramBotAllowedUserButtons.length; i++) {
+						telegramBotAllowedUserButtons[i].setAttribute('class', `${telegramBotAllowedUserButtons[i].getAttribute('class')} d-none`);
 					}
 				}
 
@@ -95,19 +99,18 @@
 	let addOrEditTelegramBotCommandCommandInput = document.querySelector('#addOrEditTelegramBotCommandCommandInput');
 	let addOrEditTelegramBotCommandCallBackInput = document.querySelector('#addOrEditTelegramBotCommandCallBackInput');
 	var addOrEditTelegramBotCommandTextInput = document.querySelector('#addOrEditTelegramBotCommandTextInput');
-	let addOrEditTelegramBotCommandEditLastMessageCheckBox = document.querySelector('#addOrEditTelegramBotCommandEditLastMessageCheckBox');
 
-	var offKeybordRadio = document.querySelector('#offKeybordRadio')
+	var offKeyboardRadio = document.querySelector('#offKeyboardRadio')
 
 	var keyboard = document.querySelector('.keyboard');
 	var keyboardButtons = document.querySelector('#keyboardButtons');
 
 	let addOrEditTelegramBotCommandButton = document.querySelector('#addOrEditTelegramBotCommandButton');
 
-	function offKeybord() {
-		if (keyboard.id != 'offKeybord') {
+	function offKeyboard() {
+		if (keyboard.id != 'offKeyboard') {
 			keyboard.setAttribute('class', `${keyboard.getAttribute('class')} d-none`);
-			keyboard.id = 'offKeybord';
+			keyboard.id = 'offKeyboard';
 
 			keyboardButtons.innerHTML = '';
 		}
@@ -142,7 +145,6 @@
 				'command': addOrEditTelegramBotCommandCommandInput.value,
 				'callback': addOrEditTelegramBotCommandCallBackInput.value,
 				'message_text': addOrEditTelegramBotCommandTextInput.value,
-				'is_edit_last_message': addOrEditTelegramBotCommandEditLastMessageCheckBox.checked,
 				'keyboard': JSON.stringify(telegramBotCommandKeyboard),
 			}
 		));
@@ -155,10 +157,9 @@
 		addOrEditTelegramBotCommandCommandInput.value = '';
 		addOrEditTelegramBotCommandCallBackInput.value = '';
 		addOrEditTelegramBotCommandTextInput.value = '';
-		addOrEditTelegramBotCommandEditLastMessageCheckBox.checked = false;
 
-		offKeybord();
-		offKeybordRadio.checked = true;
+		offKeyboard();
+		offKeyboardRadio.checked = true;
 
 		addOrEditTelegramBotCommandUrl = `/telegram_bot/${telegramBotId}/command/add/`;
 
@@ -168,20 +169,6 @@
 
 		addOrEditTelegramBotCommandModalBootstrap.toggle();
 	});
-
-	function deleteTelegramBotCommandButton(telegramBotCommandId) {
-		let request = new XMLHttpRequest();
-		request.open('POST', `/telegram_bot/${telegramBotId}/command/${telegramBotCommandId}/delete/`, true);
-		request.setRequestHeader('Content-Type', 'application/json');
-		request.onreadystatechange = checkRequestResponse(function() {
-			if (request.status == 200) {
-				getTelegramBotCommands();
-
-				myAlert(mainAlertPlaceholder, request.responseText, 'success');
-			}
-		});
-		request.send();
-	}
 
 	function editTelegramBotCommandButton() {
 		let telegramBotCommandId = this.id;
@@ -199,10 +186,9 @@
 				addOrEditTelegramBotCommandCommandInput.value = telegramBotCommandData['command'];
 				addOrEditTelegramBotCommandCallBackInput.value = telegramBotCommandData['callback'];
 				addOrEditTelegramBotCommandTextInput.value = telegramBotCommandData['message_text'];
-				addOrEditTelegramBotCommandEditLastMessageCheckBox.checked = telegramBotCommandData['is_edit_last_message'];
 
 				let telegramBotCommandKeyboard = JSON.parse(telegramBotCommandData['keyboard']);
-				if (telegramBotCommandKeyboard[0] != 'offKeybord') {
+				if (telegramBotCommandKeyboard[0] != 'offKeyboard') {
 					document.querySelector(`#${telegramBotCommandKeyboard[0]}Radio`).checked = true;
 
 					keyboard.setAttribute('class', keyboard.getAttribute('class').replace(' d-none', ''));
@@ -210,6 +196,8 @@
 					keyboardButtons.innerHTML = '';
 					
 					let keyboardType = (telegramBotCommandKeyboard[0] == 'defaultKeyboard') ? 'default-keyboard' : 'inline-keyboard';
+
+					examplekeyboardButton.innerHTML = (keyboardType == 'defaultKeyboard') ? '<b>{Текст}:{CallBack текст}</b> или <b>{Текст}:{Ссылка}</b>' : '<b>Текст</b>';
 
 					for (let i = 0; i < telegramBotCommandKeyboard.length; i ++) {
 						if (i > 0) {

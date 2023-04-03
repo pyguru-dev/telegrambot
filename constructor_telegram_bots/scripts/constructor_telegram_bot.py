@@ -1,4 +1,4 @@
-from telegram.ext import Updater, MessageHandler, CommandHandler, Filters, CallbackQueryHandler
+from telegram.ext import Updater, Dispatcher, CommandHandler
 from telegram.ext.callbackcontext import CallbackContext
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.update import Update
@@ -11,7 +11,7 @@ from scripts.decorators import TelegramBotDecorators
 
 class ConstructorTelegramBot:
 	def __init__(self) -> None:
-		self.commands = {
+		self.commands: dict = {
 			'start': self.start_command,
 			'auth': self.auth_command,
 			'support': self.support_command,
@@ -22,7 +22,7 @@ class ConstructorTelegramBot:
 		if User.objects.filter(id=user_id).exists() is False:
 			User.objects.create_user(user_id=user_id, username=username)
 
-			keyboard = InlineKeyboardMarkup(
+			keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(
 				[
 					[
 						InlineKeyboardButton(text='Constructor Telegram Bots', url=settings.SITE_DOMAIN),
@@ -30,11 +30,14 @@ class ConstructorTelegramBot:
 				]
 			)
 			
-			context.bot.send_message(chat_id=user_id, text=f"""\
+			context.bot.send_message(
+				chat_id=user_id,
+			    text=f"""\
 					Привет, @{username}!
 					Я являюсь Telegram ботом для сайта Constructor Telegram Bots.
 					Спасибо за то, что ты с нами ❤️
-				""".replace('	', ''), reply_markup=keyboard
+				""".replace('	', ''),
+				reply_markup=keyboard
 			)
 		
 		if len(message.split()) > 1:
@@ -43,7 +46,7 @@ class ConstructorTelegramBot:
 
 	@TelegramBotDecorators.get_attributes(need_attributes=('context', 'user_id',))
 	def auth_command(self, context: CallbackContext, user_id: int) -> None:
-		keyboard = InlineKeyboardMarkup(
+		keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(
 			[
 				[
 					InlineKeyboardButton(text='Авторизация', url=User.objects.get_auth_url(user_id=user_id)),
@@ -55,7 +58,7 @@ class ConstructorTelegramBot:
 
 	@TelegramBotDecorators.get_attributes(need_attributes=('context', 'user_id',))
 	def support_command(self, context: CallbackContext, user_id: int) -> None:
-		keyboard = InlineKeyboardMarkup(
+		keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(
 			[
 				[
 					InlineKeyboardButton(text='Написать автору сайта', url='https://t.me/pycoder39'),
@@ -67,16 +70,13 @@ class ConstructorTelegramBot:
 
 	def start(self) -> None:
 		with open('./data/constructor_telegram_bot.token', 'r') as constructor_telegram_bot_token_file:
-			constructor_telegram_bot_token = constructor_telegram_bot_token_file.read()
+			constructor_telegram_bot_token: str = constructor_telegram_bot_token_file.read()
 
-		self.updater = Updater(token=constructor_telegram_bot_token)
-		self.dispatcher = self.updater.dispatcher
+		self.updater: Updater = Updater(token=constructor_telegram_bot_token)
+		self.dispatcher: Dispatcher = self.updater.dispatcher
 
 		for command in self.commands:
-			handler = CommandHandler(command, self.commands[command])
+			handler: CommandHandler = CommandHandler(command, self.commands[command])
 			self.dispatcher.add_handler(handler)
 
 		self.updater.start_polling()
-
-	def stop(self) -> None:
-		self.updater.stop()

@@ -2,22 +2,26 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.db import models
 
 from telegram.ext import Updater
-from telegram.error import InvalidToken
+from telegram import User
+from telegram.error import InvalidToken, Unauthorized
 
 import telegram_bot.models as TelegramBotModels
 
-from typing import Union
+#############################################################################################################################
 
 class TelegramBotManager(models.Manager):
-	def test_telegram_bot_token(self, token: str) -> Union[Updater, None]:
+	def test_telegram_bot_token(self, token: str) -> User | None:
 		try:
-			return Updater(token=token)
-		except InvalidToken:
+			updater: Updater = Updater(token=token)
+			bot: User = updater.bot.get_me()
+
+			return bot
+		except (InvalidToken, Unauthorized):
 			return None
 
 	def add_telegram_bot(self, request: WSGIRequest, token: str, private: bool, **extra_fields):
-		updater = Updater(token=token)
-		bot = updater.bot.get_me()
+		updater: Updater = Updater(token=token)
+		bot: User = updater.bot.get_me()
 
 		telegram_bot: TelegramBotModels.TelegramBot = self.model(name=bot.username, token=token, private=private, **extra_fields)
 		telegram_bot.save()
@@ -31,7 +35,7 @@ class TelegramBotManager(models.Manager):
 		duplicated_telegram_bot: TelegramBotModels.TelegramBot = self.add_telegram_bot(request=request, token=token, private=private, **extra_fields)
 
 		for telegram_bot_command in telegram_bot.commands.all():
-			TelegramBotModels.TelegramBotCommand.objects.add_telegram_bot_command(telegram_bot=duplicated_telegram_bot, name=telegram_bot_command.name, command=telegram_bot_command.command, callback=telegram_bot_command.callback, message_text=telegram_bot_command.message_text, is_edit_last_message=telegram_bot_command.is_edit_last_message, keyboard=telegram_bot_command.keyboard)
+			TelegramBotModels.TelegramBotCommand.objects.add_telegram_bot_command(telegram_bot=duplicated_telegram_bot, name=telegram_bot_command.name, command=telegram_bot_command.command, callback=telegram_bot_command.callback, message_text=telegram_bot_command.message_text, keyboard=telegram_bot_command.keyboard)
 
 		return duplicated_telegram_bot
 
@@ -44,9 +48,11 @@ class TelegramBotManager(models.Manager):
 
 		telegram_bot.delete()
 
+#############################################################################################################################
+
 class TelegramBotCommandManager(models.Manager):
-	def add_telegram_bot_command(self, telegram_bot, name: str, command: str, callback: str, message_text: str, is_edit_last_message: bool, keyboard: str, **extra_fields):
-		telegram_bot_command: TelegramBotModels.TelegramBotCommand = self.model(name=name, command=command, callback=callback, message_text=message_text, is_edit_last_message=is_edit_last_message, keyboard=keyboard, **extra_fields)
+	def add_telegram_bot_command(self, telegram_bot, name: str, command: str, callback: str, message_text: str, keyboard: str, **extra_fields):
+		telegram_bot_command: TelegramBotModels.TelegramBotCommand = self.model(name=name, command=command, callback=callback, message_text=message_text, keyboard=keyboard, **extra_fields)
 		telegram_bot_command.save()
 
 		telegram_bot.commands.add(telegram_bot_command)

@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from telegram.update import Update
 
-from telegram_bot.models import TelegramBot
+from telegram_bot.models import TelegramBot, TelegramBotUser
 
 import json
 
@@ -14,34 +14,25 @@ class TelegramBotDecorators:
 			def wrapper(*args, **kwargs):
 				update: Update = args[1]
 
-				attributes = {
+				attributes: dict = {
 					'update': update,
 					'context': args[2],
+					'chat_id': update.effective_chat.id,
+					'user_id': update.effective_user.id,
+					'username': update.effective_user.username,
 				}
+
+				if update.effective_message is not None:
+					attributes.update(
+						{
+							'message': update.effective_message.text,
+						}
+					)
 
 				if update.callback_query is not None:
 					attributes.update(
 						{
 							'callback_data': update.callback_query.data,
-						}
-					)
-				if update.effective_user is not None:
-					attributes.update(
-						{
-							'user_id': update.effective_user.id,
-							'username': update.effective_user.username,
-						}
-					)
-				if update.effective_chat is not None:
-					attributes.update(
-						{
-							'chat_id': update.effective_chat.id,
-						}
-					)
-				if update.effective_message is not None:
-					attributes.update(
-						{
-							'message': update.effective_message.text,
 						}
 					)
 
@@ -67,6 +58,30 @@ class TelegramBotDecorators:
 					return Exception('Func attributes != need attributes!')
 			return wrapper
 		return decorator
+	
+	def check_telegram_bot_user(func):
+		def wrapper(*args, **kwargs):
+			self = kwargs['self']
+			update: Update = kwargs['update']
+
+			telegram_bot: TelegramBot = TelegramBot.objects.get(id=self.telegram_bot.id)
+			user_id: int = update.effective_user.id
+
+			if telegram_bot.users.filter(user_id=user_id).exists() is False:
+				telegram_bot_user: TelegramBotUser = TelegramBotUser(user_id=user_id, username=update.effective_user.username)
+				telegram_bot_user.save()
+
+				telegram_bot.users.add(telegram_bot_user)
+				telegram_bot.save()
+
+			if telegram_bot.private:
+				if telegram_bot.allowed_users.filter(user_id=user_id).exists():
+					return func(*args, **kwargs)
+			else:
+				return func(*args, **kwargs)
+		return wrapper
+	
+#############################################################################################################################
 
 class SiteDecorators:
 	def get_user_data(func):
@@ -104,7 +119,7 @@ class SiteDecorators:
 				if request.user.is_authenticated:
 					return func(*args, **kwargs)
 				else:
-					return render(request, '404.html', status=404) if render_page else HttpResponseBadRequest('Сначала авторизуйтесь на сайте!')
+					return render(request=request, template_name='404.html', status=404) if render_page else HttpResponseBadRequest('Сначала авторизуйтесь на сайте!')
 			return wrapper
 		return decorator
 
@@ -153,7 +168,7 @@ class SiteDecorators:
 
 	def check_telegram_bot_id(render_page: bool):
 		def decorator(func):
-			def wrapper(*args, **kwargs,):
+			def wrapper(*args, **kwargs):
 				if 'telegram_bot_id' in kwargs:
 					request: WSGIRequest = args[0]
 					telegram_bot_id: int = kwargs['telegram_bot_id']
@@ -168,7 +183,7 @@ class SiteDecorators:
 
 						return func(*args, **kwargs)
 					else:
-						return render(request, '404.html', status=404) if render_page else HttpResponseBadRequest('Telegram бот не найден!')
+						return render(request=request, template_name='404.html', status=404) if render_page else HttpResponseBadRequest('Telegram бот не найден!')
 				else:
 					raise ValueError('The argument telegram_bot_id is missing!')
 			return wrapper
@@ -226,11 +241,11 @@ class SiteDecorators:
 				telegram_bot: TelegramBot = kwargs['telegram_bot']
 				telegram_bot_user_id: int = kwargs['telegram_bot_user_id']
 
-				if telegram_bot.users.objects.filter(id=telegram_bot_user_id).exists():
+				if telegram_bot.users.filter(id=telegram_bot_user_id).exists():
 					del kwargs['telegram_bot_user_id']
 					kwargs.update(
 						{
-							'telegram_bot_user': telegram_bot.users.objects.get(id=telegram_bot_user_id),
+							'telegram_bot_user': telegram_bot.users.get(id=telegram_bot_user_id),
 						}
 					)
 

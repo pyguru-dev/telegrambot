@@ -1,12 +1,12 @@
 {
 	function addOrEditTelegramBotCommandTextInputInsert(value) {
-		addOrEditTelegramBotCommandTextInput.value = `${addOrEditTelegramBotCommandTextInput.value} ${value}`;
+		addOrEditTelegramBotCommandTextInput.value = `${addOrEditTelegramBotCommandTextInput.value}${value}`;
 		addOrEditTelegramBotCommandTextInput.focus();
 	}
 
 	var keyboardButtonNum = 0;
 
-	offKeybordRadio.addEventListener('click', offKeybord);
+	offKeyboardRadio.addEventListener('click', offKeyboard);
 
 	function createKeyboardInput(keyboardType, value) {
 		let keyboardInput = document.createElement('input');
@@ -33,8 +33,15 @@
 
 	function keyboardButtonFunc(keyboardButton, keyboardType) {
 		keyboardButton.remove();
+
+		console.log(keyboardType)
 		
-		createKeyboardInput(keyboardType, '').focus();
+		if (keyboardType == 'inline-keyboard') {
+			createKeyboardInput(keyboardType, '{}:{}').focus();
+		} else{
+			createKeyboardInput(keyboardType, '').focus();
+		}
+
 		createKeyboardButton(keyboardType);
 	}
 
