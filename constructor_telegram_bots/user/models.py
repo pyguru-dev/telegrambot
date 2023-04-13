@@ -12,6 +12,5 @@ class User(AbstractBaseUser):
 	date_joined = models.DateTimeField(auto_now_add=True)
 
 	USERNAME_FIELD = 'id'
-	REQUIRED_FIELDS = ['username']
 
 	objects = UserManager()
