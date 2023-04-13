@@ -1,0 +1,47 @@
+<div class="modal fade" id="infoAboutTelegramBotModal" tabindex="-1" aria-labelledby="infoAboutTelegramBotModalLabel" aria-hidden="true">
+	<div class="modal-dialog">i
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="infoAboutTelegramBotModalLabel">Информация о Telegram боте</h5>
+				<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div id="infoAboutTelegramBotModalAlertPlaceholder"></div>
+				<table class="table table-sm table-borderless mb-0">
+					<tbody>
+						<tr>
+							<th class="align-middle" scope="row">Имя:</th>
+							<td class="text-break">
+								<a class="link-dark text-decoration-none" href="tg://resolve?domain={{ telegram_bot.name }}">@{{ telegram_bot.name }}</a>
+							</td>
+						</tr>
+						<tr>
+							<th class="align-middle" scope="row">Токен:</td>
+							<td class="text-break">{{ telegram_bot.token }}</td>
+						</tr>
+						<tr>
+							<th scope="row">Приватный:</th>
+							<td>
+								<div class="form-check form-switch mb-0">
+									<input class="form-check-input" id="telegramBotPrivateCheckBox" type="checkbox" {% if telegram_bot.private %}checked{% endif %}>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">Количество активаций:</th>
+							<td class="align-middle users-count"></td>
+						</tr>
+						<tr>
+							<th scope="row">Количество команд:</th>
+							<td class="align-middle commands-count"></td>
+						</tr>
+						<tr>
+							<th scope="row">Дата добавление:</th>
+							<td class="align-middle">{{ telegram_bot.date_added }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

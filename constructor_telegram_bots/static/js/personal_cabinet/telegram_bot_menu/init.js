@@ -66,7 +66,7 @@ const telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCh
 				} else {
 					let wrapper = document.createElement('div');
 					wrapper.setAttribute('class', 'list-group-item pb-1');
-					wrapper.innerHTML = `<p class="my-2">Вы ещё не добавили команды Telegram боту.</p>`;
+					wrapper.innerHTML = `<p class="text-center my-2">Вы ещё не добавили команды Telegram боту.</p>`;
 					telegramBotCommandsDiv.append(wrapper);
 				}
 			}
@@ -169,7 +169,7 @@ const telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCh
 					}
 				} else {
 					let wrapper = document.createElement('tr');
-					wrapper.innerHTML = '<p class="ps-1 pt-0">Вашего Telegram бота ещё никто не активировал.</p>';
+					wrapper.innerHTML = '<p class="text-center p-0 ps-1">Вашего Telegram бота ещё никто не активировал.</p>';
 					telegramBotUsersDiv.append(wrapper);
 				}
 			}

@@ -14,7 +14,7 @@ class TelegramBotDecorators:
 			def wrapper(*args, **kwargs):
 				update: Update = args[1]
 
-				attributes: dict = {
+				attributes = {
 					'update': update,
 					'context': args[2],
 					'chat_id': update.effective_chat.id,
@@ -130,7 +130,7 @@ class SiteDecorators:
 				
 				if request.method == 'POST':
 					data: dict = json.loads(request.body)
-					data_items = tuple([data_item for data_item in tuple(data.keys()) if data_item in needs_items])
+					data_items: tuple = tuple([data_item for data_item in tuple(data.keys()) if data_item in needs_items])
 
 					if data_items == needs_items:
 						for data_item in data_items:
@@ -175,6 +175,7 @@ class SiteDecorators:
 
 					if request.user.telegram_bots.filter(id=telegram_bot_id).exists():
 						del kwargs['telegram_bot_id']
+
 						kwargs.update(
 							{
 								'telegram_bot': request.user.telegram_bots.get(id=telegram_bot_id),
@@ -222,6 +223,7 @@ class SiteDecorators:
 
 				if telegram_bot.commands.filter(id=telegram_bot_command_id).exists():
 					del kwargs['telegram_bot_command_id']
+
 					kwargs.update(
 						{
 							'telegram_bot_command': telegram_bot.commands.get(id=telegram_bot_command_id),
@@ -232,7 +234,7 @@ class SiteDecorators:
 				else:
 					return HttpResponseBadRequest('Команда Telegram бота не найдена!')
 			else:
-				raise ValueError('The argument telegram_bot_id is missing!')
+				raise ValueError('The argument telegram_bot_command_id is missing!')
 		return wrapper
 	
 	def check_telegram_bot_user_id(func):
@@ -243,6 +245,7 @@ class SiteDecorators:
 
 				if telegram_bot.users.filter(id=telegram_bot_user_id).exists():
 					del kwargs['telegram_bot_user_id']
+
 					kwargs.update(
 						{
 							'telegram_bot_user': telegram_bot.users.get(id=telegram_bot_user_id),
@@ -253,5 +256,5 @@ class SiteDecorators:
 				else:
 					return HttpResponseBadRequest('Пользователь Telegram бота не найдена!')
 			else:
-				raise ValueError('The argument telegram_bot_id is missing!')
+				raise ValueError('The argument telegram_bot_user_id is missing!')
 		return wrapper

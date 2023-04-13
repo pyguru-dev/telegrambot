@@ -1,9 +1,5 @@
 # Папки
 __pycache__/
+data/
 logs/
 env/
-
-#Файлы
-constructor_telegram_bot.token
-DataBase.db
-secret.key

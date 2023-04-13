@@ -1,12 +1,27 @@
 {
+	var addOrEditTelegramBotCommandModalBootstrap = new bootstrap.Modal('#addOrEditTelegramBotCommandModal');
+
+	var addOrEditTelegramBotCommandModallLabel = document.querySelector('#addOrEditTelegramBotCommandModallLabel');
+	let addOrEditTelegramBotCommandModalAlertPlaceholder = document.querySelector('#addOrEditTelegramBotCommandModalAlertPlaceholder');
+
+	var addOrEditTelegramBotCommandNameInput = document.querySelector('#addOrEditTelegramBotCommandNameInput');
+	var addOrEditTelegramBotCommandCommandInput = document.querySelector('#addOrEditTelegramBotCommandCommandInput');
+	var addOrEditTelegramBotCommandCallBackInput = document.querySelector('#addOrEditTelegramBotCommandCallBackInput');
+	var addOrEditTelegramBotCommandTextInput = document.querySelector('#addOrEditTelegramBotCommandTextInput');
+
+	var offKeyboardRadio = document.querySelector('#offKeyboardRadio');
+
+	var keyboard = document.querySelector('.keyboard');
+	var keyboardButtons = document.querySelector('#keyboardButtons');
+
+	var keyboardButtonNum = 0;
+
+	var addOrEditTelegramBotCommandUrl;
+
 	function addOrEditTelegramBotCommandTextInputInsert(value) {
 		addOrEditTelegramBotCommandTextInput.value = `${addOrEditTelegramBotCommandTextInput.value}${value}`;
 		addOrEditTelegramBotCommandTextInput.focus();
 	}
-
-	var keyboardButtonNum = 0;
-
-	offKeyboardRadio.addEventListener('click', offKeyboard);
 
 	function createKeyboardInput(keyboardType, value) {
 		let keyboardInput = document.createElement('input');
@@ -58,6 +73,17 @@
 		keyboardButtonNum ++;
 	}
 
+	function offKeyboard() {
+		if (keyboard.id != 'offKeyboard') {
+			keyboard.setAttribute('class', `${keyboard.getAttribute('class')} d-none`);
+			keyboard.id = 'offKeyboard';
+
+			keyboardButtons.innerHTML = '';
+		}
+	}
+
+	offKeyboardRadio.addEventListener('click', offKeyboard);
+
 	const keyboardRadios = [
 		document.querySelector('#defaultKeyboardRadio'),
 		document.querySelector('#inlineKeyboardRadio'),
@@ -87,5 +113,38 @@
 				createKeyboardButton(keyboardType);
 			}
 		});
+	}
+
+	function addOrEditTelegramBotCommand() {
+		let telegramBotCommandKeyboard = [keyboard.id];
+
+		let telegramBotCommandKeyboardButtons = keyboardButtons.querySelectorAll('input');
+		for (let i = 0; i < telegramBotCommandKeyboardButtons.length; i ++) {
+			telegramBotCommandKeyboard.push(telegramBotCommandKeyboardButtons[i].value);
+		}
+
+		let request = new XMLHttpRequest();
+		request.open('POST', addOrEditTelegramBotCommandUrl, true);
+		request.setRequestHeader('Content-Type', 'application/json');
+		request.onreadystatechange = checkRequestResponse(function() {
+			if (request.status == 200) {
+				getTelegramBotCommands();
+
+				addOrEditTelegramBotCommandModalBootstrap.toggle();
+
+				myAlert(mainAlertPlaceholder, request.responseText, 'success');
+			} else {
+				myAlert(addOrEditTelegramBotCommandModalAlertPlaceholder, request.responseText, 'danger');
+			}
+		});
+		request.send(JSON.stringify(
+			{
+				'name': addOrEditTelegramBotCommandNameInput.value,
+				'command': addOrEditTelegramBotCommandCommandInput.value,
+				'callback': addOrEditTelegramBotCommandCallBackInput.value,
+				'message_text': addOrEditTelegramBotCommandTextInput.value,
+				'keyboard': JSON.stringify(telegramBotCommandKeyboard),
+			}
+		));
 	}
 }

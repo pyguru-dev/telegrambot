@@ -16,8 +16,7 @@
 		
 		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-		
-		<link rel="stylesheet" href="{% static 'css/global/addition_for_bootstrap.css' %}">
+
 		{% block styles %} {% endblock styles %}
 	</head>
 	<body class="d-flex flex-column h-100">
@@ -59,19 +58,53 @@
 
 		<footer class="footer bg-dark {% block footer_class %}{% endblock footer_class %}">
 			<div class="container">
-				<ul class="nav justify-content-center border-bottom mb-2">
-					<li class="nav-item"><a class="nav-link text-light px-2" href="https://t.me/pycoder39" target="_blank">Telegram</a></li>
-					<li class="nav-item"><a class="nav-link text-light px-2" href="https://t.me/pycoder3" target="_blank">Telegram Channel</a></li>
-					<li class="nav-item"><a class="nav-link text-light px-2" href="https://github.com/EXG1O" target="_blank">GitHub</a></li>
-					<li class="nav-item"><a class="nav-link text-light px-2" href="https://github.com/EXG1O/Constructor-Telegram-Bots" target="_blank">GitHub Project</a></li>
-				</ul>
-				<p class="text-light text-center mb-2">&copy; 2023 Exg1o</p>
+				<div class="row justify-content-center border-bottom text-center py-2">
+					<div class="col-12 col-lg-2">
+						<div class="row row-cols-1">
+							<div class="col">
+								<h5 class="text-light mb-0">Проект</h5>
+							</div>
+							<div class="col">
+								<a class="text-decoration-none text-secondary" href="https://github.com/EXG1O/Constructor-Telegram-Bots" target="_blank">GitHub</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-lg-3">
+						<div class="row row-cols-1">
+							<div class="col">
+								<h5 class="text-light mb-0">Контакты Основателя</h5>
+							</div>
+							<div class="col">
+								<p class="text-secondary mb-0">helper.exg1o@gmail.com</p>
+							</div>
+							<div class="col">
+								<a class="text-decoration-none text-secondary" href="tg://resolve?domain=exg1o">Telegram</a>
+							</div>
+							<div class="col">
+								<a class="text-decoration-none text-secondary" href="https://github.com/EXG1O" target="_blank">GitHub</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-lg-2">
+						<div class="row row-cols-1">
+							<div class="col">
+								<h5 class="text-light mb-0">Другое</h5>
+							</div>
+							<div class="col">
+								<a class="text-decoration-none text-secondary" href="tg://resolve?domain=pycoder3">Telegram Channel</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<p class="text-light text-center my-2">&copy; 2023 exg1o</p>
 			</div>
 		</footer>
 	</body>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 	
-	<script src="{% static 'js/global/global.js' %}"></script>
+	<script src="{% static 'js/global/main.js' %}"></script>
+	<script src="{% static 'js/global/alert.js' %}"></script>
+
 	{% block scripts %} {% endblock scripts %}
 </html>

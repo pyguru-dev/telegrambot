@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Личный кабинет{% endblock title %}
+
+{% block body %}
+	{% include 'personal_cabinet/modals/add_telegram_bot_modal.html' %}
+{% endblock body %}
+
+{% block main_class %}my-3 my-lg-5{% endblock main_class %}
+
+{% block main %}
+	<div class="container">
+		<div id="mainAlertPlaceholder"></div>
+		<div class="row justify-content-between">
+			<div class="col-12 col-lg-auto">
+				<h1 class="text-center fw-bold mb-lg-1">Добавленные Telegram боты</h1>
+			</div>
+			<div class="col-12 col-lg-auto">
+				<button class="btn btn-lg btn-primary w-100" id="addTelegramBotModalButton" type="button">
+					<i class="bi bi-plus-lg" style="font-size: 1.25rem;"></i>
+					Добавить Telegram бота
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="container mt-2 mt-lg-0">
+		<div class="row row-cols-1 row-cols-lg-3" id="addedTelegramBots"></div>
+	</div>
+{% endblock main %}
+
+{% block footer_class %}mt-auto{% endblock footer_class %}
+
+{% block scripts %}
+	<script src="{% static 'js/personal_cabinet/personal_cabinet/init.js' %}"></script>
+	<script src="{% static 'js/personal_cabinet/personal_cabinet/main.js' %}"></script>
+
+	<script src="{% static 'js/personal_cabinet/personal_cabinet/modals/add_telegram_bot_modal.js' %}"></script>
+{% endblock scripts %}

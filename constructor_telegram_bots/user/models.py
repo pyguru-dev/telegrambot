@@ -8,7 +8,7 @@ class User(AbstractBaseUser):
 	username = models.CharField(max_length=32)
 	password = None
 	confirm_code = models.CharField(max_length=25, null=True)
-	telegram_bots = models.ManyToManyField(TelegramBot)
+	telegram_bots = models.ManyToManyField(TelegramBot, related_name='telegram_bots')
 	is_staff = models.BooleanField(default=False)
 	date_joined = models.DateTimeField(auto_now_add=True)
 

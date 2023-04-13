@@ -9,6 +9,7 @@ from scripts.user_telegram_bot import UserTelegramBot
 
 from threading import Thread
 import json
+import time
 
 #############################################################################################################################
 
@@ -46,6 +47,7 @@ def delete_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> Http
 @SiteDecorators.check_telegram_bot_id(render_page=False)
 def start_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
 	telegram_bot.is_running = True
+	telegram_bot.is_stopped = False
 	telegram_bot.save()
 
 	user_telegram_bot = UserTelegramBot(telegram_bot=telegram_bot)
@@ -59,6 +61,12 @@ def start_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpR
 def stop_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
 	telegram_bot.is_running = False
 	telegram_bot.save()
+
+	while True:
+		if TelegramBot.objects.get(id=telegram_bot.id).is_stopped:
+			break
+		else:
+			time.sleep(1)
 
 	return HttpResponse('Вы успешно выключили Telegram бота.')
 
@@ -155,7 +163,7 @@ def delete_telegram_bot_user(request: WSGIRequest, telegram_bot: TelegramBot, te
 @SiteDecorators.is_auth(render_page=False)
 @SiteDecorators.check_telegram_bot_id(render_page=False)
 def get_telegram_bot_commands(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
-	telegram_bot_commands: dict = {
+	telegram_bot_commands = {
 		'commands_count': telegram_bot.commands.all().count(),
 	}
 
@@ -193,7 +201,7 @@ def get_telegram_bot_command_data(request: WSGIRequest, telegram_bot: TelegramBo
 @SiteDecorators.is_auth(render_page=False)
 @SiteDecorators.check_telegram_bot_id(render_page=False)
 def get_telegram_bot_users(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
-	telegram_bot_users: dict = {
+	telegram_bot_users = {
 		'users_count': telegram_bot.users.all().count(),
 	}
 

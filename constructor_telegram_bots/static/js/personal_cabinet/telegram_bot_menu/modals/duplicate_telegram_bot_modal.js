@@ -1,4 +1,6 @@
 {
+	var duplicateTelegramBotModalBootstrap = new bootstrap.Modal('#duplicateTelegramBotModal');
+
 	let duplicateTelegramBotModalAlertPlaceholder = document.querySelector('#duplicateTelegramBotModalAlertPlaceholder');
 
 	document.querySelector('#duplicateTelegramBotButton').addEventListener('click', function() {

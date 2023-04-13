@@ -13,65 +13,60 @@ import time
 
 class UserTelegramBot:
 	def __init__(self, telegram_bot: TelegramBot) -> None:
-		self.telegram_bot: TelegramBot = telegram_bot
+		self.telegram_bot = telegram_bot
 
 	def execute_command(self, update: Update, context: CallbackContext, telegram_bot_command: TelegramBotCommand) -> None:
 		keyboard: list = json.loads(telegram_bot_command.keyboard)
-		
-		if keyboard[0] == 'defaultKeyboard':
-			buttons: list = []
+		keyboard_type: str = keyboard[0]
 
-			for i in range(len(keyboard)):
-				if i > 0:
+		del keyboard[0]
+		
+		if keyboard_type == 'defaultKeyboard':
+			buttons = []
+			for num in range(len(keyboard)):
+				buttons.append(
+					[
+						KeyboardButton(text=keyboard[num]),
+					]
+				)
+
+			keyboard = ReplyKeyboardMarkup(buttons)
+		elif keyboard_type == 'inlineKeyboard':
+			buttons = []
+			for num in range(len(keyboard)):
+				button: list = keyboard[num].split('}:{')
+				button_text: str = button[0].replace('{', '')
+
+				if button[1].find('http://') != -1 or button[1].find('https://') != -1:
 					buttons.append(
 						[
-							KeyboardButton(text=keyboard[i]),
+							InlineKeyboardButton(text=button_text, url=button[1].replace('}', '')),
+						]
+					)
+				else:
+					buttons.append(
+						[
+							InlineKeyboardButton(text=button_text, callback_data=button[1].replace('}', '')),
 						]
 					)
 
-			_keyboard: ReplyKeyboardMarkup = ReplyKeyboardMarkup(buttons)
-		elif keyboard[0] == 'inlineKeyboard':
-			buttons: list = []
+			keyboard = InlineKeyboardMarkup(buttons)
 
-			for i in range(len(keyboard)):
-				if i > 0:
-					button: list = keyboard[i].split('}:{')
-					button_text: str = button[0].replace('{', '')
-
-					if button[1].find('http://') != -1 or button[1].find('https://') != -1:
-						button_url: str = button[1].replace('}', '')
-
-						buttons.append(
-							[
-								InlineKeyboardButton(text=button_text, url=button_url),
-							]
-						)
-					else:
-						button_callback: str = button[1].replace('}', '')
-
-						buttons.append(
-							[
-								InlineKeyboardButton(text=button_text, callback_data=button_callback),
-							]
-						)
-
-			_keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(buttons)
-
-		variables: dict = {
+		variables = {
 			'${user_id}':  str(update.effective_user.id),
 			'${username}': update.effective_user.username,
 			'${account_url}': update.effective_user.link,
 			'${user_message}': update.effective_message.text,
 		}
-		message_text: str = telegram_bot_command.message_text
 
+		message_text = telegram_bot_command.message_text
 		for variable in variables:
-			message_text: str = message_text.replace(variable, variables[variable])
+			message_text = message_text.replace(variable, variables[variable])
 
-		if keyboard[0] == 'offKeyboard':
+		if keyboard_type == 'offKeyboard':
 			context.bot.send_message(chat_id=update.effective_user.id, text=message_text)
 		else:
-			context.bot.send_message(chat_id=update.effective_user.id, text=message_text, reply_markup=_keyboard)
+			context.bot.send_message(chat_id=update.effective_user.id, text=message_text, reply_markup=keyboard)
 
 	@TelegramBotDecorators.get_attributes(need_attributes=('update', 'context', 'callback_data',))
 	@TelegramBotDecorators.check_telegram_bot_user
@@ -88,8 +83,8 @@ class UserTelegramBot:
 				self.execute_command(update, context, telegram_bot_command)
 
 	def start(self) -> None:
-		self.updater: Updater = Updater(token=self.telegram_bot.token)
-		self.dispatcher: Dispatcher = self.updater.dispatcher
+		self.updater = Updater(token=self.telegram_bot.token)
+		self.dispatcher = self.updater.dispatcher
 
 		self.dispatcher.add_handler(CallbackQueryHandler(self.callback_query_handler))
 		self.dispatcher.add_handler(MessageHandler(Filters.text, self.message_handler))
@@ -102,8 +97,11 @@ class UserTelegramBot:
 	def stop(self) -> None:
 		while True:
 			if TelegramBot.objects.get(id=self.telegram_bot.id).is_running:
-				time.sleep(0.5)
+				time.sleep(1)
 			else:
-				break
+				self.updater.stop()
 
-		self.updater.stop()
+				self.telegram_bot.is_stopped = True
+				self.telegram_bot.save()
+
+				break

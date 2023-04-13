@@ -1,0 +1,90 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Меню Telegram бота{% endblock title %}
+
+{% block styles %}
+	<link rel="stylesheet" href="{% static 'css/personal_cabinet/telegram_bot_menu/modals/add_or_edit_telegram_bot_command_modal.css' %}">
+{% endblock styles %}
+
+{% block body %}
+	{% include 'modals/ask_confirm_modal.html' %}
+	{% include 'telegram_bot_menu/modals/info_about_telegram_bot_modal.html' %}
+	{% include 'telegram_bot_menu/modals/duplcate_telegram_bot_modal.html' %}
+	{% include 'telegram_bot_menu/modals/add_or_edit_telegram_bot_command_modal.html' %}
+{% endblock body %}
+
+{% block main_class %}my-3 my-lg-5{% endblock main_class %}
+
+{% block main %}
+	<div class="container">
+		<div id="mainAlertPlaceholder"></div>
+		<div class="row">
+			<div class="col-12 mb-2">
+				<div class="card h-100">
+					<h5 class="card-header bg-{% if telegram_bot.is_running %}success{% else %}danger{% endif %} text-light fw-bold text-center">Telegram бот в{% if telegram_bot.is_running is False %}ы{% endif %}ключен</h5>
+					<div class="card-body">
+						<table class="w-100 h-100"">
+							<tbody>
+								<tr>
+									<td class="align-middle text-center">
+										<a class="h5 link-dark text-decoration-none text-break" href="tg://resolve?domain={{ telegram_bot.name }}">@{{ telegram_bot.name }}</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="card-footer">
+						<div class="row row-cols-1 row-cols-lg-3 my-2">
+							<div class="col w-100 mb-1">
+								<button class="btn btn-outline-dark w-100" id="infoAboutTelegramBotModalButton" type="button">Информация о Telegram боте</button>	
+							</div>
+							<div class="col pe-lg-1 mt-1 mb-1 mb-lg-0">
+								<button class="btn btn-outline-{% if telegram_bot.is_running %}danger{% else %}success{% endif %} w-100" id="startOrStopTelegramBotButton" type="button">В{% if telegram_bot.is_running %}ы{% endif %}ключить Telegram бота</button>
+							</div>
+							<div class="col px-lg-1 mt-1 mb-1 mb-lg-0">
+								<button class="btn btn-outline-secondary w-100" id="duplicateTelegramBotModalButton" type="button">Дублировать Telegram бота</button>	
+							</div>
+							<div class="col ps-lg-1 mt-1">
+								<button class="btn btn-outline-danger w-100" id="deleteTelegramBotButton" type="button">Удалить Telegram бота</button>	
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-6 mt-3">
+				<div class="card h-100">
+					<h5 class="card-header text-center">Список команд Telegram бота</h5>
+					<div class="card-body">
+						<div class="list-group telegram-bot-commands"></div>
+					</div>
+					<div class="card-footer">
+						<button class="btn btn-outline-dark w-100 my-2" id="addTelegramBotCommandModalButton" type="button">Добавить команду</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-6 mt-3">
+				<table class="table mb-0">
+					<thead>
+						<tr>
+							<h5 class="text-center mb-0">Список пользователей Telegram бота</h5>
+						</tr>
+					</thead>
+					<tbody class="telegram-bot-users"></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock main %}
+
+{% block footer_class %}mt-auto{% endblock footer_class %}
+
+{% block scripts %}
+	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/init.js' %}"></script>
+	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/main.js' %}"></script>
+
+	<script src="{% static 'js/global/modals/ask_confirm_modal.js' %}"></script>
+	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/modals/info_about_telegram_bot_modal.js' %}"></script>
+	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/modals/duplicate_telegram_bot_modal.js' %}"></script>
+	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/modals/add_or_edit_telegram_bot_command_modal.js' %}"></script>
+{% endblock scripts %}

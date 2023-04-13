@@ -1,0 +1,88 @@
+<div class="modal fade" id="addOrEditTelegramBotCommandModal" tabindex="-1" aria-labelledby="addOrEditTelegramBotCommandModallLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="addOrEditTelegramBotCommandModallLabel"></h5>
+				<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<div id="addOrEditTelegramBotCommandModalAlertPlaceholder"></div>
+				<div class="row row-cols-1">
+					<div class="col mb-2">
+						<form class="form-floating">
+							<input class="form-control" id="addOrEditTelegramBotCommandNameInput" type="text" placeholder="Придумайте название команде">
+							<label for="addOrEditTelegramBotCommandNameInput">Придумайте название команде</label>
+						</form>
+					</div>
+					<div class="col mb-2">
+						<form class="form-floating">
+							<input class="form-control" id="addOrEditTelegramBotCommandCommandInput" type="text" placeholder="Придумайте команду"></input>
+							<label for="addOrEditTelegramBotCommandCommandInput">Придумайте команду</label>
+						</form>
+					</div>
+					<div class="col mb-2">
+						<form class="form-floating">
+							<input class="form-control" id="addOrEditTelegramBotCommandCallBackInput" type="text" placeholder="Введите CallBack текст">
+							<label for="addOrEditTelegramBotCommandCallBackInput">Введите CallBack текст</label>
+						</form>
+					</div>
+					<div class="col mb-1">
+						<label class="form-label mb-0" for="variables">Переменные</label>
+						<div class="row w-100 ms-0" id="variables">
+							<div class="col-auto ps-0 pe-1 py-1">
+								<button class="btn btn-sm btn-outline-dark" type="button" onclick="addOrEditTelegramBotCommandTextInputInsert('${user_id}');">ID пользователя</button>
+							</div>
+							<div class="col-auto ps-1 pe-0 py-1">
+								<button class="btn btn-sm btn-outline-dark" type="button" onclick="addOrEditTelegramBotCommandTextInputInsert('${username}');">Имя пользователя</button>
+							</div>
+							<div class="col-auto px-0 py-1">
+								<button class="btn btn-sm btn-outline-dark" type="button" onclick="addOrEditTelegramBotCommandTextInputInsert('${account_url}');">Ссылка на аккаунт пользователя</button>
+							</div>
+							<div class="col-auto px-0 py-1">
+								<button class="btn btn-sm btn-outline-dark" type="button" onclick="addOrEditTelegramBotCommandTextInputInsert('${user_message}');">Полученное сообщения от пользователя</button>
+							</div>
+						</div>
+					</div>
+					<div class="col mb-2">
+						<form class="form-floating">
+							<textarea class="form-control" id="addOrEditTelegramBotCommandTextInput" type="text" placeholder="Введите текст сообщения"></textarea>
+							<label for="addOrEditTelegramBotCommandTextInput">Введите текст сообщения</label>
+						</form>
+					</div>
+					<div class="col">
+						<label class="form-label mb-1" for="keyboardModes">Выбирите клавиатуру</label>
+						<div class="row" id="keyboardModes">
+							<div class="col-auto pe-0">
+								<input class="btn-check" id="offKeyboardRadio" name="options-outlined" type="radio" checked>
+								<label class="btn btn-sm btn-outline-dark rounded-0 rounded-start" for="offKeyboardRadio">Выкл.</label>
+							</div>
+							<div class="col-auto px-0">
+								<input class="btn-check" id="defaultKeyboardRadio" name="options-outlined" type="radio">
+								<label class="btn btn-sm btn-outline-dark border-start-0 border-end-0 rounded-0" for="defaultKeyboardRadio">Обычная</label>
+							</div>
+							<div class="col-auto ps-0">
+								<input class="btn-check" id="inlineKeyboardRadio" name="options-outlined" type="radio">
+								<label class="btn btn-sm btn-outline-dark rounded-0 rounded-end" for="inlineKeyboardRadio">Встроенная</label>
+							</div>
+						</div>
+					</div>
+					<div class="col keyboard mt-2 d-none" id="offKeyboard">
+						<div class="row row-cols-1">
+							<div class="col">
+								<label class="form-label mb-1" for="examplekeyboardButton">Пример кнопки для клавиатуры</label>
+								<button class="btn btn-sm btn-outline-dark w-100 mb-1" id="examplekeyboardButton" type="button"></button>
+							</div>
+							<div class="col">
+								<label class="form-label mb-1" for="keyboardButtons">Клавиатура</label>
+								<div id="keyboardButtons"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-outline-success w-100" id="addOrEditTelegramBotCommandButton" type="button"></button>
+			</div>
+		</div>
+	</div>
+</div>

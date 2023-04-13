@@ -1,5 +1,9 @@
 {
-	let mainAlertPlaceholder = document.querySelector('#mainAlertPlaceholder');
+	var addTelegramBotModalBootstrap = new bootstrap.Modal('#addTelegramBotModal');
+
+	var addTelegramBotModalAlertPlaceholder = document.querySelector('#addTelegramBotModalAlertPlaceholder');
+
+	var addTelegramBotTokenInput = document.querySelector('#addTelegramBotTokenInput');
 
 	document.querySelector('#addTelegramBotButton').addEventListener('click', function() {
 		let request = new XMLHttpRequest();

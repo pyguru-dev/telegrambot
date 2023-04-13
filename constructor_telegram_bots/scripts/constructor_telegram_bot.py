@@ -11,7 +11,7 @@ from scripts.decorators import TelegramBotDecorators
 
 class ConstructorTelegramBot:
 	def __init__(self) -> None:
-		self.commands: dict = {
+		self.commands = {
 			'start': self.start_command,
 			'auth': self.auth_command,
 			'support': self.support_command,
@@ -21,14 +21,6 @@ class ConstructorTelegramBot:
 	def start_command(self, update: Update, context: CallbackContext, user_id: int, username: str, message: str) -> None:
 		if User.objects.filter(id=user_id).exists() is False:
 			User.objects.create_user(user_id=user_id, username=username)
-
-			keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(
-				[
-					[
-						InlineKeyboardButton(text='Constructor Telegram Bots', url=settings.SITE_DOMAIN),
-					],
-				]
-			)
 			
 			context.bot.send_message(
 				chat_id=user_id,
@@ -37,7 +29,13 @@ class ConstructorTelegramBot:
 					Я являюсь Telegram ботом для сайта Constructor Telegram Bots.
 					Спасибо за то, что ты с нами ❤️
 				""".replace('	', ''),
-				reply_markup=keyboard
+				reply_markup=InlineKeyboardMarkup(
+					[
+						[
+							InlineKeyboardButton(text='Constructor Telegram Bots', url=settings.SITE_DOMAIN),
+						],
+					]
+				)
 			)
 		
 		if len(message.split()) > 1:
@@ -46,37 +44,41 @@ class ConstructorTelegramBot:
 
 	@TelegramBotDecorators.get_attributes(need_attributes=('context', 'user_id',))
 	def auth_command(self, context: CallbackContext, user_id: int) -> None:
-		keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(
-			[
+		context.bot.send_message(
+			chat_id=user_id,
+			text='Нажмите на кнопку ниже, чтобы авторизоваться на сайте.',
+			reply_markup=InlineKeyboardMarkup(
 				[
-					InlineKeyboardButton(text='Авторизация', url=User.objects.get_auth_url(user_id=user_id)),
-				],
-			]
+					[
+						InlineKeyboardButton(text='Авторизация', url=User.objects.get_auth_url(user_id=user_id)),
+					],
+				]
+			)
 		)
-
-		context.bot.send_message(chat_id=user_id, text='Нажмите на кнопку ниже, чтобы авторизоваться на сайте.', reply_markup=keyboard)
 
 	@TelegramBotDecorators.get_attributes(need_attributes=('context', 'user_id',))
 	def support_command(self, context: CallbackContext, user_id: int) -> None:
-		keyboard: InlineKeyboardMarkup = InlineKeyboardMarkup(
-			[
+		context.bot.send_message(
+			chat_id=user_id,
+			text='Нажмите на кнопку ниже, чтобы написать автору сайта.',
+			reply_markup=InlineKeyboardMarkup(
 				[
-					InlineKeyboardButton(text='Написать автору сайта', url='https://t.me/pycoder39'),
-				],
-			]
+					[
+						InlineKeyboardButton(text='Написать автору сайта', url='https://t.me/pycoder39'),
+					],
+				]
+			)
 		)
-
-		context.bot.send_message(chat_id=user_id, text='Нажмите на кнопку ниже, чтобы написать автору сайта.', reply_markup=keyboard)
 
 	def start(self) -> None:
 		with open('./data/constructor_telegram_bot.token', 'r') as constructor_telegram_bot_token_file:
-			constructor_telegram_bot_token: str = constructor_telegram_bot_token_file.read()
+			constructor_telegram_bot_token = constructor_telegram_bot_token_file.read()
 
-		self.updater: Updater = Updater(token=constructor_telegram_bot_token)
-		self.dispatcher: Dispatcher = self.updater.dispatcher
+		self.updater = Updater(token=constructor_telegram_bot_token)
+		self.dispatcher = self.updater.dispatcher
 
 		for command in self.commands:
-			handler: CommandHandler = CommandHandler(command, self.commands[command])
+			handler = CommandHandler(command, self.commands[command])
 			self.dispatcher.add_handler(handler)
 
 		self.updater.start_polling()

@@ -3,7 +3,7 @@ from django.views.static import serve
 from django.conf import settings
 from django.contrib import admin
 
-from scripts.functions import start_all_telegram_bots
+import scripts.functions as Functions
 
 urlpatterns = [
 	re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
@@ -16,4 +16,5 @@ urlpatterns = [
 	path('personal_cabinet/', include('personal_cabinet.urls')),
 ]
 
-start_all_telegram_bots()
+if Functions.if_find_folder_or_file('./data', 'constructor_telegram_bot.token'):
+	Functions.start_all_telegram_bots()

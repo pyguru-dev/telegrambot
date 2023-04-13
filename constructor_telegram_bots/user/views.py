@@ -19,7 +19,6 @@ def user_auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict)
 	
 	if User.objects.filter(id=user_id).exists():
 		user: User = User.objects.get(id=user_id)
-
 		if user.confirm_code == confirm_code:
 			user.confirm_code = None
 			user.save()
@@ -67,8 +66,7 @@ def user_auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict)
 @csrf_exempt
 @SiteDecorators.is_auth(render_page=False)
 def get_user_added_telegram_bots(request: WSGIRequest) -> HttpResponse:
-	added_telegram_bots: dict = {}
-
+	added_telegram_bots = {}
 	for telegram_bot in request.user.telegram_bots.all():
 		added_telegram_bots.update(
 			{

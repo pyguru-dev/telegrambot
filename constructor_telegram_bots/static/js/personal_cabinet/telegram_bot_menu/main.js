@@ -1,6 +1,12 @@
 {
+	document.querySelector('#infoAboutTelegramBotModalButton').addEventListener('click', function() {
+		infoAboutTelegramBotModalBootstrap.toggle();
+	});
+	
 	let startOrStopTelegramBotButton = document.querySelector('#startOrStopTelegramBotButton');
 	startOrStopTelegramBotButton.addEventListener('click', function() {
+		this.disabled = true;
+
 		let startOrStopTelegramBotButtonBackground = (this.getAttribute('class').search('danger') != -1) ? 'danger' : 'success';
 
 		let request = new XMLHttpRequest();
@@ -8,7 +14,7 @@
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {
 				let cardHeader = document.querySelector('.card-header');
-				
+
 				if (startOrStopTelegramBotButtonBackground == 'success') {
 					cardHeader.innerHTML = 'Telegram бот включен';
 					cardHeader.setAttribute('class', cardHeader.getAttribute('class').replace('danger', 'success'));
@@ -23,6 +29,8 @@
 					startOrStopTelegramBotButton.setAttribute('class', startOrStopTelegramBotButton.getAttribute('class').replace('danger', 'success'));
 				}
 
+				startOrStopTelegramBotButton.disabled = false;
+
 				myAlert(mainAlertPlaceholder, request.responseText, 'success');
 			} else {
 				myAlert(mainAlertPlaceholder, request.responseText, 'danger');
@@ -31,7 +39,6 @@
 		request.send();
 	});
 
-	var duplicateTelegramBotModalBootstrap = new bootstrap.Modal('#duplicateTelegramBotModal');
 	document.querySelector('#duplicateTelegramBotModalButton').addEventListener('click', function() {
 		duplicateTelegramBotModalBootstrap.toggle();
 	});
@@ -58,98 +65,7 @@
 }
 
 {
-	telegramBotPrivateCheckBox.addEventListener('click', function() {
-		let request = new XMLHttpRequest();
-		request.open('POST', `/telegram_bot/${telegramBotId}/edit/private/`, true);
-		request.setRequestHeader('Content-Type', 'application/json');
-		request.onreadystatechange = checkRequestResponse(function() {
-			if (request.status == 200) {
-				let telegramBotAllowedUserButtons = document.querySelectorAll('.telegram-bot-allowed-user-button');
-
-				if (telegramBotPrivateCheckBox.checked) {
-					for (let i = 0; i < telegramBotAllowedUserButtons.length; i++) {
-						telegramBotAllowedUserButtons[i].setAttribute('class', telegramBotAllowedUserButtons[i].getAttribute('class').replace(' d-none', ''));
-					}
-				} else {
-					for (let i = 0; i < telegramBotAllowedUserButtons.length; i++) {
-						telegramBotAllowedUserButtons[i].setAttribute('class', `${telegramBotAllowedUserButtons[i].getAttribute('class')} d-none`);
-					}
-				}
-
-				myAlert(mainAlertPlaceholder, request.responseText, 'success');
-			} else {
-				myAlert(mainAlertPlaceholder, request.responseText, 'danger');
-			}
-		});
-		request.send(JSON.stringify(
-			{
-				'telegram_bot_private': this.checked,
-			}
-		));
-	});
-}
-
-{
-	let addOrEditTelegramBotCommandModalBootstrap = new bootstrap.Modal('#addOrEditTelegramBotCommandModal');
-
-	let addOrEditTelegramBotCommandModallLabel = document.querySelector('#addOrEditTelegramBotCommandModallLabel');
-	let addOrEditTelegramBotCommandModalAlertPlaceholder = document.querySelector('#addOrEditTelegramBotCommandModalAlertPlaceholder');
-
-	let addOrEditTelegramBotCommandNameInput = document.querySelector('#addOrEditTelegramBotCommandNameInput');
-	let addOrEditTelegramBotCommandCommandInput = document.querySelector('#addOrEditTelegramBotCommandCommandInput');
-	let addOrEditTelegramBotCommandCallBackInput = document.querySelector('#addOrEditTelegramBotCommandCallBackInput');
-	var addOrEditTelegramBotCommandTextInput = document.querySelector('#addOrEditTelegramBotCommandTextInput');
-
-	var offKeyboardRadio = document.querySelector('#offKeyboardRadio')
-
-	var keyboard = document.querySelector('.keyboard');
-	var keyboardButtons = document.querySelector('#keyboardButtons');
-
 	let addOrEditTelegramBotCommandButton = document.querySelector('#addOrEditTelegramBotCommandButton');
-
-	function offKeyboard() {
-		if (keyboard.id != 'offKeyboard') {
-			keyboard.setAttribute('class', `${keyboard.getAttribute('class')} d-none`);
-			keyboard.id = 'offKeyboard';
-
-			keyboardButtons.innerHTML = '';
-		}
-	}
-
-	var addOrEditTelegramBotCommandUrl;
-	function addOrEditTelegramBotCommand() {
-		let telegramBotCommandKeyboard = [keyboard.id];
-
-		let telegramBotCommandKeyboardButtons = keyboardButtons.querySelectorAll('input');
-		for (let i = 0; i < telegramBotCommandKeyboardButtons.length; i ++) {
-			telegramBotCommandKeyboard.push(telegramBotCommandKeyboardButtons[i].value);
-		}
-
-		let request = new XMLHttpRequest();
-		request.open('POST', addOrEditTelegramBotCommandUrl, true);
-		request.setRequestHeader('Content-Type', 'application/json');
-		request.onreadystatechange = checkRequestResponse(function() {
-			if (request.status == 200) {
-				getTelegramBotCommands();
-
-				addOrEditTelegramBotCommandModalBootstrap.toggle();
-
-				myAlert(mainAlertPlaceholder, request.responseText, 'success');
-			} else {
-				myAlert(addOrEditTelegramBotCommandModalAlertPlaceholder, request.responseText, 'danger');
-			}
-		});
-		request.send(JSON.stringify(
-			{
-				'name': addOrEditTelegramBotCommandNameInput.value,
-				'command': addOrEditTelegramBotCommandCommandInput.value,
-				'callback': addOrEditTelegramBotCommandCallBackInput.value,
-				'message_text': addOrEditTelegramBotCommandTextInput.value,
-				'keyboard': JSON.stringify(telegramBotCommandKeyboard),
-			}
-		));
-	}
-
 	document.querySelector('#addTelegramBotCommandModalButton').addEventListener('click', function() {
 		addOrEditTelegramBotCommandModallLabel.innerHTML = 'Добавление команды';
 
