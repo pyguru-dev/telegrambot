@@ -138,6 +138,8 @@ INSTALLED_APPS = [
 
 	'home.apps.HomeConfig',
 	'personal_cabinet.apps.PersonalCabinetConfig',
+
+	'privacy_policy.apps.PrivacyPolicyConfig',
 ]
 
 MIDDLEWARE = [

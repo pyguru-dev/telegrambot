@@ -10,10 +10,13 @@ urlpatterns = [
 	re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
 
 	path('admin/', admin.site.urls),
+
 	path('', include('home.urls')),
 	path('user/', include('user.urls')),
 	path('telegram_bot/', include('telegram_bot.urls')),
 	path('personal_cabinet/', include('personal_cabinet.urls')),
+
+	path('privacy_policy/', include('privacy_policy.urls')),
 ]
 
 if Functions.if_find_folder_or_file('./data', 'constructor_telegram_bot.token'):
