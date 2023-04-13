@@ -6,14 +6,14 @@ import user.models as UserModels
 import scripts.functions as Functions
 
 class UserManager(BaseUserManager):	
-	def create_user(self, user_id: int, username: str, **extra_fields):
-		user: UserModels.User = self.model(id=user_id, username=username, **extra_fields)
+	def create_user(self, user_id: int, **extra_fields):
+		user: UserModels.User = self.model(id=user_id, **extra_fields)
 		user.save()
 
 		return user
 
-	def create_superuser(user, id: int, username: str, **extra_fields):
-		user: UserModels.User = user.create_user(user_id=id, username=username, **extra_fields)
+	def create_superuser(user, user_id: int, **extra_fields):
+		user: UserModels.User = user.create_user(user_id=user_id, **extra_fields)
 		user.is_staff = True
 		user.is_superuser = True
 		user.save()

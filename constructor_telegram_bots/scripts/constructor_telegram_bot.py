@@ -20,7 +20,7 @@ class ConstructorTelegramBot:
 	@TelegramBotDecorators.get_attributes(need_attributes=('update', 'context', 'user_id', 'username', 'message',))
 	def start_command(self, update: Update, context: CallbackContext, user_id: int, username: str, message: str) -> None:
 		if User.objects.filter(id=user_id).exists() is False:
-			User.objects.create_user(user_id=user_id, username=username)
+			User.objects.create_user(user_id=user_id)
 			
 			context.bot.send_message(
 				chat_id=user_id,

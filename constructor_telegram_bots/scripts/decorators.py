@@ -101,13 +101,6 @@ class SiteDecorators:
 				}
 			)
 
-			if request.user.is_authenticated:
-				kwargs['data']['user'].update(
-					{
-						'username': request.user.username,
-					}
-				)
-
 			return func(*args, **kwargs)
 		return wrapper
 
