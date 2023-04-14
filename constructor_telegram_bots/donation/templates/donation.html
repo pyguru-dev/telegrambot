@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block title %}Пожертвование{% endblock title %}
+
+{% block main_class %}my-3 my-xl-auto{% endblock main_class %}
+
+{% block main %}
+	<div class="container">
+		<div class="row row-cols-1 justify-content-center">
+			<div class="col mb-4">
+				<h4 class="mb-1">О сайте Constructor Telegram Bots</h4>
+				<p>Constructor Telegram Bots - сайт, с помощью которого вы можете легко и без каких-либо знаний в программирование, создать своего многофункционального Telegram бота.</p>
+				<p>Сайт Constructor Telegram Bots являеться не коммерческим и не преследует цель заработать на своих пользователях.</p>
+				<p class="mb-0">Сайт Constructor Telegram Bots был создан, потому-что к сожелению все похожие сайты являються коммерческими и преследуют цель заработать на своих пользователях, а бесплатный тариф на таких сайтах очень ограничивает своих же пользователей сайта.</p>
+			</div>
+			<div class="col mb-4">
+				<h4 class="mb-1">Зачем мне делать пожертвование сайту Constructor Telegram Bots?</h4>
+				<p class="mb-0">Ваше пожертвование очень сильно поможет сайту Constructor Telegram Bots не стоять на месте, а развиваться.</p>
+			</div>
+			<div class="col mb-4">
+				<h4 class="mb-1">Где я могу задать вопросы по данной теме?</h4>
+				<p class="mb-0">На все вас интересующие вопросы вам ответять по адресу helper.exg1o@gmail.com.</p>
+			</div>
+			<div class="col mb-4">
+				<h4 class="mb-1">Спасибо за пожертвование сайту Constructor Telegram Bots!</h4>
+				<p>Платежи обрабатываются через PayPal, но могут быть сделаны либо с вашей банковской карты, либо с вашей существующей учетной записи PayPal. Если вы хотите использовать банковскую карту, на сайте PayPal нажмите на кнопку «Отправить пожертвование с помощью банковской карты», которая приведет вас к форме банковской карты. Учетная запись PayPal не требуется.</p>
+				<p>В целях безопасности ваших персональных данных сайт Constructor Telegram Bots не получит и не сохранит данные вашей банковской карты.</p>
+				<p class="mb-0">После транзакции вы получите квитанцию от PayPal.</p>
+			</div>
+			<div class="col">
+				<form action="https://www.paypal.com/donate" method="post" target="_blank">
+					<input name="hosted_button_id" type="hidden" value="RBCS5HAMZS5Z6"/>
+					<button class="btn btn-outline-success w-100" name="submit">Сделать пожертвование</button>
+				</form>
+			</div>
+		</div>		
+	</div>
+{% endblock main %}

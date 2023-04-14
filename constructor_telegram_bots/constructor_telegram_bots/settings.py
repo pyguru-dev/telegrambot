@@ -137,6 +137,7 @@ INSTALLED_APPS = [
 	'telegram_bot.apps.TelegramBotConfig',
 
 	'home.apps.HomeConfig',
+	'donation.apps.DonationConfig',
 	'personal_cabinet.apps.PersonalCabinetConfig',
 
 	'privacy_policy.apps.PrivacyPolicyConfig',
