@@ -31,13 +31,10 @@
 				<div class="navbar-collapse collapse d-lg-flex" id="navbar">
 					<ul class="navbar-nav ms-lg-3 me-auto">
 						<li class="nav-item">
-							<a class="nav-link {% if page.url == '/' %}active{% endif %} pt-0 pt-lg-2" href="/">Главная</a>
+							<a class="nav-link{% if page.url == '/' %}active{% endif %} pt-0 pt-lg-2" href="/">Главная</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link disabled pt-0 pt-lg-2" href="#">Инструкция</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link {% if page.url == '/donation/' %}active{% endif %} pt-0 pt-lg-2" href="/donation/">Пожертвование</a>
+							<a class="nav-link{% if page.url == '/donation/' %}active{% endif %} pt-0 pt-lg-2" href="/donation/">Пожертвование</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link disabled pt-0 pt-lg-2" href="#">Блог</a>
