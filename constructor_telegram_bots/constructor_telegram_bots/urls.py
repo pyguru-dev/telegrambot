@@ -15,6 +15,7 @@ urlpatterns = [
 	path('donation/', include('donation.urls')),
 	path('personal_cabinet/', include('personal_cabinet.urls')),
 
+	path('learn_more/', include('learn_more.urls')),
 	path('privacy_policy/', include('privacy_policy.urls')),
 ]
 

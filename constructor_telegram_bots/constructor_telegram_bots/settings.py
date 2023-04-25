@@ -146,6 +146,7 @@ INSTALLED_APPS = [
 	'donation.apps.DonationConfig',
 	'personal_cabinet.apps.PersonalCabinetConfig',
 
+	'learn_more.apps.LearnMoreConfig',
 	'privacy_policy.apps.PrivacyPolicyConfig',
 ]
 
