@@ -96,7 +96,8 @@ class UserTelegramBot:
 
 	def stop(self) -> None:
 		while True:
-			if TelegramBot.objects.get(id=self.telegram_bot.id).is_running:
+			self.telegram_bot = TelegramBot.objects.get(id=self.telegram_bot.id)
+			if self.telegram_bot.is_running:
 				time.sleep(1)
 			else:
 				self.updater.stop()
