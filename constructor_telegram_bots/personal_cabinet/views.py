@@ -6,15 +6,15 @@ from telegram_bot.models import TelegramBot
 from scripts.decorators import SiteDecorators
 
 @SiteDecorators.is_auth(render_page=True)
-@SiteDecorators.get_user_data
-def personal_cabinet(request: WSGIRequest, data: dict) -> HttpResponse:
-	return render(request=request, template_name='personal_cabinet/main.html', context=data)
+@SiteDecorators.get_global_context
+def personal_cabinet(request: WSGIRequest, context: dict) -> HttpResponse:
+	return render(request=request, template_name='personal_cabinet/main.html', context=context)
 
 @SiteDecorators.is_auth(render_page=True)
-@SiteDecorators.get_user_data
+@SiteDecorators.get_global_context
 @SiteDecorators.check_telegram_bot_id(render_page=True)
-def telegram_bot_menu(request: WSGIRequest, telegram_bot: TelegramBot, data: dict) -> HttpResponse:
-	data.update(
+def telegram_bot_menu(request: WSGIRequest, telegram_bot: TelegramBot, context: dict) -> HttpResponse:
+	context.update(
 		{
 			'telegram_bot': {
 				'name': telegram_bot.name,
@@ -26,4 +26,4 @@ def telegram_bot_menu(request: WSGIRequest, telegram_bot: TelegramBot, data: dic
 		}
 	)
 
-	return render(request=request, template_name='telegram_bot_menu/main.html', context=data)
+	return render(request=request, template_name='telegram_bot_menu/main.html', context=context)

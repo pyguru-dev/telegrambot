@@ -9,9 +9,9 @@ from scripts.decorators import SiteDecorators
 
 import json
 
-@SiteDecorators.get_user_data
-def user_auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict) -> HttpResponse:
-	data.update(
+@SiteDecorators.get_global_context
+def user_auth(request: WSGIRequest, user_id: int, confirm_code: str, context: dict) -> HttpResponse:
+	context.update(
 		{
 			'title': 'Авторизация',
 		}
@@ -25,7 +25,7 @@ def user_auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict)
 
 			login(request=request, user=user)
 
-			data.update(
+			context.update(
 				{
 					'meta': {
 						'url': '/personal_cabinet/',
@@ -37,7 +37,7 @@ def user_auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict)
 				}
 			)
 		else:
-			data.update(
+			context.update(
 				{
 					'meta': {
 						'url': '/',
@@ -49,7 +49,7 @@ def user_auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict)
 				}
 			)
 	else:
-		data.update(
+		context.update(
 			{
 				'meta': {
 					'url': '/',
@@ -61,7 +61,7 @@ def user_auth(request: WSGIRequest, user_id: int, confirm_code: str, data: dict)
 			}
 		)
 
-	return render(request=request, template_name='auth.html', context=data)
+	return render(request=request, template_name='auth.html', context=context)
 
 @csrf_exempt
 @SiteDecorators.is_auth(render_page=False)

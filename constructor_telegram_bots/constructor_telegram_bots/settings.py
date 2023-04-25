@@ -4,10 +4,12 @@ from pathlib import Path
 import os
 
 # Constants for the site
+
 SITE_DOMAIN = 'http://127.0.0.1:8000/'
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -15,13 +17,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
+DEBUG = True
 ALLOWED_HOSTS = ['*']
 
-# SECURITY WARNING: keep the secret key used in production secret!
+
+# Check and create folders
+
+if Functions.if_find_folder_or_file('.', 'logs') == False:
+	os.mkdir('./logs')
+
 if Functions.if_find_folder_or_file('.', 'data') == False:
 	os.mkdir('./data')
+
+
+# SECURITY WARNING: keep the secret key used in production secret!
 
 if Functions.if_find_folder_or_file('./data', 'secret.key') == False:
 	SECRET_KEY = f"django-insecure-{Functions.generator_secret_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}"
@@ -33,12 +43,8 @@ else:
 		SECRET_KEY = f.read()
 
 
-# Check and create folders
-if Functions.if_find_folder_or_file('.', 'logs') == False:
-	os.mkdir('./logs')
-
-
 # Logs settings
+
 LOGGING = {
 	'version': 1,
 	'disable_existing_loggers': False,
@@ -123,8 +129,8 @@ LOGGING = {
 
 
 # Application definition
+
 INSTALLED_APPS = [
-	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
@@ -204,9 +210,7 @@ AUTH_USER_MODEL = 'user.User'
 LANGUAGE_CODE = 'ru'
 
 TIME_ZONE = 'Europe/Tallinn'
-
 USE_I18N = True
-
 USE_TZ = True
 
 

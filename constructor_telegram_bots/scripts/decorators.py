@@ -84,13 +84,13 @@ class TelegramBotDecorators:
 #############################################################################################################################
 
 class SiteDecorators:
-	def get_user_data(func):
+	def get_global_context(func):
 		def wrapper(*args, **kwargs):
 			request: WSGIRequest = args[0]
 
 			kwargs.update(
 				{
-					'data': {
+					'context': {
 						'page': {
 							'url': request.path,
 						},

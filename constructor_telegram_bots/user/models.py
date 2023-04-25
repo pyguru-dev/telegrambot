@@ -1,10 +1,10 @@
-from django.contrib.auth.models import AbstractBaseUser
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 
 from telegram_bot.models import TelegramBot
 from user.managers import UserManager
 
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
 	password = None
 	confirm_code = models.CharField(max_length=25, null=True)
 	telegram_bots = models.ManyToManyField(TelegramBot, related_name='telegram_bots')

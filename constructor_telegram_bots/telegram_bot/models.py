@@ -28,6 +28,5 @@ class TelegramBot(models.Model):
 	date_added = models.DateTimeField(auto_now_add=True)
 
 	USERNAME_FIELD = 'id'
-	REQUIRED_FIELDS = ['token', 'private']
 
 	objects = TelegramBotManager()

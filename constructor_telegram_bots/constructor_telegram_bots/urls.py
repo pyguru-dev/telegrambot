@@ -1,15 +1,12 @@
 from django.urls import re_path, path, include
 from django.views.static import serve
 from django.conf import settings
-from django.contrib import admin
 
 import scripts.functions as Functions
 
 urlpatterns = [
 	re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 	re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
-
-	path('admin/', admin.site.urls),
 
 	path('user/', include('user.urls')),
 	path('telegram_bot/', include('telegram_bot.urls')),
