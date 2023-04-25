@@ -9,14 +9,14 @@ urlpatterns = [
 	re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
 
 	path('user/', include('user.urls')),
-	path('telegram_bot/', include('telegram_bot.urls')),
+	path('telegram-bot/', include('telegram_bot.urls')),
 
 	path('', include('home.urls')),
 	path('donation/', include('donation.urls')),
-	path('personal_cabinet/', include('personal_cabinet.urls')),
+	path('personal-cabinet/', include('personal_cabinet.urls')),
 
-	path('learn_more/', include('learn_more.urls')),
-	path('privacy_policy/', include('privacy_policy.urls')),
+	path('learn-more/', include('learn_more.urls')),
+	path('privacy-policy/', include('privacy_policy.urls')),
 ]
 
 if Functions.if_find_folder_or_file('./data', 'constructor_telegram_bot.token'):

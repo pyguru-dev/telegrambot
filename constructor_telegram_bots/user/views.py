@@ -28,7 +28,7 @@ def user_auth(request: WSGIRequest, user_id: int, confirm_code: str, context: di
 			context.update(
 				{
 					'meta': {
-						'url': '/personal_cabinet/',
+						'url': '/personal-cabinet/',
 					},
 					'content': {
 						'heading': 'Успешная авторизация.',

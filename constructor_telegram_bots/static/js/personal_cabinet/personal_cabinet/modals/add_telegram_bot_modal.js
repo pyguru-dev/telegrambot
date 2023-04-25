@@ -7,7 +7,7 @@
 
 	document.querySelector('#addTelegramBotButton').addEventListener('click', function() {
 		let request = new XMLHttpRequest();
-		request.open('POST', '/telegram_bot/add/', true);
+		request.open('POST', '/telegram-bot/add/', true);
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {

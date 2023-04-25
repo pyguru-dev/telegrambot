@@ -10,7 +10,7 @@
 		let startOrStopTelegramBotButtonBackground = (this.getAttribute('class').search('danger') != -1) ? 'danger' : 'success';
 
 		let request = new XMLHttpRequest();
-		request.open('POST', (startOrStopTelegramBotButtonBackground == 'success') ? `/telegram_bot/${telegramBotId}/start/` : `/telegram_bot/${telegramBotId}/stop/`, true);
+		request.open('POST', (startOrStopTelegramBotButtonBackground == 'success') ? `/telegram-bot/${telegramBotId}/start/` : `/telegram-bot/${telegramBotId}/stop/`, true);
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {
 				let cardHeader = document.querySelector('.card-header');
@@ -48,7 +48,7 @@
 		'Вы точно хотите удалить Telegram бота?',
 		function() {
 			let request = new XMLHttpRequest();
-			request.open('POST', `/telegram_bot/${telegramBotId}/delete/`, true);
+			request.open('POST', `/telegram-bot/${telegramBotId}/delete/`, true);
 			request.setRequestHeader('Content-Type', 'application/json');
 			request.onreadystatechange = checkRequestResponse(function() {
 				if (request.status == 200) {
@@ -90,7 +90,7 @@
 		let telegramBotCommandId = this.id;
 
 		let request = new XMLHttpRequest();
-		request.open('POST', `/telegram_bot/${telegramBotId}/get_command_data/${telegramBotCommandId}/`, true);
+		request.open('POST', `/telegram-bot/${telegramBotId}/get-command-data/${telegramBotCommandId}/`, true);
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {

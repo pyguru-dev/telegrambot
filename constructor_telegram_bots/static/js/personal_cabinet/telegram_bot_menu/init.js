@@ -10,7 +10,7 @@ const telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCh
 
 	function getTelegramBotCommands() {
 		let request = new XMLHttpRequest();
-		request.open('POST', `/telegram_bot/${telegramBotId}/get_commands/`, true);
+		request.open('POST', `/telegram-bot/${telegramBotId}/get-commands/`, true);
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {
@@ -49,7 +49,7 @@ const telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCh
 							'Вы точно хотите удалить команду Telegram бота?',
 							function() {
 								let request = new XMLHttpRequest();
-								request.open('POST', `/telegram_bot/${telegramBotId}/command/${telegramBotCommandsKeys[i]}/delete/`, true);
+								request.open('POST', `/telegram-bot/${telegramBotId}/command/${telegramBotCommandsKeys[i]}/delete/`, true);
 								request.setRequestHeader('Content-Type', 'application/json');
 								request.onreadystatechange = checkRequestResponse(function() {
 									if (request.status == 200) {
@@ -87,7 +87,7 @@ const telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCh
 
 	function getTelegramBotUsers() {
 		let request = new XMLHttpRequest();
-		request.open('POST', `/telegram_bot/${telegramBotId}/get_users/`, true);
+		request.open('POST', `/telegram-bot/${telegramBotId}/get-users/`, true);
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {
@@ -124,7 +124,7 @@ const telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCh
 							'Вы точно хотите удалить пользователя Telegram бота?',
 							function() {
 								let request = new XMLHttpRequest();
-								request.open('POST', `/telegram_bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/delete/`, true);
+								request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/delete/`, true);
 								request.setRequestHeader('Content-Type', 'application/json');
 								request.onreadystatechange = checkRequestResponse(function() {
 									if (request.status == 200) {
@@ -140,7 +140,7 @@ const telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCh
 						if (telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed_user']) {
 							document.querySelector(`.add-telegram-bot-allowed-user-button[id="${telegramBotUsersKeys[i]}"]`).addEventListener('click', function() {
 								let request = new XMLHttpRequest();
-								request.open('POST', `/telegram_bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/delete_allowed_user/`, true);
+								request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/delete-allowed-user/`, true);
 								request.setRequestHeader('Content-Type', 'application/json');
 								request.onreadystatechange = checkRequestResponse(function() {
 									if (request.status == 200) {
@@ -154,7 +154,7 @@ const telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCh
 						} else {
 							document.querySelector(`.delete-telegram-bot-allowed-user-button[id="${telegramBotUsersKeys[i]}"]`).addEventListener('click', function() {
 								let request = new XMLHttpRequest();
-								request.open('POST', `/telegram_bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/add_allowed_user/`, true);
+								request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/add-allowed-user/`, true);
 								request.setRequestHeader('Content-Type', 'application/json');
 								request.onreadystatechange = checkRequestResponse(function() {
 									if (request.status == 200) {

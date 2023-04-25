@@ -5,7 +5,7 @@
 
 	document.querySelector('#duplicateTelegramBotButton').addEventListener('click', function() {
 		let request = new XMLHttpRequest();
-		request.open('POST', `/telegram_bot/${telegramBotId}/duplicate/`, true);
+		request.open('POST', `/telegram-bot/${telegramBotId}/duplicate/`, true);
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {

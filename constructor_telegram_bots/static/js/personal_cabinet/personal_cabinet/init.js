@@ -1,6 +1,6 @@
 function get_added_telegram_bots() {
 	let request = new XMLHttpRequest();
-	request.open('POST', '/user/get_added_telegram_bots/', true);
+	request.open('POST', '/user/get-added-telegram-bots/', true);
 	request.setRequestHeader('Content-Type', 'application/json');
 	request.onreadystatechange = checkRequestResponse(function() {
 		if (request.status == 200) {
@@ -32,7 +32,7 @@ function get_added_telegram_bots() {
 						'		</table>',
 						'	</div>',
 						'	<div class="card-footer">',
-						`		<a class="btn btn-outline-dark w-100 my-2" href="/personal_cabinet/${addedTelegramBotsKeys[i]}/">Меню Telegram бота</a>`,
+						`		<a class="btn btn-outline-dark w-100 my-2" href="/personal-cabinet/${addedTelegramBotsKeys[i]}/">Меню Telegram бота</a>`,
 						'	</div>',
 						'</div>',
 					].join('');
@@ -47,11 +47,15 @@ function get_added_telegram_bots() {
 					`		<h5 class="text-center text-break mb-0">Вы ещё не добавили Telegram бота</h5>`,
 					'	</div>',
 					'	<div class="card-footer">',
-					`		<a class="btn btn-outline-dark w-100 my-2" href="/">Как добавить Telegram бота?</a>`,
+					`		<button class="btn btn-outline-dark w-100 my-2" id="howToAddTelegramBotModalButton" type="button">Как добавить Telegram бота?</button>`,
 					'	</div>',
 					'</div>',
 				].join('');
 				addedTelegramBotsDiv.append(wrapper);
+
+				document.querySelector('#howToAddTelegramBotModalButton').addEventListener('click', function() {
+
+				});
 			}
 		}
 	});
