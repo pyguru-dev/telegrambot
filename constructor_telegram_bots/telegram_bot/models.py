@@ -46,7 +46,7 @@ class TelegramBot(models.Model):
 		db_table = 'telegram_bot'
 
 	def duplicate(self, request: WSGIRequest, token: str, private: bool):
-		duplicated_telegram_bot: TelegramBot = self.objects.add_telegram_bot(request=request, token=token, private=private)
+		duplicated_telegram_bot: TelegramBot = TelegramBot.objects.add_telegram_bot(request=request, token=token, private=private)
 
 		for telegram_bot_command in self.commands.all():
 			TelegramBotCommand.objects.add_telegram_bot_command(

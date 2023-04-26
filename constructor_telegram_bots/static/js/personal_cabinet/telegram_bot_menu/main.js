@@ -84,7 +84,7 @@
 		offKeyboard();
 		offKeyboardRadio.checked = true;
 
-		addOrEditTelegramBotCommandUrl = `/telegram_bot/${telegramBotId}/command/add/`;
+		addOrEditTelegramBotCommandUrl = `/telegram-bot/${telegramBotId}/command/add/`;
 
 		addOrEditTelegramBotCommandButton.innerHTML = 'Добавить команду';
 		addOrEditTelegramBotCommandButton.removeEventListener('click', addOrEditTelegramBotCommand);
@@ -133,7 +133,7 @@
 					createKeyboardButton(keyboardType);
 				}
 
-				addOrEditTelegramBotCommandUrl = `/telegram_bot/${telegramBotId}/command/${telegramBotCommandId}/edit/`;
+				addOrEditTelegramBotCommandUrl = `/telegram-bot/${telegramBotId}/command/${telegramBotCommandId}/edit/`;
 
 				addOrEditTelegramBotCommandButton.innerHTML = 'Редактировать команду';
 				addOrEditTelegramBotCommandButton.removeEventListener('click', addOrEditTelegramBotCommand);
