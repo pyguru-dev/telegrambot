@@ -86,26 +86,6 @@ class TelegramBotDecorators:
 #############################################################################################################################
 
 class SiteDecorators:
-	def get_global_context(func):
-		def wrapper(*args, **kwargs):
-			request: WSGIRequest = args[0]
-
-			kwargs.update(
-				{
-					'context': {
-						'page': {
-							'url': request.path,
-						},
-						'user': {
-							'is_authenticated': request.user.is_authenticated,
-						},
-					},
-				}
-			)
-
-			return func(*args, **kwargs)
-		return wrapper
-
 	def is_auth(render_page: bool):
 		def decorator(func):
 			def wrapper(*args, **kwargs):

@@ -9,13 +9,10 @@ from scripts.decorators import SiteDecorators
 
 import json
 
-@SiteDecorators.get_global_context
-def user_auth(request: WSGIRequest, user_id: int, confirm_code: str, context: dict) -> HttpResponse:
-	context.update(
-		{
-			'title': 'Авторизация',
-		}
-	)
+def user_auth(request: WSGIRequest, user_id: int, confirm_code: str) -> HttpResponse:
+	context = {
+		'title': 'Авторизация',
+	}
 	
 	if User.objects.filter(id=user_id).exists():
 		user: User = User.objects.get(id=user_id)
