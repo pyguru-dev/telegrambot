@@ -53,8 +53,9 @@ function get_added_telegram_bots() {
 				].join('');
 				addedTelegramBotsDiv.append(wrapper);
 
+				var howToAddTelegramBotModalBootstrap = new bootstrap.Modal('#howToAddTelegramBotModal');
 				document.querySelector('#howToAddTelegramBotModalButton').addEventListener('click', function() {
-
+					howToAddTelegramBotModalBootstrap.toggle();
 				});
 			}
 		}
