@@ -80,6 +80,12 @@
 {% block footer_class %}mt-auto{% endblock footer_class %}
 
 {% block scripts %}
+	<script>
+		const telegramBotId = {{ telegram_bot.id }};
+
+		var telegramBotIsRunning = {% if telegram_bot.is_running %}true{% else %}false{% endif %};
+	</script>
+
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/init.js' %}"></script>
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/main.js' %}"></script>
 

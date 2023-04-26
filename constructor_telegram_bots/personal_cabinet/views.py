@@ -17,6 +17,7 @@ def telegram_bot_menu(request: WSGIRequest, telegram_bot: TelegramBot, context: 
 	context.update(
 		{
 			'telegram_bot': {
+				'id': telegram_bot.id,
 				'name': telegram_bot.name,
 				'token': telegram_bot.token,
 				'private': telegram_bot.private,

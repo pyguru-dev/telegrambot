@@ -1,12 +1,11 @@
-const telegramBotId = window.location.href.split('/')[4];
-
 const mainAlertPlaceholder = document.querySelector('#mainAlertPlaceholder');
 
 const telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCheckBox');
 
+var setIntervalId;
+
 {
 	let commandsCountTableLine = document.querySelector('.commands-count');
-	let getTelegramBotCommandsFuncStarted = false;
 
 	function getTelegramBotCommands() {
 		let request = new XMLHttpRequest();
@@ -71,11 +70,9 @@ const telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCh
 				}
 			}
 
-			getTelegramBotUsers();
-			if (getTelegramBotCommandsFuncStarted == false) {
-				getTelegramBotCommandsFuncStarted = true;
-				
-				setInterval(getTelegramBotUsers, 1500);
+			if (telegramBotIsRunning) {
+				getTelegramBotUsers();
+				setIntervalId = setInterval(getTelegramBotUsers, 1500);
 			}
 		});
 		request.send();

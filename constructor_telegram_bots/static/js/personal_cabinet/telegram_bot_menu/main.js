@@ -7,26 +7,33 @@
 	startOrStopTelegramBotButton.addEventListener('click', function() {
 		this.disabled = true;
 
-		let startOrStopTelegramBotButtonBackground = (this.getAttribute('class').search('danger') != -1) ? 'danger' : 'success';
-
 		let request = new XMLHttpRequest();
-		request.open('POST', (startOrStopTelegramBotButtonBackground == 'success') ? `/telegram-bot/${telegramBotId}/start/` : `/telegram-bot/${telegramBotId}/stop/`, true);
+		request.open('POST', (telegramBotIsRunning) ? `/telegram-bot/${telegramBotId}/stop/` : `/telegram-bot/${telegramBotId}/start/`, true);
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {
 				let cardHeader = document.querySelector('.card-header');
 
-				if (startOrStopTelegramBotButtonBackground == 'success') {
-					cardHeader.innerHTML = 'Telegram бот включен';
-					cardHeader.setAttribute('class', cardHeader.getAttribute('class').replace('danger', 'success'));
-					
-					startOrStopTelegramBotButton.innerHTML = 'Выключить Telegram бота';
-					startOrStopTelegramBotButton.setAttribute('class', startOrStopTelegramBotButton.getAttribute('class').replace('success', 'danger'));
-				} else {
+				if (telegramBotIsRunning) {
+					telegramBotIsRunning = false;
+
+					clearInterval(setIntervalId)
+
 					cardHeader.innerHTML = 'Telegram бот выключен';
 					cardHeader.setAttribute('class', cardHeader.getAttribute('class').replace('success', 'danger'));
 
 					startOrStopTelegramBotButton.innerHTML = 'Включить Telegram бота';
 					startOrStopTelegramBotButton.setAttribute('class', startOrStopTelegramBotButton.getAttribute('class').replace('danger', 'success'));
+				} else {
+					telegramBotIsRunning = true;
+
+					getTelegramBotUsers();
+					setIntervalId = setInterval(getTelegramBotUsers, 1500);
+
+					cardHeader.innerHTML = 'Telegram бот включен';
+					cardHeader.setAttribute('class', cardHeader.getAttribute('class').replace('danger', 'success'));
+					
+					startOrStopTelegramBotButton.innerHTML = 'Выключить Telegram бота';
+					startOrStopTelegramBotButton.setAttribute('class', startOrStopTelegramBotButton.getAttribute('class').replace('success', 'danger'));
 				}
 
 				startOrStopTelegramBotButton.disabled = false;
