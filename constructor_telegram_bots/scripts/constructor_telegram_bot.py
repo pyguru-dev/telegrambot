@@ -1,4 +1,4 @@
-from telegram.ext import Updater, Dispatcher, CommandHandler
+from telegram.ext import Updater, CommandHandler
 from telegram.ext.callbackcontext import CallbackContext
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.update import Update
@@ -71,7 +71,7 @@ class ConstructorTelegramBot:
 		)
 
 	def start(self) -> None:
-		with open('./data/constructor_telegram_bot.token', 'r') as constructor_telegram_bot_token_file:
+		with open(settings.BASE_DIR / 'data/constructor_telegram_bot.token', 'r') as constructor_telegram_bot_token_file:
 			constructor_telegram_bot_token = constructor_telegram_bot_token_file.read()
 
 		self.updater = Updater(token=constructor_telegram_bot_token)

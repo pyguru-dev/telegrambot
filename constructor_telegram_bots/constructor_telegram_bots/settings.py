@@ -24,22 +24,22 @@ ALLOWED_HOSTS = ['*']
 
 # Check and create folders
 
-if Functions.if_find_folder_or_file('.', 'logs') == False:
-	os.mkdir('./logs')
+if Functions.if_find_folder_or_file(BASE_DIR, 'logs') == False:
+	os.mkdir(BASE_DIR / 'logs')
 
-if Functions.if_find_folder_or_file('.', 'data') == False:
-	os.mkdir('./data')
+if Functions.if_find_folder_or_file(BASE_DIR, 'data') == False:
+	os.mkdir(BASE_DIR / 'data')
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-if Functions.if_find_folder_or_file('./data', 'secret.key') == False:
+if Functions.if_find_folder_or_file(BASE_DIR / 'data', 'secret.key') == False:
 	SECRET_KEY = f"django-insecure-{Functions.generator_secret_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}"
 	
-	with open('./data/secret.key', 'w') as f:
+	with open( BASE_DIR / 'data/secret.key', 'w') as f:
 		f.write(SECRET_KEY)
 else:
-	with open('./data/secret.key', 'r') as f:
+	with open(BASE_DIR / 'data/secret.key', 'r') as f:
 		SECRET_KEY = f.read()
 
 
@@ -67,25 +67,25 @@ LOGGING = {
 		'info_file': { 
 			'level': 'INFO',
 			'class': 'logging.FileHandler',
-			'filename': 'logs/info.log',
+			'filename': BASE_DIR / 'logs/info.log',
 			'formatter': 'simple',
 		},
 		'debug_file': { 
 			'level': 'DEBUG',
 			'class': 'logging.FileHandler',
-			'filename': 'logs/debug.log',
+			'filename': BASE_DIR / 'logs/debug.log',
 			'formatter': 'verbose',
 		},
 		'warning_file': { 
 			'level': 'WARNING',
 			'class': 'logging.FileHandler',
-			'filename': 'logs/warning.log',
+			'filename': BASE_DIR / 'logs/warning.log',
 			'formatter': 'verbose',
 		},
 		'error_file': { 
 			'level': 'ERROR',
 			'class': 'logging.FileHandler',
-			'filename': 'logs/error.log',
+			'filename': BASE_DIR / 'logs/error.log',
 			'formatter': 'verbose',
 		},
 	},

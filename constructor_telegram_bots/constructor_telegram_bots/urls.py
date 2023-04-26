@@ -19,5 +19,5 @@ urlpatterns = [
 	path('privacy-policy/', include('privacy_policy.urls')),
 ]
 
-if Functions.if_find_folder_or_file('./data', 'constructor_telegram_bot.token'):
+if Functions.if_find_folder_or_file(settings.BASE_DIR / 'data', 'constructor_telegram_bot.token'):
 	Functions.start_all_telegram_bots()
