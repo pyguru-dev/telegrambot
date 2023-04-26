@@ -19,10 +19,10 @@
 					clearInterval(setIntervalId)
 
 					cardHeader.innerHTML = 'Telegram бот выключен';
-					cardHeader.setAttribute('class', cardHeader.getAttribute('class').replace('success', 'danger'));
+					cardHeader.classList.replace('bg-success', 'bg-danger');
 
 					startOrStopTelegramBotButton.innerHTML = 'Включить Telegram бота';
-					startOrStopTelegramBotButton.setAttribute('class', startOrStopTelegramBotButton.getAttribute('class').replace('danger', 'success'));
+					startOrStopTelegramBotButton.classList.replace('btn-outline-danger', 'btn-outline-success');
 				} else {
 					telegramBotIsRunning = true;
 
@@ -30,10 +30,10 @@
 					setIntervalId = setInterval(getTelegramBotUsers, 1500);
 
 					cardHeader.innerHTML = 'Telegram бот включен';
-					cardHeader.setAttribute('class', cardHeader.getAttribute('class').replace('danger', 'success'));
+					cardHeader.classList.replace('bg-danger', 'bg-success');
 					
 					startOrStopTelegramBotButton.innerHTML = 'Выключить Telegram бота';
-					startOrStopTelegramBotButton.setAttribute('class', startOrStopTelegramBotButton.getAttribute('class').replace('success', 'danger'));
+					startOrStopTelegramBotButton.classList.replace('btn-outline-success', 'btn-outline-danger');
 				}
 
 				startOrStopTelegramBotButton.disabled = false;
@@ -114,7 +114,7 @@
 				if (telegramBotCommandKeyboard[0] != 'offKeyboard') {
 					document.querySelector(`#${telegramBotCommandKeyboard[0]}Radio`).checked = true;
 
-					keyboard.setAttribute('class', keyboard.getAttribute('class').replace(' d-none', ''));
+					keyboard.classList.remove('d-none');
 					keyboard.id = telegramBotCommandKeyboard[0];
 					keyboardButtons.innerHTML = '';
 					

@@ -70,6 +70,7 @@ var setIntervalId;
 				}
 			}
 
+			getTelegramBotUsers();
 			if (telegramBotIsRunning) {
 				getTelegramBotUsers();
 				setIntervalId = setInterval(getTelegramBotUsers, 1500);

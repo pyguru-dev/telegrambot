@@ -12,11 +12,11 @@
 
             if (telegramBotPrivateCheckBox.checked) {
                 for (let i = 0; i < telegramBotAllowedUserButtons.length; i++) {
-                    telegramBotAllowedUserButtons[i].setAttribute('class', telegramBotAllowedUserButtons[i].getAttribute('class').replace(' d-none', ''));
+                    telegramBotAllowedUserButtons[i].classList.remove('d-none');
                 }
             } else {
                 for (let i = 0; i < telegramBotAllowedUserButtons.length; i++) {
-                    telegramBotAllowedUserButtons[i].setAttribute('class', `${telegramBotAllowedUserButtons[i].getAttribute('class')} d-none`);
+                    telegramBotAllowedUserButtons[i].classList.add('d-none');
                 }
             }
 

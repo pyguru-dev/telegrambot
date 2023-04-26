@@ -75,7 +75,7 @@
 
 	function offKeyboard() {
 		if (keyboard.id != 'offKeyboard') {
-			keyboard.setAttribute('class', `${keyboard.getAttribute('class')} d-none`);
+			keyboard.classList.add('d-none');
 			keyboard.id = 'offKeyboard';
 
 			keyboardButtons.innerHTML = '';
@@ -96,7 +96,7 @@
 			let keyboardType = keyboardRadios[i].id.replace('Radio', '');
 
 			if (keyboard.id != keyboardType) {
-				keyboard.setAttribute('class', keyboard.getAttribute('class').replace(' d-none', ''));
+				keyboard.classList.remove('d-none');
 				keyboard.id = keyboardType;
 				keyboardButtons.innerHTML = '';
 
