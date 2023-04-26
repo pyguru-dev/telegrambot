@@ -20,6 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = True
 ALLOWED_HOSTS = ['*']
+INTERNAL_IPS = ['127.0.0.1']
 
 
 # Check and create folders
@@ -137,6 +138,8 @@ INSTALLED_APPS = [
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 
+	'debug_toolbar',
+
 	'scripts.apps.ScriptsConfig',
 
 	'user.apps.UserConfig',
@@ -158,6 +161,7 @@ MIDDLEWARE = [
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'constructor_telegram_bots.urls'
