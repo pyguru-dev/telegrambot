@@ -209,7 +209,7 @@ def get_telegram_bot_users(request: WSGIRequest, telegram_bot: TelegramBot) -> H
 		telegram_bot_users.update(
 			{
 				telegram_bot_user.id: {
-					'username': telegram_bot_user.username,
+					'username': str(telegram_bot_user),
 					'date_started': telegram_bot_user.date_started.strftime('%H:%M:%S - %d.%m.%Y'),
 					'is_allowed_user': telegram_bot.allowed_users.filter(id=telegram_bot_user.id).exists(),
 				},

@@ -104,7 +104,7 @@ var setIntervalId;
 						wrapper.setAttribute('class', 'text-center');
 						wrapper.innerHTML = [
 							`<th class="align-middle" scope="row">${i + 1}</th>`,
-							`<td class="align-middle">@${telegramBotUsers[telegramBotUsersKeys[i]]['username']}</td>`,
+							`<td class="align-middle">${telegramBotUsers[telegramBotUsersKeys[i]]['username']}</td>`,
 							`<td class="align-middle">${telegramBotUsers[telegramBotUsersKeys[i]]['date_started']}</td>`,
 							'<td class="align-middle">',
 							`	<button class="btn delete-telegram-bot-user-button rounded-0 p-0" id="${telegramBotUsersKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Удалить пользователя">`,
