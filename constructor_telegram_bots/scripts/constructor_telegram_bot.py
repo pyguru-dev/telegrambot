@@ -50,7 +50,7 @@ class ConstructorTelegramBot:
 			reply_markup=InlineKeyboardMarkup(
 				[
 					[
-						InlineKeyboardButton(text='Авторизация', url=User.objects.get_auth_url(user_id=user_id)),
+						InlineKeyboardButton(text='Авторизация', url=User.objects.get(id=user_id).get_auth_url()),
 					],
 				]
 			)

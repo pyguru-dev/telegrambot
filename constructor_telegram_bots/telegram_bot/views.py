@@ -28,7 +28,7 @@ def add_telegram_bot(request: WSGIRequest, token: str, private: bool) -> HttpRes
 @SiteDecorators.check_request_data_items(needs_items=('token', 'private',))
 @SiteDecorators.check_telegram_bot_token
 def duplicate_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot, token: str, private: bool) -> HttpResponse:
-	TelegramBot.objects.duplicate_telegram_bot(request=request, telegram_bot=telegram_bot, token=token, private=private)
+	telegram_bot.duplicate(request=request, token=token, private=private)
 
 	return HttpResponse('Вы успешно дублировали Telegram бота.')
 
@@ -36,7 +36,7 @@ def duplicate_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot, toke
 @SiteDecorators.is_auth(render_page=False)
 @SiteDecorators.check_telegram_bot_id(render_page=False)
 def delete_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
-	TelegramBot.objects.delete_telegram_bot(telegram_bot=telegram_bot)
+	telegram_bot.custom_delete()
 
 	return HttpResponse('Вы успешно удалили Telegram бота.')
 

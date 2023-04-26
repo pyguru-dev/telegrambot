@@ -1,3 +1,4 @@
+from django.core.handlers.wsgi import WSGIRequest
 from django.db import models
 
 from telegram_bot.managers import TelegramBotManager, TelegramBotCommandManager
@@ -7,6 +8,12 @@ class TelegramBotUser(models.Model):
 	username = models.CharField(max_length=32)
 	date_started = models.DateTimeField(auto_now_add=True)
 
+	class Meta:
+		db_table = 'telegram_bot_user'
+
+	def __str__(self) -> str:
+		return f'{self.user_id} - {self.username}'
+
 class TelegramBotCommand(models.Model):
 	name = models.CharField(max_length=255)
 	command = models.CharField(max_length=32, null=True)
@@ -15,6 +22,12 @@ class TelegramBotCommand(models.Model):
 	keyboard = models.JSONField(null=True)
 
 	objects = TelegramBotCommandManager()
+
+	class Meta:
+		db_table = 'telegram_bot_command'
+
+	def __str__(self) -> str:
+		return self.name
 
 class TelegramBot(models.Model):
 	name = models.CharField(max_length=32)
@@ -27,6 +40,32 @@ class TelegramBot(models.Model):
 	allowed_users = models.ManyToManyField(TelegramBotUser, related_name='allowed_users')
 	date_added = models.DateTimeField(auto_now_add=True)
 
-	USERNAME_FIELD = 'id'
-
 	objects = TelegramBotManager()
+
+	class Meta:
+		db_table = 'telegram_bot'
+
+	def duplicate(self, request: WSGIRequest, token: str, private: bool):
+		duplicated_telegram_bot: TelegramBot = self.objects.add_telegram_bot(request=request, token=token, private=private)
+
+		for telegram_bot_command in self.commands.all():
+			TelegramBotCommand.objects.add_telegram_bot_command(
+				telegram_bot=duplicated_telegram_bot,
+				name=telegram_bot_command.name,
+				command=telegram_bot_command.command,
+				callback=telegram_bot_command.callback,
+				message_text=telegram_bot_command.message_text,
+				keyboard=telegram_bot_command.keyboard
+			)
+
+	def custom_delete(self) -> None:
+		for telegram_bot_command in self.commands.all():
+			telegram_bot_command.delete()
+
+		for telegram_bot_user in self.users.all():
+			telegram_bot_user.delete()
+
+		self.delete()
+
+	def __str__(self) -> str:
+		return self.name

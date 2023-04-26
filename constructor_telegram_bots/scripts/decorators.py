@@ -6,6 +6,8 @@ from telegram.update import Update
 
 from telegram_bot.models import TelegramBot, TelegramBotUser
 
+import scripts.functions as Functions
+
 import json
 
 class TelegramBotDecorators:
@@ -153,7 +155,7 @@ class SiteDecorators:
 				elif TelegramBot.objects.filter(token=token).exists():
 					return HttpResponseBadRequest('Ваш токен Telegram бота уже использует другой пользователь сайта!')
 
-				return func(*args, **kwargs) if TelegramBot.objects.test_telegram_bot_token(token=token) is not None else HttpResponseBadRequest('Ваш токен Telegram бота является недействительным!')
+				return func(*args, **kwargs) if Functions.check_telegram_bot_token(token=token) is not None else HttpResponseBadRequest('Ваш токен Telegram бота является недействительным!')
 			else:
 				return HttpResponseBadRequest('Введите токен Telegram бота!')
 				

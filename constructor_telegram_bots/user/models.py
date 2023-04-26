@@ -1,8 +1,11 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.conf import settings
 from django.db import models
 
 from telegram_bot.models import TelegramBot
 from user.managers import UserManager
+
+import scripts.functions as Functions
 
 class User(AbstractBaseUser, PermissionsMixin):
 	password = None
@@ -14,3 +17,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 	USERNAME_FIELD = 'id'
 
 	objects = UserManager()
+
+	class Meta:
+		db_table = 'user'
+
+	def get_auth_url(self) -> str:
+		self.confirm_code = Functions.generator_secret_string(length=25, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
+		self.save()
+
+		return f'{settings.SITE_DOMAIN}user/auth/{self.id}/{self.confirm_code}/'
+	
+	def __str__(self) -> str:
+		return str(self.id)
