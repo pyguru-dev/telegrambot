@@ -1,6 +1,4 @@
-const mainAlertPlaceholder = document.querySelector('#mainAlertPlaceholder');
-
-const telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCheckBox');
+var mainAlertPlaceholder = document.querySelector('#mainAlertPlaceholder');
 
 var setIntervalId;
 
@@ -72,7 +70,6 @@ var setIntervalId;
 
 			getTelegramBotUsers();
 			if (telegramBotIsRunning) {
-				getTelegramBotUsers();
 				setIntervalId = setInterval(getTelegramBotUsers, 1500);
 			}
 		});

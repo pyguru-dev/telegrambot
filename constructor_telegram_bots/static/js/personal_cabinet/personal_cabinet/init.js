@@ -47,16 +47,11 @@ function get_added_telegram_bots() {
 					`		<h5 class="text-center text-break mb-0">Вы ещё не добавили Telegram бота</h5>`,
 					'	</div>',
 					'	<div class="card-footer">',
-					`		<button class="btn btn-outline-dark w-100 my-2" id="howToAddTelegramBotModalButton" type="button">Как добавить Telegram бота?</button>`,
+					`		<button class="btn btn-outline-dark w-100 my-2" type="button" data-bs-toggle="modal" data-bs-target="#howToAddTelegramBotModal">Как добавить Telegram бота?</button>`,
 					'	</div>',
 					'</div>',
 				].join('');
 				addedTelegramBotsDiv.append(wrapper);
-
-				var howToAddTelegramBotModalBootstrap = new bootstrap.Modal('#howToAddTelegramBotModal');
-				document.querySelector('#howToAddTelegramBotModalButton').addEventListener('click', function() {
-					howToAddTelegramBotModalBootstrap.toggle();
-				});
 			}
 		}
 	});

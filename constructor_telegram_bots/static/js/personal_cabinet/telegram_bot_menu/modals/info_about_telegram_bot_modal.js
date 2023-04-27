@@ -3,6 +3,8 @@
 
     let infoAboutTelegramBotModalAlertPlaceholder = document.querySelector('#infoAboutTelegramBotModalAlertPlaceholder');
 
+    var telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCheckBox');
+
     telegramBotPrivateCheckBox.addEventListener('click', function() {
         let request = new XMLHttpRequest();
         request.open('POST', `/telegram-bot/${telegramBotId}/edit/private/`, true);

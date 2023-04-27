@@ -48,8 +48,6 @@
 
 	function keyboardButtonFunc(keyboardButton, keyboardType) {
 		keyboardButton.remove();
-
-		console.log(keyboardType)
 		
 		if (keyboardType == 'inline-keyboard') {
 			createKeyboardInput(keyboardType, '{}:{}').focus();
