@@ -7,6 +7,7 @@ from user.managers import UserManager
 
 import scripts.functions as Functions
 
+
 class User(AbstractBaseUser, PermissionsMixin):
 	password = None
 	confirm_code = models.CharField(max_length=25, null=True)

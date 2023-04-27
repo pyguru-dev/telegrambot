@@ -9,6 +9,7 @@ from scripts.decorators import SiteDecorators
 
 import json
 
+
 def user_auth(request: WSGIRequest, user_id: int, confirm_code: str) -> HttpResponse:
 	context = {
 		'title': 'Авторизация',

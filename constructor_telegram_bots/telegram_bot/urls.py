@@ -2,6 +2,7 @@ from django.urls import path
 
 from telegram_bot import views
 
+
 urlpatterns = [
 	path('add/', views.add_telegram_bot),
 	path('<int:telegram_bot_id>/duplicate/', views.duplicate_telegram_bot),

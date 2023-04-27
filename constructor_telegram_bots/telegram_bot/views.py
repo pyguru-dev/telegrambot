@@ -11,7 +11,6 @@ from threading import Thread
 import json
 import time
 
-#############################################################################################################################
 
 @csrf_exempt
 @SiteDecorators.is_auth(render_page=False)
@@ -40,7 +39,6 @@ def delete_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> Http
 
 	return HttpResponse('Вы успешно удалили Telegram бота.')
 
-#############################################################################################################################
 
 @csrf_exempt
 @SiteDecorators.is_auth(render_page=False)
@@ -70,7 +68,6 @@ def stop_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpRe
 
 	return HttpResponse('Вы успешно выключили Telegram бота.')
 
-#############################################################################################################################
 
 @csrf_exempt
 @SiteDecorators.is_auth(render_page=False)
@@ -82,7 +79,6 @@ def edit_telegram_bot_private(request: WSGIRequest, telegram_bot: TelegramBot, t
 
 	return HttpResponse(f"Вы успешно сделали своего Telegram бота {'не' if telegram_bot_private == False else ''} приватным.")
 
-#############################################################################################################################
 
 @csrf_exempt
 @SiteDecorators.is_auth(render_page=False)
@@ -126,7 +122,6 @@ def delete_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot,
 
 	return HttpResponse('Вы успешно удалили команду Telegram бота.')
 
-#############################################################################################################################
 
 @csrf_exempt
 @SiteDecorators.is_auth(render_page=False)
@@ -157,7 +152,6 @@ def delete_telegram_bot_user(request: WSGIRequest, telegram_bot: TelegramBot, te
 
 	return HttpResponse('Вы успешно удалили пользователя Telegram бота.')
 
-#############################################################################################################################
 
 @csrf_exempt
 @SiteDecorators.is_auth(render_page=False)
@@ -195,7 +189,6 @@ def get_telegram_bot_command_data(request: WSGIRequest, telegram_bot: TelegramBo
 		)
 	)
 
-#############################################################################################################################
 
 @csrf_exempt
 @SiteDecorators.is_auth(render_page=False)

@@ -10,6 +10,7 @@ import scripts.functions as Functions
 
 import json
 
+
 class TelegramBotDecorators:
 	def get_attributes(need_attributes: tuple):
 		def decorator(func):
@@ -82,8 +83,7 @@ class TelegramBotDecorators:
 			else:
 				return func(*args, **kwargs)
 		return wrapper
-	
-#############################################################################################################################
+
 
 class SiteDecorators:
 	def is_auth(render_page: bool):

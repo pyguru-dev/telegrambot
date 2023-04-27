@@ -11,6 +11,7 @@ from threading import Thread
 import json
 import time
 
+
 class UserTelegramBot:
 	def __init__(self, telegram_bot: TelegramBot) -> None:
 		self.telegram_bot = telegram_bot

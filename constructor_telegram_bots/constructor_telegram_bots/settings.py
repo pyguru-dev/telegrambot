@@ -3,6 +3,7 @@ import scripts.functions as Functions
 from pathlib import Path
 import os
 
+
 # Constants for the site
 
 SITE_DOMAIN = 'http://127.0.0.1:8000/'

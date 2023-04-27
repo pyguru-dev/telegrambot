@@ -7,7 +7,6 @@ import telegram_bot.models as TelegramBotModels
 
 import scripts.functions as Functions
 
-#############################################################################################################################
 
 class TelegramBotManager(models.Manager):
 	def add_telegram_bot(self, request: WSGIRequest, token: str, private: bool, **extra_fields):
@@ -21,7 +20,6 @@ class TelegramBotManager(models.Manager):
 
 		return telegram_bot
 
-#############################################################################################################################
 
 class TelegramBotCommandManager(models.Manager):
 	def add_telegram_bot_command(self, telegram_bot, name: str, command: str, callback: str, message_text: str, keyboard: str, **extra_fields):

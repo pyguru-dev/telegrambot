@@ -9,6 +9,7 @@ from user.models import User
 
 from scripts.decorators import TelegramBotDecorators
 
+
 class ConstructorTelegramBot:
 	def __init__(self) -> None:
 		self.commands = {

@@ -3,6 +3,7 @@ from django.db import models
 
 from telegram_bot.managers import TelegramBotManager, TelegramBotCommandManager
 
+
 class TelegramBotLog(models.Model):
 	level = models.CharField(max_length=7)
 	message = models.TextField()
@@ -14,6 +15,7 @@ class TelegramBotLog(models.Model):
 	def __str__(self) -> str:
 		return f'[{self.date_added}]: {self.level} > {self.message}'
 
+
 class TelegramBotUser(models.Model):
 	user_id = models.BigIntegerField()
 	username = models.CharField(max_length=32)
@@ -24,6 +26,7 @@ class TelegramBotUser(models.Model):
 
 	def __str__(self) -> str:
 		return f'{self.user_id} - @{self.username}'
+
 
 class TelegramBotCommand(models.Model):
 	name = models.CharField(max_length=255)
@@ -39,6 +42,7 @@ class TelegramBotCommand(models.Model):
 
 	def __str__(self) -> str:
 		return self.name
+
 
 class TelegramBot(models.Model):
 	name = models.CharField(max_length=32)
