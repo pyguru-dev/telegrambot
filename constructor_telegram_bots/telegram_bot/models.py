@@ -49,7 +49,7 @@ class TelegramBot(models.Model):
 	commands = models.ManyToManyField(TelegramBotCommand, related_name='commands')
 	users = models.ManyToManyField(TelegramBotUser, related_name='users')
 	allowed_users = models.ManyToManyField(TelegramBotUser, related_name='allowed_users')
-	telegram_bot_logs = models.ManyToManyField(TelegramBotLog, related_name='telegram_bot_logs')
+	logs = models.ManyToManyField(TelegramBotLog, related_name='telegram_bot_logs')
 	date_added = models.DateTimeField(auto_now_add=True)
 
 	objects = TelegramBotManager()
