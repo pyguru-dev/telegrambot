@@ -4,48 +4,42 @@ from pathlib import Path
 import os
 
 
-# Constants for the site
-
-SITE_DOMAIN = 'http://127.0.0.1:8000/'
-
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
+SITE_DOMAIN = 'http://127.0.0.1:8000/'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 INTERNAL_IPS = ['127.0.0.1']
 
 
-# Check and create folders
-
-if Functions.if_find_folder_or_file(BASE_DIR, 'logs') == False:
-	os.mkdir(BASE_DIR / 'logs')
-
-if Functions.if_find_folder_or_file(BASE_DIR, 'data') == False:
-	os.mkdir(BASE_DIR / 'data')
+folders = ('data', 'logs',)
+for folder in folders:
+	if os.path.exists(BASE_DIR / folder) is False:
+		os.mkdir(BASE_DIR / folder)
 
 
-# SECURITY WARNING: keep the secret key used in production secret!
-
-if Functions.if_find_folder_or_file(BASE_DIR / 'data', 'secret.key') == False:
+if os.path.exists(BASE_DIR / 'data/secret.key') is False:
 	SECRET_KEY = f"django-insecure-{Functions.generator_secret_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}"
 	
-	with open( BASE_DIR / 'data/secret.key', 'w') as f:
-		f.write(SECRET_KEY)
+	with open(BASE_DIR / 'data/secret.key', 'w') as secret_key_file:
+		secret_key_file.write(SECRET_KEY)
 else:
-	with open(BASE_DIR / 'data/secret.key', 'r') as f:
-		SECRET_KEY = f.read()
+	with open(BASE_DIR / 'data/secret.key', 'r') as secret_key_file:
+		SECRET_KEY = secret_key_file.read()
 
 
-# Logs settings
+open(BASE_DIR / 'data/api.token', 'a')
+with open(BASE_DIR / 'data/api.token', 'r') as api_token_file:
+	API_TOKEN = api_token_file.read().replace('\n', '')
+
+if API_TOKEN == '':
+	print(f"Enter the Constructor Telegram bot token in the file {BASE_DIR / 'data/api.token'}!")
+
+	exit()
+
 
 LOGGING = {
 	'version': 1,
@@ -70,7 +64,7 @@ LOGGING = {
 			'level': 'INFO',
 			'class': 'logging.FileHandler',
 			'filename': BASE_DIR / 'logs/info.log',
-			'formatter': 'simple',
+			'formatter': 'verbose',
 		},
 		'debug_file': { 
 			'level': 'DEBUG',
@@ -130,8 +124,6 @@ LOGGING = {
 }
 
 
-# Application definition
-
 INSTALLED_APPS = [
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
@@ -186,9 +178,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'constructor_telegram_bots.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',
@@ -197,9 +186,6 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
 	{'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
 	{'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -207,9 +193,6 @@ AUTH_PASSWORD_VALIDATORS = [
 	{'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
-# Internationalization
-# https://docs.djangoproject.com/en/4.0/topics/i18n/
 
 AUTH_USER_MODEL = 'user.User'
 
@@ -220,9 +203,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.0/howto/static-files/
-
 STATIC_URL = '/static/'
 
 if DEBUG:
@@ -232,7 +212,5 @@ if DEBUG:
 else:
 	STATIC_ROOT = BASE_DIR / 'static/'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -4,6 +4,8 @@ from django.conf import settings
 
 import scripts.functions as Functions
 
+import os
+
 
 urlpatterns = [
 	re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
@@ -27,5 +29,4 @@ if settings.DEBUG:
 		path('__debug__/', include(debug_toolbar.urls)),
 	] + urlpatterns
 
-if Functions.if_find_folder_or_file(settings.BASE_DIR / 'data', 'constructor_telegram_bot.token'):
-	Functions.start_all_telegram_bots()
+Functions.start_all_telegram_bots()

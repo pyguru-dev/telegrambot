@@ -7,15 +7,7 @@ from telegram import User
 from threading import Thread
 from typing import Union
 import random
-import os
 
-
-def if_find_folder_or_file(directory: str, name: str) -> bool:
-	for _name in os.listdir(directory):
-		if _name == name:
-			return True
-
-	return False
 
 def generator_secret_string(length: int, chars: str) -> str:
 	secret_string = ''
