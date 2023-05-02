@@ -4,8 +4,6 @@ from django.conf import settings
 
 import scripts.functions as Functions
 
-import os
-
 
 urlpatterns = [
 	re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
@@ -25,8 +23,8 @@ urlpatterns = [
 if settings.DEBUG:
 	import debug_toolbar
 	
-	urlpatterns = [
+	urlpatterns += [
 		path('__debug__/', include(debug_toolbar.urls)),
-	] + urlpatterns
+	]
 
 Functions.start_all_telegram_bots()
