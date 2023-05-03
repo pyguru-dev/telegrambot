@@ -1,82 +1,49 @@
-from telegram.ext import Updater, CommandHandler
-from telegram.ext.callbackcontext import CallbackContext
-from telegram import InlineKeyboardButton, InlineKeyboardMarkup
-from telegram.update import Update
+from aiogram.dispatcher import Dispatcher
+from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
+from aiogram import Bot
 
 from django.conf import settings
 
 from user.models import User
 
-from scripts.decorators import TelegramBotDecorators
+from asgiref.sync import sync_to_async
+import asyncio
 
 
-class ConstructorTelegramBot:
-	def __init__(self) -> None:
-		self.commands = {
-			'start': self.start_command,
-			'auth': self.auth_command,
-			'support': self.support_command,
-		}
+loop = asyncio.get_event_loop()
 
-	@TelegramBotDecorators.get_attributes(need_attributes=('update', 'context', 'user_id', 'username', 'message',))
-	def start_command(self, update: Update, context: CallbackContext, user_id: int, username: str, message: str) -> None:
-		if User.objects.filter(id=user_id).exists() is False:
-			User.objects.create_user(user_id=user_id)
-			
-			context.bot.send_message(
-				chat_id=user_id,
-			    text=f"""\
-					Привет, @{username}!
-					Я являюсь Telegram ботом для сайта Constructor Telegram Bots.
-					Спасибо за то, что ты с нами ❤️
-				""".replace('	', ''),
-				reply_markup=InlineKeyboardMarkup(
-					[
-						[
-							InlineKeyboardButton(text='Constructor Telegram Bots', url=settings.SITE_DOMAIN),
-						],
-					]
-				)
-			)
-		
-		if len(message.split()) > 1:
-			if message.split()[1] == 'auth':
-				self.auth_command(update, context)
 
-	@TelegramBotDecorators.get_attributes(need_attributes=('context', 'user_id',))
-	def auth_command(self, context: CallbackContext, user_id: int) -> None:
-		context.bot.send_message(
-			chat_id=user_id,
-			text='Нажмите на кнопку ниже, чтобы авторизоваться на сайте.',
-			reply_markup=InlineKeyboardMarkup(
-				[
-					[
-						InlineKeyboardButton(text='Авторизация', url=User.objects.get(id=user_id).get_auth_url()),
-					],
-				]
-			)
-		)
+bot = Bot(token=settings.API_TOKEN, loop=loop)
+dispatcher = Dispatcher(bot=bot)
 
-	@TelegramBotDecorators.get_attributes(need_attributes=('context', 'user_id',))
-	def support_command(self, context: CallbackContext, user_id: int) -> None:
-		context.bot.send_message(
-			chat_id=user_id,
-			text='Нажмите на кнопку ниже, чтобы написать автору сайта.',
-			reply_markup=InlineKeyboardMarkup(
-				[
-					[
-						InlineKeyboardButton(text='Написать автору сайта', url='https://t.me/pycoder39'),
-					],
-				]
-			)
-		)
 
-	def start(self) -> None:
-		self.updater = Updater(token=settings.API_TOKEN)
-		self.dispatcher = self.updater.dispatcher
+@dispatcher.message_handler(commands=['start'])
+async def start_command(message: Message) -> None:
+	await bot.send_message(
+		chat_id=message.chat.id,
+		text=f"""\
+			Привет, @{message.from_user.username}!
+			Я являюсь Telegram ботом для сайта Constructor Telegram Bots.
+			Спасибо за то, что ты с нами ❤️
+		""".replace('	', '')
+	)
 
-		for command in self.commands:
-			handler = CommandHandler(command, self.commands[command])
-			self.dispatcher.add_handler(handler)
+@dispatcher.message_handler(commands=['auth'])
+async def auth_command(message: Message) -> None:
+	user: User = await sync_to_async(User.objects.get)(id=message.from_user.id)
+	auth_url: str = await sync_to_async(user.get_auth_url)()
 
-		self.updater.start_polling()
+	inline_keyboard = InlineKeyboardMarkup(row_width=1)
+	inline_keyboard.add(
+		InlineKeyboardButton(text='Авторизация', url=auth_url)
+	)
+
+	await bot.send_message(
+		chat_id=message.chat.id,
+		text='Нажмите на кнопку ниже, чтобы авторизоваться на сайте.',
+		reply_markup=inline_keyboard
+	)
+
+async def start() -> None:
+	await dispatcher.skip_updates()
+	await dispatcher.start_polling()
