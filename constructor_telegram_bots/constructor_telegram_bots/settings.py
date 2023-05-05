@@ -46,7 +46,7 @@ LOGGING = {
 	'disable_existing_loggers': False,
 	'formatters': {
 		'verbose': {
-			'format': '[{asctime}]: {name} > {funcName} || {message}',
+			'format': '[{asctime}]: {levelname}: {name} > {funcName} || {message}',
 			'style': '{',
 		},
 		'simple': {
@@ -60,16 +60,16 @@ LOGGING = {
 			'class': 'logging.StreamHandler',
 			'formatter': 'simple',
 		},
-		'info_file': { 
-			'level': 'INFO',
-			'class': 'logging.FileHandler',
-			'filename': BASE_DIR / 'logs/info.log',
-			'formatter': 'verbose',
-		},
 		'debug_file': { 
 			'level': 'DEBUG',
 			'class': 'logging.FileHandler',
 			'filename': BASE_DIR / 'logs/debug.log',
+			'formatter': 'verbose',
+		},
+		'info_file': { 
+			'level': 'INFO',
+			'class': 'logging.FileHandler',
+			'filename': BASE_DIR / 'logs/info.log',
 			'formatter': 'verbose',
 		},
 		'warning_file': { 
@@ -89,8 +89,8 @@ LOGGING = {
 		'django': {
 			'handlers': [
 				'console',
-				'info_file',
 				'debug_file',
+				'info_file',
 				'warning_file',
 				'error_file',
 			],
@@ -99,8 +99,17 @@ LOGGING = {
 		'django.request': {
 			'handlers': [
 				'console',
-				'info_file',
 				'debug_file',
+				'info_file',
+				'warning_file',
+				'error_file',
+			],
+			'propagate': False,
+		},
+		'django.security': {
+			'handlers': [
+				'debug_file',
+				'info_file',
 				'warning_file',
 				'error_file',
 			],
@@ -109,12 +118,16 @@ LOGGING = {
 		'django.template': {
 			'handlers': [
 				'debug_file',
+				'info_file',
+				'warning_file',
+				'error_file',
 			],
 			'propagate': False,
 		},
 		'django.db.backends': {
 			'handlers': [
 				'debug_file',
+				'info_file',
 				'warning_file',
 				'error_file',
 			],
