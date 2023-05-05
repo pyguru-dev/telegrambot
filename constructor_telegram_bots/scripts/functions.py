@@ -1,12 +1,11 @@
-from django.db.utils import OperationalError
-
-from telegram.error import InvalidToken, Unauthorized
-from telegram.ext import Updater
-from telegram import User
+from aiogram.utils.exceptions import TerminatedByOtherGetUpdates
 
 from threading import Thread
 from typing import Union
+import requests
+import asyncio
 import random
+import json
 
 
 def generator_secret_string(length: int, chars: str) -> str:
@@ -15,35 +14,30 @@ def generator_secret_string(length: int, chars: str) -> str:
 		secret_string += random.choice(chars)
 	return secret_string
 
-def check_telegram_bot_token(token: str) -> Union[User, None]:
-	try:
-		updater = Updater(token=token)
-		return updater.bot.get_me()
-	except (InvalidToken, Unauthorized):
+def check_telegram_bot_token(token: str) -> Union[str, None]:
+	responce = requests.get(url=f'https://api.telegram.org/bot{token}/getMe')
+	if responce.status_code == 200:
+		responce_json = json.loads(responce.text)
+		return responce_json['result']['username']
+	else:
 		return None
 
+async def start_bot(telegram_bot) -> None:
+	await telegram_bot.start()
+
+def start_telegram_bot(telegram_bot) -> None:
+	loop = asyncio.new_event_loop()
+	Thread(target=loop.run_until_complete, args=(start_bot(telegram_bot),), daemon=True).start()
+
 def start_all_telegram_bots() -> None:
-	# from telegram_bot.models import TelegramBot
+	from telegram_bot.models import TelegramBot
 
 	import scripts.constructor_telegram_bot as ConstructorTelegramBot
-	# from scripts.user_telegram_bot import UserTelegramBot
-
-	import asyncio
+	from scripts.user_telegram_bot import UserTelegramBot
 
 
-	async def start_all_bots() -> None:
-		task = asyncio.create_task(ConstructorTelegramBot.start())
-		await asyncio.gather(task)
-
-
-	loop = asyncio.new_event_loop()
-	asyncio.set_event_loop(loop)
-	Thread(target=loop.run_until_complete, args=(start_all_bots(),)).start()
-
-	# try:
-	# 	for telegram_bot in TelegramBot.objects.all():
-	# 		if telegram_bot.is_running:
-	# 			user_telegram_bot = UserTelegramBot(telegram_bot=telegram_bot)
-	# 			Thread(target=user_telegram_bot.start, daemon=True).start()
-	# except OperationalError:
-	# 	pass
+	start_telegram_bot(telegram_bot=ConstructorTelegramBot)
+	for telegram_bot in TelegramBot.objects.all():
+		if telegram_bot.is_running:
+			user_telegram_bot = UserTelegramBot(telegram_bot=telegram_bot)
+			start_telegram_bot(telegram_bot=user_telegram_bot)

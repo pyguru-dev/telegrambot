@@ -11,8 +11,6 @@ import asyncio
 
 
 loop = asyncio.get_event_loop()
-
-
 bot = Bot(token=settings.API_TOKEN, loop=loop)
 dispatcher = Dispatcher(bot=bot)
 
