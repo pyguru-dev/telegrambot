@@ -22,7 +22,7 @@ for folder in folders:
 
 
 if os.path.exists(BASE_DIR / 'data/secret.key') is False:
-	SECRET_KEY = f"django-insecure-{Functions.generator_secret_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}"
+	SECRET_KEY = f"django-insecure-{Functions.generator_random_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}"
 	
 	with open(BASE_DIR / 'data/secret.key', 'w') as secret_key_file:
 		secret_key_file.write(SECRET_KEY)
@@ -31,12 +31,12 @@ else:
 		SECRET_KEY = secret_key_file.read()
 
 
-open(BASE_DIR / 'data/api.token', 'a')
-with open(BASE_DIR / 'data/api.token', 'r') as api_token_file:
-	API_TOKEN = api_token_file.read().replace('\n', '')
+open(BASE_DIR / 'data/constructor_telegram_bot_api.token', 'a')
+with open(BASE_DIR / 'data/constructor_telegram_bot_api.token', 'r') as constructor_telegram_bot_api_token_file:
+	CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = constructor_telegram_bot_api_token_file.read().replace('\n', '')
 
-if API_TOKEN == '':
-	print(f"Enter the Constructor Telegram bot token in the file {BASE_DIR / 'data/api.token'}!")
+if CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN == '':
+	print(f"Enter the Constructor Telegram bot token in the file {BASE_DIR / 'data/constructor_telegram_bot_api.token'}!")
 
 	exit()
 

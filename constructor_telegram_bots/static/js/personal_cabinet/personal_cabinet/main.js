@@ -1,9 +1,7 @@
 {
-	var mainAlertPlaceholder = document.querySelector('#mainAlertPlaceholder');
-
 	document.querySelector('#addTelegramBotModalButton').addEventListener('click', function() {
 		addTelegramBotModalAlertPlaceholder.innerHTML = '';
-		addTelegramBotTokenInput.value = '';
+		addTelegramBotApiTokenInput.value = '';
 
 		addTelegramBotModalBootstrap.toggle();
 	});

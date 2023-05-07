@@ -1,11 +1,10 @@
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import HttpResponse, render
 from django.contrib.auth import login
 
 from user.models import User
-
-from scripts.decorators import SiteDecorators
 
 import json
 
@@ -62,7 +61,7 @@ def user_auth(request: WSGIRequest, user_id: int, confirm_code: str) -> HttpResp
 	return render(request=request, template_name='auth.html', context=context)
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
+@login_required
 def get_user_added_telegram_bots(request: WSGIRequest) -> HttpResponse:
 	added_telegram_bots = {}
 	for telegram_bot in request.user.telegram_bots.all():

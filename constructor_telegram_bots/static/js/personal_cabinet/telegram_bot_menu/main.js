@@ -1,8 +1,4 @@
 {
-	document.querySelector('#infoAboutTelegramBotModalButton').addEventListener('click', function() {
-		infoAboutTelegramBotModalBootstrap.toggle();
-	});
-	
 	let startOrStopTelegramBotButton = document.querySelector('#startOrStopTelegramBotButton');
 	startOrStopTelegramBotButton.addEventListener('click', function() {
 		this.disabled = true;
@@ -114,23 +110,21 @@
 				if (telegramBotCommandKeyboard[0] != 'offKeyboard') {
 					document.querySelector(`#${telegramBotCommandKeyboard[0]}Radio`).checked = true;
 
+					examplekeyboardButton.innerHTML = (telegramBotCommandKeyboard[0] == 'defaultKeyboard') ? '<b>{Текст}:{CallBack текст}</b> или <b>{Текст}:{Ссылка}</b>' : '<b>Текст</b>';
+
 					keyboard.classList.remove('d-none');
 					keyboard.id = telegramBotCommandKeyboard[0];
 					keyboardButtons.innerHTML = '';
-					
-					let keyboardType = (telegramBotCommandKeyboard[0] == 'defaultKeyboard') ? 'default-keyboard' : 'inline-keyboard';
-
-					examplekeyboardButton.innerHTML = (keyboardType == 'defaultKeyboard') ? '<b>{Текст}:{CallBack текст}</b> или <b>{Текст}:{Ссылка}</b>' : '<b>Текст</b>';
 
 					for (let i = 0; i < telegramBotCommandKeyboard.length; i ++) {
 						if (i > 0) {
-							createKeyboardInput(keyboardType, telegramBotCommandKeyboard[i]);
+							createKeyboardInput(telegramBotCommandKeyboard[i]);
 
 							keyboardButtonNum ++;
 						}
 					}
 
-					createKeyboardButton(keyboardType);
+					createKeyboardButton(telegramBotCommandKeyboard[0]);
 				}
 
 				addOrEditTelegramBotCommandUrl = `/telegram-bot/${telegramBotId}/command/${telegramBotCommandId}/edit/`;

@@ -1,11 +1,7 @@
-{% extends 'main.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Меню Telegram бота{% endblock title %}
-
-{% block styles %}
-	<link rel="stylesheet" href="{% static 'css/personal_cabinet/telegram_bot_menu/modals/add_or_edit_telegram_bot_command_modal.css' %}">
-{% endblock styles %}
 
 {% block body %}
 	{% include 'modals/ask_confirm_modal.html' %}
@@ -18,7 +14,6 @@
 
 {% block main %}
 	<div class="container">
-		<div id="mainAlertPlaceholder"></div>
 		<div class="row">
 			<div class="col-12 mb-2">
 				<div class="card h-100">
@@ -37,7 +32,7 @@
 					<div class="card-footer">
 						<div class="row row-cols-1 row-cols-lg-3 my-2">
 							<div class="col w-100 mb-1">
-								<button class="btn btn-outline-dark w-100" id="infoAboutTelegramBotModalButton" type="button">Информация о Telegram боте</button>	
+								<button class="btn btn-outline-dark w-100" type="button" data-bs-toggle="modal" data-bs-target="#infoAboutTelegramBotModal">Информация о Telegram боте</button>	
 							</div>
 							<div class="col pe-lg-1 mt-1 mb-1 mb-lg-0">
 								<button class="btn btn-outline-{% if telegram_bot.is_running %}danger{% else %}success{% endif %} w-100" id="startOrStopTelegramBotButton" type="button">В{% if telegram_bot.is_running %}ы{% endif %}ключить Telegram бота</button>

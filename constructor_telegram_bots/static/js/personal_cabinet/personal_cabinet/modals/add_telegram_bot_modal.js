@@ -1,9 +1,11 @@
 {
+	var mainAlertPlaceholder = document.querySelector('#mainAlertPlaceholder');
+
 	var addTelegramBotModalBootstrap = new bootstrap.Modal('#addTelegramBotModal');
 
 	var addTelegramBotModalAlertPlaceholder = document.querySelector('#addTelegramBotModalAlertPlaceholder');
 
-	var addTelegramBotTokenInput = document.querySelector('#addTelegramBotTokenInput');
+	var addTelegramBotApiTokenInput = document.querySelector('#addTelegramBotApiTokenInput');
 
 	document.querySelector('#addTelegramBotButton').addEventListener('click', function() {
 		let request = new XMLHttpRequest();
@@ -21,7 +23,7 @@
 		});
 		request.send(JSON.stringify(
 			{
-				'token': document.querySelector('#addTelegramBotTokenInput').value,
+				'api_token': addTelegramBotApiTokenInput.value,
 				'private': document.querySelector('#addTelegramBotPrivateCheckBox').checked,
 			}
 		));

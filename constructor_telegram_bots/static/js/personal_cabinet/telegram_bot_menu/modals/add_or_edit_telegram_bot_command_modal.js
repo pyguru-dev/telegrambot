@@ -18,25 +18,27 @@
 
 	var addOrEditTelegramBotCommandUrl;
 
-	function addOrEditTelegramBotCommandTextInputInsert(value) {
-		addOrEditTelegramBotCommandTextInput.value = `${addOrEditTelegramBotCommandTextInput.value}${value}`;
-		addOrEditTelegramBotCommandTextInput.focus();
-	}
+	function createKeyboardInput(value) {
+		let keyboardButtonDiv = document.createElement('div');
+		keyboardButtonDiv.setAttribute('class', 'input-group mb-1');
 
-	function createKeyboardInput(keyboardType, value) {
 		let keyboardInput = document.createElement('input');
-		keyboardInput.setAttribute('class', `btn btn-sm btn-outline-dark ${keyboardType}-input border-end-0`);
+		keyboardInput.setAttribute('class', 'btn btn-sm btn-outline-dark border-end-0 rounded-0 rounded-start');
 		keyboardInput.id = keyboardButtonNum;
 		keyboardInput.type = 'text';
+		keyboardInput.style = 'cursor: text; width: 90%;';
 		keyboardInput.value = value;
-		keyboardButtons.append(keyboardInput);
+		keyboardButtonDiv.append(keyboardInput);
 
 		let deleteKeyboardButton = document.createElement('button')
-		deleteKeyboardButton.setAttribute('class', 'btn btn-sm btn-danger delete-keyboard-button');
+		deleteKeyboardButton.setAttribute('class', 'btn btn-sm btn-danger rounded-0 rounded-end');
 		deleteKeyboardButton.id = keyboardButtonNum;
 		deleteKeyboardButton.type = 'button';
+		deleteKeyboardButton.style = 'width: 10%;';
 		deleteKeyboardButton.innerHTML = '<i class="bi bi-x-lg"></i>';
-		keyboardButtons.append(deleteKeyboardButton);
+		keyboardButtonDiv.append(deleteKeyboardButton);
+
+		keyboardButtons.append(keyboardButtonDiv);
 
 		deleteKeyboardButton.addEventListener('click', function() {
 			keyboardInput.remove();
@@ -49,10 +51,10 @@
 	function keyboardButtonFunc(keyboardButton, keyboardType) {
 		keyboardButton.remove();
 		
-		if (keyboardType == 'inline-keyboard') {
-			createKeyboardInput(keyboardType, '{}:{}').focus();
+		if (keyboardType == 'inlineKeyboard') {
+			createKeyboardInput('{:}').focus();
 		} else{
-			createKeyboardInput(keyboardType, '').focus();
+			createKeyboardInput('').focus();
 		}
 
 		createKeyboardButton(keyboardType);
@@ -60,7 +62,7 @@
 
 	function createKeyboardButton(keyboardType) {
 		let keyboardButton = document.createElement('button');
-		keyboardButton.setAttribute('class', `btn btn-sm btn-outline-dark ${keyboardType}-button w-100`);
+		keyboardButton.setAttribute('class', `btn btn-sm btn-outline-dark w-100`);
 		keyboardButton.id = keyboardButtonNum;
 		keyboardButton.type = 'button';
 		keyboardButton.innerHTML = 'Добавить кнопку';
@@ -99,13 +101,9 @@
 				keyboardButtons.innerHTML = '';
 
 				if (keyboardType == 'defaultKeyboard') {
-					keyboardType = 'default-keyboard';
-
 					examplekeyboardButton.innerHTML = '<b>Текст</b>';
 				} else {
-					keyboardType = 'inline-keyboard';
-
-					examplekeyboardButton.innerHTML = '<b>{Текст}:{CallBack текст}</b> или <b>{Текст}:{Ссылка}</b>';
+					examplekeyboardButton.innerHTML = '<b>{Текст:CallBack текст}</b> или <b>{Текст:Ссылка}</b>';
 				}
 
 				createKeyboardButton(keyboardType);

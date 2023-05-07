@@ -1,6 +1,4 @@
 {
-    var infoAboutTelegramBotModalBootstrap = new bootstrap.Modal('#infoAboutTelegramBotModal');
-
     let infoAboutTelegramBotModalAlertPlaceholder = document.querySelector('#infoAboutTelegramBotModalAlertPlaceholder');
 
     var telegramBotPrivateCheckBox = document.querySelector('#telegramBotPrivateCheckBox');

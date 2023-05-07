@@ -1,39 +1,40 @@
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import HttpResponse
 
 from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotUser
 
-from scripts.decorators import SiteDecorators
 from scripts.user_telegram_bot import UserTelegramBot
+import scripts.functions as Functions
+from scripts.decorators import *
 
-from threading import Thread
 import json
 import time
 
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_request_data_items(needs_items=('token', 'private',))
-@SiteDecorators.check_telegram_bot_token
-def add_telegram_bot(request: WSGIRequest, token: str, private: bool) -> HttpResponse:
-	TelegramBot.objects.add_telegram_bot(request=request, token=token, private=private)
+@login_required
+@check_post_request_data_items(request_need_items=('api_token', 'private',))
+@check_telegram_bot_api_token
+def add_telegram_bot(request: WSGIRequest, api_token: str, private: bool) -> HttpResponse:
+	TelegramBot.objects.add_telegram_bot(request=request, api_token=api_token, private=private)
 
 	return HttpResponse('Вы успешно добавили Telegram бота.')
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_telegram_bot_id(render_page=False)
-@SiteDecorators.check_request_data_items(needs_items=('token', 'private',))
-@SiteDecorators.check_telegram_bot_token
-def duplicate_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot, token: str, private: bool) -> HttpResponse:
-	telegram_bot.duplicate(request=request, token=token, private=private)
+@login_required
+@check_telegram_bot_id(render_page=False)
+@check_post_request_data_items(request_need_items=('api_token', 'private',))
+@check_telegram_bot_api_token
+def duplicate_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot, api_token: str, private: bool) -> HttpResponse:
+	telegram_bot.duplicate(request=request, api_token=api_token, private=private)
 
 	return HttpResponse('Вы успешно дублировали Telegram бота.')
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_telegram_bot_id(render_page=False)
+@login_required
+@check_telegram_bot_id(render_page=False)
 def delete_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
 	telegram_bot.custom_delete()
 
@@ -41,21 +42,21 @@ def delete_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> Http
 
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_telegram_bot_id(render_page=False)
+@login_required
+@check_telegram_bot_id(render_page=False)
 def start_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
 	telegram_bot.is_running = True
 	telegram_bot.is_stopped = False
 	telegram_bot.save()
 
 	user_telegram_bot = UserTelegramBot(telegram_bot=telegram_bot)
-	Thread(target=user_telegram_bot.start).start()
+	Functions.start_telegram_bot(telegram_bot=user_telegram_bot)
 
 	return HttpResponse('Вы успешно включили Telegram бота.')
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_telegram_bot_id(render_page=False)
+@login_required
+@check_telegram_bot_id(render_page=False)
 def stop_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
 	telegram_bot.is_running = False
 	telegram_bot.save()
@@ -70,9 +71,9 @@ def stop_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpRe
 
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_telegram_bot_id(render_page=False)
-@SiteDecorators.check_request_data_items(needs_items=('telegram_bot_private',))
+@login_required
+@check_telegram_bot_id(render_page=False)
+@check_post_request_data_items(request_need_items=('telegram_bot_private',))
 def edit_telegram_bot_private(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_private: bool) -> HttpResponse:
 	telegram_bot.private = telegram_bot_private
 	telegram_bot.save()
@@ -81,10 +82,10 @@ def edit_telegram_bot_private(request: WSGIRequest, telegram_bot: TelegramBot, t
 
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_telegram_bot_id(render_page=False)
-@SiteDecorators.check_request_data_items(needs_items=('name', 'command', 'callback', 'message_text', 'keyboard',))
-@SiteDecorators.check_data_for_telegram_bot_command
+@login_required
+@check_telegram_bot_id(render_page=False)
+@check_post_request_data_items(request_need_items=('name', 'command', 'callback', 'message_text', 'keyboard',))
+@check_data_for_telegram_bot_command
 def add_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot, name: str, command: str, callback: str, message_text: str, keyboard: str) -> HttpResponse:
 	TelegramBotCommand.objects.add_telegram_bot_command(
 		telegram_bot=telegram_bot,
@@ -98,11 +99,11 @@ def add_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot, na
 	return HttpResponse('Вы успешно добавили команду Telegram боту.')
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_telegram_bot_id(render_page=False)
-@SiteDecorators.check_telegram_bot_command_id
-@SiteDecorators.check_request_data_items(needs_items=('name', 'command', 'callback', 'message_text', 'keyboard',))
-@SiteDecorators.check_data_for_telegram_bot_command
+@login_required
+@check_telegram_bot_id(render_page=False)
+@check_telegram_bot_command_id
+@check_post_request_data_items(request_need_items=('name', 'command', 'callback', 'message_text', 'keyboard',))
+@check_data_for_telegram_bot_command
 def edit_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand, name: str, command: str, callback: str, message_text: str, keyboard: str) -> HttpResponse:
 	telegram_bot_command.name = name
 	telegram_bot_command.command = command
@@ -114,9 +115,9 @@ def edit_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot, t
 	return HttpResponse('Вы успешно изменили команду Telegram бота.')
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_telegram_bot_id(render_page=False)
-@SiteDecorators.check_telegram_bot_command_id
+@login_required
+@check_telegram_bot_id(render_page=False)
+@check_telegram_bot_command_id
 def delete_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand) -> HttpResponse:
 	telegram_bot_command.delete()
 
@@ -124,9 +125,9 @@ def delete_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot,
 
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_telegram_bot_id(render_page=False)
-@SiteDecorators.check_telegram_bot_user_id
+@login_required
+@check_telegram_bot_id(render_page=False)
+@check_telegram_bot_user_id
 def add_allowed_user(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_user: TelegramBotUser) -> HttpResponse:
 	telegram_bot.allowed_users.add(telegram_bot_user)
 	telegram_bot.save()
@@ -134,9 +135,9 @@ def add_allowed_user(request: WSGIRequest, telegram_bot: TelegramBot, telegram_b
 	return HttpResponse('Вы успешно добавили пользователя в список разрешённых пользователей Telegram бота.')
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_telegram_bot_id(render_page=False)
-@SiteDecorators.check_telegram_bot_user_id
+@login_required
+@check_telegram_bot_id(render_page=False)
+@check_telegram_bot_user_id
 def delete_allowed_user(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_user: TelegramBotUser) -> HttpResponse:
 	telegram_bot.allowed_users.remove(telegram_bot_user)
 	telegram_bot.save()
@@ -144,9 +145,9 @@ def delete_allowed_user(request: WSGIRequest, telegram_bot: TelegramBot, telegra
 	return HttpResponse('Вы успешно удалили пользователя из списка разрешённых пользователей Telegram бота.')
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_telegram_bot_id(render_page=False)
-@SiteDecorators.check_telegram_bot_user_id
+@login_required
+@check_telegram_bot_id(render_page=False)
+@check_telegram_bot_user_id
 def delete_telegram_bot_user(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_user: TelegramBotUser) -> HttpResponse:
 	telegram_bot_user.delete()
 
@@ -154,8 +155,8 @@ def delete_telegram_bot_user(request: WSGIRequest, telegram_bot: TelegramBot, te
 
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_telegram_bot_id(render_page=False)
+@login_required
+@check_telegram_bot_id(render_page=False)
 def get_telegram_bot_commands(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
 	telegram_bot_commands = {
 		'commands_count': telegram_bot.commands.all().count(),
@@ -173,9 +174,9 @@ def get_telegram_bot_commands(request: WSGIRequest, telegram_bot: TelegramBot) -
 	)
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_telegram_bot_id(render_page=False)
-@SiteDecorators.check_telegram_bot_command_id
+@login_required
+@check_telegram_bot_id(render_page=False)
+@check_telegram_bot_command_id
 def get_telegram_bot_command_data(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand) -> HttpResponse:
 	return HttpResponse(
 		json.dumps(
@@ -191,8 +192,8 @@ def get_telegram_bot_command_data(request: WSGIRequest, telegram_bot: TelegramBo
 
 
 @csrf_exempt
-@SiteDecorators.is_auth(render_page=False)
-@SiteDecorators.check_telegram_bot_id(render_page=False)
+@login_required
+@check_telegram_bot_id(render_page=False)
 def get_telegram_bot_users(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
 	telegram_bot_users = {
 		'users_count': telegram_bot.users.all().count(),

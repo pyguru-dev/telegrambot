@@ -46,7 +46,7 @@ class TelegramBotCommand(models.Model):
 
 class TelegramBot(models.Model):
 	name = models.CharField(max_length=32)
-	token = models.CharField(max_length=50, unique=True)
+	api_token = models.CharField(max_length=50, unique=True)
 	private = models.BooleanField(default=True)
 	is_running = models.BooleanField(default=False)
 	is_stopped = models.BooleanField(default=True)
@@ -61,8 +61,8 @@ class TelegramBot(models.Model):
 	class Meta:
 		db_table = 'telegram_bot'
 
-	def duplicate(self, request: WSGIRequest, token: str, private: bool):
-		duplicated_telegram_bot: TelegramBot = TelegramBot.objects.add_telegram_bot(request=request, token=token, private=private)
+	def duplicate(self, request: WSGIRequest, api_token: str, private: bool) -> None:
+		duplicated_telegram_bot: TelegramBot = TelegramBot.objects.add_telegram_bot(request=request, api_token=api_token, private=private)
 
 		for telegram_bot_command in self.commands.all():
 			TelegramBotCommand.objects.add_telegram_bot_command(

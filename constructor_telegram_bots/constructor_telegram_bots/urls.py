@@ -1,4 +1,5 @@
 from django.urls import re_path, path, include
+from django.db.utils import OperationalError
 from django.views.static import serve
 from django.conf import settings
 
@@ -27,4 +28,7 @@ if settings.DEBUG:
 		path('__debug__/', include(debug_toolbar.urls)),
 	]
 
-Functions.start_all_telegram_bots()
+try:
+	Functions.start_all_telegram_bots()
+except OperationalError:
+	pass

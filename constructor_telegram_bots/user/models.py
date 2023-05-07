@@ -23,7 +23,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 		db_table = 'user'
 
 	def get_auth_url(self) -> str:
-		self.confirm_code = Functions.generator_secret_string(length=25, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
+		self.confirm_code = Functions.generator_random_string(length=25, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
 		self.save()
 
 		return f'{settings.SITE_DOMAIN}user/auth/{self.id}/{self.confirm_code}/'

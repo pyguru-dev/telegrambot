@@ -18,7 +18,7 @@
 		});
 		request.send(JSON.stringify(
 			{
-				'token': document.querySelector('#duplicateTelegramBotTokenInput').value,
+				'api_token': document.querySelector('#duplicateTelegramBotApiTokenInput').value,
 				'private': document.querySelector('#duplicateTelegramBotPrivateCheckBox').checked,
 			}
 		));

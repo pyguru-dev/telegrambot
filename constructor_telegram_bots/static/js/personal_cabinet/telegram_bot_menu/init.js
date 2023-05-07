@@ -12,13 +12,12 @@ var setIntervalId;
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {
 				let telegramBotCommands = JSON.parse(request.responseText);
+				let telegramBotCommandsKeys = Object.keys(telegramBotCommands);
 
 				commandsCountTableLine.innerHTML = telegramBotCommands['commands_count'];
 
 				let telegramBotCommandsDiv = document.querySelector('.telegram-bot-commands');
 				telegramBotCommandsDiv.innerHTML = '';
-
-				let telegramBotCommandsKeys = Object.keys(telegramBotCommands);
 
 				if (telegramBotCommandsKeys.length > 1) {
 					for (let i = 0; i < telegramBotCommandsKeys.length - 1; i++) {
@@ -87,13 +86,12 @@ var setIntervalId;
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {
 				let telegramBotUsers = JSON.parse(request.responseText);
+				let telegramBotUsersKeys = Object.keys(telegramBotUsers);
 
 				usersCountTableLine.innerHTML = telegramBotUsers['users_count'];
 
 				let telegramBotUsersDiv = document.querySelector('.telegram-bot-users');
 				telegramBotUsersDiv.innerHTML = '';
-
-				let telegramBotUsersKeys = Object.keys(telegramBotUsers);
 
 				if (telegramBotUsersKeys.length > 1) {
 					for (let i = 0; i < telegramBotUsersKeys.length - 1; i++) {
@@ -126,6 +124,8 @@ var setIntervalId;
 										getTelegramBotUsers();
 
 										myAlert(mainAlertPlaceholder, request.responseText, 'success');
+									} else {
+										myAlert(mainAlertPlaceholder, request.responseText, 'danger');
 									}
 								});
 								request.send();
@@ -142,6 +142,8 @@ var setIntervalId;
 										getTelegramBotUsers();
 
 										myAlert(mainAlertPlaceholder, request.responseText, 'success');
+									} else {
+										myAlert(mainAlertPlaceholder, request.responseText, 'danger');
 									}
 								});
 								request.send();
@@ -156,6 +158,8 @@ var setIntervalId;
 										getTelegramBotUsers();
 
 										myAlert(mainAlertPlaceholder, request.responseText, 'success');
+									} else {
+										myAlert(mainAlertPlaceholder, request.responseText, 'danger');
 									}
 								});
 								request.send();
