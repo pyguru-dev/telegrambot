@@ -1,6 +1,7 @@
 import scripts.functions as Functions
 
 from pathlib import Path
+import sys
 import os
 
 
@@ -30,15 +31,15 @@ else:
 	with open(BASE_DIR / 'data/secret.key', 'r') as secret_key_file:
 		SECRET_KEY = secret_key_file.read()
 
+if sys.argv[1] == 'runserver':
+	open(BASE_DIR / 'data/constructor_telegram_bot_api.token', 'a')
+	with open(BASE_DIR / 'data/constructor_telegram_bot_api.token', 'r') as constructor_telegram_bot_api_token_file:
+		CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = constructor_telegram_bot_api_token_file.read().replace('\n', '')
 
-open(BASE_DIR / 'data/constructor_telegram_bot_api.token', 'a')
-with open(BASE_DIR / 'data/constructor_telegram_bot_api.token', 'r') as constructor_telegram_bot_api_token_file:
-	CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = constructor_telegram_bot_api_token_file.read().replace('\n', '')
+	if CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN == '':
+		print(f"Enter the Constructor Telegram bot token in the file {BASE_DIR / 'data/constructor_telegram_bot_api.token'}!")
 
-if CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN == '':
-	print(f"Enter the Constructor Telegram bot token in the file {BASE_DIR / 'data/constructor_telegram_bot_api.token'}!")
-
-	exit()
+		exit()
 
 
 LOGGING = {
