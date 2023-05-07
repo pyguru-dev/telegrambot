@@ -5,8 +5,8 @@ from django.shortcuts import HttpResponse
 
 from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotUser
 
+from scripts.start_telegram_bot import start_telegram_bot as start_telegram_bot_
 from scripts.user_telegram_bot import UserTelegramBot
-import scripts.functions as Functions
 from scripts.decorators import *
 
 import json
@@ -50,7 +50,7 @@ def start_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpR
 	telegram_bot.save()
 
 	user_telegram_bot = UserTelegramBot(telegram_bot=telegram_bot)
-	Functions.start_telegram_bot(telegram_bot=user_telegram_bot)
+	start_telegram_bot_(telegram_bot=user_telegram_bot)
 
 	return HttpResponse('Вы успешно включили Telegram бота.')
 

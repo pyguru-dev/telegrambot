@@ -147,8 +147,6 @@ INSTALLED_APPS = [
 
 	'debug_toolbar',
 
-	'scripts.apps.ScriptsConfig',
-
 	'user.apps.UserConfig',
 	'telegram_bot.apps.TelegramBotConfig',
 

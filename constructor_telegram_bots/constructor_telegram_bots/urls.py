@@ -3,7 +3,7 @@ from django.db.utils import OperationalError
 from django.views.static import serve
 from django.conf import settings
 
-import scripts.functions as Functions
+from scripts.start_telegram_bot import start_all_telegram_bots
 
 import sys
 
@@ -32,6 +32,6 @@ if settings.DEBUG:
 
 if sys.argv[1] == 'runserver':
 	try:
-		Functions.start_all_telegram_bots()
+		start_all_telegram_bots()
 	except OperationalError:
 		pass
