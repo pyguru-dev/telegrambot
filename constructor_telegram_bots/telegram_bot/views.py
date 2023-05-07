@@ -5,9 +5,9 @@ from django.shortcuts import HttpResponse
 
 from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotUser
 
-from scripts.start_telegram_bot import start_telegram_bot as start_telegram_bot_
-from scripts.user_telegram_bot import UserTelegramBot
-from scripts.decorators import *
+from telegram_bot.telegram_bots.start_telegram_bot import start_telegram_bot as start_telegram_bot_
+from telegram_bot.telegram_bots.user_telegram_bot import UserTelegramBot
+from constructor_telegram_bots.decorators import *
 
 import json
 import time

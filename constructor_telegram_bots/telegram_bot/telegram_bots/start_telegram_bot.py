@@ -1,5 +1,5 @@
-from scripts.constructor_telegram_bot import ConstructorTelegramBot
-from scripts.user_telegram_bot import UserTelegramBot
+from telegram_bot.telegram_bots.constructor_telegram_bot import ConstructorTelegramBot
+from telegram_bot.telegram_bots.user_telegram_bot import UserTelegramBot
 
 from telegram_bot.models import TelegramBot
 

@@ -4,7 +4,7 @@ from django.shortcuts import HttpResponse, render
 
 from telegram_bot.models import TelegramBot
 
-from scripts.decorators import check_telegram_bot_id
+from constructor_telegram_bots.decorators import *
 
 
 @login_required

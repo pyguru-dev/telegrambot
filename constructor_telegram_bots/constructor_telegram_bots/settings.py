@@ -1,4 +1,4 @@
-import scripts.functions as Functions
+import constructor_telegram_bots.functions as Functions
 
 from pathlib import Path
 import sys

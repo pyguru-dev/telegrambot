@@ -3,7 +3,7 @@ from django.db import models
 
 import telegram_bot.models as TelegramBotModels
 
-import scripts.functions as Functions
+import constructor_telegram_bots.functions as Functions
 
 
 class TelegramBotManager(models.Manager):

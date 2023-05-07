@@ -5,7 +5,7 @@ from django.db import models
 from telegram_bot.models import TelegramBot
 from user.managers import UserManager
 
-import scripts.functions as Functions
+import constructor_telegram_bots.functions as Functions
 
 
 class User(AbstractBaseUser, PermissionsMixin):

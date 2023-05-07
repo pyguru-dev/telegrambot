@@ -4,7 +4,7 @@ from django.shortcuts import render
 
 from telegram_bot.models import TelegramBot
 
-import scripts.functions as Functions
+import constructor_telegram_bots.functions as Functions
 
 import json
 
