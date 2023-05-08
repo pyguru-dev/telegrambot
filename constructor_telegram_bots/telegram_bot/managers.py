@@ -3,12 +3,12 @@ from django.db import models
 
 import telegram_bot.models as TelegramBotModels
 
-import constructor_telegram_bots.functions as Functions
+from constructor_telegram_bots.functions import check_telegram_bot_api_token
 
 
 class TelegramBotManager(models.Manager):
 	def add_telegram_bot(self, request: WSGIRequest, api_token: str, private: bool, **extra_fields):
-		username: str = Functions.check_telegram_bot_api_token(api_token=api_token)
+		username: str = check_telegram_bot_api_token(api_token=api_token)
 
 		telegram_bot: TelegramBotModels.TelegramBot = self.model(name=username, api_token=api_token, private=private, **extra_fields)
 		telegram_bot.save()

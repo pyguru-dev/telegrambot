@@ -3,13 +3,12 @@ from django.db.utils import OperationalError
 from django.views.static import serve
 from django.conf import settings
 
-from telegram_bot.telegram_bots.start_telegram_bot import start_all_telegram_bots
+from telegram_bot.telegram_bots.functions import start_all_telegram_bots
 
 import sys
 
 
 urlpatterns = [
-	re_path(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
 	re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
 
 	path('user/', include('user.urls')),

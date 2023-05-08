@@ -1,62 +1,63 @@
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import HttpResponse
+import django.contrib.auth.decorators
+import django.views.decorators.csrf
 
 from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotUser
 
-from telegram_bot.telegram_bots.start_telegram_bot import start_telegram_bot as start_telegram_bot_
+from telegram_bot.telegram_bots.functions import start_telegram_bot as _start_telegram_bot
 from telegram_bot.telegram_bots.user_telegram_bot import UserTelegramBot
-from constructor_telegram_bots.decorators import *
+import constructor_telegram_bots.decorators
+import telegram_bot.decorators
 
 import json
 import time
 
 
-@csrf_exempt
-@login_required
-@check_post_request_data_items(request_need_items=('api_token', 'private',))
-@check_telegram_bot_api_token
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('api_token', 'private',))
+@telegram_bot.decorators.check_telegram_bot_api_token
 def add_telegram_bot(request: WSGIRequest, api_token: str, private: bool) -> HttpResponse:
 	TelegramBot.objects.add_telegram_bot(request=request, api_token=api_token, private=private)
 
 	return HttpResponse('Вы успешно добавили Telegram бота.')
 
-@csrf_exempt
-@login_required
-@check_telegram_bot_id(render_page=False)
-@check_post_request_data_items(request_need_items=('api_token', 'private',))
-@check_telegram_bot_api_token
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
+@constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('api_token', 'private',))
+@telegram_bot.decorators.check_telegram_bot_api_token
 def duplicate_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot, api_token: str, private: bool) -> HttpResponse:
 	telegram_bot.duplicate(request=request, api_token=api_token, private=private)
 
 	return HttpResponse('Вы успешно дублировали Telegram бота.')
 
-@csrf_exempt
-@login_required
-@check_telegram_bot_id(render_page=False)
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
 def delete_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
 	telegram_bot.custom_delete()
 
 	return HttpResponse('Вы успешно удалили Telegram бота.')
 
 
-@csrf_exempt
-@login_required
-@check_telegram_bot_id(render_page=False)
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
 def start_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
 	telegram_bot.is_running = True
 	telegram_bot.is_stopped = False
 	telegram_bot.save()
 
 	user_telegram_bot = UserTelegramBot(telegram_bot=telegram_bot)
-	start_telegram_bot_(telegram_bot=user_telegram_bot)
+	_start_telegram_bot(telegram_bot=user_telegram_bot)
 
 	return HttpResponse('Вы успешно включили Telegram бота.')
 
-@csrf_exempt
-@login_required
-@check_telegram_bot_id(render_page=False)
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
 def stop_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
 	telegram_bot.is_running = False
 	telegram_bot.save()
@@ -70,10 +71,10 @@ def stop_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpRe
 	return HttpResponse('Вы успешно выключили Telegram бота.')
 
 
-@csrf_exempt
-@login_required
-@check_telegram_bot_id(render_page=False)
-@check_post_request_data_items(request_need_items=('telegram_bot_private',))
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
+@constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('telegram_bot_private',))
 def edit_telegram_bot_private(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_private: bool) -> HttpResponse:
 	telegram_bot.private = telegram_bot_private
 	telegram_bot.save()
@@ -81,11 +82,11 @@ def edit_telegram_bot_private(request: WSGIRequest, telegram_bot: TelegramBot, t
 	return HttpResponse(f"Вы успешно сделали своего Telegram бота {'не' if telegram_bot_private == False else ''} приватным.")
 
 
-@csrf_exempt
-@login_required
-@check_telegram_bot_id(render_page=False)
-@check_post_request_data_items(request_need_items=('name', 'command', 'callback', 'message_text', 'keyboard',))
-@check_data_for_telegram_bot_command
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
+@constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('name', 'command', 'callback', 'message_text', 'keyboard',))
+@telegram_bot.decorators.check_data_for_telegram_bot_command
 def add_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot, name: str, command: str, callback: str, message_text: str, keyboard: str) -> HttpResponse:
 	TelegramBotCommand.objects.add_telegram_bot_command(
 		telegram_bot=telegram_bot,
@@ -98,12 +99,12 @@ def add_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot, na
 
 	return HttpResponse('Вы успешно добавили команду Telegram боту.')
 
-@csrf_exempt
-@login_required
-@check_telegram_bot_id(render_page=False)
-@check_telegram_bot_command_id
-@check_post_request_data_items(request_need_items=('name', 'command', 'callback', 'message_text', 'keyboard',))
-@check_data_for_telegram_bot_command
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
+@telegram_bot.decorators.check_telegram_bot_command_id
+@constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('name', 'command', 'callback', 'message_text', 'keyboard',))
+@telegram_bot.decorators.check_data_for_telegram_bot_command
 def edit_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand, name: str, command: str, callback: str, message_text: str, keyboard: str) -> HttpResponse:
 	telegram_bot_command.name = name
 	telegram_bot_command.command = command
@@ -114,69 +115,59 @@ def edit_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot, t
 
 	return HttpResponse('Вы успешно изменили команду Telegram бота.')
 
-@csrf_exempt
-@login_required
-@check_telegram_bot_id(render_page=False)
-@check_telegram_bot_command_id
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
+@telegram_bot.decorators.check_telegram_bot_command_id
 def delete_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand) -> HttpResponse:
 	telegram_bot_command.delete()
 
 	return HttpResponse('Вы успешно удалили команду Telegram бота.')
 
 
-@csrf_exempt
-@login_required
-@check_telegram_bot_id(render_page=False)
-@check_telegram_bot_user_id
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
+@telegram_bot.decorators.check_telegram_bot_user_id
 def add_allowed_user(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_user: TelegramBotUser) -> HttpResponse:
 	telegram_bot.allowed_users.add(telegram_bot_user)
 	telegram_bot.save()
 
 	return HttpResponse('Вы успешно добавили пользователя в список разрешённых пользователей Telegram бота.')
 
-@csrf_exempt
-@login_required
-@check_telegram_bot_id(render_page=False)
-@check_telegram_bot_user_id
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
+@telegram_bot.decorators.check_telegram_bot_user_id
 def delete_allowed_user(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_user: TelegramBotUser) -> HttpResponse:
 	telegram_bot.allowed_users.remove(telegram_bot_user)
 	telegram_bot.save()
 
 	return HttpResponse('Вы успешно удалили пользователя из списка разрешённых пользователей Telegram бота.')
 
-@csrf_exempt
-@login_required
-@check_telegram_bot_id(render_page=False)
-@check_telegram_bot_user_id
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
+@telegram_bot.decorators.check_telegram_bot_user_id
 def delete_telegram_bot_user(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_user: TelegramBotUser) -> HttpResponse:
 	telegram_bot_user.delete()
 
 	return HttpResponse('Вы успешно удалили пользователя Telegram бота.')
 
 
-@csrf_exempt
-@login_required
-@check_telegram_bot_id(render_page=False)
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
 def get_telegram_bot_commands(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
-	telegram_bot_commands = {
-		'commands_count': telegram_bot.commands.all().count(),
-	}
-
+	telegram_bot_commands = {'commands_count': telegram_bot.commands.count()}
 	for telegram_bot_command in telegram_bot.commands.all():
-		telegram_bot_commands.update(
-			{
-				telegram_bot_command.id: telegram_bot_command.name,
-			}
-		)
+		telegram_bot_commands.update({telegram_bot_command.id: telegram_bot_command.name})
+	return HttpResponse(json.dumps(telegram_bot_commands))
 
-	return HttpResponse(
-		json.dumps(telegram_bot_commands)
-	)
-
-@csrf_exempt
-@login_required
-@check_telegram_bot_id(render_page=False)
-@check_telegram_bot_command_id
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
+@telegram_bot.decorators.check_telegram_bot_command_id
 def get_telegram_bot_command_data(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand) -> HttpResponse:
 	return HttpResponse(
 		json.dumps(
@@ -191,14 +182,11 @@ def get_telegram_bot_command_data(request: WSGIRequest, telegram_bot: TelegramBo
 	)
 
 
-@csrf_exempt
-@login_required
-@check_telegram_bot_id(render_page=False)
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
 def get_telegram_bot_users(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
-	telegram_bot_users = {
-		'users_count': telegram_bot.users.all().count(),
-	}
-
+	telegram_bot_users = {'users_count': telegram_bot.users.count()}
 	for telegram_bot_user in telegram_bot.users.all():
 		telegram_bot_users.update(
 			{
@@ -209,7 +197,4 @@ def get_telegram_bot_users(request: WSGIRequest, telegram_bot: TelegramBot) -> H
 				},
 			}
 		)
-
-	return HttpResponse(
-		json.dumps(telegram_bot_users)
-	)
+	return HttpResponse(json.dumps(telegram_bot_users))

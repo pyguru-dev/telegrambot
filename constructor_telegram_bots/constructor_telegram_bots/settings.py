@@ -1,4 +1,4 @@
-import constructor_telegram_bots.functions as Functions
+from constructor_telegram_bots.functions import generate_random_string
 
 from pathlib import Path
 import sys
@@ -23,7 +23,7 @@ for folder in folders:
 
 
 if os.path.exists(BASE_DIR / 'data/secret.key') is False:
-	SECRET_KEY = f"django-insecure-{Functions.generator_random_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}"
+	SECRET_KEY = f"django-insecure-{generate_random_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}"
 	
 	with open(BASE_DIR / 'data/secret.key', 'w') as secret_key_file:
 		secret_key_file.write(SECRET_KEY)
@@ -142,7 +142,6 @@ INSTALLED_APPS = [
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
-	'django.contrib.messages',
 	'django.contrib.staticfiles',
 
 	'debug_toolbar',
@@ -164,7 +163,6 @@ MIDDLEWARE = [
 	'django.middleware.common.CommonMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 	'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
@@ -196,14 +194,6 @@ DATABASES = {
 		'NAME': BASE_DIR / 'data/DataBase.db',
 	}
 }
-
-
-AUTH_PASSWORD_VALIDATORS = [
-	{'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-	{'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-	{'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-	{'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
-]
 
 
 AUTH_USER_MODEL = 'user.User'

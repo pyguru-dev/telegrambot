@@ -4,18 +4,6 @@ from django.db import models
 from telegram_bot.managers import TelegramBotManager, TelegramBotCommandManager
 
 
-class TelegramBotLog(models.Model):
-	level = models.CharField(max_length=7)
-	message = models.TextField()
-	date_added = models.DateTimeField(auto_now_add=True)
-
-	class Meta:
-		db_table = 'telegram_bot_log'
-
-	def __str__(self) -> str:
-		return f'[{self.date_added}]: {self.level} > {self.message}'
-
-
 class TelegramBotUser(models.Model):
 	user_id = models.BigIntegerField()
 	username = models.CharField(max_length=32)
@@ -23,9 +11,6 @@ class TelegramBotUser(models.Model):
 
 	class Meta:
 		db_table = 'telegram_bot_user'
-
-	def __str__(self) -> str:
-		return f'{self.user_id} - @{self.username}'
 
 
 class TelegramBotCommand(models.Model):
@@ -40,9 +25,6 @@ class TelegramBotCommand(models.Model):
 	class Meta:
 		db_table = 'telegram_bot_command'
 
-	def __str__(self) -> str:
-		return self.name
-
 
 class TelegramBot(models.Model):
 	name = models.CharField(max_length=32)
@@ -53,7 +35,6 @@ class TelegramBot(models.Model):
 	commands = models.ManyToManyField(TelegramBotCommand, related_name='commands')
 	users = models.ManyToManyField(TelegramBotUser, related_name='users')
 	allowed_users = models.ManyToManyField(TelegramBotUser, related_name='allowed_users')
-	logs = models.ManyToManyField(TelegramBotLog, related_name='telegram_bot_logs')
 	date_added = models.DateTimeField(auto_now_add=True)
 
 	objects = TelegramBotManager()
@@ -63,7 +44,6 @@ class TelegramBot(models.Model):
 
 	def duplicate(self, request: WSGIRequest, api_token: str, private: bool) -> None:
 		duplicated_telegram_bot: TelegramBot = TelegramBot.objects.add_telegram_bot(request=request, api_token=api_token, private=private)
-
 		for telegram_bot_command in self.commands.all():
 			TelegramBotCommand.objects.add_telegram_bot_command(
 				telegram_bot=duplicated_telegram_bot,
@@ -82,6 +62,3 @@ class TelegramBot(models.Model):
 			telegram_bot_user.delete()
 
 		self.delete()
-
-	def __str__(self) -> str:
-		return self.name

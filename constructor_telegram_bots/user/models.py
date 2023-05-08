@@ -5,7 +5,7 @@ from django.db import models
 from telegram_bot.models import TelegramBot
 from user.managers import UserManager
 
-import constructor_telegram_bots.functions as Functions
+from constructor_telegram_bots.functions import generate_random_string
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -23,10 +23,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 		db_table = 'user'
 
 	def get_auth_url(self) -> str:
-		self.confirm_code = Functions.generator_random_string(length=25, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
+		self.confirm_code = generate_random_string(length=25, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
 		self.save()
 
 		return f'{settings.SITE_DOMAIN}user/auth/{self.id}/{self.confirm_code}/'
-	
-	def __str__(self) -> str:
-		return str(self.id)

@@ -10,10 +10,10 @@ class UserManager(BaseUserManager):
 
 		return user
 
-	def create_superuser(user, user_id: int, **extra_fields):
-		user: UserModels.User = user.create_user(user_id=user_id, **extra_fields)
-		user.is_staff = True
-		user.is_superuser = True
-		user.save()
+	# def create_superuser(user, user_id: int, **extra_fields):
+	# 	user: UserModels.User = user.create_user(user_id=user_id, **extra_fields)
+	# 	user.is_staff = True
+	# 	user.is_superuser = True
+	# 	user.save()
 
-		return user
+	# 	return user

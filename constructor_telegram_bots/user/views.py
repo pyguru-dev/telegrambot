@@ -12,6 +12,12 @@ import json
 def user_auth(request: WSGIRequest, user_id: int, confirm_code: str) -> HttpResponse:
 	context = {
 		'title': 'Авторизация',
+		'meta': {
+			'url': '/',
+		},
+		'content': {
+			'text': 'Автоматический переход на главную страницу через 3 секунды.',
+		},
 	}
 	
 	if User.objects.filter(id=user_id).exists():
@@ -36,11 +42,7 @@ def user_auth(request: WSGIRequest, user_id: int, confirm_code: str) -> HttpResp
 		else:
 			context.update(
 				{
-					'meta': {
-						'url': '/',
-					},
 					'content': {
-						'heading': 'Неверный код подтверждения!',
 						'text': 'Автоматический переход на главную страницу через 3 секунды.',
 					},
 				}
@@ -48,11 +50,7 @@ def user_auth(request: WSGIRequest, user_id: int, confirm_code: str) -> HttpResp
 	else:
 		context.update(
 			{
-				'meta': {
-					'url': '/',
-				},
 				'content': {
-					'heading': 'Не удалось найти пользователя!',
 					'text': 'Автоматический переход на главную страницу через 3 секунды.',
 				},
 			}
@@ -74,6 +72,4 @@ def get_user_added_telegram_bots(request: WSGIRequest) -> HttpResponse:
 			}
 		)
 
-	return HttpResponse(
-		json.dumps(added_telegram_bots)
-	)
+	return HttpResponse(json.dumps(added_telegram_bots))
