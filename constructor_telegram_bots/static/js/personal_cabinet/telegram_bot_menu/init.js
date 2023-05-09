@@ -80,100 +80,102 @@ var setIntervalId;
 	let usersCountTableLine = document.querySelector('.users-count');
 
 	function getTelegramBotUsers() {
-		let request = new XMLHttpRequest();
-		request.open('POST', `/telegram-bot/${telegramBotId}/get-users/`, true);
-		request.setRequestHeader('Content-Type', 'application/json');
-		request.onreadystatechange = checkRequestResponse(function() {
-			if (request.status == 200) {
-				let telegramBotUsers = JSON.parse(request.responseText);
-				let telegramBotUsersKeys = Object.keys(telegramBotUsers);
+		if (document.hidden == false) {
+			let request = new XMLHttpRequest();
+			request.open('POST', `/telegram-bot/${telegramBotId}/get-users/`, true);
+			request.setRequestHeader('Content-Type', 'application/json');
+			request.onreadystatechange = checkRequestResponse(function() {
+				if (request.status == 200) {
+					let telegramBotUsers = JSON.parse(request.responseText);
+					let telegramBotUsersKeys = Object.keys(telegramBotUsers);
 
-				usersCountTableLine.innerHTML = telegramBotUsers['users_count'];
+					usersCountTableLine.innerHTML = telegramBotUsers['users_count'];
 
-				let telegramBotUsersDiv = document.querySelector('.telegram-bot-users');
-				telegramBotUsersDiv.innerHTML = '';
+					let telegramBotUsersDiv = document.querySelector('.telegram-bot-users');
+					telegramBotUsersDiv.innerHTML = '';
 
-				if (telegramBotUsersKeys.length > 1) {
-					for (let i = 0; i < telegramBotUsersKeys.length - 1; i++) {
-						let wrapper = document.createElement('tr');
-						wrapper.setAttribute('class', 'text-center');
-						wrapper.innerHTML = [
-							`<th class="align-middle" scope="row">${i + 1}</th>`,
-							`<td class="align-middle">${telegramBotUsers[telegramBotUsersKeys[i]]['username']}</td>`,
-							`<td class="align-middle">${telegramBotUsers[telegramBotUsersKeys[i]]['date_started']}</td>`,
-							'<td class="align-middle">',
-							`	<button class="btn delete-telegram-bot-user-button rounded-0 p-0" id="${telegramBotUsersKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Удалить пользователя">`,
-							'		<i class="bi bi-trash text-danger" style="font-size: 1.5rem;"></i>',
-							'	</button>',
-							`	<button class="btn ${(telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed_user']) ? 'add' : 'delete'}-telegram-bot-allowed-user-button telegram-bot-allowed-user-button rounded-0 p-0 ${(telegramBotPrivateCheckBox.checked) ? '' : 'd-none'}" id="${telegramBotUsersKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Дать пользователю доступ к Telegram боту">`,
-							`		<i class="bi bi-star${(telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed_user']) ? '-fill' : ''} text-warning" style="font-size: 1.5rem;"></i>`,
-							'	</button>',
-							'</td>',
-						].join('');
-						telegramBotUsersDiv.append(wrapper);
+					if (telegramBotUsersKeys.length > 1) {
+						for (let i = 0; i < telegramBotUsersKeys.length - 1; i++) {
+							let wrapper = document.createElement('tr');
+							wrapper.setAttribute('class', 'text-center');
+							wrapper.innerHTML = [
+								`<th class="align-middle" scope="row">${i + 1}</th>`,
+								`<td class="align-middle">${telegramBotUsers[telegramBotUsersKeys[i]]['username']}</td>`,
+								`<td class="align-middle">${telegramBotUsers[telegramBotUsersKeys[i]]['date_started']}</td>`,
+								'<td class="align-middle">',
+								`	<button class="btn delete-telegram-bot-user-button rounded-0 p-0" id="${telegramBotUsersKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Удалить пользователя">`,
+								'		<i class="bi bi-trash text-danger" style="font-size: 1.5rem;"></i>',
+								'	</button>',
+								`	<button class="btn ${(telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed_user']) ? 'add' : 'delete'}-telegram-bot-allowed-user-button telegram-bot-allowed-user-button rounded-0 p-0 ${(telegramBotPrivateCheckBox.checked) ? '' : 'd-none'}" id="${telegramBotUsersKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Дать пользователю доступ к Telegram боту">`,
+								`		<i class="bi bi-star${(telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed_user']) ? '-fill' : ''} text-warning" style="font-size: 1.5rem;"></i>`,
+								'	</button>',
+								'</td>',
+							].join('');
+							telegramBotUsersDiv.append(wrapper);
 
-						document.querySelector(`.delete-telegram-bot-user-button[id="${telegramBotUsersKeys[i]}"]`).addEventListener('click', () => askConfirmModal(
-							'Удаление пользователя Telegram бота',
-							'Вы точно хотите удалить пользователя Telegram бота?',
-							function() {
-								let request = new XMLHttpRequest();
-								request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/delete/`, true);
-								request.setRequestHeader('Content-Type', 'application/json');
-								request.onreadystatechange = checkRequestResponse(function() {
-									if (request.status == 200) {
-										getTelegramBotUsers();
+							document.querySelector(`.delete-telegram-bot-user-button[id="${telegramBotUsersKeys[i]}"]`).addEventListener('click', () => askConfirmModal(
+								'Удаление пользователя Telegram бота',
+								'Вы точно хотите удалить пользователя Telegram бота?',
+								function() {
+									let request = new XMLHttpRequest();
+									request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/delete/`, true);
+									request.setRequestHeader('Content-Type', 'application/json');
+									request.onreadystatechange = checkRequestResponse(function() {
+										if (request.status == 200) {
+											getTelegramBotUsers();
 
-										myAlert(mainAlertPlaceholder, request.responseText, 'success');
-									} else {
-										myAlert(mainAlertPlaceholder, request.responseText, 'danger');
-									}
+											myAlert(mainAlertPlaceholder, request.responseText, 'success');
+										} else {
+											myAlert(mainAlertPlaceholder, request.responseText, 'danger');
+										}
+									});
+									request.send();
+								}
+							));
+
+							if (telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed_user']) {
+								document.querySelector(`.add-telegram-bot-allowed-user-button[id="${telegramBotUsersKeys[i]}"]`).addEventListener('click', function() {
+									let request = new XMLHttpRequest();
+									request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/delete-allowed-user/`, true);
+									request.setRequestHeader('Content-Type', 'application/json');
+									request.onreadystatechange = checkRequestResponse(function() {
+										if (request.status == 200) {
+											getTelegramBotUsers();
+
+											myAlert(mainAlertPlaceholder, request.responseText, 'success');
+										} else {
+											myAlert(mainAlertPlaceholder, request.responseText, 'danger');
+										}
+									});
+									request.send();
 								});
-								request.send();
+							} else {
+								document.querySelector(`.delete-telegram-bot-allowed-user-button[id="${telegramBotUsersKeys[i]}"]`).addEventListener('click', function() {
+									let request = new XMLHttpRequest();
+									request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/add-allowed-user/`, true);
+									request.setRequestHeader('Content-Type', 'application/json');
+									request.onreadystatechange = checkRequestResponse(function() {
+										if (request.status == 200) {
+											getTelegramBotUsers();
+
+											myAlert(mainAlertPlaceholder, request.responseText, 'success');
+										} else {
+											myAlert(mainAlertPlaceholder, request.responseText, 'danger');
+										}
+									});
+									request.send();
+								});
 							}
-						));
-
-						if (telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed_user']) {
-							document.querySelector(`.add-telegram-bot-allowed-user-button[id="${telegramBotUsersKeys[i]}"]`).addEventListener('click', function() {
-								let request = new XMLHttpRequest();
-								request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/delete-allowed-user/`, true);
-								request.setRequestHeader('Content-Type', 'application/json');
-								request.onreadystatechange = checkRequestResponse(function() {
-									if (request.status == 200) {
-										getTelegramBotUsers();
-
-										myAlert(mainAlertPlaceholder, request.responseText, 'success');
-									} else {
-										myAlert(mainAlertPlaceholder, request.responseText, 'danger');
-									}
-								});
-								request.send();
-							});
-						} else {
-							document.querySelector(`.delete-telegram-bot-allowed-user-button[id="${telegramBotUsersKeys[i]}"]`).addEventListener('click', function() {
-								let request = new XMLHttpRequest();
-								request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/add-allowed-user/`, true);
-								request.setRequestHeader('Content-Type', 'application/json');
-								request.onreadystatechange = checkRequestResponse(function() {
-									if (request.status == 200) {
-										getTelegramBotUsers();
-
-										myAlert(mainAlertPlaceholder, request.responseText, 'success');
-									} else {
-										myAlert(mainAlertPlaceholder, request.responseText, 'danger');
-									}
-								});
-								request.send();
-							});
 						}
+					} else {
+						let wrapper = document.createElement('tr');
+						wrapper.innerHTML = '<p class="text-center p-0 ps-1">Вашего Telegram бота ещё никто не активировал.</p>';
+						telegramBotUsersDiv.append(wrapper);
 					}
-				} else {
-					let wrapper = document.createElement('tr');
-					wrapper.innerHTML = '<p class="text-center p-0 ps-1">Вашего Telegram бота ещё никто не активировал.</p>';
-					telegramBotUsersDiv.append(wrapper);
 				}
-			}
-		});
-		request.send();
+			});
+			request.send();
+		}
 	}
 }
 
