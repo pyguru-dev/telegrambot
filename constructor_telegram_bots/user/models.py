@@ -22,8 +22,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 	class Meta:
 		db_table = 'user'
 
-	def get_auth_url(self) -> str:
+	def get_login_url(self) -> str:
 		self.confirm_code = generate_random_string(length=25, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
 		self.save()
 
-		return f'{settings.SITE_DOMAIN}user/auth/{self.id}/{self.confirm_code}/'
+		return f'{settings.SITE_DOMAIN}user/login/{self.id}/{self.confirm_code}/'

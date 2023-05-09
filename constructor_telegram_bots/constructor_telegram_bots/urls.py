@@ -18,7 +18,6 @@ urlpatterns = [
 	path('donation/', include('donation.urls')),
 	path('personal-cabinet/', include('personal_cabinet.urls')),
 
-	path('learn-more/', include('learn_more.urls')),
 	path('privacy-policy/', include('privacy_policy.urls')),
 ]
 

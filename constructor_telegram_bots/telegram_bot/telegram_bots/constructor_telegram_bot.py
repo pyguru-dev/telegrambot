@@ -19,7 +19,7 @@ class ConstructorTelegramBot:
 		self.dispatcher = Dispatcher(bot=self.bot)
 
 		self.dispatcher.register_message_handler(self.start_command, commands=['start'])
-		self.dispatcher.register_message_handler(self.auth_command, commands=['auth'])
+		self.dispatcher.register_message_handler(self.login_command, commands=['login'])
 
 	async def start_command(self, message: Message) -> None:
 		await self.bot.send_message(
@@ -39,16 +39,16 @@ class ConstructorTelegramBot:
 		
 		message_list = message.text.split()
 		if len(message_list) > 1:
-			if message_list[1] == 'auth':
-				await self.auth_command(message)
+			if message_list[1] == 'login':
+				await self.login_command(message)
 
-	async def auth_command(self, message: Message) -> None:
+	async def login_command(self, message: Message) -> None:
 		user: User = await sync_to_async(User.objects.get)(id=message.from_user.id)
-		auth_url: str = await sync_to_async(user.get_auth_url)()
+		login_url: str = await sync_to_async(user.get_login_url)()
 
 		inline_keyboard = InlineKeyboardMarkup(row_width=1)
 		inline_keyboard.add(
-			InlineKeyboardButton(text='Авторизация', url=auth_url)
+			InlineKeyboardButton(text='Авторизация', url=login_url)
 		)
 
 		await self.bot.send_message(

@@ -162,6 +162,7 @@ def get_telegram_bot_commands(request: WSGIRequest, telegram_bot: TelegramBot) -
 	telegram_bot_commands = {'commands_count': telegram_bot.commands.count()}
 	for telegram_bot_command in telegram_bot.commands.all():
 		telegram_bot_commands.update({telegram_bot_command.id: telegram_bot_command.name})
+
 	return HttpResponse(json.dumps(telegram_bot_commands))
 
 @django.views.decorators.csrf.csrf_exempt
@@ -197,4 +198,5 @@ def get_telegram_bot_users(request: WSGIRequest, telegram_bot: TelegramBot) -> H
 				},
 			}
 		)
+
 	return HttpResponse(json.dumps(telegram_bot_users))

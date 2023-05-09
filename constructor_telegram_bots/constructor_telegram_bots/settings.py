@@ -153,7 +153,6 @@ INSTALLED_APPS = [
 	'donation.apps.DonationConfig',
 	'personal_cabinet.apps.PersonalCabinetConfig',
 
-	'learn_more.apps.LearnMoreConfig',
 	'privacy_policy.apps.PrivacyPolicyConfig',
 ]
 
@@ -179,7 +178,6 @@ TEMPLATES = [
 				'django.template.context_processors.debug',
 				'django.template.context_processors.request',
 				'django.contrib.auth.context_processors.auth',
-				'django.contrib.messages.context_processors.messages',
 			],
 		},
 	}

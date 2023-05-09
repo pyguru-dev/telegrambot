@@ -3,7 +3,7 @@ from django.db import models
 
 import telegram_bot.models as TelegramBotModels
 
-from constructor_telegram_bots.functions import check_telegram_bot_api_token
+from telegram_bot.functions import check_telegram_bot_api_token
 
 
 class TelegramBotManager(models.Manager):

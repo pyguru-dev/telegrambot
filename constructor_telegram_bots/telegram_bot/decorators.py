@@ -3,7 +3,7 @@ from django.http import HttpResponseBadRequest
 
 from telegram_bot.models import TelegramBot
 
-from constructor_telegram_bots.functions import check_telegram_bot_api_token as _check_telegram_bot_api_token
+from telegram_bot.functions import check_telegram_bot_api_token as _check_telegram_bot_api_token
 
 
 def check_telegram_bot_api_token(func):
@@ -22,7 +22,6 @@ def check_telegram_bot_api_token(func):
 				return HttpResponseBadRequest('Ваш API-токен Telegram бота является недействительным!')
 		else:
 			return HttpResponseBadRequest('Введите API-токен Telegram бота!')
-			
 	return wrapper
 
 def check_telegram_bot_id(func):

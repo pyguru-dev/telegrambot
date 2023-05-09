@@ -2,24 +2,14 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import HttpResponse, render
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 
 from user.models import User
 
 import json
 
 
-def user_auth(request: WSGIRequest, user_id: int, confirm_code: str) -> HttpResponse:
-	context = {
-		'title': 'Авторизация',
-		'meta': {
-			'url': '/',
-		},
-		'content': {
-			'text': 'Автоматический переход на главную страницу через 3 секунды.',
-		},
-	}
-	
+def user_login(request: WSGIRequest, user_id: int, confirm_code: str) -> HttpResponse:
 	if User.objects.filter(id=user_id).exists():
 		user: User = User.objects.get(id=user_id)
 		if user.confirm_code == confirm_code:
@@ -28,35 +18,21 @@ def user_auth(request: WSGIRequest, user_id: int, confirm_code: str) -> HttpResp
 
 			login(request=request, user=user)
 
-			context.update(
-				{
-					'meta': {
-						'url': '/personal-cabinet/',
-					},
-					'content': {
-						'heading': 'Успешная авторизация.',
-						'text': 'Автоматический переход в личный кабинет через 3 секунды.',
-					},
-				}
-			)
+			context = {'heading': 'Успешная авторизация'}
 		else:
-			context.update(
-				{
-					'content': {
-						'text': 'Автоматический переход на главную страницу через 3 секунды.',
-					},
-				}
-			)
+			context = {'heading': 'Неверный код подтверждения!'}
 	else:
-		context.update(
-			{
-				'content': {
-					'text': 'Автоматический переход на главную страницу через 3 секунды.',
-				},
-			}
-		)
+		context = {'heading': 'Не удалось найти пользователя!'}
 
-	return render(request=request, template_name='auth.html', context=context)
+	return render(request=request, template_name='login.html', context=context)
+
+@csrf_exempt
+@login_required
+def user_logout(request: WSGIRequest) -> HttpResponse:
+	logout(request=request)
+
+	return render(request=request, template_name='logout.html')
+
 
 @csrf_exempt
 @login_required
