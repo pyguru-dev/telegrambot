@@ -1,16 +1,4 @@
 {
-	var addOrEditTelegramBotCommandModalBootstrap = new bootstrap.Modal('#addOrEditTelegramBotCommandModal');
-
-	var addOrEditTelegramBotCommandModallLabel = document.querySelector('#addOrEditTelegramBotCommandModallLabel');
-	let addOrEditTelegramBotCommandModalAlertPlaceholder = document.querySelector('#addOrEditTelegramBotCommandModalAlertPlaceholder');
-
-	var addOrEditTelegramBotCommandNameInput = document.querySelector('#addOrEditTelegramBotCommandNameInput');
-	var addOrEditTelegramBotCommandCommandInput = document.querySelector('#addOrEditTelegramBotCommandCommandInput');
-	var addOrEditTelegramBotCommandCallBackInput = document.querySelector('#addOrEditTelegramBotCommandCallBackInput');
-	var addOrEditTelegramBotCommandTextInput = document.querySelector('#addOrEditTelegramBotCommandTextInput');
-
-	var offKeyboardRadio = document.querySelector('#offKeyboardRadio');
-
 	var keyboard = document.querySelector('.keyboard');
 	var keyboardButtons = document.querySelector('#keyboardButtons');
 
@@ -72,6 +60,13 @@
 
 		keyboardButtonNum ++;
 	}
+}
+
+{
+	var examplekeyboardButton = document.querySelector('#examplekeyboardButton');
+
+	var offKeyboardRadio = document.querySelector('#offKeyboardRadio');
+	offKeyboardRadio.addEventListener('click', offKeyboard);
 
 	function offKeyboard() {
 		if (keyboard.id != 'offKeyboard') {
@@ -82,14 +77,10 @@
 		}
 	}
 
-	offKeyboardRadio.addEventListener('click', offKeyboard);
-
 	const keyboardRadios = [
 		document.querySelector('#defaultKeyboardRadio'),
 		document.querySelector('#inlineKeyboardRadio'),
 	];
-
-	let examplekeyboardButton = document.querySelector('#examplekeyboardButton');
 
 	for (let i = 0; i < keyboardRadios.length; i++) {
 		keyboardRadios[i].addEventListener('click', function() {
@@ -109,6 +100,90 @@
 				createKeyboardButton(keyboardType);
 			}
 		});
+	}
+}
+
+{
+	var addOrEditTelegramBotCommandModalBootstrap = new bootstrap.Modal('#addOrEditTelegramBotCommandModal');
+
+	var addOrEditTelegramBotCommandModallLabel = document.querySelector('#addOrEditTelegramBotCommandModallLabel');
+	var addOrEditTelegramBotCommandModalAlertPlaceholder = document.querySelector('#addOrEditTelegramBotCommandModalAlertPlaceholder');
+
+	var addOrEditTelegramBotCommandNameInput = document.querySelector('#addOrEditTelegramBotCommandNameInput');
+	var addOrEditTelegramBotCommandCommandInput = document.querySelector('#addOrEditTelegramBotCommandCommandInput');
+	var addOrEditTelegramBotCommandCallBackInput = document.querySelector('#addOrEditTelegramBotCommandCallBackInput');
+	var addOrEditTelegramBotCommandTextInput = document.querySelector('#addOrEditTelegramBotCommandTextInput');
+
+	let addOrEditTelegramBotCommandButton = document.querySelector('#addOrEditTelegramBotCommandButton');
+
+	document.querySelector('#addTelegramBotCommandModalButton').addEventListener('click', function() {
+		addOrEditTelegramBotCommandModallLabel.innerHTML = 'Добавление команды';
+
+		addOrEditTelegramBotCommandNameInput.value = '';
+		addOrEditTelegramBotCommandCommandInput.value = '';
+		addOrEditTelegramBotCommandCallBackInput.value = '';
+		addOrEditTelegramBotCommandTextInput.value = '';
+
+		offKeyboard();
+		offKeyboardRadio.checked = true;
+
+		addOrEditTelegramBotCommandUrl = `/telegram-bot/${telegramBotId}/command/add/`;
+
+		addOrEditTelegramBotCommandButton.innerHTML = 'Добавить команду';
+		addOrEditTelegramBotCommandButton.removeEventListener('click', addOrEditTelegramBotCommand);
+		addOrEditTelegramBotCommandButton.addEventListener('click', addOrEditTelegramBotCommand);
+
+		addOrEditTelegramBotCommandModalBootstrap.toggle();
+	});
+
+	function editTelegramBotCommandButton() {
+		let telegramBotCommandId = this.id;
+
+		let request = new XMLHttpRequest();
+		request.open('POST', `/telegram-bot/${telegramBotId}/command/${telegramBotCommandId}/get-data/`, true);
+		request.setRequestHeader('Content-Type', 'application/json');
+		request.onreadystatechange = checkRequestResponse(function() {
+			if (request.status == 200) {
+				let telegramBotCommandData = JSON.parse(request.responseText);
+
+				addOrEditTelegramBotCommandModallLabel.innerHTML = 'Редактирование команды';
+
+				addOrEditTelegramBotCommandNameInput.value = telegramBotCommandData['name'];
+				addOrEditTelegramBotCommandCommandInput.value = telegramBotCommandData['command'];
+				addOrEditTelegramBotCommandCallBackInput.value = telegramBotCommandData['callback'];
+				addOrEditTelegramBotCommandTextInput.value = telegramBotCommandData['message_text'];
+
+				let telegramBotCommandKeyboard = JSON.parse(telegramBotCommandData['keyboard']);
+				if (telegramBotCommandKeyboard[0] != 'offKeyboard') {
+					document.querySelector(`#${telegramBotCommandKeyboard[0]}Radio`).checked = true;
+
+					examplekeyboardButton.innerHTML = (telegramBotCommandKeyboard[0] == 'defaultKeyboard') ? '<b>{Текст}:{CallBack текст}</b> или <b>{Текст}:{Ссылка}</b>' : '<b>Текст</b>';
+					
+					keyboard.classList.remove('d-none');
+					keyboard.id = telegramBotCommandKeyboard[0];
+					keyboardButtons.innerHTML = '';
+
+					for (let i = 0; i < telegramBotCommandKeyboard.length; i ++) {
+						if (i > 0) {
+							createKeyboardInput(telegramBotCommandKeyboard[i]);
+
+							keyboardButtonNum ++;
+						}
+					}
+
+					createKeyboardButton(telegramBotCommandKeyboard[0]);
+				}
+
+				addOrEditTelegramBotCommandUrl = `/telegram-bot/${telegramBotId}/command/${telegramBotCommandId}/edit/`;
+
+				addOrEditTelegramBotCommandButton.innerHTML = 'Редактировать команду';
+				addOrEditTelegramBotCommandButton.removeEventListener('click', addOrEditTelegramBotCommand);
+				addOrEditTelegramBotCommandButton.addEventListener('click', addOrEditTelegramBotCommand);
+
+				addOrEditTelegramBotCommandModalBootstrap.toggle();
+			}
+		});
+		request.send();
 	}
 
 	function addOrEditTelegramBotCommand() {
