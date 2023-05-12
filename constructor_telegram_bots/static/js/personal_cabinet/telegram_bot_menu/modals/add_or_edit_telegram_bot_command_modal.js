@@ -52,7 +52,7 @@
 		keyboardButton.remove();
 		
 		if (keyboardType == 'inlineKeyboard') {
-			createKeyboardInput('{:}').focus();
+			createKeyboardInput('{}:{}').focus();
 		} else{
 			createKeyboardInput('').focus();
 		}
@@ -103,7 +103,7 @@
 				if (keyboardType == 'defaultKeyboard') {
 					examplekeyboardButton.innerHTML = '<b>Текст</b>';
 				} else {
-					examplekeyboardButton.innerHTML = '<b>{Текст:CallBack текст}</b> или <b>{Текст:Ссылка}</b>';
+					examplekeyboardButton.innerHTML = '<b>{Текст}:{CallBack текст}</b> или <b>{Текст}:{Ссылка}</b>';
 				}
 
 				createKeyboardButton(keyboardType);

@@ -1,24 +1,27 @@
-from django.core.handlers.wsgi import WSGIRequest
-from django.db import models
+from django.db.models import Model, BigIntegerField, BooleanField, CharField, TextField, JSONField, ManyToManyField, DateTimeField
 
-from telegram_bot.managers import TelegramBotManager, TelegramBotCommandManager
+from telegram_bot.managers import TelegramBotManager, TelegramBotCommandManager, TelegramBotUserManager
+import user.models as UserModels
 
 
-class TelegramBotUser(models.Model):
-	user_id = models.BigIntegerField()
-	username = models.CharField(max_length=32)
-	date_started = models.DateTimeField(auto_now_add=True)
+class TelegramBotUser(Model):
+	user_id = BigIntegerField()
+	username = CharField(max_length=32)
+	is_allowed = BooleanField(default=False)
+	date_started = DateTimeField(auto_now_add=True)
+
+	objects = TelegramBotUserManager()
 
 	class Meta:
 		db_table = 'telegram_bot_user'
 
 
-class TelegramBotCommand(models.Model):
-	name = models.CharField(max_length=255)
-	command = models.CharField(max_length=32, null=True)
-	callback = models.CharField(max_length=64, null=True)
-	message_text = models.TextField()
-	keyboard = models.JSONField(null=True)
+class TelegramBotCommand(Model):
+	name = CharField(max_length=255)
+	command = CharField(max_length=32, null=True)
+	callback = CharField(max_length=64, null=True)
+	message_text = TextField()
+	keyboard = JSONField()
 
 	objects = TelegramBotCommandManager()
 
@@ -26,24 +29,23 @@ class TelegramBotCommand(models.Model):
 		db_table = 'telegram_bot_command'
 
 
-class TelegramBot(models.Model):
-	name = models.CharField(max_length=32)
-	api_token = models.CharField(max_length=50, unique=True)
-	private = models.BooleanField(default=True)
-	is_running = models.BooleanField(default=False)
-	is_stopped = models.BooleanField(default=True)
-	commands = models.ManyToManyField(TelegramBotCommand, related_name='commands')
-	users = models.ManyToManyField(TelegramBotUser, related_name='users')
-	allowed_users = models.ManyToManyField(TelegramBotUser, related_name='allowed_users')
-	date_added = models.DateTimeField(auto_now_add=True)
+class TelegramBot(Model):
+	name = CharField(max_length=32, unique=True)
+	api_token = CharField(max_length=50, unique=True)
+	is_private = BooleanField(default=True)
+	is_running = BooleanField(default=False)
+	is_stopped = BooleanField(default=True)
+	commands = ManyToManyField(TelegramBotCommand, related_name='commands')
+	users = ManyToManyField(TelegramBotUser, related_name='users')
+	date_added = DateTimeField(auto_now_add=True)
 
 	objects = TelegramBotManager()
 
 	class Meta:
 		db_table = 'telegram_bot'
 
-	def duplicate(self, request: WSGIRequest, api_token: str, private: bool) -> None:
-		duplicated_telegram_bot: TelegramBot = TelegramBot.objects.add_telegram_bot(request=request, api_token=api_token, private=private)
+	def duplicate(self, user: 'UserModels.User', api_token: str, is_private: bool) -> 'TelegramBot':
+		duplicated_telegram_bot = TelegramBot.objects.add_telegram_bot(user=user, api_token=api_token, is_private=is_private)
 		for telegram_bot_command in self.commands.all():
 			TelegramBotCommand.objects.add_telegram_bot_command(
 				telegram_bot=duplicated_telegram_bot,
@@ -54,11 +56,13 @@ class TelegramBot(models.Model):
 				keyboard=telegram_bot_command.keyboard
 			)
 
-	def custom_delete(self) -> None:
+		return duplicated_telegram_bot
+
+	def delete(self) -> None:
 		for telegram_bot_command in self.commands.all():
 			telegram_bot_command.delete()
 
 		for telegram_bot_user in self.users.all():
 			telegram_bot_user.delete()
 
-		self.delete()
+		super().delete()

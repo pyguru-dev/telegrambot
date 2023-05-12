@@ -1,6 +1,7 @@
 from constructor_telegram_bots.functions import generate_random_string
 
 from pathlib import Path
+import locale
 import sys
 import os
 
@@ -12,6 +13,11 @@ SITE_DOMAIN = 'http://127.0.0.1:8000/'
 
 
 DEBUG = True
+if sys.argv[1] == 'test':
+	TEST = True
+else:
+	TEST = False
+
 ALLOWED_HOSTS = ['*']
 INTERNAL_IPS = ['127.0.0.1']
 
@@ -97,43 +103,6 @@ LOGGING = {
 			],
 			'propagate': True,
 		},
-		'django.request': {
-			'handlers': [
-				'console',
-				'debug_file',
-				'info_file',
-				'warning_file',
-				'error_file',
-			],
-			'propagate': False,
-		},
-		'django.security': {
-			'handlers': [
-				'debug_file',
-				'info_file',
-				'warning_file',
-				'error_file',
-			],
-			'propagate': False,
-		},
-		'django.template': {
-			'handlers': [
-				'debug_file',
-				'info_file',
-				'warning_file',
-				'error_file',
-			],
-			'propagate': False,
-		},
-		'django.db.backends': {
-			'handlers': [
-				'debug_file',
-				'info_file',
-				'warning_file',
-				'error_file',
-			],
-			'propagate': False,
-		},
 	},
 }
 
@@ -183,6 +152,7 @@ TEMPLATES = [
 	}
 ]
 
+
 WSGI_APPLICATION = 'constructor_telegram_bots.wsgi.application'
 
 
@@ -196,7 +166,9 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'user.User'
 
+
 LANGUAGE_CODE = 'ru'
+locale.setlocale(locale.LC_ALL, 'ru_RU.UTF-8')
 
 TIME_ZONE = 'Europe/Tallinn'
 USE_I18N = True

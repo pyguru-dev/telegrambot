@@ -4,7 +4,7 @@ import user.models as UserModels
 
 
 class UserManager(BaseUserManager):	
-	def create_user(self, user_id: int, **extra_fields):
+	def create_user(self, user_id: int, **extra_fields) -> 'UserModels.User':
 		user: UserModels.User = self.model(id=user_id, **extra_fields)
 		user.save()
 

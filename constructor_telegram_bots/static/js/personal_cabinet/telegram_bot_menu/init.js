@@ -29,11 +29,11 @@ var setIntervalId;
 							`		<p class="my-2">${telegramBotCommands[telegramBotCommandsKeys[i]]}</p>`,
 							'	</div>',
 							'	<div class="col-auto">',
-							`		<button class="btn delete-telegram-bot-command-button rounded-0 p-0" id="${telegramBotCommandsKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Удалить команду">`,
-							'			<i class="bi bi-trash text-danger" style="font-size: 1.5rem;"></i>',
-							'		</button>',
 							`		<button class="btn edit-telegram-bot-command-button rounded-0 p-0" id="${telegramBotCommandsKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Редактировать команду">`,
 							'			<i class="bi bi-pencil-square text-secondary" style="font-size: 1.5rem;"></i>',
+							'		</button>',
+							`		<button class="btn delete-telegram-bot-command-button rounded-0 p-0" id="${telegramBotCommandsKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Удалить команду">`,
+							'			<i class="bi bi-trash text-danger" style="font-size: 1.5rem;"></i>',
 							'		</button>',
 							'	</div>',
 							'</div>',
@@ -100,14 +100,14 @@ var setIntervalId;
 							wrapper.setAttribute('class', 'text-center');
 							wrapper.innerHTML = [
 								`<th class="align-middle" scope="row">${i + 1}</th>`,
-								`<td class="align-middle">${telegramBotUsers[telegramBotUsersKeys[i]]['username']}</td>`,
+								`<td class="align-middle">@${telegramBotUsers[telegramBotUsersKeys[i]]['username']}</td>`,
 								`<td class="align-middle">${telegramBotUsers[telegramBotUsersKeys[i]]['date_started']}</td>`,
 								'<td class="align-middle">',
+								`	<button class="btn ${(telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed']) ? 'add' : 'delete'}-telegram-bot-allowed-user-button telegram-bot-allowed-user-button rounded-0 p-0 ${(telegramBotIsPrivateCheckBox.checked) ? '' : 'd-none'}" id="${telegramBotUsersKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Дать пользователю доступ к Telegram боту">`,
+								`		<i class="bi bi-star${(telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed']) ? '-fill' : ''} text-warning" style="font-size: 1.5rem;"></i>`,
+								'	</button>',
 								`	<button class="btn delete-telegram-bot-user-button rounded-0 p-0" id="${telegramBotUsersKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Удалить пользователя">`,
 								'		<i class="bi bi-trash text-danger" style="font-size: 1.5rem;"></i>',
-								'	</button>',
-								`	<button class="btn ${(telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed_user']) ? 'add' : 'delete'}-telegram-bot-allowed-user-button telegram-bot-allowed-user-button rounded-0 p-0 ${(telegramBotPrivateCheckBox.checked) ? '' : 'd-none'}" id="${telegramBotUsersKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Дать пользователю доступ к Telegram боту">`,
-								`		<i class="bi bi-star${(telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed_user']) ? '-fill' : ''} text-warning" style="font-size: 1.5rem;"></i>`,
 								'	</button>',
 								'</td>',
 							].join('');
@@ -133,7 +133,7 @@ var setIntervalId;
 								}
 							));
 
-							if (telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed_user']) {
+							if (telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed']) {
 								document.querySelector(`.add-telegram-bot-allowed-user-button[id="${telegramBotUsersKeys[i]}"]`).addEventListener('click', function() {
 									let request = new XMLHttpRequest();
 									request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/delete-allowed-user/`, true);

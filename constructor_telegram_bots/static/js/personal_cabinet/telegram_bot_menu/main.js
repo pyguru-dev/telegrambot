@@ -1,4 +1,34 @@
 {
+    var telegramBotIsPrivateCheckBox = document.querySelector('#telegramBotIsPrivateCheckBox');
+
+    telegramBotIsPrivateCheckBox.addEventListener('click', function() {
+        let request = new XMLHttpRequest();
+        request.open('POST', `/telegram-bot/${telegramBotId}/edit/`, true);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.onreadystatechange = checkRequestResponse(function() {
+            let telegramBotAllowedUserButtons = document.querySelectorAll('.telegram-bot-allowed-user-button');
+
+            if (telegramBotIsPrivateCheckBox.checked) {
+                for (let i = 0; i < telegramBotAllowedUserButtons.length; i++) {
+                    telegramBotAllowedUserButtons[i].classList.remove('d-none');
+                }
+            } else {
+                for (let i = 0; i < telegramBotAllowedUserButtons.length; i++) {
+                    telegramBotAllowedUserButtons[i].classList.add('d-none');
+                }
+            }
+
+            myAlert(mainAlertPlaceholder, request.responseText, 'success');
+        });
+        request.send(JSON.stringify(
+            {
+                'is_private': this.checked,
+            }
+        ));
+    });
+}
+
+{
 	let startOrStopTelegramBotButton = document.querySelector('#startOrStopTelegramBotButton');
 	startOrStopTelegramBotButton.addEventListener('click', function() {
 		this.disabled = true;
@@ -18,7 +48,7 @@
 					cardHeader.classList.replace('bg-success', 'bg-danger');
 
 					startOrStopTelegramBotButton.innerHTML = 'Включить Telegram бота';
-					startOrStopTelegramBotButton.classList.replace('btn-outline-danger', 'btn-outline-success');
+					startOrStopTelegramBotButton.classList.replace('btn-danger', 'btn-success');
 				} else {
 					telegramBotIsRunning = true;
 
@@ -29,7 +59,7 @@
 					cardHeader.classList.replace('bg-danger', 'bg-success');
 					
 					startOrStopTelegramBotButton.innerHTML = 'Выключить Telegram бота';
-					startOrStopTelegramBotButton.classList.replace('btn-outline-success', 'btn-outline-danger');
+					startOrStopTelegramBotButton.classList.replace('btn-success', 'btn-danger');
 				}
 
 				startOrStopTelegramBotButton.disabled = false;
@@ -40,10 +70,6 @@
 			}
 		});
 		request.send();
-	});
-
-	document.querySelector('#duplicateTelegramBotModalButton').addEventListener('click', function() {
-		duplicateTelegramBotModalBootstrap.toggle();
 	});
 
 	document.querySelector('#deleteTelegramBotButton').addEventListener('click', () => askConfirmModal(
@@ -93,7 +119,7 @@
 		let telegramBotCommandId = this.id;
 
 		let request = new XMLHttpRequest();
-		request.open('POST', `/telegram-bot/${telegramBotId}/get-command-data/${telegramBotCommandId}/`, true);
+		request.open('POST', `/telegram-bot/${telegramBotId}/command/${telegramBotCommandId}/get-data/`, true);
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {

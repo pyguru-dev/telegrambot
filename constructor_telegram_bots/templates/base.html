@@ -43,18 +43,25 @@
 					<hr class="d-lg-none text-white-50 mx-2 mt-0 mb-1">
 					{% if user.is_authenticated %}
 						<a class="btn btn-light mx-1 my-2" href="/personal-cabinet/">Личный кабинет</a>
-						<a class="btn btn-danger mx-1 my-2" href="/user/logout/">Выйти</a>
+						<button class="btn btn-danger mx-1 my-2" id="logoutButton" type="button">Выйти</button>
 					{% else %}
-						<a class="btn btn-primary mx-1 my-2" href="tg://resolve?domain=constructor_telegram_bots_bot&start=login">Войти через Telegram</a>
+						<a class="btn btn-success ps-1 mx-1 my-2" href="tg://resolve?domain=constructor_telegram_bots_bot&start=login">
+							<i class="bi bi-telegram mx-2"></i>
+							Войти через Telegram
+						</a>
 					{% endif %}
 			</div>
 		</nav>
 
+		{% if user.is_authenticated %}
+			{% include 'modals/ask_confirm_modal.html' %}
+		{% endif %}
+
 		{% block body %} {% endblock body %}
 
-		<main class="{% block main_class %}my-auto{% endblock main_class %}">
-			<div class="container" id="mainAlertPlaceholder"></div>
+		<div class="container" id="mainAlertPlaceholder"></div>
 
+		<main class="{% block main_class %}my-auto{% endblock main_class %}">
 			{% block main %} {% endblock main %}
 		</main>
 
@@ -113,6 +120,12 @@
 
 	<script src="{% static 'js/global/main.js' %}"></script>
 	<script src="{% static 'js/global/alert.js' %}"></script>
+
+	{% if user.is_authenticated %}
+		<script src="{% static 'js/global/logout.js' %}"></script>
+
+		<script src="{% static 'js/global/modals/ask_confirm_modal.js' %}"></script>
+	{% endif %}
 
 	{% block scripts %} {% endblock scripts %}
 </html>

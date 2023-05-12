@@ -1,26 +1,35 @@
-from django.core.handlers.wsgi import WSGIRequest
-from django.db import models
+from django.db.models import Manager
 
 import telegram_bot.models as TelegramBotModels
+import user.models as UserModels
 
 from telegram_bot.functions import check_telegram_bot_api_token
 
 
-class TelegramBotManager(models.Manager):
-	def add_telegram_bot(self, request: WSGIRequest, api_token: str, private: bool, **extra_fields):
-		username: str = check_telegram_bot_api_token(api_token=api_token)
+class TelegramBotManager(Manager):
+	def add_telegram_bot(self, user: 'UserModels.User', api_token: str, is_private: bool, **extra_fields) -> 'TelegramBotModels.TelegramBot':
+		name = check_telegram_bot_api_token(api_token=api_token)
 
-		telegram_bot: TelegramBotModels.TelegramBot = self.model(name=username, api_token=api_token, private=private, **extra_fields)
+		telegram_bot: TelegramBotModels.TelegramBot = self.model(name=name, api_token=api_token, is_private=is_private, **extra_fields)
 		telegram_bot.save()
 
-		request.user.telegram_bots.add(telegram_bot)
-		request.user.save()
+		user.telegram_bots.add(telegram_bot)
+		user.save()
 
 		return telegram_bot
 
 
-class TelegramBotCommandManager(models.Manager):
-	def add_telegram_bot_command(self, telegram_bot, name: str, command: str, callback: str, message_text: str, keyboard: str, **extra_fields):
+class TelegramBotCommandManager(Manager):
+	def add_telegram_bot_command(
+		self,
+		telegram_bot: 'TelegramBotModels.TelegramBot',
+		name: str,
+		command: str,
+		callback: str,
+		message_text: str,
+		keyboard: str,
+		**extra_fields
+	) -> 'TelegramBotModels.TelegramBotCommand':
 		telegram_bot_command: TelegramBotModels.TelegramBotCommand = self.model(
 			name=name,
 			command=command,
@@ -35,3 +44,14 @@ class TelegramBotCommandManager(models.Manager):
 		telegram_bot.save()
 
 		return telegram_bot_command
+
+
+class TelegramBotUserManager(Manager):
+	def add_telegram_bot_user(self, telegram_bot: 'TelegramBotModels.TelegramBot', user_id: int, username: str) -> 'TelegramBotModels.TelegramBotUser':
+		telegram_bot_user: TelegramBotModels.TelegramBotUser = self.model(user_id=user_id, username=username)
+		telegram_bot_user.save()
+
+		telegram_bot.users.add(telegram_bot_user)
+		telegram_bot.save()
+
+		return telegram_bot_user
