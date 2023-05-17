@@ -18,7 +18,7 @@ def user_login(request: WSGIRequest, user_id: int, confirm_code: str) -> HttpRes
 			user.confirm_code = None
 			user.save()
 
-			login(request=request, user=user)
+			login(request, user)
 
 			context = {'heading': 'Успешная авторизация'}
 		else:
@@ -26,14 +26,14 @@ def user_login(request: WSGIRequest, user_id: int, confirm_code: str) -> HttpRes
 	else:
 		context = {'heading': 'Не удалось найти пользователя!'}
 
-	return render(request=request, template_name='login.html', context=context)
+	return render(request, 'login.html', context)
 
 @csrf_exempt
 @login_required
 def user_logout(request: WSGIRequest) -> HttpResponse:
-	logout(request=request)
+	logout(request)
 
-	return render(request=request, template_name='logout.html')
+	return render(request, 'logout.html')
 
 
 @csrf_exempt
@@ -53,4 +53,6 @@ def get_user_telegram_bots(request: WSGIRequest) -> HttpResponse:
 			}
 		)
 
-	return HttpResponse(json.dumps(added_telegram_bots))
+	return HttpResponse(
+		json.dumps(added_telegram_bots)
+	)

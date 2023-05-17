@@ -4,5 +4,5 @@ from donation import views
 
 
 urlpatterns = [
-	path('', views.donation),
+	path('', views.donation, name='donation'),
 ]

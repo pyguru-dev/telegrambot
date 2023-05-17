@@ -11,17 +11,17 @@ class TelegramBotUser(Model):
 	user_id = BigIntegerField()
 	username = CharField(max_length=32)
 	is_allowed = BooleanField(default=False)
-	date_started = DateTimeField(auto_now_add=True)
+	date_activated = DateTimeField(auto_now_add=True)
 
 	objects = TelegramBotUserManager()
 
-	def get_date_started(self) -> str:
-		return self.date_started.astimezone(
-			pytz.timezone(settings.TIME_ZONE)
-		).strftime('%d %B %Y г. %H:%M')
-
 	class Meta:
 		db_table = 'telegram_bot_user'
+
+	def get_date_activated(self) -> str:
+		return self.date_activated.astimezone(
+			pytz.timezone(settings.TIME_ZONE)
+		).strftime('%d %B %Y г. %H:%M')
 
 
 class TelegramBotCommand(Model):

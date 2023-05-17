@@ -3,4 +3,4 @@ from django.shortcuts import HttpResponse, render
 
 
 def donation(request: WSGIRequest) -> HttpResponse:
-	return render(request=request, template_name='donation.html')
+	return render(request, 'donation.html')

@@ -8,8 +8,8 @@ import telegram_bot.decorators
 
 from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotUser
 
-from telegram_bots import start_telegram_bot as _start_telegram_bot
 from telegram_bots import UserTelegramBot
+from telegram_bots import start_telegram_bot as _start_telegram_bot
 
 import json
 import time
@@ -180,7 +180,9 @@ def get_telegram_bot_commands(request: WSGIRequest, telegram_bot: TelegramBot) -
 	for telegram_bot_command in telegram_bot.commands.all():
 		telegram_bot_commands.update({telegram_bot_command.id: telegram_bot_command.name})
 
-	return HttpResponse(json.dumps(telegram_bot_commands))
+	return HttpResponse(
+		json.dumps(telegram_bot_commands)
+	)
 
 @django.views.decorators.csrf.csrf_exempt
 @django.contrib.auth.decorators.login_required
@@ -193,9 +195,11 @@ def get_telegram_bot_users(request: WSGIRequest, telegram_bot: TelegramBot) -> H
 				telegram_bot_user.id: {
 					'username': telegram_bot_user.username,
 					'is_allowed': telegram_bot_user.is_allowed,
-					'date_started': telegram_bot_user.get_date_started(),
+					'date_activated': telegram_bot_user.get_date_activated(),
 				},
 			}
 		)
 
-	return HttpResponse(json.dumps(telegram_bot_users))
+	return HttpResponse(
+		json.dumps(telegram_bot_users)
+	)

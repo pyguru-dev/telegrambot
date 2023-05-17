@@ -3,4 +3,4 @@ from django.shortcuts import HttpResponse, render
 
 
 def privacy_policy(request: WSGIRequest) -> HttpResponse:
-	return render(request=request, template_name='privacy_policy.html')
+	return render(request, 'privacy_policy.html')

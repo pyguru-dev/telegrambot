@@ -155,15 +155,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'constructor_telegram_bots.wsgi.application'
 
 
+AUTH_USER_MODEL = 'user.User'
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',
 		'NAME': BASE_DIR / 'data/DataBase.db',
 	}
 }
-
-
-AUTH_USER_MODEL = 'user.User'
 
 
 LANGUAGE_CODE = 'ru'

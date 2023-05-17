@@ -1,4 +1,5 @@
 from django.test import TestCase, Client
+from django import urls
 
 from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotUser
 from user.models import User
@@ -95,7 +96,7 @@ class TelegramBotViewsTest(TestCase):
 
 	def test_add_telegram_bot_view(self) -> None:
 		response = self.client.post(
-			'/telegram-bot/add/',
+			urls.reverse('add_telegram_bot'),
 			{
 				'api_token': '123456789:asdfghjkl',
 				'is_private': True,
@@ -107,7 +108,7 @@ class TelegramBotViewsTest(TestCase):
 
 	def test_edit_telegram_bot_view(self) -> None:
 		response = self.client.post(
-			'/telegram-bot/1/edit/',
+			urls.reverse('edit_telegram_bot', kwargs={'telegram_bot_id': 1}),
 			{
 				'is_private': False
 			},
@@ -118,7 +119,7 @@ class TelegramBotViewsTest(TestCase):
 
 	def test_duplicate_telegram_bot_view(self) -> None:
 		response = self.client.post(
-			'/telegram-bot/1/duplicate/',
+			urls.reverse('duplicate_telegram_bot', kwargs={'telegram_bot_id': 1}),
 			{
 				'api_token': '123456789:asdfghjkl',
 				'is_private': True,
@@ -130,7 +131,7 @@ class TelegramBotViewsTest(TestCase):
 
 	def test_duplicate_telegram_bot_view(self) -> None:
 		response = self.client.post(
-			'/telegram-bot/1/delete/',
+			urls.reverse('delete_telegram_bot', kwargs={'telegram_bot_id': 1}),
 			{},
 			'application/json'
 		)
@@ -140,7 +141,7 @@ class TelegramBotViewsTest(TestCase):
 
 	def test_add_telegram_bot_command_view(self) -> None:
 		response = self.client.post(
-			'/telegram-bot/1/command/add/',
+			urls.reverse('add_telegram_bot_command', kwargs={'telegram_bot_id': 1}),
 			{
 				'name': 'Стартовая команда',
 				'command': '/start',
@@ -172,7 +173,7 @@ class TelegramBotViewsTest(TestCase):
 	@add_telegram_bot_command
 	def test_get_telegram_bot_command_data_view(self) -> None:
 		response = self.client.post(
-			'/telegram-bot/1/command/1/get-data/',
+			urls.reverse('get_telegram_bot_command_data', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
 			{},
 			'application/json'
 		)
@@ -193,7 +194,7 @@ class TelegramBotViewsTest(TestCase):
 	@add_telegram_bot_command
 	def test_edit_telegram_bot_command_view(self) -> None:	
 		response = self.client.post(
-			'/telegram-bot/1/command/1/edit/',
+			urls.reverse('edit_telegram_bot_command', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
 			{
 				'name': 'Стартовая команда',
 				'command': '/start',
@@ -209,7 +210,7 @@ class TelegramBotViewsTest(TestCase):
 	@add_telegram_bot_command
 	def test_delete_telegram_bot_command_view(self) -> None:
 		response = self.client.post(
-			'/telegram-bot/1/command/1/delete/',
+			urls.reverse('delete_telegram_bot_command', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
 			{},
 			'application/json'
 		)
@@ -228,7 +229,7 @@ class TelegramBotViewsTest(TestCase):
 	@add_telegram_bot_user
 	def test_add_allowed_user_view(self) -> None:
 		response = self.client.post(
-			'/telegram-bot/1/user/1/add-allowed-user/',
+			urls.reverse('add_allowed_user', kwargs={'telegram_bot_id': 1, 'telegram_bot_user_id': 1}),
 			{},
 			'application/json'
 		)
@@ -238,7 +239,7 @@ class TelegramBotViewsTest(TestCase):
 	@add_telegram_bot_user
 	def test_delete_allowed_user_view(self) -> None:
 		response = self.client.post(
-			'/telegram-bot/1/user/1/delete-allowed-user/',
+			urls.reverse('delete_allowed_user', kwargs={'telegram_bot_id': 1, 'telegram_bot_user_id': 1}),
 			{},
 			'application/json'
 		)
@@ -248,7 +249,7 @@ class TelegramBotViewsTest(TestCase):
 	@add_telegram_bot_user
 	def test_delete_telegram_bot_user_view(self) -> None:
 		response = self.client.post(
-			'/telegram-bot/1/user/1/delete/',
+			urls.reverse('delete_telegram_bot_user', kwargs={'telegram_bot_id': 1, 'telegram_bot_user_id': 1}),
 			{},
 			'application/json'
 		)
@@ -259,7 +260,7 @@ class TelegramBotViewsTest(TestCase):
 	@add_telegram_bot_command
 	def test_get_telegram_bot_commands_view(self) -> None:
 		response = self.client.post(
-			'/telegram-bot/1/get-commands/',
+			urls.reverse('get_telegram_bot_commands', kwargs={'telegram_bot_id': 1}),
 			{},
 			'application/json'
 		)
@@ -279,7 +280,7 @@ class TelegramBotViewsTest(TestCase):
 		telegram_bot_user = TelegramBotUser.objects.get(id=1)
 
 		response = self.client.post(
-			'/telegram-bot/1/get-users/',
+			urls.reverse('get_telegram_bot_users', kwargs={'telegram_bot_id': 1}),
 			{},
 			'application/json'
 		)
@@ -292,7 +293,7 @@ class TelegramBotViewsTest(TestCase):
 					1: {
 						'username': 'test',
 						'is_allowed': False,
-						'date_started': telegram_bot_user.get_date_started(),
+						'date_activated': telegram_bot_user.get_date_activated(),
 					},
 				}
 			)

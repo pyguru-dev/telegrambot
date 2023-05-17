@@ -8,7 +8,7 @@ from telegram_bot.functions import check_telegram_bot_api_token
 
 class TelegramBotManager(Manager):
 	def add_telegram_bot(self, user: 'UserModels.User', api_token: str, is_private: bool, **extra_fields) -> 'TelegramBotModels.TelegramBot':
-		name = check_telegram_bot_api_token(api_token=api_token)
+		name: str = check_telegram_bot_api_token(api_token=api_token)
 
 		telegram_bot: TelegramBotModels.TelegramBot = self.model(name=name, api_token=api_token, is_private=is_private, **extra_fields)
 		telegram_bot.save()

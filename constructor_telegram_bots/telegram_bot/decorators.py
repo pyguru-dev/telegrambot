@@ -2,7 +2,6 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponseBadRequest
 
 from telegram_bot.models import TelegramBot
-
 from telegram_bot.functions import check_telegram_bot_api_token as _check_telegram_bot_api_token
 
 
@@ -32,7 +31,6 @@ def check_telegram_bot_id(func):
 
 			if request.user.telegram_bots.filter(id=telegram_bot_id).exists():
 				del kwargs['telegram_bot_id']
-
 				kwargs.update({'telegram_bot': request.user.telegram_bots.get(id=telegram_bot_id)})
 
 				return func(*args, **kwargs)
@@ -44,25 +42,32 @@ def check_telegram_bot_id(func):
 
 def check_data_for_telegram_bot_command(func):
 	def wrapper(*args, **kwargs):
-		if kwargs['name'] != '':
-			if len(kwargs['name']) <= 255:
-				if kwargs['command'] == '' and kwargs['callback'] == '':
-					return HttpResponseBadRequest('Придумайте команду или введите CallBack текст!')
+		telegram_bot_command_name: str = kwargs['name']
+
+		if telegram_bot_command_name != '':
+			if len(telegram_bot_command_name) <= 255:
+				telegram_bot_command_command: str = kwargs['command']
+				telegram_bot_command_callback: str = kwargs['callback']
+
+				if telegram_bot_command_command == '' and telegram_bot_command_callback == '':
+					return HttpResponseBadRequest('Введите команду или CallBack текст!')
 				else:
-					if len(kwargs['command']) >= 32:
+					if len(telegram_bot_command_command) >= 32:
 						return HttpResponseBadRequest('Команда должна содержать не более 32 символов!')
 
-					if len(kwargs['callback']) >= 64:
+					if len(telegram_bot_command_callback) >= 64:
 						return HttpResponseBadRequest('CallBack текст должен содержать не более 64 символов!')
 					
-					if kwargs['message_text'] != '':
+					telegram_bot_command_message_text: str = kwargs['message_text']
+					
+					if telegram_bot_command_message_text != '':
 						return func(*args, **kwargs)
 					else:
 						return HttpResponseBadRequest('Введите текст сообщения!')
 			else:
 				return HttpResponseBadRequest('Название команды должно содержать не более 255 символов!')
 		else:
-			return HttpResponseBadRequest('Придумайте название команде!')
+			return HttpResponseBadRequest('Введите название команде!')
 	return wrapper
 
 def check_telegram_bot_command_id(func):
@@ -73,7 +78,6 @@ def check_telegram_bot_command_id(func):
 
 			if telegram_bot.commands.filter(id=telegram_bot_command_id).exists():
 				del kwargs['telegram_bot_command_id']
-
 				kwargs.update({'telegram_bot_command': telegram_bot.commands.get(id=telegram_bot_command_id)})
 
 				return func(*args, **kwargs)
@@ -91,7 +95,6 @@ def check_telegram_bot_user_id(func):
 
 			if telegram_bot.users.filter(id=telegram_bot_user_id).exists():
 				del kwargs['telegram_bot_user_id']
-
 				kwargs.update({'telegram_bot_user': telegram_bot.users.get(id=telegram_bot_user_id)})
 
 				return func(*args, **kwargs)

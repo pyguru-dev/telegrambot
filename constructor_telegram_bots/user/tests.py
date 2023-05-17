@@ -1,9 +1,10 @@
 from django.test import TestCase, Client
-from django.conf import settings
+from django import urls
 
 from telegram_bot.models import TelegramBot
 from user.models import User
 
+from django.conf import settings
 import json
 
 
@@ -45,8 +46,8 @@ class UserViewsTest(TestCase):
 
 	def test_user_login_view(self) -> None:
 		login_urls = {
-			f'/user/login/0/{self.user.confirm_code}/': 'Не удалось найти пользователя!',
-			f'/user/login/{self.user.id}/0/': 'Неверный код подтверждения!',
+			urls.reverse('user_login', kwargs={'user_id': 0, 'confirm_code': 0}): 'Не удалось найти пользователя!',
+			urls.reverse('user_login', kwargs={'user_id': 123456789, 'confirm_code': 0}): 'Неверный код подтверждения!',
 			self.user.get_login_url(): 'Успешная авторизация',
 		}
 
@@ -66,7 +67,7 @@ class UserViewsTest(TestCase):
 		login_url = self.user.get_login_url()
 		self.client.get(login_url)
 
-		response = self.client.get('/user/logout/')
+		response = self.client.get(urls.reverse('user_logout'))
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'logout.html')
 
@@ -76,7 +77,7 @@ class UserViewsTest(TestCase):
 
 		telegram_bot = TelegramBot.objects.add_telegram_bot(user=self.user, api_token='123456789:qwertyuiop', is_private=True)
 
-		response = self.client.post('/user/get-telegram-bots/')
+		response = self.client.post(urls.reverse('get_user_telegram_bots'))
 		self.assertEqual(response.status_code, 200)
 		self.assertJSONEqual(
 			response.content,

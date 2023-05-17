@@ -1,4 +1,5 @@
 from django.test import TestCase, Client
+from django import urls
 
 from telegram_bot.models import TelegramBot
 from user.models import User
@@ -13,13 +14,13 @@ class PersonalCabinetViewsTest(TestCase):
 		self.client.get(login_url)
 
 	def test_personal_cabinet_view(self) -> None:
-		response = self.client.get('/personal-cabinet/')
+		response = self.client.get(urls.reverse('personal_cabinet'))
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'personal_cabinet/main.html')
 
 	def test_telegram_bot_menu_view(self) -> None:
 		TelegramBot.objects.add_telegram_bot(user=self.user, api_token='123456789:qwertyuiop', is_private=True)
 
-		response = self.client.get('/personal-cabinet/1/')
+		response = self.client.get(urls.reverse('telegram_bot_menu', kwargs={'telegram_bot_id': 1}))
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'telegram_bot_menu/main.html')
