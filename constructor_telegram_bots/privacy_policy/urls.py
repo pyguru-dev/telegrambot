@@ -4,5 +4,5 @@ from privacy_policy import views
 
 
 urlpatterns = [
-	path('', views.privacy_policy),
+	path('', views.privacy_policy, name='privacy_policy'),
 ]

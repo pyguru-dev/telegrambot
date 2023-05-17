@@ -72,8 +72,8 @@
 		if (keyboard.id != 'offKeyboard') {
 			keyboard.classList.add('d-none');
 			keyboard.id = 'offKeyboard';
-
 			keyboardButtons.innerHTML = '';
+			offKeyboardRadio.checked = true;
 		}
 	}
 
@@ -125,7 +125,6 @@
 		addOrEditTelegramBotCommandTextInput.value = '';
 
 		offKeyboard();
-		offKeyboardRadio.checked = true;
 
 		addOrEditTelegramBotCommandUrl = `/telegram-bot/${telegramBotId}/command/add/`;
 
@@ -157,7 +156,7 @@
 				if (telegramBotCommandKeyboard[0] != 'offKeyboard') {
 					document.querySelector(`#${telegramBotCommandKeyboard[0]}Radio`).checked = true;
 
-					examplekeyboardButton.innerHTML = (telegramBotCommandKeyboard[0] == 'defaultKeyboard') ? '<b>{Текст}:{CallBack текст}</b> или <b>{Текст}:{Ссылка}</b>' : '<b>Текст</b>';
+					examplekeyboardButton.innerHTML = (telegramBotCommandKeyboard[0] == 'defaultKeyboard') ? '<b>Текст</b>' : '<b>{Текст}:{CallBack текст}</b> или <b>{Текст}:{Ссылка}</b>';
 					
 					keyboard.classList.remove('d-none');
 					keyboard.id = telegramBotCommandKeyboard[0];
@@ -172,6 +171,8 @@
 					}
 
 					createKeyboardButton(telegramBotCommandKeyboard[0]);
+				} else {
+					offKeyboard();
 				}
 
 				addOrEditTelegramBotCommandUrl = `/telegram-bot/${telegramBotId}/command/${telegramBotCommandId}/edit/`;

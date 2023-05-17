@@ -3,7 +3,7 @@ from django.db.utils import OperationalError
 from django.views.static import serve
 from django.conf import settings
 
-from telegram_bot.telegram_bots.functions import start_all_telegram_bots
+from telegram_bots import start_all_telegram_bots
 
 import sys
 
@@ -21,12 +21,6 @@ urlpatterns = [
 	path('privacy-policy/', include('privacy_policy.urls')),
 ]
 
-if settings.DEBUG:
-	import debug_toolbar
-	
-	urlpatterns += [
-		path('__debug__/', include(debug_toolbar.urls)),
-	]
 
 if sys.argv[1] == 'runserver':
 	try:

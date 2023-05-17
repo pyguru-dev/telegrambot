@@ -1,7 +1,10 @@
 from django.db.models import Model, BigIntegerField, BooleanField, CharField, TextField, JSONField, ManyToManyField, DateTimeField
-
 from telegram_bot.managers import TelegramBotManager, TelegramBotCommandManager, TelegramBotUserManager
+
 import user.models as UserModels
+
+from django.conf import settings
+import pytz
 
 
 class TelegramBotUser(Model):
@@ -11,6 +14,11 @@ class TelegramBotUser(Model):
 	date_started = DateTimeField(auto_now_add=True)
 
 	objects = TelegramBotUserManager()
+
+	def get_date_started(self) -> str:
+		return self.date_started.astimezone(
+			pytz.timezone(settings.TIME_ZONE)
+		).strftime('%d %B %Y г. %H:%M')
 
 	class Meta:
 		db_table = 'telegram_bot_user'
@@ -43,6 +51,11 @@ class TelegramBot(Model):
 
 	class Meta:
 		db_table = 'telegram_bot'
+
+	def get_date_added(self) -> str:
+		return self.date_added.astimezone(
+			pytz.timezone(settings.TIME_ZONE)
+		).strftime('%d %B %Y г. %H:%M')
 
 	def duplicate(self, user: 'UserModels.User', api_token: str, is_private: bool) -> 'TelegramBot':
 		duplicated_telegram_bot = TelegramBot.objects.add_telegram_bot(user=user, api_token=api_token, is_private=is_private)

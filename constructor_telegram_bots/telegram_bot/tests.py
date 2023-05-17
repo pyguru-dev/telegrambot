@@ -19,6 +19,8 @@ class TelegramBotModelsTest(TestCase):
 		self.assertEqual(self.telegram_bot.is_running, False)
 		self.assertEqual(self.telegram_bot.is_stopped, True)
 
+		self.assertEqual(self.telegram_bot.commands.count(), 0)
+		self.assertEqual(self.telegram_bot.users.count(), 0)
 		TelegramBotCommand.objects.add_telegram_bot_command(
 			telegram_bot=self.telegram_bot,
 			name='Стартовая команда',
@@ -28,6 +30,8 @@ class TelegramBotModelsTest(TestCase):
 			keyboard=['offKeyboard']
 		)
 		TelegramBotUser.objects.add_telegram_bot_user(telegram_bot=self.telegram_bot, user_id=12345, username='test')
+		self.assertEqual(self.telegram_bot.commands.count(), 1)
+		self.assertEqual(self.telegram_bot.users.count(), 1)
 
 		self.assertEqual(TelegramBot.objects.count(), 1)
 		duplicated_telegram_bot = self.telegram_bot.duplicate(user=self.user, api_token='123456789:asdfghjkl', is_private=False)
@@ -288,7 +292,7 @@ class TelegramBotViewsTest(TestCase):
 					1: {
 						'username': 'test',
 						'is_allowed': False,
-						'date_started': telegram_bot_user.date_started.strftime('%d %B %Y г. %H:%M'),
+						'date_started': telegram_bot_user.get_date_started(),
 					},
 				}
 			)

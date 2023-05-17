@@ -1,8 +1,10 @@
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_exempt
 from django.core.handlers.wsgi import WSGIRequest
-from django.contrib.auth import login, logout
 from django.shortcuts import HttpResponse, render
+
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth import login, logout
 
 from user.models import User
 
@@ -46,7 +48,7 @@ def get_user_telegram_bots(request: WSGIRequest) -> HttpResponse:
 				'api_token': telegram_bot.api_token,
 				'commands_count': telegram_bot.commands.count(),
 				'users_count': telegram_bot.users.count(),
-				'date_added': telegram_bot.date_added.strftime('%d %B %Y г. %H:%M'),
+				'date_added': telegram_bot.get_date_added(),
 
 			}
 		)

@@ -13,16 +13,13 @@ SITE_DOMAIN = 'http://127.0.0.1:8000/'
 
 
 DEBUG = True
-if sys.argv[1] == 'test':
-	TEST = True
-else:
-	TEST = False
+TEST = True if sys.argv[1] == 'test' else False
+
 
 ALLOWED_HOSTS = ['*']
-INTERNAL_IPS = ['127.0.0.1']
 
 
-folders = ('data', 'logs',)
+folders = ('data', 'logs', 'logs/site', 'logs/telegram_bots',)
 for folder in folders:
 	if os.path.exists(BASE_DIR / folder) is False:
 		os.mkdir(BASE_DIR / folder)
@@ -67,28 +64,28 @@ LOGGING = {
 			'class': 'logging.StreamHandler',
 			'formatter': 'simple',
 		},
-		'debug_file': { 
+		'site_info_file': { 
 			'level': 'DEBUG',
 			'class': 'logging.FileHandler',
-			'filename': BASE_DIR / 'logs/debug.log',
+			'filename': BASE_DIR / 'logs/site/info.log',
 			'formatter': 'verbose',
 		},
-		'info_file': { 
-			'level': 'INFO',
-			'class': 'logging.FileHandler',
-			'filename': BASE_DIR / 'logs/info.log',
-			'formatter': 'verbose',
-		},
-		'warning_file': { 
+		'site_error_file': { 
 			'level': 'WARNING',
 			'class': 'logging.FileHandler',
-			'filename': BASE_DIR / 'logs/warning.log',
+			'filename': BASE_DIR / 'logs/site/error.log',
 			'formatter': 'verbose',
 		},
-		'error_file': { 
-			'level': 'ERROR',
+		'telegram_bots_info_file': {
+			'level': 'DEBUG',
 			'class': 'logging.FileHandler',
-			'filename': BASE_DIR / 'logs/error.log',
+			'filename': BASE_DIR / 'logs/telegram_bots/info.log',
+			'formatter': 'verbose',
+		},
+		'telegram_bots_error_file': {
+			'level': 'WARNING',
+			'class': 'logging.FileHandler',
+			'filename': BASE_DIR / 'logs/telegram_bots/error.log',
 			'formatter': 'verbose',
 		},
 	},
@@ -96,10 +93,15 @@ LOGGING = {
 		'django': {
 			'handlers': [
 				'console',
-				'debug_file',
-				'info_file',
-				'warning_file',
-				'error_file',
+				'site_info_file',
+				'site_error_file',
+			],
+			'propagate': True,
+		},
+		'aiogram': {
+			'handlers': [
+				'telegram_bots_info_file',
+				'telegram_bots_error_file',
 			],
 			'propagate': True,
 		},
@@ -112,8 +114,6 @@ INSTALLED_APPS = [
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
 	'django.contrib.staticfiles',
-
-	'debug_toolbar',
 
 	'user.apps.UserConfig',
 	'telegram_bot.apps.TelegramBotConfig',
@@ -132,7 +132,6 @@ MIDDLEWARE = [
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'constructor_telegram_bots.urls'
@@ -176,7 +175,6 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-
 if DEBUG:
 	STATICFILES_DIRS = [
 		BASE_DIR / 'static/',

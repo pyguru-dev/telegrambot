@@ -40,6 +40,7 @@
 				let cardHeader = document.querySelector('.card-header');
 
 				if (telegramBotIsRunning) {
+					intervalUpdateTelegramBotUsersIsRunning = false;
 					telegramBotIsRunning = false;
 
 					clearInterval(setIntervalId)
@@ -50,10 +51,11 @@
 					startOrStopTelegramBotButton.innerHTML = 'Включить Telegram бота';
 					startOrStopTelegramBotButton.classList.replace('btn-danger', 'btn-success');
 				} else {
+					intervalUpdateTelegramBotUsersIsRunning = true;
 					telegramBotIsRunning = true;
 
 					getTelegramBotUsers();
-					setIntervalId = setInterval(getTelegramBotUsers, 1500);
+					setIntervalId = setInterval(getTelegramBotUsers, 2000);
 
 					cardHeader.innerHTML = 'Telegram бот включен';
 					cardHeader.classList.replace('bg-danger', 'bg-success');

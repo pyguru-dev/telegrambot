@@ -17,11 +17,11 @@ class UserModelsTest(TestCase):
 		self.assertEqual(User.objects.count(), 1)
 
 		self.assertEqual(user.id, 123456789)
-		self.assertEqual(user.confirm_code, None)
-		self.assertEqual(user.telegram_bots.count(), 0)
 		self.assertEqual(user.last_login, None)
+		self.assertEqual(user.confirm_code, None)
 		self.assertEqual(user.is_superuser, False)
 		self.assertEqual(user.is_staff, False)
+		self.assertEqual(user.telegram_bots.count(), 0)
 
 		login_url = user.get_login_url()
 		self.assertNotEqual(user.confirm_code, None)
@@ -34,8 +34,8 @@ class UserModelsTest(TestCase):
 		self.assertEqual(User.objects.count(), 1)
 		self.assertEqual(TelegramBot.objects.count(), 1)
 		user.delete()
-		self.assertEqual(User.objects.count(), 0)
 		self.assertEqual(TelegramBot.objects.count(), 0)
+		self.assertEqual(User.objects.count(), 0)
 
 
 class UserViewsTest(TestCase):
@@ -88,7 +88,7 @@ class UserViewsTest(TestCase):
 						'api_token': '123456789:qwertyuiop',
 						'commands_count': 0,
 						'users_count': 0,
-						'date_added': telegram_bot.date_added.strftime('%d %B %Y г. %H:%M'),
+						'date_added': telegram_bot.get_date_added(),
 					}
 				]
 			)

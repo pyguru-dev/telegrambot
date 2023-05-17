@@ -1,9 +1,9 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db.models import CharField, BooleanField, ManyToManyField, DateTimeField
-from django.conf import settings
-
 from telegram_bot.models import TelegramBot
 from user.managers import UserManager
+
+from django.conf import settings
 
 from constructor_telegram_bots.functions import generate_random_string
 

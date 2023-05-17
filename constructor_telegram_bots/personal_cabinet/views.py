@@ -1,10 +1,10 @@
-from django.contrib.auth.decorators import login_required
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import HttpResponse, render
 
-from telegram_bot.models import TelegramBot
-
+from django.contrib.auth.decorators import login_required
 from telegram_bot.decorators import check_telegram_bot_id
+
+from telegram_bot.models import TelegramBot
 
 
 @login_required

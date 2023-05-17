@@ -1,14 +1,15 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import HttpResponse
-import django.contrib.auth.decorators
+
 import django.views.decorators.csrf
+import django.contrib.auth.decorators
+import constructor_telegram_bots.decorators
+import telegram_bot.decorators
 
 from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotUser
 
-from telegram_bot.telegram_bots.functions import start_telegram_bot as _start_telegram_bot
-from telegram_bot.telegram_bots.user_telegram_bot import UserTelegramBot
-import constructor_telegram_bots.decorators
-import telegram_bot.decorators
+from telegram_bots import start_telegram_bot as _start_telegram_bot
+from telegram_bots import UserTelegramBot
 
 import json
 import time
@@ -192,7 +193,7 @@ def get_telegram_bot_users(request: WSGIRequest, telegram_bot: TelegramBot) -> H
 				telegram_bot_user.id: {
 					'username': telegram_bot_user.username,
 					'is_allowed': telegram_bot_user.is_allowed,
-					'date_started': telegram_bot_user.date_started.strftime('%d %B %Y г. %H:%M'),
+					'date_started': telegram_bot_user.get_date_started(),
 				},
 			}
 		)

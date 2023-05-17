@@ -5,6 +5,8 @@ var setIntervalId;
 {
 	let commandsCountTableLine = document.querySelector('.commands-count');
 
+	var intervalUpdateTelegramBotUsersIsRunning = false;
+
 	function getTelegramBotCommands() {
 		let request = new XMLHttpRequest();
 		request.open('POST', `/telegram-bot/${telegramBotId}/get-commands/`, true);
@@ -66,10 +68,12 @@ var setIntervalId;
 					telegramBotCommandsDiv.append(wrapper);
 				}
 			}
-
+			
 			getTelegramBotUsers();
-			if (telegramBotIsRunning) {
-				setIntervalId = setInterval(getTelegramBotUsers, 1500);
+			if (telegramBotIsRunning && intervalUpdateTelegramBotUsersIsRunning == false) {
+				intervalUpdateTelegramBotUsersIsRunning = true;
+
+				setIntervalId = setInterval(getTelegramBotUsers, 2000);
 			}
 		});
 		request.send();

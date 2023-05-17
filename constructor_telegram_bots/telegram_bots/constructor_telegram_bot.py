@@ -8,11 +8,12 @@ from django.conf import settings
 from user.models import User
 
 from asgiref.sync import sync_to_async
+import asyncio
 
 
 class ConstructorTelegramBot:
 	def __init__(self) -> None:
-		self.loop = None
+		self.loop = asyncio.new_event_loop()
 
 	async def start_command(self, message: Message) -> None:
 		await self.bot.send_message(
