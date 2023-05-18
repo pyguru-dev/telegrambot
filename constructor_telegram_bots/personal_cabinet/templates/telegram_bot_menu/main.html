@@ -1,18 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'base_personal_cabinet.html' %}
 {% load static %}
 
 {% block title %}Меню Telegram бота{% endblock title %}
 
-{% block body %}
-	{% include 'modals/add_or_duplicate_telegram_bot_modal.html' %}
-
+{% block modals %}
+	{{ block.super }}
 	{% include 'telegram_bot_menu/modals/add_or_edit_telegram_bot_command_modal.html' %}
-{% endblock body %}
+{% endblock modals %}
 
 {% block main_class %}{% endblock main_class %}
 
 {% block main %}
-	<div class="container mt-3 mt-lg-4 mb-3 mb-lg-4">
+	<div class="container my-3 my-lg-4">
 		<div class="row">
 			<div class="col-12 pb-3">
 				<div class="card">
@@ -98,16 +97,22 @@
 {% block footer_class %}mt-auto{% endblock footer_class %}
 
 {% block scripts %}
+	{{ block.super }}
 	<script>
 		const telegramBotId = {{ telegram_bot.id }};
-
 		var telegramBotIsRunning = {% if telegram_bot.is_running %}true{% else %}false{% endif %};
+
+		const editTelegramBotUrl = '{% url 'edit_telegram_bot' telegram_bot.id %}';
+
+		const startTelegramBotUrl = '{% url 'start_telegram_bot' telegram_bot.id %}';
+		const stopTelegramBotUrl = '{% url 'stop_telegram_bot' telegram_bot.id %}';
+		const duplicateTelegramBotUrl = '{% url 'duplicate_telegram_bot' telegram_bot.id %}';
+		const deleteTelegramBotUrl = '{% url 'delete_telegram_bot' telegram_bot.id %}';
+
+		const getTelegramBotCommandsUrl = '{% url 'get_telegram_bot_commands' telegram_bot.id %}';
+		const getTelegramBotUsersUrl = '{% url 'get_telegram_bot_users' telegram_bot.id %}';
 	</script>
-
-	<script src="{% static 'js/global/modals/add_or_duplicate_telegram_bot_modal.js' %}"></script>
-
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/init.js' %}"></script>
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/main.js' %}"></script>
-
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/modals/add_or_edit_telegram_bot_command_modal.js' %}"></script>
 {% endblock scripts %}

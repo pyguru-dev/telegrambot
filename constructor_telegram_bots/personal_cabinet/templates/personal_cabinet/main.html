@@ -1,13 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'base_personal_cabinet.html' %}
 {% load static %}
 
 {% block title %}Личный кабинет{% endblock title %}
 
-{% block body %}
-	{% include 'modals/add_or_duplicate_telegram_bot_modal.html' %}
-
+{% block modals %}
+	{{ block.super }}
 	{% include 'personal_cabinet/modals/how_to_add_telegram_bot_modal.html' %}
-{% endblock body %}
+{% endblock modals %}
 
 {% block main_class %}{% endblock main_class %}
 
@@ -33,7 +32,9 @@
 {% block footer_class %}mt-auto{% endblock footer_class %}
 
 {% block scripts %}
-	<script src="{% static 'js/global/modals/add_or_duplicate_telegram_bot_modal.js' %}"></script>
-
+	{{ block.super }}
+	<script>
+		const getUserTelegramBotsUrl = '{% url 'get_user_telegram_bots' %}';
+	</script>
 	<script src="{% static 'js/personal_cabinet/personal_cabinet/init.js' %}"></script>
 {% endblock scripts %}

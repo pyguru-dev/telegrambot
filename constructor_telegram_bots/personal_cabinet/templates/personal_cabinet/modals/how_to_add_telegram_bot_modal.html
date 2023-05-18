@@ -1,17 +1,19 @@
-<div class="modal fade" id="howToAddTelegramBotModal" tabindex="-1" aria-labelledby="howToAddTelegramBotModalLabel" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="howToAddTelegramBotModalLabel">Инструкция по добавлению Telegram бота</h5>
-				<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-				<ol class="ps-4 mb-0">
-					<li>Сначала вам нужно создать Telegram бота через <a href="tg://resolve?domain=BotFather">BotFather</a> Telegram бота.</li>
-					<li>После того, как вы создали Telegram бота, вам нужно скопировать его API-токен.</li>
-					<li>Теперь вы можете добавить вашего Telegram бота на сайт.</li>
-				</ol>
+{% with 'howToAddTelegramBot' as modal_name %}
+	<div class="modal fade" id="{{ modal_name }}Modal" tabindex="-1" aria-labelledby="{{ modal_name }}ModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="{{ modal_name }}ModalLabel">Инструкция по добавлению Telegram бота</h5>
+					<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<ol class="ps-4 mb-0">
+						<li>Сначала вам нужно создать Telegram бота через <a href="tg://resolve?domain=BotFather">BotFather</a> Telegram бота.</li>
+						<li>После того, как вы создали Telegram бота, вам нужно скопировать его API-токен.</li>
+						<li>Теперь вы можете добавить вашего Telegram бота на сайт.</li>
+					</ol>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+{% endwith %}

@@ -8,13 +8,13 @@
 
 	document.querySelector('#addOrDuplicateTelegramBotButton').addEventListener('click', function() {
 		let request = new XMLHttpRequest();
-		request.open('POST', (window.location.pathname == '/personal-cabinet/') ? '/telegram-bot/add/' : `/telegram-bot/${telegramBotId}/duplicate/`, true);
+		request.open('POST', (window.location.pathname == personalCabinetUrl) ? addTelegramBotUrl : duplicateTelegramBotUrl, true);
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {
 				addOrDuplicateTelegramBotModalBootstrap.toggle();
 				
-				if (window.location.pathname == '/personal-cabinet/') {
+				if (window.location.pathname == personalCabinetUrl) {
 					get_telegram_bots();
 				}
 
@@ -34,6 +34,7 @@
 	{
 		document.querySelector('#addOrDuplicateTelegramBotModalButton').addEventListener('click', function() {
 			addOrDuplicateTelegramBotModalAlertPlaceholder.innerHTML = '';
+
 			addOrDuplicateTelegramBotApiTokenInput.value = '';
 			addOrDuplicateTelegramBotIsPrivateCheckBox.checked = true;
 	

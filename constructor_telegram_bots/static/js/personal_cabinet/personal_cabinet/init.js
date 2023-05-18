@@ -1,6 +1,6 @@
 function get_telegram_bots() {
 	let request = new XMLHttpRequest();
-	request.open('POST', '/user/get-telegram-bots/', true);
+	request.open('POST', getUserTelegramBotsUrl, true);
 	request.setRequestHeader('Content-Type', 'application/json');
 	request.onreadystatechange = checkRequestResponse(function() {
 		if (request.status == 200) {

@@ -1,28 +1,36 @@
 {
 	let mainContainer = document.querySelector('main').querySelector('.container');
-	let mainContainerClass= mainContainer.getAttribute('class');
+	let mainContainerClass = mainContainer.getAttribute('class');
+
+	var mainAlertPlaceholder = document.querySelector('#mainAlertPlaceholder');
 
 	let alertId = 0;
 
 	function myAlert(alertPlaceholder, message, type) {
-			for (let a = 0; a <= 5; a++) {
-				mainContainer.classList.remove(`mt-${a}`);
-			}
-
-			breakpoints = ['sm', 'md', 'lg', 'xl', 'xxl']
-
-			for (let a = 0; a <= 5; a++) {
-				for (let b = 0; b < breakpoints.length; b++) {
-					mainContainer.classList.remove(`mt-${breakpoints[b]}-${a}`);
+		let wrapper = document.createElement('div');
+		wrapper.className = `alert alert-${type} fade `;
+		wrapper.id = alertId;
+		wrapper.role = 'alert';
+		wrapper.innerHTML = `<p class="text-center mb-0">${message}</p>`;
+		
+		if (alertPlaceholder == mainAlertPlaceholder) {
+			breakpoints = ['', 'sm-', 'md-', 'lg-', 'xl-', 'xxl-']
+			for (let breakpoint = 0; breakpoint < breakpoints.length; breakpoint++) {
+				for (let size = 1; size <= 5; size++) {
+					if (mainContainer.classList.contains(`my-${breakpoints[breakpoint]}${size}`)) {
+						mainContainer.classList.remove(`my-${breakpoints[breakpoint]}${size}`);
+						mainContainer.classList.add(`mb-${breakpoints[breakpoint]}${size}`);
+					} else if (mainContainer.classList.contains(`mt-${breakpoints[breakpoint]}${size}`)) {
+						mainContainer.classList.remove(`mt-${breakpoints[breakpoint]}${size}`);
+					}
 				}
 			}
-			
-		let wrapper = document.createElement('div');
-		wrapper.innerHTML = [
-			`<div class="alert alert-${type} alert-dismissible fade p-3 my-2" id="${alertId}" role="alert">`,
-			`   <p class="text-center mb-0">${message}</p>`,
-			'</div>',
-		].join('');
+
+			wrapper.className += 'my-2';
+		} else {
+			wrapper.className += 'mb-2';
+		}
+
 		alertPlaceholder.append(wrapper);
 
 		function showMyAlert(__myAlert) {
@@ -48,6 +56,6 @@
 		let _myAlert = document.querySelector(`.alert[id="${alertId}"]`);
 		setTimeout(showMyAlert, 200, _myAlert);
 
-			alertId ++;
-		}
+		alertId ++;
 	}
+}

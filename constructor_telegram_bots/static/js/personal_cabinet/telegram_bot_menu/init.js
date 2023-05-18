@@ -1,5 +1,3 @@
-var mainAlertPlaceholder = document.querySelector('#mainAlertPlaceholder');
-
 var setIntervalId;
 
 {
@@ -9,7 +7,7 @@ var setIntervalId;
 
 	function getTelegramBotCommands() {
 		let request = new XMLHttpRequest();
-		request.open('POST', `/telegram-bot/${telegramBotId}/get-commands/`, true);
+		request.open('POST', getTelegramBotCommandsUrl, true);
 		request.setRequestHeader('Content-Type', 'application/json');
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {
@@ -86,7 +84,7 @@ var setIntervalId;
 	function getTelegramBotUsers() {
 		if (document.hidden == false) {
 			let request = new XMLHttpRequest();
-			request.open('POST', `/telegram-bot/${telegramBotId}/get-users/`, true);
+			request.open('POST', getTelegramBotUsersUrl, true);
 			request.setRequestHeader('Content-Type', 'application/json');
 			request.onreadystatechange = checkRequestResponse(function() {
 				if (request.status == 200) {
@@ -105,7 +103,7 @@ var setIntervalId;
 							wrapper.innerHTML = [
 								`<th class="align-middle" scope="row">${i + 1}</th>`,
 								`<td class="align-middle">@${telegramBotUsers[telegramBotUsersKeys[i]]['username']}</td>`,
-								`<td class="align-middle">${telegramBotUsers[telegramBotUsersKeys[i]]['date_started']}</td>`,
+								`<td class="align-middle">${telegramBotUsers[telegramBotUsersKeys[i]]['date_activated']}</td>`,
 								'<td class="align-middle">',
 								`	<button class="btn ${(telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed']) ? 'add' : 'delete'}-telegram-bot-allowed-user-button telegram-bot-allowed-user-button rounded-0 p-0 ${(telegramBotIsPrivateCheckBox.checked) ? '' : 'd-none'}" id="${telegramBotUsersKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Дать пользователю доступ к Telegram боту">`,
 								`		<i class="bi bi-star${(telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed']) ? '-fill' : ''} text-warning" style="font-size: 1.5rem;"></i>`,

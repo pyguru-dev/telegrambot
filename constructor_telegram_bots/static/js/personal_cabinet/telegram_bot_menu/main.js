@@ -3,7 +3,7 @@
 
     telegramBotIsPrivateCheckBox.addEventListener('click', function() {
         let request = new XMLHttpRequest();
-        request.open('POST', `/telegram-bot/${telegramBotId}/edit/`, true);
+        request.open('POST', editTelegramBotUrl, true);
         request.setRequestHeader('Content-Type', 'application/json');
         request.onreadystatechange = checkRequestResponse(function() {
             let telegramBotAllowedUserButtons = document.querySelectorAll('.telegram-bot-allowed-user-button');
@@ -34,7 +34,7 @@
 		this.disabled = true;
 
 		let request = new XMLHttpRequest();
-		request.open('POST', (telegramBotIsRunning) ? `/telegram-bot/${telegramBotId}/stop/` : `/telegram-bot/${telegramBotId}/start/`, true);
+		request.open('POST', (telegramBotIsRunning) ? stopTelegramBotUrl : startTelegramBotUrl, true);
 		request.onreadystatechange = checkRequestResponse(function() {
 			if (request.status == 200) {
 				let cardHeader = document.querySelector('.card-header');
@@ -79,7 +79,7 @@
 		'Вы точно хотите удалить Telegram бота?',
 		function() {
 			let request = new XMLHttpRequest();
-			request.open('POST', `/telegram-bot/${telegramBotId}/delete/`, true);
+			request.open('POST', deleteTelegramBotUrl, true);
 			request.setRequestHeader('Content-Type', 'application/json');
 			request.onreadystatechange = checkRequestResponse(function() {
 				if (request.status == 200) {
