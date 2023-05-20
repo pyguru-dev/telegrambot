@@ -9,14 +9,12 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SITE_DOMAIN = 'http://127.0.0.1:8000/'
-
-
-DEBUG = True
+DEBUG = False
 TEST = True if sys.argv[1] == 'test' else False
 
 
-ALLOWED_HOSTS = ['*']
+SITE_DOMAIN = 'http://127.0.0.1:8000/'
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 folders = ('data', 'logs', 'logs/site', 'logs/telegram_bots',)
@@ -40,7 +38,7 @@ if sys.argv[1] == 'runserver':
 		CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = constructor_telegram_bot_api_token_file.read().replace('\n', '')
 
 	if CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN == '':
-		print(f"Enter the Constructor Telegram bot token in the file {BASE_DIR / 'data/constructor_telegram_bot_api.token'}!")
+		print(f"Enter the Constructor Telegram bot API-token in the file {BASE_DIR / 'data/constructor_telegram_bot_api.token'}!")
 
 		exit()
 
