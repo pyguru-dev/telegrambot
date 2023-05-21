@@ -21,5 +21,5 @@ urlpatterns = [
 ]
 
 
-if sys.argv[1] != 'test':
+if sys.argv[1] not in ['test', 'makemigrations', 'migrate']:
 	start_all_telegram_bots()
