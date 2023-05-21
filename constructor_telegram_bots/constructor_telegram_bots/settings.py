@@ -32,7 +32,7 @@ else:
 	with open(BASE_DIR / 'data/secret.key', 'r') as secret_key_file:
 		SECRET_KEY = secret_key_file.read()
 
-if sys.argv[1] != 'test':
+if sys.argv[1] not in ['test', 'makemigrations', 'migrate']:
 	open(BASE_DIR / 'data/constructor_telegram_bot_api.token', 'a')
 	with open(BASE_DIR / 'data/constructor_telegram_bot_api.token', 'r') as constructor_telegram_bot_api_token_file:
 		CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = constructor_telegram_bot_api_token_file.read().replace('\n', '')
