@@ -1,5 +1,4 @@
 from django.urls import re_path, path, include
-from django.db.utils import OperationalError
 from django.views.static import serve
 from django.conf import settings
 
@@ -22,8 +21,5 @@ urlpatterns = [
 ]
 
 
-if sys.argv[1] == 'runserver':
-	try:
-		start_all_telegram_bots()
-	except OperationalError:
-		pass
+if sys.argv[1] != 'test':
+	start_all_telegram_bots()
