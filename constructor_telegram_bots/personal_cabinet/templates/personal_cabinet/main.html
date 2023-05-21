@@ -1,0 +1,40 @@
+{% extends 'base_personal_cabinet.html' %}
+{% load static %}
+
+{% block title %}Личный кабинет{% endblock title %}
+
+{% block modals %}
+	{{ block.super }}
+	{% include 'personal_cabinet/modals/how_to_add_telegram_bot_modal.html' %}
+{% endblock modals %}
+
+{% block main_class %}{% endblock main_class %}
+
+{% block main %}
+	<div class="container mt-3 mt-lg-4">
+		<div class="row justify-content-between">
+			<div class="col-12 col-lg-auto">
+				<h1 class="text-center fw-bold mb-lg-0">Добавленные Telegram боты</h1>
+			</div>
+			<div class="col-12 col-lg-auto">
+				<button class="btn btn-lg btn-primary w-100 ps-1" id="addOrDuplicateTelegramBotModalButton" type="button">
+					<i class="bi bi-plus-lg mx-2"></i>
+					Добавить Telegram бота
+				</button>
+			</div>
+		</div>
+	</div>
+	<div class="container mt-2 mt-lg-1 mb-3 mb-lg-4">
+		<div class="row row-cols-1 row-cols-lg-3" id="telegramBots"></div>
+	</div>
+{% endblock main %}
+
+{% block footer_class %}mt-auto{% endblock footer_class %}
+
+{% block scripts %}
+	{{ block.super }}
+	<script>
+		const getUserTelegramBotsUrl = '{% url 'get_user_telegram_bots' %}';
+	</script>
+	<script src="{% static 'js/personal_cabinet/personal_cabinet/init.js' %}"></script>
+{% endblock scripts %}

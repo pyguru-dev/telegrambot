@@ -1,0 +1,25 @@
+{% with 'askConfirm' as modal_name %}
+	<div class="modal fade" id="{{ modal_name }}Modal" tabindex="-1" aria-labelledby="{{ modal_name }}ModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="{{ modal_name }}ModalLabel"></h5>
+					<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p class="mb-0" id="{{ modal_name }}Text"></p>
+				</div>
+				<div class="modal-footer">
+					<div class="row row-cols-2 w-100">
+						<div class="col ps-0 pe-2">
+							<button class="btn btn-success w-100" id="{{ modal_name }}YesButton" type="button">Да</button>
+						</div>
+						<div class="col ps-2 pe-0">
+							<button class="btn btn-danger w-100" type="button" data-bs-dismiss="modal">Нет</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endwith %}

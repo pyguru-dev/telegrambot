@@ -1,9 +1,5 @@
 # Папки
 __pycache__/
-venv/
+data/
 logs/
-users_icons/
-
-#Файлы
-secret.key
-DataBase.db
+env/

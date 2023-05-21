@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block meta %}
+    <meta http-equiv="refresh" content="3; url={% block meta_url %}{% url 'home' %}{% endblock meta_url %}">
+{% endblock meta %}
+
+{% block main %}
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-12 col-lg-8 text-center">
+				<h1>{% block main_content_heading %}{% endblock main_content_heading %}</h1>
+				<p class="lead mb-0">{% block main_content_text %}{% endblock main_content_text %}</p>
+			</div>
+		</div>
+	</div>
+{% endblock main %}

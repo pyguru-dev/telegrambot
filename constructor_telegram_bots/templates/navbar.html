@@ -1,0 +1,34 @@
+<nav class="navbar navbar-expand-lg bg-dark navbar-dark py-1 p-lg-0">
+	<div class="container">
+		<a class="navbar-brand p-2 me-0" href="/">Constructor Telegram Bots</a>
+
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false">
+			<span class="navbar-toggler-icon"></span>
+		 </button>
+
+		<div class="navbar-collapse collapse" id="navbar">
+			<ul class="navbar-nav me-auto">
+				<li class="nav-item">
+					{% url 'home' as home_url %}
+					<a class="nav-link {% if request.path == home_url %}active{% endif %} p-2" href="{{ home_url }}">Главная</a>
+				</li>
+				<li class="nav-item">
+					{% url 'donation' as donation_url %}
+					<a class="nav-link {% if request.path == donation_url %}active{% endif %} p-2" href="{{ donation_url }}">Пожертвование</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link disabled p-2" href="#">Блог</a>
+				</li>
+			</ul>
+			<hr class="d-lg-none text-white-50 mx-2 mt-0 mb-1">
+			{% if user.is_authenticated %}
+				<a class="btn btn-light mx-1 my-2" href="{% url 'personal_cabinet' %}">Личный кабинет</a>
+				<button class="btn btn-danger mx-1 my-2" id="logoutButton" type="button">Выйти</button>
+			{% else %}
+				<a class="btn btn-success ps-1 mx-1 my-2" href="tg://resolve?domain=constructor_telegram_bots_bot&start=login">
+					<i class="bi bi-telegram mx-2"></i>
+					Войти через Telegram
+				</a>
+			{% endif %}
+	</div>
+</nav>
