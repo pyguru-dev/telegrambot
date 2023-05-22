@@ -12,7 +12,7 @@
 # Требование
 - Python **3.10.11**
 
-# Установка проекта
+# Установка проекта и запуск его
 1. Устанавливаем проект:
 ```sh
 git clone https://github.com/EXG1O/Constructor-Telegram-Bots.git
@@ -34,6 +34,8 @@ Enter the Constructor Telegram bot API-token in the file ./data/constructor_tele
 ```
 4. Теперь вам нужно создать своего Telegram бота через [BotFather](https://t.me/BotFather) Telegram бота.
 5. После того, как вы создали Telegram бота, вам нужно скопировать его **API-токен** и добавить его в файл **./data/constructor_telegram_bot_api.token**.
+6. Теперь в файле **./constructor_telegram_bots/settings.py** раскомментируйте **26** и **27** строку и закомментируйте **23** и **24** строку.
+7. После этого в файле **./templates/navbar.html** на **28** строке замените **username** Telegram бота на **username** своего выше созданного Telegram бота.
 6. Запускаем ещё раз **manage.py** файл:
 ```sh
 python manage.py runserver
@@ -60,6 +62,7 @@ Constructor-Telegram-Bots
 │   │   ├── decorators.py
 │   │   ├── functions.py
 │   │   ├── __init__.py
+│   │   ├── gunicorn_config.py
 │   │   ├── settings.py
 │   │   ├── urls.py
 │   │   └── wsgi.py

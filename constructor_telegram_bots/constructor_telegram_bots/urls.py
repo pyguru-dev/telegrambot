@@ -8,8 +8,6 @@ import sys
 
 
 urlpatterns = [
-	re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
-
 	path('user/', include('user.urls')),
 	path('telegram-bot/', include('telegram_bot.urls')),
 
@@ -21,5 +19,12 @@ urlpatterns = [
 ]
 
 
-if sys.argv[1] not in ['test', 'makemigrations', 'migrate']:
+if settings.DEBUG:
+	urlpatterns = re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}) + urlpatterns
+
+
+if sys.argv[0] == 'manage.py':
+	if sys.argv[1] == 'runserver':
+		start_all_telegram_bots()
+else:
 	start_all_telegram_bots()
