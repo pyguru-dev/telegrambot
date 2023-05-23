@@ -20,11 +20,11 @@ else:
 	TEST = False
 
 
-SITE_DOMAIN = 'http://127.0.0.1:8000/'
-ALLOWED_HOSTS = ['127.0.0.1']
+# SITE_DOMAIN = 'http://127.0.0.1:8000/'
+# ALLOWED_HOSTS = ['127.0.0.1']
 
-# SITE_DOMAIN = 'https://constructor.exg1o.org/'
-# ALLOWED_HOSTS = ['constructor.exg1o.org']
+SITE_DOMAIN = 'https://constructor.exg1o.org/'
+ALLOWED_HOSTS = ['constructor.exg1o.org']
 
 
 folders = ('data', 'logs', 'logs/django', 'logs/telegram_bots',)
