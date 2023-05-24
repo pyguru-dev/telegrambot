@@ -34,7 +34,7 @@ Enter the Constructor Telegram bot API-token in the file ./data/constructor_tele
 ```
 4. Теперь вам нужно создать своего Telegram бота через [BotFather](https://t.me/BotFather) Telegram бота.
 5. После того, как вы создали Telegram бота, вам нужно скопировать его **API-токен** и добавить его в файл **./data/constructor_telegram_bot_api.token**.
-6. Теперь в файле **./constructor_telegram_bots/settings.py** раскомментируйте **26** и **27** строку и закомментируйте **23** и **24** строку.
+6. Теперь в файле **./constructor_telegram_bots/settings.py** на **12** строке включите **DEBUG** режим.
 7. После этого в файле **./templates/navbar.html** на **28** строке замените **username** Telegram бота на **username** своего выше созданного Telegram бота.
 6. Запускаем ещё раз **manage.py** файл:
 ```sh
