@@ -1,6 +1,7 @@
-from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram import Bot
+
+from telegram_bots.custom_aiogram import CustomDispatcher
 
 from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotCommandManager, TelegramBotUser, TelegramBotUserManager
 
@@ -122,16 +123,18 @@ class UserTelegramBot:
 
 	async def setup(self) -> None:
 		self.bot = Bot(token=self.telegram_bot.api_token, loop=self.loop)
-		self.dispatcher = Dispatcher(bot=self.bot)
+		self.dispatcher = CustomDispatcher(bot=self.bot)
 
 		self.dispatcher.register_message_handler(self.message_and_callback_query_handler)
 		self.dispatcher.register_callback_query_handler(self.message_and_callback_query_handler)
 
 	async def start(self) -> None:
-		self.loop.create_task(self.stop())
+		task = self.loop.create_task(self.stop())
 
 		await self.dispatcher.skip_updates()
 		await self.dispatcher.start_polling()
+
+		task.cancel()
 
 		session = await self.bot.get_session()
 		await session.close()

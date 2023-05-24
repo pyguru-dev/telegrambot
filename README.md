@@ -152,9 +152,10 @@ Constructor-Telegram-Bots
 │   │   ├── urls.py
 │   │   └── views.py
 │   ├── telegram_bots
-│   │   ├── constructor_telegram_bot.py
-│   │   ├── functions.py
 │   │   ├── __init__.py
+│   │   ├── constructor_telegram_bot.py
+│   │   ├── custom_aiogram.py
+│   │   ├── functions.py
 │   │   └── user_telegram_bot.py
 │   ├── templates
 │   │   ├── modals
@@ -179,6 +180,7 @@ Constructor-Telegram-Bots
 │   │   ├── urls.py
 │   │   └── views.py
 │   └── manage.py
+├── .gitignore
 ├── LICENSE.md
 ├── README.md
 └── requirements.txt
