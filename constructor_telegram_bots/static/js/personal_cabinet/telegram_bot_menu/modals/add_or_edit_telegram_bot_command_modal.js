@@ -238,3 +238,17 @@
 		}
 	});
 }
+
+{
+	let addOrEditTelegramBotCommandLabelTextInput = document.querySelector('#addOrEditTelegramBotCommandLabelTextInput')
+
+	addOrEditTelegramBotCommandTextInput.addEventListener('focus', function() {
+		addOrEditTelegramBotCommandLabelTextInput.classList = 'rounded-0 h-auto p-0 mt-2';
+		addOrEditTelegramBotCommandLabelTextInput.style = 'background-color: var(--bs-body-bg); margin-left: 12px;';
+	})
+
+	addOrEditTelegramBotCommandTextInput.addEventListener('blur', function() {
+		addOrEditTelegramBotCommandLabelTextInput.classList = '';
+		addOrEditTelegramBotCommandLabelTextInput.style = '';
+	})
+}
