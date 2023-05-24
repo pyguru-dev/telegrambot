@@ -1,6 +1,7 @@
-from aiogram.dispatcher import Dispatcher
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram import Bot
+
+from telegram_bots.custom_aiogram import CustomDispatcher
 
 from django.contrib.auth.models import UserManager
 from django.conf import settings
@@ -51,7 +52,7 @@ class ConstructorTelegramBot:
 
 	async def setup(self) -> None:
 		self.bot = Bot(token=settings.CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN, loop=self.loop)
-		self.dispatcher = Dispatcher(bot=self.bot)
+		self.dispatcher = CustomDispatcher(bot=self.bot)
 
 		self.dispatcher.register_message_handler(self.start_command, commands=['start'])
 		self.dispatcher.register_message_handler(self.login_command, commands=['login'])
