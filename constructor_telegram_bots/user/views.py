@@ -46,6 +46,7 @@ def get_user_telegram_bots(request: WSGIRequest) -> HttpResponse:
 				'id': telegram_bot.id,
 				'name': telegram_bot.name,
 				'api_token': telegram_bot.api_token,
+				'is_running': telegram_bot.is_running,
 				'commands_count': telegram_bot.commands.count(),
 				'users_count': telegram_bot.users.count(),
 				'date_added': telegram_bot.get_date_added(),
