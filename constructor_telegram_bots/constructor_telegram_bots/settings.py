@@ -9,7 +9,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-DEBUG = True
+DEBUG = False
 
 if sys.argv[0] == 'manage.py':
 	if sys.argv[1] == 'test':
