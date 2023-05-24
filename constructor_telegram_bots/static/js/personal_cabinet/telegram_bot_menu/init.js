@@ -1,9 +1,8 @@
-var setIntervalId;
-
 {
 	let commandsCountTableLine = document.querySelector('.commands-count');
 
 	var intervalUpdateTelegramBotUsersIsRunning = false;
+	var setIntervalId;
 
 	function getTelegramBotCommands() {
 		let request = new XMLHttpRequest();
@@ -115,6 +114,16 @@ var setIntervalId;
 							].join('');
 							telegramBotUsersDiv.append(wrapper);
 
+							function onReadyStateChangeFunc(request) {
+								if (request.status == 200) {
+									getTelegramBotUsers();
+
+									myAlert(mainAlertPlaceholder, request.responseText, 'success');
+								} else {
+									myAlert(mainAlertPlaceholder, request.responseText, 'danger');
+								}
+							}
+
 							document.querySelector(`.delete-telegram-bot-user-button[id="${telegramBotUsersKeys[i]}"]`).addEventListener('click', () => askConfirmModal(
 								'Удаление пользователя Telegram бота',
 								'Вы точно хотите удалить пользователя Telegram бота?',
@@ -123,13 +132,7 @@ var setIntervalId;
 									request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/delete/`, true);
 									request.setRequestHeader('Content-Type', 'application/json');
 									request.onreadystatechange = checkRequestResponse(function() {
-										if (request.status == 200) {
-											getTelegramBotUsers();
-
-											myAlert(mainAlertPlaceholder, request.responseText, 'success');
-										} else {
-											myAlert(mainAlertPlaceholder, request.responseText, 'danger');
-										}
+										onReadyStateChangeFunc(request);
 									});
 									request.send();
 								}
@@ -141,13 +144,7 @@ var setIntervalId;
 									request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/delete-allowed-user/`, true);
 									request.setRequestHeader('Content-Type', 'application/json');
 									request.onreadystatechange = checkRequestResponse(function() {
-										if (request.status == 200) {
-											getTelegramBotUsers();
-
-											myAlert(mainAlertPlaceholder, request.responseText, 'success');
-										} else {
-											myAlert(mainAlertPlaceholder, request.responseText, 'danger');
-										}
+										onReadyStateChangeFunc(request);
 									});
 									request.send();
 								});
@@ -157,13 +154,7 @@ var setIntervalId;
 									request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/add-allowed-user/`, true);
 									request.setRequestHeader('Content-Type', 'application/json');
 									request.onreadystatechange = checkRequestResponse(function() {
-										if (request.status == 200) {
-											getTelegramBotUsers();
-
-											myAlert(mainAlertPlaceholder, request.responseText, 'success');
-										} else {
-											myAlert(mainAlertPlaceholder, request.responseText, 'danger');
-										}
+										onReadyStateChangeFunc(request);
 									});
 									request.send();
 								});

@@ -36,7 +36,7 @@
 			addOrDuplicateTelegramBotModalAlertPlaceholder.innerHTML = '';
 
 			addOrDuplicateTelegramBotApiTokenInput.value = '';
-			addOrDuplicateTelegramBotIsPrivateCheckBox.checked = true;
+			addOrDuplicateTelegramBotIsPrivateCheckBox.checked = false;
 	
 			addOrDuplicateTelegramBotModalBootstrap.toggle();
 		});

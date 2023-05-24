@@ -30,7 +30,13 @@
 
 {
 	let startOrStopTelegramBotButton = document.querySelector('#startOrStopTelegramBotButton');
+
 	startOrStopTelegramBotButton.addEventListener('click', function() {
+		this.innerHTML = [
+			'<div class="spinner-border spinner-border-sm role="status">',
+			'	<span class="sr-only"></span>',
+			'</div>',
+		].join('');
 		this.disabled = true;
 
 		let request = new XMLHttpRequest();
