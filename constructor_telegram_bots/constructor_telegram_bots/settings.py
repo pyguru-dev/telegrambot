@@ -20,14 +20,15 @@ else:
 	TEST = False
 
 
-# SITE_DOMAIN = 'http://127.0.0.1:8000/'
-# ALLOWED_HOSTS = ['127.0.0.1']
+if DEBUG:
+	SITE_DOMAIN = 'http://127.0.0.1:8000/'
+else:
+	SITE_DOMAIN = 'https://constructor.exg1o.org/'
 
-SITE_DOMAIN = 'https://constructor.exg1o.org/'
-ALLOWED_HOSTS = ['constructor.exg1o.org']
+ALLOWED_HOSTS = ['127.0.0.1', 'constructor.exg1o.org']
 
 
-folders = ('data', 'logs', 'logs/django', 'logs/telegram_bots',)
+folders = ('data', 'logs',)
 for folder in folders:
 	if os.path.exists(BASE_DIR / folder) is False:
 		os.mkdir(BASE_DIR / folder)
@@ -72,28 +73,36 @@ LOGGING = {
 			'class': 'logging.StreamHandler',
 			'formatter': 'simple',
 		},
-		'site_info_file': { 
+		'django_info_file': { 
 			'level': 'DEBUG',
-			'class': 'logging.FileHandler',
-			'filename': BASE_DIR / 'logs/django/info.log',
+			'class': 'logging.handlers.RotatingFileHandler',
+			'filename': BASE_DIR / 'logs/django_info.log',
+			'maxBytes': 10485760,
+			'backupCount': 10,
 			'formatter': 'verbose',
 		},
-		'site_error_file': { 
+		'django_error_file': { 
 			'level': 'WARNING',
-			'class': 'logging.FileHandler',
-			'filename': BASE_DIR / 'logs/django/error.log',
+			'class': 'logging.handlers.RotatingFileHandler',
+			'filename': BASE_DIR / 'logs/django_error.log',
+			'maxBytes': 10485760,
+			'backupCount': 10,
 			'formatter': 'verbose',
 		},
 		'telegram_bots_info_file': {
 			'level': 'DEBUG',
-			'class': 'logging.FileHandler',
-			'filename': BASE_DIR / 'logs/telegram_bots/info.log',
+			'class': 'logging.handlers.RotatingFileHandler',
+			'filename': BASE_DIR / 'logs/telegram_bots_info.log',
+			'maxBytes': 10485760,
+			'backupCount': 10,
 			'formatter': 'verbose',
 		},
 		'telegram_bots_error_file': {
 			'level': 'WARNING',
-			'class': 'logging.FileHandler',
-			'filename': BASE_DIR / 'logs/telegram_bots/error.log',
+			'class': 'logging.handlers.RotatingFileHandler',
+			'filename': BASE_DIR / 'logs/telegram_bots_error.log',
+			'maxBytes': 10485760,
+			'backupCount': 10,
 			'formatter': 'verbose',
 		},
 	},
@@ -101,8 +110,8 @@ LOGGING = {
 		'django': {
 			'handlers': [
 				'console',
-				'site_info_file',
-				'site_error_file',
+				'django_info_file',
+				'django_error_file',
 			],
 			'propagate': True,
 		},

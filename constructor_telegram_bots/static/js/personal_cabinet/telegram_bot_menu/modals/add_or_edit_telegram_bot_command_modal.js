@@ -73,6 +73,7 @@
 			keyboard.classList.add('d-none');
 			keyboard.id = 'offKeyboard';
 			keyboardButtons.innerHTML = '';
+
 			offKeyboardRadio.checked = true;
 		}
 	}
@@ -219,4 +220,35 @@
 			}
 		));
 	}
+}
+
+{
+	let prompts = document.querySelectorAll('#prompt');
+	let addOrEditTelegramBotCommandIsShowPromptsCheckBox = document.querySelector('#addOrEditTelegramBotCommandIsShowPromptsCheckBox');
+
+	addOrEditTelegramBotCommandIsShowPromptsCheckBox.addEventListener('click', function() {
+		if (!addOrEditTelegramBotCommandIsShowPromptsCheckBox.checked) {
+			for (let i = 0; i < prompts.length; i++) {
+				prompts[i].classList.add('d-none')
+			}
+		} else {
+			for (let i = 0; i < prompts.length; i++) {
+				prompts[i].classList.remove('d-none')
+			}
+		}
+	});
+}
+
+{
+	let addOrEditTelegramBotCommandLabelTextInput = document.querySelector('#addOrEditTelegramBotCommandLabelTextInput')
+
+	addOrEditTelegramBotCommandTextInput.addEventListener('focus', function() {
+		addOrEditTelegramBotCommandLabelTextInput.classList = 'rounded-0 h-auto p-0 mt-2';
+		addOrEditTelegramBotCommandLabelTextInput.style = 'background-color: var(--bs-body-bg); margin-left: 12px;';
+	})
+
+	addOrEditTelegramBotCommandTextInput.addEventListener('blur', function() {
+		addOrEditTelegramBotCommandLabelTextInput.classList = '';
+		addOrEditTelegramBotCommandLabelTextInput.style = '';
+	})
 }

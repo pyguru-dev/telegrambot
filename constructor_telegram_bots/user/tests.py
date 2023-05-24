@@ -87,6 +87,7 @@ class UserViewsTest(TestCase):
 						'id': 1,
 						'name': '123456789:qwertyuiop_test_telegram_bot',
 						'api_token': '123456789:qwertyuiop',
+						'is_running': False,
 						'commands_count': 0,
 						'users_count': 0,
 						'date_added': telegram_bot.get_date_added(),
