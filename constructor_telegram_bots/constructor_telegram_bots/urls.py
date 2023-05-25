@@ -28,5 +28,3 @@ if settings.DEBUG:
 if sys.argv[0] == 'manage.py':
 	if sys.argv[1] == 'runserver':
 		start_all_telegram_bots()
-else:
-	start_all_telegram_bots()
