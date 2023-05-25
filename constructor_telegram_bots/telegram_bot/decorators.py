@@ -7,15 +7,17 @@ from telegram_bot.functions import check_telegram_bot_api_token as _check_telegr
 
 def check_telegram_bot_api_token(func):
 	def wrapper(*args, **kwargs):
-		if kwargs['api_token'] != '':
+		api_token: str = kwargs['api_token']
+
+		if api_token != '':
 			request: WSGIRequest = args[0]
 
-			if request.user.telegram_bots.filter(api_token=kwargs['api_token']).exists():
+			if request.user.telegram_bots.filter(api_token=api_token).exists():
 				return HttpResponseBadRequest('Вы уже используете этот API-токен Telegram бота на сайте!')
-			elif TelegramBot.objects.filter(api_token=kwargs['api_token']).exists():
+			elif TelegramBot.objects.filter(api_token=api_token).exists():
 				return HttpResponseBadRequest('Этот API-токен Telegram бота уже использует другой пользователь сайта!')
 
-			if _check_telegram_bot_api_token(api_token=kwargs['api_token']) is not None:
+			if _check_telegram_bot_api_token(api_token=api_token) is not None:
 				return func(*args, **kwargs)
 			else:
 				return HttpResponseBadRequest('Ваш API-токен Telegram бота является недействительным!')

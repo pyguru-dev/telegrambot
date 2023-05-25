@@ -75,6 +75,10 @@ class UserViewsTest(TestCase):
 		login_url = self.user.get_login_url()
 		self.client.get(login_url)
 
+		response = self.client.post(urls.reverse('get_user_telegram_bots'))
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, '[]')
+
 		telegram_bot = TelegramBot.objects.add_telegram_bot(user=self.user, api_token='123456789:qwertyuiop', is_private=True)
 
 		response = self.client.post(urls.reverse('get_user_telegram_bots'))

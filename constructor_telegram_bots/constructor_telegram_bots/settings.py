@@ -9,7 +9,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-DEBUG = False
+DEBUG = True
 
 if sys.argv[0] == 'manage.py':
 	if sys.argv[1] == 'test':
@@ -138,7 +138,6 @@ INSTALLED_APPS = [
 	'home.apps.HomeConfig',
 	'donation.apps.DonationConfig',
 	'personal_cabinet.apps.PersonalCabinetConfig',
-
 	'privacy_policy.apps.PrivacyPolicyConfig',
 ]
 

@@ -10,13 +10,15 @@ from django.conf import settings
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-	password = None
+	username = CharField(max_length=32, unique=True, null=True)
+	password = CharField(max_length=25, null=True)
 	confirm_code = CharField(max_length=25, null=True)
 	is_staff = BooleanField(default=False)
 	telegram_bots = ManyToManyField(TelegramBot, related_name='telegram_bots')
 	date_joined = DateTimeField(auto_now_add=True)
 
-	USERNAME_FIELD = 'id'
+	USERNAME_FIELD = 'username'
+	REQUIRED_FIELDS = ['password']
 
 	objects = UserManager()
 
