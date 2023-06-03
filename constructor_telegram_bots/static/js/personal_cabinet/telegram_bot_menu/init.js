@@ -1,176 +1,224 @@
-{
-	let commandsCountTableLine = document.querySelector('.commands-count');
+var telegramBotCommandKeyboardType = 'default';
 
-	var intervalUpdateTelegramBotUsersIsRunning = false;
-	var setIntervalId;
+var intervalUpdateUsersIsRunning = false;
+var intervalUpdateUsersId;
+
+{
+	let telegramBotCommandsCountTableLine = document.querySelector('.telegram-bot-commands-count');
 
 	function getTelegramBotCommands() {
-		let request = new XMLHttpRequest();
-		request.open('POST', getTelegramBotCommandsUrl, true);
-		request.setRequestHeader('Content-Type', 'application/json');
-		request.onreadystatechange = checkRequestResponse(function() {
-			if (request.status == 200) {
-				let telegramBotCommands = JSON.parse(request.responseText);
-				let telegramBotCommandsKeys = Object.keys(telegramBotCommands);
+		fetch(getTelegramBotCommandsUrl, {
+			method: 'POST',
+		}).then(response => {
+			if (response.ok) {
+				response.json().then(telegramBotCommands => {
+					telegramBotCommandsCountTableLine.innerHTML = telegramBotCommands.length;
 
-				commandsCountTableLine.innerHTML = telegramBotCommands['commands_count'];
+					document.querySelectorAll('.connector-line').forEach(diagramConnectorLine => diagramConnectorLine.remove());
+					document.querySelectorAll('.diagram-block').forEach(diagramBlock => diagramBlock.remove());
 
-				let telegramBotCommandsDiv = document.querySelector('.telegram-bot-commands');
-				telegramBotCommandsDiv.innerHTML = '';
+					telegramBotCommands.forEach(telegramBotCommand => createDiagramBlock(telegramBotCommand));
 
-				if (telegramBotCommandsKeys.length > 1) {
-					for (let i = 0; i < telegramBotCommandsKeys.length - 1; i++) {
-						let wrapper = document.createElement('div');
-						wrapper.setAttribute('class', 'list-group-item pb-1');
-						wrapper.innerHTML = [
-							'<div class="row justify-content-between">',
-							'	<div class="col-auto">',
-							`		<p class="my-2">${telegramBotCommands[telegramBotCommandsKeys[i]]}</p>`,
-							'	</div>',
-							'	<div class="col-auto">',
-							`		<button class="btn edit-telegram-bot-command-button rounded-0 p-0" id="${telegramBotCommandsKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Редактировать команду">`,
-							'			<i class="bi bi-pencil-square text-secondary" style="font-size: 1.5rem;"></i>',
-							'		</button>',
-							`		<button class="btn delete-telegram-bot-command-button rounded-0 p-0" id="${telegramBotCommandsKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Удалить команду">`,
-							'			<i class="bi bi-trash text-danger" style="font-size: 1.5rem;"></i>',
-							'		</button>',
-							'	</div>',
-							'</div>',
-						].join('');
-						telegramBotCommandsDiv.append(wrapper);
+					function createDiagramConnectorLines(telegramBotCommandKeyboard) {
+						telegramBotCommandKeyboard['buttons'].forEach(telegramBotCommandKeyboardButton => {
+							if (telegramBotCommandKeyboardButton['telegram_bot_command_id'] != null) {
+								let startDiagramConnector = document.querySelector(`.diagram-connector[id="${telegramBotCommandKeyboardButton['start_diagram_connector']}"]`);
+								let endDiagramConnector = document.querySelector(`.diagram-connector[id="${telegramBotCommandKeyboardButton['end_diagram_connector']}"]`);
 
-						document.querySelector(`.delete-telegram-bot-command-button[id="${telegramBotCommandsKeys[i]}"]`).addEventListener('click', () => askConfirmModal(
-							'Удаление команды Telegram бота',
-							'Вы точно хотите удалить команду Telegram бота?',
-							function() {
-								let request = new XMLHttpRequest();
-								request.open('POST', `/telegram-bot/${telegramBotId}/command/${telegramBotCommandsKeys[i]}/delete/`, true);
-								request.setRequestHeader('Content-Type', 'application/json');
-								request.onreadystatechange = checkRequestResponse(function() {
-									if (request.status == 200) {
-										getTelegramBotCommands();
-
-										myAlert(mainAlertPlaceholder, request.responseText, 'success');
-									}
-								});
-								request.send();
+								createDiagramConnectorLine(startDiagramConnector, endDiagramConnector);
 							}
-						));
-						document.querySelector(`.edit-telegram-bot-command-button[id="${telegramBotCommandsKeys[i]}"]`).addEventListener('click', editTelegramBotCommandButton);
+						});
 					}
-				} else {
-					let wrapper = document.createElement('div');
-					wrapper.setAttribute('class', 'list-group-item pb-1');
-					wrapper.innerHTML = `<p class="text-center my-2">Вы ещё не добавили команды Telegram боту.</p>`;
-					telegramBotCommandsDiv.append(wrapper);
-				}
-			}
-			
-			getTelegramBotUsers();
-			if (telegramBotIsRunning && intervalUpdateTelegramBotUsersIsRunning == false) {
-				intervalUpdateTelegramBotUsersIsRunning = true;
 
-				setIntervalId = setInterval(getTelegramBotUsers, 2000);
-			}
+					telegramBotCommands.forEach(telegramBotCommand => {
+						if (telegramBotCommand['keyboard'] != null) {
+							let diagramBlock = document.querySelector(`.diagram-block[id="${telegramBotCommand['id']}"]`);
+							let diagramBlockImage = diagramBlock.querySelector('img');
+
+							if (diagramBlockImage != null) {
+								diagramBlockImage.onload = () => createDiagramConnectorLines(telegramBotCommand['keyboard']);
+							} else {
+								createDiagramConnectorLines(telegramBotCommand['keyboard']);
+							}
+						}
+					});
+
+					document.querySelectorAll('.diagram-connector').forEach(diagramConnector => diagramConnector.addEventListener('click', connectorClick));
+
+					document.querySelectorAll('.diagram-edit-button').forEach(diagramEditButton => {
+						diagramEditButton.addEventListener('click', function() {
+							fetch(`/telegram-bot/${telegramBotId}/command/${this.id}/get-data/`, {
+								method: 'POST',
+							}).then(response => {
+								if (response.ok) {
+									response.json().then(telegramBotCommand => editTelegramBotCommand(telegramBotCommand));
+								} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+							});
+						});
+					});
+
+					document.querySelectorAll('.diagram-delete-button').forEach(diagramDeleteButton => {
+						diagramDeleteButton.addEventListener('click', function() {
+							let telegramBotCommandId = this.id;
+
+							askConfirmModal(
+								'Удаление команды Telegram бота',
+								'Вы точно хотите удалить команду Telegram бота?',
+								function() {
+									fetch(`/telegram-bot/${telegramBotId}/command/${telegramBotCommandId}/delete/`, {
+										method: 'POST',
+									}).then(response => {
+										if (response.ok) {
+											response.text().then(responseText => {
+												if (addOrEditTelegramBotCommandButton.id != '0') {
+													telegramBotCommandAllClear();
+												}
+
+												getTelegramBotCommands();
+
+												myAlert(mainAlertPlaceholder, responseText, 'success');
+											});
+										} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+									});
+								}
+							);
+						});
+					});
+
+					document.querySelectorAll('.diagram-name').forEach(diagramName => {
+						if (diagramName.offsetHeight > 42) {
+							diagramName.classList.add('rounded-bottom');
+						}
+					});
+
+					diagramSetZoom();
+				});
+			} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
 		});
-		request.send();
+
+		getTelegramBotUsers();
+		if (telegramBotIsRunning && intervalUpdateUsersIsRunning == false) {
+			intervalUpdateUsersIsRunning = true;
+
+			intervalUpdateUsersId = setInterval(getTelegramBotUsers, 3000);
+		}
 	}
 }
 
 {
-	let usersCountTableLine = document.querySelector('.users-count');
+	let telegramBotUsersCountTableLine = document.querySelector('.telegram-bot-users-count');
 
 	function getTelegramBotUsers() {
 		if (document.hidden == false) {
-			let request = new XMLHttpRequest();
-			request.open('POST', getTelegramBotUsersUrl, true);
-			request.setRequestHeader('Content-Type', 'application/json');
-			request.onreadystatechange = checkRequestResponse(function() {
-				if (request.status == 200) {
-					let telegramBotUsers = JSON.parse(request.responseText);
-					let telegramBotUsersKeys = Object.keys(telegramBotUsers);
+			fetch(getTelegramBotUsersUrl, {
+				method: 'POST',
+			}).then(response => {
+				if (response.ok) {
+					response.json().then(telegramBotUsers => {
+						telegramBotUsersCountTableLine.innerHTML = telegramBotUsers.length;
 
-					usersCountTableLine.innerHTML = telegramBotUsers['users_count'];
+						let telegramBotUsersDiv = document.querySelector('.telegram-bot-users');
+						telegramBotUsersDiv.innerHTML = '';
 
-					let telegramBotUsersDiv = document.querySelector('.telegram-bot-users');
-					telegramBotUsersDiv.innerHTML = '';
+						if (telegramBotUsers.length > 0) {
+							telegramBotUsers.forEach(telegramBotUser => {
+								let listGroupItem = document.createElement('div');
+								listGroupItem.setAttribute('class', 'list-group-item pb-1');
 
-					if (telegramBotUsersKeys.length > 1) {
-						for (let i = 0; i < telegramBotUsersKeys.length - 1; i++) {
-							let wrapper = document.createElement('div');
-							wrapper.setAttribute('class', 'list-group-item pb-1');
-							wrapper.innerHTML = [
-								'<div class="row justify-content-between">',
-								'	<div class="col-auto">',
-								`		<p class="my-2">[${telegramBotUsers[telegramBotUsersKeys[i]]['date_activated']}]: @${telegramBotUsers[telegramBotUsersKeys[i]]['username']}</p>`,
-								'	</div>',
-								'	<div class="col-auto">',
-								`		<button class="btn ${(telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed']) ? 'add' : 'delete'}-telegram-bot-allowed-user-button telegram-bot-allowed-user-button rounded-0 p-0 ${(telegramBotIsPrivateCheckBox.checked) ? '' : 'd-none'}" id="${telegramBotUsersKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Дать пользователю доступ к Telegram боту">`,
-								`			<i class="bi bi-star${(telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed']) ? '-fill' : ''} text-warning" style="font-size: 1.5rem;"></i>`,
-								'		</button>',
-								`		<button class="btn delete-telegram-bot-user-button rounded-0 p-0" id="${telegramBotUsersKeys[i]}" type="button" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Удалить пользователя">`,
-								'			<i class="bi bi-trash text-danger" style="font-size: 1.5rem;"></i>',
-								'		</button>',
-								'	</div>',
-								'</div>',
-							].join('');
-							telegramBotUsersDiv.append(wrapper);
+								let telegramBotUserDiv = document.createElement('div');
+								telegramBotUserDiv.setAttribute('class', 'row justify-content-between');
+								telegramBotUserDiv.innerHTML = [
+									'	<div class="col-auto">',
+									`		<p class="my-2">[${telegramBotUser['date_activated']}]: @${telegramBotUser['username']}</p>`,
+									'	</div>',
+								].join('');
 
-							function onReadyStateChangeFunc(request) {
-								if (request.status == 200) {
-									getTelegramBotUsers();
+								let telegramBotUserButtons = document.createElement('div');
+								telegramBotUserButtons.classList = 'col-auto';
+								telegramBotUserButtons.id = 'telegramBotUserButtons';
 
-									myAlert(mainAlertPlaceholder, request.responseText, 'success');
+								
+								let addOrDeleteTelegramBotAllowedUserButton = document.createElement('button');
+								addOrDeleteTelegramBotAllowedUserButton.classList = 'btn telegram-bot-allowed-user-button rounded-0 p-0 pe-1';
+								addOrDeleteTelegramBotAllowedUserButton.id = telegramBotUser['id'];
+								addOrDeleteTelegramBotAllowedUserButton.type = 'button';
+								addOrDeleteTelegramBotAllowedUserButton.style.fontSize = '1.5rem';
+
+								if (telegramBotUser['is_allowed']) {
+									addOrDeleteTelegramBotAllowedUserButton.classList.add('delete');
+									addOrDeleteTelegramBotAllowedUserButton.innerHTML = '<i class="bi bi-star-fill text-warning"></i>';
 								} else {
-									myAlert(mainAlertPlaceholder, request.responseText, 'danger');
+									addOrDeleteTelegramBotAllowedUserButton.classList.add('add');
+									addOrDeleteTelegramBotAllowedUserButton.innerHTML = '<i class="bi bi-star text-warning"></i>';
 								}
-							}
 
-							document.querySelector(`.delete-telegram-bot-user-button[id="${telegramBotUsersKeys[i]}"]`).addEventListener('click', () => askConfirmModal(
-								'Удаление пользователя Telegram бота',
-								'Вы точно хотите удалить пользователя Telegram бота?',
-								function() {
-									let request = new XMLHttpRequest();
-									request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/delete/`, true);
-									request.setRequestHeader('Content-Type', 'application/json');
-									request.onreadystatechange = checkRequestResponse(function() {
-										onReadyStateChangeFunc(request);
-									});
-									request.send();
+								addOrDeleteTelegramBotAllowedUserButton.addEventListener('click', function() {
+									if (this.classList.contains('delete')) {
+										this.classList.replace('delete', 'add')
+										this.innerHTML = '<i class="bi bi-star text-warning"></i>';
+
+										fetch(`/telegram-bot/${telegramBotId}/user/${telegramBotUser['id']}/delete-allowed-user/`, {
+											method: 'POST',
+										}).then(response => {
+											if (response.ok) {
+												response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'success'));
+											} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+										});
+									} else {
+										this.classList.replace('add', 'delete')
+										this.innerHTML = '<i class="bi bi-star-fill text-warning"></i>';
+
+										fetch(`/telegram-bot/${telegramBotId}/user/${telegramBotUser['id']}/add-allowed-user/`, {
+											method: 'POST',
+										}).then(response => {
+											if (response.ok) {
+												response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'success'));
+											} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+										});
+									}
+								});
+
+								if (telegramBotIsPrivateCheckBox.checked == false) {
+									addOrDeleteTelegramBotAllowedUserButton.classList.add('d-none');
 								}
-							));
 
-							if (telegramBotUsers[telegramBotUsersKeys[i]]['is_allowed']) {
-								document.querySelector(`.add-telegram-bot-allowed-user-button[id="${telegramBotUsersKeys[i]}"]`).addEventListener('click', function() {
-									let request = new XMLHttpRequest();
-									request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/delete-allowed-user/`, true);
-									request.setRequestHeader('Content-Type', 'application/json');
-									request.onreadystatechange = checkRequestResponse(function() {
-										onReadyStateChangeFunc(request);
-									});
-									request.send();
-								});
-							} else {
-								document.querySelector(`.delete-telegram-bot-allowed-user-button[id="${telegramBotUsersKeys[i]}"]`).addEventListener('click', function() {
-									let request = new XMLHttpRequest();
-									request.open('POST', `/telegram-bot/${telegramBotId}/user/${telegramBotUsersKeys[i]}/add-allowed-user/`, true);
-									request.setRequestHeader('Content-Type', 'application/json');
-									request.onreadystatechange = checkRequestResponse(function() {
-										onReadyStateChangeFunc(request);
-									});
-									request.send();
-								});
-							}
+								telegramBotUserButtons.append(addOrDeleteTelegramBotAllowedUserButton);
+
+								let deleteTelegramBotUserButton = document.createElement('button');
+								deleteTelegramBotUserButton.classList = 'btn rounded-0 p-0';
+								deleteTelegramBotUserButton.id = telegramBotUser['id'];
+								deleteTelegramBotUserButton.type = 'button';
+								deleteTelegramBotUserButton.style.fontSize = '1.5rem';
+								deleteTelegramBotUserButton.innerHTML = '<i class="bi bi-trash text-danger"></i>';
+
+								deleteTelegramBotUserButton.addEventListener('click', () => askConfirmModal(
+									'Удаление пользователя Telegram бота',
+									'Вы точно хотите удалить пользователя Telegram бота?',
+									function() {
+										fetch(`/telegram-bot/${telegramBotId}/user/${telegramBotUser['id']}/delete/`, {
+											method: 'POST',
+										}).then(response => {
+											if (response.ok) {
+												response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'success'));
+											} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+										});
+									}
+								));
+
+								telegramBotUserButtons.append(deleteTelegramBotUserButton);
+								telegramBotUserDiv.append(telegramBotUserButtons);
+								listGroupItem.append(telegramBotUserDiv);
+								telegramBotUsersDiv.append(listGroupItem);
+							});
+						} else {
+							let telegramBotUserDiv = document.createElement('div');
+							telegramBotUserDiv.setAttribute('class', 'list-group-item pb-1');
+							telegramBotUserDiv.innerHTML = `<p class="text-center my-2">Вашего Telegram бота ещё никто не активировал.</p>`;
+							telegramBotUsersDiv.append(telegramBotUserDiv);
 						}
-					} else {
-						let wrapper = document.createElement('div');
-						wrapper.setAttribute('class', 'list-group-item pb-1');
-						wrapper.innerHTML = `<p class="text-center my-2">Вашего Telegram бота ещё никто не активировал.</p>`;
-						telegramBotUsersDiv.append(wrapper);
-					}
-				}
+					});
+				} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
 			});
-			request.send();
 		}
 	}
 }

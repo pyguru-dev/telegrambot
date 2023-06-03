@@ -9,13 +9,29 @@ from django.conf import settings
 from user.models import User
 
 from asgiref.sync import sync_to_async
+from asyncio.events import AbstractEventLoop
 import asyncio
+
+from functools import wraps
 
 
 class ConstructorTelegramBot:
 	def __init__(self) -> None:
-		self.loop = asyncio.new_event_loop()
+		self.loop: AbstractEventLoop = asyncio.new_event_loop()
 
+	def check_user(func):
+		@wraps(func)
+		async def wrapper(*args, **kwargs):
+			message = args[1]
+
+			user: UserManager = await sync_to_async(User.objects.filter)(id=message.from_user.id)
+			if await user.aexists() is False:
+				await sync_to_async(User.objects.create_user)(user_id=message.from_user.id)
+
+			return await func(*args, **kwargs)
+		return wrapper
+
+	@check_user
 	async def start_command(self, message: Message) -> None:
 		await self.bot.send_message(
 			chat_id=message.chat.id,
@@ -25,19 +41,16 @@ class ConstructorTelegramBot:
 				Спасибо за то, что ты с нами ❤️
 			""".replace('	', '')
 		)
-
-		user: UserManager = await sync_to_async(User.objects.filter)(id=message.from_user.id)	
-		if await user.aexists() is False:
-			await sync_to_async(User.objects.create_user)(user_id=message.from_user.id)
 		
-		message_list = message.text.split()
+		message_list: list = message.text.split()
 		if len(message_list) > 1:
 			if message_list[1] == 'login':
 				await self.login_command(message)
 
+	@check_user
 	async def login_command(self, message: Message) -> None:
 		user: User = await User.objects.aget(id=message.from_user.id)
-		login_url: str = await sync_to_async(user.get_login_url)()
+		login_url: str = await user.alogin_url
 
 		inline_keyboard = InlineKeyboardMarkup(row_width=1)
 		inline_keyboard.add(

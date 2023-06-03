@@ -11,9 +11,9 @@ from user.models import User
 import json
 
 
-def user_login(request: WSGIRequest, user_id: int, confirm_code: str) -> HttpResponse:
-	if User.objects.filter(id=user_id).exists():
-		user: User = User.objects.get(id=user_id)
+def user_login(request: WSGIRequest, id: int, confirm_code: str) -> HttpResponse:
+	if User.objects.filter(id=id).exists():
+		user: User = User.objects.get(id=id)
 		if user.confirm_code == confirm_code:
 			user.confirm_code = None
 			user.save()
@@ -38,22 +38,9 @@ def user_logout(request: WSGIRequest) -> HttpResponse:
 
 @csrf_exempt
 @login_required
-def get_user_telegram_bots(request: WSGIRequest) -> HttpResponse:
-	added_telegram_bots = []
-	for telegram_bot in request.user.telegram_bots.all():
-		added_telegram_bots.append(
-			{
-				'id': telegram_bot.id,
-				'name': telegram_bot.name,
-				'api_token': telegram_bot.api_token,
-				'is_running': telegram_bot.is_running,
-				'commands_count': telegram_bot.commands.count(),
-				'users_count': telegram_bot.users.count(),
-				'date_added': telegram_bot.get_date_added(),
-
-			}
-		)
-
+def get_telegram_bots(request: WSGIRequest) -> HttpResponse:
 	return HttpResponse(
-		json.dumps(added_telegram_bots)
+		json.dumps(
+			request.user.get_telegram_bots_as_dict()
+		)
 	)

@@ -11,11 +11,11 @@
 		askConfirmText.innerHTML = text;
 
 		askConfirmYesButton.onclick = function() {
-			askConfirmModalBootstrap.toggle();
-
-			func();
-		}
-
 		askConfirmModalBootstrap.toggle();
+
+		func();
 	}
+
+	askConfirmModalBootstrap.toggle();
+}
 }

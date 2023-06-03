@@ -15,7 +15,6 @@ class UserManager(BaseUserManager):
 			username=username,
 			password=password,
 			is_superuser=True,
-			is_staff=True,
 			**extra_fields
 		)
 		user.save()

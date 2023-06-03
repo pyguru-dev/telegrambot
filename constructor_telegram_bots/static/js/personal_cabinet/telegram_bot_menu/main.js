@@ -1,32 +1,20 @@
-{
-    var telegramBotIsPrivateCheckBox = document.querySelector('#telegramBotIsPrivateCheckBox');
+var telegramBotIsPrivateCheckBox = document.querySelector('#telegramBotIsPrivateCheckBox');
 
-    telegramBotIsPrivateCheckBox.addEventListener('click', function() {
-        let request = new XMLHttpRequest();
-        request.open('POST', editTelegramBotUrl, true);
-        request.setRequestHeader('Content-Type', 'application/json');
-        request.onreadystatechange = checkRequestResponse(function() {
-            let telegramBotAllowedUserButtons = document.querySelectorAll('.telegram-bot-allowed-user-button');
+telegramBotIsPrivateCheckBox.addEventListener('click', function() {
+	fetch(editTelegramBotUrl, {
+		method: 'POST',
+		headers: {'Content-Type': 'application/json'},
+		body: JSON.stringify({'is_private': this.checked,}),
+	}).then(response => {
+		if (response.ok) {
+			response.text().then(responseText => {
+				getTelegramBotUsers();
 
-            if (telegramBotIsPrivateCheckBox.checked) {
-                for (let i = 0; i < telegramBotAllowedUserButtons.length; i++) {
-                    telegramBotAllowedUserButtons[i].classList.remove('d-none');
-                }
-            } else {
-                for (let i = 0; i < telegramBotAllowedUserButtons.length; i++) {
-                    telegramBotAllowedUserButtons[i].classList.add('d-none');
-                }
-            }
-
-            myAlert(mainAlertPlaceholder, request.responseText, 'success');
-        });
-        request.send(JSON.stringify(
-            {
-                'is_private': this.checked,
-            }
-        ));
-    });
-}
+				myAlert(mainAlertPlaceholder, responseText, 'success');
+			});
+		} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+	});
+});
 
 {
 	let startOrStopTelegramBotButton = document.querySelector('#startOrStopTelegramBotButton');
@@ -39,64 +27,79 @@
 		].join('');
 		this.disabled = true;
 
-		let request = new XMLHttpRequest();
-		request.open('POST', (telegramBotIsRunning) ? stopTelegramBotUrl : startTelegramBotUrl, true);
-		request.onreadystatechange = checkRequestResponse(function() {
-			if (request.status == 200) {
+		fetch((telegramBotIsRunning) ? stopTelegramBotUrl : startTelegramBotUrl, {
+			method: 'POST',
+		}).then(response => {
+			if (response.ok) {
 				let cardHeader = document.querySelector('.card-header');
 
 				if (telegramBotIsRunning) {
-					intervalUpdateTelegramBotUsersIsRunning = false;
-					telegramBotIsRunning = false;
+					let intervalCheckTelegramBotIsStoppedId;
 
-					clearInterval(setIntervalId)
+					function checkTelegramBotIsStopped() {
+						fetch (getTelegramBotData, {
+							method: 'POST'
+						}).then(response => {
+							if (response.ok) {
+								response.json().then(telegramBot => {
+									if (telegramBot['is_stopped']) {
+										intervalUpdateUsersIsRunning = false;
+										telegramBotIsRunning = false;
 
-					cardHeader.innerHTML = 'Telegram бот выключен';
-					cardHeader.classList.replace('bg-success', 'bg-danger');
+										clearInterval(intervalUpdateUsersId)
+										clearInterval(intervalCheckTelegramBotIsStoppedId)
 
-					startOrStopTelegramBotButton.innerHTML = 'Включить Telegram бота';
-					startOrStopTelegramBotButton.classList.replace('btn-danger', 'btn-success');
+										cardHeader.classList.replace('bg-success', 'bg-danger');
+										cardHeader.innerHTML = 'Telegram бот выключен';
+
+										startOrStopTelegramBotButton.disabled = false;
+										startOrStopTelegramBotButton.classList.replace('btn-danger', 'btn-success');
+										startOrStopTelegramBotButton.innerHTML = 'Включить Telegram бота';
+
+										myAlert(mainAlertPlaceholder, 'Вы успешно выключили Telegram бота.', 'success');
+									} 
+								});
+							} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+						});
+					}
+
+					intervalCheckTelegramBotIsStoppedId = setInterval(checkTelegramBotIsStopped, 3000)
 				} else {
-					intervalUpdateTelegramBotUsersIsRunning = true;
+					intervalUpdateUsersIsRunning = true;
 					telegramBotIsRunning = true;
 
 					getTelegramBotUsers();
-					setIntervalId = setInterval(getTelegramBotUsers, 2000);
+					intervalUpdateUsersId = setInterval(getTelegramBotUsers, 3000);
 
-					cardHeader.innerHTML = 'Telegram бот включен';
 					cardHeader.classList.replace('bg-danger', 'bg-success');
-					
-					startOrStopTelegramBotButton.innerHTML = 'Выключить Telegram бота';
+					cardHeader.innerHTML = 'Telegram бот включен';
+
+					startOrStopTelegramBotButton.disabled = false;
 					startOrStopTelegramBotButton.classList.replace('btn-success', 'btn-danger');
+					startOrStopTelegramBotButton.innerHTML = 'Выключить Telegram бота';
+
+					myAlert(mainAlertPlaceholder, 'Вы успешно включили Telegram бота.', 'success');
 				}
-
-				startOrStopTelegramBotButton.disabled = false;
-
-				myAlert(mainAlertPlaceholder, request.responseText, 'success');
-			} else {
-				myAlert(mainAlertPlaceholder, request.responseText, 'danger');
-			}
+				
+			} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
 		});
-		request.send();
 	});
+}
 
-	document.querySelector('#deleteTelegramBotButton').addEventListener('click', () => askConfirmModal(
-		'Удаление Telegram бота',
-		'Вы точно хотите удалить Telegram бота?',
-		function() {
-			let request = new XMLHttpRequest();
-			request.open('POST', deleteTelegramBotUrl, true);
-			request.setRequestHeader('Content-Type', 'application/json');
-			request.onreadystatechange = checkRequestResponse(function() {
-				if (request.status == 200) {
+document.querySelector('#deleteTelegramBotButton').addEventListener('click', () => askConfirmModal(
+	'Удаление Telegram бота',
+	'Вы точно хотите удалить Telegram бота?',
+	function() {
+		fetch(deleteTelegramBotUrl, {
+			method: 'POST',
+		}).then(response => {
+			if (response.ok) {
+				response.text().then(responseText => {
 					setTimeout("window.location.href = '../';", 1000);
 
-					myAlert(mainAlertPlaceholder, request.responseText, 'success');
-				} else {
-					myAlert(mainAlertPlaceholder, request.responseText, 'danger');
-				}
-			});
-			request.send();
-		}
-	));
-}
+					myAlert(mainAlertPlaceholder, responseText, 'success');
+				});
+			} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+		});
+	}
+));

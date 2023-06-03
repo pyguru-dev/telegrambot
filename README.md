@@ -12,6 +12,8 @@
 # Сайт на локальном компьютере
 ## Требования
 - Python **3.10.11**
+- Redis
+- ru_RU.UTF-8 в **locale -a**
 
 ## Установка и запуск проекта
 1. Устанавливаем проект:
@@ -36,12 +38,12 @@ Enter the Constructor Telegram bot API-token in the file ./data/constructor_tele
 4. Теперь вам нужно создать своего Telegram бота через [BotFather](https://t.me/BotFather) Telegram бота.
 5. После того, как вы создали Telegram бота, вам нужно скопировать его **API-токен** и добавить его в файл **./data/constructor_telegram_bot_api.token**.
 6. Теперь в файле **./constructor_telegram_bots/settings.py** на **12** строке включите **DEBUG** режим.
-7. После этого в файле **./templates/navbar.html** на **28** строке замените **username** Telegram бота на **username** своего выше созданного Telegram бота.
+7. После этого в файле **./templates/navbar.html** на **28** строке замените **constructor_telegram_bots_bot** на **username** своего выше созданного Telegram бота.
 6. Запускаем ещё раз **manage.py** файл:
 ```sh
 python manage.py runserver
 ```
-7. Если вы всё сделали правильно, то в консоли будет следующий вывод:
+7. Если вы всё сделали правильно, то в терминале будет следующий вывод:
 ```
 [ДАТА ВРЕМЯ]: Watching for file changes with StatReloader
 Performing system checks...
@@ -52,12 +54,22 @@ Django version 4.2.1, using settings 'constructor_telegram_bots.settings'
 Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 ```
-8. Переходим по ссылке **http://127.0.0.1:8000/** и пользуемся сайтом. ☺️
+9. Теперь нам надо запустить Celery.
+10. Запускаем ещё один терминал и вводим следующие команды:
+```sh
+cd Constructor-Telegram-Bots
+source env/bin/activate
+cd constructor_telegram_bots
+celery -A constructor_telegram_bots worker -l INFO
+```
+11. Если вы всё сделали правильно, то в терминале не должны быть ошибок.
+11. Переходим по ссылке **http://127.0.0.1:8000/** и пользуемся сайтом. ☺️
 
 # Сайт на сервере
 ## Требования
 - Python **3.10.11**
 - Redis
+- ru_RU.UTF-8 в **locale -a**
 
 ## Установка и запуск проекта
 1. **Будет добавлено позже!**

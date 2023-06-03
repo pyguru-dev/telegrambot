@@ -21,6 +21,7 @@ idna==3.4
 kombu==5.2.4
 magic-filter==1.0.9
 multidict==6.0.4
+Pillow==9.5.0
 prompt-toolkit==3.0.38
 pytz==2023.3
 redis==4.5.5

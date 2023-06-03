@@ -23,15 +23,15 @@ else:
 if DEBUG:
 	SITE_DOMAIN = 'http://127.0.0.1:8000/'
 else:
-	SITE_DOMAIN = 'https://constructor.exg1o.org/' 
+	SITE_DOMAIN = 'https://constructor.exg1o.org/'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'constructor.exg1o.org']
 
 
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'  
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'  
-CELERY_ACCEPT_CONTENT = ['application/json']  
-CELERY_RESULT_SERIALIZER = 'json'  
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 
 
