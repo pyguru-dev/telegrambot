@@ -251,7 +251,6 @@ class TelegramBotViewsTest(TestCase):
 			},
 			'application/json'
 		)
-		print(response.content.decode('UTF-8'))
 		self.assertEqual(response.status_code, 200)
 		self.assertContains(response, 'Вы успешно добавили команду Telegram боту.')
 
