@@ -27,12 +27,12 @@ else:
 
 ALLOWED_HOSTS = ['127.0.0.1', 'constructor.exg1o.org']
 
-
-CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
-CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
-CELERY_ACCEPT_CONTENT = ['application/json']
-CELERY_RESULT_SERIALIZER = 'json'
-CELERY_TASK_SERIALIZER = 'json'
+if TEST is False:
+	CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+	CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+	CELERY_ACCEPT_CONTENT = ['application/json']
+	CELERY_RESULT_SERIALIZER = 'json'
+	CELERY_TASK_SERIALIZER = 'json'
 
 
 folders = ('data', 'logs',)

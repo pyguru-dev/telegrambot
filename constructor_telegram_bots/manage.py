@@ -16,10 +16,7 @@ def main() -> None:
 			"forget to activate a virtual environment?"
 		) from exc
 
-	try:
-		execute_from_command_line(sys.argv)
-	except OperationalError:
-		pass
+	execute_from_command_line(sys.argv)
 
 if __name__ == '__main__':
 	main()
