@@ -25,10 +25,14 @@ jobs:
       run: |
         sudo locale-gen ru_RU.UTF-8
         sudo update-locale LANG=ru_RU.UTF-8
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+
+        sudo apt install redis
+
         sudo systemctl enable redis
         sudo systemctl start redis
+
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
     - name: Run Tests
       run: |
         cd constructor_telegram_bots
