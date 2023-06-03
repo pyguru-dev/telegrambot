@@ -1,3 +1,5 @@
+from kombu.exceptions import OperationalError
+
 import sys
 import os
 
@@ -14,7 +16,10 @@ def main() -> None:
 			"forget to activate a virtual environment?"
 		) from exc
 
-	execute_from_command_line(sys.argv)
+	try:
+		execute_from_command_line(sys.argv)
+	except OperationalError:
+		pass
 
 if __name__ == '__main__':
 	main()
