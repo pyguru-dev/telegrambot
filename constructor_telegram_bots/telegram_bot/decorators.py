@@ -1,6 +1,8 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponseBadRequest
 
+from django.utils.datastructures import MultiValueDictKeyError
+
 from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotCommandKeyboard
 from telegram_bot.functions import check_telegram_bot_api_token as _check_telegram_bot_api_token
 
@@ -65,13 +67,16 @@ def check_data_for_telegram_bot_command(func):
 						
 						request: WSGIRequest = args[0]
 
-						if 'image' in request.FILES:
-							kwargs.update({'image': request.FILES['image']})
-						else:
-							if request.POST['image'] == 'null':
-								kwargs.update({'image': None})
+						try:
+							if 'image' in request.FILES:
+								kwargs.update({'image': request.FILES['image']})
 							else:
-								kwargs.update({'image': request.POST['image']})
+								if request.POST['image'] == 'null':
+									kwargs.update({'image': None})
+								else:
+									kwargs.update({'image': request.POST['image']})
+						except MultiValueDictKeyError:
+							kwargs.update({'image': None})
 
 						return func(*args, **kwargs)
 					else:

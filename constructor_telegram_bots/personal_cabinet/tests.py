@@ -22,7 +22,11 @@ class PersonalCabinetViewsTest(TestCase):
 		self.assertTemplateUsed(response, 'personal_cabinet/main.html')
 
 	def test_telegram_bot_menu_view(self) -> None:
-		TelegramBot.objects.add_telegram_bot(owner=self.user, api_token='123456789:qwertyuiop', is_private=True)
+		TelegramBot.objects.create(
+			owner=self.user,
+			api_token='123456789:qwertyuiop',
+			is_private=True	
+		)
 
 		response = self.client.get(urls.reverse('telegram_bot_menu', kwargs={'telegram_bot_id': 1}))
 		self.assertEqual(response.status_code, 302)

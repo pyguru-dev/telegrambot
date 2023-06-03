@@ -94,6 +94,6 @@ class TelegramBotUserManager(models.Manager):
 		return super().create(
 			telegram_bot=telegram_bot,
 			user_id=user_id,
-			username=username
+			username=username,
 			**extra_fields
 		)

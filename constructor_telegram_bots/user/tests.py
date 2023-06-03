@@ -20,12 +20,19 @@ class UserModelsTest(TestCase):
 		self.assertEqual(User.objects.count(), 1)
 
 		self.assertEqual(user.id, 123456789)
+		self.assertEqual(user.username, None)
+		self.assertEqual(user.password, None)
 		self.assertEqual(user.last_login, None)
 		self.assertEqual(user.confirm_code, None)
 		self.assertEqual(user.is_superuser, False)
 
 		self.assertEqual(user.login_url, f'{settings.SITE_DOMAIN}user/login/{user.id}/{user.confirm_code}/')
 		self.assertNotEqual(user.confirm_code, None)
+
+		self.client.get(user.login_url)
+
+		user: User = User.objects.get(id=123456789)
+		self.assertEqual(user.confirm_code, None)
 
 
 class UserViewsTest(TestCase):
@@ -62,18 +69,22 @@ class UserViewsTest(TestCase):
 		self.assertTemplateUsed(response, 'logout.html')
 
 	def test_get_user_added_telegram_bots_view(self) -> None:
-		response: HttpResponse = self.client.get(urls.reverse('get_user_telegram_bots'))
+		response: HttpResponse = self.client.get(urls.reverse('get_telegram_bots'))
 		self.assertEqual(response.status_code, 302)
 
 		self.client.get(self.user.login_url)
 		
-		response: HttpResponse = self.client.post(urls.reverse('get_user_telegram_bots'))
+		response: HttpResponse = self.client.post(urls.reverse('get_telegram_bots'))
 		self.assertEqual(response.status_code, 200)
 		self.assertJSONEqual(response.content, '[]')
 
-		telegram_bot: TelegramBot = TelegramBot.objects.add_telegram_bot(owner=self.user, api_token='123456789:qwertyuiop', is_private=True)
+		telegram_bot: TelegramBot = TelegramBot.objects.create(
+			owner=self.user,
+			api_token='123456789:qwertyuiop',
+			is_private=True
+		)
 
-		response: HttpResponse = self.client.post(urls.reverse('get_user_telegram_bots'))
+		response: HttpResponse = self.client.post(urls.reverse('get_telegram_bots'))
 		self.assertEqual(response.status_code, 200)
 		self.assertJSONEqual(
 			response.content,
@@ -84,10 +95,11 @@ class UserViewsTest(TestCase):
 						'name': '123456789:qwertyuiop_test_telegram_bot',
 						'api_token': '123456789:qwertyuiop',
 						'is_running': False,
+						'is_stopped': True,
 						'commands_count': 0,
 						'users_count': 0,
 						'date_added': telegram_bot.date_added,
-					}
+					},
 				]
 			)
 		)
