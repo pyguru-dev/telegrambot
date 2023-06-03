@@ -1,5 +1,6 @@
 # Папки
 __pycache__/
+images/
 data/
 logs/
 env/

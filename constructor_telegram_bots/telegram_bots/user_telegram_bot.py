@@ -1,14 +1,22 @@
-from aiogram.types import Message, CallbackQuery, ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram import Bot
+from aiogram import types
 
 from telegram_bots.custom_aiogram import CustomDispatcher
 
-from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotCommandManager, TelegramBotUser, TelegramBotUserManager
+from django.core.exceptions import ObjectDoesNotExist
+
+from telegram_bot.models import (
+	TelegramBot,
+	TelegramBotCommand, TelegramBotCommandManager,
+	TelegramBotCommandKeyboard,
+	TelegramBotUser, TelegramBotUserManager
+)
 
 from asgiref.sync import sync_to_async
-import aiohttp
 import asyncio
-import json
+import aiohttp
+
+from typing import Union
 
 
 class UserTelegramBot:
@@ -16,24 +24,10 @@ class UserTelegramBot:
 		self.telegram_bot = telegram_bot
 		self.loop = asyncio.new_event_loop()
 
-	async def message_and_callback_query_handler(*args, **kwargs) -> None:
-		self: 'UserTelegramBot' = args[0]
-
-		if isinstance(args[1], Message):
-			message: Message = args[1]
-
-			user_id: int = message.from_user.id
-			username: str = message.from_user.username
-		else:
-			callback_query: CallbackQuery = args[1]
-			message: Message = callback_query.message
-
-			user_id: int = callback_query.from_user.id
-			username: str = callback_query.from_user.username
-
+	async def check_user(self, user_id: int, username: str) -> TelegramBotUser:
 		users: TelegramBotUserManager = await sync_to_async(TelegramBotUser.objects.filter)(user_id=user_id)
 		if await users.aexists() is False:
-			user: TelegramBotUser = await sync_to_async(TelegramBotUser.objects.add_telegram_bot_user)(
+			user: TelegramBotUser = await sync_to_async(TelegramBotUser.objects.create)(
 				telegram_bot=self.telegram_bot,
 				user_id=user_id,
 				username=username
@@ -42,83 +36,135 @@ class UserTelegramBot:
 		else:
 			user: TelegramBotUser = await users.aget()
 
-		if self.telegram_bot.is_private and user.is_allowed or self.telegram_bot.is_private is False:
-			if isinstance(args[1], Message):
-				commands: TelegramBotCommandManager = await sync_to_async(self.telegram_bot.commands.filter)(command=message.text)
-			else:
-				commands: TelegramBotCommandManager = await sync_to_async(self.telegram_bot.commands.filter)(callback=callback_query.data)
+		return user
+	
+	def get_command_keyboard(sefl, command) -> TelegramBotCommandKeyboard:
+		try:
+			return command.keyboard
+		except ObjectDoesNotExist:
+			return None
+	
+	def get_command_keyboard_button_command(sefl, button) -> TelegramBotCommand:
+		return button.telegram_bot_command
+	
+	async def search_command(self, message_text: str = None, button_id: int = None):
+		command = None
+
+		async for command_ in self.telegram_bot.commands.all():
+			if command is not None:
+				break
+
+			keyboard: TelegramBotCommandKeyboard = await sync_to_async(self.get_command_keyboard)(command_)
+
+			if keyboard is not None:
+				is_finded_keyboard = False
+
+				if keyboard.type == 'default' and message_text is not None:
+					is_finded_keyboard = True
+				elif keyboard.type == 'inline' and button_id is not None:
+					is_finded_keyboard = True
+
+				if is_finded_keyboard:
+					async for button in keyboard.buttons.all():
+						is_finded_button = False
+
+						if button.text == message_text and message_text is not None:
+							is_finded_button = True
+						if button.id == button_id and button_id is not None:
+							is_finded_button = True
+
+						if is_finded_button:
+							command: TelegramBotCommand = await sync_to_async(self.get_command_keyboard_button_command)(button)
+							break
+
+		return command
+	
+	async def get_command(self, message_text: str = None, button_id: int = None) -> TelegramBotCommand:
+		if message_text is not None:
+			commands: TelegramBotCommandManager = await sync_to_async(self.telegram_bot.commands.filter)(command=message_text)
 
 			if await commands.aexists():
-				command: TelegramBotCommand = await commands.aget()
+				command: TelegramBotCommand = await commands.afirst()
+			else:
+				command: Union[TelegramBotCommand, None] = await self.search_command(message_text=message_text)
+		else:
+			command: Union[TelegramBotCommand, None] = await self.search_command(button_id=button_id)
 
-				command_message_text = command.message_text
-				command_message_text = command_message_text.replace('${user_id}', str(user_id))
-				command_message_text = command_message_text.replace('${username}', username)
+		return command
 
-				if isinstance(args[1], Message):
-					command_message_text = command_message_text.replace('${user_message_text}', message.text)
+	async def message_and_callback_query_handler(self, *args, **kwargs) -> None:
+		if isinstance(args[0], types.Message):
+			type = 'message'
+		else:
+			type = 'callback_query'
+		
+		if type == 'message':
+			message: types.Message = args[0]
 
-				if command_message_text.find('${web_api}:{') != -1:
-					web_api_url = command_message_text.split('${web_api}:{')[1].split('}')[0]
+			user_id: int = message.from_user.id
+			username: str = message.from_user.username
+		else:
+			callback_query: types.CallbackQuery = args[0]
+			message: types.Message = callback_query.message
 
-					if web_api_url.find('http://') != -1 or web_api_url.find('https://') != -1:
+			user_id: int = callback_query.from_user.id
+			username: str = callback_query.from_user.username
+
+		user: TelegramBotUser = await self.check_user(user_id=user_id, username=username)
+
+		if self.telegram_bot.is_private and user.is_allowed or self.telegram_bot.is_private is False:
+			if type == 'message':
+				command: TelegramBotCommand = await self.get_command(message_text=message.text)
+			else:
+				command: TelegramBotCommand = await self.get_command(button_id=int(callback_query.data))
+
+			if command is not None:
+				if command.api_request is not None:
+					try:
 						async with aiohttp.ClientSession() as session:
-							async with session.get(web_api_url) as responce:
-								if responce.status == 200:
-									responce_text = await responce.text()
-								else:
-									responce_text = 'Web-API не найден!'
-					else:
-						responce_text = 'Ссылка на Web-API недействительна!'
+							async with session.post(url=command.api_request['url'], data=command.api_request['data']) as response:
+								pass
+					except aiohttp.client_exceptions.InvalidURL:
+						pass
 
-					command_message_text = command_message_text.replace('${web_api}:{' + web_api_url + '}', responce_text)
-
-				keyboard_buttons: list = json.loads(command.keyboard)
-				keyboard_type: str = keyboard_buttons.pop(0)
+				keyboard: TelegramBotCommandKeyboard = await sync_to_async(self.get_command_keyboard)(command)
 				
-				if keyboard_type == 'defaultKeyboard':
-					keyboard = ReplyKeyboardMarkup(row_width=1, one_time_keyboard=True)
-					
-					for num in range(len(keyboard_buttons)):
-						keyboard.add(
-							KeyboardButton(text=keyboard_buttons[num])
-						)
-				elif keyboard_type == 'inlineKeyboard':
-					keyboard = InlineKeyboardMarkup(row_width=1)
-
-					for num in range(len(keyboard_buttons)):
-						button: list = keyboard_buttons[num].split('}:{')
-						button_text: str = button[0].replace('{', '')
-						button_url_or_callback_data: str = button[1].replace('}', '')
-
-						if button[1].find('http://') != -1 or button[1].find('https://') != -1:
-							keyboard.add(
-								InlineKeyboardButton(text=button_text, url=button_url_or_callback_data)
+				if keyboard is not None:
+					if keyboard.type == 'default':
+						tg_keyboard = types.ReplyKeyboardMarkup()
+						
+						async for button in keyboard.buttons.all():
+							tg_keyboard.add(
+								types.KeyboardButton(text=button.text)
 							)
-						else:
-							keyboard.add(
-								InlineKeyboardButton(text=button_text, callback_data=button_url_or_callback_data)
+					else:
+						tg_keyboard = types.InlineKeyboardMarkup()
+
+						async for button in keyboard.buttons.all():
+							tg_keyboard.add(
+								types.InlineKeyboardButton(text=button.text, callback_data=button.id)
 							)
 				else:
-					keyboard = None
+					tg_keyboard = None
 
-				chat_id: int = message.chat.id
+				if type == 'callback_query':
+					await self.dispatcher.bot.delete_message(
+						chat_id=message.chat.id,
+						message_id=message.message_id
+					)
 
-				if len(command_message_text) > 4096:
-					command_message_text = 'Слишком длинное сообщение!'
-
-				if isinstance(args[1], Message):
+				if command.image == '':
 					await self.dispatcher.bot.send_message(
-						chat_id=chat_id,
-						text=command_message_text,
-						reply_markup=keyboard
+						chat_id=message.chat.id,
+						text=command.message_text,
+						reply_markup=tg_keyboard
 					)
 				else:
-					await self.dispatcher.bot.edit_message_text(
-						chat_id=chat_id,
-						message_id=message.message_id,
-						text=command_message_text,
-						reply_markup=keyboard
+					await self.dispatcher.bot.send_photo(
+						chat_id=message.chat.id,
+						photo=types.InputFile(command.image.path),
+						caption=command.message_text,
+						reply_markup=tg_keyboard
 					)
 
 	async def setup(self) -> None:

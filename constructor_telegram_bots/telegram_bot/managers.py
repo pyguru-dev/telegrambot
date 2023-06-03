@@ -1,57 +1,99 @@
-from django.db.models import Manager
+from django.db import models
+
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 import telegram_bot.models as TelegramBotModels
-import user.models as UserModels
+from user.models import User
 
 from telegram_bot.functions import check_telegram_bot_api_token
 
+from typing import Any, Union
 
-class TelegramBotManager(Manager):
-	def add_telegram_bot(self, user: 'UserModels.User', api_token: str, is_private: bool, **extra_fields) -> 'TelegramBotModels.TelegramBot':
+
+class TelegramBotManager(models.Manager):
+	def create(
+		self,
+	    owner: User,
+		api_token: str,
+		is_private: bool,
+		**extra_fields: Any
+	) -> 'TelegramBotModels.TelegramBot':
 		name: str = check_telegram_bot_api_token(api_token=api_token)
 
-		telegram_bot: TelegramBotModels.TelegramBot = self.model(name=name, api_token=api_token, is_private=is_private, **extra_fields)
-		telegram_bot.save()
+		return super().create(
+			owner=owner,
+			name=name,
+			api_token=api_token,
+			is_private=is_private,
+			**extra_fields
+		)
 
-		user.telegram_bots.add(telegram_bot)
-		user.save()
 
-		return telegram_bot
-
-
-class TelegramBotCommandManager(Manager):
-	def add_telegram_bot_command(
+class TelegramBotCommandManager(models.Manager):
+	def create(
 		self,
 		telegram_bot: 'TelegramBotModels.TelegramBot',
 		name: str,
-		command: str,
-		callback: str,
 		message_text: str,
-		keyboard: str,
-		**extra_fields
+		command: Union[str, None] = None,
+		image: Union[InMemoryUploadedFile, None] = None,
+		keyboard: Union[dict, None] = None,
+		api_request: Union[list, None] = None,
+		**extra_fields: Any
 	) -> 'TelegramBotModels.TelegramBotCommand':
-		telegram_bot_command: TelegramBotModels.TelegramBotCommand = self.model(
+		telegram_bot_command: TelegramBotModels.TelegramBotCommand = super().create(
+			telegram_bot=telegram_bot,
 			name=name,
 			command=command,
-			callback=callback,
+			image=image,
 			message_text=message_text,
-			keyboard=keyboard,
+			api_request=api_request,
 			**extra_fields
 		)
-		telegram_bot_command.save()
 
-		telegram_bot.commands.add(telegram_bot_command)
-		telegram_bot.save()
+		if keyboard is not None:
+			TelegramBotModels.TelegramBotCommandKeyboard.objects.create(
+				telegram_bot_command=telegram_bot_command,
+				type=keyboard['type'],
+				buttons=keyboard['buttons']
+			)
 
 		return telegram_bot_command
 
 
-class TelegramBotUserManager(Manager):
-	def add_telegram_bot_user(self, telegram_bot: 'TelegramBotModels.TelegramBot', user_id: int, username: str) -> 'TelegramBotModels.TelegramBotUser':
-		telegram_bot_user: TelegramBotModels.TelegramBotUser = self.model(user_id=user_id, username=username)
-		telegram_bot_user.save()
+class TelegramBotCommandKeyboardManager(models.Manager):
+	def create(
+		self,
+		telegram_bot_command: 'TelegramBotModels.TelegramBotCommand',
+		type: str,
+		buttons: dict,
+		**extra_fields: Any
+	) -> 'TelegramBotModels.TelegramBotCommandKeyboard':
+		telegram_bot_command_keyboard: TelegramBotModels.TelegramBotCommandKeyboard = super().create(
+			telegram_bot_command=telegram_bot_command,
+			type=type,
+			**extra_fields
+		)
 
-		telegram_bot.users.add(telegram_bot_user)
-		telegram_bot.save()
+		for button in buttons:
+			TelegramBotModels.TelegramBotCommandKeyboardButton.objects.create(
+				telegram_bot_command_keyboard=telegram_bot_command_keyboard,
+				text=button['text']
+			)
 
-		return telegram_bot_user
+		return telegram_bot_command_keyboard
+
+class TelegramBotUserManager(models.Manager):
+	def create(
+		self,
+		telegram_bot: 'TelegramBotModels.TelegramBot',
+		user_id: int,
+		username: str,
+		**extra_fields: Any
+	) -> 'TelegramBotModels.TelegramBotUser': 
+		return super().create(
+			telegram_bot=telegram_bot,
+			user_id=user_id,
+			username=username,
+			**extra_fields
+		)

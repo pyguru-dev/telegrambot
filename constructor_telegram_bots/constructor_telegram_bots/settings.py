@@ -9,7 +9,7 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-DEBUG = False
+DEBUG = True
 
 if sys.argv[0] == 'manage.py':
 	if sys.argv[1] == 'test':
@@ -26,6 +26,13 @@ else:
 	SITE_DOMAIN = 'https://constructor.exg1o.org/'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'constructor.exg1o.org']
+
+
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
 
 
 folders = ('data', 'logs',)
@@ -138,7 +145,6 @@ INSTALLED_APPS = [
 	'home.apps.HomeConfig',
 	'donation.apps.DonationConfig',
 	'personal_cabinet.apps.PersonalCabinetConfig',
-
 	'privacy_policy.apps.PrivacyPolicyConfig',
 ]
 

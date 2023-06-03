@@ -1,14 +1,12 @@
-{% extends 'base_personal_cabinet.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Меню Telegram бота{% endblock title %}
 
-{% block modals %}
+{% block styles %}
 	{{ block.super }}
-	{% include 'telegram_bot_menu/modals/add_or_edit_telegram_bot_command_modal.html' %}
-{% endblock modals %}
-
-{% block main_class %}{% endblock main_class %}
+	<link rel="stylesheet" href="{% static 'css/personal_cabinet/telegram_bot_menu/diagram.css' %}">
+{% endblock styles %}
 
 {% block main %}
 	<div class="container my-3 my-lg-4">
@@ -41,11 +39,11 @@
 										</tr>
 										<tr>
 											<th scope="row">Количество активаций:</th>
-											<td class="align-middle users-count"></td>
+											<td class="align-middle telegram-bot-users-count"></td>
 										</tr>
 										<tr>
 											<th scope="row">Количество команд:</th>
-											<td class="align-middle commands-count"></td>
+											<td class="align-middle telegram-bot-commands-count"></td>
 										</tr>
 										<tr>
 											<th scope="row">Дата добавление:</th>
@@ -56,36 +54,103 @@
 							</div>
 						</div>
 					</div>
-					<div class="card-footer">
-						<div class="row row-cols-1 row-cols-lg-3">
-							<div class="col">
-								<button class="btn btn-{% if telegram_bot.is_running %}danger{% else %}success{% endif %} w-100 my-lg-2 mt-1 mb-0" id="startOrStopTelegramBotButton" type="button">В{% if telegram_bot.is_running %}ы{% endif %}ключить Telegram бота</button>
+					<div class="card-footer py-3">
+						<div class="row row-cols-1 row-cols-lg-2">
+							<div class="col pe-lg-2 pb-2 pb-lg-0">
+								<button class="btn btn-{% if telegram_bot.is_running %}danger{% else %}success{% endif %} w-100 " id="startOrStopTelegramBotButton" type="button">В{% if telegram_bot.is_running %}ы{% endif %}ключить Telegram бота</button>
 							</div>
-							<div class="col px-lg-1">
-								<button class="btn btn-secondary w-100 my-2" id="addOrDuplicateTelegramBotModalButton" type="button">Дублировать Telegram бота</button>	
-							</div>
-							<div class="col">
-								<button class="btn btn-danger w-100 my-lg-2 mt-0 mb-1" id="deleteTelegramBotButton" type="button">Удалить Telegram бота</button>	
+							<div class="col ps-lg-2">
+								<button class="btn btn-danger w-100" id="deleteTelegramBotButton" type="button">Удалить Telegram бота</button>	
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col-12 col-lg-6 py-2 pb-lg-0">
-				<div class="card h-100">
-					<h5 class="card-header text-center">Список команд Telegram бота</h5>
-					<div class="card-body">
-						<div class="list-group telegram-bot-commands"></div>
-					</div>
-					<button class="card-footer btn btn-light" id="addTelegramBotCommandModalButton" type="button">Добавить команду</button>
-				</div>
-			</div>
-			<div class="col-12 col-lg-6 pt-3 pt-lg-2">
+			<div class="col-12 pt-2 pb-3">
 				<div class="card h-100">
 					<h5 class="card-header text-center">Список пользователей Telegram бота</h5>
 					<div class="card-body">
 						<div class="list-group telegram-bot-users"></div>
 					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-4 pt-2 pb-3 pb-lg-0">
+				<div class="card border rounded h-100">
+					<div class="card-header text-center" id="addOrEditTelegramBotCommandCardHeader">Добавление команды</div>
+					<div class="card-body">
+						<div class="row row-cols-1">
+							<div class="col mb-2">
+								<input class="form-control" id="telegramBotCommandNameInput" type="text" placeholder="Введите название команды">
+							</div>
+							<div class="col mb-2 d-none" id="telegramBotCommandCommandAddition">
+								<input class="form-control" id="telegramBotCommandCommandInput" type="text" placeholder="Введите команду">
+							</div>
+							<div class="col mb-2 d-none" id="telegramBotCommandImageAddition">
+								<div class="input-group">
+									<img class="img-thumbnail rounded mb-1 d-none" id="telegramBotCommandImagePreview">
+									<input class="form-control" id="telegramBotCommandImageInput" type="file" accept="image/*">
+								</div>
+							</div>
+							<div class="col mb-2">
+								<textarea class="form-control" id="telegramBotCommandTextInput" type="text" rows="3" placeholder="Введите текст сообщения"></textarea>
+							</div>
+							<div class="col mb-2 d-none" id="telegramBotCommandKeyboardAddition">
+								<label class="mb-1" for="telegramBotCommandKeyboardModes">Выберите клавиатуру</label>
+								<div class="input-group" id="telegramBotCommandKeyboardModes">
+									<input class="btn-check" id="telegramBotCommandDefaultKeyboardRadio" name="telegramBotCommandKeyboardModes" type="radio" onclick="telegramBotCommandKeyboardType = 'default';" checked>
+									<label class="btn btn-sm btn-outline-dark rounded-start w-50" for="telegramBotCommandDefaultKeyboardRadio">Обычная</label>
+									<input class="btn-check" id="telegramBotCommandInlineKeyboardRadio" name="telegramBotCommandKeyboardModes" type="radio" onclick="telegramBotCommandKeyboardType = 'inline';">
+									<label class="btn btn-sm btn-outline-dark rounded-end w-50" for="telegramBotCommandInlineKeyboardRadio">Встроенная</label>
+								</div>
+								<div class="mt-1">
+									<label class="mb-1" for="telegramBotCommandKeyboardButtons">Клавиатура</label>
+									<div id="telegramBotCommandKeyboardButtons"></div>
+									<button class="btn btn-sm btn-outline-dark w-100" id="telegramBotCommandAddKeyboardButton" type="button">Добавить кнопку</button>
+								</div>
+							</div>
+							<div class="col mb-2 d-none" id="telegramBotCommandApiRequestAddition">
+								<label for="telegramBotCommandApiRequest">API-запрос</label>
+								<div class="input-group" id="telegramBotCommandApiRequest">
+									<input class="form-control" id="telegramBotCommandApiRequestUrlInput" type="text" placeholder="Ссылка">
+									<input class="form-control" id="telegramBotCommandApiRequestDataInput" type="text" placeholder="Данные">
+								</div>
+							</div>
+							<div class="col">
+								<label for="telegramBotCommandAddition">Добавить</label>
+								<div class="border rounded w-100 pt-1" id="telegramBotCommandAddition">
+									<div class="row gy-1 py-1 px-3">
+										<button class="btn btn-sm btn-dark mt-0" id="telegramBotCommandAddCommandAdditionButton" type="button">Команду</button>
+										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddImageAdditionButton" type="button">Изображение</button>
+										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddKeyboardAdditionButton" type="button">Клавиатуру</button>
+										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddApiRequestAdditionButton" type="button">API-запрос</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer p-0">
+						<button class="btn btn-light back-add-telegram-bot-command-button border-bottom rounded-0 w-100 d-none" type="button" style="height: 42px;">Вернуться к добавлению команды</button>
+						<button class="btn btn-light add-or-edit-telegram-bot-command-button rounded-top-0 w-100" id="0" type="button" style="height: 42px;">Добавить команду</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-lg-8 pt-2">
+				<div class="diagram-container border rounded">
+					<div class="diagram-zoom btn-group">
+						<button class="diagram-zoom-btn btn btn-light border border-top-0 rounded-bottom-0" id="+" type="button">
+							<i class="bi bi-zoom-in"></i>
+						</button>
+						<button class="diagram-zoom-btn btn btn-light border border-top-0 rounded-top-0" id="-" type="button">
+							<i class="bi bi-zoom-out"></i>
+						</button>
+					</div>
+					<svg class="diagram-svg">
+						<defs>
+							<marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+								<path d="M0,0 L0,6 L9,3 z">
+							</marker>
+						</defs>
+					</svg>
 				</div>
 			</div>
 		</div>
@@ -94,23 +159,31 @@
 
 {% block footer_class %}mt-auto{% endblock footer_class %}
 
+{% block globalVariables %}
+	{{ block.super }}
+	const telegramBotId = {{ telegram_bot.id }};
+	var telegramBotIsRunning = {% if telegram_bot.is_running %}true{% else %}false{% endif %};
+	var diagramCurrentScale = parseFloat('{{ telegram_bot.diagram_current_scale }}'.replace(',', '.'));
+
+	const addTelegramBotCommandUrl = '{% url 'add_telegram_bot_command' telegram_bot.id %}';
+	const editTelegramBotUrl = '{% url 'edit_telegram_bot' telegram_bot.id %}';
+	const deleteTelegramBotUrl = '{% url 'delete_telegram_bot' telegram_bot.id %}';
+
+	const getTelegramBotData = '{% url 'get_telegram_bot_data' telegram_bot.id %}';
+
+	const startTelegramBotUrl = '{% url 'start_telegram_bot' telegram_bot.id %}';
+	const stopTelegramBotUrl = '{% url 'stop_telegram_bot' telegram_bot.id %}';
+
+	const saveTelegramBotDiagramCurrentScaleUrl = '{% url 'save_telegram_bot_diagram_current_scale' telegram_bot.id %}';
+
+	const getTelegramBotCommandsUrl = '{% url 'get_telegram_bot_commands' telegram_bot.id %}';
+	const getTelegramBotUsersUrl = '{% url 'get_telegram_bot_users' telegram_bot.id %}';
+{% endblock globalVariables %}
+
 {% block scripts %}
 	{{ block.super }}
-	<script>
-		const telegramBotId = {{ telegram_bot.id }};
-		var telegramBotIsRunning = {% if telegram_bot.is_running %}true{% else %}false{% endif %};
-
-		const editTelegramBotUrl = '{% url 'edit_telegram_bot' telegram_bot.id %}';
-
-		const startTelegramBotUrl = '{% url 'start_telegram_bot' telegram_bot.id %}';
-		const stopTelegramBotUrl = '{% url 'stop_telegram_bot' telegram_bot.id %}';
-		const duplicateTelegramBotUrl = '{% url 'duplicate_telegram_bot' telegram_bot.id %}';
-		const deleteTelegramBotUrl = '{% url 'delete_telegram_bot' telegram_bot.id %}';
-
-		const getTelegramBotCommandsUrl = '{% url 'get_telegram_bot_commands' telegram_bot.id %}';
-		const getTelegramBotUsersUrl = '{% url 'get_telegram_bot_users' telegram_bot.id %}';
-	</script>
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/init.js' %}"></script>
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/main.js' %}"></script>
-	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/modals/add_or_edit_telegram_bot_command_modal.js' %}"></script>
+	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/diagram.js' %}"></script>
+	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/add_or_edit_telegram_bot_command.js' %}"></script>
 {% endblock scripts %}
