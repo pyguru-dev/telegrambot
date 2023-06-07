@@ -1,21 +1,20 @@
-from celery import Celery
+from celery import Celery, signals
+from redis import Redis
 import os
 
-from celery.signals import setup_logging
 from django.conf import settings
 import logging
 
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'constructor_telegram_bots.settings')
+@signals.celeryd_init.connect
+def celery_init(*args, **kwargs):
+	redis_client = Redis(host='127.0.0.1', port=6379)
+	redis_client.delete('is_all_telegram_bots_already_started')
 
-celery_app = Celery('constructor_telegram_bots')
-celery_app.config_from_object('django.conf:settings', namespace='CELERY')
-celery_app.autodiscover_tasks(['telegram_bots'])
-
-@setup_logging.connect
-def celery_logging(*args, **kwargs):
+@signals.setup_logging.connect
+def celery_logging_config(*args, **kwargs):
 	celery_logger = logging.getLogger('celery')
-	celery_logger.setLevel(logging.NOTSET)
+	celery_logger.setLevel(logging.INFO)
 
 	celery_logger.handlers = []
 	celery_logger.filters = []
@@ -28,3 +27,10 @@ def celery_logging(*args, **kwargs):
 
 	celery_logger.addHandler(info_file_handler)
 	celery_logger.addHandler(error_file_handler)
+
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'constructor_telegram_bots.settings')
+
+celery_app = Celery('constructor_telegram_bots')
+celery_app.config_from_object('django.conf:settings', namespace='CELERY')
+celery_app.autodiscover_tasks(['telegram_bots'])
