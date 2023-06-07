@@ -10,9 +10,6 @@ from threading import Thread
 from typing import Union
 
 
-redis_client = Redis(host='127.0.0.1', port=6379)
-
-
 @shared_task
 def stop_telegram_bot(telegram_bot_id: int) -> None:
 	telegram_bot: TelegramBot = TelegramBot.objects.get(id=telegram_bot_id)
@@ -39,7 +36,8 @@ def start_telegram_bot(telegram_bot_id: int) -> None:
 
 @shared_task
 def start_all_telegram_bots() -> None:
-	print(redis_client.get('is_all_telegram_bots_already_started'))
+	redis_client = Redis(host='127.0.0.1', port=6379)
+
 	if redis_client.get('is_all_telegram_bots_already_started') is None:
 		constructor_telegram_bot = ConstructorTelegramBot()
 		Thread(target=start_telegram_bot_, args=(constructor_telegram_bot,), daemon=True).start()
@@ -48,4 +46,4 @@ def start_all_telegram_bots() -> None:
 			if telegram_bot.is_running:
 				start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
 
-		redis_client.set('is_all_telegram_bots_already_started', '1'.encode('UTF-8'), ex=120)
+		redis_client.set('is_all_telegram_bots_already_started', '1'.encode('UTF-8'))
