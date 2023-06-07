@@ -40,8 +40,10 @@ class CustomDispatcher(Dispatcher):
 			try:
 				with self.bot.request_timeout(request_timeout):
 					updates = await self.bot.get_updates(offset=offset, timeout=timeout)
-			except (asyncio.CancelledError, TerminatedByOtherGetUpdates):
+			except TerminatedByOtherGetUpdates:
 				log.error('Telegram Bot already started!')
+				break
+			except asyncio.CancelledError:
 				break
 			except Exception as e:
 				log.exception('Cause exception while getting updates!')

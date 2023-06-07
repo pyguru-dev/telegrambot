@@ -1,8 +1,7 @@
-from aiogram import Bot
-from aiogram import types
-
+from aiogram import Bot, types
 from telegram_bots.custom_aiogram import CustomDispatcher
 
+from aiogram.utils.exceptions import ValidationError, Unauthorized
 from django.core.exceptions import ObjectDoesNotExist
 
 from telegram_bot.models import (
@@ -175,18 +174,26 @@ class UserTelegramBot:
 		self.dispatcher.register_callback_query_handler(self.message_and_callback_query_handler)
 
 	async def start(self) -> None:
-		task = self.loop.create_task(self.stop())
+		try:
+			task = self.loop.create_task(self.stop())
 
-		await self.dispatcher.skip_updates()
-		await self.dispatcher.start_polling()
+			await self.dispatcher.skip_updates()
+			await self.dispatcher.start_polling()
 
-		task.cancel()
+			task.cancel()
 
-		session = await self.bot.get_session()
-		await session.close()
+			session = await self.bot.get_session()
+			await session.close()
 
-		self.telegram_bot.is_stopped = True
-		await self.telegram_bot.asave()
+			self.telegram_bot.is_stopped = True
+			await self.telegram_bot.asave()
+		except (ValidationError, Unauthorized):
+			task.cancel()
+
+			session = await self.bot.get_session()
+			await session.close()
+
+			await self.telegram_bot.adelete()
 
 	async def stop(self) -> None:
 		while self.telegram_bot.is_running:
