@@ -15,7 +15,7 @@ celery_app.autodiscover_tasks(['telegram_bots'])
 @setup_logging.connect
 def celery_logging(*args, **kwargs):
 	celery_logger = logging.getLogger('celery')
-	celery_logger.setLevel(logging.NOTSET)
+	celery_logger.setLevel(logging.INFO)
 
 	celery_logger.handlers = []
 	celery_logger.filters = []

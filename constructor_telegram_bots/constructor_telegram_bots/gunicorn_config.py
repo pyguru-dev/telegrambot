@@ -8,4 +8,4 @@ max_requests_jitter = 100
 
 capture_output = True
 accesslog = str(BASE_DIR / 'logs/gunicorn_info.log')
-errorlog = str(BASE_DIR / 'logs/gunicorn_error.log')
+errorlog = str(BASE_DIR / 'logs/gunicorn_info.log')
