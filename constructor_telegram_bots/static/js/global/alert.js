@@ -2,20 +2,40 @@
 	let mainContainer = document.querySelector('main .container');
 	let mainContainerClass = mainContainer.getAttribute('class');
 
-	var mainAlertPlaceholder = document.querySelector('#mainAlertPlaceholder');
+	var mainAlertContainer = document.querySelector('#mainAlertContainer');
 
 	let breakpoints = ['', 'sm-', 'md-', 'lg-', 'xl-', 'xxl-']
 
-	let myAlertId = 0;
+	let alertId = 0;
 
-	function myAlert(alertPlaceholder, message, type) {
-		let wrapper = document.createElement('div');
-		wrapper.className = `alert alert-${type} fade `;
-		wrapper.id = myAlertId;
-		wrapper.role = 'alert';
-		wrapper.innerHTML = `<p class="text-center mb-0">${message}</p>`;
+	function removeAlert(alertDiv) {
+		alertDiv.remove();
 
-		if (alertPlaceholder == mainAlertPlaceholder) {
+		if (alertDiv.id == alertId - 1) {
+			mainContainer.setAttribute('class', mainContainerClass);
+		}
+	}
+
+	function closeAlert(alertDiv) {
+		alertDiv.classList.remove('show');
+
+		setTimeout(removeAlert, 300, alertDiv)
+	}
+
+	function showAlert(alertDiv) {
+		alertDiv.classList.add('show');
+
+		setTimeout(closeAlert, 5000, alertDiv)
+	}
+
+	function createAlert(alertContainer, message, type) {
+		let alertDiv = document.createElement('div');
+		alertDiv.className = `alert alert-${type} fade `;
+		alertDiv.id = alertId;
+		alertDiv.role = 'alert';
+		alertDiv.innerHTML = `<p class="text-center mb-0">${message}</p>`;
+
+		if (alertContainer == mainAlertContainer) {
 			for (let breakpoint = 0; breakpoint < breakpoints.length; breakpoint++) {
 				for (let size = 1; size <= 5; size++) {
 					if (mainContainer.classList.contains(`my-${breakpoints[breakpoint]}${size}`)) {
@@ -27,36 +47,15 @@
 				}
 			}
 
-			wrapper.className += 'my-2';
+			alertDiv.className += 'my-2';
 		} else {
-			wrapper.className += 'mb-2';
+			alertDiv.className += 'mb-2';
 		}
 
-		alertPlaceholder.append(wrapper);
+		alertContainer.append(alertDiv);
 
-		function showMyAlert(__myAlert) {
-			__myAlert.classList.add('show');
+		setTimeout(showAlert, 200, alertDiv);
 
-			setTimeout(closeMyAlert, 5000, __myAlert)
-		}
-
-		function closeMyAlert(__myAlert) {
-			__myAlert.classList.remove('show');
-
-			function removeMyAlert(___myAlert) {
-				___myAlert.remove();
-
-				if (__myAlert.id == myAlertId - 1) {
-					mainContainer.setAttribute('class', mainContainerClass);
-				}
-			}
-
-			setTimeout(removeMyAlert, 300, __myAlert)
-		}
-
-		let _myAlert = document.querySelector(`.alert[id="${myAlertId}"]`);
-		setTimeout(showMyAlert, 200, _myAlert);
-
-		myAlertId ++;
+		alertId ++;
 	}
 }

@@ -234,9 +234,9 @@
 				getTelegramBotCommands();
 				telegramBotCommandAllClear();
 
-				response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'success'));
+				response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'success'));
 			} else {
-				response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'));
+				response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'));
 			}
 		});
 	});

@@ -1,5 +1,3 @@
-from kombu.exceptions import OperationalError
-
 import sys
 import os
 

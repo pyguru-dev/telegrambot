@@ -52,7 +52,7 @@ var intervalUpdateUsersId;
 							}).then(response => {
 								if (response.ok) {
 									response.json().then(telegramBotCommand => editTelegramBotCommand(telegramBotCommand));
-								} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+								} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
 							});
 						});
 					});
@@ -76,9 +76,9 @@ var intervalUpdateUsersId;
 
 												getTelegramBotCommands();
 
-												myAlert(mainAlertPlaceholder, responseText, 'success');
+												createAlert(mainAlertContainer, responseText, 'success');
 											});
-										} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+										} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
 									});
 								}
 							);
@@ -93,7 +93,7 @@ var intervalUpdateUsersId;
 
 					diagramSetZoom();
 				});
-			} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+			} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
 		});
 
 		getTelegramBotUsers();
@@ -161,8 +161,8 @@ var intervalUpdateUsersId;
 											method: 'POST',
 										}).then(response => {
 											if (response.ok) {
-												response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'success'));
-											} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+												response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'success'));
+											} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
 										});
 									} else {
 										this.classList.replace('add', 'delete')
@@ -172,8 +172,8 @@ var intervalUpdateUsersId;
 											method: 'POST',
 										}).then(response => {
 											if (response.ok) {
-												response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'success'));
-											} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+												response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'success'));
+											} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
 										});
 									}
 								});
@@ -199,8 +199,8 @@ var intervalUpdateUsersId;
 											method: 'POST',
 										}).then(response => {
 											if (response.ok) {
-												response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'success'));
-											} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+												response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'success'));
+											} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
 										});
 									}
 								));
@@ -217,7 +217,7 @@ var intervalUpdateUsersId;
 							telegramBotUsersDiv.append(telegramBotUserDiv);
 						}
 					});
-				} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+				} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
 			});
 		}
 	}
