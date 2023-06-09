@@ -65,25 +65,17 @@ celery -A constructor_telegram_bots worker -l INFO
 11. Если вы всё сделали правильно, то в терминале не должны быть ошибок.
 11. Переходим по ссылке **http://127.0.0.1:8000/** и пользуемся сайтом. ☺️
 
-# Сайт на сервере
-## Требования
-- Python **3.10.11**
-- Redis
-- ru_RU.UTF-8 в **locale -a**
-
-## Установка и запуск проекта
-1. **Будет добавлено позже!**
-
 # Cтруктура проекта
 ```
 Constructor-Telegram-Bots
 ├── constructor_telegram_bots
 │   ├── constructor_telegram_bots
 │   │   ├── asgi.py
+│   │   ├── celery.py
 │   │   ├── decorators.py
 │   │   ├── functions.py
-│   │   ├── __init__.py
 │   │   ├── gunicorn_config.py
+│   │   ├── __init__.py
 │   │   ├── settings.py
 │   │   ├── urls.py
 │   │   └── wsgi.py
@@ -113,17 +105,13 @@ Constructor-Telegram-Bots
 │   │   ├── migrations
 │   │   │   └── __init__.py
 │   │   ├── templates
-│   │   │   ├── modals
-│   │   │   │   └── add_or_duplicate_telegram_bot_modal.html
 │   │   │   ├── personal_cabinet
 │   │   │   │   ├── modals
+│   │   │   │   │   ├── add_telegram_bot_modal.html
 │   │   │   │   │   └── how_to_add_telegram_bot_modal.html
 │   │   │   │   └── main.html
-│   │   │   ├── telegram_bot_menu
-│   │   │   │   ├── modals
-│   │   │   │   │   └── add_or_edit_telegram_bot_command_modal.html
-│   │   │   │   └── main.html
-│   │   │   └── base_personal_cabinet.html
+│   │   │   └── telegram_bot_menu
+│   │   │       └── main.html
 │   │   ├── apps.py
 │   │   ├── __init__.py
 │   │   ├── tests.py
@@ -140,28 +128,33 @@ Constructor-Telegram-Bots
 │   │   ├── urls.py
 │   │   └── views.py
 │   ├── static
+│   │   ├── css
+│   │   │   └── personal_cabinet
+│   │   │       └── telegram_bot_menu
+│   │   │           └── diagram.css
 │   │   ├── icons
-│   │   │   └── favicon.ico
+│   │   │   └── favicon.png
 │   │   └── js
 │   │       ├── global
 │   │       │   ├── modals
 │   │       │   │   └── ask_confirm_modal.js
 │   │       │   ├── alert.js
-│   │       │   ├── init.js
 │   │       │   └── logout.js
 │   │       └── personal_cabinet
-│   │           ├── modals
-│   │           │   └── add_or_duplicate_telegram_bot_modal.js
 │   │           ├── personal_cabinet
+│   │           │   ├── modals
+│   │           │   │   └── add_telegram_bot_modal.js
 │   │           │   └── init.js
 │   │           └── telegram_bot_menu
-│   │               ├── modals
-│   │               │   └── add_or_edit_telegram_bot_command_modal.js
+│   │               ├── add_or_edit_telegram_bot_command.js
+│   │               ├── diagram.js
 │   │               ├── init.js
-│   │               └── main.js
+│   │               ├── main.js
+│   │               └── telegram_bot_command_variables.js
 │   ├── telegram_bot
 │   │   ├── migrations
 │   │   │   ├── 0001_initial.py
+│   │   │   ├── 0002_telegrambotcommandkeyboard_and_more.py
 │   │   │   └── __init__.py
 │   │   ├── apps.py
 │   │   ├── decorators.py
@@ -173,10 +166,10 @@ Constructor-Telegram-Bots
 │   │   ├── urls.py
 │   │   └── views.py
 │   ├── telegram_bots
-│   │   ├── __init__.py
 │   │   ├── constructor_telegram_bot.py
 │   │   ├── custom_aiogram.py
-│   │   ├── functions.py
+│   │   ├── __init__.py
+│   │   ├── tasks.py
 │   │   └── user_telegram_bot.py
 │   ├── templates
 │   │   ├── modals
@@ -189,6 +182,8 @@ Constructor-Telegram-Bots
 │   ├── user
 │   │   ├── migrations
 │   │   │   ├── 0001_initial.py
+│   │   │   ├── 0002_user_password_user_username.py
+│   │   │   ├── 0003_remove_user_is_staff_remove_user_telegram_bots_and_more.py
 │   │   │   └── __init__.py
 │   │   ├── templates
 │   │   │   ├── login.html

@@ -25,6 +25,7 @@ class UserTelegramBot:
 
 	async def check_user(self, user_id: int, username: str) -> TelegramBotUser:
 		users: TelegramBotUserManager = await sync_to_async(TelegramBotUser.objects.filter)(user_id=user_id)
+
 		if await users.aexists() is False:
 			user: TelegramBotUser = await sync_to_async(TelegramBotUser.objects.create)(
 				telegram_bot=self.telegram_bot,
@@ -33,7 +34,7 @@ class UserTelegramBot:
 			)
 			await user.asave()
 		else:
-			user: TelegramBotUser = await users.aget()
+			user: TelegramBotUser = await users.afirst()
 
 		return user
 	
@@ -56,29 +57,15 @@ class UserTelegramBot:
 			keyboard: TelegramBotCommandKeyboard = await sync_to_async(self.get_command_keyboard)(command_)
 
 			if keyboard is not None:
-				is_finded_keyboard = False
-
-				if keyboard.type == 'default' and message_text is not None:
-					is_finded_keyboard = True
-				elif keyboard.type == 'inline' and button_id is not None:
-					is_finded_keyboard = True
-
-				if is_finded_keyboard:
+				if keyboard.type == 'default' and message_text is not None or keyboard.type == 'inline' and button_id is not None:
 					async for button in keyboard.buttons.all():
-						is_finded_button = False
-
-						if button.text == message_text and message_text is not None:
-							is_finded_button = True
-						if button.id == button_id and button_id is not None:
-							is_finded_button = True
-
-						if is_finded_button:
-							command: TelegramBotCommand = await sync_to_async(self.get_command_keyboard_button_command)(button)
+						if button.text == message_text and message_text is not None or button.id == button_id and button_id is not None:
+							command: TelegramBotCommand = await sync_to_async(self.get_command_keyboard_button_command)(button=button)
 							break
 
 		return command
 	
-	async def get_command(self, message_text: str = None, button_id: int = None) -> TelegramBotCommand:
+	async def get_command(self, message_text: str = None, button_id: int = None) -> Union[TelegramBotCommand, None]:
 		if message_text is not None:
 			commands: TelegramBotCommandManager = await sync_to_async(self.telegram_bot.commands.filter)(command=message_text)
 
@@ -90,14 +77,24 @@ class UserTelegramBot:
 			command: Union[TelegramBotCommand, None] = await self.search_command(button_id=button_id)
 
 		return command
+	
+	async def replace_text_variables(self, message: types.Message, text: str) -> str:
+		text_variables = {
+			'${user_id}': message.from_user.id,
+			'${user_username}': message.from_user.username,
+			'${user_first_name}': message.from_user.first_name,
+			'${user_last_name}': message.from_user.last_name,
+			'${user_message_id}': message.message_id,
+			'${user_message_text}': message.text,
+		}
+
+		for text_variable in text_variables:
+			text: str = text.replace(text_variable, str(text_variables[text_variable]))
+
+		return text
 
 	async def message_and_callback_query_handler(self, *args, **kwargs) -> None:
 		if isinstance(args[0], types.Message):
-			type = 'message'
-		else:
-			type = 'callback_query'
-		
-		if type == 'message':
 			message: types.Message = args[0]
 
 			user_id: int = message.from_user.id
@@ -112,7 +109,7 @@ class UserTelegramBot:
 		user: TelegramBotUser = await self.check_user(user_id=user_id, username=username)
 
 		if self.telegram_bot.is_private and user.is_allowed or self.telegram_bot.is_private is False:
-			if type == 'message':
+			if isinstance(args[0], types.Message):
 				command: TelegramBotCommand = await self.get_command(message_text=message.text)
 			else:
 				command: TelegramBotCommand = await self.get_command(button_id=int(callback_query.data))
@@ -121,7 +118,10 @@ class UserTelegramBot:
 				if command.api_request is not None:
 					try:
 						async with aiohttp.ClientSession() as session:
-							async with session.post(url=command.api_request['url'], data=command.api_request['data']) as response:
+							api_request_url: str = await self.replace_text_variables(message=message, text=command.api_request['url'])
+							api_request_data: str = await self.replace_text_variables(message=message, text=command.api_request['data'])
+
+							async with session.post(url=api_request_url, data=api_request_data) as response:
 								pass
 					except aiohttp.client_exceptions.InvalidURL:
 						pass
@@ -130,7 +130,7 @@ class UserTelegramBot:
 				
 				if keyboard is not None:
 					if keyboard.type == 'default':
-						tg_keyboard = types.ReplyKeyboardMarkup()
+						tg_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
 						
 						async for button in keyboard.buttons.all():
 							tg_keyboard.add(
@@ -146,7 +146,9 @@ class UserTelegramBot:
 				else:
 					tg_keyboard = None
 
-				if type == 'callback_query':
+				message_text: str = await self.replace_text_variables(message=message, text=command.message_text)
+
+				if isinstance(args[0], types.CallbackQuery):
 					await self.dispatcher.bot.delete_message(
 						chat_id=message.chat.id,
 						message_id=message.message_id
@@ -155,14 +157,14 @@ class UserTelegramBot:
 				if command.image == '':
 					await self.dispatcher.bot.send_message(
 						chat_id=message.chat.id,
-						text=command.message_text,
+						text=message_text,
 						reply_markup=tg_keyboard
 					)
 				else:
 					await self.dispatcher.bot.send_photo(
 						chat_id=message.chat.id,
 						photo=types.InputFile(command.image.path),
-						caption=command.message_text,
+						caption=message_text,
 						reply_markup=tg_keyboard
 					)
 
@@ -174,30 +176,27 @@ class UserTelegramBot:
 		self.dispatcher.register_callback_query_handler(self.message_and_callback_query_handler)
 
 	async def start(self) -> None:
-		try:
-			task = self.loop.create_task(self.stop())
+		task = self.loop.create_task(self.stop())
 
+		try:
 			await self.dispatcher.skip_updates()
 			await self.dispatcher.start_polling()
 
 			task.cancel()
-
-			session = await self.bot.get_session()
-			await session.close()
 
 			self.telegram_bot.is_stopped = True
 			await self.telegram_bot.asave()
 		except (ValidationError, Unauthorized):
 			task.cancel()
 
-			session = await self.bot.get_session()
-			await session.close()
-
 			await self.telegram_bot.adelete()
+
+		session = await self.bot.get_session()
+		await session.close()
 
 	async def stop(self) -> None:
 		while self.telegram_bot.is_running:
-			self.telegram_bot = await TelegramBot.objects.aget(id=self.telegram_bot.id)
+			self.telegram_bot: TelegramBot = await TelegramBot.objects.aget(id=self.telegram_bot.id)
 
 			if self.telegram_bot.is_running is False:
 				self.dispatcher.stop_polling()

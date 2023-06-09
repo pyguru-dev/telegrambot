@@ -4,15 +4,15 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 	fetch(editTelegramBotUrl, {
 		method: 'POST',
 		headers: {'Content-Type': 'application/json'},
-		body: JSON.stringify({'is_private': this.checked,}),
+		body: JSON.stringify({'is_private': this.checked}),
 	}).then(response => {
 		if (response.ok) {
 			response.text().then(responseText => {
 				getTelegramBotUsers();
 
-				myAlert(mainAlertPlaceholder, responseText, 'success');
+				createAlert(mainAlertContainer, responseText, 'success');
 			});
-		} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+		} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
 	});
 });
 
@@ -56,10 +56,10 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 										startOrStopTelegramBotButton.classList.replace('btn-danger', 'btn-success');
 										startOrStopTelegramBotButton.innerHTML = 'Включить Telegram бота';
 
-										myAlert(mainAlertPlaceholder, 'Вы успешно выключили Telegram бота.', 'success');
+										createAlert(mainAlertContainer, 'Вы успешно выключили Telegram бота.', 'success');
 									} 
 								});
-							} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+							} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
 						});
 					}
 
@@ -78,10 +78,10 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 					startOrStopTelegramBotButton.classList.replace('btn-success', 'btn-danger');
 					startOrStopTelegramBotButton.innerHTML = 'Выключить Telegram бота';
 
-					myAlert(mainAlertPlaceholder, 'Вы успешно включили Telegram бота.', 'success');
+					createAlert(mainAlertContainer, 'Вы успешно включили Telegram бота.', 'success');
 				}
 				
-			} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+			} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
 		});
 	});
 }
@@ -97,9 +97,9 @@ document.querySelector('#deleteTelegramBotButton').addEventListener('click', () 
 				response.text().then(responseText => {
 					setTimeout("window.location.href = '../';", 1000);
 
-					myAlert(mainAlertPlaceholder, responseText, 'success');
+					createAlert(mainAlertContainer, responseText, 'success');
 				});
-			} else {response.text().then(responseText => myAlert(mainAlertPlaceholder, responseText, 'danger'))}
+			} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
 		});
 	}
 ));

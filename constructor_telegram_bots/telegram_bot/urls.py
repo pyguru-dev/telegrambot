@@ -7,7 +7,7 @@ urlpatterns = [
 	path('add/', views.add_telegram_bot, name='add_telegram_bot'),
 	path('<int:telegram_bot_id>/edit/', views.edit_telegram_bot, name='edit_telegram_bot'),
 	path('<int:telegram_bot_id>/delete/', views.delete_telegram_bot, name='delete_telegram_bot'),
-    
+
 	path('<int:telegram_bot_id>/get-data/', views.get_telegram_bot_data, name='get_telegram_bot_data'),
 
 	path('<int:telegram_bot_id>/start/', views.start_telegram_bot, name='start_telegram_bot'),
