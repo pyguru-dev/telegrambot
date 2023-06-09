@@ -196,6 +196,8 @@ var intervalUpdateUsersId;
 											method: 'POST',
 										}).then(response => {
 											if (response.ok) {
+												getTelegramBotUsers();
+
 												response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'success'));
 											} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
 										});
