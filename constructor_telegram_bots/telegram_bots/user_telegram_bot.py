@@ -130,7 +130,7 @@ class UserTelegramBot:
 				
 				if keyboard is not None:
 					if keyboard.type == 'default':
-						tg_keyboard = types.ReplyKeyboardMarkup()
+						tg_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
 						
 						async for button in keyboard.buttons.all():
 							tg_keyboard.add(
