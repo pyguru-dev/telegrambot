@@ -7,7 +7,7 @@
 	let telegramBotCommandCommandAddition = document.querySelector('#telegramBotCommandCommandAddition');
 	let telegramBotCommandCommandInput = document.querySelector('#telegramBotCommandCommandInput');
 
-	let telegramBotCommandTextInput = document.querySelector('#telegramBotCommandTextInput');	
+	var telegramBotCommandTextInput = document.querySelector('#telegramBotCommandTextInput');	
 
 	let telegramBotCommandAddImageAdditionButton = document.querySelector('#telegramBotCommandAddImageAdditionButton');
 	let telegramBotCommandImageAddition = document.querySelector('#telegramBotCommandImageAddition');
@@ -23,8 +23,8 @@
 
 	let telegramBotCommandAddApiRequestAdditionButton = document.querySelector('#telegramBotCommandAddApiRequestAdditionButton');
 	let telegramBotCommandApiRequestAddition = document.querySelector('#telegramBotCommandApiRequestAddition');
-	let telegramBotCommandApiRequestUrlInput = document.querySelector('#telegramBotCommandApiRequestUrlInput');
-	let telegramBotCommandApiRequestDataInput = document.querySelector('#telegramBotCommandApiRequestDataInput');
+	var telegramBotCommandApiRequestUrlInput = document.querySelector('#telegramBotCommandApiRequestUrlInput');
+	var telegramBotCommandApiRequestDataInput = document.querySelector('#telegramBotCommandApiRequestDataInput');
 
 	let backAddTelegramBotCommandButton = document.querySelector('.back-add-telegram-bot-command-button');
 	var addOrEditTelegramBotCommandButton = document.querySelector('.add-or-edit-telegram-bot-command-button');
