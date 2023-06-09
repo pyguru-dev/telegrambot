@@ -14,10 +14,16 @@ var intervalUpdateUsersId;
 				response.json().then(telegramBotCommands => {
 					telegramBotCommandsCountTableLine.innerHTML = telegramBotCommands.length;
 
-					document.querySelectorAll('.connector-line').forEach(diagramConnectorLine => diagramConnectorLine.remove());
 					document.querySelectorAll('.diagram-block').forEach(diagramBlock => diagramBlock.remove());
+					document.querySelectorAll('.connector-line').forEach(diagramConnectorLine => diagramConnectorLine.remove());
 
 					telegramBotCommands.forEach(telegramBotCommand => createDiagramBlock(telegramBotCommand));
+
+					document.querySelectorAll('.diagram-name').forEach(diagramName => {
+						if (diagramName.offsetHeight > 42) {
+							diagramName.classList.add('rounded-bottom');
+						}
+					});
 
 					function createDiagramConnectorLines(telegramBotCommandKeyboard) {
 						telegramBotCommandKeyboard['buttons'].forEach(telegramBotCommandKeyboardButton => {
@@ -85,12 +91,6 @@ var intervalUpdateUsersId;
 						});
 					});
 
-					document.querySelectorAll('.diagram-name').forEach(diagramName => {
-						if (diagramName.offsetHeight > 42) {
-							diagramName.classList.add('rounded-bottom');
-						}
-					});
-
 					diagramSetZoom();
 				});
 			} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
@@ -136,7 +136,6 @@ var intervalUpdateUsersId;
 								let telegramBotUserButtons = document.createElement('div');
 								telegramBotUserButtons.classList = 'col-auto';
 								telegramBotUserButtons.id = 'telegramBotUserButtons';
-
 								
 								let addOrDeleteTelegramBotAllowedUserButton = document.createElement('button');
 								addOrDeleteTelegramBotAllowedUserButton.classList = 'btn telegram-bot-allowed-user-button rounded-0 p-0 pe-1';
@@ -153,9 +152,9 @@ var intervalUpdateUsersId;
 								}
 
 								addOrDeleteTelegramBotAllowedUserButton.addEventListener('click', function() {
-									if (this.classList.contains('delete')) {
-										this.classList.replace('delete', 'add')
-										this.innerHTML = '<i class="bi bi-star text-warning"></i>';
+									if (addOrDeleteTelegramBotAllowedUserButton.classList.contains('delete')) {
+										addOrDeleteTelegramBotAllowedUserButton.classList.replace('delete', 'add')
+										addOrDeleteTelegramBotAllowedUserButton.innerHTML = '<i class="bi bi-star text-warning"></i>';
 
 										fetch(`/telegram-bot/${telegramBotId}/user/${telegramBotUser['id']}/delete-allowed-user/`, {
 											method: 'POST',
@@ -165,8 +164,8 @@ var intervalUpdateUsersId;
 											} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
 										});
 									} else {
-										this.classList.replace('add', 'delete')
-										this.innerHTML = '<i class="bi bi-star-fill text-warning"></i>';
+										addOrDeleteTelegramBotAllowedUserButton.classList.replace('add', 'delete')
+										addOrDeleteTelegramBotAllowedUserButton.innerHTML = '<i class="bi bi-star-fill text-warning"></i>';
 
 										fetch(`/telegram-bot/${telegramBotId}/user/${telegramBotUser['id']}/add-allowed-user/`, {
 											method: 'POST',
@@ -181,8 +180,6 @@ var intervalUpdateUsersId;
 								if (telegramBotIsPrivateCheckBox.checked == false) {
 									addOrDeleteTelegramBotAllowedUserButton.classList.add('d-none');
 								}
-
-								telegramBotUserButtons.append(addOrDeleteTelegramBotAllowedUserButton);
 
 								let deleteTelegramBotUserButton = document.createElement('button');
 								deleteTelegramBotUserButton.classList = 'btn rounded-0 p-0';
@@ -204,7 +201,8 @@ var intervalUpdateUsersId;
 										});
 									}
 								));
-
+								
+								telegramBotUserButtons.append(addOrDeleteTelegramBotAllowedUserButton);
 								telegramBotUserButtons.append(deleteTelegramBotUserButton);
 								telegramBotUserDiv.append(telegramBotUserButtons);
 								listGroupItem.append(telegramBotUserDiv);

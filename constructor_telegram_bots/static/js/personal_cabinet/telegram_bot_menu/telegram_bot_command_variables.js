@@ -26,7 +26,7 @@
 
 				selectedTelegramBotCommandVariable = null;
 
-				for (telegramBotCommandVariable in telegramBotCommandVariables) {
+				for (let telegramBotCommandVariable in telegramBotCommandVariables) {
 					let telegramBotCommandVariableButton = document.querySelector(telegramBotCommandVariable);
 
 					telegramBotCommandVariableButton.classList.replace('btn-secondary', 'btn-dark');
@@ -35,7 +35,7 @@
 		}
 	});
 
-	for (telegramBotCommandVariable in telegramBotCommandVariables) {
+	for (let telegramBotCommandVariable in telegramBotCommandVariables) {
 		document.querySelector(telegramBotCommandVariable).onclick = function(event) {
 			if (event.target.classList.contains('btn-dark')) {
 				event.target.classList.replace('btn-dark', 'btn-secondary');

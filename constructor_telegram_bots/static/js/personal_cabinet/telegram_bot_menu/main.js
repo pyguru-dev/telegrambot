@@ -4,7 +4,7 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 	fetch(editTelegramBotUrl, {
 		method: 'POST',
 		headers: {'Content-Type': 'application/json'},
-		body: JSON.stringify({'is_private': this.checked,}),
+		body: JSON.stringify({'is_private': this.checked}),
 	}).then(response => {
 		if (response.ok) {
 			response.text().then(responseText => {
