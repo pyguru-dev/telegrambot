@@ -139,13 +139,13 @@ INSTALLED_APPS = [
 	'django.contrib.sessions',
 	'django.contrib.staticfiles',
 
-	'user.apps.UserConfig',
-	'telegram_bot.apps.TelegramBotConfig',
+	'user',
+	'telegram_bot',
 
-	'home.apps.HomeConfig',
-	'donation.apps.DonationConfig',
-	'personal_cabinet.apps.PersonalCabinetConfig',
-	'privacy_policy.apps.PrivacyPolicyConfig',
+	'home',
+	'donation',
+	'personal_cabinet',
+	'privacy_policy',
 ]
 
 MIDDLEWARE = [
