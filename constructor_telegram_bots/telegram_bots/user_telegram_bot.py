@@ -115,6 +115,8 @@ class UserTelegramBot:
 				command: TelegramBotCommand = await self.get_command(button_id=int(callback_query.data))
 
 			if command is not None:
+				message_text: str = await self.replace_text_variables(message=message, text=command.message_text)
+
 				if command.api_request is not None:
 					try:
 						async with aiohttp.ClientSession() as session:
@@ -122,9 +124,9 @@ class UserTelegramBot:
 							api_request_data: str = await self.replace_text_variables(message=message, text=command.api_request['data'])
 
 							async with session.post(url=api_request_url, data=api_request_data) as response:
-								pass
+								message_text.replace('${api_response}', await response.text())
 					except aiohttp.client_exceptions.InvalidURL:
-						pass
+						message_text.replace('${api_response}', 'Недействительная ссылка на API!')
 
 				keyboard: TelegramBotCommandKeyboard = await sync_to_async(self.get_command_keyboard)(command)
 				
@@ -146,7 +148,8 @@ class UserTelegramBot:
 				else:
 					tg_keyboard = None
 
-				message_text: str = await self.replace_text_variables(message=message, text=command.message_text)
+				if len(message_text) > 4096:
+					message_text = 'Текст сообщения должен содержать не более 4096 символов!'
 
 				if isinstance(args[0], types.CallbackQuery):
 					await self.dispatcher.bot.delete_message(
