@@ -7,7 +7,7 @@
 		 </button>
 
 		<div class="navbar-collapse collapse" id="navbar">
-			<ul class="navbar-nav me-auto">
+			<ul class="navbar-nav nav-underline gap-0 me-auto">
 				<li class="nav-item">
 					{% url 'home' as home_url %}
 					<a class="nav-link {% if request.path == home_url %}active{% endif %} p-2" href="{{ home_url }}">Главная</a>

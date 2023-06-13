@@ -42,7 +42,9 @@ function get_telegram_bots() {
 							'			</tbody>',
 							'		</table>',
 							'	</div>',
-							` <a class="card-footer btn btn-light" href="/personal-cabinet/${telegramBot['id']}/">Меню Telegram бота</a>`,
+							'	<div class="card-footer p-0">',
+							`		<a class="btn btn-light rounded-top-0 w-100" href="/personal-cabinet/${telegramBot['id']}/" style="height: 42px;">Меню Telegram бота</a>`,
+							'	</div>',
 							'</div>',
 						].join('');
 						telegramBotsDiv.append(telegramBotDiv);
@@ -55,7 +57,9 @@ function get_telegram_bots() {
 						'	<div class="card-body">',
 						`		<h5 class="text-center text-break mb-0">Вы ещё не добавили Telegram бота</h5>`,
 						'	</div>',
-						`	<button class="card-footer btn btn-light" type="button" data-bs-toggle="modal" data-bs-target="#howToAddTelegramBotModal">Как добавить Telegram бота?</button>`,
+						'	<div class="card-footer p-0">',
+						'		<button class="btn btn-light rounded-top-0 w-100" type="button" style="height: 42px;" data-bs-toggle="modal" data-bs-target="#howToAddTelegramBotModal">Как добавить Telegram бота?</button>',
+						'	</div>',
 						'</div>',
 					].join('');
 					telegramBotsDiv.append(telegramBotDiv);
