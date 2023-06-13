@@ -8,7 +8,7 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 	}).then(response => {
 		if (response.ok) {
 			response.text().then(responseText => {
-				getTelegramBotUsers();
+				updateTelegramBotUsers();
 
 				createAlert(mainAlertContainer, responseText, 'success');
 			});
@@ -68,8 +68,8 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 					intervalUpdateUsersIsRunning = true;
 					telegramBotIsRunning = true;
 
-					getTelegramBotUsers();
-					intervalUpdateUsersId = setInterval(getTelegramBotUsers, 3000);
+					updateTelegramBotUsers();
+					intervalUpdateUsersId = setInterval(updateTelegramBotUsers, 3000);
 
 					cardHeader.classList.replace('bg-danger', 'bg-success');
 					cardHeader.innerHTML = 'Telegram бот включен';

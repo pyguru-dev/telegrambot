@@ -1,12 +1,10 @@
-var telegramBotCommandKeyboardType = 'default';
-
 var intervalUpdateUsersIsRunning = false;
 var intervalUpdateUsersId;
 
 {
 	let telegramBotCommandsCountTableLine = document.querySelector('.telegram-bot-commands-count');
 
-	function getTelegramBotCommands() {
+	function updateTelegramBotCommands() {
 		fetch(getTelegramBotCommandsUrl, {
 			method: 'POST',
 		}).then(response => {
@@ -77,10 +75,10 @@ var intervalUpdateUsersId;
 										if (response.ok) {
 											response.text().then(responseText => {
 												if (addOrEditTelegramBotCommandButton.id != '0') {
-													telegramBotCommandAllClear();
+													telegramBotCommandClearAll();
 												}
 
-												getTelegramBotCommands();
+												updateTelegramBotCommands();
 
 												createAlert(mainAlertContainer, responseText, 'success');
 											});
@@ -96,11 +94,11 @@ var intervalUpdateUsersId;
 			} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
 		});
 
-		getTelegramBotUsers();
+		updateTelegramBotUsers();
 		if (telegramBotIsRunning && intervalUpdateUsersIsRunning == false) {
 			intervalUpdateUsersIsRunning = true;
 
-			intervalUpdateUsersId = setInterval(getTelegramBotUsers, 3000);
+			intervalUpdateUsersId = setInterval(updateTelegramBotUsers, 3000);
 		}
 	}
 }
@@ -108,7 +106,7 @@ var intervalUpdateUsersId;
 {
 	let telegramBotUsersCountTableLine = document.querySelector('.telegram-bot-users-count');
 
-	function getTelegramBotUsers() {
+	function updateTelegramBotUsers() {
 		if (document.hidden == false) {
 			fetch(getTelegramBotUsersUrl, {
 				method: 'POST',
@@ -196,7 +194,7 @@ var intervalUpdateUsersId;
 											method: 'POST',
 										}).then(response => {
 											if (response.ok) {
-												getTelegramBotUsers();
+												updateTelegramBotUsers();
 
 												response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'success'));
 											} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
@@ -223,4 +221,4 @@ var intervalUpdateUsersId;
 	}
 }
 
-getTelegramBotCommands();
+updateTelegramBotCommands();

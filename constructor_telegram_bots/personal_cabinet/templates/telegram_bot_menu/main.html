@@ -76,7 +76,7 @@
 			</div>
 			<div class="col-12 col-lg-4 pt-2 pb-3 pb-lg-0">
 				<div class="card border rounded h-100">
-					<div class="card-header text-center" id="addOrEditTelegramBotCommandCardHeader">Добавление команды</div>
+					<div class="card-header text-center" id="telegramBotCommandCardHeader">Добавление команды</div>
 					<div class="card-body">
 						<div class="row row-cols-1">
 							<div class="col mb-2">
@@ -89,6 +89,7 @@
 										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserLastNameVariableButton">Фамилия пользователя</button>
 										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserMessageIdVariableButton">ID сообщения пользователя</button>
 										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserMessageTextVariableButton">Текст сообщения пользователя</button>
+										<button class="btn btn-sm btn-dark d-none" type="button" id="telegramBotCommandApiResponseVariableButton">Ответ с API-запроса</button>
 									</div>
 								</div>
 							</div>
@@ -198,6 +199,5 @@
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/init.js' %}"></script>
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/main.js' %}"></script>
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/diagram.js' %}"></script>
-	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/telegram_bot_command_variables.js' %}"></script>
-	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/add_or_edit_telegram_bot_command.js' %}"></script>
+	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/telegram_bot_command.js' %}"></script>
 {% endblock scripts %}
