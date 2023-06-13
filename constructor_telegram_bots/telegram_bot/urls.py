@@ -5,7 +5,8 @@ from telegram_bot import views
 
 urlpatterns = [
 	path('add/', views.add_telegram_bot, name='add_telegram_bot'),
-	path('<int:telegram_bot_id>/edit/', views.edit_telegram_bot, name='edit_telegram_bot'),
+	path('<int:telegram_bot_id>/edit-api-token/', views.edit_telegram_bot_api_token, name='edit_telegram_bot_api_token'),
+    path('<int:telegram_bot_id>/edit-private/', views.edit_telegram_bot_private, name='edit_telegram_bot_private'),
 	path('<int:telegram_bot_id>/delete/', views.delete_telegram_bot, name='delete_telegram_bot'),
 
 	path('<int:telegram_bot_id>/get-data/', views.get_telegram_bot_data, name='get_telegram_bot_data'),

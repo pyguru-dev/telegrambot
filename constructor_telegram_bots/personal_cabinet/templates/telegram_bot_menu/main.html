@@ -27,7 +27,26 @@
 										</tr>
 										<tr>
 											<th class="align-middle" scope="row">API-токен:</td>
-											<td class="text-break">{{ telegram_bot.api_token }}</td>
+											<td class="text-break" id="telegramBotTableLineApiToken">{{ telegram_bot.api_token }}</td>
+											<td class="align-middle">
+												<div class="row">
+													<div class="col-12">
+														<button class="btn text-secondary w-100 p-0" id="telegramBotApiTokenEditButton" type="button">
+															<i class="bi bi-pencil-square" style="font-size: 1.2rem; -webkit-text-stroke: 0.4px;"></i>
+														</button>
+													</div>
+													<div class="col-6 ps-1 pe-0">
+														<button class="btn text-success w-100 p-0 d-none" id="telegramBotApiTokenSaveButton" type="button">
+															<i class="bi bi-check-lg" style="font-size: 1.2rem; -webkit-text-stroke: 1.4px;"></i>
+														</button>
+													</div>
+													<div class="col-6 ps-0">
+														<button class="btn text-danger w-100 p-0 d-none" id="telegramBotApiTokenCancelButton" type="button">
+															<i class="bi bi-x-lg" style="font-size: 1.2rem; -webkit-text-stroke: 1.8px;"></i>
+														</button>
+													</div>
+												</div>
+											</td>
 										</tr>
 										<tr>
 											<th scope="row">Приватный:</th>
@@ -57,10 +76,10 @@
 					<div class="card-footer py-3">
 						<div class="row row-cols-1 row-cols-lg-2">
 							<div class="col pe-lg-2 pb-2 pb-lg-0">
-								<button class="btn btn-{% if telegram_bot.is_running %}danger{% else %}success{% endif %} w-100 " id="startOrStopTelegramBotButton" type="button">В{% if telegram_bot.is_running %}ы{% endif %}ключить Telegram бота</button>
+								<button class="btn btn-{% if telegram_bot.is_running %}danger{% else %}success{% endif %} w-100 " id="telegramBotStartOrStopButton" type="button">В{% if telegram_bot.is_running %}ы{% endif %}ключить Telegram бота</button>
 							</div>
 							<div class="col ps-lg-2">
-								<button class="btn btn-danger w-100" id="deleteTelegramBotButton" type="button">Удалить Telegram бота</button>	
+								<button class="btn btn-danger w-100" id="telegramBotDeleteButton" type="button">Удалить Telegram бота</button>	
 							</div>
 						</div>
 					</div>
@@ -180,7 +199,8 @@
 	var diagramCurrentScale = parseFloat('{{ telegram_bot.diagram_current_scale }}'.replace(',', '.'));
 
 	const addTelegramBotCommandUrl = '{% url 'add_telegram_bot_command' telegram_bot.id %}';
-	const editTelegramBotUrl = '{% url 'edit_telegram_bot' telegram_bot.id %}';
+	const editTelegramBotApiTokenUrl = '{% url 'edit_telegram_bot_api_token' telegram_bot.id %}';
+	const editTelegramBotPrivateUrl = '{% url 'edit_telegram_bot_private' telegram_bot.id %}';
 	const deleteTelegramBotUrl = '{% url 'delete_telegram_bot' telegram_bot.id %}';
 
 	const getTelegramBotData = '{% url 'get_telegram_bot_data' telegram_bot.id %}';

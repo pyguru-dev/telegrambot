@@ -1,15 +1,58 @@
+{
+	let telegramBotTableLineApiToken = document.querySelector('#telegramBotTableLineApiToken');
+	let telegramBotApiToken = telegramBotTableLineApiToken.innerHTML;
+
+	let telegramBotApiTokenEditButton = document.querySelector('#telegramBotApiTokenEditButton');
+	let telegramBotApiTokenSaveButton = document.querySelector('#telegramBotApiTokenSaveButton');
+	let telegramBotApiTokenCancelButton = document.querySelector('#telegramBotApiTokenCancelButton');
+
+	function telegramBotApiTokenEditOrSaveOrCancel() {
+		if (telegramBotTableLineApiToken.querySelector('input') == null) {
+			telegramBotTableLineApiToken.innerHTML = `<input class="form-control" type="text" placeholder="Введите API-токен Telegram бота" value="${telegramBotApiToken}">`;
+		} else {
+			telegramBotTableLineApiToken.innerHTML = telegramBotApiToken;
+		}
+
+		telegramBotApiTokenEditButton.classList.toggle('d-none');
+		telegramBotApiTokenSaveButton.classList.toggle('d-none');
+		telegramBotApiTokenCancelButton.classList.toggle('d-none');
+	}
+
+	telegramBotApiTokenEditButton.addEventListener('click', telegramBotApiTokenEditOrSaveOrCancel);
+
+	telegramBotApiTokenSaveButton.addEventListener('click', function() {
+		let telegramBotTableLineApiTokenInput = telegramBotTableLineApiToken.querySelector('input');
+
+		fetch(editTelegramBotApiTokenUrl, {
+			method: 'POST',
+			headers: {'Content-Type': 'application/json'},
+			body: JSON.stringify({'api_token': telegramBotTableLineApiTokenInput.value}),
+		}).then(response => {
+			if (response.ok) {
+				response.text().then(responseText => {
+					telegramBotApiToken = telegramBotTableLineApiTokenInput.value;
+
+					telegramBotApiTokenEditOrSaveOrCancel();
+					createAlert(mainAlertContainer, responseText, 'success');
+				});
+			} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
+		});
+	});
+
+	telegramBotApiTokenCancelButton.addEventListener('click', telegramBotApiTokenEditOrSaveOrCancel);
+}
+
 var telegramBotIsPrivateCheckBox = document.querySelector('#telegramBotIsPrivateCheckBox');
 
 telegramBotIsPrivateCheckBox.addEventListener('click', function() {
-	fetch(editTelegramBotUrl, {
+	fetch(editTelegramBotPrivateUrl, {
 		method: 'POST',
 		headers: {'Content-Type': 'application/json'},
-		body: JSON.stringify({'is_private': this.checked}),
+		body: JSON.stringify({'is_private': telegramBotIsPrivateCheckBox.checked}),
 	}).then(response => {
 		if (response.ok) {
 			response.text().then(responseText => {
 				updateTelegramBotUsers();
-
 				createAlert(mainAlertContainer, responseText, 'success');
 			});
 		} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
@@ -17,15 +60,15 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 });
 
 {
-	let startOrStopTelegramBotButton = document.querySelector('#startOrStopTelegramBotButton');
+	let telegramBotStartOrStopButton = document.querySelector('#telegramBotStartOrStopButton');
 
-	startOrStopTelegramBotButton.addEventListener('click', function() {
-		this.innerHTML = [
+	telegramBotStartOrStopButton.addEventListener('click', function() {
+		telegramBotStartOrStopButton.innerHTML = [
 			'<div class="spinner-border spinner-border-sm role="status">',
 			'	<span class="sr-only"></span>',
 			'</div>',
 		].join('');
-		this.disabled = true;
+		telegramBotStartOrStopButton.disabled = true;
 
 		fetch((telegramBotIsRunning) ? stopTelegramBotUrl : startTelegramBotUrl, {
 			method: 'POST',
@@ -52,9 +95,9 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 										cardHeader.classList.replace('bg-success', 'bg-danger');
 										cardHeader.innerHTML = 'Telegram бот выключен';
 
-										startOrStopTelegramBotButton.disabled = false;
-										startOrStopTelegramBotButton.classList.replace('btn-danger', 'btn-success');
-										startOrStopTelegramBotButton.innerHTML = 'Включить Telegram бота';
+										telegramBotStartOrStopButton.disabled = false;
+										telegramBotStartOrStopButton.classList.replace('btn-danger', 'btn-success');
+										telegramBotStartOrStopButton.innerHTML = 'Включить Telegram бота';
 
 										createAlert(mainAlertContainer, 'Вы успешно выключили Telegram бота.', 'success');
 									} 
@@ -74,9 +117,9 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 					cardHeader.classList.replace('bg-danger', 'bg-success');
 					cardHeader.innerHTML = 'Telegram бот включен';
 
-					startOrStopTelegramBotButton.disabled = false;
-					startOrStopTelegramBotButton.classList.replace('btn-success', 'btn-danger');
-					startOrStopTelegramBotButton.innerHTML = 'Выключить Telegram бота';
+					telegramBotStartOrStopButton.disabled = false;
+					telegramBotStartOrStopButton.classList.replace('btn-success', 'btn-danger');
+					telegramBotStartOrStopButton.innerHTML = 'Выключить Telegram бота';
 
 					createAlert(mainAlertContainer, 'Вы успешно включили Telegram бота.', 'success');
 				}
@@ -86,7 +129,7 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 	});
 }
 
-document.querySelector('#deleteTelegramBotButton').addEventListener('click', () => askConfirmModal(
+document.querySelector('#telegramBotDeleteButton').addEventListener('click', () => askConfirmModal(
 	'Удаление Telegram бота',
 	'Вы точно хотите удалить Telegram бота?',
 	function() {
@@ -96,7 +139,6 @@ document.querySelector('#deleteTelegramBotButton').addEventListener('click', () 
 			if (response.ok) {
 				response.text().then(responseText => {
 					setTimeout("window.location.href = '../';", 1000);
-
 					createAlert(mainAlertContainer, responseText, 'success');
 				});
 			} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}

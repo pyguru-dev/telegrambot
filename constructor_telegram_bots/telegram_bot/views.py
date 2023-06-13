@@ -17,6 +17,7 @@ from telegram_bot.models import (
 
 from telegram_bots.tasks import start_telegram_bot as start_telegram_bot_
 from telegram_bots.tasks import stop_telegram_bot as stop_telegram_bot_
+from telegram_bot.functions import check_telegram_bot_api_token
 
 from typing import Union
 import json
@@ -34,12 +35,27 @@ def add_telegram_bot(request: WSGIRequest, api_token: str, is_private: bool) -> 
 @django.views.decorators.csrf.csrf_exempt
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
+@constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('api_token',))
+@telegram_bot.decorators.check_telegram_bot_api_token
+def edit_telegram_bot_api_token(request: WSGIRequest, telegram_bot: TelegramBot, api_token: bool) -> HttpResponse:
+	name: str = check_telegram_bot_api_token(api_token=api_token)
+
+	telegram_bot.name = name
+	telegram_bot.api_token = api_token
+	telegram_bot.is_running = False
+	telegram_bot.save()
+
+	return HttpResponse('Вы успешно изменили API-токен Telegram бота.')
+
+@django.views.decorators.csrf.csrf_exempt
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
 @constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('is_private',))
-def edit_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot, is_private: bool) -> HttpResponse:
+def edit_telegram_bot_private(request: WSGIRequest, telegram_bot: TelegramBot, is_private: bool) -> HttpResponse:
 	telegram_bot.is_private = is_private
 	telegram_bot.save()
 
-	return HttpResponse('Вы успешно изменили Telegram бота.')
+	return HttpResponse(f"Вы успешно сделали Telegram бота {'' if is_private else 'не ' }приватным.")
 
 @django.views.decorators.csrf.csrf_exempt
 @django.contrib.auth.decorators.login_required
