@@ -147,16 +147,51 @@ class TelegramBotViewsTest(TestCase):
 		)
 		self.assertContains(response, 'Вы успешно добавили Telegram бота.')
 
-	def test_edit_telegram_bot_view(self) -> None:
+	def test_edit_telegram_bot_api_token_view(self) -> None:
 		response: HttpResponse = self.client.post(
-			urls.reverse('edit_telegram_bot', kwargs={'telegram_bot_id': 1})
+			urls.reverse('edit_telegram_bot_api_token', kwargs={'telegram_bot_id': 1})
 		)
 		self.assertEqual(response.status_code, 302)
 
 		self.client.get(self.user.login_url)
 
 		response: HttpResponse  = self.client.post(
-			urls.reverse('edit_telegram_bot', kwargs={'telegram_bot_id': 0}),
+			urls.reverse('edit_telegram_bot_api_token', kwargs={'telegram_bot_id': 0}),
+			{
+				'api_token': '123456789:dwawdadwa',
+			},
+			'application/json'
+		)
+		self.assertContains(response, 'Telegram бот не найден!', status_code=400)
+
+		response: HttpResponse  = self.client.post(
+			urls.reverse('edit_telegram_bot_api_token', kwargs={'telegram_bot_id': 1}),
+			{
+				'api_token': '123456789:qwertyuiop',
+			},
+			'application/json'
+		)
+		self.assertContains(response, 'Вы уже используете этот API-токен Telegram бота на сайте!', status_code=400)
+
+		response: HttpResponse  = self.client.post(
+			urls.reverse('edit_telegram_bot_api_token', kwargs={'telegram_bot_id': 1}),
+			{
+				'api_token': '123456789:dwawdadwa',
+			},
+			'application/json'
+		)
+		self.assertContains(response, 'Вы успешно изменили API-токен Telegram бота.')
+
+	def test_edit_telegram_bot_private_view(self) -> None:
+		response: HttpResponse = self.client.post(
+			urls.reverse('edit_telegram_bot_private', kwargs={'telegram_bot_id': 1})
+		)
+		self.assertEqual(response.status_code, 302)
+
+		self.client.get(self.user.login_url)
+
+		response: HttpResponse  = self.client.post(
+			urls.reverse('edit_telegram_bot_private', kwargs={'telegram_bot_id': 0}),
 			{
 				'is_private': False
 			},
@@ -165,13 +200,13 @@ class TelegramBotViewsTest(TestCase):
 		self.assertContains(response, 'Telegram бот не найден!', status_code=400)
 
 		response: HttpResponse  = self.client.post(
-			urls.reverse('edit_telegram_bot', kwargs={'telegram_bot_id': 1}),
+			urls.reverse('edit_telegram_bot_private', kwargs={'telegram_bot_id': 1}),
 			{
 				'is_private': False
 			},
 			'application/json'
 		)
-		self.assertContains(response, 'Вы успешно изменили Telegram бота.')
+		self.assertContains(response, 'Вы успешно сделали Telegram бота не приватным.')
 
 	def test_delete_telegram_bot_view(self) -> None:
 		response: HttpResponse = self.client.post(
