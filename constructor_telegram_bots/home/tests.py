@@ -1,11 +1,12 @@
+from django.test import TestCase, Client
 from django import urls
 
-from constructor_telegram_bots.tests import BaseTestCase
 
+class HomeViewsTest(TestCase):
+	def setUp(self) -> None:
+		self.client = Client(enforce_csrf_checks=True)
 
-class HomeViewsTest(BaseTestCase):
 	def test_home_view(self) -> None:
-		self.assertTemplateUsed(
-			url=urls.reverse('home'),
-			template_name='home.html'
-		)
+		response = self.client.get(urls.reverse('home'))
+		self.assertEqual(response.status_code, 200)
+		self.assertTemplateUsed(response, 'home.html')
