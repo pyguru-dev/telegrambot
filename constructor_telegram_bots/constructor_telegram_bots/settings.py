@@ -11,6 +11,13 @@ load_dotenv()
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = bool(os.getenv('DEBUG'))
+
+if SECRET_KEY is None:
+	SECRET_KEY = 'django-insecure-zXK4D%xx5Mv!L#FS10xU6p(Ztq3HvQA&#CKvt0Kd%Tn&9H1YKa'
+
+if DEBUG is None:
+	DEBUG = True
+
 CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 CONSTRUCTOR_TELEGRAM_BOT_USERNAME = os.getenv('TELEGRAM_BOT_USERNAME')
 
