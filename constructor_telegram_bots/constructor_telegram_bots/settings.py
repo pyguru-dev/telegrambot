@@ -1,14 +1,13 @@
-from constructor_telegram_bots.functions import generate_random_string
-
 from pathlib import Path
-import locale
+from dotenv import load_dotenv
 import sys
 import os
-from dotenv import load_dotenv
-load_dotenv()
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+
+load_dotenv()
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = bool(os.getenv('DEBUG'))
@@ -25,11 +24,7 @@ else:
 	TEST = False
 
 
-if DEBUG:
-	SITE_DOMAIN = 'http://127.0.0.1:8000/'
-else:
-	SITE_DOMAIN = 'https://constructor.exg1o.org/'
-
+SITE_DOMAIN = 'http://127.0.0.1:8000/' if DEBUG else 'https://constructor.exg1o.org/'
 ALLOWED_HOSTS = ['127.0.0.1', 'constructor.exg1o.org']
 
 
@@ -40,10 +35,8 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 
 
-folders = ('data', 'logs',)
-for folder in folders:
-	if os.path.exists(BASE_DIR / folder) is False:
-		os.mkdir(BASE_DIR / folder)
+if os.path.exists(BASE_DIR / 'logs') is False:
+	os.mkdir(BASE_DIR / 'logs')
 
 
 LOGGING = {
@@ -169,7 +162,7 @@ AUTH_USER_MODEL = 'user.User'
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': BASE_DIR / 'data/DataBase.db',
+		'NAME': BASE_DIR / 'DataBase.db',
 	}
 }
 
@@ -191,6 +184,7 @@ LANGUAGES = (
 	('et', gettext('Эстонский')),
 )
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
+
 # Timezone
 TIME_ZONE = 'UTC'
 USE_TZ = True
