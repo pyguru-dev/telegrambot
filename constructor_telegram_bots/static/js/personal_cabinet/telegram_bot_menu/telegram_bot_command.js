@@ -9,7 +9,7 @@
 		apiResponse: document.querySelector('#telegramBotCommandApiResponseVariableButton'),
 	};
 	
-	let telegramBotCommand = {
+	var telegramBotCommand = {
 		cardHeader: document.querySelector('#telegramBotCommandCardHeader'),
 
 		nameInput: document.querySelector('#telegramBotCommandNameInput'),

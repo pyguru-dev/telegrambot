@@ -1,16 +1,16 @@
 {
 	let telegramBotTableLineApiToken = document.querySelector('#telegramBotTableLineApiToken');
-	let telegramBotApiToken = telegramBotTableLineApiToken.innerHTML;
-
 	let telegramBotApiTokenEditButton = document.querySelector('#telegramBotApiTokenEditButton');
 	let telegramBotApiTokenSaveButton = document.querySelector('#telegramBotApiTokenSaveButton');
 	let telegramBotApiTokenCancelButton = document.querySelector('#telegramBotApiTokenCancelButton');
 
 	function telegramBotApiTokenEditOrSaveOrCancel() {
-		if (telegramBotTableLineApiToken.querySelector('input') == null) {
-			telegramBotTableLineApiToken.innerHTML = `<input class="form-control" type="text" placeholder="Введите API-токен Telegram бота" value="${telegramBotApiToken}">`;
+		let telegramBotTableLineApiTokenInput = telegramBotTableLineApiToken.querySelector('input');
+
+		if (telegramBotTableLineApiTokenInput == null) {
+			telegramBotTableLineApiToken.innerHTML = `<input class="form-control" id="${telegramBotTableLineApiToken.innerHTML}" type="text" placeholder="Введите API-токен Telegram бота" value="${telegramBotTableLineApiToken.innerHTML}">`;
 		} else {
-			telegramBotTableLineApiToken.innerHTML = telegramBotApiToken;
+			telegramBotTableLineApiToken.innerHTML = telegramBotTableLineApiTokenInput.id;
 		}
 
 		telegramBotApiTokenEditButton.classList.toggle('d-none');
@@ -30,8 +30,7 @@
 		}).then(response => {
 			if (response.ok) {
 				response.text().then(responseText => {
-					telegramBotApiToken = telegramBotTableLineApiTokenInput.value;
-
+					updateTelegramBot();
 					telegramBotApiTokenEditOrSaveOrCancel();
 					createAlert(mainAlertContainer, responseText, 'success');
 				});

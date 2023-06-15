@@ -2,6 +2,25 @@ var intervalUpdateUsersIsRunning = false;
 var intervalUpdateUsersId;
 
 {
+	let telegramBotTableLineName = document.querySelector('#telegramBotTableLineName');
+	let telegramBotTableLineApiToken = document.querySelector('#telegramBotTableLineApiToken');
+
+	function updateTelegramBot() {
+		fetch (getTelegramBotData, {
+			method: 'POST'
+		}).then(response => {
+			if (response.ok) {
+				response.json().then(telegramBot => {
+					telegramBotTableLineName.href = `tg://resolve?domain=${telegramBot['name']}`;
+					telegramBotTableLineName.innerHTML = `@${telegramBot['name']}`;
+					telegramBotTableLineApiToken.innerHTML = telegramBot['api_token'];
+				});
+			} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
+		});
+	}
+}
+
+{
 	let telegramBotCommandsCountTableLine = document.querySelector('.telegram-bot-commands-count');
 
 	function updateTelegramBotCommands() {
@@ -74,7 +93,7 @@ var intervalUpdateUsersId;
 									}).then(response => {
 										if (response.ok) {
 											response.text().then(responseText => {
-												if (addOrEditTelegramBotCommandButton.id != '0') {
+												if (telegramBotCommand.addOrEditButton.id != '0') {
 													telegramBotCommandClearAll();
 												}
 
@@ -221,4 +240,5 @@ var intervalUpdateUsersId;
 	}
 }
 
+updateTelegramBot();
 updateTelegramBotCommands();
