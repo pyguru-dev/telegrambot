@@ -4,3 +4,4 @@ images/
 data/
 logs/
 env/
+.env

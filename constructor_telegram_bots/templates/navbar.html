@@ -25,7 +25,7 @@
 				<a class="btn btn-light mx-1 my-2" href="{% url 'personal_cabinet' %}">Личный кабинет</a>
 				<button class="btn btn-danger mx-1 my-2" id="logoutButton" type="button">Выйти</button>
 			{% else %}
-				<a class="btn btn-success ps-1 mx-1 my-2" href="tg://resolve?domain=constructor_telegram_bots_bot&start=login">
+				<a class="btn btn-success ps-1 mx-1 my-2" href="tg://resolve?domain={{ tg_bot_username }}&start=login">
 					<i class="bi bi-telegram mx-2"></i>
 					Войти через Telegram
 				</a>
