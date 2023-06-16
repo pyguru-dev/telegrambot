@@ -189,8 +189,9 @@ LANGUAGE_CODE = 'ru-ru'
 gettext = lambda s: s
 LANGUAGES = (
 	('en', gettext('Английский')),
-	('ru', gettext('Русский')),
 	('uk', gettext('Украиский')),
+	('pl', gettext('Польский')),
+	('ru', gettext('Русский')),
 )
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 
