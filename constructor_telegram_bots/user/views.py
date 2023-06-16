@@ -1,8 +1,10 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import HttpResponse, render
 from django.contrib import messages
+from django.conf import settings
 
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 
 from django.contrib.auth import login, logout
@@ -38,22 +40,25 @@ def user_logout(request: WSGIRequest) -> HttpResponse:
 
 
 @csrf_exempt
+@require_POST
 @login_required
 def get_user_messages(request: WSGIRequest) -> HttpResponse:
-	messages.info(request=request, message='Тестовая херня)')
+	if settings.TEST is True:
+		messages.info(request=request, message='Тестовая херня')
 
 	return HttpResponse(
 		json.dumps(
 			[
 				{
-				'text': str(message),
-				'type': message.tags,
+					'text': str(message),
+					'type': message.tags,
 				} for message in messages.get_messages(request=request)
 			]
 		)
 	)
 
 @csrf_exempt
+@require_POST
 @login_required
 def get_user_telegram_bots(request: WSGIRequest) -> HttpResponse:
 	return HttpResponse(

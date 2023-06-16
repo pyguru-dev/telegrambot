@@ -11,6 +11,7 @@ urlpatterns = [
 	path('donation/', include('donation.urls')),
 	path('personal-cabinet/', include('personal_cabinet.urls')),
 	path('privacy-policy/', include('privacy_policy.urls')),
+
 	path("i18n/", include("django.conf.urls.i18n")),
 ]
 

@@ -5,6 +5,7 @@ from django.http import HttpResponseBadRequest
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 import django.views.decorators.csrf
+import django.views.decorators.http
 import django.contrib.auth.decorators
 import constructor_telegram_bots.decorators
 import telegram_bot.decorators
@@ -24,6 +25,7 @@ import json
 
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('api_token', 'is_private',))
 @telegram_bot.decorators.check_telegram_bot_api_token
@@ -33,6 +35,7 @@ def add_telegram_bot(request: WSGIRequest, api_token: str, is_private: bool) -> 
 	return HttpResponse('Вы успешно добавили Telegram бота.')
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('api_token',))
@@ -48,6 +51,7 @@ def edit_telegram_bot_api_token(request: WSGIRequest, telegram_bot: TelegramBot,
 	return HttpResponse('Вы успешно изменили API-токен Telegram бота.')
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('is_private',))
@@ -58,6 +62,7 @@ def edit_telegram_bot_private(request: WSGIRequest, telegram_bot: TelegramBot, i
 	return HttpResponse(f"Вы успешно сделали Telegram бота {'' if is_private else 'не ' }приватным.")
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 def delete_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
@@ -67,6 +72,7 @@ def delete_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> Http
 
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 def get_telegram_bot_data(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
@@ -78,6 +84,7 @@ def get_telegram_bot_data(request: WSGIRequest, telegram_bot: TelegramBot) -> Ht
 
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 def start_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
@@ -86,6 +93,7 @@ def start_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpR
 	return HttpResponse()
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 def stop_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
@@ -95,6 +103,7 @@ def stop_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpRe
 
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('name', 'command', 'message_text', 'keyboard', 'api_request',))
@@ -122,6 +131,7 @@ def add_telegram_bot_command(
 	return HttpResponse('Вы успешно добавили команду Telegram боту.')
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @telegram_bot.decorators.check_telegram_bot_command_id
@@ -199,6 +209,7 @@ def edit_telegram_bot_command(
 	return HttpResponse('Вы успешно изменили команду Telegram бота.')
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @telegram_bot.decorators.check_telegram_bot_command_id
@@ -209,6 +220,7 @@ def delete_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot,
 
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @telegram_bot.decorators.check_telegram_bot_command_id
@@ -221,6 +233,7 @@ def get_telegram_bot_command_data(request: WSGIRequest, telegram_bot: TelegramBo
 
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @telegram_bot.decorators.check_telegram_bot_command_id
@@ -247,6 +260,7 @@ def add_telegram_bot_command_keyboard_button_telegram_bot_command(
 
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @telegram_bot.decorators.check_telegram_bot_command_id
@@ -266,6 +280,7 @@ def delete_telegram_bot_command_keyboard_button_telegram_bot_command(
 
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @telegram_bot.decorators.check_telegram_bot_user_id
@@ -276,6 +291,7 @@ def add_allowed_user(request: WSGIRequest, telegram_bot: TelegramBot, telegram_b
 	return HttpResponse('Вы успешно добавили пользователя в список разрешённых пользователей Telegram бота.')
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @telegram_bot.decorators.check_telegram_bot_user_id
@@ -286,6 +302,7 @@ def delete_allowed_user(request: WSGIRequest, telegram_bot: TelegramBot, telegra
 	return HttpResponse('Вы успешно удалили пользователя из списка разрешённых пользователей Telegram бота.')
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @telegram_bot.decorators.check_telegram_bot_user_id
@@ -296,6 +313,7 @@ def delete_telegram_bot_user(request: WSGIRequest, telegram_bot: TelegramBot, te
 
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('diagram_current_scale',))
@@ -309,6 +327,7 @@ def save_telegram_bot_diagram_current_scale(request: WSGIRequest, telegram_bot: 
 		return HttpResponseBadRequest()
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @telegram_bot.decorators.check_telegram_bot_command_id
@@ -322,6 +341,7 @@ def save_telegram_bot_command_position(request: WSGIRequest, telegram_bot: Teleg
 
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 def get_telegram_bot_commands(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:
@@ -332,6 +352,7 @@ def get_telegram_bot_commands(request: WSGIRequest, telegram_bot: TelegramBot) -
 	)
 
 @django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 def get_telegram_bot_users(request: WSGIRequest, telegram_bot: TelegramBot) -> HttpResponse:

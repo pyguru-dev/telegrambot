@@ -3,15 +3,12 @@ from django.http import HttpResponseBadRequest
 
 from django.core.exceptions import RequestDataTooBig
 
-from django.views.decorators.http import require_POST
-
 from functools import wraps
 import json
 
 
 def check_post_request_data_items(request_need_items: tuple):
 	def decorator(func):
-		@require_POST
 		@wraps(func)
 		def wrapper(*args, **kwargs):
 			request: WSGIRequest = args[0]
