@@ -1,0 +1,7 @@
+.dropdown-toggle#languages {
+	width: 100px;
+}
+
+.dropdown-menu#languages {
+	--bs-dropdown-min-width: 102px;
+}

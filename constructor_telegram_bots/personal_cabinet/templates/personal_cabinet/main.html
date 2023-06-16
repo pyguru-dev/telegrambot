@@ -36,7 +36,7 @@
 {% block globalVariables %}
 	{{ block.super }}
 	const addTelegramBotUrl = '{% url 'add_telegram_bot' %}';
-	const getTelegramBotsUrl = '{% url 'get_telegram_bots' %}';
+	const getTelegramBotsUrl = '{% url 'get_user_telegram_bots' %}';
 {% endblock globalVariables %}
 
 {% block scripts %}

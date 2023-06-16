@@ -22,46 +22,45 @@
 				</li>
 			</ul>
 			<hr class="d-lg-none text-white-50 mx-2 mt-0 mb-1">
-			{% if user.is_authenticated %}
-				<a class="btn btn-light mx-1 my-2" href="{% url 'personal_cabinet' %}">{% trans "Личный кабинет" %}</a>
-				<button class="btn btn-danger mx-1 my-2" id="logoutButton" type="button">{% trans "Выйти" %}</button>
-			{% else %}
-				<a class="btn btn-success ps-1 mx-1 my-2" href="tg://resolve?domain={{ tg_bot_username }}&start=login">
-					<i class="bi bi-telegram mx-2"></i>
-					{% trans "Войти через Telegram" %}
-				</a>
-			{% endif %}
-			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#languageModal">
-				{% get_current_language as LANGUAGE_CODE %}
-				<i class="bi bi-globe"></i> {{ LANGUAGE_CODE|upper }}
-			</button>
-			<div class="modal fade" id="languageModal" tabindex="-1" role="dialog" aria-labelledby="languageModalLabel" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="languageModalLabel">{% trans "Выбрать язык" %}</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							<form action="{% url 'set_language' %}" method="post" id="language-form">
+			<div class="row m-0">
+				<div class="col-auto p-0">
+					<div class="dropdown mx-1 my-2">
+						<button class="btn btn-primary dropdown-toggle" id="languages" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+							{% get_current_language as LANGUAGE_CODE %}
+							<i class="bi bi-globe"></i> {{ LANGUAGE_CODE|upper }}
+						</button>
+						<ul class="dropdown-menu text-center py-1" id="languages">
+							<form id="language-form" method="post" action="{% url 'set_language' %}">
 								{% csrf_token %}
-								<input name="next" type="hidden" value="{{ redirect_to }}">
-								<div class="btn-group">
-									{% get_current_language as LANGUAGE_CODE %}
-									{% get_available_languages as LANGUAGES %}
-									{% get_language_info_list for LANGUAGES as languages %}
-									{% for language in languages %}
-									<button type="submit" name="language" value="{{ language.code }}" class="btn btn-primary {% if language.code == LANGUAGE_CODE %} active{% endif %}">
-									{{ language.name }}
-									</button>
-									{% endfor %}
-								</div>
+								{% get_available_languages as LANGUAGES %}
+								{% get_language_info_list for LANGUAGES as languages %}
+								{% for language in languages %}
+									<li>
+										<button class="dropdown-item" type="submit" name="language" value="{{ language.code }}">
+											{{ language.name }}
+										</button>
+									</li>
+								{% endfor %}
 							</form>
-						</div>
+						</ul>
 					</div>
 				</div>
+				{% if user.is_authenticated %}
+					<div class="col-auto p-0">
+						<a class="btn btn-light mx-1 my-2" href="{% url 'personal_cabinet' %}">{% trans "Личный кабинет" %}</a>
+					</div>
+					<div class="col-auto p-0">
+						<button class="btn btn-danger mx-1 my-2" id="logoutButton" type="button">{% trans "Выйти" %}</button>
+					</div>
+				{% else %}
+					<div class="col-auto p-0">
+						<a class="btn btn-success ps-1 mx-1 my-2" href="tg://resolve?domain={{ tg_bot_username }}&start=login">
+							<i class="bi bi-telegram mx-2"></i>
+							{% trans "Войти через Telegram" %}
+						</a>
+					</div>
+				{% endif %}
 			</div>
+		</div>
 	</div>
 </nav>
