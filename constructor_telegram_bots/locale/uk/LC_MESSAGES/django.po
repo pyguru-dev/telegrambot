@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-16 17:00+0300\n"
+"POT-Creation-Date: 2023-06-16 18:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,27 +23,37 @@ msgstr ""
 
 #: .\constructor_telegram_bots\settings.py:188
 msgid "Английский"
-msgstr ""
+msgstr "Аглійська"
 
 #: .\constructor_telegram_bots\settings.py:189
 msgid "Русский"
-msgstr ""
+msgstr "Російська"
 
 #: .\constructor_telegram_bots\settings.py:190
 msgid "Украиский"
-msgstr ""
+msgstr "Українська"
 
 #: .\constructor_telegram_bots\settings.py:191
 msgid "Эстонский"
-msgstr ""
+msgstr "Естонська"
+
+#: .\constructor_telegram_bots\settings.py:192
+#, fuzzy
+#| msgid "Эстонский"
+msgid "Польский"
+msgstr "Польська"
+
+#: .\constructor_telegram_bots\settings.py:193
+msgid "Иврит"
+msgstr "Іврит"
 
 #: .\donation\templates\base_donation.html:4 .\templates\navbar.html:18
 msgid "Пожертвование"
-msgstr ""
+msgstr "Пожертвування"
 
 #: .\donation\templates\donation.html:6
 msgid "О сайте Constructor Telegram Bots"
-msgstr ""
+msgstr "Про Constructor Telegram Bots"
 
 #: .\donation\templates\donation.html:7
 msgid ""
@@ -51,12 +61,16 @@ msgid ""
 "бесплатно и без каких-либо знаний в программирование, сделать своего "
 "многофункционального Telegram бота."
 msgstr ""
+"< b > Constructor Telegram Bots </b > - це сайт, за допомогою якого можна "
+"легко, безкоштовно і без будь-яких знань в програмуванні, зробити свій "
+"багатофункціональний Telegram-бот."
 
 #: .\donation\templates\donation.html:8
 msgid ""
 "Сайт является некоммерческим и не преследует цель заработать на своих "
 "пользователях."
 msgstr ""
+"Сайт некомерційний і не має на меті заробляти гроші у своїх користувачів."
 
 #: .\donation\templates\donation.html:9
 msgid ""
@@ -65,18 +79,21 @@ msgid ""
 "бесплатный тариф на таких сайтах очень сильно ограничивает своих же "
 "пользователей сайта."
 msgstr ""
+"Сайт був створений тому, що, на жаль, всі подібні сайти є комерційними і "
+"прагнуть заробити на своїх користувачів, а безкоштовний тариф на таких "
+"сайтах дуже сильно обмежує своїх користувачів."
 
 #: .\donation\templates\donation.html:12
 msgid "Зачем мне делать пожертвование сайту?"
-msgstr ""
+msgstr "Навіщо мені жертвувати на сайт?"
 
 #: .\donation\templates\donation.html:13
 msgid "Ваше пожертвование очень сильно поможет развитию и улучшению сайта."
-msgstr ""
+msgstr "Ваше пожертвування значно сприятиме розвитку та вдосконаленню сайту."
 
 #: .\donation\templates\donation.html:16
 msgid "Где я могу задать интересующие меня вопросы по данной теме?"
-msgstr ""
+msgstr "Де я можу поставити свої запитання на цю тему?"
 
 #: .\donation\templates\donation.html:17
 msgid ""
@@ -85,16 +102,21 @@ msgid ""
 "можете написать основателю сайта в <a href=\"tg://resolve?domain=exg1o"
 "\">Telegram</a>."
 msgstr ""
+"На всі ваші запитання відповідатиме <a href=\"mailto:helper.exg1o@gmail.com"
+"\" target = \"_ blank\">helper.exg1o@gmail.com</a> або ви можете написати "
+"засновнику сайту<a href=\"tg://resolve?domain=exg1o\">Telegram</a>."
 
 #: .\donation\templates\donation.html:20
 msgid "О пожертвованиях сайту"
-msgstr ""
+msgstr "Про пожертви"
 
 #: .\donation\templates\donation.html:21
 msgid ""
 "Пожертвования обрабатываются через платёжную систему <a href=\"https://www."
 "paypal.com/ee/home\" target=\"_blank\">PayPal</a>."
 msgstr ""
+"Пожертвування обробляються через платіжну систему < a href = href=\"https://"
+"www.paypal.com/ee/home\" target=\"_blank\">PayPal</a>."
 
 #: .\donation\templates\donation.html:22
 msgid ""
@@ -104,16 +126,23 @@ msgid ""
 "карты», которая приведет вас к форме для ввода данных вашей банковской "
 "карты. Учётная запись PayPal не требуется."
 msgstr ""
+"Пожертвування може бути зроблено або з вашої банківської картки, або з вашої "
+"наявного облікового запису PayPal. Якщо ви хочете використовувати банківську "
+"карту, то натисніть на кнопку \"Надіслати пожертву за допомогою банківської "
+"карти\", яка приведе вас до форми для введення даних вашої банківської "
+"карти. Обліковий запис PayPal не потрібен."
 
 #: .\donation\templates\donation.html:23
 msgid ""
 "В целях безопасности ваших персональных данных, сайт не получит и не "
 "сохранит данные вашей банковской карты."
 msgstr ""
+"Для безпеки ваших персональних даних сайт не буде отримувати або зберігати "
+"дані вашої кредитної картки."
 
 #: .\donation\templates\donation.html:24
 msgid "После пожертвования вы получите квитанцию от PayPal."
-msgstr ""
+msgstr "Після пожертвування ви отримаєте квитанцію від PayPal."
 
 #: .\donation\templates\donation.html:25
 msgid ""
@@ -121,286 +150,298 @@ msgid ""
 "Telegram, потому-что в будующем мы планируем добавить таблицу донатеров на "
 "сайте."
 msgstr ""
+"NB: Ми радимо вам включити посилання на ваш Telegram в записку про "
+"пожертвування, тому що в майбутньому ми плануємо додати таблицю донорів на "
+"сайті."
 
 #: .\donation\templates\donation.html:32
 msgid "Сделать пожертвование"
-msgstr ""
+msgstr "Зробити внесок"
 
 #: .\donation\templates\donation_completed.html:6
 msgid "Спасибо за пожертвование сайту!"
-msgstr ""
+msgstr "Дякуємо за пожертву сайту!"
 
 #: .\donation\templates\donation_completed.html:7
 msgid ""
 "Спасибо за пожертвование сайту, ваше пожертвование очень сильно поможет "
 "развитию и улучшению сайта!"
 msgstr ""
+"Дякуємо за те, що пожертвували на сайт, ваша пожертва дуже допоможе розвитку "
+"та вдосконаленню сайту!"
 
 #: .\donation\templates\donation_completed.html:8
 msgid ""
 "Чтобы узнать, было ли ваше пожертвование получено сайтом, вы можете написать "
 "основателю сайта в"
 msgstr ""
+"Щоб дізнатися, чи надійшла ваша пожертва на сайт, можна написати засновнику "
+"сайту за адресою"
 
 #: .\donation\templates\donation_completed.html:8
 msgid "и задать ему этот вопрос."
-msgstr ""
+msgstr "і задати йому це питання."
 
 #: .\home\templates\home.html:4
 msgid "Бесплатный конструктор Telegram ботов"
-msgstr ""
+msgstr "Безкоштовний конструктор Телеграма ботів"
 
 #: .\home\templates\home.html:10
 msgid "Constructor Telegram Bots"
-msgstr ""
+msgstr "Constructor Telegram Bot"
 
 #: .\home\templates\home.html:11 .\templates\base.html:11
 msgid ""
 "Сайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний "
 "в программирование, сделать своего многофункционального Telegram бота."
 msgstr ""
+"Сайт, за допомогою якого можна легко, безкоштовно і без будь-яких знань в "
+"програмуванні, зробити свій багатофункціональний Telegram-бот."
 
 #: .\home\templates\home.html:14
 msgid "Информация о сайте"
-msgstr ""
+msgstr "Інформація про сайт"
 
 #: .\home\templates\home.html:19
 msgid "Количество пользователей"
-msgstr ""
+msgstr "Кількість користувачів"
 
 #: .\home\templates\home.html:25
 msgid "Количество добавленных Telegram ботов"
-msgstr ""
+msgstr "Додано кількість ботів Telegram"
 
 #: .\personal_cabinet\templates\personal_cabinet\main.html:5
 #: .\templates\navbar.html:26
 msgid "Личный кабинет"
-msgstr ""
+msgstr "Особистий кабінет"
 
 #: .\personal_cabinet\templates\personal_cabinet\main.html:19
 msgid "Добавленные Telegram боты"
-msgstr ""
+msgstr "Додано Telegram Bots"
 
 #: .\personal_cabinet\templates\personal_cabinet\main.html:24
 #: .\personal_cabinet\templates\personal_cabinet\modals\add_telegram_bot_modal.html:27
 msgid "Добавить Telegram бота"
-msgstr ""
+msgstr "Додати Telegram Bot"
 
 #: .\personal_cabinet\templates\personal_cabinet\modals\add_telegram_bot_modal.html:6
 msgid "Добавление Telegram бота"
-msgstr ""
+msgstr "Додавання Telegram Bot"
 
 #: .\personal_cabinet\templates\personal_cabinet\modals\add_telegram_bot_modal.html:14
 msgid "Введите API-токен Telegram бота"
-msgstr ""
+msgstr "Введіть API бота Telegram"
 
 #: .\personal_cabinet\templates\personal_cabinet\modals\add_telegram_bot_modal.html:15
 msgid ">Введите API-токен Telegram бота"
-msgstr ""
+msgstr "> Введіть Telegram Bot API"
 
 #: .\personal_cabinet\templates\personal_cabinet\modals\add_telegram_bot_modal.html:21
 msgid "Сделать Telegram бота приватным"
-msgstr ""
+msgstr "Зробити Telegram Bot приватним"
 
 #: .\personal_cabinet\templates\personal_cabinet\modals\how_to_add_telegram_bot_modal.html:6
 msgid "Как добавить Telegram бота?"
-msgstr ""
+msgstr "Як додати бота Telegram?"
 
 #: .\personal_cabinet\templates\personal_cabinet\modals\how_to_add_telegram_bot_modal.html:11
 msgid "Сначала вам нужно создать Telegram бота через"
-msgstr ""
+msgstr "Для початку потрібно створити бота Telegram через"
 
 #: .\personal_cabinet\templates\personal_cabinet\modals\how_to_add_telegram_bot_modal.html:11
 msgid "Telegram бота."
-msgstr ""
+msgstr "Telegram Bot."
 
 #: .\personal_cabinet\templates\personal_cabinet\modals\how_to_add_telegram_bot_modal.html:12
 msgid ""
 "После того, как вы создали Telegram бота, вам нужно скопировать его API-"
 "токен."
 msgstr ""
+"Після того, як ви створили бота Telegram, вам потрібно скопіювати його токен "
+"API."
 
 #: .\personal_cabinet\templates\personal_cabinet\modals\how_to_add_telegram_bot_modal.html:13
 msgid "Теперь вы можете добавить вашего Telegram бота на сайт."
-msgstr ""
+msgstr "Тепер ви можете додати свій бот Telegram на сайт."
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:5
 msgid "Меню Telegram бота"
-msgstr ""
+msgstr "Меню бота Telegram"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:24
 msgid "Имя"
-msgstr ""
+msgstr "Назва"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:30
 msgid "API-токен"
-msgstr ""
+msgstr "Токен API"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:53
 msgid "Приватный"
-msgstr ""
+msgstr "Приватне"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:61
 msgid "Количество активаций"
-msgstr ""
+msgstr "Номер активації"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:65
 msgid "Количество команд"
-msgstr ""
+msgstr "Кількість команд"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:69
 msgid "Дата добавления"
-msgstr ""
+msgstr "Дата додавання"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:80
 msgid "Выключить"
-msgstr ""
+msgstr "Вимкнути"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:80
 msgid "Включить"
-msgstr ""
+msgstr "Включити"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:80
 msgid "Telegram бота"
-msgstr ""
+msgstr "Телеграм-бот"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:83
 msgid "Удалить Telegram бота"
-msgstr ""
+msgstr "Видалити Telegram Bot"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:91
 msgid "Список пользователей Telegram бота"
-msgstr ""
+msgstr "Список користувачів Telegram-бота"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:99
 msgid "Добавление команды"
-msgstr ""
+msgstr "Додавання інструкції"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:103
 msgid "Доступные переменные"
-msgstr ""
+msgstr "Доступні змінні"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:106
 msgid "ID пользователя"
-msgstr ""
+msgstr "Ідентифікатор користувача"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:107
 msgid "@username пользователя"
-msgstr ""
+msgstr "@ userame user"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:108
 msgid "Имя пользователя"
-msgstr ""
+msgstr "Ім'я користувача"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:109
 msgid "Фамилия пользователя"
-msgstr ""
+msgstr "Ім'я користувача"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:110
 msgid "ID сообщения пользователя"
-msgstr ""
+msgstr "ІДЕНТИФІКАТОР ПОВІДОМЛЕННЯ КОРИСТУВАЧА"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:111
 msgid "Текст сообщения пользователя"
-msgstr ""
+msgstr "Текст повідомлення користувача"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:112
 msgid "Ответ с API-запроса"
-msgstr ""
+msgstr "Відповідь з запиту API"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:117
 msgid "Введите название команды"
-msgstr ""
+msgstr "Введіть назву команди"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:120
 msgid "Введите команду"
-msgstr ""
+msgstr "Введіть команду"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:129
 msgid "Введите текст сообщения"
-msgstr ""
+msgstr "Введіть текст повідомлення"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:132
 msgid "Выберите клавиатуру"
-msgstr ""
+msgstr "Виберіть клавіатуру"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:135
 msgid "Обычная"
-msgstr ""
+msgstr "Звичайний"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:137
 msgid "Встроенная"
-msgstr ""
+msgstr "Вбудований"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:140
 msgid "Клавиатура"
-msgstr ""
+msgstr "Клавіатура"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:142
 msgid "Добавить кнопку"
-msgstr ""
+msgstr "Кнопка додавання"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:146
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:159
 msgid "API-запрос"
-msgstr ""
+msgstr "API запит"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:148
 msgid "Ссылка"
-msgstr ""
+msgstr "Посилання"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:149
 msgid "Данные"
-msgstr ""
+msgstr "Дані"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:153
 msgid "Добавить"
-msgstr ""
+msgstr "Додати"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:156
 msgid "Команду"
-msgstr ""
+msgstr "Команда"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:157
 msgid "Изображение"
-msgstr ""
+msgstr "Зображення"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:158
 msgid "Клавиатуру"
-msgstr ""
+msgstr "Клавіатура"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:166
 msgid "Вернуться к добавлению команды"
-msgstr ""
+msgstr "Повернутися до додавання команди"
 
 #: .\personal_cabinet\templates\telegram_bot_menu\main.html:167
 msgid "Добавить команду"
-msgstr ""
+msgstr "Додати команду"
 
 #: .\privacy_policy\templates\privacy_policy.html:4
 msgid "Политика конфиденциальности"
-msgstr ""
+msgstr "Політика конфіденційності"
 
 #: .\privacy_policy\templates\privacy_policy.html:10
 msgid "Политика конфиденциальности сайта"
-msgstr ""
+msgstr "Політика конфіденційності сайту"
 
 #: .\privacy_policy\templates\privacy_policy.html:11
 msgid "Пожалуйста, внимательно прочитайте и изучите данную"
-msgstr ""
+msgstr "Будь ласка, уважно прочитайте і вивчіть це"
 
 #: .\privacy_policy\templates\privacy_policy.html:11
 msgid "политику конфиденциальности"
-msgstr ""
+msgstr "політика конфіденційності"
 
 #: .\privacy_policy\templates\privacy_policy.html:11
 msgid "перед использованием сайта."
-msgstr ""
+msgstr "перед використанням сайту."
 
 #: .\privacy_policy\templates\privacy_policy.html:14
 msgid ""
 "Согласие на сбор, хранение и использование персональных данных пользователя"
 msgstr ""
+"Згода на збір, зберігання та використання персональних даних користувача"
 
 #: .\privacy_policy\templates\privacy_policy.html:15
 msgid ""
@@ -408,38 +449,44 @@ msgid ""
 "своё согласие на сбор, хранение и использование ваших персональных данных, "
 "как описано в данной"
 msgstr ""
+"Використовуючи наш сайт, а саме після першого авторизації на сайті, ви даєте "
+"нам свою згоду на збір, зберігання та використання ваших персональних даних, "
+"як описано в цьому"
 
 #: .\privacy_policy\templates\privacy_policy.html:15
 msgid "политике конфиденциальности"
-msgstr ""
+msgstr "політика конфіденційності"
 
 #: .\privacy_policy\templates\privacy_policy.html:18
 msgid "Сбор, хранение и использование персональных данных пользователя"
-msgstr ""
+msgstr "Збір, зберігання та використання персональних даних користувача"
 
 #: .\privacy_policy\templates\privacy_policy.html:20
 msgid "Cайт собирает и хранит следующие персональные данные пользователя"
-msgstr ""
+msgstr "Сайт збирає та зберігає наступні персональні дані"
 
 #: .\privacy_policy\templates\privacy_policy.html:21
 msgid "Telegram ID пользователя"
-msgstr ""
+msgstr "Ідентифікатор користувача Telegram"
 
 #: .\privacy_policy\templates\privacy_policy.html:21
 msgid ""
 "является уникальным числовым идентификатором, присвоенным каждому "
 "пользователю в Telegram."
 msgstr ""
+"- унікальний числовий ідентифікатор, присвоєний кожному користувачеві в "
+"Telegram."
 
 #: .\privacy_policy\templates\privacy_policy.html:22
 msgid "API-токены Telegram ботов"
-msgstr ""
+msgstr "Telegram бот API"
 
 #: .\privacy_policy\templates\privacy_policy.html:22
 msgid ""
 "представляют собой уникальные ключи доступа, которые выдаются при создании "
 "Telegram бота."
 msgstr ""
+"є унікальними ключами доступу, які даються при створенні бота Telegram."
 
 #: .\privacy_policy\templates\privacy_policy.html:24
 msgid ""
@@ -447,96 +494,105 @@ msgid ""
 "Telegram ботов, которых вы добавляете через наш сайт. Мы не продаем, не "
 "сдаём в аренду и не передаём эти данные третьим лицам."
 msgstr ""
+"Ці дані використовуються виключно для додавання та підтримки ваших ботів "
+"Telegram, які ви додаєте через наш веб-сайт. "
 
 #: .\privacy_policy\templates\privacy_policy.html:27
 msgid "Безопасность персональных данных пользователя"
-msgstr ""
+msgstr "Безпека персональних даних"
 
 #: .\privacy_policy\templates\privacy_policy.html:28
 msgid ""
 "Мы предпринимаем все необходимые меры для защиты ваших персональных данных, "
 "хранящихся на нашем сайте, а именно"
 msgstr ""
+"Ми вживаємо всіх необхідних заходів для захисту ваших персональних даних, що "
+"зберігаються на нашому сайті, а саме"
 
 #: .\privacy_policy\templates\privacy_policy.html:28
 msgid "защита от атак CSRF"
-msgstr ""
+msgstr "Захист від атаки CSRF"
 
 #: .\privacy_policy\templates\privacy_policy.html:28
 msgid "защита от SQL-инъекций"
-msgstr ""
+msgstr "Захист від ін'єкцій SQL"
 
 #: .\privacy_policy\templates\privacy_policy.html:28
 msgid "защита от утечек информации"
-msgstr ""
+msgstr "захист від витоків"
 
 #: .\privacy_policy\templates\privacy_policy.html:28
 msgid "защита от переполнения буфера"
-msgstr ""
+msgstr "захист від переповнення буфера"
 
 #: .\privacy_policy\templates\privacy_policy.html:28
 msgid "и"
-msgstr ""
+msgstr "і"
 
 #: .\privacy_policy\templates\privacy_policy.html:28
 msgid "защита от скрытых уязвимостей"
-msgstr ""
+msgstr "захист від прихованих вразливостей"
 
 #: .\privacy_policy\templates\privacy_policy.html:28
 msgid ""
 "Мы также удаляем персональные данные пользователя, если они становятся "
 "ненужными."
 msgstr ""
+"Ми також видаляємо вашу особисту інформацію, якщо вона стає непотрібною."
 
 #: .\privacy_policy\templates\privacy_policy.html:31
 msgid "Использование файлов cookie"
-msgstr ""
+msgstr "Використання файлів cookie"
 
 #: .\privacy_policy\templates\privacy_policy.html:33
 msgid "Cайт использует следующие"
-msgstr ""
+msgstr "Cyte використовує наступне"
 
 #: .\privacy_policy\templates\privacy_policy.html:33
 msgid "файлы cookie"
-msgstr ""
+msgstr "cookies"
 
 #: .\privacy_policy\templates\privacy_policy.html:34
 msgid ""
 "представляет собой защитную меру против атак подделки межсайтовых запросов."
-msgstr ""
+msgstr "є оборонним заходом проти атак для підробки інтерситетних запитів."
 
 #: .\privacy_policy\templates\privacy_policy.html:35
 msgid "используется для отслеживания состояния сеанса пользователя на сайте."
-msgstr ""
+msgstr "використовується для відстеження стану сеансу користувача на сайті."
 
 #: .\privacy_policy\templates\privacy_policy.html:37
 msgid "Файлы cookie"
-msgstr ""
+msgstr "Cookies"
 
 #: .\privacy_policy\templates\privacy_policy.html:37
 msgid ""
 "используются для улучшения вашего опыта использования сайта и обеспечения "
 "его безопасности."
 msgstr ""
+"використовуються для поліпшення вашого досвіду використання сайту і "
+"забезпечення його безпеки."
 
 #: .\privacy_policy\templates\privacy_policy.html:40
 msgid "Доступ к персональным данным пользователя"
-msgstr ""
+msgstr "Доступ до ваших персональних даних"
 
 #: .\privacy_policy\templates\privacy_policy.html:41
 msgid ""
 "Если вы хотите получить доступ к вашим персональным данным, хранящимся на "
 "нашем сайте, напишите нам по адресу"
 msgstr ""
+"Якщо ви хочете отримати доступ до ваших персональних даних, що зберігаються "
+"на нашому веб-сайті, будь ласка, зв'яжіться з нами за адресою"
 
 #: .\privacy_policy\templates\privacy_policy.html:41
 #: .\privacy_policy\templates\privacy_policy.html:45
 msgid "или основателю сайта в"
-msgstr ""
+msgstr "або засновник сайту в"
 
 #: .\privacy_policy\templates\privacy_policy.html:44
 msgid "Обратная связь"
-msgstr ""
+msgstr "Зворотній зв'язок"
 
 #: .\privacy_policy\templates\privacy_policy.html:45
 msgid ""
@@ -544,61 +600,66 @@ msgid ""
 "сайта или обработкой ваших персональных данных, пожалуйста, напишите нам по "
 "адресу"
 msgstr ""
+"Якщо у вас є які-небудь питання або побоювання щодо використання нашого веб-"
+"сайту або обробки ваших персональних даних, будь ласка, зв'яжіться з нами за "
+"адресою"
 
 #: .\templates\404.html:4
 msgid "Страница не найдена"
-msgstr ""
+msgstr "Сторінку не знайдено"
 
 #: .\templates\404.html:6
 msgid "Ошибка 404!"
-msgstr ""
+msgstr "Помилка 404!"
 
 #: .\templates\404.html:7
 msgid ""
 "Страница не найдена, автоматический переход на главную страницу через 3 "
 "секунды."
 msgstr ""
+"Сторінку не знайдено, автоматичний перехід на головну сторінку через 3 "
+"секунди."
 
 #: .\templates\base.html:12
 msgid "бесплатный, конструктор, telegram, телеграм, bot, бот"
-msgstr ""
+msgstr "безкоштовно, конструктор, телеграма, телеграма, бот, бот"
 
 #: .\templates\footer.html:7
 msgid "Проект"
-msgstr ""
+msgstr "Проект"
 
 #: .\templates\footer.html:17
 msgid "Контакты Основателя"
-msgstr ""
+msgstr "Контакт засновника"
 
 #: .\templates\footer.html:33
 msgid "Другое"
-msgstr ""
+msgstr "Різне"
 
 #: .\templates\modals\ask_confirm_modal.html:16
 msgid "Да"
-msgstr ""
+msgstr "Так"
 
 #: .\templates\modals\ask_confirm_modal.html:19
 msgid "Нет"
-msgstr ""
+msgstr "Ні"
 
 #: .\templates\navbar.html:14
 msgid "Главная"
-msgstr ""
+msgstr "Головна"
 
 #: .\templates\navbar.html:21
 msgid "Обновления (В разработке...)"
-msgstr ""
+msgstr "Оновлення (У розробці...)"
 
 #: .\templates\navbar.html:27
 msgid "Выйти"
-msgstr ""
+msgstr "Вийти"
 
 #: .\templates\navbar.html:31
 msgid "Войти через Telegram"
-msgstr ""
+msgstr "Увійти через Telegram"
 
 #: .\templates\navbar.html:42
 msgid "Выбрать язык"
-msgstr ""
+msgstr "Оберіть мову"

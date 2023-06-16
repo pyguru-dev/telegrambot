@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-16 16:57+0300\n"
+"POT-Creation-Date: 2023-06-16 18:39+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -33,6 +33,16 @@ msgstr "Ukrainian"
 #: .\constructor_telegram_bots\settings.py:191
 msgid "Эстонский"
 msgstr "Estonian"
+
+#: .\constructor_telegram_bots\settings.py:192
+#, fuzzy
+#| msgid "Эстонский"
+msgid "Польский"
+msgstr "Poland"
+
+#: .\constructor_telegram_bots\settings.py:193
+msgid "Иврит"
+msgstr "Hebrew"
 
 #: .\donation\templates\base_donation.html:4 .\templates\navbar.html:18
 msgid "Пожертвование"
@@ -89,9 +99,9 @@ msgid ""
 "можете написать основателю сайта в <a href=\"tg://resolve?domain=exg1o"
 "\">Telegram</a>."
 msgstr ""
-"Any questions you may have will be answered at <a href=\"mailto:"
-"helper.exg1o@gmail.com\" target=\"_blank\">helper.exg1o@gmail.com</a> or you "
-"you can write to the founder of the site at <a href=\"tg://resolve?domain=exg1o"
+"Any questions you may have will be answered at <a href=\"mailto:helper."
+"exg1o@gmail.com\" target=\"_blank\">helper.exg1o@gmail.com</a> or you you "
+"can write to the founder of the site at <a href=\"tg://resolve?domain=exg1o"
 "\">Telegram</a>."
 
 #: .\donation\templates\donation.html:20
