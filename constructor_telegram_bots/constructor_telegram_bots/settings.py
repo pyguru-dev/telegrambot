@@ -189,6 +189,8 @@ LANGUAGES = (
 	('ru', gettext('Русский')),
 	('uk', gettext('Украиский')),
 	('et', gettext('Эстонский')),
+ 	('pl', gettext('Польский')),
+	('he', gettext('Иврит')),
 )
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 # Timezone
