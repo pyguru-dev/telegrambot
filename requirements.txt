@@ -23,6 +23,7 @@ magic-filter==1.0.9
 multidict==6.0.4
 Pillow==9.5.0
 prompt-toolkit==3.0.38
+python-dotenv==1.0.0
 pytz==2023.3
 redis==4.5.5
 requests==2.31.0
