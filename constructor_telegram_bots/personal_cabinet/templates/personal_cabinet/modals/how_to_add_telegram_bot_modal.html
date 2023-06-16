@@ -1,15 +1,16 @@
+{% load i18n %}
 <div class="modal fade" id="howToAddTelegramBotModal" tabindex="-1" aria-labelledby="howToAddTelegramBotModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="howToAddTelegramBotModalLabel">Как добавить Telegram бота?</h5>
+				<h5 class="modal-title" id="howToAddTelegramBotModalLabel">{% trans "Как добавить Telegram бота?" %}</h5>
 				<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<ol class="ps-4 mb-0">
-					<li>Сначала вам нужно создать Telegram бота через <a href="tg://resolve?domain=BotFather">BotFather</a> Telegram бота.</li>
-					<li>После того, как вы создали Telegram бота, вам нужно скопировать его API-токен.</li>
-					<li>Теперь вы можете добавить вашего Telegram бота на сайт.</li>
+					<li>{% trans "Сначала вам нужно создать Telegram бота через" %} <a href="tg://resolve?domain=BotFather">BotFather</a> {% trans "Telegram бота." %}</li>
+					<li>{% trans "После того, как вы создали Telegram бота, вам нужно скопировать его API-токен." %}</li>
+					<li>{% trans "Теперь вы можете добавить вашего Telegram бота на сайт." %}</li>
 				</ol>
 			</div>
 		</div>

@@ -1,5 +1,5 @@
+{% load i18n %}
 <!DOCTYPE html>
-
 {% load static %}
 <html lang="ru" class="h-100">
 	<head>
@@ -8,8 +8,8 @@
 
 		<title>{% block title %}{% endblock title %} - Constructor Telegram Bots</title>
 		<meta name="robots" content="index, follow">
-		<meta name="description" content="Сайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний в программирование, сделать своего многофункционального Telegram бота.">
-		<meta name="keywords" content="бесплатный, конструктор, telegram, телеграм, bot, бот">
+		<meta name="description" content="{% trans "Сайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний в программирование, сделать своего многофункционального Telegram бота." %}">
+		<meta name="keywords" content="{% trans "бесплатный, конструктор, telegram, телеграм, bot, бот" %}">
 
 		{% block meta %}{% endblock meta %}
 
@@ -40,7 +40,11 @@
 	</body>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	
+	
 	<script>
 		{% block globalVariables %}
 			const userLogOutUrl = '{% url 'user_logout' %}';

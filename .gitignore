@@ -5,3 +5,5 @@ data/
 logs/
 env/
 .env
+
+*.mo

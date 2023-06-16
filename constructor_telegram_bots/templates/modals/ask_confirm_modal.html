@@ -1,3 +1,4 @@
+{% load i18n %}
 {% with 'askConfirm' as modal_name %}
 	<div class="modal fade" id="{{ modal_name }}Modal" tabindex="-1" aria-labelledby="{{ modal_name }}ModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
@@ -12,10 +13,10 @@
 				<div class="modal-footer">
 					<div class="row row-cols-2 w-100">
 						<div class="col ps-0 pe-2">
-							<button class="btn btn-success w-100" id="{{ modal_name }}YesButton" type="button">Да</button>
+							<button class="btn btn-success w-100" id="{{ modal_name }}YesButton" type="button">{% trans "Да" %}</button>
 						</div>
 						<div class="col ps-2 pe-0">
-							<button class="btn btn-danger w-100" type="button" data-bs-dismiss="modal">Нет</button>
+							<button class="btn btn-danger w-100" type="button" data-bs-dismiss="modal">{% trans "Нет" %}</button>
 						</div>
 					</div>
 				</div>
