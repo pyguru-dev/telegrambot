@@ -1,27 +1,28 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
-{% block title %}Бесплатный конструктор Telegram ботов{% endblock title %}
+{% block title %}{% trans "Бесплатный конструктор Telegram ботов" %}{% endblock title %}
 
 {% block main %}
 	<div class="container my-3">
 		<div class="row justify-content-center text-center">
 			<div class="col-12 col-lg-8 my-auto">
-				<h1>Constructor Telegram Bots</h1>
-				<p class="lead mb-0">Сайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний в программирование, сделать своего многофункционального Telegram бота.</p>
+				<h1>{% trans "Constructor Telegram Bots" %}</h1>
+				<p class="lead mb-0">{% trans "Сайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний в программирование, сделать своего многофункционального Telegram бота." %}</p>
 			</div>
 			<div class="col-12 col-lg-4 mt-3 mt-lg-0">
-				<h3>Информация о сайте</h3>
+				<h3>{% trans "Информация о сайте" %}</h3>
 				<div class="w-100 mb-1">
 					<div class="rounded-5 border border-2 p-2" id="users_count">
 						<h6 class="fw-bold mb-0">{{ users_count }}</h6>
 					</div>
-					<label for="users_count">Количество пользователей</label>
+					<label for="users_count">{% trans "Количество пользователей" %}</label>
 				</div>
 				<div class="w-100">
 					<div class="rounded-5 border border-2 p-2" id="telegram_bots_count">
 						<h6 class="fw-bold mb-0">{{ telegram_bots_count }}</h6>
 					</div>
-					<label for="telegram_bots_count">Количество добавленных Telegram ботов</label>
+					<label for="telegram_bots_count">{% trans "Количество добавленных Telegram ботов" %}</label>
 				</div>
 			</div>
 		</div>

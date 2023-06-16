@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% load static %}
 
-{% block title %}Меню Telegram бота{% endblock title %}
+{% block title %}{% trans "Меню Telegram бота" %}{% endblock title %}
 
 {% block styles %}
 	{{ block.super }}
@@ -20,13 +21,13 @@
 								<table class="table table-sm table-borderless mb-0">
 									<tbody>
 										<tr>
-											<th class="align-middle" scope="row">Имя:</th>
+											<th class="align-middle" scope="row">{% trans "Имя" %}:</th>
 											<td class="text-break">
 												<a class="link-dark text-decoration-none" id="telegramBotTableLineName"></a>
 											</td>
 										</tr>
 										<tr>
-											<th class="align-middle" scope="row">API-токен:</td>
+											<th class="align-middle" scope="row">{% trans "API-токен" %}:</td>
 											<td class="text-break" id="telegramBotTableLineApiToken"></td>
 											<td class="align-middle">
 												<div class="row">
@@ -49,7 +50,7 @@
 											</td>
 										</tr>
 										<tr>
-											<th scope="row">Приватный:</th>
+											<th scope="row">{% trans "Приватный" %}:</th>
 											<td>
 												<div class="form-check form-switch mb-0">
 													<input class="form-check-input" id="telegramBotIsPrivateCheckBox" type="checkbox" {% if telegram_bot.is_private %}checked{% endif %}>
@@ -57,15 +58,15 @@
 											</td>
 										</tr>
 										<tr>
-											<th scope="row">Количество активаций:</th>
+											<th scope="row">{% trans "Количество активаций" %}:</th>
 											<td class="align-middle telegram-bot-users-count"></td>
 										</tr>
 										<tr>
-											<th scope="row">Количество команд:</th>
+											<th scope="row">{% trans "Количество команд" %}:</th>
 											<td class="align-middle telegram-bot-commands-count"></td>
 										</tr>
 										<tr>
-											<th scope="row">Дата добавление:</th>
+											<th scope="row">{% trans "Дата добавления" %}:</th>
 											<td class="align-middle">{{ telegram_bot.date_added }}</td>
 										</tr>
 									</tbody>
@@ -76,10 +77,10 @@
 					<div class="card-footer py-3">
 						<div class="row row-cols-1 row-cols-lg-2">
 							<div class="col pe-lg-2 pb-2 pb-lg-0">
-								<button class="btn btn-{% if telegram_bot.is_running %}danger{% else %}success{% endif %} w-100 " id="telegramBotStartOrStopButton" type="button">В{% if telegram_bot.is_running %}ы{% endif %}ключить Telegram бота</button>
+								<button class="btn btn-{% if telegram_bot.is_running %}danger{% else %}success{% endif %} w-100 " id="telegramBotStartOrStopButton" type="button">{% if telegram_bot.is_running %}{% trans "Выключить" %}{% else %}{% trans "Включить" %}{% endif %} {% trans "Telegram бота" %}</button>
 							</div>
 							<div class="col ps-lg-2">
-								<button class="btn btn-danger w-100" id="telegramBotDeleteButton" type="button">Удалить Telegram бота</button>	
+								<button class="btn btn-danger w-100" id="telegramBotDeleteButton" type="button">{% trans "Удалить Telegram бота" %}</button>	
 							</div>
 						</div>
 					</div>
@@ -87,7 +88,7 @@
 			</div>
 			<div class="col-12 pt-2 pb-3">
 				<div class="card h-100">
-					<h5 class="card-header text-center">Список пользователей Telegram бота</h5>
+					<h5 class="card-header text-center">{% trans "Список пользователей Telegram бота" %}</h5>
 					<div class="card-body">
 						<div class="list-group telegram-bot-users"></div>
 					</div>
@@ -95,28 +96,28 @@
 			</div>
 			<div class="col-12 col-lg-4 pt-2 pb-3 pb-lg-0">
 				<div class="card border rounded h-100">
-					<div class="card-header text-center" id="telegramBotCommandCardHeader">Добавление команды</div>
+					<div class="card-header text-center" id="telegramBotCommandCardHeader">{% trans "Добавление команды" %}</div>
 					<div class="card-body">
 						<div class="row row-cols-1">
 							<div class="col mb-2">
-								<label for="telegramBotCommandVariables">Доступные переменные</label>
+								<label for="telegramBotCommandVariables">{% trans "Доступные переменные" %}</label>
 								<div class="border rounded w-100 pt-1" id="telegramBotCommandVariables">
 									<div class="row gy-1 py-1 px-3">
-										<button class="btn btn-sm btn-dark mt-0" type="button" id="telegramBotCommandUserIdVariableButton">ID пользователя</button>
-										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserUsernameVariableButton">@username пользователя</button>
-										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserFirstNameVariableButton">Имя пользователя</button>
-										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserLastNameVariableButton">Фамилия пользователя</button>
-										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserMessageIdVariableButton">ID сообщения пользователя</button>
-										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserMessageTextVariableButton">Текст сообщения пользователя</button>
-										<button class="btn btn-sm btn-dark d-none" type="button" id="telegramBotCommandApiResponseVariableButton">Ответ с API-запроса</button>
+										<button class="btn btn-sm btn-dark mt-0" type="button" id="telegramBotCommandUserIdVariableButton">{% trans "ID пользователя" %}</button>
+										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserUsernameVariableButton">{% trans "@username пользователя" %}</button>
+										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserFirstNameVariableButton">{% trans "Имя пользователя" %}</button>
+										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserLastNameVariableButton">{% trans "Фамилия пользователя" %}</button>
+										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserMessageIdVariableButton">{% trans "ID сообщения пользователя" %}</button>
+										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserMessageTextVariableButton">{% trans "Текст сообщения пользователя" %}</button>
+										<button class="btn btn-sm btn-dark d-none" type="button" id="telegramBotCommandApiResponseVariableButton">{% trans "Ответ с API-запроса" %}</button>
 									</div>
 								</div>
 							</div>
 							<div class="col mb-2">
-								<input class="form-control" id="telegramBotCommandNameInput" type="text" placeholder="Введите название команды">
+								<input class="form-control" id="telegramBotCommandNameInput" type="text" placeholder="{% trans "Введите название команды" %}">
 							</div>
 							<div class="col mb-2 d-none" id="telegramBotCommandCommandAddition">
-								<input class="form-control" id="telegramBotCommandCommandInput" type="text" placeholder="Введите команду">
+								<input class="form-control" id="telegramBotCommandCommandInput" type="text" placeholder="{% trans "Введите команду" %}">
 							</div>
 							<div class="col mb-2 d-none" id="telegramBotCommandImageAddition">
 								<div class="input-group">
@@ -125,45 +126,45 @@
 								</div>
 							</div>
 							<div class="col mb-2">
-								<textarea class="form-control" id="telegramBotCommandTextInput" type="text" rows="3" placeholder="Введите текст сообщения"></textarea>
+								<textarea class="form-control" id="telegramBotCommandTextInput" type="text" rows="3" placeholder="{% trans "Введите текст сообщения" %}"></textarea>
 							</div>
 							<div class="col mb-2 d-none" id="telegramBotCommandKeyboardAddition">
-								<label class="mb-1" for="telegramBotCommandKeyboardModes">Выберите клавиатуру</label>
+								<label class="mb-1" for="telegramBotCommandKeyboardModes">{% trans "Выберите клавиатуру" %}</label>
 								<div class="input-group" id="telegramBotCommandKeyboardModes">
 									<input class="btn-check" id="telegramBotCommandDefaultKeyboardRadio" name="telegramBotCommandKeyboardModes" type="radio" onclick="telegramBotCommandKeyboardType = 'default';" checked>
-									<label class="btn btn-sm btn-outline-dark rounded-start w-50" for="telegramBotCommandDefaultKeyboardRadio">Обычная</label>
+									<label class="btn btn-sm btn-outline-dark rounded-start w-50" for="telegramBotCommandDefaultKeyboardRadio">{% trans "Обычная" %}</label>
 									<input class="btn-check" id="telegramBotCommandInlineKeyboardRadio" name="telegramBotCommandKeyboardModes" type="radio" onclick="telegramBotCommandKeyboardType = 'inline';">
-									<label class="btn btn-sm btn-outline-dark rounded-end w-50" for="telegramBotCommandInlineKeyboardRadio">Встроенная</label>
+									<label class="btn btn-sm btn-outline-dark rounded-end w-50" for="telegramBotCommandInlineKeyboardRadio">{% trans "Встроенная" %}</label>
 								</div>
 								<div class="mt-1">
-									<label class="mb-1" for="telegramBotCommandKeyboardButtons">Клавиатура</label>
+									<label class="mb-1" for="telegramBotCommandKeyboardButtons">{% trans "Клавиатура" %}</label>
 									<div id="telegramBotCommandKeyboardButtons"></div>
-									<button class="btn btn-sm btn-outline-dark w-100" id="telegramBotCommandAddKeyboardButton" type="button">Добавить кнопку</button>
+									<button class="btn btn-sm btn-outline-dark w-100" id="telegramBotCommandAddKeyboardButton" type="button">{% trans "Добавить кнопку" %}</button>
 								</div>
 							</div>
 							<div class="col mb-2 d-none" id="telegramBotCommandApiRequestAddition">
-								<label for="telegramBotCommandApiRequest">API-запрос</label>
+								<label for="telegramBotCommandApiRequest">{% trans "API-запрос" %}</label>
 								<div class="input-group" id="telegramBotCommandApiRequest">
-									<input class="form-control" id="telegramBotCommandApiRequestUrlInput" type="text" placeholder="Ссылка">
-									<input class="form-control" id="telegramBotCommandApiRequestDataInput" type="text" placeholder="Данные">
+									<input class="form-control" id="telegramBotCommandApiRequestUrlInput" type="text" placeholder="{% trans "Ссылка" %}">
+									<input class="form-control" id="telegramBotCommandApiRequestDataInput" type="text" placeholder="{% trans "Данные" %}">
 								</div>
 							</div>
 							<div class="col">
-								<label for="telegramBotCommandAddition">Добавить</label>
+								<label for="telegramBotCommandAddition">{% trans "Добавить" %}</label>
 								<div class="border rounded w-100 pt-1" id="telegramBotCommandAddition">
 									<div class="row gy-1 py-1 px-3">
-										<button class="btn btn-sm btn-dark mt-0" id="telegramBotCommandAddCommandAdditionButton" type="button">Команду</button>
-										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddImageAdditionButton" type="button">Изображение</button>
-										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddKeyboardAdditionButton" type="button">Клавиатуру</button>
-										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddApiRequestAdditionButton" type="button">API-запрос</button>
+										<button class="btn btn-sm btn-dark mt-0" id="telegramBotCommandAddCommandAdditionButton" type="button">{% trans "Команду" %}"</button>
+										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddImageAdditionButton" type="button">{% trans "Изображение" %}</button>
+										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddKeyboardAdditionButton" type="button">{% trans "Клавиатуру" %}</button>
+										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddApiRequestAdditionButton" type="button">{% trans "API-запрос" %}</button>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 					<div class="card-footer p-0">
-						<button class="btn btn-light back-add-telegram-bot-command-button border-bottom rounded-0 w-100 d-none" type="button" style="height: 42px;">Вернуться к добавлению команды</button>
-						<button class="btn btn-light add-or-edit-telegram-bot-command-button rounded-top-0 w-100" id="0" type="button" style="height: 42px;">Добавить команду</button>
+						<button class="btn btn-light back-add-telegram-bot-command-button border-bottom rounded-0 w-100 d-none" type="button" style="height: 42px;">{% trans "Вернуться к добавлению команды" %}</button>
+						<button class="btn btn-light add-or-edit-telegram-bot-command-button rounded-top-0 w-100" id="0" type="button" style="height: 42px;">{% trans "Добавить команду" %}</button>
 					</div>
 				</div>
 			</div>

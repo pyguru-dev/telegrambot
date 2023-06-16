@@ -1,3 +1,4 @@
+{% load i18n %}
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-1 p-lg-0">
 	<div class="container">
 		<a class="navbar-brand p-2 me-0" href="/">Constructor Telegram Bots</a>
@@ -10,25 +11,57 @@
 			<ul class="navbar-nav nav-underline gap-0 me-auto">
 				<li class="nav-item">
 					{% url 'home' as home_url %}
-					<a class="nav-link {% if request.path == home_url %}active{% endif %} p-2" href="{{ home_url }}">Главная</a>
+					<a class="nav-link {% if request.path == home_url %}active{% endif %} p-2" href="{{ home_url }}">{% trans "Главная" %}</a>
 				</li>
 				<li class="nav-item">
 					{% url 'donation' as donation_url %}
-					<a class="nav-link {% if request.path == donation_url %}active{% endif %} p-2" href="{{ donation_url }}">Пожертвование</a>
+					<a class="nav-link {% if request.path == donation_url %}active{% endif %} p-2" href="{{ donation_url }}">{% trans "Пожертвование" %}</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link disabled p-2" href="#">Обновления (В разработке...)</a>
+					<a class="nav-link disabled p-2" href="#">{% trans "Обновления (В разработке...)" %}</a>
 				</li>
 			</ul>
 			<hr class="d-lg-none text-white-50 mx-2 mt-0 mb-1">
 			{% if user.is_authenticated %}
-				<a class="btn btn-light mx-1 my-2" href="{% url 'personal_cabinet' %}">Личный кабинет</a>
-				<button class="btn btn-danger mx-1 my-2" id="logoutButton" type="button">Выйти</button>
+				<a class="btn btn-light mx-1 my-2" href="{% url 'personal_cabinet' %}">{% trans "Личный кабинет" %}</a>
+				<button class="btn btn-danger mx-1 my-2" id="logoutButton" type="button">{% trans "Выйти" %}</button>
 			{% else %}
 				<a class="btn btn-success ps-1 mx-1 my-2" href="tg://resolve?domain={{ tg_bot_username }}&start=login">
 					<i class="bi bi-telegram mx-2"></i>
-					Войти через Telegram
+					{% trans "Войти через Telegram" %}
 				</a>
 			{% endif %}
+			<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#languageModal">
+				{% get_current_language as LANGUAGE_CODE %}
+				<i class="bi bi-globe"></i> {{ LANGUAGE_CODE|upper }}
+			</button>
+			<div class="modal fade" id="languageModal" tabindex="-1" role="dialog" aria-labelledby="languageModalLabel" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="languageModalLabel">{% trans "Выбрать язык" %}</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form action="{% url 'set_language' %}" method="post" id="language-form">
+								{% csrf_token %}
+								<input name="next" type="hidden" value="{{ redirect_to }}">
+								<div class="btn-group">
+									{% get_current_language as LANGUAGE_CODE %}
+									{% get_available_languages as LANGUAGES %}
+									{% get_language_info_list for LANGUAGES as languages %}
+									{% for language in languages %}
+									<button type="submit" name="language" value="{{ language.code }}" class="btn btn-primary {% if language.code == LANGUAGE_CODE %} active{% endif %}">
+									{{ language.name }}
+									</button>
+									{% endfor %}
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
 	</div>
 </nav>
