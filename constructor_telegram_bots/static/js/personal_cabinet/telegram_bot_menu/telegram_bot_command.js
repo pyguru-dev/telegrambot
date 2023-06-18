@@ -360,11 +360,9 @@
 			if (response.ok) {
 				updateTelegramBotCommands();
 				telegramBotCommandClearAll();
-
-				response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'success'));
-			} else {
-				response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'));
 			}
+
+			response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']));
 		});
 	});
 }

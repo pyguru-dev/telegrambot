@@ -65,7 +65,7 @@ function get_telegram_bots() {
 					telegramBotsDiv.append(telegramBotDiv);
 				}
 			});
-		} else {response.text().then(responseText => createAlert(mainAlertContainer, responseText, 'danger'))}
+		} else {response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']))}
 	});
 }
 

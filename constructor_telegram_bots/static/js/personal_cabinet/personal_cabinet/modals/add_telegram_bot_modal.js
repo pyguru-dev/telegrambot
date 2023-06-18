@@ -18,14 +18,11 @@
 			),
 		}).then(response => {
 			if (response.ok) {
-				response.text().then(responseText => {
-					addTelegramBotModalBootstrap.toggle();
-	
-					get_telegram_bots();
-	
-					createAlert(mainAlertContainer, responseText, 'success');
-				});
-			} else {response.text().then(responseText => createAlert(addTelegramBotModalAlertContainer, responseText, 'danger'))}
+				get_telegram_bots();
+				addTelegramBotModalBootstrap.toggle();
+			}
+
+			response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']));
 		});
 	});
 
