@@ -34,7 +34,7 @@ class TelegramBot(models.Model):
 	def date_added(self) -> str:
 		return self._date_added.astimezone(
 			pytz.timezone(settings.TIME_ZONE)
-		).strftime('%d %B %Y г. %H:%M')
+		).strftime('%d.%m.%Y - %H:%M:%S')
 
 	def get_commands_as_dict(self) -> list:
 		return [command.to_dict() for command in self.commands.all()]
@@ -163,7 +163,7 @@ class TelegramBotUser(models.Model):
 	def date_activated(self) -> str:
 		return self._date_activated.astimezone(
 			pytz.timezone(settings.TIME_ZONE)
-		).strftime('%d %B %Y г. %H:%M')
+		).strftime('%d.%m.%Y - %H:%M:%S')
 	
 	def to_dict(self) -> dict:
 		return {
