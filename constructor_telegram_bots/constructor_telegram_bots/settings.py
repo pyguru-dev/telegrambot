@@ -193,7 +193,6 @@ LANGUAGE_CODE = 'ru-ru'
 LANGUAGES = (
 	('en', gettext_lazy('Английский')),
 	('uk', gettext_lazy('Украиский')),
-	('pl', gettext_lazy('Польский')),
 	('ru', gettext_lazy('Русский')),
 )
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'

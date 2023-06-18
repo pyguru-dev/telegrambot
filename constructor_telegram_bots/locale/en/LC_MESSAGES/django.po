@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-18 16:35+0000\n"
+"POT-Creation-Date: 2023-06-18 17:51+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,10 +35,6 @@ msgid "Украиский"
 msgstr "Ukrainian"
 
 #: constructor_telegram_bots/settings.py:196
-msgid "Польский"
-msgstr "Poland"
-
-#: constructor_telegram_bots/settings.py:197
 msgid "Русский"
 msgstr "Russian"
 
@@ -641,7 +637,8 @@ msgstr "You are already using this Telegram bot API-token on the site!"
 
 #: telegram_bot/decorators.py:33
 msgid "Этот API-токен Telegram бота уже использует другой пользователь сайта!"
-msgstr "This Telegram bot's API-token is already being used by another site user!"
+msgstr ""
+"This Telegram bot's API-token is already being used by another site user!"
 
 #: telegram_bot/decorators.py:44
 msgid "Ваш API-токен Telegram бота является недействительным!"
