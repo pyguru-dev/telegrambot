@@ -69,26 +69,6 @@ class UserViewsTest(TestCase):
 		self.assertTemplateUsed(response, 'logout.html')
 
 
-	def test_get_user_messages(self) -> None:
-		response: HttpResponse = self.client.post(urls.reverse('get_user_messages'))
-		self.assertEqual(response.status_code, 302)
-
-		self.client.get(self.user.login_url)
-
-		response: HttpResponse = self.client.post(urls.reverse('get_user_messages'))
-		self.assertEqual(response.status_code, 200)
-		self.assertJSONEqual(
-			response.content,
-			json.dumps(
-				[
-					{
-						'text': 'Тестовая херня',
-						'type': 'info',
-					},
-				]
-			)
-		)
-
 	def test_get_user_telegram_bots_view(self) -> None:
 		response: HttpResponse = self.client.post(urls.reverse('get_user_telegram_bots'))
 		self.assertEqual(response.status_code, 302)
