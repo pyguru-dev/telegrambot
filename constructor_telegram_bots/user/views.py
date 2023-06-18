@@ -1,5 +1,8 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import HttpResponse, render
+from django.http import JsonResponse
+
+from django.utils.translation import gettext
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -8,8 +11,6 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, logout
 
 from user.models import User
-
-import json
 
 
 def user_login(request: WSGIRequest, id: int, confirm_code: str) -> HttpResponse:
@@ -21,11 +22,11 @@ def user_login(request: WSGIRequest, id: int, confirm_code: str) -> HttpResponse
 
 			login(request, user)
 
-			context = {'heading': 'Успешная авторизация'}
+			context = {'heading': gettext('Успешная авторизация')}
 		else:
-			context = {'heading': 'Неверный код подтверждения!'}
+			context = {'heading': gettext('Неверный код подтверждения!')}
 	else:
-		context = {'heading': 'Не удалось найти пользователя!'}
+		context = {'heading': gettext('Не удалось найти пользователя!')}
 
 	return render(request, 'login.html', context)
 
@@ -41,8 +42,7 @@ def user_logout(request: WSGIRequest) -> HttpResponse:
 @require_POST
 @login_required
 def get_user_telegram_bots(request: WSGIRequest) -> HttpResponse:
-	return HttpResponse(
-		json.dumps(
-			request.user.get_telegram_bots_as_dict()
-		)
+	return JsonResponse(
+		request.user.get_telegram_bots_as_dict(),
+		safe=False
 	)

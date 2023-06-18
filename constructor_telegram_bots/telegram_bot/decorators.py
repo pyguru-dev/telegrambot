@@ -1,5 +1,7 @@
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponseBadRequest
+from django.http import JsonResponse
+
+from django.utils.translation import gettext
 
 from django.utils.datastructures import MultiValueDictKeyError
 
@@ -18,16 +20,40 @@ def check_telegram_bot_api_token(func):
 			request: WSGIRequest = args[0]
 
 			if request.user.telegram_bots.filter(api_token=api_token).exists():
-				return HttpResponseBadRequest('Вы уже используете этот API-токен Telegram бота на сайте!')
+				return JsonResponse(
+					{
+						'message': gettext('Вы уже используете этот API-токен Telegram бота на сайте!'),
+						'level': 'danger',
+					},
+					status_code=400
+				)
 			elif TelegramBot.objects.filter(api_token=api_token).exists():
-				return HttpResponseBadRequest('Этот API-токен Telegram бота уже использует другой пользователь сайта!')
+				return JsonResponse(
+					{
+						'message': gettext('Этот API-токен Telegram бота уже использует другой пользователь сайта!'),
+						'level': 'danger',
+					},
+					status_code=400
+				)
 
 			if _check_telegram_bot_api_token(api_token=api_token) is not None:
 				return func(*args, **kwargs)
 			else:
-				return HttpResponseBadRequest('Ваш API-токен Telegram бота является недействительным!')
+				return JsonResponse(
+					{
+						'message': gettext('Ваш API-токен Telegram бота является недействительным!'),
+						'level': 'danger',
+					},
+					status_code=400
+				)
 		else:
-			return HttpResponseBadRequest('Введите API-токен Telegram бота!')
+			return JsonResponse(
+				{
+					'message': gettext('Введите API-токен Telegram бота!'),
+					'level': 'danger',
+				},
+				status_code=400
+			)
 	return wrapper
 
 def check_telegram_bot_id(func):
@@ -42,7 +68,13 @@ def check_telegram_bot_id(func):
 
 			return func(*args, **kwargs)
 		else:
-			return HttpResponseBadRequest('Telegram бот не найден!')
+			return JsonResponse(
+				{
+					'message': gettext('Telegram бот не найден!'),
+					'level': 'danger',
+				},
+				status_code=400
+			)
 	return wrapper
 
 def check_data_for_telegram_bot_command(func):
@@ -61,9 +93,21 @@ def check_data_for_telegram_bot_command(func):
 						if telegram_bot_command_command is not None:
 							if telegram_bot_command_command != '':
 								if len(telegram_bot_command_command) >= 32:
-									return HttpResponseBadRequest('Команда должна содержать не более 32 символов!')
+									return JsonResponse(
+										{
+											'message': gettext('Команда должна содержать не более 32 символов!'),
+											'level': 'danger',
+										},
+										status_code=400
+									)
 							else:
-								return HttpResponseBadRequest('Введите команду!')
+								return JsonResponse(
+									{
+										'message': gettext('Введите команду!'),
+										'level': 'danger',
+									},
+									status_code=400
+								)
 						
 						request: WSGIRequest = args[0]
 
@@ -80,13 +124,37 @@ def check_data_for_telegram_bot_command(func):
 
 						return func(*args, **kwargs)
 					else:
-						return HttpResponseBadRequest('Текст сообщения должно содержать не более 4096 символов!')
+						return JsonResponse(
+							{
+								'message': gettext('Текст сообщения должно содержать не более 4096 символов!'),
+								'level': 'danger',
+							},
+							status_code=400
+						)
 				else:
-					return HttpResponseBadRequest('Введите текст сообщения!')
+					return JsonResponse(
+						{
+							'message': gettext('Введите текст сообщения!'),
+							'level': 'danger',
+						},
+						status_code=400
+					)
 			else:
-				return HttpResponseBadRequest('Название команды должно содержать не более 255 символов!')
+				return JsonResponse(
+					{
+						'message': gettext('Название команды должно содержать не более 255 символов!'),
+						'level': 'danger',
+					},
+					status_code=400
+				)
 		else:
-			return HttpResponseBadRequest('Введите название команде!')
+			return JsonResponse(
+				{
+					'message': gettext('Введите название команде!'),
+					'level': 'danger',
+				},
+				status_code=400
+			)
 	return wrapper
 
 def check_telegram_bot_command_id(func):
@@ -101,7 +169,13 @@ def check_telegram_bot_command_id(func):
 
 			return func(*args, **kwargs)
 		else:
-			return HttpResponseBadRequest('Команда Telegram бота не найдена!')
+			return JsonResponse(
+				{
+					'message': gettext('Команда Telegram бота не найдена!'),
+					'level': 'danger',
+				},
+				status_code=400
+			)
 	return wrapper
 
 def check_telegram_bot_command_keyboard_button_id(func):
@@ -117,7 +191,13 @@ def check_telegram_bot_command_keyboard_button_id(func):
 
 			return func(*args, **kwargs)
 		else:
-			return HttpResponseBadRequest('Кнопка клавиатуры команды Telegram бота не найдена!')
+			return JsonResponse(
+				{
+					'message': gettext('Кнопка клавиатуры команды Telegram бота не найдена!'),
+					'level': 'danger',
+				},
+				status_code=400
+			)
 	return wrapper
 
 def check_telegram_bot_user_id(func):
@@ -131,5 +211,11 @@ def check_telegram_bot_user_id(func):
 
 			return func(*args, **kwargs)
 		else:
-			return HttpResponseBadRequest('Пользователь Telegram бота не найдена!')
+			return JsonResponse(
+				{
+					'message': gettext('Пользователь Telegram бота не найдена!'),
+					'level': 'danger',
+				},
+				status_code=400
+			)
 	return wrapper
