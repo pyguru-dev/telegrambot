@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-18 12:19+0000\n"
+"POT-Creation-Date: 2023-06-18 12:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,18 +41,16 @@ msgid "Пожертвование"
 msgstr "Darowizna"
 
 #: donation/templates/donation.html:6
-msgid "О сайте Constructor Telegram Bots"
-msgstr "O Constructor Telegram Bots"
+msgid "О сайте"
+msgstr "O witrynie"
 
 #: donation/templates/donation.html:7
 msgid ""
-"<b>Constructor Telegram Bots</b> - cайт, с помощью которого вы можете легко, "
-"бесплатно и без каких-либо знаний в программирование, сделать своего "
-"многофункционального Telegram бота."
+"cайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний "
+"в программирование, сделать своего многофункционального Telegram бота."
 msgstr ""
-"<b>Constructor Telegram Bots</b> - to strona, za pomocą której możesz łatwo, "
-"bezpłatnie i bez wiedzy w zakresie programowania, stworzyć wielofunkcyjnego "
-"bota telegramowego."
+"witryna, za pomocą której możesz łatwo, bezpłatnie i bez wiedzy w zakresie "
+"programowania, stworzyć wielofunkcyjnego bota telegramowego."
 
 #: donation/templates/donation.html:8
 msgid ""
@@ -167,10 +165,6 @@ msgstr "i zadaj mu to pytanie."
 msgid "Бесплатный конструктор Telegram ботов"
 msgstr "Darmowe boty telegramowe dla projektantów"
 
-#: home/templates/home.html:10
-msgid "Constructor Telegram Bots"
-msgstr "Constructor Telegram Bots"
-
 #: home/templates/home.html:11 templates/base.html:12
 msgid ""
 "Сайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний "
@@ -245,7 +239,7 @@ msgstr "Data dodania"
 #: personal_cabinet/templates/personal_cabinet/main.html:48
 #: personal_cabinet/templates/telegram_bot_menu/main.html:5
 msgid "Меню Telegram бота"
-msgstr "Menu botów telegramowych"
+msgstr "Menu bota telegramu"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:50
 msgid "Вы ещё не добавили Telegram бота"
@@ -258,7 +252,7 @@ msgstr "Jak dodać bota Telegram?"
 
 #: personal_cabinet/templates/personal_cabinet/modals/add_telegram_bot_modal.html:7
 msgid "Добавление Telegram бота"
-msgstr "Dodanie bota telegramowego"
+msgstr "Dodanie bota Telegrama"
 
 #: personal_cabinet/templates/personal_cabinet/modals/add_telegram_bot_modal.html:15
 #: personal_cabinet/templates/personal_cabinet/modals/add_telegram_bot_modal.html:16
@@ -276,7 +270,7 @@ msgstr "Najpierw musisz utworzyć bota telegramowego"
 
 #: personal_cabinet/templates/personal_cabinet/modals/how_to_add_telegram_bot_modal.html:12
 msgid "Telegram бота."
-msgstr "Telegram Bot."
+msgstr "Telegram bota."
 
 #: personal_cabinet/templates/personal_cabinet/modals/how_to_add_telegram_bot_modal.html:13
 msgid ""
@@ -664,7 +658,7 @@ msgstr ""
 msgid "бесплатный, конструктор, telegram, телеграм, bot, бот"
 msgstr "za darmo, konstruktor, telegram, bot"
 
-#: templates/base.html:52
+#: templates/base.html:52 user/templates/logout.html:3
 msgid "Выход из аккаунта"
 msgstr "Wyloguj"
 
@@ -707,3 +701,15 @@ msgstr "Wyloguj się"
 #: templates/navbar.html:59
 msgid "Войти через Telegram"
 msgstr "Zaloguj się przez telegram"
+
+#: user/templates/login.html:3
+msgid "Авторизация"
+msgstr ""
+
+#: user/templates/login.html:6 user/templates/logout.html:6
+msgid "Автоматический переход на главную страницу через 3 секунды."
+msgstr "Automatyczne przejście do strony głównej po 3 sekundach."
+
+#: user/templates/logout.html:5
+msgid "Успешный выход из аккаунта"
+msgstr "Pomyślnie wylogowano"
