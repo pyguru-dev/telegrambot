@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-18 12:27+0000\n"
+"POT-Creation-Date: 2023-06-18 13:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,18 +42,16 @@ msgid "Пожертвование"
 msgstr "Пожертвування"
 
 #: donation/templates/donation.html:6
-msgid "О сайте Constructor Telegram Bots"
-msgstr "Про Constructor Telegram Bots"
+msgid "О сайте"
+msgstr "Про сайт"
 
 #: donation/templates/donation.html:7
 msgid ""
-"<b>Constructor Telegram Bots</b> - cайт, с помощью которого вы можете легко, "
-"бесплатно и без каких-либо знаний в программирование, сделать своего "
-"многофункционального Telegram бота."
+"cайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний "
+"в программирование, сделать своего многофункционального Telegram бота."
 msgstr ""
-"<b>Constructor Telegram Bots</b> - це сайт, за допомогою якого можна легко, "
-"безкоштовно і без будь-яких знань в програмуванні, зробити свій "
-"багатофункціональний Telegram-бот."
+"сайт, за допомогою якого можна легко, безкоштовно і без будь-яких знань в "
+"програмуванні, зробити свій багатофункціональний Telegram бота."
 
 #: donation/templates/donation.html:8
 msgid ""
@@ -168,10 +166,6 @@ msgstr "і задати йому це питання."
 #: home/templates/home.html:4
 msgid "Бесплатный конструктор Telegram ботов"
 msgstr "Безкоштовний конструктор Телеграма ботів"
-
-#: home/templates/home.html:10
-msgid "Constructor Telegram Bots"
-msgstr "Constructor Telegram Bot"
 
 #: home/templates/home.html:11 templates/base.html:12
 msgid ""
@@ -664,7 +658,7 @@ msgstr ""
 msgid "бесплатный, конструктор, telegram, телеграм, bot, бот"
 msgstr "безкоштовно, конструктор, телеграма, телеграма, бот, бот"
 
-#: templates/base.html:52
+#: templates/base.html:52 user/templates/logout.html:3
 msgid "Выход из аккаунта"
 msgstr "Вихід з акаунту"
 
@@ -707,3 +701,15 @@ msgstr "Вийти"
 #: templates/navbar.html:59
 msgid "Войти через Telegram"
 msgstr "Увійти через Telegram"
+
+#: user/templates/login.html:3
+msgid "Авторизация"
+msgstr "Авторизація"
+
+#: user/templates/login.html:6 user/templates/logout.html:6
+msgid "Автоматический переход на главную страницу через 3 секунды."
+msgstr "Автоматичний перехід на головну сторінку за 3 секунди."
+
+#: user/templates/logout.html:5
+msgid "Успешный выход из аккаунта"
+msgstr "Успішний вихід з акаунту"
