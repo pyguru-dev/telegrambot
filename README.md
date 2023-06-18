@@ -1,4 +1,29 @@
-# Constructor Telegram Bots
+# 🇬🇧 **On the English language**
+## <a href="https://constructor.exg1o.org/">**Constructor Telegram Bots**</a>
+**Constructor Telegram Bots** - a site with which you can easily, free of charge and without any programming knowledge, make your own multifunctional Telegram bot.
+
+The site is non-commercial and does not aim to make money on its users.
+
+The site was created because, unfortunately, all similar sites are commercial and aim to make money on their users, and the free tariff on such sites severely limits their own users of the site.
+
+If you want to somehow support the site, then you can make a donation to the site.</br>
+Your donation will greatly help the development and improvement of the site.</br>
+You can donate to the site using this link: **https://www.paypal.com/donate/?hosted_button_id=RBCS5HAMZS5Z6**
+
+# 🇺🇦 **На українській мові**
+## <a href="https://constructor.exg1o.org/">**Constructor Telegram Bots**</a>
+**Constructor Telegram Bots** - сайт, за допомогою якого ви можете легко, безкоштовно і без будь-яких знань у програмуванні, зробити свого багатофункціонального Telegram бота.
+
+Сайт є некомерційним і не має на меті заробити на своїх користувачах.
+
+Сайт був створений, тому що на жаль всі схожі сайти є комерційними і мають на меті заробити на своїх користувачах, а безкоштовний тариф на таких сайтах дуже сильно обмежує своїх користувачів сайту.
+
+Якщо ви хочете якось підтримати сайт, то ви можете зробити пожертву сайту.<br>
+Ваша пожертва дуже сильно допоможе розвитку та покращенню сайту.<br>
+Пожертву сайту можна зробити за цим посиланням: **https://www.paypal.com/donate/?hosted_button_id=RBCS5HAMZS5Z6**
+
+# 🇷🇺 **На русском языке**
+## <a href="https://constructor.exg1o.org/">**Constructor Telegram Bots**</a>
 **Constructor Telegram Bots** - сайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний в программирование, сделать своего многофункционального Telegram бота.
 
 Сайт является некоммерческим и не преследует цель заработать на своих пользователях.
@@ -8,196 +33,3 @@
 Если вы хотите как-то поддержать сайт, то вы можете сделать пожертвование сайту.<br> 
 Ваше пожертвование очень сильно поможет развитию и улучшению сайта.<br>
 Пожертвование сайту можно сделать по данной ссылке: **https://www.paypal.com/donate/?hosted_button_id=RBCS5HAMZS5Z6**
-
-# Сайт на локальном компьютере
-## Требования
-- Python **3.10.11**
-- Redis
-- ru_RU.UTF-8 в **locale -a**
-
-## Установка и запуск проекта
-1. Устанавливаем проект:
-```sh
-git clone https://github.com/EXG1O/Constructor-Telegram-Bots.git
-cd Constructor-Telegram-Bots
-python -m venv env
-source env/bin/activate
-pip install -U pip
-pip install -r requirements.txt
-cd constructor_telegram_bots
-python manage.py migrate
-```
-2. Запускаем **manage.py** файл:
-```sh
-python manage.py runserver
-```
-3. Если вы всё правильно сделали, то у вас будет такой вывод:
-```
-Enter the Constructor Telegram bot API-token in the file ./data/constructor_telegram_bot_api.token!
-```
-4. Теперь вам нужно создать своего Telegram бота через [BotFather](https://t.me/BotFather) Telegram бота.
-5. После того, как вы создали Telegram бота, вам нужно скопировать его **API-токен** и добавить его в файл **./data/constructor_telegram_bot_api.token**.
-6. Теперь в файле **./constructor_telegram_bots/settings.py** на **12** строке включите **DEBUG** режим.
-7. После этого в файле **./templates/navbar.html** на **28** строке замените **constructor_telegram_bots_bot** на **username** своего выше созданного Telegram бота.
-6. Запускаем ещё раз **manage.py** файл:
-```sh
-python manage.py runserver
-```
-7. Если вы всё сделали правильно, то в терминале будет следующий вывод:
-```
-[ДАТА ВРЕМЯ]: Watching for file changes with StatReloader
-Performing system checks...
-
-System check identified no issues (0 silenced).
-ДАТА - ВРЕМЯ
-Django version 4.2.1, using settings 'constructor_telegram_bots.settings'
-Starting development server at http://127.0.0.1:8000/
-Quit the server with CONTROL-C.
-```
-9. Теперь нам надо запустить Celery.
-10. Запускаем ещё один терминал и вводим следующие команды:
-```sh
-cd Constructor-Telegram-Bots
-source env/bin/activate
-cd constructor_telegram_bots
-celery -A constructor_telegram_bots worker -l INFO
-```
-11. Если вы всё сделали правильно, то в терминале не должны быть ошибок.
-11. Переходим по ссылке **http://127.0.0.1:8000/** и пользуемся сайтом. ☺️
-
-# Cтруктура проекта
-```
-Constructor-Telegram-Bots
-├── constructor_telegram_bots
-│   ├── constructor_telegram_bots
-│   │   ├── asgi.py
-│   │   ├── celery.py
-│   │   ├── decorators.py
-│   │   ├── functions.py
-│   │   ├── gunicorn_config.py
-│   │   ├── __init__.py
-│   │   ├── settings.py
-│   │   ├── urls.py
-│   │   └── wsgi.py
-│   ├── donation
-│   │   ├── migrations
-│   │   │   └── __init__.py
-│   │   ├── templates
-│   │   │   ├── base_donation.html
-│   │   │   ├── donation_completed.html
-│   │   │   └── donation.html
-│   │   ├── apps.py
-│   │   ├── __init__.py
-│   │   ├── tests.py
-│   │   ├── urls.py
-│   │   └── views.py
-│   ├── home
-│   │   ├── migrations
-│   │   │   └── __init__.py
-│   │   ├── templates
-│   │   │   └── home.html
-│   │   ├── apps.py
-│   │   ├── __init__.py
-│   │   ├── tests.py
-│   │   ├── urls.py
-│   │   └── views.py
-│   ├── personal_cabinet
-│   │   ├── migrations
-│   │   │   └── __init__.py
-│   │   ├── templates
-│   │   │   ├── personal_cabinet
-│   │   │   │   ├── modals
-│   │   │   │   │   ├── add_telegram_bot_modal.html
-│   │   │   │   │   └── how_to_add_telegram_bot_modal.html
-│   │   │   │   └── main.html
-│   │   │   └── telegram_bot_menu
-│   │   │       └── main.html
-│   │   ├── apps.py
-│   │   ├── __init__.py
-│   │   ├── tests.py
-│   │   ├── urls.py
-│   │   └── views.py
-│   ├── privacy_policy
-│   │   ├── migrations
-│   │   │   └── __init__.py
-│   │   ├── templates
-│   │   │   └── privacy_policy.html
-│   │   ├── apps.py
-│   │   ├── __init__.py
-│   │   ├── tests.py
-│   │   ├── urls.py
-│   │   └── views.py
-│   ├── static
-│   │   ├── css
-│   │   │   └── personal_cabinet
-│   │   │       └── telegram_bot_menu
-│   │   │           └── diagram.css
-│   │   ├── icons
-│   │   │   └── favicon.png
-│   │   └── js
-│   │       ├── global
-│   │       │   ├── modals
-│   │       │   │   └── ask_confirm_modal.js
-│   │       │   ├── alert.js
-│   │       │   └── logout.js
-│   │       └── personal_cabinet
-│   │           ├── personal_cabinet
-│   │           │   ├── modals
-│   │           │   │   └── add_telegram_bot_modal.js
-│   │           │   └── init.js
-│   │           └── telegram_bot_menu
-│   │               ├── add_or_edit_telegram_bot_command.js
-│   │               ├── diagram.js
-│   │               ├── init.js
-│   │               ├── main.js
-│   │               └── telegram_bot_command_variables.js
-│   ├── telegram_bot
-│   │   ├── migrations
-│   │   │   ├── 0001_initial.py
-│   │   │   ├── 0002_telegrambotcommandkeyboard_and_more.py
-│   │   │   └── __init__.py
-│   │   ├── apps.py
-│   │   ├── decorators.py
-│   │   ├── functions.py
-│   │   ├── __init__.py
-│   │   ├── managers.py
-│   │   ├── models.py
-│   │   ├── tests.py
-│   │   ├── urls.py
-│   │   └── views.py
-│   ├── telegram_bots
-│   │   ├── constructor_telegram_bot.py
-│   │   ├── custom_aiogram.py
-│   │   ├── __init__.py
-│   │   ├── tasks.py
-│   │   └── user_telegram_bot.py
-│   ├── templates
-│   │   ├── modals
-│   │   │   └── ask_confirm_modal.html
-│   │   ├── 404.html
-│   │   ├── base_error_or_success.html
-│   │   ├── base.html
-│   │   ├── footer.html
-│   │   └── navbar.html
-│   ├── user
-│   │   ├── migrations
-│   │   │   ├── 0001_initial.py
-│   │   │   ├── 0002_user_password_user_username.py
-│   │   │   ├── 0003_remove_user_is_staff_remove_user_telegram_bots_and_more.py
-│   │   │   └── __init__.py
-│   │   ├── templates
-│   │   │   ├── login.html
-│   │   │   └── logout.html
-│   │   ├── apps.py
-│   │   ├── __init__.py
-│   │   ├── managers.py
-│   │   ├── models.py
-│   │   ├── tests.py
-│   │   ├── urls.py
-│   │   └── views.py
-│   └── manage.py
-├── .gitignore
-├── LICENSE.md
-├── README.md
-└── requirements.txt
-```
