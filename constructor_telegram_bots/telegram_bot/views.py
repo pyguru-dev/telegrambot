@@ -315,7 +315,7 @@ def add_telegram_bot_command_keyboard_button_telegram_bot_command(
 				'message': 'Команда Telegram бота не найдена!',
 				'level': 'danger',
 			},
-			status_code=400
+			status=400
 		)
 
 

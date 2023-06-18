@@ -603,15 +603,13 @@ class TelegramBotViewsTest(TestCase):
 		self.assertEqual(response.status_code, 200)
 		self.assertJSONEqual(
 			response.content,
-			json.dumps(
-				[
-					{
-						'id': 1,
-						'user_id': 12345,
-						'full_name': 'Test A',
-						'is_allowed': False,
-						'date_activated': telegram_bot_user.date_activated,
-					},
-				]
-			)
+			[
+				{
+					'id': 1,
+					'user_id': 12345,
+					'full_name': 'Test A',
+					'is_allowed': False,
+					'date_activated': telegram_bot_user.date_activated,
+				},
+			]
 		)

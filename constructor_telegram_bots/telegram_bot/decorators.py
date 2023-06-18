@@ -25,7 +25,7 @@ def check_telegram_bot_api_token(func):
 						'message': gettext('Вы уже используете этот API-токен Telegram бота на сайте!'),
 						'level': 'danger',
 					},
-					status_code=400
+					status=400
 				)
 			elif TelegramBot.objects.filter(api_token=api_token).exists():
 				return JsonResponse(
@@ -33,7 +33,7 @@ def check_telegram_bot_api_token(func):
 						'message': gettext('Этот API-токен Telegram бота уже использует другой пользователь сайта!'),
 						'level': 'danger',
 					},
-					status_code=400
+					status=400
 				)
 
 			if _check_telegram_bot_api_token(api_token=api_token) is not None:
@@ -44,7 +44,7 @@ def check_telegram_bot_api_token(func):
 						'message': gettext('Ваш API-токен Telegram бота является недействительным!'),
 						'level': 'danger',
 					},
-					status_code=400
+					status=400
 				)
 		else:
 			return JsonResponse(
@@ -52,7 +52,7 @@ def check_telegram_bot_api_token(func):
 					'message': gettext('Введите API-токен Telegram бота!'),
 					'level': 'danger',
 				},
-				status_code=400
+				status=400
 			)
 	return wrapper
 
@@ -73,7 +73,7 @@ def check_telegram_bot_id(func):
 					'message': gettext('Telegram бот не найден!'),
 					'level': 'danger',
 				},
-				status_code=400
+				status=400
 			)
 	return wrapper
 
@@ -98,7 +98,7 @@ def check_data_for_telegram_bot_command(func):
 											'message': gettext('Команда должна содержать не более 32 символов!'),
 											'level': 'danger',
 										},
-										status_code=400
+										status=400
 									)
 							else:
 								return JsonResponse(
@@ -106,7 +106,7 @@ def check_data_for_telegram_bot_command(func):
 										'message': gettext('Введите команду!'),
 										'level': 'danger',
 									},
-									status_code=400
+									status=400
 								)
 						
 						request: WSGIRequest = args[0]
@@ -129,7 +129,7 @@ def check_data_for_telegram_bot_command(func):
 								'message': gettext('Текст сообщения должно содержать не более 4096 символов!'),
 								'level': 'danger',
 							},
-							status_code=400
+							status=400
 						)
 				else:
 					return JsonResponse(
@@ -137,7 +137,7 @@ def check_data_for_telegram_bot_command(func):
 							'message': gettext('Введите текст сообщения!'),
 							'level': 'danger',
 						},
-						status_code=400
+						status=400
 					)
 			else:
 				return JsonResponse(
@@ -145,7 +145,7 @@ def check_data_for_telegram_bot_command(func):
 						'message': gettext('Название команды должно содержать не более 255 символов!'),
 						'level': 'danger',
 					},
-					status_code=400
+					status=400
 				)
 		else:
 			return JsonResponse(
@@ -153,7 +153,7 @@ def check_data_for_telegram_bot_command(func):
 					'message': gettext('Введите название команде!'),
 					'level': 'danger',
 				},
-				status_code=400
+				status=400
 			)
 	return wrapper
 
@@ -174,7 +174,7 @@ def check_telegram_bot_command_id(func):
 					'message': gettext('Команда Telegram бота не найдена!'),
 					'level': 'danger',
 				},
-				status_code=400
+				status=400
 			)
 	return wrapper
 
@@ -196,7 +196,7 @@ def check_telegram_bot_command_keyboard_button_id(func):
 					'message': gettext('Кнопка клавиатуры команды Telegram бота не найдена!'),
 					'level': 'danger',
 				},
-				status_code=400
+				status=400
 			)
 	return wrapper
 
@@ -216,6 +216,6 @@ def check_telegram_bot_user_id(func):
 					'message': gettext('Пользователь Telegram бота не найдена!'),
 					'level': 'danger',
 				},
-				status_code=400
+				status=400
 			)
 	return wrapper

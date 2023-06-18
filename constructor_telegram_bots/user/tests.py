@@ -89,18 +89,16 @@ class UserViewsTest(TestCase):
 		self.assertEqual(response.status_code, 200)
 		self.assertJSONEqual(
 			response.content,
-			json.dumps(
-				[
-					{
-						'id': 1,
-						'name': '123456789:qwertyuiop_test_telegram_bot',
-						'api_token': '123456789:qwertyuiop',
-						'is_running': False,
-						'is_stopped': True,
-						'commands_count': 0,
-						'users_count': 0,
-						'date_added': telegram_bot.date_added,
-					},
-				]
-			)
+			[
+				{
+					'id': 1,
+					'name': '123456789:qwertyuiop_test_telegram_bot',
+					'api_token': '123456789:qwertyuiop',
+					'is_running': False,
+					'is_stopped': True,
+					'commands_count': 0,
+					'users_count': 0,
+					'date_added': telegram_bot.date_added,
+				},
+			]
 		)
