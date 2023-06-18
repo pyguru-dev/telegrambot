@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-18 12:02+0000\n"
+"POT-Creation-Date: 2023-06-18 12:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,18 +39,16 @@ msgid "Пожертвование"
 msgstr "Donation"
 
 #: donation/templates/donation.html:6
-msgid "О сайте Constructor Telegram Bots"
-msgstr "About the site Constructor Telegram Bots"
+msgid "О сайте"
+msgstr "About the site"
 
 #: donation/templates/donation.html:7
 msgid ""
-"<b>Constructor Telegram Bots</b> - cайт, с помощью которого вы можете легко, "
-"бесплатно и без каких-либо знаний в программирование, сделать своего "
-"многофункционального Telegram бота."
+"cайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний "
+"в программирование, сделать своего многофункционального Telegram бота."
 msgstr ""
-"<b>Constructor Telegram Bots</b> - website, through which you can easily, "
-"free of charge and without any knowledge of programming, to make your a "
-"multifunctional Telegram bot."
+"a site with which you can easily, for free and without any knowledge into "
+"programming, to make your own multifunctional Telegram bot."
 
 #: donation/templates/donation.html:8
 msgid ""
@@ -67,8 +65,8 @@ msgid ""
 "пользователей сайта."
 msgstr ""
 "The site was created because, unfortunately, all similar sites are "
-"commercial and aim to make money on their users, and the "
-"free tariff on such sites severely limits their own users of the site."
+"commercial and aim to make money on their users, and the free tariff on such "
+"sites severely limits their own users of the site."
 
 #: donation/templates/donation.html:12
 msgid "Зачем мне делать пожертвование сайту?"
@@ -163,10 +161,6 @@ msgstr "and ask him that question."
 #: home/templates/home.html:4
 msgid "Бесплатный конструктор Telegram ботов"
 msgstr "Free Telegram Bot Builder"
-
-#: home/templates/home.html:10
-msgid "Constructor Telegram Bots"
-msgstr "Constructor Telegram Bots"
 
 #: home/templates/home.html:11 templates/base.html:12
 msgid ""
@@ -651,11 +645,11 @@ msgstr "Page not found, automatically returns to the home page in 3 seconds."
 msgid "бесплатный, конструктор, telegram, телеграм, bot, бот"
 msgstr "free, constructor, telegram, bot"
 
-#: templates/base.html:51
+#: templates/base.html:52 user/templates/logout.html:3
 msgid "Выход из аккаунта"
 msgstr "Logouting from account"
 
-#: templates/base.html:52
+#: templates/base.html:53
 msgid "Вы точно хотите выйти из аккаунта?"
 msgstr "Are you sure you want to logout of your account?"
 
@@ -694,3 +688,15 @@ msgstr "Logout"
 #: templates/navbar.html:59
 msgid "Войти через Telegram"
 msgstr "Sign in via Telegram"
+
+#: user/templates/login.html:3
+msgid "Авторизация"
+msgstr "Authorization"
+
+#: user/templates/login.html:6 user/templates/logout.html:6
+msgid "Автоматический переход на главную страницу через 3 секунды."
+msgstr "Automatic transition to the home page after 3 seconds."
+
+#: user/templates/logout.html:5
+msgid "Успешный выход из аккаунта"
+msgstr "Successfully logouted"
