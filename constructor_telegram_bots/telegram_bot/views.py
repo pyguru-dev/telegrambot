@@ -1,7 +1,7 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import JsonResponse
 
-from django.utils.translation import gettext
+from django.utils.translation import gettext as _
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
@@ -34,7 +34,7 @@ def add_telegram_bot(request: WSGIRequest, api_token: str, is_private: bool) -> 
 
 	return JsonResponse(
 		{
-			'message': gettext('Вы успешно добавили Telegram бота.'),
+			'message': _('Вы успешно добавили Telegram бота.'),
 			'level': 'success',
 		}
 	)
@@ -55,7 +55,7 @@ def edit_telegram_bot_api_token(request: WSGIRequest, telegram_bot: TelegramBot,
 
 	return JsonResponse(
 		{
-			'message': gettext('Вы успешно изменили API-токен Telegram бота.'),
+			'message': _('Вы успешно изменили API-токен Telegram бота.'),
 			'level': 'success',
 		}
 	)
@@ -72,14 +72,14 @@ def edit_telegram_bot_private(request: WSGIRequest, telegram_bot: TelegramBot, i
 	if is_private:
 		return JsonResponse(
 			{
-				'message': gettext('Вы успешно сделали Telegram бота приватным.'),
+				'message': _('Вы успешно сделали Telegram бота приватным.'),
 				'level': 'success',
 			}
 		)
 	else:
 		return JsonResponse(
 			{
-				'message': gettext('Вы успешно сделали Telegram бота не приватным.'),
+				'message': _('Вы успешно сделали Telegram бота не приватным.'),
 				'level': 'success',
 			}
 		)
@@ -93,7 +93,7 @@ def delete_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> Json
 
 	return JsonResponse(
 		{
-			'message': gettext('Вы успешно удалили Telegram бота.'),
+			'message': _('Вы успешно удалили Telegram бота.'),
 			'level': 'success',
 		}
 	)
@@ -166,7 +166,7 @@ def add_telegram_bot_command(
 
 	return JsonResponse(
 		{
-			'message': gettext('Вы успешно добавили команду Telegram боту.'),
+			'message': _('Вы успешно добавили команду Telegram боту.'),
 			'level': 'success',
 		}
 	)
@@ -249,7 +249,7 @@ def edit_telegram_bot_command(
 
 	return JsonResponse(
 		{
-			'message': gettext('Вы успешно изменили команду Telegram бота.'),
+			'message': _('Вы успешно изменили команду Telegram бота.'),
 			'level': 'success',
 		}
 	)
@@ -264,7 +264,7 @@ def delete_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot,
 
 	return JsonResponse(
 		{
-			'message': gettext('Вы успешно удалили команду Telegram бота.'),
+			'message': _('Вы успешно удалили команду Telegram бота.'),
 			'level': 'success',
 		}
 	)
@@ -312,7 +312,7 @@ def add_telegram_bot_command_keyboard_button_telegram_bot_command(
 	else:
 		return JsonResponse(
 			{
-				'message': 'Команда Telegram бота не найдена!',
+				'message': _('Команда Telegram бота не найдена!'),
 				'level': 'danger',
 			},
 			status=400
@@ -355,7 +355,7 @@ def add_allowed_user(request: WSGIRequest, telegram_bot: TelegramBot, telegram_b
 
 	return JsonResponse(
 		{
-			'message': 'Вы успешно добавили пользователя в список разрешённых пользователей Telegram бота.',
+			'message': _('Вы успешно добавили пользователя в список разрешённых пользователей Telegram бота.'),
 			'level': 'success',
 		}
 	)
@@ -371,7 +371,7 @@ def delete_allowed_user(request: WSGIRequest, telegram_bot: TelegramBot, telegra
 
 	return JsonResponse(
 		{
-			'message': 'Вы успешно удалили пользователя из списка разрешённых пользователей Telegram бота.',
+			'message': _('Вы успешно удалили пользователя из списка разрешённых пользователей Telegram бота.'),
 			'level': 'success',
 		}
 	)
@@ -386,7 +386,7 @@ def delete_telegram_bot_user(request: WSGIRequest, telegram_bot: TelegramBot, te
 
 	return JsonResponse(
 		{
-			'message': 'Вы успешно удалили пользователя Telegram бота.',
+			'message': _('Вы успешно удалили пользователя Telegram бота.'),
 			'level': 'success',
 		}
 	)

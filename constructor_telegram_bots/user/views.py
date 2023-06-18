@@ -2,7 +2,7 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import HttpResponse, render
 from django.http import JsonResponse
 
-from django.utils.translation import gettext
+from django.utils.translation import gettext as _
 
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -22,11 +22,11 @@ def user_login(request: WSGIRequest, id: int, confirm_code: str) -> HttpResponse
 
 			login(request, user)
 
-			context = {'heading': gettext('Успешная авторизация')}
+			context = {'heading': _('Успешная авторизация')}
 		else:
-			context = {'heading': gettext('Неверный код подтверждения!')}
+			context = {'heading': _('Неверный код подтверждения!')}
 	else:
-		context = {'heading': gettext('Не удалось найти пользователя!')}
+		context = {'heading': _('Не удалось найти пользователя!')}
 
 	return render(request, 'login.html', context)
 

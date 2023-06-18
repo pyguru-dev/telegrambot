@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-18 17:51+0000\n"
+"POT-Creation-Date: 2023-06-18 18:37+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,8 +34,8 @@ msgid "Английский"
 msgstr "Аглійська"
 
 #: constructor_telegram_bots/settings.py:195
-msgid "Украиский"
-msgstr "Українська"
+msgid "Украинский"
+msgstr "Український"
 
 #: constructor_telegram_bots/settings.py:196
 msgid "Русский"
@@ -686,7 +686,7 @@ msgstr "Назва команди має містити не більше ніж
 msgid "Введите название команде!"
 msgstr "Введіть назву команди!"
 
-#: telegram_bot/decorators.py:174
+#: telegram_bot/decorators.py:174 telegram_bot/views.py:315
 msgid "Команда Telegram бота не найдена!"
 msgstr "Команда Telegram бота не знайдена!"
 
@@ -729,6 +729,24 @@ msgstr "Ви успішно змінили команду Telegram бота."
 #: telegram_bot/views.py:267
 msgid "Вы успешно удалили команду Telegram бота."
 msgstr "Ви успішно видалили команду Telegram бота."
+
+#: telegram_bot/views.py:358
+msgid ""
+"Вы успешно добавили пользователя в список разрешённых пользователей Telegram "
+"бота."
+msgstr "Ви успішно додали користувача до списку дозволених користувачів Telegram "
+"бота."
+
+#: telegram_bot/views.py:374
+msgid ""
+"Вы успешно удалили пользователя из списка разрешённых пользователей Telegram "
+"бота."
+msgstr "Ви успішно видалили користувача зі списку дозволених користувачів Telegram "
+"бота."
+
+#: telegram_bot/views.py:389
+msgid "Вы успешно удалили пользователя Telegram бота."
+msgstr "Ви успішно видалили користувача Telegram бота."
 
 #: templates/404.html:4
 msgid "Страница не найдена"
