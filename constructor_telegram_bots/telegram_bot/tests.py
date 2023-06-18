@@ -108,13 +108,13 @@ class TelegramBotModelsTest(TestCase):
 		telegram_bot_user: TelegramBotUser = TelegramBotUser.objects.create(
 			telegram_bot=self.telegram_bot,
 			user_id=12345,
-			username='test'
+			full_name='Test A'
 		)
 		self.assertEqual(self.telegram_bot.users.count(), 1)
 
 		self.assertEqual(telegram_bot_user.id, 1)
 		self.assertEqual(telegram_bot_user.user_id, 12345)
-		self.assertEqual(telegram_bot_user.username, 'test')
+		self.assertEqual(telegram_bot_user.full_name, 'Test A')
 
 
 class TelegramBotViewsTest(TestCase):
@@ -412,7 +412,7 @@ class TelegramBotViewsTest(TestCase):
 			TelegramBotUser.objects.create(
 				telegram_bot=self.telegram_bot,
 				user_id=12345,
-				username='test'
+				full_name='Test A'
 			)
 
 			return func(*args, **kwargs)
@@ -608,7 +608,7 @@ class TelegramBotViewsTest(TestCase):
 					{
 						'id': 1,
 						'user_id': 12345,
-						'username': 'test',
+						'full_name': 'Test A',
 						'is_allowed': False,
 						'date_activated': telegram_bot_user.date_activated,
 					},
