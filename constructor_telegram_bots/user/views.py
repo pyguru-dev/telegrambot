@@ -42,24 +42,6 @@ def user_logout(request: WSGIRequest) -> HttpResponse:
 @csrf_exempt
 @require_POST
 @login_required
-def get_user_messages(request: WSGIRequest) -> HttpResponse:
-	if settings.TEST is True:
-		messages.info(request=request, message='Тестовая херня')
-
-	return HttpResponse(
-		json.dumps(
-			[
-				{
-					'text': str(message),
-					'type': message.tags,
-				} for message in messages.get_messages(request=request)
-			]
-		)
-	)
-
-@csrf_exempt
-@require_POST
-@login_required
 def get_user_telegram_bots(request: WSGIRequest) -> HttpResponse:
 	return HttpResponse(
 		json.dumps(
