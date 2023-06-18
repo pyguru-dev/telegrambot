@@ -70,7 +70,7 @@ msgstr ""
 
 #: donation/templates/donation.html:12
 msgid "Зачем мне делать пожертвование сайту?"
-msgstr "Why would I want to donate to a website?"
+msgstr "Why would I want to donate to a site?"
 
 #: donation/templates/donation.html:13
 msgid "Ваше пожертвование очень сильно поможет развитию и улучшению сайта."
@@ -160,7 +160,7 @@ msgstr "and ask him that question."
 
 #: home/templates/home.html:4
 msgid "Бесплатный конструктор Telegram ботов"
-msgstr "Free Telegram Bot Builder"
+msgstr "Free Constructor Telegram Bots"
 
 #: home/templates/home.html:11 templates/base.html:12
 msgid ""
@@ -475,7 +475,7 @@ msgid ""
 "своё согласие на сбор, хранение и использование ваших персональных данных, "
 "как описано в данной"
 msgstr ""
-"By using our website, namely, after the first authorization on the site, you "
+"By using our site, namely, after the first authorization on the site, you "
 "give us your consent to the collection, storage and use of your personal "
 "data, as described in this"
 
@@ -531,7 +531,7 @@ msgid ""
 "хранящихся на нашем сайте, а именно"
 msgstr ""
 "We take all necessary measures to protect your personal data, stored on our "
-"website, namely"
+"site, namely"
 
 #: privacy_policy/templates/privacy_policy.html:28
 msgid "защита от атак CSRF"
@@ -606,7 +606,7 @@ msgid ""
 "Если вы хотите получить доступ к вашим персональным данным, хранящимся на "
 "нашем сайте, напишите нам по адресу"
 msgstr ""
-"If you want to access your personal data stored on the our website, write to "
+"If you want to access your personal data stored on the our site, write to "
 "us at"
 
 #: privacy_policy/templates/privacy_policy.html:41
