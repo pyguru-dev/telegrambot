@@ -1,3 +1,5 @@
+from constructor_telegram_bots.functions import generate_random_string
+
 from pathlib import Path
 from dotenv import load_dotenv
 import sys
@@ -13,7 +15,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = bool(os.getenv('DEBUG'))
 
 if SECRET_KEY is None:
-	SECRET_KEY = 'django-insecure-zXK4D%xx5Mv!L#FS10xU6p(Ztq3HvQA&#CKvt0Kd%Tn&9H1YKa'
+	SECRET_KEY = f"django-insecure-{generate_random_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}"
 
 if DEBUG is None:
 	DEBUG = True
