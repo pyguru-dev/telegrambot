@@ -1,3 +1,5 @@
+from django.utils.translation import gettext_lazy as _
+
 from constructor_telegram_bots.functions import generate_random_string
 
 from pathlib import Path
@@ -188,12 +190,11 @@ USE_I18N = True
 USE_L10N = True
 
 LANGUAGE_CODE = 'ru-ru'
-gettext = lambda s: s
 LANGUAGES = (
-	('en', gettext('Английский')),
-	('uk', gettext('Украиский')),
-	('pl', gettext('Польский')),
-	('ru', gettext('Русский')),
+	('en', _('Английский')),
+	('uk', _('Украиский')),
+	('pl', _('Польский')),
+	('ru', _('Русский')),
 )
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 

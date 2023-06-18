@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-18 12:55+0000\n"
+"POT-Creation-Date: 2023-06-18 13:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,19 +20,19 @@ msgstr ""
 "(n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && "
 "n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
-#: constructor_telegram_bots/settings.py:193
+#: constructor_telegram_bots/settings.py:194
 msgid "Английский"
 msgstr "Angielski"
 
-#: constructor_telegram_bots/settings.py:194
+#: constructor_telegram_bots/settings.py:195
 msgid "Украиский"
 msgstr "Ukraiński"
 
-#: constructor_telegram_bots/settings.py:195
+#: constructor_telegram_bots/settings.py:196
 msgid "Польский"
 msgstr "Polski"
 
-#: constructor_telegram_bots/settings.py:196
+#: constructor_telegram_bots/settings.py:197
 msgid "Русский"
 msgstr "Rosyjski"
 
@@ -658,7 +658,7 @@ msgstr ""
 msgid "бесплатный, конструктор, telegram, телеграм, bot, бот"
 msgstr "za darmo, konstruktor, telegram, bot"
 
-#: templates/base.html:52 user/templates/logout.html:3
+#: templates/base.html:52 user/templates/logout.html:4
 msgid "Выход из аккаунта"
 msgstr "Wyloguj"
 
@@ -702,14 +702,14 @@ msgstr "Wyloguj się"
 msgid "Войти через Telegram"
 msgstr "Zaloguj się przez telegram"
 
-#: user/templates/login.html:3
+#: user/templates/login.html:4
 msgid "Авторизация"
 msgstr ""
 
-#: user/templates/login.html:6 user/templates/logout.html:6
+#: user/templates/login.html:7 user/templates/logout.html:7
 msgid "Автоматический переход на главную страницу через 3 секунды."
 msgstr "Automatyczne przejście do strony głównej po 3 sekundach."
 
-#: user/templates/logout.html:5
+#: user/templates/logout.html:6
 msgid "Успешный выход из аккаунта"
 msgstr "Pomyślnie wylogowano"

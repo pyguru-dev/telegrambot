@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-18 12:47+0000\n"
+"POT-Creation-Date: 2023-06-18 13:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,19 +18,19 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: constructor_telegram_bots/settings.py:193
+#: constructor_telegram_bots/settings.py:194
 msgid "Английский"
 msgstr "English"
 
-#: constructor_telegram_bots/settings.py:194
+#: constructor_telegram_bots/settings.py:195
 msgid "Украиский"
 msgstr "Ukrainian"
 
-#: constructor_telegram_bots/settings.py:195
+#: constructor_telegram_bots/settings.py:196
 msgid "Польский"
 msgstr "Poland"
 
-#: constructor_telegram_bots/settings.py:196
+#: constructor_telegram_bots/settings.py:197
 msgid "Русский"
 msgstr "Russian"
 
@@ -606,8 +606,8 @@ msgid ""
 "Если вы хотите получить доступ к вашим персональным данным, хранящимся на "
 "нашем сайте, напишите нам по адресу"
 msgstr ""
-"If you want to access your personal data stored on the our site, write to "
-"us at"
+"If you want to access your personal data stored on the our site, write to us "
+"at"
 
 #: privacy_policy/templates/privacy_policy.html:41
 #: privacy_policy/templates/privacy_policy.html:45
@@ -645,7 +645,7 @@ msgstr "Page not found, automatically returns to the home page in 3 seconds."
 msgid "бесплатный, конструктор, telegram, телеграм, bot, бот"
 msgstr "free, constructor, telegram, bot"
 
-#: templates/base.html:52 user/templates/logout.html:3
+#: templates/base.html:52 user/templates/logout.html:4
 msgid "Выход из аккаунта"
 msgstr "Logouting from account"
 
@@ -689,14 +689,14 @@ msgstr "Logout"
 msgid "Войти через Telegram"
 msgstr "Sign in via Telegram"
 
-#: user/templates/login.html:3
+#: user/templates/login.html:4
 msgid "Авторизация"
 msgstr "Authorization"
 
-#: user/templates/login.html:6 user/templates/logout.html:6
+#: user/templates/login.html:7 user/templates/logout.html:7
 msgid "Автоматический переход на главную страницу через 3 секунды."
 msgstr "Automatic transition to the home page after 3 seconds."
 
-#: user/templates/logout.html:5
+#: user/templates/logout.html:6
 msgid "Успешный выход из аккаунта"
 msgstr "Successfully logouted"
