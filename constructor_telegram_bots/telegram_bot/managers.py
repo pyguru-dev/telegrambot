@@ -82,18 +82,3 @@ class TelegramBotCommandKeyboardManager(models.Manager):
 			)
 
 		return telegram_bot_command_keyboard
-
-class TelegramBotUserManager(models.Manager):
-	def create(
-		self,
-		telegram_bot: 'TelegramBotModels.TelegramBot',
-		user_id: int,
-		username: str,
-		**extra_fields: Any
-	) -> 'TelegramBotModels.TelegramBotUser': 
-		return super().create(
-			telegram_bot=telegram_bot,
-			user_id=user_id,
-			username=username,
-			**extra_fields
-		)

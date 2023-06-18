@@ -146,7 +146,7 @@ var intervalUpdateUsersId;
 								telegramBotUserDiv.setAttribute('class', 'row justify-content-between');
 								telegramBotUserDiv.innerHTML = [
 									'	<div class="col-auto">',
-									`		<p class="my-2">[${telegramBotUser['date_activated']}]: @${telegramBotUser['username']}</p>`,
+									`		<p class="my-2">[${telegramBotUser['date_activated']}]: ${telegramBotUser['user_id']} - ${telegramBotUser['full_name']}</p>`,
 									'	</div>',
 								].join('');
 

@@ -5,8 +5,7 @@ from user.models import User
 
 from telegram_bot.managers import (
 	TelegramBotManager,
-	TelegramBotCommandManager, TelegramBotCommandKeyboardManager,
-	TelegramBotUserManager
+	TelegramBotCommandManager, TelegramBotCommandKeyboardManager
 )
 
 from django.conf import settings
@@ -153,11 +152,9 @@ class TelegramBotUser(models.Model):
 	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, related_name='users', null=True)
 
 	user_id = models.BigIntegerField()
-	username = models.CharField(max_length=32)
+	full_name = models.CharField(max_length=129, null=True)
 	is_allowed = models.BooleanField(default=False)
 	_date_activated = models.DateTimeField(auto_now_add=True)
-
-	objects = TelegramBotUserManager()
 
 	class Meta:
 		db_table = 'telegram_bot_user'
@@ -172,7 +169,7 @@ class TelegramBotUser(models.Model):
 		return {
 			'id': self.id,
 			'user_id': self.user_id,
-			'username': self.username,
+			'full_name': self.full_name,
 			'is_allowed': self.is_allowed,
 			'date_activated': self.date_activated,
 		}
