@@ -1,4 +1,4 @@
-from django.utils.translation import gettext_lazy as _
+from django.utils.translation import gettext_lazy
 
 from constructor_telegram_bots.functions import generate_random_string
 
@@ -191,10 +191,10 @@ USE_L10N = True
 
 LANGUAGE_CODE = 'ru-ru'
 LANGUAGES = (
-	('en', _('Английский')),
-	('uk', _('Украиский')),
-	('pl', _('Польский')),
-	('ru', _('Русский')),
+	('en', gettext_lazy('Английский')),
+	('uk', gettext_lazy('Украиский')),
+	('pl', gettext_lazy('Польский')),
+	('ru', gettext_lazy('Русский')),
 )
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 
