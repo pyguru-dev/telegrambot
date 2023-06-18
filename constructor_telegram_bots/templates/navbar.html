@@ -37,7 +37,7 @@
 								{% for language in languages %}
 									<li>
 										<button class="dropdown-item" type="submit" name="language" value="{{ language.code }}">
-											{{ language.name }}
+											{% trans language.name %}
 										</button>
 									</li>
 								{% endfor %}

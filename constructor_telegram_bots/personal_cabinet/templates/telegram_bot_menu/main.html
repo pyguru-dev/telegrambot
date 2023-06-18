@@ -14,7 +14,7 @@
 		<div class="row">
 			<div class="col-12 pb-3">
 				<div class="card">
-					<h5 class="card-header bg-{% if telegram_bot.is_running %}success{% else %}danger{% endif %} text-light fw-bold text-center">Telegram бот в{% if telegram_bot.is_running is False %}ы{% endif %}ключен</h5>
+					<h5 class="card-header bg-{% if telegram_bot.is_running %}success{% else %}danger{% endif %} text-light fw-bold text-center">{% if telegram_bot.is_running %}{% trans "Telegram бот включен" %}{% else %}{% trans "Telegram бот выключен" %}{% endif %}</h5>
 					<div class="card-body p-2">
 						<div class="row justify-content-center">
 							<div class="col-12 col-lg-6">
@@ -153,7 +153,7 @@
 								<label for="telegramBotCommandAddition">{% trans "Добавить" %}</label>
 								<div class="border rounded w-100 pt-1" id="telegramBotCommandAddition">
 									<div class="row gy-1 py-1 px-3">
-										<button class="btn btn-sm btn-dark mt-0" id="telegramBotCommandAddCommandAdditionButton" type="button">{% trans "Команду" %}"</button>
+										<button class="btn btn-sm btn-dark mt-0" id="telegramBotCommandAddCommandAdditionButton" type="button">{% trans "Команду" %}</button>
 										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddImageAdditionButton" type="button">{% trans "Изображение" %}</button>
 										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddKeyboardAdditionButton" type="button">{% trans "Клавиатуру" %}</button>
 										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddApiRequestAdditionButton" type="button">{% trans "API-запрос" %}</button>
