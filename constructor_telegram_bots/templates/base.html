@@ -46,8 +46,11 @@
 
 	<script>
 		{% block globalVariables %}
-			const userLogOutUrl = '{% url 'user_logout' %}';
-			const getUserMessages = '{% url 'get_user_messages' %}';
+			const userLogoutUrl = '{% url 'user_logout' %}';
+			const getUserMessagesUrl = '{% url 'get_user_messages' %}';
+			
+			const logoutAskConfirmModalTitle = "{% trans "Выход из аккаунта" %}";
+			const logoutAskConfirmModalText = "{% trans "Вы точно хотите выйти из аккаунта?" %}";
 		{% endblock globalVariables %}
 	</script>
 

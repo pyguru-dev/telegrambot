@@ -6,7 +6,7 @@ var intervalUpdateUsersId;
 	let telegramBotTableLineApiToken = document.querySelector('#telegramBotTableLineApiToken');
 
 	function updateTelegramBot() {
-		fetch (getTelegramBotData, {
+		fetch (getTelegramBotDataUrl, {
 			method: 'POST'
 		}).then(response => {
 			if (response.ok) {
@@ -85,8 +85,8 @@ var intervalUpdateUsersId;
 							let telegramBotCommandId = this.id;
 
 							askConfirmModal(
-								'Удаление команды Telegram бота',
-								'Вы точно хотите удалить команду Telegram бота?',
+								deleteTelegramBotCommandAskConfirmModalTitle,
+								deleteTelegramBotCommandAskConfirmModalText,
 								function() {
 									fetch(`/telegram-bot/${telegramBotId}/command/${telegramBotCommandId}/delete/`, {
 										method: 'POST',
@@ -206,8 +206,8 @@ var intervalUpdateUsersId;
 								deleteTelegramBotUserButton.innerHTML = '<i class="bi bi-trash text-danger"></i>';
 
 								deleteTelegramBotUserButton.addEventListener('click', () => askConfirmModal(
-									'Удаление пользователя Telegram бота',
-									'Вы точно хотите удалить пользователя Telegram бота?',
+									deleteTelegramBotUserAskConfirmModalTitle,
+									deleteTelegramBotUserAskConfirmModalText,
 									function() {
 										fetch(`/telegram-bot/${telegramBotId}/user/${telegramBotUser['id']}/delete/`, {
 											method: 'POST',
@@ -230,7 +230,7 @@ var intervalUpdateUsersId;
 						} else {
 							let telegramBotUserDiv = document.createElement('div');
 							telegramBotUserDiv.setAttribute('class', 'list-group-item pb-1');
-							telegramBotUserDiv.innerHTML = `<p class="text-center my-2">Вашего Telegram бота ещё никто не активировал.</p>`;
+							telegramBotUserDiv.innerHTML = `<p class="text-center my-2">${telegramBotNotActivatedText}</p>`;
 							telegramBotUsersDiv.append(telegramBotUserDiv);
 						}
 					});

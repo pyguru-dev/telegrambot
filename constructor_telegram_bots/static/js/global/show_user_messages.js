@@ -1,4 +1,4 @@
-fetch(getUserMessages, {
+fetch(getUserMessagesUrl, {
 	method: 'POST'
 }).then(response => {
 	if (response.ok) {

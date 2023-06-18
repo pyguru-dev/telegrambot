@@ -77,7 +77,7 @@
 					<div class="card-footer py-3">
 						<div class="row row-cols-1 row-cols-lg-2">
 							<div class="col pe-lg-2 pb-2 pb-lg-0">
-								<button class="btn btn-{% if telegram_bot.is_running %}danger{% else %}success{% endif %} w-100 " id="telegramBotStartOrStopButton" type="button">{% if telegram_bot.is_running %}{% trans "Выключить" %}{% else %}{% trans "Включить" %}{% endif %} {% trans "Telegram бота" %}</button>
+								<button class="btn btn-{% if telegram_bot.is_running %}danger{% else %}success{% endif %} w-100 " id="telegramBotStartOrStopButton" type="button">{% if telegram_bot.is_running %}{% trans "Выключить Telegram бота" %}{% else %}{% trans "Включить Telegram бота" %}{% endif %}</button>
 							</div>
 							<div class="col ps-lg-2">
 								<button class="btn btn-danger w-100" id="telegramBotDeleteButton" type="button">{% trans "Удалить Telegram бота" %}</button>	
@@ -204,7 +204,7 @@
 	const editTelegramBotPrivateUrl = '{% url 'edit_telegram_bot_private' telegram_bot.id %}';
 	const deleteTelegramBotUrl = '{% url 'delete_telegram_bot' telegram_bot.id %}';
 
-	const getTelegramBotData = '{% url 'get_telegram_bot_data' telegram_bot.id %}';
+	const getTelegramBotDataUrl = '{% url 'get_telegram_bot_data' telegram_bot.id %}';
 
 	const startTelegramBotUrl = '{% url 'start_telegram_bot' telegram_bot.id %}';
 	const stopTelegramBotUrl = '{% url 'stop_telegram_bot' telegram_bot.id %}';
@@ -213,6 +213,31 @@
 
 	const getTelegramBotCommandsUrl = '{% url 'get_telegram_bot_commands' telegram_bot.id %}';
 	const getTelegramBotUsersUrl = '{% url 'get_telegram_bot_users' telegram_bot.id %}';
+
+	const deleteTelegramBotAskConfirmModalTitle = "{% trans "Удаление Telegram бота" %}";
+	const deleteTelegramBotAskConfirmModalText = "{% trans "Вы точно хотите удалить Telegram бота?" %}";
+
+	const deleteTelegramBotCommandAskConfirmModalTitle = "{% trans "Удаление команды Telegram бота" %}";
+	const deleteTelegramBotCommandAskConfirmModalText = "{% trans "Вы точно хотите удалить команду Telegram бота?" %}";
+
+	const deleteTelegramBotUserAskConfirmModalTitle = "{% trans "Удаление пользователя Telegram бота" %}";
+	const deleteTelegramBotUserAskConfirmModalText = "{% trans "Вы точно хотите удалить пользователя Telegram бота?" %}";
+
+	const telegramBotNotActivatedText = "{% trans "Вашего Telegram бота ещё никто не активировал." %}";
+
+	const telegramBotTableLineApiTokenInputText = "{% trans "Введите API-токен Telegram бота" %}";
+
+	const telegramBotCardHeaderIsRunningText = "{% trans "Telegram бот включен" %}";
+	const telegramBotCardHeaderIsNotRunningText = "{% trans "Telegram бот выключен" %}";
+
+	const telegramBotStartButtonText = "{% trans "Включить Telegram бота" %}";
+	const telegramBotStopButtonText = "{% trans "Выключить Telegram бота" %}";
+
+	const telegramBotCommandCardHeaderAddCommandTitleText = "{% trans "Добавление команды" %}";
+	const telegramBotCommandCardHeaderEditCommandTitleText = "{% trans "Редактирование команды" %}";
+
+	const telegramBotCommandFooterAddCommandButtonText = "{% trans "Добавить команду" %}";
+	const telegramBotCommandFooterSaveCommandButtonText = "{% trans "Сохранить команду" %}";
 {% endblock globalVariables %}
 
 {% block scripts %}

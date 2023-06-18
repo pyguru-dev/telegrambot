@@ -224,7 +224,7 @@
 	}
 
 	function telegramBotCommandClearAll() {
-		telegramBotCommand.cardHeader.innerHTML = 'Добавление команды';
+		telegramBotCommand.cardHeader.innerHTML = telegramBotCommandCardHeaderAddCommandTitleText;
 
 		telegramBotCommand.nameInput.value = '';
 		telegramBotCommand.textInput.value = '';
@@ -250,7 +250,7 @@
 		telegramBotCommand.backToAddButton.classList.add('d-none');
 
 		telegramBotCommand.addOrEditButton.id = '0';
-		telegramBotCommand.addOrEditButton.innerHTML = 'Добавить команду';
+		telegramBotCommand.addOrEditButton.innerHTML = telegramBotCommandFooterAddCommandButtonText;
 	}
 
 	telegramBotCommand.backToAddButton.addEventListener('click', telegramBotCommandClearAll);
@@ -258,7 +258,7 @@
 	function editTelegramBotCommand(telegramBotCommand_) {
 		telegramBotCommandClearAll();
 
-		telegramBotCommand.cardHeader.innerHTML = 'Редактирование команды';
+		telegramBotCommand.cardHeader.innerHTML = telegramBotCommandCardHeaderEditCommandTitleText;
 
 		telegramBotCommand.nameInput.value = telegramBotCommand_['name'];
 		telegramBotCommand.textInput.value = telegramBotCommand_['message_text'];
@@ -302,7 +302,7 @@
 		telegramBotCommand.backToAddButton.classList.remove('d-none');
 
 		telegramBotCommand.addOrEditButton.id = telegramBotCommand_['id'];
-		telegramBotCommand.addOrEditButton.innerHTML = 'Сохранить команду';
+		telegramBotCommand.addOrEditButton.innerHTML = telegramBotCommandFooterSaveCommandButtonText;
 	}
 
 	telegramBotCommand.addOrEditButton.addEventListener('click', function() {

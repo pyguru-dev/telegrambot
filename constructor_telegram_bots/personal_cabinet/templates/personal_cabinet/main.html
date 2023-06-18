@@ -37,6 +37,18 @@
 	{{ block.super }}
 	const addTelegramBotUrl = '{% url 'add_telegram_bot' %}';
 	const getTelegramBotsUrl = '{% url 'get_user_telegram_bots' %}';
+
+	const telegramBotCardHeaderIsRunningText = "{% trans "Telegram бот включен" %}";
+	const telegramBotCardHeaderIsNotRunningText = "{% trans "Telegram бот выключен" %}";
+	const telegramBotTableLineNameText = "{% trans "Имя" %}";
+	const telegramBotTableLineApiTokenText = "{% trans "API-токен" %}";
+	const telegramBotTableLineUsersCountText = "{% trans "Количество активаций" %}";
+	const telegramBotTableLineCommandsCountText = "{% trans "Количество команд" %}";
+	const telegramBotTableLineDateAddedText = "{% trans "Дата добавления" %}";
+	const telegramBotCardFooterPersonalCabinetButtonText = "{% trans "Меню Telegram бота" %}";
+
+	const telegramBotCardBodyNotAddedText = "{% trans "Вы ещё не добавили Telegram бота" %}";
+	const telegramBotCardFooterHowToAddButtonText = "{% trans "Как добавить Telegram бота?" %}";
 {% endblock globalVariables %}
 
 {% block scripts %}
