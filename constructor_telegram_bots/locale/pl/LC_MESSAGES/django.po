@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-18 09:10+0000\n"
+"POT-Creation-Date: 2023-06-18 09:33+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,9 +50,9 @@ msgid ""
 "бесплатно и без каких-либо знаний в программирование, сделать своего "
 "многофункционального Telegram бота."
 msgstr ""
-"<b>Constructor Telegram Bots</b> - to strona, za pomocą której możesz "
-"łatwo, bezpłatnie i bez wiedzy w zakresie programowania, stworzyć "
-"wielofunkcyjnego bota telegramowego."
+"<b>Constructor Telegram Bots</b> - to strona, za pomocą której możesz łatwo, "
+"bezpłatnie i bez wiedzy w zakresie programowania, stworzyć wielofunkcyjnego "
+"bota telegramowego."
 
 #: donation/templates/donation.html:8
 msgid ""
@@ -210,12 +210,9 @@ msgid "Добавление Telegram бота"
 msgstr "Dodanie bota telegramowego"
 
 #: personal_cabinet/templates/personal_cabinet/modals/add_telegram_bot_modal.html:15
+#: personal_cabinet/templates/personal_cabinet/modals/add_telegram_bot_modal.html:16
 msgid "Введите API-токен Telegram бота"
 msgstr "Wpisz interfejs API bota Telegram"
-
-#: personal_cabinet/templates/personal_cabinet/modals/add_telegram_bot_modal.html:16
-msgid ">Введите API-токен Telegram бота"
-msgstr "> Wejdź do interfejsu API Telegram Bot"
 
 #: personal_cabinet/templates/personal_cabinet/modals/add_telegram_bot_modal.html:22
 msgid "Сделать Telegram бота приватным"
