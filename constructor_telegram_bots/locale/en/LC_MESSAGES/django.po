@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-18 13:22+0000\n"
+"POT-Creation-Date: 2023-06-18 16:35+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: constructor_telegram_bots/decorators.py:25
+msgid "Тело запроса не должно весить больше 2.5MB!"
+msgstr "The request body must not exceed 2.5MB!"
+
+#: constructor_telegram_bots/decorators.py:41
+msgid "В тело запроса переданы не все нужные данные!"
+msgstr "Not all required data was passed to the request body!"
 
 #: constructor_telegram_bots/settings.py:194
 msgid "Английский"
@@ -348,7 +356,7 @@ msgstr "Enter the command"
 
 #: personal_cabinet/templates/telegram_bot_menu/main.html:129
 msgid "Введите текст сообщения"
-msgstr "Enter the text of the message"
+msgstr "Enter the message text"
 
 #: personal_cabinet/templates/telegram_bot_menu/main.html:132
 msgid "Выберите клавиатуру"
@@ -627,6 +635,94 @@ msgstr ""
 "If you have any questions or concerns about using our site or the processing "
 "of your personal data, please write to us at address"
 
+#: telegram_bot/decorators.py:25
+msgid "Вы уже используете этот API-токен Telegram бота на сайте!"
+msgstr "You are already using this Telegram bot API-token on the site!"
+
+#: telegram_bot/decorators.py:33
+msgid "Этот API-токен Telegram бота уже использует другой пользователь сайта!"
+msgstr "This Telegram bot's API-token is already being used by another site user!"
+
+#: telegram_bot/decorators.py:44
+msgid "Ваш API-токен Telegram бота является недействительным!"
+msgstr "Your Telegram bot's API token is invalid!"
+
+#: telegram_bot/decorators.py:52
+msgid "Введите API-токен Telegram бота!"
+msgstr "Enter the Telegram bot API-token!"
+
+#: telegram_bot/decorators.py:73
+msgid "Telegram бот не найден!"
+msgstr "Telegram bot not found!"
+
+#: telegram_bot/decorators.py:98
+msgid "Команда должна содержать не более 32 символов!"
+msgstr "The command must contain no more than 32 characters!"
+
+#: telegram_bot/decorators.py:106
+msgid "Введите команду!"
+msgstr "Enter the command!"
+
+#: telegram_bot/decorators.py:129
+msgid "Текст сообщения должно содержать не более 4096 символов!"
+msgstr "The text of the message must contain no more than 4096 characters!"
+
+#: telegram_bot/decorators.py:137
+msgid "Введите текст сообщения!"
+msgstr "Enter the message text!"
+
+#: telegram_bot/decorators.py:145
+msgid "Название команды должно содержать не более 255 символов!"
+msgstr ""
+
+#: telegram_bot/decorators.py:153
+msgid "Введите название команде!"
+msgstr "Enter a command name!"
+
+#: telegram_bot/decorators.py:174
+msgid "Команда Telegram бота не найдена!"
+msgstr "Telegram bot command not found!"
+
+#: telegram_bot/decorators.py:196
+msgid "Кнопка клавиатуры команды Telegram бота не найдена!"
+msgstr "Telegram bot command keyboard button not found!"
+
+#: telegram_bot/decorators.py:216
+msgid "Пользователь Telegram бота не найдена!"
+msgstr "Telegram bot user not found!"
+
+#: telegram_bot/views.py:37
+msgid "Вы успешно добавили Telegram бота."
+msgstr "You have successfully added a Telegram bot."
+
+#: telegram_bot/views.py:58
+msgid "Вы успешно изменили API-токен Telegram бота."
+msgstr "You have successfully changed the Telegram bot's API-token."
+
+#: telegram_bot/views.py:75
+msgid "Вы успешно сделали Telegram бота приватным."
+msgstr "You have successfully made the Telegram bot private."
+
+#: telegram_bot/views.py:82
+msgid "Вы успешно сделали Telegram бота не приватным."
+msgstr "You have successfully made the Telegram bot not private."
+
+#: telegram_bot/views.py:96
+msgid "Вы успешно удалили Telegram бота."
+msgstr "You have successfully deleted the Telegram bot."
+
+#: telegram_bot/views.py:169
+msgid "Вы успешно добавили команду Telegram боту."
+msgstr "You have successfully added the command to the Telegram bot."
+
+#: telegram_bot/views.py:252
+msgid "Вы успешно изменили команду Telegram бота."
+msgstr "You have successfully changed the Telegram bot command."
+
+#: telegram_bot/views.py:267
+msgid "Вы успешно удалили команду Telegram бота."
+msgstr "You have successfully deleted the Telegram bot command."
+
 #: templates/404.html:4
 msgid "Страница не найдена"
 msgstr "Page not found"
@@ -645,11 +741,11 @@ msgstr "Page not found, automatically returns to the home page in 3 seconds."
 msgid "бесплатный, конструктор, telegram, телеграм, bot, бот"
 msgstr "free, constructor, telegram, bot"
 
-#: templates/base.html:52 user/templates/logout.html:4
+#: templates/base.html:51 user/templates/logout.html:4
 msgid "Выход из аккаунта"
 msgstr "Logouting from account"
 
-#: templates/base.html:53
+#: templates/base.html:52
 msgid "Вы точно хотите выйти из аккаунта?"
 msgstr "Are you sure you want to logout of your account?"
 
@@ -700,3 +796,15 @@ msgstr "Automatic transition to the home page after 3 seconds."
 #: user/templates/logout.html:6
 msgid "Успешный выход из аккаунта"
 msgstr "Successfully logouted"
+
+#: user/views.py:25
+msgid "Успешная авторизация"
+msgstr "Successful authorization"
+
+#: user/views.py:27
+msgid "Неверный код подтверждения!"
+msgstr "Invalid confirmation code!"
+
+#: user/views.py:29
+msgid "Не удалось найти пользователя!"
+msgstr "User not found!"
