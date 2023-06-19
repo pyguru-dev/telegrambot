@@ -66,7 +66,7 @@ class TelegramBotCommandKeyboardManager(models.Manager):
 		self,
 		telegram_bot_command: 'TelegramBotModels.TelegramBotCommand',
 		type: str,
-		buttons: dict,
+		buttons: list,
 		**extra_fields: Any
 	) -> 'TelegramBotModels.TelegramBotCommandKeyboard':
 		telegram_bot_command_keyboard: TelegramBotModels.TelegramBotCommandKeyboard = super().create(

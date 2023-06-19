@@ -216,18 +216,14 @@ def edit_telegram_bot_command(
 
 					buttons_id.append(button_.id)
 				else:
-					is_finded_keyboard_button = False
 					button_id = int(button['id'])
 
 					for button_ in telegram_bot_command_keyboard.buttons.all():
 						if button_id == button_.id:
-							is_finded_keyboard_button = True
+							button_: TelegramBotCommandKeyboardButton = telegram_bot_command_keyboard.buttons.get(id=button_id)
+							button_.text = button['text']
+							button_.save()
 							break
-					
-					if is_finded_keyboard_button:
-						button_: TelegramBotCommandKeyboardButton = telegram_bot_command_keyboard.buttons.get(id=button_id)
-						button_.text = button['text']
-						button_.save()
 
 					buttons_id.append(button_id)
 
