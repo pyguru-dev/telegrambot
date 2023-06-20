@@ -33,7 +33,7 @@
 				telegramBotApiTokenEditOrSaveOrCancel();
 			}
 
-			response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']));
+			response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
 		});
 	});
 
@@ -49,7 +49,7 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 		body: JSON.stringify({'is_private': telegramBotIsPrivateCheckBox.checked}),
 	}).then(response => {
 		if (response.ok) {updateTelegramBotUsers()}
-		response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']));
+		response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
 	});
 });
 
@@ -93,10 +93,10 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 										telegramBotStartOrStopButton.classList.replace('btn-danger', 'btn-success');
 										telegramBotStartOrStopButton.innerHTML = telegramBotStartButtonText;
 
-										createAlert(mainAlertContainer, 'Вы успешно выключили Telegram бота.', 'success');
+										createAlert(mainAlertContainer, stopTelegramBotMessage, 'success');
 									} 
 								});
-							} else {response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']))}
+							} else {response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']))}
 						});
 					}
 
@@ -115,10 +115,10 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 					telegramBotStartOrStopButton.classList.replace('btn-success', 'btn-danger');
 					telegramBotStartOrStopButton.innerHTML = telegramBotStopButtonText;
 
-					createAlert(mainAlertContainer, 'Вы успешно включили Telegram бота.', 'success');
+					createAlert(mainAlertContainer, startTelegramBotMessage, 'success');
 				}
 				
-			} else {response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']))}
+			} else {response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']))}
 		});
 	});
 }
@@ -131,7 +131,7 @@ document.querySelector('#telegramBotDeleteButton').addEventListener('click', () 
 			method: 'POST',
 		}).then(response => {
 			if (response.ok) {setTimeout("window.location.href = '../';", 1000)}
-			response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']));
+			response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
 		});
 	}
 ));

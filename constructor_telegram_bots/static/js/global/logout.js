@@ -1,5 +1,5 @@
-document.querySelector('#logoutButton').addEventListener('click', () => askConfirmModal(
-	logoutAskConfirmModalTitle,
-	logoutAskConfirmModalText,
+document.querySelector('#userLogoutButton').addEventListener('click', () => askConfirmModal(
+	userLogoutAskConfirmModalTitle,
+	userLogoutAskConfirmModalText,
 	function() {window.location.href = userLogoutUrl}
 ));

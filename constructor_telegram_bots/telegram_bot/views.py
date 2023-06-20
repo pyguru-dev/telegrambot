@@ -184,7 +184,7 @@ def edit_telegram_bot_command(
 	telegram_bot_command: TelegramBotCommand,
 	name: str,
 	command: Union[str, None],
-	image: InMemoryUploadedFile,
+	image: Union[InMemoryUploadedFile, str, None],
 	message_text: str,
 	keyboard: Union[dict, None],
 	api_request: Union[list, None]
@@ -192,9 +192,12 @@ def edit_telegram_bot_command(
 	telegram_bot_command.name = name
 	telegram_bot_command.command = command
 
-	if image != 'not_edited':
-		telegram_bot_command.image.delete(save=False)
-		telegram_bot_command.image = image
+	if image is not None:
+		if isinstance(image, InMemoryUploadedFile) or image == 'null' and str(telegram_bot_command.image) != '':
+			telegram_bot_command.image.delete(save=False)
+
+			if isinstance(image, InMemoryUploadedFile):
+				telegram_bot_command.image = image
 
 	telegram_bot_command.message_text = message_text
 
@@ -213,19 +216,27 @@ def edit_telegram_bot_command(
 						telegram_bot_command_keyboard=telegram_bot_command_keyboard,
 						text=button['text']
 					)
-
-					buttons_id.append(button_.id)
 				else:
+					is_finded_button = False
 					button_id = int(button['id'])
 
 					for button_ in telegram_bot_command_keyboard.buttons.all():
 						if button_id == button_.id:
-							button_: TelegramBotCommandKeyboardButton = telegram_bot_command_keyboard.buttons.get(id=button_id)
-							button_.text = button['text']
-							button_.save()
+							is_finded_button = True
 							break
 
-					buttons_id.append(button_id)
+					if is_finded_button:
+						button_: TelegramBotCommandKeyboardButton = telegram_bot_command_keyboard.buttons.get(id=button_id)
+						button_.text = button['text']
+						button_.save()
+					else:
+						button_: TelegramBotCommandKeyboardButton = TelegramBotCommandKeyboard.objects.create(
+							telegram_bot_command=telegram_bot_command,
+							type=keyboard['type'],
+							buttons=keyboard['buttons']
+						)
+
+				buttons_id.append(button_.id)
 
 			for button in telegram_bot_command_keyboard.buttons.all():
 				if button.id not in buttons_id:

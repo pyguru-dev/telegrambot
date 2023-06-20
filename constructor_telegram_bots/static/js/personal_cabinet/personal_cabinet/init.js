@@ -1,4 +1,4 @@
-function get_telegram_bots() {
+function showTelegramBots() {
 	fetch(getTelegramBotsUrl, {
 		method: 'POST',
 	}).then(response => {
@@ -65,8 +65,8 @@ function get_telegram_bots() {
 					telegramBotsDiv.append(telegramBotDiv);
 				}
 			});
-		} else {response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']))}
+		}
 	});
 }
 
-get_telegram_bots();
+showTelegramBots();

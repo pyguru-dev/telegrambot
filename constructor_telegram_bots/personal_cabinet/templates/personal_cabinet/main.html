@@ -33,26 +33,27 @@
 
 {% block footer_class %}mt-auto{% endblock footer_class %}
 
-{% block globalVariables %}
-	{{ block.super }}
-	const addTelegramBotUrl = '{% url 'add_telegram_bot' %}';
-	const getTelegramBotsUrl = '{% url 'get_user_telegram_bots' %}';
-
-	const telegramBotCardHeaderIsRunningText = "{% trans "Telegram бот включен" %}";
-	const telegramBotCardHeaderIsNotRunningText = "{% trans "Telegram бот выключен" %}";
-	const telegramBotTableLineNameText = "{% trans "Имя" %}";
-	const telegramBotTableLineApiTokenText = "{% trans "API-токен" %}";
-	const telegramBotTableLineUsersCountText = "{% trans "Количество активаций" %}";
-	const telegramBotTableLineCommandsCountText = "{% trans "Количество команд" %}";
-	const telegramBotTableLineDateAddedText = "{% trans "Дата добавления" %}";
-	const telegramBotCardFooterPersonalCabinetButtonText = "{% trans "Меню Telegram бота" %}";
-
-	const telegramBotCardBodyNotAddedText = "{% trans "Вы ещё не добавили Telegram бота" %}";
-	const telegramBotCardFooterHowToAddButtonText = "{% trans "Как добавить Telegram бота?" %}";
-{% endblock globalVariables %}
-
 {% block scripts %}
 	{{ block.super }}
-	<script src="{% static 'js/personal_cabinet/personal_cabinet/modals/add_telegram_bot_modal.js' %}"></script>
+	<script>
+		const addTelegramBotUrl = "{% url 'add_telegram_bot' %}";
+		const getTelegramBotsUrl = "{% url 'get_user_telegram_bots' %}";
+
+		const telegramBotCardBodyNotAddedText = "{% trans 'Вы ещё не добавили Telegram бота' %}";
+		const telegramBotCardFooterHowToAddButtonText = "{% trans 'Как добавить Telegram бота?' %}";
+
+		const telegramBotCardHeaderIsRunningText = "{% trans 'Telegram бот включен' %}";
+		const telegramBotCardHeaderIsNotRunningText = "{% trans 'Telegram бот выключен' %}";
+
+		const telegramBotTableLineNameText = "{% trans 'Имя' %}";
+		const telegramBotTableLineApiTokenText = "{% trans 'API-токен' %}";
+		const telegramBotTableLineUsersCountText = "{% trans 'Количество активаций' %}";
+		const telegramBotTableLineCommandsCountText = "{% trans 'Количество команд' %}";
+		const telegramBotTableLineDateAddedText = "{% trans 'Дата добавления' %}";
+
+		const telegramBotCardFooterPersonalCabinetButtonText = "{% trans 'Меню Telegram бота' %}";
+	</script>
+
 	<script src="{% static 'js/personal_cabinet/personal_cabinet/init.js' %}"></script>
+	<script src="{% static 'js/personal_cabinet/personal_cabinet/modals/add_telegram_bot_modal.js' %}"></script>
 {% endblock scripts %}

@@ -15,7 +15,7 @@ var intervalUpdateUsersId;
 					telegramBotTableLineName.innerHTML = `@${telegramBot['name']}`;
 					telegramBotTableLineApiToken.innerHTML = telegramBot['api_token'];
 				});
-			} else {response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']))}
+			} else {response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']))}
 		});
 	}
 }
@@ -75,7 +75,7 @@ var intervalUpdateUsersId;
 							}).then(response => {
 								if (response.ok) {
 									response.json().then(telegramBotCommand => editTelegramBotCommand(telegramBotCommand));
-								} else {response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']))}
+								} else {response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']))}
 							});
 						});
 					});
@@ -98,7 +98,7 @@ var intervalUpdateUsersId;
 											updateTelegramBotCommands();
 										}
 
-										response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']));
+										response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
 									});
 								}
 							);
@@ -107,7 +107,7 @@ var intervalUpdateUsersId;
 
 					diagramSetZoom();
 				});
-			} else {response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']))}
+			} else {response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']))}
 		});
 
 		updateTelegramBotUsers();
@@ -172,14 +172,14 @@ var intervalUpdateUsersId;
 
 										fetch(`/telegram-bot/${telegramBotId}/user/${telegramBotUser['id']}/delete-allowed-user/`, {
 											method: 'POST',
-										}).then(response => response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level'])));
+										}).then(response => response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level'])));
 									} else {
 										addOrDeleteTelegramBotAllowedUserButton.classList.replace('add', 'delete')
 										addOrDeleteTelegramBotAllowedUserButton.innerHTML = '<i class="bi bi-star-fill text-warning"></i>';
 
 										fetch(`/telegram-bot/${telegramBotId}/user/${telegramBotUser['id']}/add-allowed-user/`, {
 											method: 'POST',
-										}).then(response => response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level'])));
+										}).then(response => response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level'])));
 									}
 								});
 
@@ -205,7 +205,7 @@ var intervalUpdateUsersId;
 												updateTelegramBotUsers();
 											}
 
-											response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']));
+											response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
 										});
 									}
 								));
@@ -223,7 +223,7 @@ var intervalUpdateUsersId;
 							telegramBotUsersDiv.append(telegramBotUserDiv);
 						}
 					});
-				} else {response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']))}
+				} else {response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']))}
 			});
 		}
 	}

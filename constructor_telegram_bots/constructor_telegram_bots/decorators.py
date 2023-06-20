@@ -30,12 +30,7 @@ def check_post_request_data_items(request_need_items: tuple):
 
 			request_data_items: tuple = tuple([request_data_item for request_data_item in tuple(request_data.keys()) if request_data_item in request_need_items])
 
-			if request_data_items == request_need_items:
-				for request_data_item in request_data_items:
-					kwargs.update({request_data_item: request_data[request_data_item]})
-
-				return func(*args, **kwargs)
-			else:
+			if request_data_items != request_need_items:
 				return JsonResponse(
 					{
 						'message': gettext('В тело запроса переданы не все нужные данные!'),
@@ -43,5 +38,10 @@ def check_post_request_data_items(request_need_items: tuple):
 					},
 					status=400
 				)
+			
+			for request_data_item in request_data_items:
+				kwargs.update({request_data_item: request_data[request_data_item]})
+
+			return func(*args, **kwargs)
 		return wrapper
 	return decorator

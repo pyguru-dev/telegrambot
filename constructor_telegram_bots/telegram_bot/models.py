@@ -1,8 +1,8 @@
 from django.db import models
+
 from django.core.exceptions import ObjectDoesNotExist
 
 from user.models import User
-
 from telegram_bot.managers import (
 	TelegramBotManager,
 	TelegramBotCommandManager, TelegramBotCommandKeyboardManager
@@ -77,8 +77,8 @@ class TelegramBotCommand(models.Model):
 
 		if keyboard is not None:
 			return keyboard.to_dict()
-		else:
-			return None
+
+		return None
 		
 	def get_keyboard(self) -> Union['TelegramBotCommandKeyboard', None]:
 		try:

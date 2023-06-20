@@ -1,4 +1,5 @@
 {% load i18n %}
+
 <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-1 p-lg-0">
 	<div class="container">
 		<a class="navbar-brand p-2 me-0" href="/">Constructor Telegram Bots</a>
@@ -17,9 +18,6 @@
 					{% url 'donation' as donation_url %}
 					<a class="nav-link {% if request.path == donation_url %}active{% endif %} p-2" href="{{ donation_url }}">{% trans "Пожертвование" %}</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link disabled p-2" href="#">{% trans "Обновления (В разработке...)" %}</a>
-				</li>
 			</ul>
 			<hr class="d-lg-none text-white-50 mx-2 mt-0 mb-1">
 			<div class="row m-0">
@@ -27,7 +25,8 @@
 					<div class="dropdown mx-1 my-2">
 						<button class="btn btn-primary dropdown-toggle" id="languages" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 							{% get_current_language as LANGUAGE_CODE %}
-							<i class="bi bi-globe"></i> {{ LANGUAGE_CODE|upper }}
+							<i class="bi bi-globe-americas me-1"></i>
+							{{ LANGUAGE_CODE|upper }}
 						</button>
 						<ul class="dropdown-menu text-center py-1" id="languages">
 							<form id="language-form" method="post" action="{% url 'set_language' %}">
@@ -50,7 +49,7 @@
 						<a class="btn btn-light mx-1 my-2" href="{% url 'personal_cabinet' %}">{% trans "Личный кабинет" %}</a>
 					</div>
 					<div class="col-auto p-0">
-						<button class="btn btn-danger mx-1 my-2" id="logoutButton" type="button">{% trans "Выйти" %}</button>
+						<button class="btn btn-danger mx-1 my-2" id="userLogoutButton" type="button">{% trans "Выйти" %}</button>
 					</div>
 				{% else %}
 					<div class="col-auto p-0">

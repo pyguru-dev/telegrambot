@@ -183,7 +183,7 @@ DATABASES = {
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
-LOCALE_PATHS = (os.path.join(BASE_DIR, 'locale/'), )
+LOCALE_PATHS = (BASE_DIR / 'locale',)
 
 # Language
 USE_I18N = True
@@ -200,6 +200,7 @@ MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 # Timezone
 TIME_ZONE = 'UTC'
 USE_TZ = True
+
 
 STATIC_URL = '/static/'
 if DEBUG:

@@ -319,10 +319,18 @@
 		}
 
 		let telegramBotCommandData = new FormData();
-		if (telegramBotCommand.additions.image.div.classList.contains('d-none') == false && telegramBotCommand.additions.image.file == null) {
-			telegramBotCommandData.append('image', 'not_edited');
+
+		if (
+			telegramBotCommand.additions.image.div.classList.contains('d-none') == false &&
+			telegramBotCommand.additions.image.preview.classList.contains('d-none') == false
+		) {
+			if (telegramBotCommand.additions.image.file != null) {
+				telegramBotCommandData.append('image', telegramBotCommand.additions.image.file);
+			} else {
+				telegramBotCommandData.append('image', 'not_edited');
+			}
 		} else {
-			telegramBotCommandData.append('image', telegramBotCommand.additions.image.file);
+			telegramBotCommandData.append('image', 'null');
 		}
 
 		if (telegramBotCommand.additions.keyboard.div.classList.contains('d-none') == false) {
@@ -362,7 +370,7 @@
 				telegramBotCommandClearAll();
 			}
 
-			response.json().then(jsonResponse => createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']));
+			response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
 		});
 	});
 }
