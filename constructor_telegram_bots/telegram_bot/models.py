@@ -1,12 +1,11 @@
 from django.db import models
+
 from django.core.exceptions import ObjectDoesNotExist
 
 from user.models import User
-
 from telegram_bot.managers import (
 	TelegramBotManager,
-	TelegramBotCommandManager, TelegramBotCommandKeyboardManager,
-	TelegramBotUserManager
+	TelegramBotCommandManager, TelegramBotCommandKeyboardManager
 )
 
 from django.conf import settings
@@ -35,7 +34,7 @@ class TelegramBot(models.Model):
 	def date_added(self) -> str:
 		return self._date_added.astimezone(
 			pytz.timezone(settings.TIME_ZONE)
-		).strftime('%d %B %Y г. %H:%M')
+		).strftime('%d.%m.%Y - %H:%M:%S')
 
 	def get_commands_as_dict(self) -> list:
 		return [command.to_dict() for command in self.commands.all()]
@@ -78,8 +77,8 @@ class TelegramBotCommand(models.Model):
 
 		if keyboard is not None:
 			return keyboard.to_dict()
-		else:
-			return None
+
+		return None
 		
 	def get_keyboard(self) -> Union['TelegramBotCommandKeyboard', None]:
 		try:
@@ -143,7 +142,7 @@ class TelegramBotCommandKeyboardButton(models.Model):
 			'id': self.id,
 			'text': self.text,
 
-			'telegram_bot_command_id': self.telegram_bot_command.id if self.telegram_bot_command else None,
+			'telegram_bot_command_id': self.telegram_bot_command.id if self.telegram_bot_command is not None else None,
 			'start_diagram_connector': self.start_diagram_connector,
 			'end_diagram_connector' : self.end_diagram_connector,
 		}
@@ -153,11 +152,9 @@ class TelegramBotUser(models.Model):
 	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, related_name='users', null=True)
 
 	user_id = models.BigIntegerField()
-	username = models.CharField(max_length=32)
+	full_name = models.CharField(max_length=129, null=True)
 	is_allowed = models.BooleanField(default=False)
 	_date_activated = models.DateTimeField(auto_now_add=True)
-
-	objects = TelegramBotUserManager()
 
 	class Meta:
 		db_table = 'telegram_bot_user'
@@ -166,13 +163,13 @@ class TelegramBotUser(models.Model):
 	def date_activated(self) -> str:
 		return self._date_activated.astimezone(
 			pytz.timezone(settings.TIME_ZONE)
-		).strftime('%d %B %Y г. %H:%M')
+		).strftime('%d.%m.%Y - %H:%M:%S')
 	
 	def to_dict(self) -> dict:
 		return {
 			'id': self.id,
 			'user_id': self.user_id,
-			'username': self.username,
+			'full_name': self.full_name,
 			'is_allowed': self.is_allowed,
 			'date_activated': self.date_activated,
 		}

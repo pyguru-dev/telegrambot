@@ -8,8 +8,9 @@ from telegram_bot.models import (
 	TelegramBot,
 	TelegramBotCommand, TelegramBotCommandManager,
 	TelegramBotCommandKeyboard,
-	TelegramBotUser, TelegramBotUserManager
+	TelegramBotUser
 )
+from django.db import models
 
 from asgiref.sync import sync_to_async
 import asyncio
@@ -23,18 +24,19 @@ class UserTelegramBot:
 		self.telegram_bot = telegram_bot
 		self.loop = asyncio.new_event_loop()
 
-	async def check_user(self, user_id: int, username: str) -> TelegramBotUser:
-		users: TelegramBotUserManager = await sync_to_async(TelegramBotUser.objects.filter)(user_id=user_id)
+	async def check_user(self, user_id: int, full_name: str) -> TelegramBotUser:
+		users: models.Manager = await sync_to_async(TelegramBotUser.objects.filter)(user_id=user_id)
 
 		if await users.aexists() is False:
 			user: TelegramBotUser = await sync_to_async(TelegramBotUser.objects.create)(
 				telegram_bot=self.telegram_bot,
 				user_id=user_id,
-				username=username
+				full_name=full_name
 			)
-			await user.asave()
 		else:
 			user: TelegramBotUser = await users.afirst()
+			user.full_name = full_name
+			await user.asave()
 
 		return user
 	
@@ -98,15 +100,15 @@ class UserTelegramBot:
 			message: types.Message = args[0]
 
 			user_id: int = message.from_user.id
-			username: str = message.from_user.username
+			full_name: str = message.from_user.full_name
 		else:
 			callback_query: types.CallbackQuery = args[0]
 			message: types.Message = callback_query.message
 
 			user_id: int = callback_query.from_user.id
-			username: str = callback_query.from_user.username
+			full_name: str = callback_query.from_user.full_name
 
-		user: TelegramBotUser = await self.check_user(user_id=user_id, username=username)
+		user: TelegramBotUser = await self.check_user(user_id=user_id, full_name=full_name)
 
 		if self.telegram_bot.is_private and user.is_allowed or self.telegram_bot.is_private is False:
 			if isinstance(args[0], types.Message):
@@ -115,6 +117,8 @@ class UserTelegramBot:
 				command: TelegramBotCommand = await self.get_command(button_id=int(callback_query.data))
 
 			if command is not None:
+				message_text: str = await self.replace_text_variables(message=message, text=command.message_text)
+
 				if command.api_request is not None:
 					try:
 						async with aiohttp.ClientSession() as session:
@@ -122,9 +126,9 @@ class UserTelegramBot:
 							api_request_data: str = await self.replace_text_variables(message=message, text=command.api_request['data'])
 
 							async with session.post(url=api_request_url, data=api_request_data) as response:
-								pass
+								message_text.replace('${api_response}', await response.text())
 					except aiohttp.client_exceptions.InvalidURL:
-						pass
+						message_text.replace('${api_response}', 'Недействительная ссылка на API!')
 
 				keyboard: TelegramBotCommandKeyboard = await sync_to_async(self.get_command_keyboard)(command)
 				
@@ -146,7 +150,8 @@ class UserTelegramBot:
 				else:
 					tg_keyboard = None
 
-				message_text: str = await self.replace_text_variables(message=message, text=command.message_text)
+				if len(message_text) > 4096:
+					message_text = 'Текст сообщения должен содержать не более 4096 символов!'
 
 				if isinstance(args[0], types.CallbackQuery):
 					await self.dispatcher.bot.delete_message(

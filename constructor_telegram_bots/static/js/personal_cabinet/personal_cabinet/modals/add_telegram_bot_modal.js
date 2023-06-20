@@ -17,15 +17,14 @@
 				}
 			),
 		}).then(response => {
-			if (response.ok) {
-				response.text().then(responseText => {
+			response.json().then(jsonResponse => {
+				if (response.ok) {
+					showTelegramBots();
 					addTelegramBotModalBootstrap.toggle();
-	
-					get_telegram_bots();
-	
-					createAlert(mainAlertContainer, responseText, 'success');
-				});
-			} else {response.text().then(responseText => createAlert(addTelegramBotModalAlertContainer, responseText, 'danger'))}
+
+					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+				} else {createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level'])}
+			});
 		});
 	});
 

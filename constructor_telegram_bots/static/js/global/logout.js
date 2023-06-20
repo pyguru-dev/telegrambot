@@ -1,5 +1,5 @@
-document.querySelector('#logoutButton').addEventListener('click', () => askConfirmModal(
-	'Выход из аккаунта',
-	'Вы точно хотите выйти из аккаунта?',
-	function() {window.location.href = userLogOutUrl}
+document.querySelector('#userLogoutButton').addEventListener('click', () => askConfirmModal(
+	userLogoutAskConfirmModalTitle,
+	userLogoutAskConfirmModalText,
+	function() {window.location.href = userLogoutUrl}
 ));

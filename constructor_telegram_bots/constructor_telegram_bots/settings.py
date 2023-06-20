@@ -1,7 +1,9 @@
+from django.utils.translation import gettext_lazy as _
+
 from constructor_telegram_bots.functions import generate_random_string
 
 from pathlib import Path
-import locale
+from dotenv import load_dotenv
 import sys
 import os
 
@@ -9,7 +11,20 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-DEBUG = False
+load_dotenv()
+
+SECRET_KEY = os.getenv('SECRET_KEY')
+DEBUG = bool(os.getenv('DEBUG'))
+
+if SECRET_KEY is None:
+	SECRET_KEY = f"django-insecure-{generate_random_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}"
+
+if DEBUG is None:
+	DEBUG = True
+
+CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+CONSTRUCTOR_TELEGRAM_BOT_USERNAME = os.getenv('TELEGRAM_BOT_USERNAME')
+
 
 if sys.argv[0] == 'manage.py':
 	if sys.argv[1] == 'test':
@@ -20,11 +35,7 @@ else:
 	TEST = False
 
 
-if DEBUG:
-	SITE_DOMAIN = 'http://127.0.0.1:8000/'
-else:
-	SITE_DOMAIN = 'https://constructor.exg1o.org/'
-
+SITE_DOMAIN = 'http://127.0.0.1:8000/' if DEBUG else 'https://constructor.exg1o.org/'
 ALLOWED_HOSTS = ['127.0.0.1', 'constructor.exg1o.org']
 
 
@@ -35,30 +46,8 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 
 
-folders = ('data', 'logs',)
-for folder in folders:
-	if os.path.exists(BASE_DIR / folder) is False:
-		os.mkdir(BASE_DIR / folder)
-
-
-if os.path.exists(BASE_DIR / 'data/secret.key') is False:
-	SECRET_KEY = f"django-insecure-{generate_random_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}"
-	
-	with open(BASE_DIR / 'data/secret.key', 'w') as secret_key_file:
-		secret_key_file.write(SECRET_KEY)
-else:
-	with open(BASE_DIR / 'data/secret.key', 'r') as secret_key_file:
-		SECRET_KEY = secret_key_file.read()
-
-if sys.argv[1] not in ['test', 'makemigrations', 'migrate']:
-	open(BASE_DIR / 'data/constructor_telegram_bot_api.token', 'a')
-	with open(BASE_DIR / 'data/constructor_telegram_bot_api.token', 'r') as constructor_telegram_bot_api_token_file:
-		CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = constructor_telegram_bot_api_token_file.read().replace('\n', '')
-
-	if CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN == '':
-		print(f"Enter the Constructor Telegram bot API-token in the file {BASE_DIR / 'data/constructor_telegram_bot_api.token'}!")
-
-		exit()
+if os.path.exists(BASE_DIR / 'logs') is False:
+	os.mkdir(BASE_DIR / 'logs')
 
 
 LOGGING = {
@@ -137,15 +126,16 @@ INSTALLED_APPS = [
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
+	'django.contrib.messages',
 	'django.contrib.staticfiles',
 
-	'user.apps.UserConfig',
-	'telegram_bot.apps.TelegramBotConfig',
+	'user',
+	'telegram_bot',
 
-	'home.apps.HomeConfig',
-	'donation.apps.DonationConfig',
-	'personal_cabinet.apps.PersonalCabinetConfig',
-	'privacy_policy.apps.PrivacyPolicyConfig',
+	'home',
+	'donation',
+	'personal_cabinet',
+	'privacy_policy',
 ]
 
 MIDDLEWARE = [
@@ -154,7 +144,9 @@ MIDDLEWARE = [
 	'django.middleware.common.CommonMiddleware',
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'django.middleware.locale.LocaleMiddleware'
 ]
 
 ROOT_URLCONF = 'constructor_telegram_bots.urls'
@@ -169,6 +161,8 @@ TEMPLATES = [
 				'django.template.context_processors.debug',
 				'django.template.context_processors.request',
 				'django.contrib.auth.context_processors.auth',
+				'django.contrib.messages.context_processors.messages',
+    			'constructor_telegram_bots.context_processors.add_constructor_telegram_bot_username',
 			],
 		},
 	}
@@ -182,16 +176,29 @@ AUTH_USER_MODEL = 'user.User'
 DATABASES = {
 	'default': {
 		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': BASE_DIR / 'data/DataBase.db',
+		'NAME': BASE_DIR / 'DataBase.db',
 	}
 }
 
 
-LANGUAGE_CODE = 'ru'
-locale.setlocale(locale.LC_ALL, 'ru_RU.UTF-8')
+# Internationalization
+# https://docs.djangoproject.com/en/4.1/topics/i18n/
+LOCALE_PATHS = (BASE_DIR / 'locale',)
 
-TIME_ZONE = 'Europe/Tallinn'
+# Language
 USE_I18N = True
+USE_L10N = True
+
+LANGUAGE_CODE = 'ru-ru'
+LANGUAGES = (
+	('en', _('Английский')),
+	('uk', _('Украинский')),
+	('ru', _('Русский')),
+)
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
+
+# Timezone
+TIME_ZONE = 'UTC'
 USE_TZ = True
 
 

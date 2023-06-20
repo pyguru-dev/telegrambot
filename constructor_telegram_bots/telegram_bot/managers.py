@@ -2,12 +2,12 @@ from django.db import models
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-import telegram_bot.models as TelegramBotModels
 from user.models import User
+import telegram_bot.models as TelegramBotModels
 
 from telegram_bot.functions import check_telegram_bot_api_token
 
-from typing import Any, Union
+from typing import Union
 
 
 class TelegramBotManager(models.Manager):
@@ -16,7 +16,7 @@ class TelegramBotManager(models.Manager):
 	    owner: User,
 		api_token: str,
 		is_private: bool,
-		**extra_fields: Any
+		**extra_fields
 	) -> 'TelegramBotModels.TelegramBot':
 		name: str = check_telegram_bot_api_token(api_token=api_token)
 
@@ -39,8 +39,11 @@ class TelegramBotCommandManager(models.Manager):
 		image: Union[InMemoryUploadedFile, None] = None,
 		keyboard: Union[dict, None] = None,
 		api_request: Union[list, None] = None,
-		**extra_fields: Any
+		**extra_fields
 	) -> 'TelegramBotModels.TelegramBotCommand':
+		if not isinstance(image, InMemoryUploadedFile):
+			image = None
+
 		telegram_bot_command: TelegramBotModels.TelegramBotCommand = super().create(
 			telegram_bot=telegram_bot,
 			name=name,
@@ -66,8 +69,8 @@ class TelegramBotCommandKeyboardManager(models.Manager):
 		self,
 		telegram_bot_command: 'TelegramBotModels.TelegramBotCommand',
 		type: str,
-		buttons: dict,
-		**extra_fields: Any
+		buttons: list,
+		**extra_fields
 	) -> 'TelegramBotModels.TelegramBotCommandKeyboard':
 		telegram_bot_command_keyboard: TelegramBotModels.TelegramBotCommandKeyboard = super().create(
 			telegram_bot_command=telegram_bot_command,
@@ -82,18 +85,3 @@ class TelegramBotCommandKeyboardManager(models.Manager):
 			)
 
 		return telegram_bot_command_keyboard
-
-class TelegramBotUserManager(models.Manager):
-	def create(
-		self,
-		telegram_bot: 'TelegramBotModels.TelegramBot',
-		user_id: int,
-		username: str,
-		**extra_fields: Any
-	) -> 'TelegramBotModels.TelegramBotUser': 
-		return super().create(
-			telegram_bot=telegram_bot,
-			user_id=user_id,
-			username=username,
-			**extra_fields
-		)
