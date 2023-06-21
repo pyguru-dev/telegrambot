@@ -32,6 +32,7 @@ class TelegramBotModelsTest(BaseTestCase):
 							{
 								'id': 1,
 								'text': '1',
+								'url': 'http://example.com/',
 
 								'telegram_bot_command_id': None,
 								'start_diagram_connector': None,
@@ -40,6 +41,7 @@ class TelegramBotModelsTest(BaseTestCase):
 							{
 								'id': 2,
 								'text': '2',
+								'url': None,
 
 								'telegram_bot_command_id': None,
 								'start_diagram_connector': None,
