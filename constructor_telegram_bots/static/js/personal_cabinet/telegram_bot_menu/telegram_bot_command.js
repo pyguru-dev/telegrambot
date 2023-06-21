@@ -183,7 +183,7 @@
 		const telegramBotCommandKeyboardButtonLinkInput = document.createElement('input');
 		telegramBotCommandKeyboardButtonLinkInput.classList = 'form-control form-control-sm link-input';
 		telegramBotCommandKeyboardButtonLinkInput.type = 'text';
-		telegramBotCommandKeyboardButtonLinkInput.placeholder = 'Введите ссылку';
+		telegramBotCommandKeyboardButtonLinkInput.placeholder = 'Введите ссылку'; // Нужен перевод!!!
 		telegramBotCommandKeyboardButtonLinkInput.value = telegramBotCommandKeyboardButtonUrl;
 
 		if (telegramBotCommandKeyboardButtonAddLinkButton == null) {
@@ -228,6 +228,40 @@
 		const telegramBotCommandKeyboardButton = document.createElement('div');
 		telegramBotCommandKeyboardButton.classList = 'input-group keyboard-button mb-1';
 
+		const telegramBotCommandKeyboardButtonMoveUp = document.createElement('button');
+		telegramBotCommandKeyboardButtonMoveUp.classList = 'btn btn-sm btn-dark';
+		telegramBotCommandKeyboardButtonMoveUp.type = 'button';
+		telegramBotCommandKeyboardButtonMoveUp.innerHTML = '<i class="bi bi-arrow-up" style="-webkit-text-stroke: 1px;"></i>';
+		telegramBotCommandKeyboardButtonMoveUp.addEventListener('click', function() {
+			const telegramBotCommandKeyboardButtonPrevious = telegramBotCommandKeyboardButton.previousElementSibling;
+			
+			if (telegramBotCommandKeyboardButtonPrevious != null) {
+				telegramBotCommandKeyboardButton.parentNode.insertBefore(
+					telegramBotCommandKeyboardButton,
+					telegramBotCommandKeyboardButtonPrevious
+				);
+			}
+		});
+
+		telegramBotCommandKeyboardButton.append(telegramBotCommandKeyboardButtonMoveUp)
+
+		const telegramBotCommandKeyboardButtonMoveDown = document.createElement('button');
+		telegramBotCommandKeyboardButtonMoveDown.classList = 'btn btn-sm btn-dark';
+		telegramBotCommandKeyboardButtonMoveDown.type = 'button';
+		telegramBotCommandKeyboardButtonMoveDown.innerHTML = '<i class="bi bi-arrow-down" style="-webkit-text-stroke: 1px;"></i>';
+		telegramBotCommandKeyboardButtonMoveDown.addEventListener('click', function() {
+			const telegramBotCommandKeyboardButtonNext = telegramBotCommandKeyboardButton.nextElementSibling;
+			
+			if (telegramBotCommandKeyboardButtonNext != null) {
+				telegramBotCommandKeyboardButton.parentNode.insertBefore(
+					telegramBotCommandKeyboardButtonNext,
+					telegramBotCommandKeyboardButton
+				);
+			}
+		});
+
+		telegramBotCommandKeyboardButton.append(telegramBotCommandKeyboardButtonMoveDown)
+
 		const telegramBotCommandKeyboardButtonNameInput = document.createElement('input');
 		telegramBotCommandKeyboardButtonNameInput.classList = 'form-control form-control-sm name-input';
 		telegramBotCommandKeyboardButtonNameInput.id = telegramBotCommandKeyboardButtonId;
@@ -256,6 +290,7 @@
 		telegramBotCommandKeyboardButtonDelete.addEventListener('click', () => telegramBotCommandKeyboardButton.remove());
 
 		telegramBotCommandKeyboardButton.append(telegramBotCommandKeyboardButtonDelete);
+
 		telegramBotCommand.additions.keyboard.buttons.append(telegramBotCommandKeyboardButton);
 
 		telegramBotCommandKeyboardButtonNameInput.focus();
