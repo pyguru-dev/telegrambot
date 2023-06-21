@@ -1,5 +1,5 @@
 {
-	const telegramBotApiToken = document.querySelector('#telegramBotTableLineApiToken');
+	const telegramBotApiToken = document.querySelector('#telegramBotApiToken');
 	const telegramBotApiTokenEditButton = document.querySelector('#telegramBotApiTokenEditButton');
 	const telegramBotApiTokenSaveButton = document.querySelector('#telegramBotApiTokenSaveButton');
 	const telegramBotApiTokenCancelButton = document.querySelector('#telegramBotApiTokenCancelButton');

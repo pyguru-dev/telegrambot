@@ -146,7 +146,7 @@
 							<div class="col mb-2 d-none" id="telegramBotCommandApiRequestAddition">
 								<label for="telegramBotCommandApiRequest">{% trans "API-запрос" %}</label>
 								<div class="input-group" id="telegramBotCommandApiRequest">
-									<input class="form-control" id="telegramBotCommandApiRequestUrlInput" type="text" placeholder="{% trans "Ссылка" %}">
+									<input class="form-control" id="telegramBotCommandApiRequestUrlInput" type="text" placeholder="{% trans "URL-адрес" %}">
 									<input class="form-control" id="telegramBotCommandApiRequestDataInput" type="text" placeholder="{% trans "Данные" %}">
 								</div>
 							</div>
@@ -237,6 +237,9 @@
 
 		const telegramBotCommandCardHeaderAddCommandTitleText = "{% trans 'Добавление команды' %}";
 		const telegramBotCommandCardHeaderEditCommandTitleText = "{% trans 'Редактирование команды' %}";
+
+		const telegramBotCommandKeyboardButtonNameText = "{% url 'Название кнопки' %}";
+		const telegramBotCommandKeyboardButtonUrlText = "{% url 'URL-адрес' %}";
 
 		const telegramBotCommandFooterAddCommandButtonText = "{% trans 'Добавить команду' %}";
 		const telegramBotCommandFooterSaveCommandButtonText = "{% trans 'Сохранить команду' %}";

@@ -183,7 +183,7 @@
 		const telegramBotCommandKeyboardButtonLinkInput = document.createElement('input');
 		telegramBotCommandKeyboardButtonLinkInput.classList = 'form-control form-control-sm link-input';
 		telegramBotCommandKeyboardButtonLinkInput.type = 'text';
-		telegramBotCommandKeyboardButtonLinkInput.placeholder = 'Введите ссылку'; // Нужен перевод!!!
+		telegramBotCommandKeyboardButtonLinkInput.placeholder = telegramBotCommandKeyboardButtonUrlText;
 		telegramBotCommandKeyboardButtonLinkInput.value = telegramBotCommandKeyboardButtonUrl;
 
 		if (telegramBotCommandKeyboardButtonAddLinkButton == null) {
@@ -266,7 +266,7 @@
 		telegramBotCommandKeyboardButtonNameInput.classList = 'form-control form-control-sm name-input';
 		telegramBotCommandKeyboardButtonNameInput.id = telegramBotCommandKeyboardButtonId;
 		telegramBotCommandKeyboardButtonNameInput.type = 'text';
-		telegramBotCommandKeyboardButtonNameInput.placeholder = 'Введите название кнопки'; // Нужен перевод!!!
+		telegramBotCommandKeyboardButtonNameInput.placeholder = telegramBotCommandKeyboardButtonNameText;
 		telegramBotCommandKeyboardButtonNameInput.value = telegramBotCommandKeyboardButtonText;
 
 		telegramBotCommandKeyboardButton.append(telegramBotCommandKeyboardButtonNameInput);
