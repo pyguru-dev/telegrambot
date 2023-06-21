@@ -142,6 +142,7 @@ class TelegramBotCommandKeyboardButton(models.Model):
 		return {
 			'id': self.id,
 			'text': self.text,
+			'url': self.url,
 
 			'telegram_bot_command_id': self.telegram_bot_command.id if self.telegram_bot_command is not None else None,
 			'start_diagram_connector': self.start_diagram_connector,
