@@ -239,6 +239,47 @@ class TelegramBotViewsTest(BaseTestCase):
 					'name': 'Стартовая команда',
 					'command': None,
 					'message_text': 'Привет!',
+					'keyboard': {
+						'type': 'inline',
+						'buttons': [
+							{
+								'text': 'test1',
+								'url': '-',
+							},
+						],
+					},
+					'api_request': None,
+				},
+				'response': {
+					'message': 'Введите правильный URL-адрес!',
+					'level': 'danger',
+				},
+			},
+			{
+				'url': urls.reverse('add_telegram_bot_command', kwargs={'telegram_bot_id': 1}),
+				'data': {
+					'image': 'null',
+					'name': 'Стартовая команда',
+					'command': None,
+					'message_text': 'Привет!',
+					'keyboard': None,
+					'api_request': {
+						'url': '-',
+						'data': '',
+					},
+				},
+				'response': {
+					'message': 'Введите правильный URL-адрес!',
+					'level': 'danger',
+				},
+			},
+			{
+				'url': urls.reverse('add_telegram_bot_command', kwargs={'telegram_bot_id': 1}),
+				'data': {
+					'image': 'null',
+					'name': 'Стартовая команда',
+					'command': None,
+					'message_text': 'Привет!',
 					'keyboard': None,
 					'api_request': None,
 				},
@@ -265,6 +306,47 @@ class TelegramBotViewsTest(BaseTestCase):
 				'url': urls.reverse('edit_telegram_bot_command', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 0}),
 				'response': {
 					'message': 'Команда Telegram бота не найдена!',
+					'level': 'danger',
+				},
+			},
+			{
+				'url': urls.reverse('edit_telegram_bot_command', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
+				'data': {
+					'image': 'null',
+					'name': 'Стартовая команда',
+					'command': None,
+					'message_text': 'Привет!',
+					'keyboard': {
+						'type': 'inline',
+						'buttons': [
+							{
+								'text': 'test1',
+								'url': '-',
+							},
+						],
+					},
+					'api_request': None,
+				},
+				'response': {
+					'message': 'Введите правильный URL-адрес!',
+					'level': 'danger',
+				},
+			},
+			{
+				'url': urls.reverse('edit_telegram_bot_command', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
+				'data': {
+					'image': 'null',
+					'name': 'Стартовая команда',
+					'command': None,
+					'message_text': 'Привет!',
+					'keyboard': None,
+					'api_request': {
+						'url': '-',
+						'data': '',
+					},
+				},
+				'response': {
+					'message': 'Введите правильный URL-адрес!',
 					'level': 'danger',
 				},
 			},
