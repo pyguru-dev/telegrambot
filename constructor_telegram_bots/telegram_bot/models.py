@@ -129,6 +129,7 @@ class TelegramBotCommandKeyboardButton(models.Model):
 	telegram_bot_command_keyboard = models.ForeignKey(TelegramBotCommandKeyboard, on_delete=models.CASCADE, related_name='buttons', null=True)
 
 	text = models.TextField(max_length=4096)
+	url = models.TextField(max_length=2048)
 
 	telegram_bot_command = models.ForeignKey(TelegramBotCommand, on_delete=models.SET_NULL, null=True)
 	start_diagram_connector = models.TextField(null=True)
