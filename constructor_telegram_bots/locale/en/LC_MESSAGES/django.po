@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-21 21:32+0000\n"
+"POT-Creation-Date: 2023-06-21 21:55+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -380,6 +380,7 @@ msgid "API-запрос"
 msgstr "API-request"
 
 #: personal_cabinet/templates/telegram_bot_menu/main.html:149
+#: personal_cabinet/templates/telegram_bot_menu/main.html:242
 msgid "URL-адрес"
 msgstr "URL"
 
@@ -443,6 +444,10 @@ msgstr "Are you sure you want to delete the Telegram bot user?"
 #: personal_cabinet/templates/telegram_bot_menu/main.html:239
 msgid "Редактирование команды"
 msgstr "Editing command"
+
+#: personal_cabinet/templates/telegram_bot_menu/main.html:241
+msgid "Название кнопки"
+msgstr "Button name"
 
 #: personal_cabinet/templates/telegram_bot_menu/main.html:245
 msgid "Сохранить команду"
