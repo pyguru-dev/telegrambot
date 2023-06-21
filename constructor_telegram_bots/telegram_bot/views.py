@@ -214,7 +214,8 @@ def edit_telegram_bot_command(
 				if button['id'] == '':
 					button_: TelegramBotCommandKeyboardButton = TelegramBotCommandKeyboardButton.objects.create(
 						telegram_bot_command_keyboard=telegram_bot_command_keyboard,
-						text=button['text']
+						text=button['text'],
+						url=button['url']
 					)
 				else:
 					is_finded_button = False
@@ -228,6 +229,7 @@ def edit_telegram_bot_command(
 					if is_finded_button:
 						button_: TelegramBotCommandKeyboardButton = telegram_bot_command_keyboard.buttons.get(id=button_id)
 						button_.text = button['text']
+						button_.url = button['url']
 						button_.save()
 					else:
 						button_: TelegramBotCommandKeyboardButton = TelegramBotCommandKeyboard.objects.create(

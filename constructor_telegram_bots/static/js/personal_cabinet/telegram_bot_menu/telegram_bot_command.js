@@ -181,14 +181,16 @@
 
 	function telegramBotCommandAddKeyboardButtonLinkInput(
 		telegramBotCommandKeyboardButton,
-		telegramBotCommandKeyboardButtonAddLinkButton
+		telegramBotCommandKeyboardButtonAddLinkButton,
+		url
 	) {
 		let telegramBotCommandKeyboardButtonLinkInput = document.createElement('input');
 		telegramBotCommandKeyboardButtonLinkInput.classList = 'form-control form-control-sm link-input';
 		telegramBotCommandKeyboardButtonLinkInput.type = 'text';
 		telegramBotCommandKeyboardButtonLinkInput.placeholder = 'Введите ссылку';
+		telegramBotCommandKeyboardButtonLinkInput.value = url;
 
-		if (telegramBotCommandKeyboardButtonAddLinkButton == null) {
+		if (telegramBotCommandKeyboardButtonAddLinkButton != null) {
 			telegramBotCommandKeyboardButton.replaceChild(
 				telegramBotCommandKeyboardButtonLinkInput,
 				telegramBotCommandKeyboardButtonAddLinkButton
@@ -210,7 +212,8 @@
 		telegramBotCommandKeyboardButtonAddLinkButton.innerHTML = '<i class="bi bi-link-45deg" style="-webkit-text-stroke: 0.25px;"></i>';
 		telegramBotCommandKeyboardButtonAddLinkButton.addEventListener('click', () => telegramBotCommandAddKeyboardButtonLinkInput(
 			telegramBotCommandKeyboardButton,
-			telegramBotCommandKeyboardButtonAddLinkButton
+			telegramBotCommandKeyboardButtonAddLinkButton,
+			null
 		));
 
 		telegramBotCommandKeyboardButton.insertBefore(
@@ -236,7 +239,7 @@
 			if (url == null) {
 				telegramBotCommandAddKeyboardButtonAddLinkButton(telegramBotCommandKeyboardButton);
 			} else {
-				telegramBotCommandAddKeyboardButtonLinkInput(telegramBotCommandKeyboardButton)
+				telegramBotCommandAddKeyboardButtonLinkInput(telegramBotCommandKeyboardButton, null, url)
 			}
 		}
 
@@ -400,13 +403,18 @@
 		if (telegramBotCommand.additions.keyboard.div.classList.contains('d-none') == false) {
 			let telegramBotCommandKeyboardButtons_ = [];
 			
-			telegramBotCommand.additions.keyboard.buttons.querySelectorAll('.keyboard-button').forEach(telegramBotCommandKeyboardButton => telegramBotCommandKeyboardButtons_.push(
-				{
-					'id': telegramBotCommandKeyboardButton.id,
-					'text': telegramBotCommandKeyboardButton.querySelector('name-input').value,
-					'url': telegramBotCommandKeyboardButton.querySelector('url-input').value,
-				}
-			));
+			telegramBotCommand.additions.keyboard.buttons.querySelectorAll('.keyboard-button').forEach(telegramBotCommandKeyboardButton => {
+				let telegramBotCommandKeyboardButtonNameInput = telegramBotCommandKeyboardButton.querySelector('.name-input');
+				let telegramBotCommandKeyboardButtonLinkInput = telegramBotCommandKeyboardButton.querySelector('.link-input');
+				
+				telegramBotCommandKeyboardButtons_.push(
+					{
+						'id': telegramBotCommandKeyboardButton.id,
+						'text': (telegramBotCommandKeyboardButtonNameInput == null) ? null : telegramBotCommandKeyboardButtonNameInput.value,
+						'url': (telegramBotCommandKeyboardButtonLinkInput == null) ? null : telegramBotCommandKeyboardButtonLinkInput.value,
+					}
+				);
+			});
 
 			telegramBotCommandData_['keyboard'] = {
 				'type': (telegramBotCommand.additions.keyboard.defaultRadio.checked) ? 'default' : 'inline',
