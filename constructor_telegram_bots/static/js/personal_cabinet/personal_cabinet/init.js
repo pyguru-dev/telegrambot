@@ -4,12 +4,27 @@ function showTelegramBots() {
 	}).then(response => {
 		if (response.ok) {
 			response.json().then(telegramBots => {
-				let telegramBotsDiv = document.querySelector('#telegramBots');
+				const telegramBotsDiv = document.querySelector('#telegramBots');
 				telegramBotsDiv.innerHTML = '';
 
-				if (telegramBots.length > 0) {
+				if (telegramBots.length == 0) {
+					const telegramBotDiv = document.createElement('div');
+					telegramBotDiv.setAttribute('class', 'col py-2');
+					telegramBotDiv.innerHTML = [
+						'<div class="card h-100">',
+						'	<div class="card-body">',
+						`		<h5 class="text-center text-break mb-0">${telegramBotCardBodyNotAddedText}</h5>`,
+						'	</div>',
+						'	<div class="card-footer p-0">',
+						`		<button class="btn btn-light rounded-top-0 w-100" type="button" style="height: 42px;" data-bs-toggle="modal" data-bs-target="#howToAddTelegramBotModal">${telegramBotCardFooterHowToAddButtonText}</button>`,
+						'	</div>',
+						'</div>',
+					].join('');
+
+					telegramBotsDiv.append(telegramBotDiv);
+				} else {
 					telegramBots.forEach(telegramBot => {
-						let telegramBotDiv = document.createElement('div');
+						const telegramBotDiv = document.createElement('div');
 						telegramBotDiv.setAttribute('class', 'col py-2');
 						telegramBotDiv.innerHTML = [
 							'<div class="card h-100">',
@@ -47,22 +62,9 @@ function showTelegramBots() {
 							'	</div>',
 							'</div>',
 						].join('');
+
 						telegramBotsDiv.append(telegramBotDiv);
 					});
-				} else {
-					let telegramBotDiv = document.createElement('div');
-					telegramBotDiv.setAttribute('class', 'col py-2');
-					telegramBotDiv.innerHTML = [
-						'<div class="card h-100">',
-						'	<div class="card-body">',
-						`		<h5 class="text-center text-break mb-0">${telegramBotCardBodyNotAddedText}</h5>`,
-						'	</div>',
-						'	<div class="card-footer p-0">',
-						`		<button class="btn btn-light rounded-top-0 w-100" type="button" style="height: 42px;" data-bs-toggle="modal" data-bs-target="#howToAddTelegramBotModal">${telegramBotCardFooterHowToAddButtonText}</button>`,
-						'	</div>',
-						'</div>',
-					].join('');
-					telegramBotsDiv.append(telegramBotDiv);
 				}
 			});
 		}

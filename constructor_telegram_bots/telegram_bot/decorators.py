@@ -4,6 +4,8 @@ from django.http import JsonResponse
 from django.utils.translation import gettext as _
 
 from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotCommandKeyboard
+
+from constructor_telegram_bots.functions import is_valid_url
 from telegram_bot.functions import check_telegram_bot_api_token as check_telegram_bot_api_token_
 
 from functools import wraps
@@ -98,7 +100,7 @@ def check_data_for_telegram_bot_command(func):
 				},
 				status=400
 			)
-		
+
 		telegram_bot_command_command: Union[str, None] = kwargs['command']
 
 		if telegram_bot_command_command is not None:
@@ -119,27 +121,7 @@ def check_data_for_telegram_bot_command(func):
 					},
 					status=400
 				)
-		
-		telegram_bot_command_message_text: str = kwargs['message_text']
 
-		if telegram_bot_command_message_text != '':
-			if len(telegram_bot_command_message_text) >= 4096:
-				return JsonResponse(
-					{
-						'message': _('Текст сообщения должно содержать не более 4096 символов!'),
-						'level': 'danger',
-					},
-					status=400
-				)
-		else:
-			return JsonResponse(
-				{
-					'message': _('Введите текст сообщения!'),
-					'level': 'danger',
-				},
-				status=400
-			)
-		
 		request: WSGIRequest = args[0]
 
 		if 'image' in request.FILES:
@@ -160,6 +142,61 @@ def check_data_for_telegram_bot_command(func):
 					'image': None,
 				}
 			)
+
+		telegram_bot_command_message_text: str = kwargs['message_text']
+
+		if telegram_bot_command_message_text != '':
+			if len(telegram_bot_command_message_text) >= 4096:
+				return JsonResponse(
+					{
+						'message': _('Текст сообщения должно содержать не более 4096 символов!'),
+						'level': 'danger',
+					},
+					status=400
+				)
+		else:
+			return JsonResponse(
+				{
+					'message': _('Введите текст сообщения!'),
+					'level': 'danger',
+				},
+				status=400
+			)
+
+		telegram_bot_command_keyboard: dict = kwargs['keyboard']
+
+		if telegram_bot_command_keyboard is not None:
+			for telegram_bot_command_keyboard_button in telegram_bot_command_keyboard['buttons']:
+				if telegram_bot_command_keyboard_button['url'] is not None:
+					if is_valid_url(telegram_bot_command_keyboard_button['url']) is False:
+						return JsonResponse(
+							{
+								'message': _('Введите правильный URL-адрес!'),
+								'level': 'danger',
+							},
+							status=400
+						)
+
+		telegram_bot_command_api_request: list = kwargs['api_request']
+
+		if telegram_bot_command_api_request is not None:
+			if 'url' not in telegram_bot_command_api_request and 'data' not in telegram_bot_command_api_request:
+				return JsonResponse(
+					{
+						'message': _('В тело запроса переданы не все нужные данные!'),
+						'level': 'danger',
+					},
+					status=400
+				)
+
+			if is_valid_url(telegram_bot_command_api_request['url']) is False:
+				return JsonResponse(
+					{
+						'message': _('Введите правильный URL-адрес!'),
+						'level': 'danger',
+					},
+					status=400
+				)
 
 		return func(*args, **kwargs)
 	return wrapper

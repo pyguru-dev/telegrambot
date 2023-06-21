@@ -129,6 +129,7 @@ class TelegramBotCommandKeyboardButton(models.Model):
 	telegram_bot_command_keyboard = models.ForeignKey(TelegramBotCommandKeyboard, on_delete=models.CASCADE, related_name='buttons', null=True)
 
 	text = models.TextField(max_length=4096)
+	url = models.TextField(max_length=2048, null=True)
 
 	telegram_bot_command = models.ForeignKey(TelegramBotCommand, on_delete=models.SET_NULL, null=True)
 	start_diagram_connector = models.TextField(null=True)
@@ -141,6 +142,7 @@ class TelegramBotCommandKeyboardButton(models.Model):
 		return {
 			'id': self.id,
 			'text': self.text,
+			'url': self.url,
 
 			'telegram_bot_command_id': self.telegram_bot_command.id if self.telegram_bot_command is not None else None,
 			'start_diagram_connector': self.start_diagram_connector,

@@ -145,7 +145,11 @@ class UserTelegramBot:
 
 						async for button in keyboard.buttons.all():
 							tg_keyboard.add(
-								types.InlineKeyboardButton(text=button.text, callback_data=button.id)
+								types.InlineKeyboardButton(
+									text=button.text,
+									url=button.url,
+									callback_data=button.id
+								)
 							)
 				else:
 					tg_keyboard = None

@@ -6,6 +6,7 @@
 
 {% block styles %}
 	{{ block.super }}
+	<link rel="stylesheet" href="{% static 'css/personal_cabinet/telegram_bot_menu/telegram_bot_command.css' %}">
 	<link rel="stylesheet" href="{% static 'css/personal_cabinet/telegram_bot_menu/diagram.css' %}">
 {% endblock styles %}
 
@@ -14,7 +15,7 @@
 		<div class="row">
 			<div class="col-12 pb-3">
 				<div class="card">
-					<h5 class="card-header bg-{% if telegram_bot.is_running %}success{% else %}danger{% endif %} text-light fw-bold text-center">{% if telegram_bot.is_running %}{% trans "Telegram бот включен" %}{% else %}{% trans "Telegram бот выключен" %}{% endif %}</h5>
+					<h5 class="card-header bg-{% if telegram_bot.is_running %}success{% else %}danger{% endif %} text-light fw-bold text-center" id="telegramBotStatus">{% if telegram_bot.is_running %}{% trans "Telegram бот включен" %}{% else %}{% trans "Telegram бот выключен" %}{% endif %}</h5>
 					<div class="card-body p-2">
 						<div class="row justify-content-center">
 							<div class="col-12 col-lg-6">
@@ -23,12 +24,12 @@
 										<tr>
 											<th class="align-middle" scope="row">{% trans "Имя" %}:</th>
 											<td class="text-break">
-												<a class="link-dark text-decoration-none" id="telegramBotTableLineName"></a>
+												<a class="link-dark text-decoration-none" id="telegramBotName"></a>
 											</td>
 										</tr>
 										<tr>
 											<th class="align-middle" scope="row">{% trans "API-токен" %}:</td>
-											<td class="text-break" id="telegramBotTableLineApiToken"></td>
+											<td class="text-break" id="telegramBotApiToken"></td>
 											<td class="align-middle">
 												<div class="row">
 													<div class="col-12">
@@ -145,7 +146,7 @@
 							<div class="col mb-2 d-none" id="telegramBotCommandApiRequestAddition">
 								<label for="telegramBotCommandApiRequest">{% trans "API-запрос" %}</label>
 								<div class="input-group" id="telegramBotCommandApiRequest">
-									<input class="form-control" id="telegramBotCommandApiRequestUrlInput" type="text" placeholder="{% trans "Ссылка" %}">
+									<input class="form-control" id="telegramBotCommandApiRequestUrlInput" type="text" placeholder="{% trans "URL-адрес" %}">
 									<input class="form-control" id="telegramBotCommandApiRequestDataInput" type="text" placeholder="{% trans "Данные" %}">
 								</div>
 							</div>
@@ -237,6 +238,9 @@
 		const telegramBotCommandCardHeaderAddCommandTitleText = "{% trans 'Добавление команды' %}";
 		const telegramBotCommandCardHeaderEditCommandTitleText = "{% trans 'Редактирование команды' %}";
 
+		const telegramBotCommandKeyboardButtonNameText = "{% trans 'Название кнопки' %}";
+		const telegramBotCommandKeyboardButtonUrlText = "{% trans 'URL-адрес' %}";
+
 		const telegramBotCommandFooterAddCommandButtonText = "{% trans 'Добавить команду' %}";
 		const telegramBotCommandFooterSaveCommandButtonText = "{% trans 'Сохранить команду' %}";
 
@@ -246,6 +250,6 @@
 
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/init.js' %}"></script>
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/main.js' %}"></script>
-	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/diagram.js' %}"></script>
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/telegram_bot_command.js' %}"></script>
+	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/diagram.js' %}"></script>
 {% endblock scripts %}

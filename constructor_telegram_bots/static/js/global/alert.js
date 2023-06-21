@@ -1,10 +1,10 @@
 {
-	let mainContainer = document.querySelector('main .container');
-	let mainContainerClass = mainContainer.getAttribute('class');
+	const mainContainer = document.querySelector('main .container');
+	const mainContainerClass = mainContainer.getAttribute('class');
 
 	var mainAlertContainer = document.querySelector('#mainAlertContainer');
 
-	let breakpoints = ['', 'sm-', 'md-', 'lg-', 'xl-', 'xxl-']
+	const breakpoints = ['', 'sm-', 'md-', 'lg-', 'xl-', 'xxl-'];
 
 	let alertId = 0;
 
@@ -19,13 +19,13 @@
 	function closeAlert(alertDiv) {
 		alertDiv.classList.remove('show');
 
-		setTimeout(removeAlert, 300, alertDiv)
+		setTimeout(removeAlert, 300, alertDiv);
 	}
 
 	function showAlert(alertDiv) {
 		alertDiv.classList.add('show');
 
-		setTimeout(closeAlert, 5000, alertDiv)
+		setTimeout(closeAlert, 5000, alertDiv);
 	}
 
 	function createAlert(alertContainer, message, type) {
