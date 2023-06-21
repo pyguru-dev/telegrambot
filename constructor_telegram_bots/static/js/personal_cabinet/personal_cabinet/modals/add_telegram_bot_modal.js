@@ -1,10 +1,10 @@
 {
-	let addTelegramBotModalBootstrap = new bootstrap.Modal('#addTelegramBotModal');
+	const addTelegramBotModalBootstrap = new bootstrap.Modal('#addTelegramBotModal');
 
-	let addTelegramBotModalAlertContainer = document.querySelector('#addTelegramBotModalAlertContainer');
+	const addTelegramBotModalAlertContainer = document.querySelector('#addTelegramBotModalAlertContainer');
 
-	let addTelegramBotApiTokenInput = document.querySelector('#addTelegramBotApiTokenInput');
-	let addTelegramBotIsPrivateCheckBox = document.querySelector('#addTelegramBotIsPrivateCheckBox');
+	const addTelegramBotApiTokenInput = document.querySelector('#addTelegramBotApiTokenInput');
+	const addTelegramBotIsPrivateCheckBox = document.querySelector('#addTelegramBotIsPrivateCheckBox');
 
 	document.querySelector('#addTelegramBotButton').addEventListener('click', function() {
 		fetch(addTelegramBotUrl, {
@@ -20,10 +20,13 @@
 			response.json().then(jsonResponse => {
 				if (response.ok) {
 					showTelegramBots();
+
 					addTelegramBotModalBootstrap.toggle();
 
 					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
-				} else {createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level'])}
+				} else {
+					createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']);
+				}
 			});
 		});
 	});
