@@ -6,6 +6,7 @@
 
 {% block styles %}
 	{{ block.super }}
+	<link rel="stylesheet" href="{% static 'css/personal_cabinet/telegram_bot_menu/telegram_bot_command.css' %}">
 	<link rel="stylesheet" href="{% static 'css/personal_cabinet/telegram_bot_menu/diagram.css' %}">
 {% endblock styles %}
 
@@ -246,6 +247,6 @@
 
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/init.js' %}"></script>
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/main.js' %}"></script>
-	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/diagram.js' %}"></script>
 	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/telegram_bot_command.js' %}"></script>
+	<script src="{% static 'js/personal_cabinet/telegram_bot_menu/diagram.js' %}"></script>
 {% endblock scripts %}

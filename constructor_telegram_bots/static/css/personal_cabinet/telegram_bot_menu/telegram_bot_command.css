@@ -1,0 +1,4 @@
+.name-input,
+.link-input {
+	border-color: var(--bs-bark);
+}
