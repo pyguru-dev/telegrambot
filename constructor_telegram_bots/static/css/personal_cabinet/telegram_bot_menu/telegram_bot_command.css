@@ -1,4 +1,6 @@
 .name-input,
 .link-input {
+	text-align: center;
+
 	border-color: var(--bs-bark);
 }

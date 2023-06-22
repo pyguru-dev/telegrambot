@@ -227,6 +227,7 @@
 	) {
 		const telegramBotCommandKeyboardButton = document.createElement('div');
 		telegramBotCommandKeyboardButton.classList = 'input-group keyboard-button mb-1';
+		telegramBotCommandKeyboardButton.id = telegramBotCommandKeyboardButtonId;
 
 		const telegramBotCommandKeyboardButtonMoveUp = document.createElement('button');
 		telegramBotCommandKeyboardButtonMoveUp.classList = 'btn btn-sm btn-dark';
@@ -264,7 +265,6 @@
 
 		const telegramBotCommandKeyboardButtonNameInput = document.createElement('input');
 		telegramBotCommandKeyboardButtonNameInput.classList = 'form-control form-control-sm name-input';
-		telegramBotCommandKeyboardButtonNameInput.id = telegramBotCommandKeyboardButtonId;
 		telegramBotCommandKeyboardButtonNameInput.type = 'text';
 		telegramBotCommandKeyboardButtonNameInput.placeholder = telegramBotCommandKeyboardButtonNameText;
 		telegramBotCommandKeyboardButtonNameInput.value = telegramBotCommandKeyboardButtonText;
