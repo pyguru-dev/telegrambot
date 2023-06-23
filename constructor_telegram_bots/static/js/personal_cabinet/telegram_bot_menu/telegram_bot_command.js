@@ -102,7 +102,7 @@
 			allowedInputs: [
 				telegramBotCommand.textInput,
 			],
-			value: '${api_response}',
+			value: '${api_response[key]}',
 		},
 
 		allowedInputs: [
@@ -509,7 +509,7 @@
 		if (telegramBotCommand_['api_request'] != null) {
 			telegramBotCommand.additions.apiRequest.button.classList.replace('btn-dark', 'btn-secondary');
 			telegramBotCommand.additions.apiRequest.div.classList.remove('d-none');
-			telegramBotCommand.additions.apiRequest.urlInput.value = telegramBotCommand_['api_request']['link'];
+			telegramBotCommand.additions.apiRequest.urlInput.value = telegramBotCommand_['api_request']['url'];
 			telegramBotCommand.additions.apiRequest.dataInput.value = telegramBotCommand_['api_request']['data'];
 		}
 
