@@ -31,6 +31,9 @@ class TelegramBotModelsTest(BaseTestCase):
 						'buttons': [
 							{
 								'id': 1,
+								
+								'row': None,
+
 								'text': '1',
 								'url': 'http://example.com/',
 
@@ -40,6 +43,9 @@ class TelegramBotModelsTest(BaseTestCase):
 							},
 							{
 								'id': 2,
+
+								'row': None,
+
 								'text': '2',
 								'url': None,
 
@@ -102,6 +108,17 @@ class TelegramBotViewsTest(BaseTestCase):
 			{
 				'url': urls.reverse('add_telegram_bot'),
 				'data': {
+					'api_token': None,
+					'is_private': None,
+				},
+				'response': {
+					'message': 'В тело запроса передан неверный тип данных!',
+					'level': 'danger',
+				},
+			},
+			{
+				'url': urls.reverse('add_telegram_bot'),
+				'data': {
 					'api_token': '123456789:dwawdadwa',
 					'is_private': True,
 				},
@@ -121,6 +138,16 @@ class TelegramBotViewsTest(BaseTestCase):
 				'url': urls.reverse('edit_telegram_bot_api_token', kwargs={'telegram_bot_id': 0}),
 				'response': {
 					'message': 'Telegram бот не найден!',
+					'level': 'danger',
+				},
+			},
+			{
+				'url': urls.reverse('edit_telegram_bot_api_token', kwargs={'telegram_bot_id': 1}),
+				'data': {
+					'api_token': None,
+				},
+				'response': {
+					'message': 'В тело запроса передан неверный тип данных!',
 					'level': 'danger',
 				},
 			},
@@ -155,6 +182,16 @@ class TelegramBotViewsTest(BaseTestCase):
 				'url': urls.reverse('edit_telegram_bot_private', kwargs={'telegram_bot_id': 0}),
 				'response': {
 					'message': 'Telegram бот не найден!',
+					'level': 'danger',
+				},
+			},
+			{
+				'url': urls.reverse('edit_telegram_bot_private', kwargs={'telegram_bot_id': 1}),
+				'data': {
+					'is_private': None,
+				},
+				'response': {
+					'message': 'В тело запроса передан неверный тип данных!',
 					'level': 'danger',
 				},
 			},
@@ -206,16 +243,7 @@ class TelegramBotViewsTest(BaseTestCase):
 			},
 			{
 				'url': urls.reverse('get_telegram_bot_data', kwargs={'telegram_bot_id': 1}),
-				'response': {
-					'id': 1,
-					'name': '123456789:qwertyuiop_test_telegram_bot',
-					'api_token': '123456789:qwertyuiop',
-					'is_running': False,
-					'is_stopped': True,
-					'commands_count': 1,
-					'users_count': 1,
-					'date_added': self.telegram_bot.date_added,
-				},
+				'response': self.telegram_bot.to_dict(),
 			},
 		]
 		
@@ -235,6 +263,21 @@ class TelegramBotViewsTest(BaseTestCase):
 			{
 				'url': urls.reverse('add_telegram_bot_command', kwargs={'telegram_bot_id': 1}),
 				'data': {
+					'image': None,
+					'name': None,
+					'command': None,
+					'message_text': None,
+					'keyboard': None,
+					'api_request': None,
+				},
+				'response': {
+					'message': 'В тело запроса передан неверный тип данных!',
+					'level': 'danger',
+				},
+			},
+			{
+				'url': urls.reverse('add_telegram_bot_command', kwargs={'telegram_bot_id': 1}),
+				'data': {
 					'image': 'null',
 					'name': 'Стартовая команда',
 					'command': None,
@@ -243,6 +286,8 @@ class TelegramBotViewsTest(BaseTestCase):
 						'type': 'inline',
 						'buttons': [
 							{
+								'row': None,
+
 								'text': 'test1',
 								'url': '-',
 							},
@@ -312,6 +357,21 @@ class TelegramBotViewsTest(BaseTestCase):
 			{
 				'url': urls.reverse('edit_telegram_bot_command', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
 				'data': {
+					'image': None,
+					'name': None,
+					'command': None,
+					'message_text': None,
+					'keyboard': None,
+					'api_request': None,
+				},
+				'response': {
+					'message': 'В тело запроса передан неверный тип данных!',
+					'level': 'danger',
+				},
+			},
+			{
+				'url': urls.reverse('edit_telegram_bot_command', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
+				'data': {
 					'image': 'null',
 					'name': 'Стартовая команда',
 					'command': None,
@@ -320,6 +380,8 @@ class TelegramBotViewsTest(BaseTestCase):
 						'type': 'inline',
 						'buttons': [
 							{
+								'row': None,
+
 								'text': 'test1',
 								'url': '-',
 							},
@@ -522,6 +584,16 @@ class TelegramBotViewsTest(BaseTestCase):
 			{
 				'url': urls.reverse('save_telegram_bot_diagram_current_scale', kwargs={'telegram_bot_id': 1}),
 				'data': {
+					'diagram_current_scale': None,
+				},
+				'response': {
+					'message': 'В тело запроса передан неверный тип данных!',
+					'level': 'danger',
+				},
+			},
+			{
+				'url': urls.reverse('save_telegram_bot_diagram_current_scale', kwargs={'telegram_bot_id': 1}),
+				'data': {
 					'diagram_current_scale': 1.0,
 				},
 			},
@@ -543,6 +615,17 @@ class TelegramBotViewsTest(BaseTestCase):
 				'url': urls.reverse('save_telegram_bot_command_position', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 0}),
 				'response': {
 					'message': 'Команда Telegram бота не найдена!',
+					'level': 'danger',
+				},
+			},
+			{
+				'url': urls.reverse('save_telegram_bot_command_position', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
+				'data': {
+					'x': None,
+					'y': None,
+				},
+				'response': {
+					'message': 'В тело запроса передан неверный тип данных!',
 					'level': 'danger',
 				},
 			},
