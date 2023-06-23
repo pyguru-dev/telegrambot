@@ -19,13 +19,17 @@
 			command: {
 				button: document.querySelector('#telegramBotCommandAddCommandAdditionButton'),
 				div: document.querySelector('#telegramBotCommandCommandAddition'),
+				
 				variablesButtons: [],
+				
 				input: document.querySelector('#telegramBotCommandCommandInput'),
 			},
 			image: {
 				button: document.querySelector('#telegramBotCommandAddImageAdditionButton'),
 				div: document.querySelector('#telegramBotCommandImageAddition'),
+				
 				variablesButtons: [],
+				
 				preview: document.querySelector('#telegramBotCommandImagePreview'),
 				input: document.querySelector('#telegramBotCommandImageInput'),
 				file: null,
@@ -33,18 +37,26 @@
 			keyboard: {
 				button: document.querySelector('#telegramBotCommandAddKeyboardAdditionButton'),
 				div: document.querySelector('#telegramBotCommandKeyboardAddition'),
+				
 				variablesButtons: [],
+				
 				defaultRadio: document.querySelector('#telegramBotCommandDefaultKeyboardRadio'),
 				inlineRadio: document.querySelector('#telegramBotCommandInlineKeyboardRadio'),
+
+				rows: document.querySelector('#telegramBotCommandKeyboardRows'),
+				selectedRow: null,
+
 				buttons: document.querySelector('#telegramBotCommandKeyboardButtons'),
 				addKeyboardButton: document.querySelector('#telegramBotCommandAddKeyboardButton'),
 			},
 			apiRequest: {
 				button: document.querySelector('#telegramBotCommandAddApiRequestAdditionButton'),
 				div: document.querySelector('#telegramBotCommandApiRequestAddition'),
+				
 				variablesButtons: [
 					telegramBotCommandVariablesButtons.apiResponse
 				],
+				
 				urlInput: document.querySelector('#telegramBotCommandApiRequestUrlInput'),
 				dataInput: document.querySelector('#telegramBotCommandApiRequestDataInput'),
 			},
@@ -181,7 +193,7 @@
 		telegramBotCommandKeyboardButtonUrl
 	) {
 		const telegramBotCommandKeyboardButtonLinkInput = document.createElement('input');
-		telegramBotCommandKeyboardButtonLinkInput.classList = 'form-control form-control-sm link-input';
+		telegramBotCommandKeyboardButtonLinkInput.classList = 'form-control form-control-sm telegram-bot-command-keyboard-button-link-input';
 		telegramBotCommandKeyboardButtonLinkInput.type = 'text';
 		telegramBotCommandKeyboardButtonLinkInput.placeholder = telegramBotCommandKeyboardButtonUrlText;
 		telegramBotCommandKeyboardButtonLinkInput.value = telegramBotCommandKeyboardButtonUrl;
@@ -203,7 +215,7 @@
 
 	function telegramBotCommandAddKeyboardButtonAddLinkButton(telegramBotCommandKeyboardButton) {
 		const telegramBotCommandKeyboardButtonAddLinkButton = document.createElement('button');
-		telegramBotCommandKeyboardButtonAddLinkButton.classList = 'btn btn-sm btn-secondary add-link-button';
+		telegramBotCommandKeyboardButtonAddLinkButton.classList = 'btn btn-sm btn-primary telegram-bot-command-keyboard-button-add-link-button';
 		telegramBotCommandKeyboardButtonAddLinkButton.type = 'button';
 		telegramBotCommandKeyboardButtonAddLinkButton.innerHTML = '<i class="bi bi-link-45deg" style="-webkit-text-stroke: 0.25px;"></i>';
 		telegramBotCommandKeyboardButtonAddLinkButton.addEventListener('click', function() {
@@ -225,49 +237,100 @@
 		telegramBotCommandKeyboardButtonText,
 		telegramBotCommandKeyboardButtonUrl
 	) {
+		const telegramBotCommandKeyboardRowsNum = telegramBotCommand.additions.keyboard.rows.querySelectorAll('#telegramBotCommandKeyboardRow').length;
+
+		const telegramBotCommandKeyboardRow = document.createElement('div');
+		telegramBotCommandKeyboardRow.classList = 'col-auto';
+		telegramBotCommandKeyboardRow.innerHTML = `<button class="btn btn-sm btn-dark" id="telegramBotCommandKeyboardRow" type="button">${telegramBotCommandKeyboardRowsNum + 1}</button>`;
+		telegramBotCommandKeyboardRow.addEventListener('click', function() {
+			telegramBotCommand.additions.keyboard.rows.querySelectorAll('#telegramBotCommandKeyboardRow').forEach(
+				telegramBotCommandKeyboardRow => telegramBotCommandKeyboardRow.classList.replace('btn-secondary', 'btn-dark')
+			);
+
+			const selectedTelegramBotCommandKeyboardRow = telegramBotCommandKeyboardRow.querySelector('#telegramBotCommandKeyboardRow');
+			
+			if (selectedTelegramBotCommandKeyboardRow == telegramBotCommand.additions.keyboard.selectedRow) {
+				telegramBotCommand.additions.keyboard.selectedRow = null;
+			} else {
+				selectedTelegramBotCommandKeyboardRow.classList.replace('btn-dark', 'btn-secondary');
+				telegramBotCommand.additions.keyboard.selectedRow = selectedTelegramBotCommandKeyboardRow;
+			}
+		});
+
+		telegramBotCommand.additions.keyboard.rows.append(telegramBotCommandKeyboardRow);
+
 		const telegramBotCommandKeyboardButton = document.createElement('div');
 		telegramBotCommandKeyboardButton.classList = 'input-group keyboard-button mb-1';
 		telegramBotCommandKeyboardButton.id = telegramBotCommandKeyboardButtonId;
 
-		const telegramBotCommandKeyboardButtonMoveUp = document.createElement('button');
-		telegramBotCommandKeyboardButtonMoveUp.classList = 'btn btn-sm btn-dark';
-		telegramBotCommandKeyboardButtonMoveUp.type = 'button';
-		telegramBotCommandKeyboardButtonMoveUp.innerHTML = '<i class="bi bi-arrow-up" style="-webkit-text-stroke: 1px;"></i>';
-		telegramBotCommandKeyboardButtonMoveUp.addEventListener('click', function() {
-			const telegramBotCommandKeyboardButtonPrevious = telegramBotCommandKeyboardButton.previousElementSibling;
+		const telegramBotCommandKeyboardButtonMoveUpButton = document.createElement('button');
+		telegramBotCommandKeyboardButtonMoveUpButton.classList = 'btn btn-sm btn-dark';
+		telegramBotCommandKeyboardButtonMoveUpButton.type = 'button';
+		telegramBotCommandKeyboardButtonMoveUpButton.innerHTML = '<i class="bi bi-arrow-up" style="-webkit-text-stroke: 1px;"></i>';
+		telegramBotCommandKeyboardButtonMoveUpButton.addEventListener('click', function() {
+			const previousTelegramBotCommandKeyboardButton = telegramBotCommandKeyboardButton.previousElementSibling;
 			
-			if (telegramBotCommandKeyboardButtonPrevious != null) {
+			if (previousTelegramBotCommandKeyboardButton != null) {
 				telegramBotCommandKeyboardButton.parentNode.insertBefore(
 					telegramBotCommandKeyboardButton,
-					telegramBotCommandKeyboardButtonPrevious
+					previousTelegramBotCommandKeyboardButton
 				);
 			}
 		});
 
-		telegramBotCommandKeyboardButton.append(telegramBotCommandKeyboardButtonMoveUp)
+		telegramBotCommandKeyboardButton.append(telegramBotCommandKeyboardButtonMoveUpButton);
 
-		const telegramBotCommandKeyboardButtonMoveDown = document.createElement('button');
-		telegramBotCommandKeyboardButtonMoveDown.classList = 'btn btn-sm btn-dark';
-		telegramBotCommandKeyboardButtonMoveDown.type = 'button';
-		telegramBotCommandKeyboardButtonMoveDown.innerHTML = '<i class="bi bi-arrow-down" style="-webkit-text-stroke: 1px;"></i>';
-		telegramBotCommandKeyboardButtonMoveDown.addEventListener('click', function() {
-			const telegramBotCommandKeyboardButtonNext = telegramBotCommandKeyboardButton.nextElementSibling;
+		const telegramBotCommandKeyboardButtonMoveDownButton = document.createElement('button');
+		telegramBotCommandKeyboardButtonMoveDownButton.classList = 'btn btn-sm btn-dark';
+		telegramBotCommandKeyboardButtonMoveDownButton.type = 'button';
+		telegramBotCommandKeyboardButtonMoveDownButton.innerHTML = '<i class="bi bi-arrow-down" style="-webkit-text-stroke: 1px;"></i>';
+		telegramBotCommandKeyboardButtonMoveDownButton.addEventListener('click', function() {
+			const nextTelegramBotCommandKeyboardButton = telegramBotCommandKeyboardButton.nextElementSibling;
 			
-			if (telegramBotCommandKeyboardButtonNext != null) {
+			if (nextTelegramBotCommandKeyboardButton != null) {
 				telegramBotCommandKeyboardButton.parentNode.insertBefore(
-					telegramBotCommandKeyboardButtonNext,
+					nextTelegramBotCommandKeyboardButton,
 					telegramBotCommandKeyboardButton
 				);
 			}
 		});
 
-		telegramBotCommandKeyboardButton.append(telegramBotCommandKeyboardButtonMoveDown)
+		telegramBotCommandKeyboardButton.append(telegramBotCommandKeyboardButtonMoveDownButton);
 
 		const telegramBotCommandKeyboardButtonNameInput = document.createElement('input');
-		telegramBotCommandKeyboardButtonNameInput.classList = 'form-control form-control-sm name-input';
+		telegramBotCommandKeyboardButtonNameInput.classList = 'form-control form-control-sm telegram-bot-command-keyboard-button-name-input';
 		telegramBotCommandKeyboardButtonNameInput.type = 'text';
 		telegramBotCommandKeyboardButtonNameInput.placeholder = telegramBotCommandKeyboardButtonNameText;
 		telegramBotCommandKeyboardButtonNameInput.value = telegramBotCommandKeyboardButtonText;
+		telegramBotCommandKeyboardButtonNameInput.addEventListener('mouseover', function() {
+			telegramBotCommandKeyboardButtonNameInput.style.cursor = (telegramBotCommand.additions.keyboard.selectedRow != null) ? 'copy' : 'auto';
+		});
+		telegramBotCommandKeyboardButtonNameInput.addEventListener('click', function() {
+			if (telegramBotCommand.additions.keyboard.selectedRow != null) {
+				let telegramBotCommandKeyboardButtonRowButton = telegramBotCommandKeyboardButton.querySelector('.telegram-bot-command-keyboard-button-row-button');
+				
+				if (telegramBotCommandKeyboardButtonRowButton != null) {
+					telegramBotCommandKeyboardButtonRowButton.remove();
+				}
+
+				telegramBotCommandKeyboardButtonRowButton = document.createElement('button');
+				telegramBotCommandKeyboardButtonRowButton.classList = 'btn btn-sm btn-secondary telegram-bot-command-keyboard-button-row-button';
+				telegramBotCommandKeyboardButtonRowButton.id = telegramBotCommand.additions.keyboard.selectedRow.innerHTML;
+				telegramBotCommandKeyboardButtonRowButton.type = 'button';
+				telegramBotCommandKeyboardButtonRowButton.innerHTML = telegramBotCommandKeyboardButtonRowButton.id;
+				telegramBotCommandKeyboardButtonRowButton.addEventListener('click', function() {
+					telegramBotCommandKeyboardButtonRowButton.remove();
+				});
+
+				telegramBotCommandKeyboardButton.insertBefore(
+					telegramBotCommandKeyboardButtonRowButton,
+					telegramBotCommandKeyboardButtonNameInput
+				);
+				
+				telegramBotCommand.additions.keyboard.selectedRow.classList.replace('btn-secondary', 'btn-dark');
+				telegramBotCommand.additions.keyboard.selectedRow = null;
+			}
+		});
 
 		telegramBotCommandKeyboardButton.append(telegramBotCommandKeyboardButtonNameInput);
 
@@ -287,7 +350,17 @@
 		telegramBotCommandKeyboardButtonDelete.classList = 'btn btn-sm btn-danger delete-button';
 		telegramBotCommandKeyboardButtonDelete.type = 'button';
 		telegramBotCommandKeyboardButtonDelete.innerHTML = '<i class="bi bi-x-lg" style="-webkit-text-stroke: 1.25px;"></i>';
-		telegramBotCommandKeyboardButtonDelete.addEventListener('click', () => telegramBotCommandKeyboardButton.remove());
+		telegramBotCommandKeyboardButtonDelete.addEventListener('click', function() {
+			const telegramBotCommandKeyboardRows = telegramBotCommand.additions.keyboard.rows.querySelectorAll('#telegramBotCommandKeyboardRow');
+			const telegramBotCommandKeyboardRow = telegramBotCommandKeyboardRows[telegramBotCommandKeyboardRows.length - 1];
+
+			telegramBotCommand.additions.keyboard.buttons.querySelectorAll(`.telegram-bot-command-keyboard-button-row-button[id="${telegramBotCommandKeyboardRow.innerHTML}"]`).forEach(
+				telegramBotCommandKeyboardButtonRowButton => telegramBotCommandKeyboardButtonRowButton.remove()
+			)
+
+			telegramBotCommandKeyboardRow.parentElement.remove();
+			telegramBotCommandKeyboardButton.remove();
+		});
 
 		telegramBotCommandKeyboardButton.append(telegramBotCommandKeyboardButtonDelete);
 
@@ -297,10 +370,10 @@
 	}
 
 	telegramBotCommand.additions.keyboard.defaultRadio.addEventListener('click', function() {
-		telegramBotCommand.additions.keyboard.buttons.querySelectorAll('.add-link-button').forEach(
+		telegramBotCommand.additions.keyboard.buttons.querySelectorAll('.telegram-bot-command-keyboard-button-add-link-button').forEach(
 			telegramBotCommandKeyboardButtonAddLinkButton => telegramBotCommandKeyboardButtonAddLinkButton.remove()
 		);
-		telegramBotCommand.additions.keyboard.buttons.querySelectorAll('.link-input').forEach(
+		telegramBotCommand.additions.keyboard.buttons.querySelectorAll('.telegram-bot-command-keyboard-button-link-input').forEach(
 			telegramBotCommandKeyboardButtonLinkInput => telegramBotCommandKeyboardButtonLinkInput.remove()
 		);
 	});
@@ -309,8 +382,8 @@
 		telegramBotCommand.additions.keyboard.buttons.querySelectorAll('.keyboard-button').forEach(
 			telegramBotCommandKeyboardButton => {
 				if (
-					telegramBotCommandKeyboardButton.querySelector('.add-link-button') == null && 
-					telegramBotCommandKeyboardButton.querySelector('.link-input') == null
+					telegramBotCommandKeyboardButton.querySelector('.telegram-bot-command-keyboard-button-add-link-button') == null && 
+					telegramBotCommandKeyboardButton.querySelector('.telegram-bot-command-keyboard-button-link-input') == null
 				) {
 					telegramBotCommandAddKeyboardButtonAddLinkButton(telegramBotCommandKeyboardButton);
 				}
@@ -339,6 +412,13 @@
 	function telegramBotCommandClearAll() {
 		telegramBotCommand.cardHeader.innerHTML = telegramBotCommandCardHeaderAddCommandTitleText;
 
+		for (const variable in telegramBotCommandVariables) {
+			if (checkTelegramBotCommandVariable(variable)) {
+				telegramBotCommandVariables[variable].button.classList.replace('btn-secondary', 'btn-dark');
+			}
+		}
+		telegramBotCommandVariables.selected = null;
+
 		telegramBotCommand.nameInput.value = '';
 		telegramBotCommand.textInput.value = '';
 
@@ -350,6 +430,10 @@
 		telegramBotCommand.additions.image.file = null;
 
 		telegramBotCommand.additions.keyboard.defaultRadio.checked = true;
+
+		telegramBotCommand.additions.keyboard.rows.innerHTML = '';
+		telegramBotCommand.additions.keyboard.selectedRow = null;
+
 		telegramBotCommand.additions.keyboard.buttons.innerHTML = '';
 
 		telegramBotCommand.additions.apiRequest.urlInput.value = '';
@@ -451,12 +535,14 @@
 			const telegramBotCommandKeyboardButtons_ = [];
 			
 			telegramBotCommand.additions.keyboard.buttons.querySelectorAll('.keyboard-button').forEach(telegramBotCommandKeyboardButton => {
-				const telegramBotCommandKeyboardButtonNameInput = telegramBotCommandKeyboardButton.querySelector('.name-input');
-				const telegramBotCommandKeyboardButtonLinkInput = telegramBotCommandKeyboardButton.querySelector('.link-input');
+				const telegramBotCommandKeyboardButtonRowButton = telegramBotCommandKeyboardButton.querySelector('.telegram-bot-command-keyboard-button-row-button');
+				const telegramBotCommandKeyboardButtonNameInput = telegramBotCommandKeyboardButton.querySelector('.telegram-bot-command-keyboard-button-name-input');
+				const telegramBotCommandKeyboardButtonLinkInput = telegramBotCommandKeyboardButton.querySelector('.telegram-bot-command-keyboard-button-link-input');
 				
 				telegramBotCommandKeyboardButtons_.push(
 					{
 						'id': telegramBotCommandKeyboardButton.id,
+						'row': (telegramBotCommandKeyboardButtonRowButton == null) ? null : telegramBotCommandKeyboardButtonRowButton.id,
 						'text': (telegramBotCommandKeyboardButtonNameInput == null) ? null : telegramBotCommandKeyboardButtonNameInput.value,
 						'url': (telegramBotCommandKeyboardButtonLinkInput == null) ? null : telegramBotCommandKeyboardButtonLinkInput.value,
 					}

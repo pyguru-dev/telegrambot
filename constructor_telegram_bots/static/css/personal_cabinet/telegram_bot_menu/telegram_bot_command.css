@@ -1,5 +1,18 @@
-.name-input,
-.link-input {
+#telegramBotCommandKeyboardRows {
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+#telegramBotCommandKeyboardRow {
+	width: 40px;
+}
+
+.telegram-bot-command-keyboard-button-row-button {
+	width: 35px;
+}
+
+.telegram-bot-command-keyboard-button-name-input,
+.telegram-bot-command-keyboard-button-link-input {
 	text-align: center;
 
 	border-color: var(--bs-bark);
