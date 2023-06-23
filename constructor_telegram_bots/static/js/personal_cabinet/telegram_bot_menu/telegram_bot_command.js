@@ -478,12 +478,14 @@
 		if (telegramBotCommand_['command'] != null) {
 			telegramBotCommand.additions.command.button.classList.replace('btn-dark', 'btn-secondary');
 			telegramBotCommand.additions.command.div.classList.remove('d-none');
+
 			telegramBotCommand.additions.command.input.value = telegramBotCommand_['command'];
 		}
 
 		if (telegramBotCommand_['image'] != '') {
 			telegramBotCommand.additions.image.button.classList.replace('btn-dark', 'btn-secondary');
 			telegramBotCommand.additions.image.div.classList.remove('d-none');
+
 			telegramBotCommand.additions.image.preview.classList.remove('d-none');
 			telegramBotCommand.additions.image.preview.src = `/${telegramBotCommand_['image']}`;
 		}
@@ -507,8 +509,12 @@
 		}
 
 		if (telegramBotCommand_['api_request'] != null) {
+			telegramBotCommand.additions.apiRequest.variablesButtons[0].classList.replace('btn-dark', 'btn-secondary');
+			telegramBotCommand.additions.apiRequest.variablesButtons[0].classList.remove('d-none');
+
 			telegramBotCommand.additions.apiRequest.button.classList.replace('btn-dark', 'btn-secondary');
 			telegramBotCommand.additions.apiRequest.div.classList.remove('d-none');
+
 			telegramBotCommand.additions.apiRequest.urlInput.value = telegramBotCommand_['api_request']['url'];
 			telegramBotCommand.additions.apiRequest.dataInput.value = telegramBotCommand_['api_request']['data'];
 		}
