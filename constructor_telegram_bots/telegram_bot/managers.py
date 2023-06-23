@@ -81,6 +81,7 @@ class TelegramBotCommandKeyboardManager(models.Manager):
 		for button in buttons:
 			TelegramBotModels.TelegramBotCommandKeyboardButton.objects.create(
 				telegram_bot_command_keyboard=telegram_bot_command_keyboard,
+				row=button['row'],
 				text=button['text'],
 				url=button['url']
 			)

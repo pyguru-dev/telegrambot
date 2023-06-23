@@ -187,6 +187,19 @@
 		telegramBotCommandImageReader.readAsDataURL(telegramBotCommand.additions.image.file);
 	});
 
+	function telegramBotCommandAddKeyboardButtonRowButton(row) {
+		const telegramBotCommandKeyboardButtonRowButton = document.createElement('button');
+		telegramBotCommandKeyboardButtonRowButton.classList = 'btn btn-sm btn-secondary telegram-bot-command-keyboard-button-row-button';
+		telegramBotCommandKeyboardButtonRowButton.id = row;
+		telegramBotCommandKeyboardButtonRowButton.type = 'button';
+		telegramBotCommandKeyboardButtonRowButton.innerHTML = row;
+		telegramBotCommandKeyboardButtonRowButton.addEventListener('click', function() {
+			telegramBotCommandKeyboardButtonRowButton.remove();
+		});
+
+		return telegramBotCommandKeyboardButtonRowButton;
+	}
+
 	function telegramBotCommandAddKeyboardButtonLinkInput(
 		telegramBotCommandKeyboardButton,
 		telegramBotCommandKeyboardButtonAddLinkButton,
@@ -234,6 +247,7 @@
 
 	function telegramBotCommandAddKeyboardButton(
 		telegramBotCommandKeyboardButtonId,
+		telegramBotCommandKeyboardButtonRow,
 		telegramBotCommandKeyboardButtonText,
 		telegramBotCommandKeyboardButtonUrl
 	) {
@@ -297,6 +311,12 @@
 
 		telegramBotCommandKeyboardButton.append(telegramBotCommandKeyboardButtonMoveDownButton);
 
+		if (telegramBotCommandKeyboardButtonRow != null) {
+			telegramBotCommandKeyboardButton.append(
+				telegramBotCommandAddKeyboardButtonRowButton(telegramBotCommandKeyboardButtonRow)
+			);
+		}
+
 		const telegramBotCommandKeyboardButtonNameInput = document.createElement('input');
 		telegramBotCommandKeyboardButtonNameInput.classList = 'form-control form-control-sm telegram-bot-command-keyboard-button-name-input';
 		telegramBotCommandKeyboardButtonNameInput.type = 'text';
@@ -313,14 +333,9 @@
 					telegramBotCommandKeyboardButtonRowButton.remove();
 				}
 
-				telegramBotCommandKeyboardButtonRowButton = document.createElement('button');
-				telegramBotCommandKeyboardButtonRowButton.classList = 'btn btn-sm btn-secondary telegram-bot-command-keyboard-button-row-button';
-				telegramBotCommandKeyboardButtonRowButton.id = telegramBotCommand.additions.keyboard.selectedRow.innerHTML;
-				telegramBotCommandKeyboardButtonRowButton.type = 'button';
-				telegramBotCommandKeyboardButtonRowButton.innerHTML = telegramBotCommandKeyboardButtonRowButton.id;
-				telegramBotCommandKeyboardButtonRowButton.addEventListener('click', function() {
-					telegramBotCommandKeyboardButtonRowButton.remove();
-				});
+				telegramBotCommandKeyboardButtonRowButton = telegramBotCommandAddKeyboardButtonRowButton(
+					telegramBotCommand.additions.keyboard.selectedRow.innerHTML
+				)
 
 				telegramBotCommandKeyboardButton.insertBefore(
 					telegramBotCommandKeyboardButtonRowButton,
@@ -392,7 +407,7 @@
 	});
 
 	telegramBotCommand.additions.keyboard.addKeyboardButton.addEventListener('click', function() {
-		telegramBotCommandAddKeyboardButton('', null, null);
+		telegramBotCommandAddKeyboardButton('', null, null, null);
 	});
 
 	for (const addition in telegramBotCommand.additions) {
@@ -485,6 +500,7 @@
 
 			telegramBotCommand_['keyboard']['buttons'].forEach(telegramBotCommandKeyboardButton => telegramBotCommandAddKeyboardButton(
 				telegramBotCommandKeyboardButton['id'],
+				telegramBotCommandKeyboardButton['row'],
 				telegramBotCommandKeyboardButton['text'],
 				telegramBotCommandKeyboardButton['url']
 			));
@@ -542,7 +558,7 @@
 				telegramBotCommandKeyboardButtons_.push(
 					{
 						'id': telegramBotCommandKeyboardButton.id,
-						'row': (telegramBotCommandKeyboardButtonRowButton == null) ? null : telegramBotCommandKeyboardButtonRowButton.id,
+						'row': (telegramBotCommandKeyboardButtonRowButton == null) ? null : parseInt(telegramBotCommandKeyboardButtonRowButton.id),
 						'text': (telegramBotCommandKeyboardButtonNameInput == null) ? null : telegramBotCommandKeyboardButtonNameInput.value,
 						'url': (telegramBotCommandKeyboardButtonLinkInput == null) ? null : telegramBotCommandKeyboardButtonLinkInput.value,
 					}
