@@ -128,6 +128,8 @@ class TelegramBotCommandKeyboard(models.Model):
 class TelegramBotCommandKeyboardButton(models.Model):
 	telegram_bot_command_keyboard = models.ForeignKey(TelegramBotCommandKeyboard, on_delete=models.CASCADE, related_name='buttons', null=True)
 
+	row = models.IntegerField(null=True)
+
 	text = models.TextField(max_length=4096)
 	url = models.TextField(max_length=2048, null=True)
 
@@ -141,6 +143,9 @@ class TelegramBotCommandKeyboardButton(models.Model):
 	def to_dict(self) -> dict:
 		return {
 			'id': self.id,
+
+			'row': self.row,
+
 			'text': self.text,
 			'url': self.url,
 

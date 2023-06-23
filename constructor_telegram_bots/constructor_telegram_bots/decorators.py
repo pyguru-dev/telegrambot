@@ -1,7 +1,7 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import JsonResponse
 
-from django.utils.translation import gettext
+from django.utils.translation import gettext as _
 
 from django.core.exceptions import RequestDataTooBig
 
@@ -9,7 +9,7 @@ from functools import wraps
 import json
 
 
-def check_post_request_data_items(request_need_items: tuple):
+def check_post_request_data_items(needed_request_data: dict):
 	def decorator(func):
 		@wraps(func)
 		def wrapper(*args, **kwargs):
@@ -22,26 +22,34 @@ def check_post_request_data_items(request_need_items: tuple):
 			except RequestDataTooBig:
 				return JsonResponse(
 					{
-						'message': gettext('Тело запроса не должно весить больше 2.5MB!'),
+						'message': _('Тело запроса не должно весить больше 2.5MB!'),
 						'level': 'danger',
 					},
 					status=400
 				)
 
-			request_data_items: tuple = tuple([request_data_item for request_data_item in tuple(request_data.keys()) if request_data_item in request_need_items])
+			for key, value in request_data.items():
+				if key == 'image':
+					continue
 
-			if request_data_items != request_need_items:
-				return JsonResponse(
-					{
-						'message': gettext('В тело запроса переданы не все нужные данные!'),
-						'level': 'danger',
-					},
-					status=400
-				)
-			
-			for request_data_item in request_data_items:
-				kwargs.update({request_data_item: request_data[request_data_item]})
+				if key in needed_request_data:
+					if isinstance(value, needed_request_data[key]) is False:
+						return JsonResponse(
+							{
+								'message': _('В тело запроса передан неверный тип данных!'),
+								'level': 'danger',
+							},
+							status=400
+						)
+				else:
+					return JsonResponse(
+						{
+							'message': _('В тело запроса переданы не все данные!'),
+							'level': 'danger',
+						},
+						status=400
+					)
 
-			return func(*args, **kwargs)
+			return func(*args, **kwargs, **request_data)
 		return wrapper
 	return decorator

@@ -133,24 +133,42 @@ class UserTelegramBot:
 				keyboard: TelegramBotCommandKeyboard = await sync_to_async(self.get_command_keyboard)(command)
 				
 				if keyboard is not None:
+					tg_keyboard_buttons = {}
+
+					for num in range(await keyboard.buttons.acount()):
+						tg_keyboard_buttons.update(
+							{
+								num + 1: [],
+							}
+						)
+
+					tg_keyboard_row = 1
+
 					if keyboard.type == 'default':
 						tg_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-						
+
 						async for button in keyboard.buttons.all():
-							tg_keyboard.add(
+							tg_keyboard_buttons[tg_keyboard_row if button.row is None else button.row].append(
 								types.KeyboardButton(text=button.text)
 							)
+
+							tg_keyboard_row += 1
 					else:
 						tg_keyboard = types.InlineKeyboardMarkup()
 
 						async for button in keyboard.buttons.all():
-							tg_keyboard.add(
+							tg_keyboard_buttons[tg_keyboard_row if button.row is None else button.row].append(
 								types.InlineKeyboardButton(
 									text=button.text,
 									url=button.url,
 									callback_data=button.id
 								)
 							)
+
+							tg_keyboard_row += 1
+
+					for tg_keyboard_button in tg_keyboard_buttons:
+						tg_keyboard.add(*tg_keyboard_buttons[tg_keyboard_button])
 				else:
 					tg_keyboard = None
 

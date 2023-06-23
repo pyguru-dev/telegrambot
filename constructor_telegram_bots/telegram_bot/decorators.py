@@ -163,31 +163,76 @@ def check_data_for_telegram_bot_command(func):
 				status=400
 			)
 
-		telegram_bot_command_keyboard: dict = kwargs['keyboard']
+		telegram_bot_command_keyboard: Union[dict, None] = kwargs['keyboard']
 
 		if telegram_bot_command_keyboard is not None:
 			for telegram_bot_command_keyboard_button in telegram_bot_command_keyboard['buttons']:
-				if telegram_bot_command_keyboard_button['url'] is not None:
-					if is_valid_url(telegram_bot_command_keyboard_button['url']) is False:
+				if (
+					'row' not in telegram_bot_command_keyboard_button or
+					'text' not in telegram_bot_command_keyboard_button or
+					'url' not in telegram_bot_command_keyboard_button
+				):
+					return JsonResponse(
+						{
+							'message': _('В тело запроса переданы не все данные!'),
+							'level': 'danger',
+						},
+						status=400
+					)
+				
+				for key, value in telegram_bot_command_keyboard_button.items():
+					is_instance = True
+
+					if key == 'row':
+						is_instance = isinstance(value, Union[int, None])
+					elif key == 'text':
+						is_instance = isinstance(value, str)
+					elif key == 'url':
+						is_instance = isinstance(value, Union[str, None])
+					
+					if is_instance is False:
 						return JsonResponse(
 							{
-								'message': _('Введите правильный URL-адрес!'),
+								'message': _('В тело запроса передан неверный тип данных!'),
 								'level': 'danger',
 							},
 							status=400
 						)
+				
+				if (
+					telegram_bot_command_keyboard_button['url'] is not None and
+					is_valid_url(telegram_bot_command_keyboard_button['url']) is False
+				):
+					return JsonResponse(
+						{
+							'message': _('Введите правильный URL-адрес!'),
+							'level': 'danger',
+						},
+						status=400
+					)
 
-		telegram_bot_command_api_request: list = kwargs['api_request']
+		telegram_bot_command_api_request: Union[dict, None] = kwargs['api_request']
 
 		if telegram_bot_command_api_request is not None:
-			if 'url' not in telegram_bot_command_api_request and 'data' not in telegram_bot_command_api_request:
+			if 'url' not in telegram_bot_command_api_request or 'data' not in telegram_bot_command_api_request:
+				print(telegram_bot_command_api_request)
 				return JsonResponse(
 					{
-						'message': _('В тело запроса переданы не все нужные данные!'),
+						'message': _('В тело запроса переданы не все данные!'),
 						'level': 'danger',
 					},
 					status=400
 				)
+			
+			for key, value in telegram_bot_command_api_request.items():
+				if isinstance(value, str) is False:
+					return JsonResponse(
+						{
+							'message': _('В тело запроса передан неверный тип данных!'),
+							'level': 'danger',
+						},
+						status=400
+					)
 
 			if is_valid_url(telegram_bot_command_api_request['url']) is False:
 				return JsonResponse(
