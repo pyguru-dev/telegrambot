@@ -65,7 +65,7 @@ class ConstructorTelegramBot:
 
 	async def setup(self) -> None:
 		self.bot = Bot(token=settings.CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN, loop=self.loop)
-		self.dispatcher = CustomDispatcher(bot=self.bot)
+		self.dispatcher = CustomDispatcher(bot_username=settings.CONSTRUCTOR_TELEGRAM_BOT_USERNAME, bot=self.bot)
 
 		self.dispatcher.register_message_handler(self.start_command, commands=['start'])
 		self.dispatcher.register_message_handler(self.login_command, commands=['login'])

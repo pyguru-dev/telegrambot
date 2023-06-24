@@ -86,7 +86,7 @@ LOGGING = {
 			'formatter': 'verbose',
 		},
 		'telegram_bots_info_file': {
-			'level': 'DEBUG',
+			'level': 'INFO',
 			'class': 'logging.handlers.RotatingFileHandler',
 			'filename': BASE_DIR / 'logs/telegram_bots_info.log',
 			'maxBytes': 10485760,

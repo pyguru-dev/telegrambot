@@ -1,7 +1,7 @@
 from aiogram.utils.exceptions import TerminatedByOtherGetUpdates
 from aiogram.dispatcher import Dispatcher
 from aiohttp.helpers import sentinel
-from aiogram import Bot
+from aiogram import Bot, types
 
 import asyncio
 import aiohttp
@@ -13,7 +13,9 @@ log = logging.getLogger('aiogram')
 
 
 class CustomDispatcher(Dispatcher):
-	def __init__(self, bot: Bot):
+	def __init__(self, bot_username: str, bot: Bot):
+		self.bot_username = bot_username
+
 		super().__init__(bot)
 
 	async def start_polling(self, timeout: int = 20, reset_webhook=None):
@@ -39,7 +41,7 @@ class CustomDispatcher(Dispatcher):
 		while self._polling:
 			try:
 				with self.bot.request_timeout(request_timeout):
-					updates = await self.bot.get_updates(offset=offset, timeout=timeout)
+					updates: list[types.Update] = await self.bot.get_updates(offset=offset, timeout=timeout)
 			except TerminatedByOtherGetUpdates:
 				log.error('Telegram Bot already started!')
 				break
@@ -50,6 +52,8 @@ class CustomDispatcher(Dispatcher):
 				break
 
 			if updates:
+				log.info(f'@{self.bot_username} || {updates[-1].message.from_user.first_name}: {updates[-1].message.text}')
+
 				offset = updates[-1].update_id + 1
 
 				asyncio.create_task(self._process_polling_updates(updates))

@@ -211,7 +211,7 @@ class UserTelegramBot:
 
 	async def setup(self) -> None:
 		self.bot = Bot(token=self.telegram_bot.api_token, loop=self.loop)
-		self.dispatcher = CustomDispatcher(bot=self.bot)
+		self.dispatcher = CustomDispatcher(bot_username=self.telegram_bot.name, bot=self.bot)
 
 		self.dispatcher.register_message_handler(self.message_and_callback_query_handler)
 		self.dispatcher.register_callback_query_handler(self.message_and_callback_query_handler)
