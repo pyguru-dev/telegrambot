@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Авторизация{% endblock title %}
+
+{% block main %}
+<div class="container my-3 my-lg-4">
+	<div class="row justify-content-center">
+		<div class="col-12 col-lg-4">
+			<div class="row row-cols-1 gy-2">
+				<div class="col text-center">
+					<h3>Авторизация</h3>
+				</div>
+				<div class="col">
+					<input class="form-control" id="loginUsernameInput" type="text" placeholder="Введите имя пользователя">
+				</div>
+				<div class="col">
+					<input class="form-control" id="loginPasswordInput" type="text" placeholder="Введите пароль">
+				</div>
+				<div class="col">
+					<button class="btn btn-success w-100" type="button" id="loginButton">Войти</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock main %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+	const loginUrl = "{% url 'admin_login' %}";
+</script>
+<script src="{% static 'admin/js/login.js' %}"></script>
+{% endblock scripts %}

@@ -9,13 +9,13 @@
 	document.querySelector('#addTelegramBotButton').addEventListener('click', function() {
 		fetch(addTelegramBotUrl, {
 			method: 'POST',
-			headers: {'Content-Type': 'application/json'},
 			body: JSON.stringify(
 				{
 					'api_token': addTelegramBotApiTokenInput.value,
 					'is_private': addTelegramBotIsPrivateCheckBox.checked,
 				}
 			),
+			headers: {'Content-Type': 'application/json'},
 		}).then(response => {
 			response.json().then(jsonResponse => {
 				if (response.ok) {

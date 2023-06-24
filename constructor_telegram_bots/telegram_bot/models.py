@@ -14,14 +14,14 @@ import pytz
 
 
 class TelegramBot(models.Model):
-	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='telegram_bots', null=True)
+	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='telegram_bots', null=True, verbose_name='Владелец')
 
-	name = models.CharField(max_length=32, unique=True)
+	name = models.CharField(max_length=32, unique=True, verbose_name='@username')
 	api_token = models.CharField(max_length=50, unique=True)
-	is_private = models.BooleanField()
-	is_running = models.BooleanField(default=False)
+	is_private = models.BooleanField(verbose_name='Приватный')
+	is_running = models.BooleanField(default=False, verbose_name='Запущен')
 	is_stopped = models.BooleanField(default=True)
-	_date_added = models.DateTimeField(auto_now_add=True)
+	_date_added = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
 
 	diagram_current_scale = models.FloatField(default=1.0)
 
@@ -29,6 +29,9 @@ class TelegramBot(models.Model):
 
 	class Meta:
 		db_table = 'telegram_bot'
+
+		verbose_name = 'Telegram бота'
+		verbose_name_plural = 'Telegram боты'
 
 	@property
 	def date_added(self) -> str:
@@ -53,6 +56,9 @@ class TelegramBot(models.Model):
 			'users_count': self.users.count(),
 			'date_added': self.date_added,
 		}
+	
+	def __str__(self) -> str:
+		return f'@{self.name} Telegram бот'
 
 
 class TelegramBotCommand(models.Model):
