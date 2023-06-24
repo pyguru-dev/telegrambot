@@ -22,10 +22,6 @@ if SECRET_KEY is None:
 if DEBUG is None:
 	DEBUG = True
 
-CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
-CONSTRUCTOR_TELEGRAM_BOT_USERNAME = os.getenv('TELEGRAM_BOT_USERNAME')
-
-
 if sys.argv[0] == 'manage.py':
 	if sys.argv[1] == 'test':
 		TEST = True
@@ -33,6 +29,9 @@ if sys.argv[0] == 'manage.py':
 		TEST = False
 else:
 	TEST = False
+
+CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+CONSTRUCTOR_TELEGRAM_BOT_USERNAME = os.getenv('TELEGRAM_BOT_USERNAME')
 
 
 SITE_DOMAIN = 'http://127.0.0.1:8000/' if DEBUG else 'https://constructor.exg1o.org/'
@@ -46,9 +45,100 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 
 
+INSTALLED_APPS = [
+	'django.contrib.auth',
+	'django.contrib.contenttypes',
+	'django.contrib.sessions',
+	'django.contrib.messages',
+	'django.contrib.staticfiles',
+
+	'user',
+	'telegram_bot',
+
+	'home',
+	'donation',
+	'personal_cabinet',
+	'privacy_policy',
+]
+
+MIDDLEWARE = [
+	'django.middleware.security.SecurityMiddleware',
+	'django.contrib.sessions.middleware.SessionMiddleware',
+	'django.middleware.common.CommonMiddleware',
+	'django.middleware.csrf.CsrfViewMiddleware',
+	'django.contrib.auth.middleware.AuthenticationMiddleware',
+	'django.contrib.messages.middleware.MessageMiddleware',
+	'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'django.middleware.locale.LocaleMiddleware'
+]
+
+ROOT_URLCONF = 'constructor_telegram_bots.urls'
+
+TEMPLATES = [
+	{
+		'BACKEND': 'django.template.backends.django.DjangoTemplates',
+		'DIRS': [BASE_DIR / 'templates'],
+		'APP_DIRS': True,
+		'OPTIONS': {
+			'context_processors': [
+				'django.template.context_processors.debug',
+				'django.template.context_processors.request',
+				'django.contrib.auth.context_processors.auth',
+				'django.contrib.messages.context_processors.messages',
+				'constructor_telegram_bots.context_processors.add_constructor_telegram_bot_username',
+			],
+		},
+	}
+]
+
+
+WSGI_APPLICATION = 'constructor_telegram_bots.wsgi.application'
+
+
+AUTH_USER_MODEL = 'user.User'
+DATABASES = {
+	'default': {
+		'ENGINE': 'django.db.backends.sqlite3',
+		'NAME': BASE_DIR / 'DataBase.db',
+	}
+}
+
+
+# Internationalization
+# https://docs.djangoproject.com/en/4.1/topics/i18n/
+LOCALE_PATHS = (BASE_DIR / 'locale',)
+
+# Language
+USE_I18N = True
+USE_L10N = True
+
+LANGUAGE_CODE = 'ru-ru'
+LANGUAGES = (
+	('en', _('Английский')),
+	('uk', _('Украинский')),
+	('ru', _('Русский')),
+)
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
+
+# Timezone
+TIME_ZONE = 'UTC'
+USE_TZ = True
+
+
+STATIC_URL = '/static/'
+if DEBUG:
+	STATICFILES_DIRS = [
+		BASE_DIR / 'static/',
+	]
+else:
+	STATIC_ROOT = BASE_DIR / 'static/'
+
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
 if os.path.exists(BASE_DIR / 'logs') is False:
 	os.mkdir(BASE_DIR / 'logs')
-
 
 LOGGING = {
 	'version': 1,
@@ -120,95 +210,3 @@ LOGGING = {
 		},
 	},
 }
-
-
-INSTALLED_APPS = [
-	'django.contrib.auth',
-	'django.contrib.contenttypes',
-	'django.contrib.sessions',
-	'django.contrib.messages',
-	'django.contrib.staticfiles',
-
-	'user',
-	'telegram_bot',
-
-	'home',
-	'donation',
-	'personal_cabinet',
-	'privacy_policy',
-]
-
-MIDDLEWARE = [
-	'django.middleware.security.SecurityMiddleware',
-	'django.contrib.sessions.middleware.SessionMiddleware',
-	'django.middleware.common.CommonMiddleware',
-	'django.middleware.csrf.CsrfViewMiddleware',
-	'django.contrib.auth.middleware.AuthenticationMiddleware',
-	'django.contrib.messages.middleware.MessageMiddleware',
-	'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	'django.middleware.locale.LocaleMiddleware'
-]
-
-ROOT_URLCONF = 'constructor_telegram_bots.urls'
-
-TEMPLATES = [
-	{
-		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': [BASE_DIR / 'templates'],
-		'APP_DIRS': True,
-		'OPTIONS': {
-			'context_processors': [
-				'django.template.context_processors.debug',
-				'django.template.context_processors.request',
-				'django.contrib.auth.context_processors.auth',
-				'django.contrib.messages.context_processors.messages',
-    			'constructor_telegram_bots.context_processors.add_constructor_telegram_bot_username',
-			],
-		},
-	}
-]
-
-
-WSGI_APPLICATION = 'constructor_telegram_bots.wsgi.application'
-
-
-AUTH_USER_MODEL = 'user.User'
-DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': BASE_DIR / 'DataBase.db',
-	}
-}
-
-
-# Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
-LOCALE_PATHS = (BASE_DIR / 'locale',)
-
-# Language
-USE_I18N = True
-USE_L10N = True
-
-LANGUAGE_CODE = 'ru-ru'
-LANGUAGES = (
-	('en', _('Английский')),
-	('uk', _('Украинский')),
-	('ru', _('Русский')),
-)
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
-
-# Timezone
-TIME_ZONE = 'UTC'
-USE_TZ = True
-
-
-STATIC_URL = '/static/'
-if DEBUG:
-	STATICFILES_DIRS = [
-		BASE_DIR / 'static/',
-	]
-else:
-	STATIC_ROOT = BASE_DIR / 'static/'
-
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

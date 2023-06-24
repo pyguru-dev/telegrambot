@@ -42,6 +42,11 @@ class CustomDispatcher(Dispatcher):
 			try:
 				with self.bot.request_timeout(request_timeout):
 					updates: list[types.Update] = await self.bot.get_updates(offset=offset, timeout=timeout)
+
+					try:
+						log.info(f'@{self.bot_username} || {updates[-1].message.from_user.first_name}: {updates[-1].message.text}')
+					except:
+						pass
 			except TerminatedByOtherGetUpdates:
 				log.error('Telegram Bot already started!')
 				break
@@ -52,8 +57,6 @@ class CustomDispatcher(Dispatcher):
 				break
 
 			if updates:
-				log.info(f'@{self.bot_username} || {updates[-1].message.from_user.first_name}: {updates[-1].message.text}')
-
 				offset = updates[-1].update_id + 1
 
 				asyncio.create_task(self._process_polling_updates(updates))

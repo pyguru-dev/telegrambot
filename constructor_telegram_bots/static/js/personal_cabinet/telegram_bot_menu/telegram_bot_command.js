@@ -144,8 +144,6 @@
 				telegramBotCommandVariables[variable].button.classList.replace('btn-secondary', 'btn-dark');
 			}
 		}
-
-		telegramBotCommandVariables.selected = null;
 	}
 
 	telegramBotCommandVariables.allowedInputs.forEach(allowedInput => {
@@ -159,6 +157,8 @@
 				allowedInput.value = `${allowedInput.value}${telegramBotCommandVariables.selected}`;
 
 				telegramBotCommandVariablesAllClear();
+
+				telegramBotCommandVariables.selected = null;
 			}
 		})
 	});
@@ -168,9 +168,14 @@
 			telegramBotCommandVariables[variable].button.addEventListener('click', function() {
 				telegramBotCommandVariablesAllClear();
 
-				if (telegramBotCommandVariables[variable].button.classList.contains('btn-dark')) {
+				if (telegramBotCommandVariables.selected != telegramBotCommandVariables[variable].value) {
 					telegramBotCommandVariables[variable].button.classList.replace('btn-dark', 'btn-secondary');
+					
 					telegramBotCommandVariables.selected = telegramBotCommandVariables[variable].value;
+				} else {
+					telegramBotCommandVariables[variable].button.classList.replace('btn-secondary', 'btn-dark');
+					
+					telegramBotCommandVariables.selected = null;
 				}
 			});
 		}
@@ -427,11 +432,7 @@
 	function telegramBotCommandClearAll() {
 		telegramBotCommand.cardHeader.innerHTML = telegramBotCommandCardHeaderAddCommandTitleText;
 
-		for (const variable in telegramBotCommandVariables) {
-			if (checkTelegramBotCommandVariable(variable)) {
-				telegramBotCommandVariables[variable].button.classList.replace('btn-secondary', 'btn-dark');
-			}
-		}
+		telegramBotCommandVariablesAllClear();
 		telegramBotCommandVariables.selected = null;
 
 		telegramBotCommand.nameInput.value = '';
@@ -450,6 +451,8 @@
 		telegramBotCommand.additions.keyboard.selectedRow = null;
 
 		telegramBotCommand.additions.keyboard.buttons.innerHTML = '';
+
+		telegramBotCommand.additions.apiRequest.variablesButtons[0].classList.add('d-none');
 
 		telegramBotCommand.additions.apiRequest.urlInput.value = '';
 		telegramBotCommand.additions.apiRequest.dataInput.value = '';
@@ -509,7 +512,6 @@
 		}
 
 		if (telegramBotCommand_['api_request'] != null) {
-			telegramBotCommand.additions.apiRequest.variablesButtons[0].classList.replace('btn-dark', 'btn-secondary');
 			telegramBotCommand.additions.apiRequest.variablesButtons[0].classList.remove('d-none');
 
 			telegramBotCommand.additions.apiRequest.button.classList.replace('btn-dark', 'btn-secondary');
