@@ -11,6 +11,7 @@ class UserManager(BaseUserManager):
 		return self.create(
 			username=username,
 			password=password,
+			is_staff=True,
 			is_superuser=True,
 			**extra_fields
 		)

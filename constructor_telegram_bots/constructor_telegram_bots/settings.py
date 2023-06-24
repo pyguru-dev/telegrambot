@@ -22,10 +22,6 @@ if SECRET_KEY is None:
 if DEBUG is None:
 	DEBUG = True
 
-CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
-CONSTRUCTOR_TELEGRAM_BOT_USERNAME = os.getenv('TELEGRAM_BOT_USERNAME')
-
-
 if sys.argv[0] == 'manage.py':
 	if sys.argv[1] == 'test':
 		TEST = True
@@ -33,6 +29,9 @@ if sys.argv[0] == 'manage.py':
 		TEST = False
 else:
 	TEST = False
+
+CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
+CONSTRUCTOR_TELEGRAM_BOT_USERNAME = os.getenv('TELEGRAM_BOT_USERNAME')
 
 
 SITE_DOMAIN = 'http://127.0.0.1:8000/' if DEBUG else 'https://constructor.exg1o.org/'
@@ -46,83 +45,8 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 
 
-if os.path.exists(BASE_DIR / 'logs') is False:
-	os.mkdir(BASE_DIR / 'logs')
-
-
-LOGGING = {
-	'version': 1,
-	'disable_existing_loggers': False,
-	'formatters': {
-		'verbose': {
-			'format': '[{asctime}]: {levelname}: {name} > {funcName} || {message}',
-			'style': '{',
-		},
-		'simple': {
-			'format': '[{asctime}]: {message}',
-			'style': '{',
-		},
-	},
-	'handlers': {
-		'console': {
-			'level': 'INFO',
-			'class': 'logging.StreamHandler',
-			'formatter': 'simple',
-		},
-		'django_info_file': { 
-			'level': 'DEBUG',
-			'class': 'logging.handlers.RotatingFileHandler',
-			'filename': BASE_DIR / 'logs/django_info.log',
-			'maxBytes': 10485760,
-			'backupCount': 10,
-			'formatter': 'verbose',
-		},
-		'django_error_file': { 
-			'level': 'WARNING',
-			'class': 'logging.handlers.RotatingFileHandler',
-			'filename': BASE_DIR / 'logs/django_error.log',
-			'maxBytes': 10485760,
-			'backupCount': 10,
-			'formatter': 'verbose',
-		},
-		'telegram_bots_info_file': {
-			'level': 'DEBUG',
-			'class': 'logging.handlers.RotatingFileHandler',
-			'filename': BASE_DIR / 'logs/telegram_bots_info.log',
-			'maxBytes': 10485760,
-			'backupCount': 10,
-			'formatter': 'verbose',
-		},
-		'telegram_bots_error_file': {
-			'level': 'WARNING',
-			'class': 'logging.handlers.RotatingFileHandler',
-			'filename': BASE_DIR / 'logs/telegram_bots_error.log',
-			'maxBytes': 10485760,
-			'backupCount': 10,
-			'formatter': 'verbose',
-		},
-	},
-	'loggers': {
-		'django': {
-			'handlers': [
-				'console',
-				'django_info_file',
-				'django_error_file',
-			],
-			'propagate': True,
-		},
-		'aiogram': {
-			'handlers': [
-				'telegram_bots_info_file',
-				'telegram_bots_error_file',
-			],
-			'propagate': True,
-		},
-	},
-}
-
-
 INSTALLED_APPS = [
+	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
 	'django.contrib.sessions',
@@ -162,7 +86,7 @@ TEMPLATES = [
 				'django.template.context_processors.request',
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
-    			'constructor_telegram_bots.context_processors.add_constructor_telegram_bot_username',
+				'constructor_telegram_bots.context_processors.add_constructor_telegram_bot_username',
 			],
 		},
 	}
@@ -212,3 +136,78 @@ else:
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+if os.path.exists(BASE_DIR / 'logs') is False:
+	os.mkdir(BASE_DIR / 'logs')
+
+LOGGING = {
+	'version': 1,
+	'disable_existing_loggers': False,
+	'formatters': {
+		'verbose': {
+			'format': '[{asctime}]: {levelname}: {name} > {funcName} || {message}',
+			'style': '{',
+		},
+		'simple': {
+			'format': '[{asctime}]: {message}',
+			'style': '{',
+		},
+	},
+	'handlers': {
+		'console': {
+			'level': 'INFO',
+			'class': 'logging.StreamHandler',
+			'formatter': 'simple',
+		},
+		'django_info_file': { 
+			'level': 'DEBUG',
+			'class': 'logging.handlers.RotatingFileHandler',
+			'filename': BASE_DIR / 'logs/django_info.log',
+			'maxBytes': 10485760,
+			'backupCount': 10,
+			'formatter': 'verbose',
+		},
+		'django_error_file': { 
+			'level': 'WARNING',
+			'class': 'logging.handlers.RotatingFileHandler',
+			'filename': BASE_DIR / 'logs/django_error.log',
+			'maxBytes': 10485760,
+			'backupCount': 10,
+			'formatter': 'verbose',
+		},
+		'telegram_bots_info_file': {
+			'level': 'INFO',
+			'class': 'logging.handlers.RotatingFileHandler',
+			'filename': BASE_DIR / 'logs/telegram_bots_info.log',
+			'maxBytes': 10485760,
+			'backupCount': 10,
+			'formatter': 'verbose',
+		},
+		'telegram_bots_error_file': {
+			'level': 'WARNING',
+			'class': 'logging.handlers.RotatingFileHandler',
+			'filename': BASE_DIR / 'logs/telegram_bots_error.log',
+			'maxBytes': 10485760,
+			'backupCount': 10,
+			'formatter': 'verbose',
+		},
+	},
+	'loggers': {
+		'django': {
+			'handlers': [
+				'console',
+				'django_info_file',
+				'django_error_file',
+			],
+			'propagate': True,
+		},
+		'aiogram': {
+			'handlers': [
+				'telegram_bots_info_file',
+				'telegram_bots_error_file',
+			],
+			'propagate': True,
+		},
+	},
+}
