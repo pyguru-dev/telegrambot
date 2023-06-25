@@ -1,5 +1,4 @@
 from celery import shared_task
-from redis import Redis
 
 from telegram_bot.models import TelegramBot
 
@@ -36,14 +35,9 @@ def start_telegram_bot(telegram_bot_id: int) -> None:
 
 @shared_task
 def start_all_telegram_bots() -> None:
-	redis_client = Redis(host='127.0.0.1', port=6379)
+	constructor_telegram_bot = ConstructorTelegramBot()
+	Thread(target=start_telegram_bot_, args=(constructor_telegram_bot,), daemon=True).start()
 
-	if redis_client.get('is_all_telegram_bots_already_started') is None:
-		constructor_telegram_bot = ConstructorTelegramBot()
-		Thread(target=start_telegram_bot_, args=(constructor_telegram_bot,), daemon=True).start()
-
-		for telegram_bot in TelegramBot.objects.all():
-			if telegram_bot.is_running:
-				start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
-
-		redis_client.set('is_all_telegram_bots_already_started', '1'.encode('UTF-8'))
+	for telegram_bot in TelegramBot.objects.all():
+		if telegram_bot.is_running:
+			start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)

@@ -9,7 +9,7 @@ function showTelegramBots() {
 
 				if (telegramBots.length == 0) {
 					const telegramBotDiv = document.createElement('div');
-					telegramBotDiv.setAttribute('class', 'col py-2');
+					telegramBotDiv.classList = 'col';
 					telegramBotDiv.innerHTML = [
 						'<div class="card h-100">',
 						'	<div class="card-body">',
@@ -25,7 +25,7 @@ function showTelegramBots() {
 				} else {
 					telegramBots.forEach(telegramBot => {
 						const telegramBotDiv = document.createElement('div');
-						telegramBotDiv.setAttribute('class', 'col py-2');
+						telegramBotDiv.classList = 'col';
 						telegramBotDiv.innerHTML = [
 							'<div class="card h-100">',
 							`	<h5 class="card-header bg-${(telegramBot['is_running']) ? 'success' : 'danger'} text-light text-center fw-bold">${(telegramBot['is_running']) ? telegramBotCardHeaderIsRunningText : telegramBotCardHeaderIsNotRunningText}</h5>`,
@@ -33,9 +33,9 @@ function showTelegramBots() {
 							'		<table class="table table-sm table-borderless mb-0">',
 							'			<tbody>',
 							'				<tr>',
-							`					<th class="align-middle" scope="row">${telegramBotTableLineNameText}:</th>`,
+							`					<th class="align-middle" scope="row">@username:</th>`,
 							'					<td class="text-break">',
-							`						<a class="link-dark text-decoration-none" href="tg://resolve?domain=${telegramBot['name']}">@${telegramBot['name']}</a>`,
+							`						<a class="link-dark text-decoration-none" href="tg://resolve?domain=${telegramBot['username']}">@${telegramBot['username']}</a>`,
 							'					</td>',
 							'				</tr>',
 							'				<tr>',

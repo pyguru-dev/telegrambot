@@ -25,11 +25,11 @@
 {% block sidebar %}
 <div id="content-related">
 	<div class="module" id="recent-actions-module">
-		<h2>{% translate 'Recent actions' %}</h2>
-		<h3>{% translate 'My actions' %}</h3>
+		<h2>Недавние действия</h2>
+		<h3>Мои действия</h3>
 		{% get_admin_log 10 as admin_log for_user user %}
 		{% if not admin_log %}
-			<p>{% translate 'None available' %}</p>
+			<p>Отсутствует</p>
 		{% else %}
 			<ul class="actionlist">
 				{% for entry in admin_log %}
@@ -43,7 +43,7 @@
 					{% if entry.content_type %}
 						<span class="mini quiet">{% filter capfirst %}{{ entry.change_message }}{% endfilter %}</span>
 					{% else %}
-						<span class="mini quiet">{% translate 'Unknown content' %}</span>
+						<span class="mini quiet">Неизвестный контент</span>
 					{% endif %}
 				</li>
 				{% endfor %}

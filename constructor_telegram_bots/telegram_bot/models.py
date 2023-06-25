@@ -16,7 +16,7 @@ import pytz
 class TelegramBot(models.Model):
 	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='telegram_bots', null=True, verbose_name='Владелец')
 
-	name = models.CharField(max_length=32, unique=True, verbose_name='@username')
+	username = models.CharField(max_length=32, unique=True, verbose_name='@username')
 	api_token = models.CharField(max_length=50, unique=True)
 	is_private = models.BooleanField(verbose_name='Приватный')
 	is_running = models.BooleanField(default=False, verbose_name='Запущен')
@@ -48,7 +48,7 @@ class TelegramBot(models.Model):
 	def to_dict(self) -> dict:
 		return {
 			'id': self.id,
-			'name': self.name,
+			'username': self.username,
 			'api_token': self.api_token,
 			'is_running': self.is_running,
 			'is_stopped': self.is_stopped,
@@ -58,7 +58,7 @@ class TelegramBot(models.Model):
 		}
 	
 	def __str__(self) -> str:
-		return f'@{self.name} Telegram бот'
+		return f'@{self.username} Telegram бот'
 
 
 class TelegramBotCommand(models.Model):
