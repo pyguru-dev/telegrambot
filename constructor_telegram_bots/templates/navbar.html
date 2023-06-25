@@ -12,17 +12,17 @@
 			<ul class="navbar-nav nav-underline gap-0 me-auto">
 				<li class="nav-item">
 					{% url 'home' as home_url %}
-					<a class="nav-link {% if request.path == home_url %}active{% endif %} p-2" href="{{ home_url }}">{% trans "Главная" %}</a>
+					<a class="nav-link {% if request.path == home_url %}active {% endif %}p-2 pb-1" href="{{ home_url }}">{% trans "Главная" %}</a>
 				</li>
 				<li class="nav-item">
 					{% url 'donation' as donation_url %}
-					<a class="nav-link {% if request.path == donation_url %}active{% endif %} p-2" href="{{ donation_url }}">{% trans "Пожертвование" %}</a>
+					<a class="nav-link {% if request.path == donation_url %}active {% endif %}p-2 pb-1" href="{{ donation_url }}">{% trans "Пожертвование" %}</a>
 				</li>
 			</ul>
 			<hr class="d-lg-none text-white-50 mx-2 mt-0 mb-1">
-			<div class="row m-0">
-				<div class="col-auto p-0">
-					<div class="dropdown mx-1 my-2">
+			<div class="row g-2 gy-lg-0 my-2">
+				<div class="col-auto">
+					<div class="dropdown">
 						<button class="btn btn-primary dropdown-toggle" id="languages" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 							{% get_current_language as LANGUAGE_CODE %}
 							<i class="bi bi-globe-americas me-1"></i>
@@ -45,11 +45,11 @@
 					</div>
 				</div>
 				{% if user.is_authenticated %}
-					<div class="col-auto p-0">
-						<a class="btn btn-light mx-1 my-2" href="{% url 'personal_cabinet' %}">{% trans "Личный кабинет" %}</a>
+					<div class="col-auto">
+						<a class="btn btn-light" href="{% url 'personal_cabinet' %}">{% trans "Личный кабинет" %}</a>
 					</div>
-					<div class="col-auto p-0">
-						<button class="btn btn-danger mx-1 my-2" id="userLogoutButton" type="button">{% trans "Выйти" %}</button>
+					<div class="col-auto">
+						<button class="btn btn-danger" id="userLogoutButton" type="button">{% trans "Выйти" %}</button>
 					</div>
 				{% else %}
 					<div class="col-auto p-0">

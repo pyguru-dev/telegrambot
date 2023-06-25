@@ -9,7 +9,7 @@ class TelegramBotModelsTest(BaseTestCase):
 	def test_models(self) -> None:
 		telegram_bot: TelegramBot = TelegramBot.objects.filter(
 			id=1,
-			name='123456789:qwertyuiop_test_telegram_bot',
+			username='123456789:qwertyuiop_test_telegram_bot',
 			api_token='123456789:qwertyuiop',
 			is_private=True,
 			is_running=False,
@@ -80,7 +80,7 @@ class TelegramBotModelsTest(BaseTestCase):
 			telegram_bot.to_dict(),
 			{
 				'id': 1,
-				'name': '123456789:qwertyuiop_test_telegram_bot',
+				'username': '123456789:qwertyuiop_test_telegram_bot',
 				'api_token': '123456789:qwertyuiop',
 				'is_running': False,
 				'is_stopped': True,

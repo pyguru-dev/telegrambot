@@ -12,8 +12,8 @@
 
 {% block main %}
 	<div class="container my-3 my-lg-4">
-		<div class="row">
-			<div class="col-12 pb-3">
+		<div class="row g-4">
+			<div class="col-12">
 				<div class="card">
 					<h5 class="card-header bg-{% if telegram_bot.is_running %}success{% else %}danger{% endif %} text-light fw-bold text-center" id="telegramBotStatus">{% if telegram_bot.is_running %}{% trans "Telegram бот включен" %}{% else %}{% trans "Telegram бот выключен" %}{% endif %}</h5>
 					<div class="card-body p-2">
@@ -22,9 +22,9 @@
 								<table class="table table-sm table-borderless mb-0">
 									<tbody>
 										<tr>
-											<th class="align-middle" scope="row">{% trans "Имя" %}:</th>
+											<th class="align-middle" scope="row">@username:</th>
 											<td class="text-break">
-												<a class="link-dark text-decoration-none" id="telegramBotName"></a>
+												<a class="link-dark text-decoration-none" id="telegramBotUsername"></a>
 											</td>
 										</tr>
 										<tr>
@@ -87,7 +87,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-12 pt-2 pb-3">
+			<div class="col-12">
 				<div class="card h-100">
 					<h5 class="card-header text-center">{% trans "Список пользователей Telegram бота" %}</h5>
 					<div class="card-body">
@@ -95,9 +95,9 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-12 col-lg-5 pt-2 pb-3 pb-lg-0">
+			<div class="col-12 col-lg-5">
 				<div class="card border rounded h-100">
-					<div class="card-header text-center" id="telegramBotCommandCardHeader">{% trans "Добавление команды" %}</div>
+					<h5 class="card-header text-center" id="telegramBotCommandCardHeader">{% trans "Добавление команды" %}</h5>
 					<div class="card-body">
 						<div class="row row-cols-1 gy-2">
 							<div class="col">
@@ -175,7 +175,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="col-12 col-lg-7 pt-2">
+			<div class="col-12 col-lg-7">
 				<div class="diagram-container border rounded">
 					<div class="diagram-zoom btn-group">
 						<button class="diagram-zoom-btn btn btn-light border border-top-0 rounded-bottom-0" id="+" type="button">

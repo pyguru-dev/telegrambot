@@ -55,9 +55,9 @@ def add_telegram_bot(request: WSGIRequest, api_token: str, is_private: bool) -> 
 )
 @telegram_bot.decorators.check_telegram_bot_api_token
 def edit_telegram_bot_api_token(request: WSGIRequest, telegram_bot: TelegramBot, api_token: bool) -> JsonResponse:
-	name: str = check_telegram_bot_api_token(api_token=api_token)
+	username: str = check_telegram_bot_api_token(api_token=api_token)
 
-	telegram_bot.name = name
+	telegram_bot.username = username
 	telegram_bot.api_token = api_token
 	telegram_bot.is_running = False
 	telegram_bot.save()

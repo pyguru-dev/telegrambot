@@ -2,7 +2,7 @@ var intervalUpdateUsersIsRunning = false;
 var intervalUpdateUsersId;
 
 {
-	const telegramBotName = document.querySelector('#telegramBotName');
+	const telegramBotUsername = document.querySelector('#telegramBotUsername');
 	const telegramBotApiToken = document.querySelector('#telegramBotApiToken');
 
 	function updateTelegramBot() {
@@ -11,8 +11,8 @@ var intervalUpdateUsersId;
 		}).then(response => {
 			if (response.ok) {
 				response.json().then(telegramBot => {
-					telegramBotName.href = `tg://resolve?domain=${telegramBot['name']}`;
-					telegramBotName.innerHTML = `@${telegramBot['name']}`;
+					telegramBotUsername.href = `tg://resolve?domain=${telegramBot['name']}`;
+					telegramBotUsername.innerHTML = `@${telegramBot['username']}`;
 					telegramBotApiToken.innerHTML = telegramBot['api_token'];
 				});
 			} else {

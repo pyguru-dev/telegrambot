@@ -1,4 +1,6 @@
 #telegramBotCommandKeyboardRows {
+	min-height: 41px;
+
 	padding-left: 3px;
 	padding-right: 3px;
 }
