@@ -30,10 +30,16 @@ class BaseTestCase(TestCase):
 			type='defualt',
 			buttons=[
 				{
-					'text': '1', 
+					'row': None,
+
+					'text': '1',
+					'url': 'http://example.com/',
 				},
 				{
+					'row': None,
+
 					'text': '2',
+					'url': None,
 				},
 			]
 		)

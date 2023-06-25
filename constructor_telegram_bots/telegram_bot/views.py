@@ -27,7 +27,12 @@ from typing import Union
 @django.views.decorators.csrf.csrf_exempt
 @django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
-@constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('api_token', 'is_private',))
+@constructor_telegram_bots.decorators.check_post_request_data_items(
+	{
+		'api_token': str,
+		'is_private': bool,
+	}
+)
 @telegram_bot.decorators.check_telegram_bot_api_token
 def add_telegram_bot(request: WSGIRequest, api_token: str, is_private: bool) -> JsonResponse:
 	TelegramBot.objects.create(owner=request.user, api_token=api_token, is_private=is_private)
@@ -43,12 +48,16 @@ def add_telegram_bot(request: WSGIRequest, api_token: str, is_private: bool) -> 
 @django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
-@constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('api_token',))
+@constructor_telegram_bots.decorators.check_post_request_data_items(
+	{
+		'api_token': str,
+	}
+)
 @telegram_bot.decorators.check_telegram_bot_api_token
 def edit_telegram_bot_api_token(request: WSGIRequest, telegram_bot: TelegramBot, api_token: bool) -> JsonResponse:
-	name: str = check_telegram_bot_api_token(api_token=api_token)
+	username: str = check_telegram_bot_api_token(api_token=api_token)
 
-	telegram_bot.name = name
+	telegram_bot.username = username
 	telegram_bot.api_token = api_token
 	telegram_bot.is_running = False
 	telegram_bot.save()
@@ -64,7 +73,11 @@ def edit_telegram_bot_api_token(request: WSGIRequest, telegram_bot: TelegramBot,
 @django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
-@constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('is_private',))
+@constructor_telegram_bots.decorators.check_post_request_data_items(
+	{
+		'is_private': bool,
+	}
+)
 def edit_telegram_bot_private(request: WSGIRequest, telegram_bot: TelegramBot, is_private: bool) -> JsonResponse:
 	telegram_bot.is_private = is_private
 	telegram_bot.save()
@@ -142,7 +155,15 @@ def stop_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> JsonRe
 @django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
-@constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('name', 'command', 'message_text', 'keyboard', 'api_request',))
+@constructor_telegram_bots.decorators.check_post_request_data_items(
+	{
+		'name': str,
+		'command': Union[str, None],
+		'message_text': str,
+		'keyboard': Union[dict, None],
+		'api_request': Union[dict, None],
+	}
+)
 @telegram_bot.decorators.check_data_for_telegram_bot_command
 def add_telegram_bot_command(
 	request: WSGIRequest,
@@ -152,7 +173,7 @@ def add_telegram_bot_command(
 	image: Union[InMemoryUploadedFile, None],
 	message_text: str,
 	keyboard: Union[dict, None],
-	api_request: Union[list, None]
+	api_request: Union[dict, None]
 ) -> JsonResponse:
 	TelegramBotCommand.objects.create(
 		telegram_bot=telegram_bot,
@@ -176,7 +197,15 @@ def add_telegram_bot_command(
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @telegram_bot.decorators.check_telegram_bot_command_id
-@constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('name', 'command', 'message_text', 'keyboard', 'api_request',))
+@constructor_telegram_bots.decorators.check_post_request_data_items(
+	{
+		'name': str,
+		'command': Union[str, None],
+		'message_text': str,
+		'keyboard': Union[dict, None],
+		'api_request': Union[dict, None],
+	}
+)
 @telegram_bot.decorators.check_data_for_telegram_bot_command
 def edit_telegram_bot_command(
 	request: WSGIRequest,
@@ -187,7 +216,7 @@ def edit_telegram_bot_command(
 	image: Union[InMemoryUploadedFile, str, None],
 	message_text: str,
 	keyboard: Union[dict, None],
-	api_request: Union[list, None]
+	api_request: Union[dict, None]
 ) -> JsonResponse:
 	telegram_bot_command.name = name
 	telegram_bot_command.command = command
@@ -214,11 +243,12 @@ def edit_telegram_bot_command(
 				if button['id'] == '':
 					button_: TelegramBotCommandKeyboardButton = TelegramBotCommandKeyboardButton.objects.create(
 						telegram_bot_command_keyboard=telegram_bot_command_keyboard,
-						text=button['text']
+						**button
 					)
 				else:
-					is_finded_button = False
 					button_id = int(button['id'])
+
+					is_finded_button = False
 
 					for button_ in telegram_bot_command_keyboard.buttons.all():
 						if button_id == button_.id:
@@ -227,13 +257,14 @@ def edit_telegram_bot_command(
 
 					if is_finded_button:
 						button_: TelegramBotCommandKeyboardButton = telegram_bot_command_keyboard.buttons.get(id=button_id)
+						button_.row = button['row']
 						button_.text = button['text']
+						button_.url = button['url']
 						button_.save()
 					else:
-						button_: TelegramBotCommandKeyboardButton = TelegramBotCommandKeyboard.objects.create(
-							telegram_bot_command=telegram_bot_command,
-							type=keyboard['type'],
-							buttons=keyboard['buttons']
+						button_: TelegramBotCommandKeyboardButton = TelegramBotCommandKeyboardButton.objects.create(
+							telegram_bot_command_keyboard=telegram_bot_command_keyboard,
+							**button
 						)
 
 				buttons_id.append(button_.id)
@@ -294,15 +325,21 @@ def get_telegram_bot_command_data(request: WSGIRequest, telegram_bot: TelegramBo
 @telegram_bot.decorators.check_telegram_bot_id
 @telegram_bot.decorators.check_telegram_bot_command_id
 @telegram_bot.decorators.check_telegram_bot_command_keyboard_button_id
-@constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('telegram_bot_command_id', 'start_diagram_connector', 'end_diagram_connector',))
+@constructor_telegram_bots.decorators.check_post_request_data_items(
+	{
+		'telegram_bot_command_id': int,
+		'start_diagram_connector': str,
+		'end_diagram_connector': str,
+	}
+)
 def add_telegram_bot_command_keyboard_button_telegram_bot_command(
 	request: WSGIRequest,
 	telegram_bot: TelegramBot,
 	telegram_bot_command: TelegramBotCommand,
 	telegram_bot_command_keyboard_button: TelegramBotCommandKeyboardButton,
-	start_diagram_connector: str,
-	end_diagram_connector: str,
 	telegram_bot_command_id: int,
+	start_diagram_connector: str,
+	end_diagram_connector: str
 ) -> JsonResponse:
 	if telegram_bot.commands.filter(id=telegram_bot_command_id).exists():
 		telegram_bot_command_keyboard_button.telegram_bot_command = telegram_bot.commands.get(id=telegram_bot_command_id)
@@ -403,7 +440,11 @@ def delete_telegram_bot_user(request: WSGIRequest, telegram_bot: TelegramBot, te
 @django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
-@constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('diagram_current_scale',))
+@constructor_telegram_bots.decorators.check_post_request_data_items(
+	{
+		'diagram_current_scale': float,
+	}
+)
 def save_telegram_bot_diagram_current_scale(request: WSGIRequest, telegram_bot: TelegramBot, diagram_current_scale: float) -> JsonResponse:
 	if 0.1 <= diagram_current_scale <= 2.0:
 		telegram_bot.diagram_current_scale = diagram_current_scale
@@ -423,7 +464,12 @@ def save_telegram_bot_diagram_current_scale(request: WSGIRequest, telegram_bot: 
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 @telegram_bot.decorators.check_telegram_bot_command_id
-@constructor_telegram_bots.decorators.check_post_request_data_items(request_need_items=('x', 'y',))
+@constructor_telegram_bots.decorators.check_post_request_data_items(
+	{
+		'x': int,
+		'y': int,
+	}
+)
 def save_telegram_bot_command_position(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand, x: int, y: int) -> JsonResponse:
 	telegram_bot_command.x = x
 	telegram_bot_command.y = y

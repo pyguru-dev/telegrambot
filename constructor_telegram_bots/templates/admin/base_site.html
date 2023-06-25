@@ -1,0 +1,15 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} - Constructor Telegram Bots{% endblock %}
+
+{% block branding %}
+	<h1 id="site-name"><a href="{% url 'admin:index' %}">Администрирование сайта Constructor Telegram Bots</a></h1>
+
+	{% block welcome-msg %}{% endblock welcome-msg %}
+
+	{% if user.is_anonymous %}
+		{% include "admin/color_theme_toggle.html" %}
+	{% endif %}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

@@ -2,12 +2,12 @@ from aiogram import Bot, types
 from telegram_bots.custom_aiogram import CustomDispatcher
 
 from aiogram.utils.exceptions import ValidationError, Unauthorized
-from django.core.exceptions import ObjectDoesNotExist
 
 from telegram_bot.models import (
 	TelegramBot,
 	TelegramBotCommand, TelegramBotCommandManager,
 	TelegramBotCommandKeyboard,
+	TelegramBotCommandKeyboardButton,
 	TelegramBotUser
 )
 from django.db import models
@@ -17,6 +17,7 @@ import asyncio
 import aiohttp
 
 from typing import Union
+import re
 
 
 class UserTelegramBot:
@@ -39,24 +40,18 @@ class UserTelegramBot:
 			await user.asave()
 
 		return user
-	
-	def get_command_keyboard(sefl, command) -> TelegramBotCommandKeyboard:
-		try:
-			return command.keyboard
-		except ObjectDoesNotExist:
-			return None
-	
-	def get_command_keyboard_button_command(sefl, button) -> TelegramBotCommand:
+
+	def get_command_keyboard_button_command(sefl, button: TelegramBotCommandKeyboardButton) -> TelegramBotCommand:
 		return button.telegram_bot_command
-	
-	async def search_command(self, message_text: str = None, button_id: int = None):
+
+	async def search_command(self, message_text: str = None, button_id: int = None) -> Union[TelegramBotCommand, None]:
 		command = None
 
 		async for command_ in self.telegram_bot.commands.all():
 			if command is not None:
 				break
 
-			keyboard: TelegramBotCommandKeyboard = await sync_to_async(self.get_command_keyboard)(command_)
+			keyboard: TelegramBotCommandKeyboard = await sync_to_async(command_.get_keyboard)()
 
 			if keyboard is not None:
 				if keyboard.type == 'default' and message_text is not None or keyboard.type == 'inline' and button_id is not None:
@@ -79,7 +74,7 @@ class UserTelegramBot:
 			command: Union[TelegramBotCommand, None] = await self.search_command(button_id=button_id)
 
 		return command
-	
+
 	async def replace_text_variables(self, message: types.Message, text: str) -> str:
 		text_variables = {
 			'${user_id}': message.from_user.id,
@@ -90,10 +85,55 @@ class UserTelegramBot:
 			'${user_message_text}': message.text,
 		}
 
-		for text_variable in text_variables:
-			text: str = text.replace(text_variable, str(text_variables[text_variable]))
+		for key, value in text_variables.items():
+			text: str = text.replace(key, str(value))
 
 		return text
+
+	async def get_keyboard(self, command: TelegramBotCommand) -> Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup]:
+		keyboard: TelegramBotCommandKeyboard =  await sync_to_async(command.get_keyboard)()
+				
+		if keyboard is not None:
+			tg_keyboard_buttons = {}
+
+			for num in range(await keyboard.buttons.acount()):
+				tg_keyboard_buttons.update(
+					{
+						num + 1: [],
+					}
+				)
+
+			tg_keyboard_row = 1
+
+			if keyboard.type == 'default':
+				tg_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+				async for button in keyboard.buttons.all():
+					tg_keyboard_buttons[tg_keyboard_row if button.row is None else button.row].append(
+						types.KeyboardButton(text=button.text)
+					)
+
+					tg_keyboard_row += 1
+			else:
+				tg_keyboard = types.InlineKeyboardMarkup()
+
+				async for button in keyboard.buttons.all():
+					tg_keyboard_buttons[tg_keyboard_row if button.row is None else button.row].append(
+						types.InlineKeyboardButton(
+							text=button.text,
+							url=button.url,
+							callback_data=button.id
+						)
+					)
+
+					tg_keyboard_row += 1
+
+			for tg_keyboard_button in tg_keyboard_buttons:
+				tg_keyboard.add(*tg_keyboard_buttons[tg_keyboard_button])
+		else:
+			tg_keyboard = None
+
+		return tg_keyboard
 
 	async def message_and_callback_query_handler(self, *args, **kwargs) -> None:
 		if isinstance(args[0], types.Message):
@@ -120,38 +160,34 @@ class UserTelegramBot:
 				message_text: str = await self.replace_text_variables(message=message, text=command.message_text)
 
 				if command.api_request is not None:
-					try:
-						async with aiohttp.ClientSession() as session:
-							api_request_url: str = await self.replace_text_variables(message=message, text=command.api_request['url'])
-							api_request_data: str = await self.replace_text_variables(message=message, text=command.api_request['data'])
+					async with aiohttp.ClientSession() as session:
+						api_request_url: str = await self.replace_text_variables(message=message, text=command.api_request['url'])
+						api_request_data: str = await self.replace_text_variables(message=message, text=command.api_request['data'])
 
-							async with session.post(url=api_request_url, data=api_request_data) as response:
-								message_text.replace('${api_response}', await response.text())
-					except aiohttp.client_exceptions.InvalidURL:
-						message_text.replace('${api_response}', 'Недействительная ссылка на API!')
+						async with session.post(url=api_request_url, data=api_request_data) as response:
+							message_text: str = message_text.replace('${api_response}', await response.text())
 
-				keyboard: TelegramBotCommandKeyboard = await sync_to_async(self.get_command_keyboard)(command)
-				
-				if keyboard is not None:
-					if keyboard.type == 'default':
-						tg_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-						
-						async for button in keyboard.buttons.all():
-							tg_keyboard.add(
-								types.KeyboardButton(text=button.text)
-							)
-					else:
-						tg_keyboard = types.InlineKeyboardMarkup()
+							variables: list = re.findall(r'\${([\w\[\]]+)}', message_text)
 
-						async for button in keyboard.buttons.all():
-							tg_keyboard.add(
-								types.InlineKeyboardButton(text=button.text, callback_data=button.id)
-							)
-				else:
-					tg_keyboard = None
+							if variables != []:
+								for variable in variables:
+									try:
+										api_response_json_value = await response.json()
+									except aiohttp.client_exceptions.ContentTypeError:
+										message_text: str = message_text.replace('${' + variable + '}', 'The API-request not return JSON!')
+										continue
+
+									variable_keys: list = re.findall(r'\[([^\]]+)\]', variable)
+									
+									for variable_key in variable_keys:
+										api_response_json_value = api_response_json_value[variable_key]
+
+									message_text: str = message_text.replace('${' + variable + '}', str(api_response_json_value))
 
 				if len(message_text) > 4096:
-					message_text = 'Текст сообщения должен содержать не более 4096 символов!'
+					message_text = 'The text of the message must contain no more than 4096 characters!'
+
+				keyboard: Union(types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup) = await self.get_keyboard(command=command)
 
 				if isinstance(args[0], types.CallbackQuery):
 					await self.dispatcher.bot.delete_message(
@@ -163,19 +199,19 @@ class UserTelegramBot:
 					await self.dispatcher.bot.send_message(
 						chat_id=message.chat.id,
 						text=message_text,
-						reply_markup=tg_keyboard
+						reply_markup=keyboard
 					)
 				else:
 					await self.dispatcher.bot.send_photo(
 						chat_id=message.chat.id,
 						photo=types.InputFile(command.image.path),
 						caption=message_text,
-						reply_markup=tg_keyboard
+						reply_markup=keyboard
 					)
 
 	async def setup(self) -> None:
 		self.bot = Bot(token=self.telegram_bot.api_token, loop=self.loop)
-		self.dispatcher = CustomDispatcher(bot=self.bot)
+		self.dispatcher = CustomDispatcher(bot_username=self.telegram_bot.username, bot=self.bot)
 
 		self.dispatcher.register_message_handler(self.message_and_callback_query_handler)
 		self.dispatcher.register_callback_query_handler(self.message_and_callback_query_handler)

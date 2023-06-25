@@ -14,14 +14,14 @@ import pytz
 
 
 class TelegramBot(models.Model):
-	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='telegram_bots', null=True)
+	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='telegram_bots', null=True, verbose_name='Владелец')
 
-	name = models.CharField(max_length=32, unique=True)
+	username = models.CharField(max_length=32, unique=True, verbose_name='@username')
 	api_token = models.CharField(max_length=50, unique=True)
-	is_private = models.BooleanField()
-	is_running = models.BooleanField(default=False)
+	is_private = models.BooleanField(verbose_name='Приватный')
+	is_running = models.BooleanField(default=False, verbose_name='Запущен')
 	is_stopped = models.BooleanField(default=True)
-	_date_added = models.DateTimeField(auto_now_add=True)
+	_date_added = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
 
 	diagram_current_scale = models.FloatField(default=1.0)
 
@@ -29,6 +29,9 @@ class TelegramBot(models.Model):
 
 	class Meta:
 		db_table = 'telegram_bot'
+
+		verbose_name = 'Telegram бота'
+		verbose_name_plural = 'Telegram боты'
 
 	@property
 	def date_added(self) -> str:
@@ -45,7 +48,7 @@ class TelegramBot(models.Model):
 	def to_dict(self) -> dict:
 		return {
 			'id': self.id,
-			'name': self.name,
+			'username': self.username,
 			'api_token': self.api_token,
 			'is_running': self.is_running,
 			'is_stopped': self.is_stopped,
@@ -53,6 +56,9 @@ class TelegramBot(models.Model):
 			'users_count': self.users.count(),
 			'date_added': self.date_added,
 		}
+	
+	def __str__(self) -> str:
+		return f'@{self.username} Telegram бот'
 
 
 class TelegramBotCommand(models.Model):
@@ -128,7 +134,10 @@ class TelegramBotCommandKeyboard(models.Model):
 class TelegramBotCommandKeyboardButton(models.Model):
 	telegram_bot_command_keyboard = models.ForeignKey(TelegramBotCommandKeyboard, on_delete=models.CASCADE, related_name='buttons', null=True)
 
+	row = models.IntegerField(null=True)
+
 	text = models.TextField(max_length=4096)
+	url = models.TextField(max_length=2048, null=True)
 
 	telegram_bot_command = models.ForeignKey(TelegramBotCommand, on_delete=models.SET_NULL, null=True)
 	start_diagram_connector = models.TextField(null=True)
@@ -140,7 +149,11 @@ class TelegramBotCommandKeyboardButton(models.Model):
 	def to_dict(self) -> dict:
 		return {
 			'id': self.id,
+
+			'row': self.row,
+
 			'text': self.text,
+			'url': self.url,
 
 			'telegram_bot_command_id': self.telegram_bot_command.id if self.telegram_bot_command is not None else None,
 			'start_diagram_connector': self.start_diagram_connector,

@@ -18,11 +18,11 @@ class TelegramBotManager(models.Manager):
 		is_private: bool,
 		**extra_fields
 	) -> 'TelegramBotModels.TelegramBot':
-		name: str = check_telegram_bot_api_token(api_token=api_token)
+		username: str = check_telegram_bot_api_token(api_token=api_token)
 
 		return super().create(
 			owner=owner,
-			name=name,
+			username=username,
 			api_token=api_token,
 			is_private=is_private,
 			**extra_fields
@@ -81,7 +81,9 @@ class TelegramBotCommandKeyboardManager(models.Manager):
 		for button in buttons:
 			TelegramBotModels.TelegramBotCommandKeyboardButton.objects.create(
 				telegram_bot_command_keyboard=telegram_bot_command_keyboard,
-				text=button['text']
+				row=button['row'],
+				text=button['text'],
+				url=button['url']
 			)
 
 		return telegram_bot_command_keyboard

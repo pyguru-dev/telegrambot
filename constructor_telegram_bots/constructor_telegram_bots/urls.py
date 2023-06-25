@@ -1,5 +1,6 @@
 from django.urls import path, re_path, include
 from django.views.static import serve
+from django.contrib import admin
 from django.conf import settings
 
 
@@ -13,6 +14,7 @@ urlpatterns = [
 	path('privacy-policy/', include('privacy_policy.urls')),
 
 	path("i18n/", include("django.conf.urls.i18n")),
+	path('admin/', admin.site.urls),
 ]
 
 
