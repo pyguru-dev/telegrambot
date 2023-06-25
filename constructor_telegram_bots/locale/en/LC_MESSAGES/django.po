@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-23 06:09+0000\n"
+"POT-Creation-Date: 2023-06-25 22:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,25 +22,25 @@ msgstr ""
 msgid "Тело запроса не должно весить больше 2.5MB!"
 msgstr "The request body must not exceed 2.5MB!"
 
-#: constructor_telegram_bots/decorators.py:39 telegram_bot/decorators.py:188
-#: telegram_bot/decorators.py:197 telegram_bot/decorators.py:228
+#: constructor_telegram_bots/decorators.py:39 telegram_bot/decorators.py:196
+#: telegram_bot/decorators.py:231
 msgid "В тело запроса передан неверный тип данных!"
 msgstr "The request body has the wrong data type!"
 
 #: constructor_telegram_bots/decorators.py:47 telegram_bot/decorators.py:177
-#: telegram_bot/decorators.py:218
+#: telegram_bot/decorators.py:221
 msgid "В тело запроса переданы не все данные!"
 msgstr "The request body has not all required data!"
 
-#: constructor_telegram_bots/settings.py:194
+#: constructor_telegram_bots/settings.py:118
 msgid "Английский"
 msgstr "English"
 
-#: constructor_telegram_bots/settings.py:195
+#: constructor_telegram_bots/settings.py:119
 msgid "Украинский"
 msgstr "Ukrainian"
 
-#: constructor_telegram_bots/settings.py:196
+#: constructor_telegram_bots/settings.py:120
 msgid "Русский"
 msgstr "Russian"
 
@@ -172,7 +172,7 @@ msgstr "and ask him that question."
 msgid "Бесплатный конструктор Telegram ботов"
 msgstr "Free Constructor Telegram Bots"
 
-#: home/templates/home.html:11 templates/base.html:12
+#: home/templates/home.html:11 templates/base.html:13
 msgid ""
 "Сайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний "
 "в программирование, сделать своего многофункционального Telegram бота."
@@ -228,31 +228,26 @@ msgid "Telegram бот выключен"
 msgstr "Telegram bot is disabled"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:48
-#: personal_cabinet/templates/telegram_bot_menu/main.html:25
-msgid "Имя"
-msgstr "Name"
-
-#: personal_cabinet/templates/personal_cabinet/main.html:49
 #: personal_cabinet/templates/telegram_bot_menu/main.html:31
 msgid "API-токен"
 msgstr "API-token"
 
-#: personal_cabinet/templates/personal_cabinet/main.html:50
+#: personal_cabinet/templates/personal_cabinet/main.html:49
 #: personal_cabinet/templates/telegram_bot_menu/main.html:62
 msgid "Количество активаций"
 msgstr "Number of activations"
 
-#: personal_cabinet/templates/personal_cabinet/main.html:51
+#: personal_cabinet/templates/personal_cabinet/main.html:50
 #: personal_cabinet/templates/telegram_bot_menu/main.html:66
 msgid "Количество команд"
 msgstr "Number of commands"
 
-#: personal_cabinet/templates/personal_cabinet/main.html:52
+#: personal_cabinet/templates/personal_cabinet/main.html:51
 #: personal_cabinet/templates/telegram_bot_menu/main.html:70
 msgid "Дата добавления"
 msgstr "Date added"
 
-#: personal_cabinet/templates/personal_cabinet/main.html:54
+#: personal_cabinet/templates/personal_cabinet/main.html:53
 #: personal_cabinet/templates/telegram_bot_menu/main.html:5
 msgid "Меню Telegram бота"
 msgstr "Telegram bot menu"
@@ -698,19 +693,19 @@ msgstr "The text of the message must contain no more than 4096 characters!"
 msgid "Введите текст сообщения!"
 msgstr "Enter the message text!"
 
-#: telegram_bot/decorators.py:206 telegram_bot/decorators.py:237
+#: telegram_bot/decorators.py:208 telegram_bot/decorators.py:240
 msgid "Введите правильный URL-адрес!"
 msgstr "Enter the correct URL!"
 
-#: telegram_bot/decorators.py:255 telegram_bot/views.py:359
+#: telegram_bot/decorators.py:258 telegram_bot/views.py:359
 msgid "Команда Telegram бота не найдена!"
 msgstr "Telegram bot command not found!"
 
-#: telegram_bot/decorators.py:277
+#: telegram_bot/decorators.py:280
 msgid "Кнопка клавиатуры команды Telegram бота не найдена!"
 msgstr "Telegram bot command keyboard button not found!"
 
-#: telegram_bot/decorators.py:297
+#: telegram_bot/decorators.py:300
 msgid "Пользователь Telegram бота не найдена!"
 msgstr "Telegram bot user not found!"
 
@@ -780,11 +775,11 @@ msgid ""
 "секунды."
 msgstr "Page not found, automatically returns to the home page in 3 seconds."
 
-#: templates/base.html:53 user/templates/logout.html:4
+#: templates/base.html:54 user/templates/logout.html:4
 msgid "Выход из аккаунта"
 msgstr "Logouting from account"
 
-#: templates/base.html:54
+#: templates/base.html:55
 msgid "Вы точно хотите выйти из аккаунта?"
 msgstr "Are you sure you want to logout of your account?"
 
@@ -800,11 +795,11 @@ msgstr "Founder's Contacts"
 msgid "Другое"
 msgstr "Other"
 
-#: templates/modals/ask_confirm_modal.html:17
+#: templates/modals/ask_confirm_modal.html:16
 msgid "Да"
 msgstr "Yes"
 
-#: templates/modals/ask_confirm_modal.html:20
+#: templates/modals/ask_confirm_modal.html:19
 msgid "Нет"
 msgstr "No"
 
@@ -832,14 +827,14 @@ msgstr "Automatic transition to the home page after 3 seconds."
 msgid "Успешный выход из аккаунта"
 msgstr "Successfully logouted"
 
-#: user/views.py:25
+#: user/views.py:91
 msgid "Успешная авторизация"
 msgstr "Successful authorization"
 
-#: user/views.py:27
+#: user/views.py:93
 msgid "Неверный код подтверждения!"
 msgstr "Invalid confirmation code!"
 
-#: user/views.py:29
+#: user/views.py:95
 msgid "Не удалось найти пользователя!"
 msgstr "User not found!"
