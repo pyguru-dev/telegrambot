@@ -10,7 +10,7 @@ from django.conf import settings
 
 class User(AbstractBaseUser, PermissionsMixin):
 	username = models.CharField(max_length=32, unique=True, null=True, verbose_name='Имя пользователя')
-	password = models.CharField(max_length=25, null=True)
+	password = models.CharField(max_length=25, null=True, verbose_name='Пароль')
 	is_staff = models.BooleanField(default=False, verbose_name='Сотрудник')
 	confirm_code = models.CharField(max_length=25, unique=True, null=True)
 	date_joined = models.DateTimeField(auto_now_add=True, verbose_name='Дата присоединения')

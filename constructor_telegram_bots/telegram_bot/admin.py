@@ -13,7 +13,7 @@ from telegram_bots.tasks import stop_telegram_bot as stop_telegram_bot_
 @admin.register(TelegramBot)
 class TelegramBotAdmin(admin.ModelAdmin):
 	date_hierarchy = '_date_added'
-	list_filter = ('owner',)
+	list_filter = ('owner', 'is_running')
 
 	list_display = (
 		'owner',
@@ -28,7 +28,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 
 	@admin.display(description='@username')
 	def show_telegram_bot_username(self, telegram_bot: TelegramBot) -> int:
-		return html.format_html(f'<a href="tg://resolve?domain={telegram_bot.name}">@{telegram_bot.name}</a>')
+		return html.format_html(f'<a href="tg://resolve?domain={telegram_bot.username}">@{telegram_bot.username}</a>')
 
 	@admin.display(description='Количество команд Telegram бота')
 	def show_telegram_bot_commands_count(self, telegram_bot: TelegramBot) -> int:
@@ -38,6 +38,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 	def show_telegram_bot_users_count(self, telegram_bot: TelegramBot) -> int:
 		return telegram_bot.users.count()
 
+	@admin.action(permissions=['change'])
 	@admin.display(description='Включить Telegram бота')
 	def start_telegram_bot_button(self, request: WSGIRequest, telegram_bots: list[TelegramBot]) -> None:
 		for telegram_bot in telegram_bots:
@@ -56,6 +57,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 			else:
 				messages.error(request, f'@{telegram_bot.name} Telegram бот уже включен!')
 
+	@admin.action(permissions=['change'])
 	@admin.display(description='Выключить Telegram бота')
 	def stop_telegram_bot_button(self, request: WSGIRequest, telegram_bots: list[TelegramBot]) -> None:
 		for telegram_bot in telegram_bots:

@@ -52,8 +52,8 @@
 						<button class="btn btn-danger" id="userLogoutButton" type="button">{% trans "Выйти" %}</button>
 					</div>
 				{% else %}
-					<div class="col-auto p-0">
-						<a class="btn btn-success ps-1 mx-1 my-2" href="tg://resolve?domain={{ constructor_telegram_bot_username }}&start=login">
+					<div class="col-auto">
+						<a class="btn btn-success" href="tg://resolve?domain={{ constructor_telegram_bot_username }}&start=login">
 							<i class="bi bi-telegram mx-2"></i>
 							{% trans "Войти через Telegram" %}
 						</a>

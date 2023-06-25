@@ -52,7 +52,7 @@ def admin_login(
 	if user.exists():
 		user: User = user.first()
 
-		if user.is_superuser and user.is_staff:			
+		if user.is_staff:			
 			login(request, user)
 
 			return JsonResponse(
