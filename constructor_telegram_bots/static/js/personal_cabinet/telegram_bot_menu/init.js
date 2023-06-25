@@ -11,7 +11,7 @@ var intervalUpdateUsersId;
 		}).then(response => {
 			if (response.ok) {
 				response.json().then(telegramBot => {
-					telegramBotUsername.href = `tg://resolve?domain=${telegramBot['name']}`;
+					telegramBotUsername.href = `tg://resolve?domain=${telegramBot['username']}`;
 					telegramBotUsername.innerHTML = `@${telegramBot['username']}`;
 					telegramBotApiToken.innerHTML = telegramBot['api_token'];
 				});
