@@ -1,12 +1,13 @@
 from celery import Celery, signals
-from redis import Redis
+
 import os
 
 
-@signals.celeryd_init.connect
-def celery_init(*args, **kwargs):
-	redis_client = Redis(host='127.0.0.1', port=6379)
-	redis_client.delete('is_all_telegram_bots_already_started')
+@signals.celeryd_after_setup.connect
+def celery_after_setup(*args, **kwargs):
+	from telegram_bots.tasks import start_all_telegram_bots
+
+	start_all_telegram_bots.delay()
 
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'constructor_telegram_bots.settings')
