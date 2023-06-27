@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-25 22:59+0000\n"
+"POT-Creation-Date: 2023-06-27 07:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,7 +193,7 @@ msgid "Количество добавленных Telegram ботов"
 msgstr "Number of added Telegram bots"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:5
-#: templates/navbar.html:49
+#: templates/navbar.html:54
 msgid "Личный кабинет"
 msgstr "Personal cabinet"
 
@@ -234,16 +234,19 @@ msgstr "API-token"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:49
 #: personal_cabinet/templates/telegram_bot_menu/main.html:62
+#: telegram_bot/admin.py:39
 msgid "Количество активаций"
 msgstr "Number of activations"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:50
 #: personal_cabinet/templates/telegram_bot_menu/main.html:66
+#: telegram_bot/admin.py:35
 msgid "Количество команд"
 msgstr "Number of commands"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:51
 #: personal_cabinet/templates/telegram_bot_menu/main.html:70
+#: telegram_bot/models.py:26
 msgid "Дата добавления"
 msgstr "Date added"
 
@@ -285,16 +288,19 @@ msgid "Теперь вы можете добавить вашего Telegram б�
 msgstr "Now you can add your Telegram bot to the site."
 
 #: personal_cabinet/templates/telegram_bot_menu/main.html:54
+#: telegram_bot/models.py:23
 msgid "Приватный"
 msgstr "Private"
 
 #: personal_cabinet/templates/telegram_bot_menu/main.html:81
 #: personal_cabinet/templates/telegram_bot_menu/main.html:234
+#: telegram_bot/admin.py:61
 msgid "Выключить Telegram бота"
 msgstr "Disable Telegram bot"
 
 #: personal_cabinet/templates/telegram_bot_menu/main.html:81
 #: personal_cabinet/templates/telegram_bot_menu/main.html:233
+#: telegram_bot/admin.py:43
 msgid "Включить Telegram бота"
 msgstr "Enable Telegram bot"
 
@@ -323,7 +329,8 @@ msgstr "User ID"
 msgid "@username пользователя"
 msgstr "@username"
 
-#: personal_cabinet/templates/telegram_bot_menu/main.html:109
+#: personal_cabinet/templates/telegram_bot_menu/main.html:109 user/admin.py:31
+#: user/models.py:14
 msgid "Имя пользователя"
 msgstr "User first name"
 
@@ -648,6 +655,14 @@ msgstr ""
 "If you have questions or problems in connection with the use of our site or "
 "the processing of your personal data, please write to us at address"
 
+#: telegram_bot/admin.py:49
+msgid "Telegram бот успешно включен."
+msgstr "Telegram bot successfully enabled"
+
+#: telegram_bot/admin.py:67
+msgid "Telegram бот успешно выключен."
+msgstr "Telegram bot successfully disabled"
+
 #: telegram_bot/decorators.py:23
 msgid "Введите API-токен Telegram бота!"
 msgstr "Enter the Telegram bot API-token!"
@@ -708,6 +723,22 @@ msgstr "Telegram bot command keyboard button not found!"
 #: telegram_bot/decorators.py:300
 msgid "Пользователь Telegram бота не найдена!"
 msgstr "Telegram bot user not found!"
+
+#: telegram_bot/models.py:19
+msgid "Владелец"
+msgstr "Owner"
+
+#: telegram_bot/models.py:24
+msgid "Включён"
+msgstr "Enabled"
+
+#: telegram_bot/models.py:35
+msgid "Telegram бота"
+msgstr "Telegram bot"
+
+#: telegram_bot/models.py:36
+msgid "Telegram боты"
+msgstr "Telegram bots"
 
 #: telegram_bot/views.py:42
 msgid "Вы успешно добавили Telegram бота."
@@ -775,11 +806,31 @@ msgid ""
 "секунды."
 msgstr "Page not found, automatically returns to the home page in 3 seconds."
 
-#: templates/base.html:54 user/templates/logout.html:4
+#: templates/admin/base_site.html:13
+msgid "Администрирование сайта"
+msgstr "Administration the site"
+
+#: templates/admin/base_site.html:23
+msgid "Вернуться на сайт"
+msgstr "Back to site"
+
+#: templates/admin/login.html:4 user/templates/login.html:4
+msgid "Авторизация"
+msgstr "Authorization"
+
+#: templates/admin/login.html:12
+msgid "Войдите через Telegram!"
+msgstr "Log in via Telegram!"
+
+#: templates/admin/login.html:17 templates/navbar.html:63
+msgid "Войти через Telegram"
+msgstr "Sign in via Telegram"
+
+#: templates/base.html:56 user/templates/logout.html:4
 msgid "Выход из аккаунта"
 msgstr "Logouting from account"
 
-#: templates/base.html:55
+#: templates/base.html:57
 msgid "Вы точно хотите выйти из аккаунта?"
 msgstr "Are you sure you want to logout of your account?"
 
@@ -807,17 +858,33 @@ msgstr "No"
 msgid "Главная"
 msgstr "Home"
 
-#: templates/navbar.html:52
+#: templates/navbar.html:50
+msgid "Админ панель"
+msgstr "Admin panel"
+
+#: templates/navbar.html:57
 msgid "Выйти"
 msgstr "Logout"
 
-#: templates/navbar.html:58
-msgid "Войти через Telegram"
-msgstr "Sign in via Telegram"
+#: user/admin.py:38
+msgid "Количество Telegram ботов"
+msgstr "Number of Telegram bots"
 
-#: user/templates/login.html:4
-msgid "Авторизация"
-msgstr "Authorization"
+#: user/models.py:16
+msgid "Сотрудник"
+msgstr "Staff"
+
+#: user/models.py:18
+msgid "Дата присоединения"
+msgstr "Date joined"
+
+#: user/models.py:27
+msgid "Пользователя"
+msgstr "User"
+
+#: user/models.py:28
+msgid "Пользователи"
+msgstr "Users"
 
 #: user/templates/login.html:7 user/templates/logout.html:7
 msgid "Автоматический переход на главную страницу через 3 секунды."
@@ -827,14 +894,14 @@ msgstr "Automatic transition to the home page after 3 seconds."
 msgid "Успешный выход из аккаунта"
 msgstr "Successfully logouted"
 
-#: user/views.py:91
+#: user/views.py:25
 msgid "Успешная авторизация"
 msgstr "Successful authorization"
 
-#: user/views.py:93
+#: user/views.py:27
 msgid "Неверный код подтверждения!"
 msgstr "Invalid confirmation code!"
 
-#: user/views.py:95
+#: user/views.py:29
 msgid "Не удалось найти пользователя!"
 msgstr "User not found!"

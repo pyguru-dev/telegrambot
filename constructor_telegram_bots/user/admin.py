@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from django.utils.translation import gettext_lazy as _
+
 from django.core.handlers.wsgi import WSGIRequest
 from django.utils import html
 
@@ -23,21 +25,23 @@ class UserAdmin(admin.ModelAdmin):
 	)
 	list_display_links = None
 
-	fields = ('username', 'password', 'is_staff', 'groups')
+	fields = ('id', 'username', 'is_staff', 'groups')
+	readonly_fields = ('id', 'username')
 
-	@admin.display(description='Имя пользователя')
-	def show_username(self, user: User):
+	@admin.display(description=_('Имя пользователя'))
+	def show_username(self, user: User) -> str:
 		if user.is_staff:
 			return html.format_html(f'<a href="{user.id}/change/">{user.username}<a>')
 		else:
 			return user.username
 
-	@admin.display(description='Количество Telegram ботов')
-	def show_telegram_bots_count(self, user: User):
+	@admin.display(description=_('Количество Telegram ботов'))
+	def show_telegram_bots_count(self, user: User) -> bool:
 		return user.telegram_bots.count()
 	
 	def has_change_permission(self, request: WSGIRequest, user: Union[User, None]=None):
 		if user is not None:
 			if user.is_staff:
 				return True
+
 		return False

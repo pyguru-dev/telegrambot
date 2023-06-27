@@ -45,6 +45,11 @@
 					</div>
 				</div>
 				{% if user.is_authenticated %}
+					{% if user.is_staff %}
+						<div class="col-auto">
+							<a class="btn btn-warning" href="{% url 'admin:index' %}">{% trans "Админ панель" %}</a>
+						</div>
+					{% endif %}
 					<div class="col-auto">
 						<a class="btn btn-light" href="{% url 'personal_cabinet' %}">{% trans "Личный кабинет" %}</a>
 					</div>
@@ -54,7 +59,7 @@
 				{% else %}
 					<div class="col-auto">
 						<a class="btn btn-success" href="tg://resolve?domain={{ constructor_telegram_bot_username }}&start=login">
-							<i class="bi bi-telegram mx-2"></i>
+							<i class="bi bi-telegram me-1"></i>
 							{% trans "Войти через Telegram" %}
 						</a>
 					</div>

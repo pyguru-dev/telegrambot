@@ -1,5 +1,7 @@
 from django.db import models
 
+from django.utils.translation import gettext_lazy as _
+
 from django.core.exceptions import ObjectDoesNotExist
 
 from user.models import User
@@ -14,14 +16,14 @@ import pytz
 
 
 class TelegramBot(models.Model):
-	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='telegram_bots', null=True, verbose_name='Владелец')
+	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='telegram_bots', null=True, verbose_name=_('Владелец'))
 
 	username = models.CharField(max_length=32, unique=True, verbose_name='@username')
 	api_token = models.CharField(max_length=50, unique=True)
-	is_private = models.BooleanField(verbose_name='Приватный')
-	is_running = models.BooleanField(default=False, verbose_name='Запущен')
+	is_private = models.BooleanField(verbose_name=_('Приватный'))
+	is_running = models.BooleanField(default=False, verbose_name=_('Включён'))
 	is_stopped = models.BooleanField(default=True)
-	_date_added = models.DateTimeField(auto_now_add=True, verbose_name='Дата добавления')
+	_date_added = models.DateTimeField(auto_now_add=True, verbose_name=_('Дата добавления'))
 
 	diagram_current_scale = models.FloatField(default=1.0)
 
@@ -30,8 +32,8 @@ class TelegramBot(models.Model):
 	class Meta:
 		db_table = 'telegram_bot'
 
-		verbose_name = 'Telegram бота'
-		verbose_name_plural = 'Telegram боты'
+		verbose_name = _('Telegram бота')
+		verbose_name_plural = _('Telegram боты')
 
 	@property
 	def date_added(self) -> str:
@@ -58,7 +60,7 @@ class TelegramBot(models.Model):
 		}
 	
 	def __str__(self) -> str:
-		return f'@{self.username} Telegram бот'
+		return f'@{self.username} {_("Telegram бот")}'
 
 
 class TelegramBotCommand(models.Model):
