@@ -13,7 +13,6 @@ class UserModelsTest(BaseTestCase):
 		user: User = User.objects.filter(
 			id=123456789,
 			username=None,
-			password=None,
 			last_login=None,
 			confirm_code=None,
 			is_superuser=False
