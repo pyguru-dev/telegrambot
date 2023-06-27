@@ -972,26 +972,27 @@ a.deletelink:focus, a.deletelink:hover {
 
 #user-tools {
     float: right;
-    margin: 0 0 0 20px;
     text-align: right;
 }
 
 #user-tools, #logout-form button{
     padding: 0;
     font-weight: 300;
-    font-size: 0.6875rem;
+    font-size: 12px;
     letter-spacing: 0.5px;
     text-transform: uppercase;
 }
 
 #user-tools a, #logout-form button {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+    margin-top: -1px;
+    text-decoration: none;
+    border-bottom: 0;
 }
 
 #user-tools a:focus, #user-tools a:hover,
 #logout-form button:active, #logout-form button:hover {
     text-decoration: none;
-    border-bottom: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 #logout-form button:active, #logout-form button:hover {

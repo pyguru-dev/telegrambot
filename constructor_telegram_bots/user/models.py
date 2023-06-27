@@ -1,6 +1,8 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 
+from django.utils.translation import gettext_lazy as _
+
 from user.managers import UserManager
 
 from constructor_telegram_bots.functions import generate_random_string
@@ -9,22 +11,21 @@ from django.conf import settings
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-	username = models.CharField(max_length=32, unique=True, null=True, verbose_name='Имя пользователя')
-	password = models.CharField(max_length=25, null=True, verbose_name='Пароль')
-	is_staff = models.BooleanField(default=False, verbose_name='Сотрудник')
+	username = models.CharField(max_length=32, unique=True, null=True, verbose_name=_('Имя пользователя'))
+	password = None
+	is_staff = models.BooleanField(default=False, verbose_name=_('Сотрудник'))
 	confirm_code = models.CharField(max_length=25, unique=True, null=True)
-	date_joined = models.DateTimeField(auto_now_add=True, verbose_name='Дата присоединения')
+	date_joined = models.DateTimeField(auto_now_add=True, verbose_name=_('Дата присоединения'))
 
 	USERNAME_FIELD = 'username'
-	REQUIRED_FIELDS = ['password']
 
 	objects = UserManager()
 
 	class Meta:
 		db_table = 'user'
 
-		verbose_name = 'Пользователя'
-		verbose_name_plural = 'Пользователи'
+		verbose_name = _('Пользователя')
+		verbose_name_plural = _('Пользователи')
 
 	@property
 	def login_url(self) -> str:
@@ -46,4 +47,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 		return [telegram_bot.to_dict() for telegram_bot in self.telegram_bots.all()]
 
 	def __str__(self):
-		return f'Пользователь: {self.id if self.username is None else self.username}'
+		return f'{_("Пользователь")}: {self.id if self.username is None else self.username}'

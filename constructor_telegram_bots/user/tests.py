@@ -32,65 +32,6 @@ class UserModelsTest(BaseTestCase):
 
 
 class UserViewsTest(BaseTestCase):
-	def test_admin_login_view(self) -> None:
-		self.user.username = 'not_admin'
-		self.user.password = 'not_admin'
-		self.user.save()
-
-		User.objects.create_superuser(
-			username='admin',
-			password='admin'
-		)
-
-		tests = [
-			{
-				'url': urls.reverse('admin_login'),
-				'data': {
-					'username': None,
-					'password': None,
-				},
-				'response': {
-					'message': 'В тело запроса передан неверный тип данных!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('admin_login'),
-				'data': {
-					'username': 'other',
-					'password': 'admin',
-				},
-				'response': {
-					'message': 'Пользователь не найден!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('admin_login'),
-				'data': {
-					'username': 'not_admin',
-					'password': 'not_admin',
-				},
-				'response': {
-					'message': 'Вы не имеете доступ к администрированию сайта!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('admin_login'),
-				'data': {
-					'username': 'admin',
-					'password': 'admin',
-				},
-				'response': {
-					'message': 'Вы успешно авторизовались.',
-					'level': 'success',
-				},
-			},
-		]
-
-		self.assertTests(tests)
-
 	def test_user_login_view(self) -> None:
 		login_urls = {
 			urls.reverse('user_login', kwargs={'id': 0, 'confirm_code': 0}): 'Не удалось найти пользователя!',
