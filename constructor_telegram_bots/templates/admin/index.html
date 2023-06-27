@@ -1,5 +1,6 @@
 {% extends "admin/base_site.html" %}
-{% load i18n static %}
+{% load static %}
+{% load i18n %}
 {% load log %}
 
 {% block extrastyle %}
@@ -16,7 +17,7 @@
 {% block nav-sidebar %}{% endblock %}
 
 {% block content_title %}
-	<h1><b>Добро пожаловать в админ панель!</b></h1>
+	<h1><b>{% trans "Добро пожаловать в админ панель!" %}</b></h1>
 {% endblock %}
 
 {% block content %}
@@ -28,11 +29,11 @@
 {% block sidebar %}
 	<div id="content-related">
 		<div class="module" id="recent-actions-module">
-			<h2>Недавние действия</h2>
-			<h3>Мои действия</h3>
+			<h2>{% trans "Недавние действия" %}</h2>
+			<h3>{% trans "Мои действия" %}</h3>
 			{% get_admin_log 10 as admin_log for_user user %}
 			{% if not admin_log %}
-				<p>Отсутствует</p>
+				<p>{% trans "Отсутствует" %}</p>
 			{% else %}
 				<ul class="actionlist">
 					{% for entry in admin_log %}
@@ -46,7 +47,7 @@
 						{% if entry.content_type %}
 							<span class="mini quiet">{% filter capfirst %}{{ entry.change_message }}{% endfilter %}</span>
 						{% else %}
-							<span class="mini quiet">Неизвестный контент</span>
+							<span class="mini quiet">{% trans "Неизвестный контент" %}</span>
 						{% endif %}
 					</li>
 					{% endfor %}
