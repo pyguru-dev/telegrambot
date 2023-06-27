@@ -51,12 +51,12 @@ var telegramBotIsPrivateCheckBox = document.querySelector('#telegramBotIsPrivate
 telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 	fetch(editTelegramBotPrivateUrl, {
 		method: 'POST',
-		headers: {'Content-Type': 'application/json'},
 		body: JSON.stringify(
 			{
 				'is_private': telegramBotIsPrivateCheckBox.checked,
 			}
 		),
+		headers: {'Content-Type': 'application/json'},
 	}).then(response => {
 		if (response.ok) {
 			updateTelegramBotUsers();

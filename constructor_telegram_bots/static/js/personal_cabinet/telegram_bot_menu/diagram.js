@@ -36,11 +36,11 @@
 
 			connectorLine.remove();
 
-			const connectorLine_ = createDiagramConnectorLine(
+			connectorLine = createDiagramConnectorLine(
 				document.querySelector(`.diagram-connector[id="${diagramConnectorsId[0]}"]`),
 				document.querySelector(`.diagram-connector[id="${diagramConnectorsId[1]}"]`)
 			);
-			connectorLine_.style = `stroke-width: ${1 + diagramCurrentScale}px;`;
+			connectorLine.style = `stroke-width: ${1 + diagramCurrentScale}px;`;
 		});
 	}
 
@@ -56,12 +56,12 @@
 
 			fetch(saveTelegramBotDiagramCurrentScaleUrl, {
 				method: 'POST',
-				headers: {'Content-Type': 'application/json'},
 				body: JSON.stringify(
 					{
 						'diagram_current_scale': diagramCurrentScale,
 					}
 				),
+				headers: {'Content-Type': 'application/json'},
 			});
 
 			diagramSetZoom();
