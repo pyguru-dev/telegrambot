@@ -1,42 +1,46 @@
 {
-	const addTelegramBotModalBootstrap = new bootstrap.Modal('#addTelegramBotModal');
+	const addTelegramBot = {
+		modal: new bootstrap.Modal('#addTelegramBotModal'),
 
-	const addTelegramBotModalAlertContainer = document.querySelector('#addTelegramBotModalAlertContainer');
+		alertContainer: document.querySelector('#addTelegramBotModalAlertContainer'),
 
-	const addTelegramBotApiTokenInput = document.querySelector('#addTelegramBotApiTokenInput');
-	const addTelegramBotIsPrivateCheckBox = document.querySelector('#addTelegramBotIsPrivateCheckBox');
+		apiTokenInput: document.querySelector('#addTelegramBotApiTokenInput'),
+		IsPrivateCheckBox: document.querySelector('#addTelegramBotIsPrivateCheckBox'),
+
+		button: document.querySelector('#addTelegramBotModalButton'),
+	}
 
 	document.querySelector('#addTelegramBotButton').addEventListener('click', function() {
 		fetch(addTelegramBotUrl, {
 			method: 'POST',
 			body: JSON.stringify(
 				{
-					'api_token': addTelegramBotApiTokenInput.value,
-					'is_private': addTelegramBotIsPrivateCheckBox.checked,
+					'api_token': addTelegramBot.apiTokenInput.value,
+					'is_private': addTelegramBot.IsPrivateCheckBox.checked,
 				}
 			),
 			headers: {'Content-Type': 'application/json'},
 		}).then(response => {
 			response.json().then(jsonResponse => {
 				if (response.ok) {
-					showTelegramBots();
+					updateTelegramBots();
 
-					addTelegramBotModalBootstrap.toggle();
+					addTelegramBot.modal.toggle();
 
 					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
 				} else {
-					createAlert(addTelegramBotModalAlertContainer, jsonResponse['message'], jsonResponse['level']);
+					createAlert(addTelegramBot.alertContainer, jsonResponse['message'], jsonResponse['level']);
 				}
 			});
 		});
 	});
 
-	document.querySelector('#addTelegramBotModalButton').addEventListener('click', function() {
-		addTelegramBotModalAlertContainer.innerHTML = '';
+	addTelegramBot.button.addEventListener('click', function() {
+		addTelegramBot.alertContainer.innerHTML = '';
 
-		addTelegramBotApiTokenInput.value = '';
-		addTelegramBotIsPrivateCheckBox.checked = false;
+		addTelegramBot.apiTokenInput.value = '';
+		addTelegramBot.IsPrivateCheckBox.checked = false;
 
-		addTelegramBotModalBootstrap.toggle();
+		addTelegramBot.modal.toggle();
 	});
 }
