@@ -15,6 +15,10 @@
 					<a class="nav-link {% if request.path == home_url %}active {% endif %}p-2 pb-1" href="{{ home_url }}">{% trans "Главная" %}</a>
 				</li>
 				<li class="nav-item">
+					{% url 'team' as team_url %}
+					<a class="nav-link {% if request.path == team_url %}active {% endif %}p-2 pb-1" href="{{ team_url }}">{% trans "Команда" %}</a>
+				</li>
+				<li class="nav-item">
 					{% url 'donation' as donation_url %}
 					<a class="nav-link {% if request.path == donation_url %}active {% endif %}p-2 pb-1" href="{{ donation_url }}">{% trans "Пожертвование" %}</a>
 				</li>

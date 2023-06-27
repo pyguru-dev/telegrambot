@@ -57,6 +57,7 @@ INSTALLED_APPS = [
 	'telegram_bot',
 
 	'home',
+	'team',
 	'donation',
 	'personal_cabinet',
 	'privacy_policy',

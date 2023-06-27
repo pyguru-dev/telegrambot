@@ -68,7 +68,7 @@ class TelegramBotCommand(models.Model):
 
 	name = models.CharField(max_length=255)
 	command = models.CharField(max_length=32, null=True)
-	image = models.ImageField(upload_to='static/images/', null=True)
+	image = models.ImageField(upload_to='static/images/commands/', null=True)
 	message_text = models.TextField(max_length=4096)
 	api_request = models.JSONField(null=True)
 

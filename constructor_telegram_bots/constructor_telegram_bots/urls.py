@@ -9,6 +9,7 @@ urlpatterns = [
 	path('telegram-bot/', include('telegram_bot.urls')),
 
 	path('', include('home.urls')),
+	path('team/', include('team.urls')),
 	path('donation/', include('donation.urls')),
 	path('personal-cabinet/', include('personal_cabinet.urls')),
 	path('privacy-policy/', include('privacy_policy.urls')),
