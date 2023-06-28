@@ -1,6 +1,5 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import JsonResponse
-
 from django.utils.translation import gettext as _
 
 from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotCommandKeyboard
@@ -17,7 +16,7 @@ def check_telegram_bot_api_token(func):
 	def wrapper(*args, **kwargs):
 		api_token: str = kwargs['api_token']
 
-		if api_token == '':
+		if not api_token:
 			return JsonResponse(
 				{
 					'message': _('Введите API-токен Telegram бота!'),
@@ -25,7 +24,7 @@ def check_telegram_bot_api_token(func):
 				},
 				status=400
 			)
-		
+
 		request: WSGIRequest = args[0]
 
 		if request.user.telegram_bots.filter(api_token=api_token).exists():
@@ -45,7 +44,7 @@ def check_telegram_bot_api_token(func):
 				status=400
 			)
 
-		if check_telegram_bot_api_token_(api_token=api_token) is None:
+		if not check_telegram_bot_api_token_(api_token=api_token):
 			return JsonResponse(
 				{
 					'message': _('Ваш API-токен Telegram бота является недействительным!'),
@@ -53,7 +52,7 @@ def check_telegram_bot_api_token(func):
 				},
 				status=400
 			)
-		
+
 		return func(*args, **kwargs)
 	return wrapper
 
@@ -63,7 +62,7 @@ def check_telegram_bot_id(func):
 		request: WSGIRequest = args[0]
 		telegram_bot_id: int = kwargs['telegram_bot_id']
 
-		if request.user.telegram_bots.filter(id=telegram_bot_id).exists() is False:
+		if not request.user.telegram_bots.filter(id=telegram_bot_id).exists():
 			return JsonResponse(
 				{
 					'message': _('Telegram бот не найден!'),
@@ -83,7 +82,7 @@ def check_data_for_telegram_bot_command(func):
 	def wrapper(*args, **kwargs):
 		telegram_bot_command_name: str = kwargs['name']
 
-		if telegram_bot_command_name != '':
+		if telegram_bot_command_name:
 			if len(telegram_bot_command_name) >= 255:
 				return JsonResponse(
 					{
@@ -104,7 +103,7 @@ def check_data_for_telegram_bot_command(func):
 		telegram_bot_command_command: Union[str, None] = kwargs['command']
 
 		if telegram_bot_command_command is not None:
-			if telegram_bot_command_command != '':
+			if telegram_bot_command_command:
 				if len(telegram_bot_command_command) >= 32:
 					return JsonResponse(
 						{
@@ -145,7 +144,7 @@ def check_data_for_telegram_bot_command(func):
 
 		telegram_bot_command_message_text: str = kwargs['message_text']
 
-		if telegram_bot_command_message_text != '':
+		if telegram_bot_command_message_text:
 			if len(telegram_bot_command_message_text) >= 4096:
 				return JsonResponse(
 					{
@@ -179,7 +178,7 @@ def check_data_for_telegram_bot_command(func):
 						},
 						status=400
 					)
-				
+
 				for key, value in telegram_bot_command_keyboard_button.items():
 					is_instance = True
 
@@ -189,8 +188,8 @@ def check_data_for_telegram_bot_command(func):
 						is_instance = isinstance(value, str)
 					elif key == 'url':
 						is_instance = isinstance(value, Union[str, None])
-					
-					if is_instance is False:
+
+					if not is_instance:
 						return JsonResponse(
 							{
 								'message': _('В тело запроса передан неверный тип данных!'),
@@ -198,10 +197,10 @@ def check_data_for_telegram_bot_command(func):
 							},
 							status=400
 						)
-				
+
 				if (
-					telegram_bot_command_keyboard_button['url'] is not None and
-					is_valid_url(telegram_bot_command_keyboard_button['url']) is False
+					telegram_bot_command_keyboard_button['url'] and
+					not is_valid_url(telegram_bot_command_keyboard_button['url'])
 				):
 					return JsonResponse(
 						{
@@ -214,8 +213,10 @@ def check_data_for_telegram_bot_command(func):
 		telegram_bot_command_api_request: Union[dict, None] = kwargs['api_request']
 
 		if telegram_bot_command_api_request is not None:
-			if 'url' not in telegram_bot_command_api_request or 'data' not in telegram_bot_command_api_request:
-				print(telegram_bot_command_api_request)
+			if (
+				'url' not in telegram_bot_command_api_request or
+    			'data' not in telegram_bot_command_api_request
+			):
 				return JsonResponse(
 					{
 						'message': _('В тело запроса переданы не все данные!'),
@@ -223,9 +224,9 @@ def check_data_for_telegram_bot_command(func):
 					},
 					status=400
 				)
-			
+
 			for key, value in telegram_bot_command_api_request.items():
-				if isinstance(value, str) is False:
+				if not isinstance(value, str):
 					return JsonResponse(
 						{
 							'message': _('В тело запроса передан неверный тип данных!'),
@@ -234,7 +235,7 @@ def check_data_for_telegram_bot_command(func):
 						status=400
 					)
 
-			if is_valid_url(telegram_bot_command_api_request['url']) is False:
+			if not is_valid_url(telegram_bot_command_api_request['url']):
 				return JsonResponse(
 					{
 						'message': _('Введите правильный URL-адрес!'),
@@ -252,7 +253,7 @@ def check_telegram_bot_command_id(func):
 		telegram_bot: TelegramBot = kwargs['telegram_bot']
 		telegram_bot_command_id: int = kwargs['telegram_bot_command_id']
 
-		if telegram_bot.commands.filter(id=telegram_bot_command_id).exists() is False:
+		if not telegram_bot.commands.filter(id=telegram_bot_command_id).exists():
 			return JsonResponse(
 				{
 					'message': _('Команда Telegram бота не найдена!'),
@@ -260,7 +261,7 @@ def check_telegram_bot_command_id(func):
 				},
 				status=400
 			)
-		
+
 		del kwargs['telegram_bot_command_id']
 		kwargs.update({'telegram_bot_command': telegram_bot.commands.get(id=telegram_bot_command_id)})
 
@@ -274,7 +275,7 @@ def check_telegram_bot_command_keyboard_button_id(func):
 		telegram_bot_command_keyboard: TelegramBotCommandKeyboard = telegram_bot_command.keyboard
 		telegram_bot_command_keyboard_button_id: int = kwargs['telegram_bot_command_keyboard_button_id']
 
-		if telegram_bot_command_keyboard.buttons.filter(id=telegram_bot_command_keyboard_button_id).exists() is False:
+		if not telegram_bot_command_keyboard.buttons.filter(id=telegram_bot_command_keyboard_button_id).exists():
 			return JsonResponse(
 				{
 					'message': _('Кнопка клавиатуры команды Telegram бота не найдена!'),
@@ -282,7 +283,7 @@ def check_telegram_bot_command_keyboard_button_id(func):
 				},
 				status=400
 			)
-		
+
 		del kwargs['telegram_bot_command_keyboard_button_id']
 		kwargs.update({'telegram_bot_command_keyboard_button': telegram_bot_command_keyboard.buttons.get(id=telegram_bot_command_keyboard_button_id)})
 
@@ -294,7 +295,7 @@ def check_telegram_bot_user_id(func):
 		telegram_bot: TelegramBot = kwargs['telegram_bot']
 		telegram_bot_user_id: int = kwargs['telegram_bot_user_id']
 
-		if telegram_bot.users.filter(id=telegram_bot_user_id).exists() is False:
+		if not telegram_bot.users.filter(id=telegram_bot_user_id).exists():
 			return JsonResponse(
 				{
 					'message': _('Пользователь Telegram бота не найдена!'),
@@ -302,7 +303,7 @@ def check_telegram_bot_user_id(func):
 				},
 				status=400
 			)
-		
+
 		del kwargs['telegram_bot_user_id']
 		kwargs.update({'telegram_bot_user': telegram_bot.users.get(id=telegram_bot_user_id)})
 

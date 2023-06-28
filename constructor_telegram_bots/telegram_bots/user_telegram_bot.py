@@ -3,6 +3,7 @@ from telegram_bots.custom_aiogram import CustomDispatcher
 
 from aiogram.utils.exceptions import ValidationError, Unauthorized
 
+from django.db import models
 from telegram_bot.models import (
 	TelegramBot,
 	TelegramBotCommand, TelegramBotCommandManager,
@@ -10,7 +11,6 @@ from telegram_bot.models import (
 	TelegramBotCommandKeyboardButton,
 	TelegramBotUser
 )
-from django.db import models
 
 from asgiref.sync import sync_to_async
 import asyncio

@@ -1,15 +1,16 @@
 from constructor_telegram_bots.tests import BaseTestCase
 
+from django.http import HttpResponse
 from django import urls
 
 
-class PersonalCabinetViewsTest(BaseTestCase):
+class PersonalCabinetViewsTests(BaseTestCase):
 	def test_personal_cabinet_view(self) -> None:
 		url = urls.reverse('personal_cabinet')
 
 		self.assertUnauthorizedAccess(url, method='GET')
 
-		response = self.client.get(urls.reverse('personal_cabinet'))
+		response: HttpResponse = self.client.get(urls.reverse('personal_cabinet'))
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'personal_cabinet/main.html')
 
@@ -19,7 +20,7 @@ class PersonalCabinetViewsTest(BaseTestCase):
 			method='GET'
 		)
 
-		response = self.client.get(urls.reverse('telegram_bot_menu', kwargs={'telegram_bot_id': 0}))
+		response: HttpResponse = self.client.get(urls.reverse('telegram_bot_menu', kwargs={'telegram_bot_id': 0}))
 		self.assertJSONEqual(
 			response.content,
 			{

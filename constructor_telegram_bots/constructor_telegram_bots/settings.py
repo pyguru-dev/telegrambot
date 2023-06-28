@@ -2,8 +2,8 @@ from django.utils.translation import gettext_lazy as _
 
 from constructor_telegram_bots.functions import generate_random_string
 
-from pathlib import Path
 from dotenv import load_dotenv
+from pathlib import Path
 import sys
 import os
 
@@ -13,21 +13,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
 
-SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = DEBUG = os.getenv('DEBUG', 'False') == 'True'
+SECRET_KEY = os.getenv('SECRET_KEY', f"django-insecure-{generate_random_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}")
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-if SECRET_KEY is None:
-	SECRET_KEY = f"django-insecure-{generate_random_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}"
-
-if DEBUG is None:
-	DEBUG = True
-
-if sys.argv[0] == 'manage.py':
-	if sys.argv[1] == 'test':
-		TEST = True
-	else:
-		TEST = False
-else:
+try:
+	TEST = sys.argv[0] == 'manage.py' and sys.argv[1] == 'test'
+except:
 	TEST = False
 
 CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')

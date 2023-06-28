@@ -22,19 +22,6 @@
 						</div>
 					</div>
 				</div>
-				<div class="col">
-					<div class="card">
-						<img class="card-img-top" src="/{{ update.image }}" alt="...">
-						<div class="card-body text-start pb-0">
-							<h3 class="card-title fw-bold">{{ update.title }}</h3>
-							<div class="card-text">
-								{% autoescape off %}
-									{{ update.description }}
-								{% endautoescape %}
-							</div>
-						</div>
-					</div>
-				</div>
 			{% endfor %}
 		</div>
 	</div>

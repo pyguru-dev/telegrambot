@@ -5,10 +5,4 @@ from updates.models import Updates
 
 
 def updates(request: WSGIRequest) -> HttpResponse:
-	return render(
-		request,
-		'updates.html',
-		{
-			'updates': Updates.objects.all(),
-		}
-	)
+	return render(request, 'updates.html', {'updates': Updates.objects.all()})

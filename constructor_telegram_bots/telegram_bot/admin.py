@@ -1,9 +1,6 @@
 from django.contrib import admin, messages
-
 from django.utils.translation import gettext_lazy as _
-
 from django.core.handlers.wsgi import WSGIRequest
-
 from django.utils import html
 
 from telegram_bot.models import TelegramBot
@@ -29,7 +26,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 	list_display_links = None
 
 	@admin.display(description='@username')
-	def show_telegram_bot_username(self, telegram_bot: TelegramBot) -> int:
+	def show_telegram_bot_username(self, telegram_bot: TelegramBot) -> str:
 		return html.format_html(f'<a href="tg://resolve?domain={telegram_bot.username}">@{telegram_bot.username}</a>')
 
 	@admin.display(description=_('Количество команд'))
@@ -48,11 +45,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 
 				message = _('Telegram бот успешно включен.')
 
-				self.log_change(
-					request=request,
-					obj=telegram_bot,
-					message=message
-				)
+				self.log_change(request=request, obj=telegram_bot, message=message)
 
 				messages.success(request, f'@{telegram_bot.name} {message}')
 			else:
@@ -66,11 +59,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 
 				message = _('Telegram бот успешно выключен.')
 
-				self.log_change(
-					request=request,
-					obj=telegram_bot,
-					message=message
-				)
+				self.log_change(request=request, obj=telegram_bot, message=message)
 
 				messages.success(request, f'@{telegram_bot.name} {message}')
 			else:
@@ -83,6 +72,3 @@ class TelegramBotAdmin(admin.ModelAdmin):
 	
 	def has_add_permission(self, request: WSGIRequest, obj: None=None) -> bool:
 		return False
-
-	def has_change_permission(self, request: WSGIRequest, obj: None=None) -> bool:
-		return request.user.has_perm('change_telegrambot')
