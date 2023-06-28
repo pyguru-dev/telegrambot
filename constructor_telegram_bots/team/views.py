@@ -5,10 +5,4 @@ from team.models import TeamMembers
 
 
 def team(request: WSGIRequest) -> HttpResponse:
-	return render(
-		request,
-		'team.html',
-		{
-			'team_members': TeamMembers.objects.all(),
-		}
-	)
+	return render(request, 'team.html', {'team_members': TeamMembers.objects.all()})

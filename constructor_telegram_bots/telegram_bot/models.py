@@ -1,8 +1,7 @@
 from django.db import models
-
 from django.utils.translation import gettext_lazy as _
-
 from django.core.exceptions import ObjectDoesNotExist
+from django.conf import settings
 
 from user.models import User
 from telegram_bot.managers import (
@@ -10,7 +9,6 @@ from telegram_bot.managers import (
 	TelegramBotCommandManager, TelegramBotCommandKeyboardManager
 )
 
-from django.conf import settings
 from typing import Union
 import pytz
 
@@ -82,12 +80,8 @@ class TelegramBotCommand(models.Model):
 
 	def get_keyboard_as_dict(self) -> Union[dict, None]:
 		keyboard: Union['TelegramBotCommandKeyboard', None] = self.get_keyboard()
+		return keyboard.to_dict() if keyboard else None
 
-		if keyboard is not None:
-			return keyboard.to_dict()
-
-		return None
-		
 	def get_keyboard(self) -> Union['TelegramBotCommandKeyboard', None]:
 		try:
 			return self.keyboard

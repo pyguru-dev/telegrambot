@@ -1,7 +1,6 @@
 from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import HttpResponse, render
 from django.http import JsonResponse
-
 from django.utils.translation import gettext as _
 
 from django.views.decorators.csrf import csrf_exempt
@@ -42,7 +41,4 @@ def user_logout(request: WSGIRequest) -> HttpResponse:
 @require_POST
 @login_required
 def get_user_telegram_bots(request: WSGIRequest) -> HttpResponse:
-	return JsonResponse(
-		request.user.get_telegram_bots_as_dict(),
-		safe=False
-	)
+	return JsonResponse(request.user.get_telegram_bots_as_dict(), safe=False)

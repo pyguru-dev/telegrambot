@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-27 21:18+0000\n"
+"POT-Creation-Date: 2023-06-28 19:16+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,29 +18,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: constructor_telegram_bots/decorators.py:25
+#: constructor_telegram_bots/decorators.py:23
 msgid "Тело запроса не должно весить больше 2.5MB!"
 msgstr "The request body must not exceed 2.5MB!"
 
-#: constructor_telegram_bots/decorators.py:39 telegram_bot/decorators.py:196
-#: telegram_bot/decorators.py:231
+#: constructor_telegram_bots/decorators.py:37 telegram_bot/decorators.py:195
+#: telegram_bot/decorators.py:232
 msgid "В тело запроса передан неверный тип данных!"
 msgstr "The request body has the wrong data type!"
 
-#: constructor_telegram_bots/decorators.py:47 telegram_bot/decorators.py:177
-#: telegram_bot/decorators.py:221
+#: constructor_telegram_bots/decorators.py:45 telegram_bot/decorators.py:176
+#: telegram_bot/decorators.py:222
 msgid "В тело запроса переданы не все данные!"
 msgstr "The request body has not all required data!"
 
-#: constructor_telegram_bots/settings.py:123
+#: constructor_telegram_bots/settings.py:114
 msgid "Английский"
 msgstr "English"
 
-#: constructor_telegram_bots/settings.py:124
+#: constructor_telegram_bots/settings.py:115
 msgid "Украинский"
 msgstr "Ukrainian"
 
-#: constructor_telegram_bots/settings.py:125
+#: constructor_telegram_bots/settings.py:116
 msgid "Русский"
 msgstr "Russian"
 
@@ -80,19 +80,19 @@ msgstr ""
 
 #: donation/templates/donation.html:12
 msgid "Зачем мне делать пожертвование сайту?"
-msgstr "Why would I want to donate to a site?"
+msgstr "Why would I want to donate of the site?"
 
 #: donation/templates/donation.html:13
 msgid "Ваше пожертвование очень сильно поможет развитию и улучшению сайта."
-msgstr "Your donation will greatly help to develop and improve the site."
+msgstr "Your donation will greatly help to develop and improve of the site."
 
 #: donation/templates/donation.html:16
 msgid "Где я могу задать интересующие меня вопросы по данной теме?"
-msgstr "Where can I ask questions about this topic?"
+msgstr "Where I can ask questions about this topic?"
 
 #: donation/templates/donation.html:17
 msgid "На все вас интересующие вопросы вам ответят по адресу"
-msgstr "All your questions will be answered at address"
+msgstr "All your questions will be answered at the address"
 
 #: donation/templates/donation.html:17
 msgid "или вы можете написать основателю сайта в"
@@ -100,7 +100,7 @@ msgstr "or you can write to the founder of the site at"
 
 #: donation/templates/donation.html:20
 msgid "О пожертвованиях сайту"
-msgstr "About donations to the site"
+msgstr "About donations of the site"
 
 #: donation/templates/donation.html:21
 msgid "Пожертвования обрабатываются через платёжную систему"
@@ -182,7 +182,7 @@ msgstr ""
 
 #: home/templates/home.html:14
 msgid "Информация о сайте"
-msgstr "Site information"
+msgstr "Information about the site"
 
 #: home/templates/home.html:19
 msgid "Количество пользователей"
@@ -204,7 +204,7 @@ msgstr "Added Telegram bots"
 #: personal_cabinet/templates/personal_cabinet/main.html:24
 #: personal_cabinet/templates/personal_cabinet/modals/add_telegram_bot_modal.html:28
 msgid "Добавить Telegram бота"
-msgstr "Add Telegram bot"
+msgstr "Add a Telegram bot"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:42
 msgid "Вы ещё не добавили Telegram бота"
@@ -213,47 +213,47 @@ msgstr "You haven't added a Telegram bot yet"
 #: personal_cabinet/templates/personal_cabinet/main.html:43
 #: personal_cabinet/templates/personal_cabinet/modals/how_to_add_telegram_bot_modal.html:7
 msgid "Как добавить Telegram бота?"
-msgstr "How do I add a Telegram bot?"
+msgstr "How I can to add a Telegram bot?"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:45
-#: personal_cabinet/templates/telegram_bot_menu/main.html:18
-#: personal_cabinet/templates/telegram_bot_menu/main.html:230
+#: personal_cabinet/templates/telegram_bot_menu/main.html:62
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:4
 msgid "Telegram бот включен"
 msgstr "Telegram bot is enabled"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:46
-#: personal_cabinet/templates/telegram_bot_menu/main.html:18
-#: personal_cabinet/templates/telegram_bot_menu/main.html:231
+#: personal_cabinet/templates/telegram_bot_menu/main.html:63
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:4
 msgid "Telegram бот выключен"
 msgstr "Telegram bot is disabled"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:48
-#: personal_cabinet/templates/telegram_bot_menu/main.html:31
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:17
 msgid "API-токен"
 msgstr "API-token"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:49
-#: personal_cabinet/templates/telegram_bot_menu/main.html:62
-#: telegram_bot/admin.py:39
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:48
+#: telegram_bot/admin.py:36
 msgid "Количество активаций"
 msgstr "Number of activations"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:50
-#: personal_cabinet/templates/telegram_bot_menu/main.html:66
-#: telegram_bot/admin.py:35
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:52
+#: telegram_bot/admin.py:32
 msgid "Количество команд"
 msgstr "Number of commands"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:51
-#: personal_cabinet/templates/telegram_bot_menu/main.html:70
-#: telegram_bot/models.py:26 updates/models.py:13
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:56
+#: telegram_bot/models.py:24 updates/models.py:12
 msgid "Дата добавления"
 msgstr "Date added"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:53
 #: personal_cabinet/templates/telegram_bot_menu/main.html:5
 msgid "Меню Telegram бота"
-msgstr "Telegram bot menu"
+msgstr "Menu the Telegram bot"
 
 #: personal_cabinet/templates/personal_cabinet/modals/add_telegram_bot_modal.html:7
 msgid "Добавление Telegram бота"
@@ -261,13 +261,13 @@ msgstr "Adding a Telegram bot"
 
 #: personal_cabinet/templates/personal_cabinet/modals/add_telegram_bot_modal.html:15
 #: personal_cabinet/templates/personal_cabinet/modals/add_telegram_bot_modal.html:16
-#: personal_cabinet/templates/telegram_bot_menu/main.html:228
+#: personal_cabinet/templates/telegram_bot_menu/main.html:60
 msgid "Введите API-токен Telegram бота"
 msgstr "Enter the Telegram bot API-token"
 
 #: personal_cabinet/templates/personal_cabinet/modals/add_telegram_bot_modal.html:22
 msgid "Сделать Telegram бота приватным"
-msgstr "Make Telegram bot private"
+msgstr "Make the Telegram bot private"
 
 #: personal_cabinet/templates/personal_cabinet/modals/how_to_add_telegram_bot_modal.html:12
 msgid "Сначала вам нужно создать Telegram бота через"
@@ -281,209 +281,217 @@ msgstr "Telegram bot."
 msgid ""
 "После того, как вы создали Telegram бота, вам нужно скопировать его API-"
 "токен."
-msgstr "Once you have created a Telegram bot, you need to copy its API-token."
+msgstr "Once you have created a Telegram bot, you need to copy him API-token."
 
 #: personal_cabinet/templates/personal_cabinet/modals/how_to_add_telegram_bot_modal.html:14
 msgid "Теперь вы можете добавить вашего Telegram бота на сайт."
 msgstr "Now you can add your Telegram bot to the site."
 
-#: personal_cabinet/templates/telegram_bot_menu/main.html:54
-#: telegram_bot/models.py:23
-msgid "Приватный"
-msgstr "Private"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:81
-#: personal_cabinet/templates/telegram_bot_menu/main.html:234
-#: telegram_bot/admin.py:61
-msgid "Выключить Telegram бота"
-msgstr "Disable Telegram bot"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:81
-#: personal_cabinet/templates/telegram_bot_menu/main.html:233
-#: telegram_bot/admin.py:43
-msgid "Включить Telegram бота"
-msgstr "Enable Telegram bot"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:84
-msgid "Удалить Telegram бота"
-msgstr "Delete a Telegram bot"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:92
-msgid "Список пользователей Telegram бота"
-msgstr "List of Telegram bot users"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:100
-#: personal_cabinet/templates/telegram_bot_menu/main.html:244
-msgid "Добавление команды"
-msgstr "Adding a command"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:104
-msgid "Доступные переменные"
-msgstr "Available variables"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:107
-msgid "ID пользователя"
-msgstr "User ID"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:108
-msgid "@username пользователя"
-msgstr "@username"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:109 user/admin.py:31
-#: user/models.py:14
-msgid "Имя пользователя"
-msgstr "User first name"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:110
-msgid "Фамилия пользователя"
-msgstr "User last name"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:111
-msgid "ID сообщения пользователя"
-msgstr "User message ID"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:112
-msgid "Текст сообщения пользователя"
-msgstr "User message text"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:113
-msgid "Ответ с API-запроса"
-msgstr "Response from API-request"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:118
-msgid "Введите название команды"
-msgstr "Enter the command name"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:121
-msgid "Введите команду"
-msgstr "Enter the command"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:128
-msgid "Введите текст сообщения"
-msgstr "Enter the message text"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:133
-msgid "Выберите клавиатуру"
-msgstr "Select a keyboard"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:136
-msgid "Обычная"
-msgstr "Regular"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:138
-msgid "Встроенная"
-msgstr "Inline"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:142
-msgid "Доступные ряды"
-msgstr "Available rows"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:146
-msgid "Клавиатура"
-msgstr "Keyboard"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:148
-msgid "Добавить кнопку"
-msgstr "Add button"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:153
-#: personal_cabinet/templates/telegram_bot_menu/main.html:166
-msgid "API-запрос"
-msgstr "API-request"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:155
-#: personal_cabinet/templates/telegram_bot_menu/main.html:248
-msgid "URL-адрес"
-msgstr "URL"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:156
-msgid "Данные"
-msgstr "Data"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:160
-msgid "Добавить"
-msgstr "Add"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:163
-msgid "Команду"
-msgstr "Command"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:164
-msgid "Изображение"
-msgstr "Image"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:165
-msgid "Клавиатуру"
-msgstr "Keyboard"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:173
-msgid "Вернуться к добавлению команды"
-msgstr "Back to adding a command"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:174
-#: personal_cabinet/templates/telegram_bot_menu/main.html:250
-msgid "Добавить команду"
-msgstr "Add a command"
-
-#: personal_cabinet/templates/telegram_bot_menu/main.html:217
+#: personal_cabinet/templates/telegram_bot_menu/main.html:49
 msgid "Вы успешно включили Telegram бота."
 msgstr "You have successfully enabled the Telegram bot."
 
-#: personal_cabinet/templates/telegram_bot_menu/main.html:218
+#: personal_cabinet/templates/telegram_bot_menu/main.html:50
 msgid "Вы успешно выключили Telegram бота."
 msgstr "You have successfully disabled the Telegram bot."
 
-#: personal_cabinet/templates/telegram_bot_menu/main.html:236
+#: personal_cabinet/templates/telegram_bot_menu/main.html:65
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:67
+#: telegram_bot/admin.py:40
+msgid "Включить Telegram бота"
+msgstr "Enable the Telegram bot"
+
+#: personal_cabinet/templates/telegram_bot_menu/main.html:66
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:67
+#: telegram_bot/admin.py:54
+msgid "Выключить Telegram бота"
+msgstr "Disable the Telegram bot"
+
+#: personal_cabinet/templates/telegram_bot_menu/main.html:68
 msgid "Удаление Telegram бота"
-msgstr "Deleting a Telegram bot"
+msgstr "Deleting the Telegram bot"
 
-#: personal_cabinet/templates/telegram_bot_menu/main.html:237
+#: personal_cabinet/templates/telegram_bot_menu/main.html:69
 msgid "Вы точно хотите удалить Telegram бота?"
-msgstr "Are you sure you want to delete the Telegram bot?"
+msgstr "Are you sure you want delete the Telegram bot?"
 
-#: personal_cabinet/templates/telegram_bot_menu/main.html:239
+#: personal_cabinet/templates/telegram_bot_menu/main.html:71
 msgid "Вашего Telegram бота ещё никто не активировал."
 msgstr "Nobody has activated your Telegram bot yet."
 
-#: personal_cabinet/templates/telegram_bot_menu/main.html:241
+#: personal_cabinet/templates/telegram_bot_menu/main.html:73
 msgid "Удаление пользователя Telegram бота"
-msgstr "Deleting a Telegram bot user"
+msgstr "Deleting the Telegram bot user"
 
-#: personal_cabinet/templates/telegram_bot_menu/main.html:242
+#: personal_cabinet/templates/telegram_bot_menu/main.html:74
 msgid "Вы точно хотите удалить пользователя Telegram бота?"
 msgstr "Are you sure you want to delete the Telegram bot user?"
 
-#: personal_cabinet/templates/telegram_bot_menu/main.html:245
+#: personal_cabinet/templates/telegram_bot_menu/main.html:76
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:4
+msgid "Добавление команды"
+msgstr "Adding a command"
+
+#: personal_cabinet/templates/telegram_bot_menu/main.html:77
 msgid "Редактирование команды"
-msgstr "Editing command"
+msgstr "Editing the command"
 
-#: personal_cabinet/templates/telegram_bot_menu/main.html:247
+#: personal_cabinet/templates/telegram_bot_menu/main.html:79
 msgid "Название кнопки"
-msgstr "Button name"
+msgstr "The button name"
 
-#: personal_cabinet/templates/telegram_bot_menu/main.html:251
+#: personal_cabinet/templates/telegram_bot_menu/main.html:80
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:59
+msgid "URL-адрес"
+msgstr "URL"
+
+#: personal_cabinet/templates/telegram_bot_menu/main.html:82
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:78
+msgid "Добавить команду"
+msgstr "Add the command"
+
+#: personal_cabinet/templates/telegram_bot_menu/main.html:83
 msgid "Сохранить команду"
 msgstr "Save the command"
 
-#: personal_cabinet/templates/telegram_bot_menu/main.html:253
+#: personal_cabinet/templates/telegram_bot_menu/main.html:85
 msgid "Удаление команды Telegram бота"
-msgstr "Deleting a Telegram bot command"
+msgstr "Deleting the Telegram bot command"
 
-#: personal_cabinet/templates/telegram_bot_menu/main.html:254
+#: personal_cabinet/templates/telegram_bot_menu/main.html:86
 msgid "Вы точно хотите удалить команду Telegram бота?"
-msgstr "Are you sure you want to delete the Telegram bot command?"
+msgstr "Are you sure you want delete the Telegram bot command?"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:40
+#: telegram_bot/models.py:21
+msgid "Приватный"
+msgstr "Private"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:70
+msgid "Удалить Telegram бота"
+msgstr "Delete the Telegram bot"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:8
+msgid "Доступные переменные"
+msgstr "Available variables"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:11
+msgid "ID пользователя"
+msgstr "User ID"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:12
+msgid "@username пользователя"
+msgstr "User @username"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:13
+#: user/admin.py:26 user/models.py:12
+msgid "Имя пользователя"
+msgstr "User first name"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:14
+msgid "Фамилия пользователя"
+msgstr "User last name"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:15
+msgid "ID сообщения пользователя"
+msgstr "User message ID"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:16
+msgid "Текст сообщения пользователя"
+msgstr "User message text"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:17
+msgid "Ответ с API-запроса"
+msgstr "Response from API-request"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:22
+msgid "Введите название команды"
+msgstr "Enter the command name"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:25
+msgid "Введите команду"
+msgstr "Enter the command"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:32
+msgid "Введите текст сообщения"
+msgstr "Enter the message text"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:37
+msgid "Выберите клавиатуру"
+msgstr "Select a keyboard"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:40
+msgid "Обычная"
+msgstr "Regular"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:42
+msgid "Встроенная"
+msgstr "Inline"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:46
+msgid "Доступные ряды"
+msgstr "Available rows"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:50
+msgid "Клавиатура"
+msgstr "Keyboard"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:52
+msgid "Добавить кнопку"
+msgstr "Add a button"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:57
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:70
+msgid "API-запрос"
+msgstr "API-request"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:60
+msgid "Данные"
+msgstr "Data"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:64
+msgid "Добавить"
+msgstr "Add"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:67
+msgid "Команду"
+msgstr "Command"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:68
+msgid "Изображение"
+msgstr "Image"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:69
+msgid "Клавиатуру"
+msgstr "Keyboard"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:77
+msgid "Вернуться к добавлению команды"
+msgstr "Back to adding a command"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_exemples.html:4
+msgid "Примеры Telegram ботов"
+msgstr "Examples Telegram bots"
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_exemples.html:20
+msgid "В разработке..."
+msgstr "In developing..."
+
+#: personal_cabinet/templates/telegram_bot_menu/telegram_bot_users.html:4
+msgid "Список пользователей Telegram бота"
+msgstr "List of Telegram bot users"
 
 #: privacy_policy/templates/privacy_policy.html:4
 msgid "Политика конфиденциальности"
-msgstr "Privacy Policy"
+msgstr "Privacy policy"
 
 #: privacy_policy/templates/privacy_policy.html:10
 msgid "Политика конфиденциальности сайта"
-msgstr "Privacy Policy"
+msgstr "Privacy policy the site"
 
 #: privacy_policy/templates/privacy_policy.html:11
 msgid "Пожалуйста, внимательно прочитайте и изучите данную"
-msgstr "Please read and study this"
+msgstr "Please read and study the"
 
 #: privacy_policy/templates/privacy_policy.html:11
 msgid "политику конфиденциальности"
@@ -532,7 +540,7 @@ msgstr "is a unique numeric identifier assigned to each to a user on Telegram."
 
 #: privacy_policy/templates/privacy_policy.html:22
 msgid "API-токены Telegram ботов"
-msgstr "Telegram bot API-tokens"
+msgstr "Telegram bots API-tokens"
 
 #: privacy_policy/templates/privacy_policy.html:22
 msgid ""
@@ -634,8 +642,8 @@ msgid ""
 "Если вы хотите получить доступ к вашим персональным данным, хранящимся на "
 "нашем сайте, напишите нам по адресу"
 msgstr ""
-"If you want to access your personal data stored on the our site, write to us "
-"at"
+"If you want to access your personal data stored on the site, write to at the "
+"address"
 
 #: privacy_policy/templates/privacy_policy.html:41
 #: privacy_policy/templates/privacy_policy.html:45
@@ -655,19 +663,19 @@ msgstr ""
 "If you have questions or problems in connection with the use of our site or "
 "the processing of your personal data, please write to us at address"
 
-#: team/models.py:9
+#: team/models.py:8
 msgid "Специальность"
 msgstr "Speciality"
 
-#: team/models.py:10 user/models.py:18
+#: team/models.py:9 user/models.py:16
 msgid "Дата присоединения"
 msgstr "Date joined"
 
-#: team/models.py:15
+#: team/models.py:14
 msgid "Члена команды"
 msgstr "Team member"
 
-#: team/models.py:16
+#: team/models.py:15
 msgid "Члены команды"
 msgstr "Team members"
 
@@ -676,124 +684,124 @@ msgstr "Team members"
 msgid "Команда"
 msgstr "Team"
 
-#: telegram_bot/admin.py:49
+#: telegram_bot/admin.py:46
 msgid "Telegram бот успешно включен."
-msgstr "Telegram bot successfully enabled"
+msgstr "The Telegram bot is successfully enabled"
 
-#: telegram_bot/admin.py:67
+#: telegram_bot/admin.py:60
 msgid "Telegram бот успешно выключен."
-msgstr "Telegram bot successfully disabled"
+msgstr "The Telegram bot is successfully disabled"
 
-#: telegram_bot/decorators.py:23
+#: telegram_bot/decorators.py:22
 msgid "Введите API-токен Telegram бота!"
 msgstr "Enter the Telegram bot API-token!"
 
-#: telegram_bot/decorators.py:34
+#: telegram_bot/decorators.py:33
 msgid "Вы уже используете этот API-токен Telegram бота на сайте!"
-msgstr "You are already using this Telegram bot API-token on the site!"
+msgstr "You are already using this Telegram bot API-token at the site!"
 
-#: telegram_bot/decorators.py:42
+#: telegram_bot/decorators.py:41
 msgid "Этот API-токен Telegram бота уже использует другой пользователь сайта!"
 msgstr ""
-"This Telegram bot's API-token is already being used by another site user!"
+"This Telegram bot API-token is already being used by another user the site!"
 
-#: telegram_bot/decorators.py:51
+#: telegram_bot/decorators.py:50
 msgid "Ваш API-токен Telegram бота является недействительным!"
-msgstr "Your Telegram bot's API token is invalid!"
+msgstr "Your Telegram bot API token is invalid!"
 
-#: telegram_bot/decorators.py:69
+#: telegram_bot/decorators.py:68
 msgid "Telegram бот не найден!"
 msgstr "Telegram bot not found!"
 
-#: telegram_bot/decorators.py:90
+#: telegram_bot/decorators.py:89
 msgid "Название команды должно содержать не более 255 символов!"
 msgstr "The command name must contain no more than 255 characters!"
 
-#: telegram_bot/decorators.py:98
+#: telegram_bot/decorators.py:97
 msgid "Введите название команде!"
-msgstr "Enter a command name!"
+msgstr "Enter the command name!"
 
-#: telegram_bot/decorators.py:111
+#: telegram_bot/decorators.py:110
 msgid "Команда должна содержать не более 32 символов!"
 msgstr "The command must contain no more than 32 characters!"
 
-#: telegram_bot/decorators.py:119
+#: telegram_bot/decorators.py:118
 msgid "Введите команду!"
 msgstr "Enter the command!"
 
-#: telegram_bot/decorators.py:152
+#: telegram_bot/decorators.py:151
 msgid "Текст сообщения должно содержать не более 4096 символов!"
-msgstr "The text of the message must contain no more than 4096 characters!"
+msgstr "The message text must contain no more than 4096 characters!"
 
-#: telegram_bot/decorators.py:160
+#: telegram_bot/decorators.py:159
 msgid "Введите текст сообщения!"
 msgstr "Enter the message text!"
 
-#: telegram_bot/decorators.py:208 telegram_bot/decorators.py:240
+#: telegram_bot/decorators.py:207 telegram_bot/decorators.py:241
 msgid "Введите правильный URL-адрес!"
 msgstr "Enter the correct URL!"
 
-#: telegram_bot/decorators.py:258 telegram_bot/views.py:359
+#: telegram_bot/decorators.py:259 telegram_bot/views.py:342
 msgid "Команда Telegram бота не найдена!"
 msgstr "Telegram bot command not found!"
 
-#: telegram_bot/decorators.py:280
+#: telegram_bot/decorators.py:281
 msgid "Кнопка клавиатуры команды Telegram бота не найдена!"
 msgstr "Telegram bot command keyboard button not found!"
 
-#: telegram_bot/decorators.py:300
+#: telegram_bot/decorators.py:301
 msgid "Пользователь Telegram бота не найдена!"
 msgstr "Telegram bot user not found!"
 
-#: telegram_bot/models.py:19
+#: telegram_bot/models.py:17
 msgid "Владелец"
 msgstr "Owner"
 
-#: telegram_bot/models.py:24
+#: telegram_bot/models.py:22
 msgid "Включён"
 msgstr "Enabled"
 
-#: telegram_bot/models.py:35
+#: telegram_bot/models.py:33
 msgid "Telegram бота"
 msgstr "Telegram bot"
 
-#: telegram_bot/models.py:36
+#: telegram_bot/models.py:34
 msgid "Telegram боты"
 msgstr "Telegram bots"
 
-#: telegram_bot/views.py:42
+#: telegram_bot/views.py:40
 msgid "Вы успешно добавили Telegram бота."
-msgstr "You have successfully added a Telegram bot."
+msgstr "You have successfully added the Telegram bot."
 
-#: telegram_bot/views.py:67
+#: telegram_bot/views.py:61
 msgid "Вы успешно изменили API-токен Telegram бота."
-msgstr "You have successfully changed the Telegram bot's API-token."
+msgstr "You have successfully changed the Telegram bot API-token."
 
-#: telegram_bot/views.py:88
+#: telegram_bot/views.py:78
 msgid "Вы успешно сделали Telegram бота приватным."
 msgstr "You have successfully made the Telegram bot private."
 
-#: telegram_bot/views.py:95
+#: telegram_bot/views.py:85
 msgid "Вы успешно сделали Telegram бота не приватным."
 msgstr "You have successfully made the Telegram bot not private."
 
-#: telegram_bot/views.py:109
+#: telegram_bot/views.py:99
 msgid "Вы успешно удалили Telegram бота."
 msgstr "You have successfully deleted the Telegram bot."
 
-#: telegram_bot/views.py:190
+#: telegram_bot/views.py:176
 msgid "Вы успешно добавили команду Telegram боту."
 msgstr "You have successfully added the command to the Telegram bot."
 
-#: telegram_bot/views.py:290
+#: telegram_bot/views.py:276
 msgid "Вы успешно изменили команду Telegram бота."
 msgstr "You have successfully changed the Telegram bot command."
 
-#: telegram_bot/views.py:305
+#: telegram_bot/views.py:290
 msgid "Вы успешно удалили команду Telegram бота."
 msgstr "You have successfully deleted the Telegram bot command."
 
-#: telegram_bot/views.py:402
+#: telegram_bot/views.py:385
 msgid ""
 "Вы успешно добавили пользователя в список разрешённых пользователей Telegram "
 "бота."
@@ -801,7 +809,7 @@ msgstr ""
 "You have successfully added a user to the list of allowed users of the "
 "Telegram bot."
 
-#: telegram_bot/views.py:418
+#: telegram_bot/views.py:401
 msgid ""
 "Вы успешно удалили пользователя из списка разрешённых пользователей Telegram "
 "бота."
@@ -809,7 +817,7 @@ msgstr ""
 "You have successfully removed a user from the list of allowed users of the "
 "Telegram bot."
 
-#: telegram_bot/views.py:433
+#: telegram_bot/views.py:415
 msgid "Вы успешно удалили пользователя Telegram бота."
 msgstr "You have successfully deleted the Telegram bot user."
 
@@ -873,7 +881,7 @@ msgstr "Logouting from account"
 
 #: templates/base.html:57
 msgid "Вы точно хотите выйти из аккаунта?"
-msgstr "Are you sure you want to logout of your account?"
+msgstr "Are you sure you want to logout from your account?"
 
 #: templates/footer.html:8
 msgid "Проект"
@@ -899,7 +907,7 @@ msgstr "No"
 msgid "Главная"
 msgstr "Home"
 
-#: templates/navbar.html:23 updates/models.py:19
+#: templates/navbar.html:23 updates/models.py:18
 #: updates/templates/updates.html:5 updates/templates/updates.html:9
 msgid "Обновления"
 msgstr "Updates"
@@ -912,31 +920,31 @@ msgstr "Admin panel"
 msgid "Выйти"
 msgstr "Logout"
 
-#: updates/models.py:11
+#: updates/models.py:10
 msgid "Заголовок"
 msgstr "Title"
 
-#: updates/models.py:12
+#: updates/models.py:11
 msgid "Описание"
 msgstr "Description"
 
-#: updates/models.py:18
+#: updates/models.py:17
 msgid "Обновление"
 msgstr "Update"
 
-#: user/admin.py:38
+#: user/admin.py:33
 msgid "Количество Telegram ботов"
 msgstr "Number of Telegram bots"
 
-#: user/models.py:16
+#: user/models.py:14
 msgid "Сотрудник"
 msgstr "Staff"
 
-#: user/models.py:27
+#: user/models.py:25
 msgid "Пользователя"
 msgstr "User"
 
-#: user/models.py:28
+#: user/models.py:26
 msgid "Пользователи"
 msgstr "Users"
 
@@ -946,16 +954,16 @@ msgstr "Automatic transition to the home page after 3 seconds."
 
 #: user/templates/logout.html:6
 msgid "Успешный выход из аккаунта"
-msgstr "Successfully logouted"
+msgstr "Successfully logouted from account"
 
-#: user/views.py:25
+#: user/views.py:24
 msgid "Успешная авторизация"
 msgstr "Successful authorization"
 
-#: user/views.py:27
+#: user/views.py:26
 msgid "Неверный код подтверждения!"
 msgstr "Invalid confirmation code!"
 
-#: user/views.py:29
+#: user/views.py:28
 msgid "Не удалось найти пользователя!"
 msgstr "User not found!"

@@ -73,12 +73,13 @@ var intervalUpdateUsersId;
 											if (telegramBotCommand.addOrEditButton.id != '0') {
 												telegramBotCommandClearAll();
 											}
-											updateTelegramBotCommands();
-										}
 
-										response.json().then(jsonResponse => {
-											createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
-										});
+											updateTelegramBotCommands();
+
+											response.json().then(jsonResponse => {
+												createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+											});
+										}
 									});
 								}
 							);

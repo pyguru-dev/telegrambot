@@ -9,17 +9,7 @@ from updates.models import Updates
 
 @register(Updates)
 class UpdatesAdmin(TranslationAdmin):
-	list_display = (
-		'title',
-		'_date_added',
-	)
+	list_display = ('title', '_date_added')
 
-	formfield_overrides = {
-        models.TextField: {'widget': CKEditorWidget},
-    }
-	
-	fields = (
-		'image',
-		'title',
-		'description',
-	)
+	fields = ('image', 'title', 'description')
+	formfield_overrides = {models.TextField: {'widget': CKEditorWidget}}
