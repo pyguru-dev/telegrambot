@@ -1,6 +1,6 @@
 {% load i18n %}
 
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark py-1 p-lg-0">
+<nav class="navbar navbar-expand-xxl bg-dark navbar-dark py-1 p-xxl-0">
 	<div class="container">
 		<a class="navbar-brand p-2 me-0" href="/">Constructor Telegram Bots</a>
 
@@ -19,12 +19,16 @@
 					<a class="nav-link {% if request.path == team_url %}active {% endif %}p-2 pb-1" href="{{ team_url }}">{% trans "Команда" %}</a>
 				</li>
 				<li class="nav-item">
+					{% url 'updates' as updates_url %}
+					<a class="nav-link {% if request.path == updates_url %}active {% endif %}p-2 pb-1" href="{{ updates_url }}">{% trans "Обновления" %}</a>
+				</li>
+				<li class="nav-item">
 					{% url 'donation' as donation_url %}
 					<a class="nav-link {% if request.path == donation_url %}active {% endif %}p-2 pb-1" href="{{ donation_url }}">{% trans "Пожертвование" %}</a>
 				</li>
 			</ul>
-			<hr class="d-lg-none text-white-50 mx-2 mt-0 mb-1">
-			<div class="row g-2 gy-lg-0 my-2">
+			<hr class="d-xxl-none text-white-50 mx-2 mt-0 mb-1">
+			<div class="row g-2 gy-xxl-0 my-2">
 				<div class="col-auto">
 					<div class="dropdown">
 						<button class="btn btn-primary dropdown-toggle" id="languages" type="button" data-bs-toggle="dropdown" aria-expanded="false">

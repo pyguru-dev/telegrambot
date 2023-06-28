@@ -5,11 +5,9 @@ from django.utils.translation import gettext_lazy as _
 
 class TeamMembers(models.Model):
 	image = models.ImageField(upload_to='static/images/team/')
-	username = models.CharField(max_length=32, verbose_name='@username')
-	speciality_en = models.CharField(max_length=255, verbose_name=_('Специальность [EN]'))
-	speciality_uk = models.CharField(max_length=255, verbose_name=_('Специальность [UK]')) 
-	speciality_ru = models.CharField(max_length=255, verbose_name=_('Специальность [RU]')) 
-	date_joined = models.DateTimeField(verbose_name=_('Дата присоединения'))
+	username = models.CharField('@username', max_length=32)
+	speciality = models.CharField(_('Специальность'), max_length=255)
+	date_joined = models.DateTimeField(_('Дата присоединения'))
 
 	class Meta:
 		db_table = 'team_members'

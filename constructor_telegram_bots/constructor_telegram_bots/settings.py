@@ -46,6 +46,9 @@ CELERY_TASK_SERIALIZER = 'json'
 
 
 INSTALLED_APPS = [
+	'modeltranslation',
+	'ckeditor',
+
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
@@ -58,6 +61,7 @@ INSTALLED_APPS = [
 
 	'home',
 	'team',
+	'updates',
 	'donation',
 	'personal_cabinet',
 	'privacy_policy',

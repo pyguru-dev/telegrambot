@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Обновления" %}{% endblock title %}
+
+{% block main %}
+	<div class="container text-center my-3 my-lg-4">
+		<h1 class="fw-bold mb-3 mb-lg-4">{% trans "Обновления" %}</h1>
+		<div class="row row-cols-1 gy-3">
+			{% for update in updates %}
+				<div class="col">
+					<div class="card">
+						<img class="card-img-top" src="/{{ update.image }}" alt="...">
+						<div class="card-body text-start pb-0">
+							<h3 class="card-title fw-bold">{{ update.title }}</h3>
+							<div class="card-text">
+								{% autoescape off %}
+									{{ update.description }}
+								{% endautoescape %}
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col">
+					<div class="card">
+						<img class="card-img-top" src="/{{ update.image }}" alt="...">
+						<div class="card-body text-start pb-0">
+							<h3 class="card-title fw-bold">{{ update.title }}</h3>
+							<div class="card-text">
+								{% autoescape off %}
+									{{ update.description }}
+								{% endautoescape %}
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock main %}

@@ -18,12 +18,12 @@ import pytz
 class TelegramBot(models.Model):
 	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='telegram_bots', null=True, verbose_name=_('Владелец'))
 
-	username = models.CharField(max_length=32, unique=True, verbose_name='@username')
+	username = models.CharField('@username', max_length=32, unique=True)
 	api_token = models.CharField(max_length=50, unique=True)
-	is_private = models.BooleanField(verbose_name=_('Приватный'))
-	is_running = models.BooleanField(default=False, verbose_name=_('Включён'))
+	is_private = models.BooleanField(_('Приватный'))
+	is_running = models.BooleanField(_('Включён'), default=False)
 	is_stopped = models.BooleanField(default=True)
-	_date_added = models.DateTimeField(auto_now_add=True, verbose_name=_('Дата добавления'))
+	_date_added = models.DateTimeField(_('Дата добавления'), auto_now_add=True)
 
 	diagram_current_scale = models.FloatField(default=1.0)
 

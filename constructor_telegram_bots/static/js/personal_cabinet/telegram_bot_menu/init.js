@@ -27,7 +27,7 @@ var intervalUpdateUsersId;
 }
 
 {
-	const telegramBotCommandsCountTableLine = document.querySelector('.telegram-bot-commands-count');
+	const telegramBotCommandsCount = document.querySelector('.telegram-bot-commands-count');
 
 	function updateTelegramBotCommands() {
 		fetch(getTelegramBotCommandsUrl, {
@@ -35,7 +35,7 @@ var intervalUpdateUsersId;
 		}).then(response => {
 			if (response.ok) {
 				response.json().then(telegramBotCommands => {
-					telegramBotCommandsCountTableLine.innerHTML = telegramBotCommands.length;
+					telegramBotCommandsCount.innerHTML = telegramBotCommands.length;
 
 					document.querySelectorAll('.diagram-block').forEach(diagramBlock => diagramBlock.remove());
 					document.querySelectorAll('.connector-line').forEach(diagramConnectorLine => diagramConnectorLine.remove());
@@ -138,7 +138,7 @@ var intervalUpdateUsersId;
 }
 
 {
-	const telegramBotUsersCountTableLine = document.querySelector('.telegram-bot-users-count');
+	const telegramBotUsersCount = document.querySelector('.telegram-bot-users-count');
 
 	function updateTelegramBotUsers() {
 		if (document.hidden == false) {
@@ -147,7 +147,7 @@ var intervalUpdateUsersId;
 			}).then(response => {
 				if (response.ok) {
 					response.json().then(telegramBotUsers => {
-						telegramBotUsersCountTableLine.innerHTML = telegramBotUsers.length;
+						telegramBotUsersCount.innerHTML = telegramBotUsers.length;
 
 						const telegramBotUsersDiv = document.querySelector('.telegram-bot-users');
 						telegramBotUsersDiv.innerHTML = '';
@@ -166,9 +166,9 @@ var intervalUpdateUsersId;
 								const telegramBotUserDiv = document.createElement('div');
 								telegramBotUserDiv.setAttribute('class', 'row justify-content-between');
 								telegramBotUserDiv.innerHTML = [
-									'	<div class="col-auto">',
-									`		<p class="my-2">[${telegramBotUser['date_activated']}]: ${telegramBotUser['user_id']} - ${telegramBotUser['full_name']}</p>`,
-									'	</div>',
+									'<div class="col-auto">',
+									`	<p class="my-2">[${telegramBotUser['date_activated']}]: ${telegramBotUser['user_id']} - ${telegramBotUser['full_name']}</p>`,
+									'</div>',
 								].join('');
 
 								const telegramBotUserButtons = document.createElement('div');
