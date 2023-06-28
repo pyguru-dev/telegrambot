@@ -14,191 +14,23 @@
 	<div class="container my-3 my-lg-4">
 		<div class="row g-4">
 			<div class="col-12">
-				<div class="card">
-					<h5 class="card-header bg-{% if telegram_bot.is_running %}success{% else %}danger{% endif %} text-light fw-bold text-center" id="telegramBotStatus">{% if telegram_bot.is_running %}{% trans "Telegram бот включен" %}{% else %}{% trans "Telegram бот выключен" %}{% endif %}</h5>
-					<div class="card-body p-2">
-						<div class="row justify-content-center">
-							<div class="col-12 col-lg-6">
-								<table class="table table-sm table-borderless mb-0">
-									<tbody>
-										<tr>
-											<th class="align-middle" scope="row">@username:</th>
-											<td class="text-break">
-												<a class="link-dark text-decoration-none" id="telegramBotUsername"></a>
-											</td>
-										</tr>
-										<tr>
-											<th class="align-middle" scope="row">{% trans "API-токен" %}:</td>
-											<td class="text-break" id="telegramBotApiToken"></td>
-											<td class="align-middle">
-												<div class="row">
-													<div class="col-12">
-														<button class="btn text-secondary w-100 p-0" id="telegramBotApiTokenEditButton" type="button">
-															<i class="bi bi-pencil-square" style="font-size: 1.2rem; -webkit-text-stroke: 0.4px;"></i>
-														</button>
-													</div>
-													<div class="col-6 ps-1 pe-0">
-														<button class="btn text-success w-100 p-0 d-none" id="telegramBotApiTokenSaveButton" type="button">
-															<i class="bi bi-check-lg" style="font-size: 1.2rem; -webkit-text-stroke: 1.4px;"></i>
-														</button>
-													</div>
-													<div class="col-6 ps-0">
-														<button class="btn text-danger w-100 p-0 d-none" id="telegramBotApiTokenCancelButton" type="button">
-															<i class="bi bi-x-lg" style="font-size: 1.2rem; -webkit-text-stroke: 1.8px;"></i>
-														</button>
-													</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<th scope="row">{% trans "Приватный" %}:</th>
-											<td>
-												<div class="form-check form-switch mb-0">
-													<input class="form-check-input" id="telegramBotIsPrivateCheckBox" type="checkbox" {% if telegram_bot.is_private %}checked{% endif %}>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<th scope="row">{% trans "Количество активаций" %}:</th>
-											<td class="align-middle telegram-bot-users-count"></td>
-										</tr>
-										<tr>
-											<th scope="row">{% trans "Количество команд" %}:</th>
-											<td class="align-middle telegram-bot-commands-count"></td>
-										</tr>
-										<tr>
-											<th scope="row">{% trans "Дата добавления" %}:</th>
-											<td class="align-middle">{{ telegram_bot.date_added }}</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-					<div class="card-footer py-3">
-						<div class="row row-cols-1 row-cols-lg-2">
-							<div class="col pe-lg-2 pb-2 pb-lg-0">
-								<button class="btn btn-{% if telegram_bot.is_running %}danger{% else %}success{% endif %} w-100 " id="telegramBotStartOrStopButton" type="button">{% if telegram_bot.is_running %}{% trans "Выключить Telegram бота" %}{% else %}{% trans "Включить Telegram бота" %}{% endif %}</button>
-							</div>
-							<div class="col ps-lg-2">
-								<button class="btn btn-danger w-100" id="telegramBotDeleteButton" type="button">{% trans "Удалить Telegram бота" %}</button>	
-							</div>
-						</div>
-					</div>
-				</div>
+				{% include 'telegram_bot_menu/telegram_bot.html' %}
 			</div>
 			<div class="col-12">
-				<div class="card h-100">
-					<h5 class="card-header text-center">{% trans "Список пользователей Telegram бота" %}</h5>
-					<div class="card-body">
-						<div class="list-group telegram-bot-users"></div>
-					</div>
-				</div>
+				{% include 'telegram_bot_menu/telegram_bot_users.html' %}
+			</div>
+			<div class="col-12">
+				{% include 'telegram_bot_menu/telegram_bot_exemples.html' %}
 			</div>
 			<div class="col-12 col-lg-5">
-				<div class="card border rounded h-100">
-					<h5 class="card-header text-center" id="telegramBotCommandCardHeader">{% trans "Добавление команды" %}</h5>
-					<div class="card-body">
-						<div class="row row-cols-1 gy-2">
-							<div class="col">
-								<label class="mb-1" for="telegramBotCommandVariables">{% trans "Доступные переменные" %}</label>
-								<div class="border rounded" id="telegramBotCommandVariables">
-									<div class="row gy-1 py-1 px-3">
-										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserIdVariableButton">{% trans "ID пользователя" %}</button>
-										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserUsernameVariableButton">{% trans "@username пользователя" %}</button>
-										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserFirstNameVariableButton">{% trans "Имя пользователя" %}</button>
-										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserLastNameVariableButton">{% trans "Фамилия пользователя" %}</button>
-										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserMessageIdVariableButton">{% trans "ID сообщения пользователя" %}</button>
-										<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserMessageTextVariableButton">{% trans "Текст сообщения пользователя" %}</button>
-										<button class="btn btn-sm btn-dark d-none" type="button" id="telegramBotCommandApiResponseVariableButton">{% trans "Ответ с API-запроса" %}</button>
-									</div>
-								</div>
-							</div>
-							<div class="col">
-								<input class="form-control" id="telegramBotCommandNameInput" type="text" placeholder="{% trans "Введите название команды" %}">
-							</div>
-							<div class="col d-none" id="telegramBotCommandCommandAddition">
-								<input class="form-control" id="telegramBotCommandCommandInput" type="text" placeholder="{% trans "Введите команду" %}">
-							</div>
-							<div class="col d-none" id="telegramBotCommandImageAddition">
-								<img class="img-thumbnail rounded mb-2 w-100 d-none" id="telegramBotCommandImagePreview">
-								<input class="form-control" id="telegramBotCommandImageInput" type="file" accept="image/*">
-							</div>
-							<div class="col">
-								<textarea class="form-control" id="telegramBotCommandTextInput" type="text" rows="4" placeholder="{% trans "Введите текст сообщения" %}"></textarea>
-							</div>
-							<div class="col d-none" id="telegramBotCommandKeyboardAddition">
-								<div class="row row-cols-1 gy-2">
-									<div class="col">
-										<label class="mb-1" for="telegramBotCommandKeyboardModes">{% trans "Выберите клавиатуру" %}</label>
-										<div class="input-group" id="telegramBotCommandKeyboardModes">
-											<input class="btn-check" id="telegramBotCommandDefaultKeyboardRadio" name="telegramBotCommandKeyboardModes" type="radio" onclick="telegramBotCommandKeyboardType = 'default';" checked>
-											<label class="btn btn-sm btn-outline-dark rounded-start w-50" for="telegramBotCommandDefaultKeyboardRadio">{% trans "Обычная" %}</label>
-											<input class="btn-check" id="telegramBotCommandInlineKeyboardRadio" name="telegramBotCommandKeyboardModes" type="radio" onclick="telegramBotCommandKeyboardType = 'inline';">
-											<label class="btn btn-sm btn-outline-dark rounded-end w-50" for="telegramBotCommandInlineKeyboardRadio">{% trans "Встроенная" %}</label>
-										</div>
-									</div>
-									<div class="col">
-										<label class="mb-2" for="telegramBotCommandKeyboardRows">{% trans "Доступные ряды" %}</label>
-										<div class="row border rounded g-1 pb-1" id="telegramBotCommandKeyboardRows"></div>
-									</div>
-									<div class="col">
-										<label class="mb-1" for="telegramBotCommandKeyboardButtons">{% trans "Клавиатура" %}</label>
-										<div id="telegramBotCommandKeyboardButtons"></div>
-										<button class="btn btn-sm btn-outline-dark w-100" id="telegramBotCommandAddKeyboardButton" type="button">{% trans "Добавить кнопку" %}</button>
-									</div>
-								</div>
-							</div>
-							<div class="col d-none" id="telegramBotCommandApiRequestAddition">
-								<label class="mb-1" for="telegramBotCommandApiRequest">{% trans "API-запрос" %}</label>
-								<div class="input-group" id="telegramBotCommandApiRequest">
-									<input class="form-control" id="telegramBotCommandApiRequestUrlInput" type="text" placeholder="{% trans "URL-адрес" %}">
-									<input class="form-control" id="telegramBotCommandApiRequestDataInput" type="text" placeholder="{% trans "Данные" %}">
-								</div>
-							</div>
-							<div class="col">
-								<label class="mb-1" for="telegramBotCommandAddition">{% trans "Добавить" %}</label>
-								<div class="border rounded w-100" id="telegramBotCommandAddition">
-									<div class="row gy-1 py-1 px-3">
-										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddCommandAdditionButton" type="button">{% trans "Команду" %}</button>
-										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddImageAdditionButton" type="button">{% trans "Изображение" %}</button>
-										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddKeyboardAdditionButton" type="button">{% trans "Клавиатуру" %}</button>
-										<button class="btn btn-sm btn-dark" id="telegramBotCommandAddApiRequestAdditionButton" type="button">{% trans "API-запрос" %}</button>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="card-footer p-0">
-						<button class="btn btn-light back-add-telegram-bot-command-button border-bottom rounded-0 w-100 d-none" type="button" style="height: 42px;">{% trans "Вернуться к добавлению команды" %}</button>
-						<button class="btn btn-light add-or-edit-telegram-bot-command-button rounded-top-0 w-100" id="0" type="button" style="height: 42px;">{% trans "Добавить команду" %}</button>
-					</div>
-				</div>
+				{% include 'telegram_bot_menu/telegram_bot_command.html' %}
 			</div>
 			<div class="col-12 col-lg-7">
-				<div class="diagram-container border rounded">
-					<div class="diagram-zoom btn-group">
-						<button class="diagram-zoom-btn btn btn-light border border-top-0 rounded-bottom-0" id="+" type="button">
-							<i class="bi bi-zoom-in"></i>
-						</button>
-						<button class="diagram-zoom-btn btn btn-light border border-top-0 rounded-top-0" id="-" type="button">
-							<i class="bi bi-zoom-out"></i>
-						</button>
-					</div>
-					<svg class="diagram-svg">
-						<defs>
-							<marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
-								<path d="M0,0 L0,6 L9,3 z">
-							</marker>
-						</defs>
-					</svg>
-				</div>
+				{% include 'telegram_bot_menu/diagram.html' %}
 			</div>
 		</div>
 	</div>
 {% endblock main %}
-
-{% block footer_class %}mt-auto{% endblock footer_class %}
 
 {% block scripts %}
 	{{ block.super }}
