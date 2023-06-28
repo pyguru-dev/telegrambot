@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-06-27 11:07+0000\n"
+"POT-Creation-Date: 2023-06-27 21:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,19 +35,19 @@ msgstr "В тіло запиту передано невірний тип дан
 msgid "В тело запроса переданы не все данные!"
 msgstr "В тіло запиту передано не всі дані!"
 
-#: constructor_telegram_bots/settings.py:119
+#: constructor_telegram_bots/settings.py:123
 msgid "Английский"
 msgstr "Аглійська"
 
-#: constructor_telegram_bots/settings.py:120
+#: constructor_telegram_bots/settings.py:124
 msgid "Украинский"
 msgstr "Український"
 
-#: constructor_telegram_bots/settings.py:121
+#: constructor_telegram_bots/settings.py:125
 msgid "Русский"
 msgstr "Російська"
 
-#: donation/templates/base_donation.html:4 templates/navbar.html:23
+#: donation/templates/base_donation.html:4 templates/navbar.html:27
 msgid "Пожертвование"
 msgstr "Пожертвування"
 
@@ -197,7 +197,7 @@ msgid "Количество добавленных Telegram ботов"
 msgstr "Кількість доданих Telegram ботів"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:5
-#: templates/navbar.html:58
+#: templates/navbar.html:62
 msgid "Личный кабинет"
 msgstr "Особистий кабінет"
 
@@ -250,7 +250,7 @@ msgstr "Кількість команд"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:51
 #: personal_cabinet/templates/telegram_bot_menu/main.html:70
-#: telegram_bot/models.py:26
+#: telegram_bot/models.py:26 updates/models.py:13
 msgid "Дата добавления"
 msgstr "Дата додавання"
 
@@ -668,30 +668,23 @@ msgstr ""
 "адресою"
 
 #: team/models.py:9
-msgid "Специальность [EN]"
-msgstr "Спеціальність [EN]"
+msgid "Специальность"
+msgstr "Спеціальність"
 
-#: team/models.py:10
-msgid "Специальность [UK]"
-msgstr "Спеціальність [UK]"
-
-#: team/models.py:11
-msgid "Специальность [RU]"
-msgstr "Спеціальність [RU]"
-
-#: team/models.py:12 user/models.py:18
+#: team/models.py:10 user/models.py:18
 msgid "Дата присоединения"
 msgstr "Дата приєднання"
 
-#: team/models.py:17
+#: team/models.py:15
 msgid "Члена команды"
 msgstr "Члена команди"
 
-#: team/models.py:18
+#: team/models.py:16
 msgid "Члены команды"
 msgstr "Члени команди"
 
-#: team/templates/team.html:12 templates/navbar.html:19
+#: team/templates/team.html:5 team/templates/team.html:14
+#: templates/navbar.html:19
 msgid "Команда"
 msgstr "Команда"
 
@@ -883,7 +876,7 @@ msgstr "Авторизація"
 msgid "Войдите через Telegram!"
 msgstr "Увійдіть через Telegram!"
 
-#: templates/admin/login.html:17 templates/navbar.html:67
+#: templates/admin/login.html:17 templates/navbar.html:71
 msgid "Войти через Telegram"
 msgstr "Увійти через Telegram"
 
@@ -919,13 +912,30 @@ msgstr "Ні"
 msgid "Главная"
 msgstr "Головна"
 
-#: templates/navbar.html:54
+#: templates/navbar.html:23 updates/models.py:19
+#: updates/templates/updates.html:5 updates/templates/updates.html:9
+msgid "Обновления"
+msgstr "Оновлення"
+
+#: templates/navbar.html:58
 msgid "Админ панель"
 msgstr "Адмін панель"
 
-#: templates/navbar.html:61
+#: templates/navbar.html:65
 msgid "Выйти"
 msgstr "Вийти"
+
+#: updates/models.py:11
+msgid "Заголовок"
+msgstr "Заголовок"
+
+#: updates/models.py:12
+msgid "Описание"
+msgstr "Описание"
+
+#: updates/models.py:18
+msgid "Обновление"
+msgstr "Оновлення"
 
 #: user/admin.py:38
 msgid "Количество Telegram ботов"

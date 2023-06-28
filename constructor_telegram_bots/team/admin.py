@@ -1,28 +1,25 @@
-from django.contrib import admin
+from django.contrib.admin import register
+from modeltranslation.admin import TranslationAdmin
 
 from django.utils.translation import gettext_lazy as _
 
 from team.models import TeamMembers
 
 
-@admin.register(TeamMembers)
-class TeamMembersAdmin(admin.ModelAdmin):
+@register(TeamMembers)
+class TeamMembersAdmin(TranslationAdmin):
 	date_hierarchy = 'date_joined'
-	list_filter = ('speciality_en', 'speciality_uk', 'speciality_ru')
+	list_filter = ('speciality',)
 
 	list_display = (
 		'username',
-		'speciality_en',
-		'speciality_uk',
-		'speciality_ru',
+		'speciality',
 		'date_joined'
 	)
 
 	fields = (
 		'image',
 		'username',
-		'speciality_en',
-		'speciality_uk',
-		'speciality_ru',
+		'speciality',
 		'date_joined'
 	)

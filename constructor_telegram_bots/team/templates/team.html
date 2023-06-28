@@ -2,14 +2,16 @@
 {% load static %}
 {% load i18n %}
 
+{% block title %}{% trans "Команда" %}{% endblock title %}
+
 {% block styles %}
 	{{ block.super }}
-	<link rel="stylesheet" href="{% static 'css/team/base.css' %}">
+	<link rel="stylesheet" href="{% static 'css/team/team_members.css' %}">
 {% endblock styles %}
 
 {% block main %}
 	<div class="container text-center my-3 my-lg-4">
-		<h1 class="fw-bold mb-3">{% trans "Команда" %}</h1>
+		<h1 class="fw-bold mb-4">{% trans "Команда" %}</h1>
 		<div class="row row-cols-1 row-cols-lg-4 justify-content-center g-5">
 			{% for team_member in team_members %}
 				<div class="col">
@@ -22,14 +24,7 @@
 								@<a class="link-dark" href="tg://resolve?domain={{ team_member.username }}">{{ team_member.username }}</a>
 							</h5>
 						</div>
-						{% get_current_language as LANGUAGE_CODE %}
-						{% if LANGUAGE_CODE == 'en' %}
-							<div class="col">{{ team_member.speciality_en }}</div>
-						{% elif LANGUAGE_CODE == 'uk' %}
-							<div class="col">{{ team_member.speciality_uk }}</div>
-						{% else %}
-							<div class="col">{{ team_member.speciality_ru }}</div>
-						{% endif %}
+						<div class="col">{{ team_member.speciality }}</div>
 					</div>
 				</div>
 			{% endfor %}
