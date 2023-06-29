@@ -1,7 +1,12 @@
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiohttp.helpers import sentinel
-from aiogram.utils.exceptions import TerminatedByOtherGetUpdates
+from aiogram.utils.exceptions import (
+	TerminatedByOtherGetUpdates,
+	TelegramAPIError,
+	ConflictError,
+	NetworkError
+)
 
 from django.conf import settings
 
@@ -52,19 +57,16 @@ class CustomDispatcher(Dispatcher):
 		super().__init__(bot)
 
 	async def start_polling(self, timeout: int = 20, reset_webhook=None):
-		log.info('Telegram Bot is started.')
+		log.info(f'@{self.bot_username} || Telegram bot is starting.')
 
 		Dispatcher.set_current(self)
 		Bot.set_current(self.bot)
 
-		await self.reset_webhook(
-			check=False if reset_webhook is None else True
-		)
+		await self.reset_webhook(check=False if reset_webhook is None else True)
 
 		self._polling = True
-		offset = None
-
 		current_request_timeout = self.bot.timeout
+		offset = None
 
 		if current_request_timeout is not sentinel and timeout is not None:
 			request_timeout = aiohttp.ClientTimeout(total=current_request_timeout.total + timeout or 1)
@@ -76,17 +78,20 @@ class CustomDispatcher(Dispatcher):
 				with self.bot.request_timeout(request_timeout):
 					updates: list[types.Update] = await self.bot.get_updates(offset=offset, timeout=timeout)
 
-					try:
-						log.info(f'@{self.bot_username} || {updates[-1].message.from_user.first_name}: {updates[-1].message.text}')
-					except:
-						pass
+					for update in updates:
+						try:
+							log.info(f'@{self.bot_username} || {update.message.from_user.first_name}: {update.message.text}')
+						except:
+							pass
 			except TerminatedByOtherGetUpdates:
-				log.error('Telegram Bot already started!')
+				log.error(f'@{self.bot_username} || Telegram bot is already started!')
 				break
+			except (TelegramAPIError, ConflictError, NetworkError):
+				pass
 			except asyncio.CancelledError:
 				break
 			except Exception as e:
-				log.exception('Cause exception while getting updates!')
+				log.exception(f'@{self.bot_username} || Cause exception while getting updates!')
 				break
 
 			if updates:
@@ -98,4 +103,4 @@ class CustomDispatcher(Dispatcher):
 
 		self._close_waiter.set_result(None)
 
-		log.info('Telegram Bot is stopped.')
+		log.info(f'@{self.bot_username} || Telegram bot is stopped.')
