@@ -11,7 +11,9 @@ import telegram_bot.decorators
 
 from telegram_bot.models import (
 	TelegramBot,
-	TelegramBotCommand, TelegramBotCommandKeyboard, TelegramBotCommandKeyboardButton,
+	TelegramBotCommand,
+	TelegramBotCommandKeyboard,
+	TelegramBotCommandKeyboardButton,
 	TelegramBotUser
 )
 

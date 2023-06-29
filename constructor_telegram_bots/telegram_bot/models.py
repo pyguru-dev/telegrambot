@@ -142,6 +142,9 @@ class TelegramBotCommandKeyboardButton(models.Model):
 	class Meta:
 		db_table = 'telegram_bot_command_keyboard_button'
 
+	def get_command(self) -> Union[TelegramBotCommand, None]:
+		return self.telegram_bot_command
+
 	def to_dict(self) -> dict:
 		return {
 			'id': self.id,

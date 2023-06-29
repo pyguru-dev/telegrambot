@@ -1,7 +1,9 @@
-from aiogram.utils.exceptions import TerminatedByOtherGetUpdates
+from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiohttp.helpers import sentinel
-from aiogram import Bot, types
+from aiogram.utils.exceptions import TerminatedByOtherGetUpdates
+
+from django.conf import settings
 
 import asyncio
 import aiohttp
@@ -12,8 +14,39 @@ import logging
 log = logging.getLogger('aiogram')
 
 
+class CustomBot(Bot):
+	def __init__(self, *args, **kwargs):
+		if not settings.TEST:
+			super().__init__(*args, **kwargs)
+		else:
+			self.results = []
+
+	async def delete_message(self, *args, **kwargs):
+		if not settings.TEST:
+			return await super().delete_message(*args, **kwargs)
+		else:
+			self.results.append({'method': 'delete_message'})
+
+	async def send_message(self, *args, **kwargs):
+		if not settings.TEST:
+			return await super().send_message(*args, **kwargs)
+		else:
+			kwargs.update({'method': 'send_message'})
+			self.results.append(kwargs)
+
+	async def send_photo(self, *args, **kwargs):
+		if not settings.TEST:
+			return await super().send_photo(*args, **kwargs)
+		else:
+			kwargs.update({'method': 'send_photo'})
+			self.results.append(kwargs)
+
+	async def get_results(self):
+		return self.results
+
+
 class CustomDispatcher(Dispatcher):
-	def __init__(self, bot_username: str, bot: Bot):
+	def __init__(self, bot_username: str, bot: CustomBot):
 		self.bot_username = bot_username
 
 		super().__init__(bot)
