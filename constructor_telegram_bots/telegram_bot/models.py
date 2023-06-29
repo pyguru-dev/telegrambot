@@ -56,7 +56,7 @@ class TelegramBot(models.Model):
 			'users_count': self.users.count(),
 			'date_added': self.date_added,
 		}
-	
+
 	def __str__(self) -> str:
 		return f'@{self.username} {_("Telegram бот")}'
 
@@ -101,7 +101,7 @@ class TelegramBotCommand(models.Model):
 			'x': self.x,
 			'y': self.y,
 		}
-	
+
 	def delete(self) -> None:
 		self.image.delete(save=False)
 		return super().delete()
@@ -173,7 +173,7 @@ class TelegramBotUser(models.Model):
 		return self._date_activated.astimezone(
 			pytz.timezone(settings.TIME_ZONE)
 		).strftime('%d.%m.%Y - %H:%M:%S')
-	
+
 	def to_dict(self) -> dict:
 		return {
 			'id': self.id,

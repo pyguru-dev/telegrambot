@@ -1,5 +1,4 @@
-from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
-from aiogram import Bot
+from aiogram import Bot, types
 
 from telegram_bot.services.custom_aiogram import CustomDispatcher
 
@@ -32,36 +31,57 @@ class ConstructorTelegramBot:
 		return wrapper
 
 	@check_user
-	async def start_command(self, message: Message) -> None:
-		await self.bot.send_message(
-			chat_id=message.chat.id,
-			text=f"""\
-				Привет, @{message.from_user.username}!
-				Я являюсь Telegram ботом для сайта Constructor Telegram Bots.
-				Спасибо за то, что ты с нами ❤️
-			""".replace('	', '')
-		)
-		
+	async def start_command(self, message: types.Message) -> None:
+		message_text = f"""\
+			Привет, @{message.from_user.username}!
+			Я являюсь Telegram ботом для сайта Constructor Telegram Bots.
+			Спасибо за то, что ты с нами ❤️
+		""".replace('	', '')
+
+		if not settings.TEST:
+			await self.bot.send_message(
+				chat_id=message.chat.id,
+				text=message_text
+			)
+		else:
+			return [
+				{
+					'method': 'send_message',
+					'text': message_text,
+				},
+			]
+
 		message_list: list = message.text.split()
 		if len(message_list) > 1:
 			if message_list[1] == 'login':
 				await self.login_command(message)
 
 	@check_user
-	async def login_command(self, message: Message) -> None:
+	async def login_command(self, message: types.Message) -> None:
+		message_text = 'Нажмите на кнопку ниже, чтобы авторизоваться на сайте.'
+
 		user: User = await User.objects.aget(id=message.from_user.id)
 		login_url: str = await user.alogin_url
 
-		inline_keyboard = InlineKeyboardMarkup(row_width=1)
+		inline_keyboard = types.InlineKeyboardMarkup(row_width=1)
 		inline_keyboard.add(
-			InlineKeyboardButton(text='Авторизация', url=login_url)
+			types.InlineKeyboardButton(text='Авторизация', url=login_url)
 		)
 
-		await self.bot.send_message(
-			chat_id=message.chat.id,
-			text='Нажмите на кнопку ниже, чтобы авторизоваться на сайте.',
-			reply_markup=inline_keyboard
-		)
+		if not settings.TEST:
+			await self.bot.send_message(
+				chat_id=message.chat.id,
+				text=message_text,
+				reply_markup=inline_keyboard
+			)
+		else:
+			return [
+				{
+					'method': 'send_message',
+					'text': message_text,
+					'reply_markup': inline_keyboard,
+				},
+			]
 
 	async def setup(self) -> None:
 		self.bot = Bot(token=settings.CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN, loop=self.loop)

@@ -31,7 +31,7 @@ class TelegramBotModelsTest(BaseTestCase):
 						'buttons': [
 							{
 								'id': 1,
-								
+
 								'row': None,
 
 								'text': '1',

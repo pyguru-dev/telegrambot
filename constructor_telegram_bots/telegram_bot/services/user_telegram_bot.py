@@ -1,9 +1,11 @@
 from aiogram import Bot, types
-from telegram_bot.services.custom_aiogram import CustomDispatcher
-
 from aiogram.utils.exceptions import ValidationError, Unauthorized
 
+from telegram_bot.services.custom_aiogram import CustomDispatcher
+
 from django.db import models
+from django.conf import settings
+
 from telegram_bot.models import (
 	TelegramBot,
 	TelegramBotCommand, TelegramBotCommandManager,
@@ -28,7 +30,7 @@ class UserTelegramBot:
 	async def check_user(self, user_id: int, full_name: str) -> TelegramBotUser:
 		users: models.Manager = await sync_to_async(TelegramBotUser.objects.filter)(user_id=user_id)
 
-		if await users.aexists() is False:
+		if not await users.aexists():
 			user: TelegramBotUser = await sync_to_async(TelegramBotUser.objects.create)(
 				telegram_bot=self.telegram_bot,
 				user_id=user_id,
@@ -45,25 +47,17 @@ class UserTelegramBot:
 		return button.telegram_bot_command
 
 	async def search_command(self, message_text: str = None, button_id: int = None) -> Union[TelegramBotCommand, None]:
-		command = None
+		async for command in self.telegram_bot.commands.all():
+			keyboard: TelegramBotCommandKeyboard = await sync_to_async(command.get_keyboard)()
 
-		async for command_ in self.telegram_bot.commands.all():
-			if command is not None:
-				break
-
-			keyboard: TelegramBotCommandKeyboard = await sync_to_async(command_.get_keyboard)()
-
-			if keyboard is not None:
-				if keyboard.type == 'default' and message_text is not None or keyboard.type == 'inline' and button_id is not None:
+			if keyboard:
+				if keyboard.type == 'default' and message_text or keyboard.type == 'inline' and button_id:
 					async for button in keyboard.buttons.all():
-						if button.text == message_text and message_text is not None or button.id == button_id and button_id is not None:
-							command: TelegramBotCommand = await sync_to_async(self.get_command_keyboard_button_command)(button=button)
-							break
+						if button.text == message_text and message_text or button.id == button_id and button_id:
+							return await sync_to_async(self.get_command_keyboard_button_command)(button=button)
 
-		return command
-	
 	async def get_command(self, message_text: str = None, button_id: int = None) -> Union[TelegramBotCommand, None]:
-		if message_text is not None:
+		if message_text:
 			commands: TelegramBotCommandManager = await sync_to_async(self.telegram_bot.commands.filter)(command=message_text)
 
 			if await commands.aexists():
@@ -92,8 +86,8 @@ class UserTelegramBot:
 
 	async def get_keyboard(self, command: TelegramBotCommand) -> Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup]:
 		keyboard: TelegramBotCommandKeyboard =  await sync_to_async(command.get_keyboard)()
-				
-		if keyboard is not None:
+
+		if keyboard:
 			tg_keyboard_buttons = {}
 
 			for num in range(await keyboard.buttons.acount()):
@@ -109,7 +103,7 @@ class UserTelegramBot:
 				tg_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
 				async for button in keyboard.buttons.all():
-					tg_keyboard_buttons[tg_keyboard_row if button.row is None else button.row].append(
+					tg_keyboard_buttons[tg_keyboard_row if not button.row else button.row].append(
 						types.KeyboardButton(text=button.text)
 					)
 
@@ -118,7 +112,7 @@ class UserTelegramBot:
 				tg_keyboard = types.InlineKeyboardMarkup()
 
 				async for button in keyboard.buttons.all():
-					tg_keyboard_buttons[tg_keyboard_row if button.row is None else button.row].append(
+					tg_keyboard_buttons[tg_keyboard_row if not button.row else button.row].append(
 						types.InlineKeyboardButton(
 							text=button.text,
 							url=button.url,
@@ -150,16 +144,22 @@ class UserTelegramBot:
 
 		user: TelegramBotUser = await self.check_user(user_id=user_id, full_name=full_name)
 
-		if self.telegram_bot.is_private and user.is_allowed or self.telegram_bot.is_private is False:
+		if self.telegram_bot.is_private and user.is_allowed or not self.telegram_bot.is_private:
 			if isinstance(args[0], types.Message):
 				command: TelegramBotCommand = await self.get_command(message_text=message.text)
+
+				if not command:
+					async for command_ in self.telegram_bot.commands.all():
+						if (message.text == await self.replace_text_variables(message=message, text=command_.command)):
+							command = command_
+							break
 			else:
 				command: TelegramBotCommand = await self.get_command(button_id=int(callback_query.data))
 
-			if command is not None:
+			if command:
 				message_text: str = await self.replace_text_variables(message=message, text=command.message_text)
 
-				if command.api_request is not None:
+				if command.api_request:
 					async with aiohttp.ClientSession() as session:
 						api_request_url: str = await self.replace_text_variables(message=message, text=command.api_request['url'])
 						api_request_data: str = await self.replace_text_variables(message=message, text=command.api_request['data'])
@@ -178,7 +178,7 @@ class UserTelegramBot:
 										continue
 
 									variable_keys: list = re.findall(r'\[([^\]]+)\]', variable)
-									
+
 									for variable_key in variable_keys:
 										api_response_json_value = api_response_json_value[variable_key]
 
@@ -189,25 +189,53 @@ class UserTelegramBot:
 
 				keyboard: Union(types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup) = await self.get_keyboard(command=command)
 
-				if isinstance(args[0], types.CallbackQuery):
-					await self.dispatcher.bot.delete_message(
-						chat_id=message.chat.id,
-						message_id=message.message_id
-					)
 
-				if command.image == '':
-					await self.dispatcher.bot.send_message(
-						chat_id=message.chat.id,
-						text=message_text,
-						reply_markup=keyboard
-					)
+				if not settings.TEST:
+					if isinstance(args[0], types.CallbackQuery):
+						await self.dispatcher.bot.delete_message(
+							chat_id=message.chat.id,
+							message_id=message.message_id
+						)
+
+					if not command.image:
+						await self.dispatcher.bot.send_message(
+							chat_id=message.chat.id,
+							text=message_text,
+							reply_markup=keyboard
+						)
+					else:
+						await self.dispatcher.bot.send_photo(
+							chat_id=message.chat.id,
+							photo=types.InputFile(command.image.path),
+							caption=message_text,
+							reply_markup=keyboard
+						)
 				else:
-					await self.dispatcher.bot.send_photo(
-						chat_id=message.chat.id,
-						photo=types.InputFile(command.image.path),
-						caption=message_text,
-						reply_markup=keyboard
-					)
+					results = []
+
+					if isinstance(args[0], types.CallbackQuery):
+						results.append({'method': 'delete_message'})
+
+					if not command.image:
+						results.append(
+							{
+								'method': 'send_message',
+								'text': message_text,
+								'reply_markup': keyboard,
+							}
+						)
+					else:
+						results.append(
+							{
+								'method': 'send_photo',
+								'photo': types.InputFile(command.image.path),
+								'caption': message_text,
+								'reply_markup': keyboard,
+							}
+						)
+
+					return results
+
 
 	async def setup(self) -> None:
 		self.bot = Bot(token=self.telegram_bot.api_token, loop=self.loop)
