@@ -82,7 +82,10 @@ TEMPLATES = [
 				'django.template.context_processors.request',
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
+
 				'constructor_telegram_bots.context_processors.add_constructor_telegram_bot_username',
+				'updates.context_processors.updates',
+				'team.context_processors.team_members',
 			],
 		},
 	}
