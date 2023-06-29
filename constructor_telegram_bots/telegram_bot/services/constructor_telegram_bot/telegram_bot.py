@@ -11,7 +11,7 @@ from django.conf import settings
 import asyncio
 
 
-class TelegramBot:
+class ConstructorTelegramBot:
 	def __init__(self) -> None:
 		self.loop: asyncio.AbstractEventLoop = asyncio.new_event_loop()
 

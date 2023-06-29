@@ -21,6 +21,7 @@ from telegram_bot.services import tasks
 from telegram_bot.functions import check_telegram_bot_api_token
 
 from typing import Union
+from sys import platform
 
 
 @django.views.decorators.csrf.csrf_exempt
@@ -116,7 +117,11 @@ def get_telegram_bot_data(request: WSGIRequest, telegram_bot: TelegramBot) -> Js
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 def start_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> JsonResponse:
-	tasks.start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
+	if platform == 'win32':
+		tasks.start_telegram_bot(telegram_bot_id=telegram_bot.id)
+	else:
+		tasks.start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
+
 	return JsonResponse(
 		{
 			'message': None,
@@ -129,7 +134,11 @@ def start_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> JsonR
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 def stop_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> JsonResponse:
-	tasks.stop_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
+	if platform == 'win32':
+		tasks.stop_telegram_bot(telegram_bot_id=telegram_bot.id)
+	else:
+		tasks.stop_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
+
 	return JsonResponse(
 		{
 			'message': None,

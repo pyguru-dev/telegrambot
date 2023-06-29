@@ -2,6 +2,10 @@ from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
 
+from telegram_bot.services import tasks
+
+from sys import platform
+
 
 urlpatterns = [
 	path('admin/', admin.site.urls),
@@ -24,3 +28,6 @@ if settings.DEBUG:
 	from django.views.static import serve
 
 	urlpatterns + [re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT})]
+
+if not settings.TEST and platform == 'win32':
+	tasks.start_all_telegram_bots()

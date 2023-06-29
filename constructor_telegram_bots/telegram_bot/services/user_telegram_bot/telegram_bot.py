@@ -12,7 +12,7 @@ import asyncio
 from typing import Union
 
 
-class TelegramBot:
+class UserTelegramBot:
 	def __init__(self, telegram_bot: TelegramBot) -> None:
 		self.loop = asyncio.new_event_loop()
 		self.telegram_bot = telegram_bot
