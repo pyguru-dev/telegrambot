@@ -1,7 +1,7 @@
 from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram import Bot
 
-from telegram_bots.custom_aiogram import CustomDispatcher
+from telegram_bot.services.custom_aiogram import CustomDispatcher
 
 from django.contrib.auth.models import UserManager
 from django.conf import settings

@@ -1,8 +1,8 @@
 from modeltranslation.translator import register, TranslationOptions
 
-from team.models import TeamMembers
+from team.models import TeamMember
 
 
-@register(TeamMembers)
-class TeamMembersTranslationOptions(TranslationOptions):
+@register(TeamMember)
+class TeamMemberTranslationOptions(TranslationOptions):
     fields = ('speciality',)

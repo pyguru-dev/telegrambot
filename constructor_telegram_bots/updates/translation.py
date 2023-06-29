@@ -1,8 +1,8 @@
 from modeltranslation.translator import register, TranslationOptions
 
-from updates.models import Updates
+from updates.models import Update
 
 
-@register(Updates)
-class UpdatesTranslationOptions(TranslationOptions):
+@register(Update)
+class UpdateTranslationOptions(TranslationOptions):
     fields = ('title', 'description')

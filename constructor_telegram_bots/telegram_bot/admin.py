@@ -5,8 +5,7 @@ from django.utils import html
 
 from telegram_bot.models import TelegramBot
 
-from telegram_bots.tasks import start_telegram_bot as start_telegram_bot_
-from telegram_bots.tasks import stop_telegram_bot as stop_telegram_bot_
+from telegram_bot.services import tasks
 
 
 @admin.register(TelegramBot)
@@ -41,7 +40,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 	def start_telegram_bot_button(self, request: WSGIRequest, telegram_bots: list[TelegramBot]) -> None:
 		for telegram_bot in telegram_bots:
 			if telegram_bot.is_stopped:
-				start_telegram_bot_.delay(telegram_bot_id=telegram_bot.id)
+				tasks.start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
 
 				message = _('Telegram бот успешно включен.')
 
@@ -55,7 +54,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 	def stop_telegram_bot_button(self, request: WSGIRequest, telegram_bots: list[TelegramBot]) -> None:
 		for telegram_bot in telegram_bots:
 			if telegram_bot.is_running:
-				stop_telegram_bot_.delay(telegram_bot_id=telegram_bot.id)
+				tasks.stop_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
 
 				message = _('Telegram бот успешно выключен.')
 

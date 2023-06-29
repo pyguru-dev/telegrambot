@@ -15,8 +15,7 @@ from telegram_bot.models import (
 	TelegramBotUser
 )
 
-from telegram_bots.tasks import start_telegram_bot as start_telegram_bot_
-from telegram_bots.tasks import stop_telegram_bot as stop_telegram_bot_
+from telegram_bot.services import tasks
 from telegram_bot.functions import check_telegram_bot_api_token
 
 from typing import Union
@@ -115,7 +114,7 @@ def get_telegram_bot_data(request: WSGIRequest, telegram_bot: TelegramBot) -> Js
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 def start_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> JsonResponse:
-	start_telegram_bot_.delay(telegram_bot_id=telegram_bot.id)
+	tasks.start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
 	return JsonResponse(
 		{
 			'message': None,
@@ -128,7 +127,7 @@ def start_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> JsonR
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
 def stop_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> JsonResponse:
-	stop_telegram_bot_.delay(telegram_bot_id=telegram_bot.id)
+	tasks.stop_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
 	return JsonResponse(
 		{
 			'message': None,

@@ -2,11 +2,11 @@ from django.contrib.admin import register
 from modeltranslation.admin import TranslationAdmin
 from django.utils.translation import gettext_lazy as _
 
-from team.models import TeamMembers
+from team.models import TeamMember
 
 
-@register(TeamMembers)
-class TeamMembersAdmin(TranslationAdmin):
+@register(TeamMember)
+class TeamMemberAdmin(TranslationAdmin):
 	date_hierarchy = 'date_joined'
 	list_filter = ('speciality',)
 

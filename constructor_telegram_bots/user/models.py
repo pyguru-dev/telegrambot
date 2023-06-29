@@ -32,7 +32,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 			self.save()
 
 		return f'{settings.SITE_DOMAIN}user/login/{self.id}/{self.confirm_code}/'
-	
+
 	@property
 	async def alogin_url(self) -> str:
 		if not self.confirm_code:

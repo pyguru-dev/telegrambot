@@ -1,14 +1,14 @@
-from django.contrib.admin import register
+from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
 
 from ckeditor.widgets import CKEditorWidget
 
 from django.db import models
-from updates.models import Updates
+from updates.models import Update
 
 
-@register(Updates)
-class UpdatesAdmin(TranslationAdmin):
+@admin.register(Update)
+class UpdateAdmin(TranslationAdmin):
 	list_display = ('title', '_date_added')
 
 	fields = ('image', 'title', 'description')

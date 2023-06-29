@@ -5,14 +5,14 @@ from django.conf import settings
 import pytz
 
 
-class Updates(models.Model):
+class Update(models.Model):
 	image = models.ImageField(upload_to='static/images/updates/')
 	title = models.CharField(_('Заголовок'), max_length=255)
 	description = models.TextField(_('Описание'))
 	_date_added = models.DateTimeField(_('Дата добавления'), auto_now_add=True)
 
 	class Meta:
-		db_table = 'updates'
+		db_table = 'update'
 
 		verbose_name = _('Обновление')
 		verbose_name_plural = _('Обновления')

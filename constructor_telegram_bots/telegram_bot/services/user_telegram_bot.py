@@ -1,5 +1,5 @@
 from aiogram import Bot, types
-from telegram_bots.custom_aiogram import CustomDispatcher
+from telegram_bot.services.custom_aiogram import CustomDispatcher
 
 from aiogram.utils.exceptions import ValidationError, Unauthorized
 
