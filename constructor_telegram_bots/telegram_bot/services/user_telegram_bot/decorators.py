@@ -16,7 +16,7 @@ import aiohttp
 
 from functools import wraps
 from typing import Union
-import re
+import jinja2
 
 
 def check_request(func):
@@ -121,44 +121,32 @@ def check_message_text(func):
 		message: types.Message = kwargs['message']
 		telegram_bot_command: TelegramBotCommand = kwargs['telegram_bot_command']
 
-		message_text: str = await functions.replace_text_variables(
-			message=message,
-			text=telegram_bot_command.message_text
-		)
+		variables = {
+			'user_id': message.from_user.id,
+			'user_username': message.from_user.username,
+			'user_first_name': message.from_user.first_name,
+			'user_last_name': message.from_user.last_name,
+			'user_message_id': message.message_id,
+			'user_message_text': message.text,
+		}
 
 		if telegram_bot_command.api_request:
 			async with aiohttp.ClientSession() as session:
-				api_request_url: str = await functions.replace_text_variables(
-					message=message,
-					text=telegram_bot_command.api_request['url']
-				)
-				api_request_data: str = await functions.replace_text_variables(
-					message=message,
-					text=telegram_bot_command.api_request['data']
-				)
+				url: str = await functions.replace_text_variables(message, telegram_bot_command.api_request['url'], variables)
+				data: str = await functions.replace_text_variables(message, telegram_bot_command.api_request['data'], variables)
 
-				async with session.post(url=api_request_url, data=api_request_data) as response:
-					message_text: str = message_text.replace('${api_response}', await response.text())
+				async with session.post(url, data=data) as response:
+					try:
+						response_json: Union[list, dict] = await response.json()
 
-					variables: list = re.findall(r'\${([\w\[\]]+)}', message_text)
+						variables.update({'api_response': response_json})
+					except aiohttp.client_exceptions.ContentTypeError:
+						variables.update({'api_response': 'API-request return not JSON!'})
 
-					if variables != []:
-						for variable in variables:
-							try:
-								api_response_json_value = await response.json()
-							except aiohttp.client_exceptions.ContentTypeError:
-								message_text: str = message_text.replace('${' + variable + '}', 'The API-request not return JSON!')
-								continue
-
-							variable_keys: list = re.findall(r'\[([^\]]+)\]', variable)
-
-							for variable_key in variable_keys:
-								api_response_json_value = api_response_json_value[variable_key]
-
-							message_text: str = message_text.replace('${' + variable + '}', str(api_response_json_value))
+		message_text: str = await functions.replace_text_variables(message, telegram_bot_command.message_text, variables)
 
 		if len(message_text) > 4096:
-			message_text = 'The text of the message must contain no more than 4096 characters!'
+			message_text = 'The message text must contain no more than 4096 characters!'
 
 		kwargs.update({'message_text': message_text})
 

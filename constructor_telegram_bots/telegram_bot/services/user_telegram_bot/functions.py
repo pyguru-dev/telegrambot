@@ -9,6 +9,7 @@ from telegram_bot.models import (
 from asgiref.sync import sync_to_async
 
 from typing import Union
+import jinja2
 
 
 async def search_telegram_bot_command(
@@ -31,20 +32,14 @@ async def search_telegram_bot_command(
 					):
 						return await sync_to_async(telegram_bot_command_keyboard_button.get_command)()
 
-async def replace_text_variables(message: types.Message, text: str) -> str:
-	text_variables = {
-		'${user_id}': message.from_user.id,
-		'${user_username}': message.from_user.username,
-		'${user_first_name}': message.from_user.first_name,
-		'${user_last_name}': message.from_user.last_name,
-		'${user_message_id}': message.message_id,
-		'${user_message_text}': message.text,
-	}
-
-	for key, value in text_variables.items():
-		text: str = text.replace(key, str(value))
-
-	return text
+async def replace_text_variables(message: types.Message, text: str, variables: dict) -> str:
+	try:
+		jinja2_env = jinja2.Environment(enable_async=True)
+		jinja2_template: jinja2.Template = jinja2_env.from_string(text)
+		result: str = await jinja2_template.render_async(variables)
+		return result.replace('\n\n', '\n')
+	except Exception as exception:
+		return f'{exception.args[0].capitalize()}!'
 
 async def get_telegram_keyboard(command: TelegramBotCommand) -> Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup]:
 	telegram_bot_command_keyboard: TelegramBotCommandKeyboard =  await sync_to_async(command.get_keyboard)()
