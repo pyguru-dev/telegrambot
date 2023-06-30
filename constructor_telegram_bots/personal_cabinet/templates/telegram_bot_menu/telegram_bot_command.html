@@ -14,6 +14,8 @@
 						<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserLastNameVariableButton">{% trans "Фамилия пользователя" %}</button>
 						<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserMessageIdVariableButton">{% trans "ID сообщения пользователя" %}</button>
 						<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserMessageTextVariableButton">{% trans "Текст сообщения пользователя" %}</button>
+						<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandConditionVariableButton">{% trans "Условие" %}</button>
+						<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandLoopVariableButton">{% trans "Цикл" %}</button>
 						<button class="btn btn-sm btn-dark d-none" type="button" id="telegramBotCommandApiResponseVariableButton">{% trans "Ответ с API-запроса" %}</button>
 					</div>
 				</div>
@@ -29,7 +31,7 @@
 				<input class="form-control" id="telegramBotCommandImageInput" type="file" accept="image/*">
 			</div>
 			<div class="col">
-				<textarea class="form-control" id="telegramBotCommandTextInput" type="text" rows="4" placeholder="{% trans "Введите текст сообщения" %}"></textarea>
+				<textarea class="form-control" id="telegramBotCommandTextInput" type="text" rows="10" placeholder="{% trans "Введите текст сообщения" %}"></textarea>
 			</div>
 			<div class="col d-none" id="telegramBotCommandKeyboardAddition">
 				<div class="row row-cols-1 gy-2">

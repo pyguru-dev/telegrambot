@@ -6,6 +6,8 @@
 		userLastName: document.querySelector('#telegramBotCommandUserLastNameVariableButton'),
 		userMessageId:  document.querySelector('#telegramBotCommandUserMessageIdVariableButton'),
 		userMessageText: document.querySelector('#telegramBotCommandUserMessageTextVariableButton'),
+		condition: document.querySelector('#telegramBotCommandConditionVariableButton'),
+		loop: document.querySelector('#telegramBotCommandLoopVariableButton'),
 		apiResponse: document.querySelector('#telegramBotCommandApiResponseVariableButton'),
 	};
 
@@ -19,17 +21,17 @@
 			command: {
 				button: document.querySelector('#telegramBotCommandAddCommandAdditionButton'),
 				div: document.querySelector('#telegramBotCommandCommandAddition'),
-				
+
 				variablesButtons: [],
-				
+
 				input: document.querySelector('#telegramBotCommandCommandInput'),
 			},
 			image: {
 				button: document.querySelector('#telegramBotCommandAddImageAdditionButton'),
 				div: document.querySelector('#telegramBotCommandImageAddition'),
-				
+
 				variablesButtons: [],
-				
+
 				preview: document.querySelector('#telegramBotCommandImagePreview'),
 				input: document.querySelector('#telegramBotCommandImageInput'),
 				file: null,
@@ -37,9 +39,9 @@
 			keyboard: {
 				button: document.querySelector('#telegramBotCommandAddKeyboardAdditionButton'),
 				div: document.querySelector('#telegramBotCommandKeyboardAddition'),
-				
+
 				variablesButtons: [],
-				
+
 				defaultRadio: document.querySelector('#telegramBotCommandDefaultKeyboardRadio'),
 				inlineRadio: document.querySelector('#telegramBotCommandInlineKeyboardRadio'),
 
@@ -52,11 +54,9 @@
 			apiRequest: {
 				button: document.querySelector('#telegramBotCommandAddApiRequestAdditionButton'),
 				div: document.querySelector('#telegramBotCommandApiRequestAddition'),
-				
-				variablesButtons: [
-					telegramBotCommandVariablesButtons.apiResponse
-				],
-				
+
+				variablesButtons: [telegramBotCommandVariablesButtons.apiResponse],
+
 				urlInput: document.querySelector('#telegramBotCommandApiRequestUrlInput'),
 				dataInput: document.querySelector('#telegramBotCommandApiRequestDataInput'),
 			},
@@ -70,39 +70,47 @@
 		userId: {
 			button: telegramBotCommandVariablesButtons.userId,
 			allowedInputs: [],
-			value: '${user_id}',
+			value: '{{ user_id }}',
 		},
 		userUsername: {
 			button: telegramBotCommandVariablesButtons.userUsername,
 			allowedInputs: [],
-			value: '${user_username}',
+			value: '{{ user_username }}',
 		},
 		userFirstName: {
 			button: telegramBotCommandVariablesButtons.userFirstName,
 			allowedInputs: [],
-			value: '${user_first_name}',
+			value: '{{ user_first_name }}',
 		},
 		userLastName: {
 			button: telegramBotCommandVariablesButtons.userLastName,
 			allowedInputs: [],
-			value: '${user_last_name}',
+			value: '{{ user_last_name }}',
 		},
 		userMessageId: {
 			button: telegramBotCommandVariablesButtons.userMessageId,
 			allowedInputs: [],
-			value: '${user_message_id}',
+			value: '{{ user_message_id }}',
 		},
 		userMessageText: {
 			button: telegramBotCommandVariablesButtons.userMessageText,
 			allowedInputs: [],
-			value: '${user_message_text}',
+			value: '{{ user_message_text }}',
+		},
+		condition: {
+			button: telegramBotCommandVariablesButtons.condition,
+			allowedInputs: [telegramBotCommand.textInput],
+			value: '{% if value == value %}\nText\n{% else %}\nOther text\n{% endif %}',
+		},
+		loop: {
+			button: telegramBotCommandVariablesButtons.loop,
+			allowedInputs: [telegramBotCommand.textInput],
+			value: '{% for value in values %}\n{{ value }}\n{% endfor %}',
 		},
 		apiResponse: {
 			button: telegramBotCommandVariablesButtons.apiResponse,
-			allowedInputs: [
-				telegramBotCommand.textInput,
-			],
-			value: '${api_response[key]}',
+			allowedInputs: [telegramBotCommand.textInput],
+			value: '{{ api_response.key or api_response[0] }}',
 		},
 
 		allowedInputs: [
