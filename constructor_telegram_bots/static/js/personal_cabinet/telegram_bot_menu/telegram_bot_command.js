@@ -178,11 +178,11 @@
 
 				if (telegramBotCommandVariables.selected != telegramBotCommandVariables[variable].value) {
 					telegramBotCommandVariables[variable].button.classList.replace('btn-dark', 'btn-secondary');
-					
+
 					telegramBotCommandVariables.selected = telegramBotCommandVariables[variable].value;
 				} else {
 					telegramBotCommandVariables[variable].button.classList.replace('btn-secondary', 'btn-dark');
-					
+
 					telegramBotCommandVariables.selected = null;
 				}
 			});
@@ -275,7 +275,7 @@
 			);
 
 			const selectedTelegramBotCommandKeyboardRow = telegramBotCommandKeyboardRow.querySelector('#telegramBotCommandKeyboardRow');
-			
+
 			if (selectedTelegramBotCommandKeyboardRow == telegramBotCommand.additions.keyboard.selectedRow) {
 				telegramBotCommand.additions.keyboard.selectedRow = null;
 			} else {
@@ -296,7 +296,7 @@
 		telegramBotCommandKeyboardButtonMoveUpButton.innerHTML = '<i class="bi bi-arrow-up" style="-webkit-text-stroke: 1px;"></i>';
 		telegramBotCommandKeyboardButtonMoveUpButton.addEventListener('click', function() {
 			const previousTelegramBotCommandKeyboardButton = telegramBotCommandKeyboardButton.previousElementSibling;
-			
+
 			if (previousTelegramBotCommandKeyboardButton != null) {
 				telegramBotCommandKeyboardButton.parentNode.insertBefore(
 					telegramBotCommandKeyboardButton,
@@ -313,7 +313,7 @@
 		telegramBotCommandKeyboardButtonMoveDownButton.innerHTML = '<i class="bi bi-arrow-down" style="-webkit-text-stroke: 1px;"></i>';
 		telegramBotCommandKeyboardButtonMoveDownButton.addEventListener('click', function() {
 			const nextTelegramBotCommandKeyboardButton = telegramBotCommandKeyboardButton.nextElementSibling;
-			
+
 			if (nextTelegramBotCommandKeyboardButton != null) {
 				telegramBotCommandKeyboardButton.parentNode.insertBefore(
 					nextTelegramBotCommandKeyboardButton,
@@ -341,7 +341,7 @@
 		telegramBotCommandKeyboardButtonNameInput.addEventListener('click', function() {
 			if (telegramBotCommand.additions.keyboard.selectedRow != null) {
 				let telegramBotCommandKeyboardButtonRowButton = telegramBotCommandKeyboardButton.querySelector('.telegram-bot-command-keyboard-button-row-button');
-				
+
 				if (telegramBotCommandKeyboardButtonRowButton != null) {
 					telegramBotCommandKeyboardButtonRowButton.remove();
 				}
@@ -354,7 +354,7 @@
 					telegramBotCommandKeyboardButtonRowButton,
 					telegramBotCommandKeyboardButtonNameInput
 				);
-				
+
 				telegramBotCommand.additions.keyboard.selectedRow.classList.replace('btn-secondary', 'btn-dark');
 				telegramBotCommand.additions.keyboard.selectedRow = null;
 			}
@@ -543,7 +543,7 @@
 			'keyboard': null,
 			'api_request': null,
 		}
-	
+
 		if (telegramBotCommand.additions.command.div.classList.contains('d-none') == false) {
 			telegramBotCommandData_['command'] = telegramBotCommand.additions.command.input.value;
 		}
@@ -565,12 +565,12 @@
 
 		if (telegramBotCommand.additions.keyboard.div.classList.contains('d-none') == false) {
 			const telegramBotCommandKeyboardButtons_ = [];
-			
+
 			telegramBotCommand.additions.keyboard.buttons.querySelectorAll('.keyboard-button').forEach(telegramBotCommandKeyboardButton => {
 				const telegramBotCommandKeyboardButtonRowButton = telegramBotCommandKeyboardButton.querySelector('.telegram-bot-command-keyboard-button-row-button');
 				const telegramBotCommandKeyboardButtonNameInput = telegramBotCommandKeyboardButton.querySelector('.telegram-bot-command-keyboard-button-name-input');
 				const telegramBotCommandKeyboardButtonLinkInput = telegramBotCommandKeyboardButton.querySelector('.telegram-bot-command-keyboard-button-link-input');
-				
+
 				telegramBotCommandKeyboardButtons_.push(
 					{
 						'id': telegramBotCommandKeyboardButton.id,
