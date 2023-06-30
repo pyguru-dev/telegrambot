@@ -7,7 +7,7 @@
 
 	if (diagramCurrentScale != 1) {
 		let diagramCurrentScaleTest = 1.0;
-		
+
 		if (diagramCurrentScale > 1.0) {
 			for (diagramCurrentScaleNum; diagramCurrentScaleNum < 10; diagramCurrentScaleNum++) {
 				if (diagramCurrentScaleTest == diagramCurrentScale) {
@@ -123,7 +123,7 @@
 		diagramConnectorLine.setAttribute('y1', startDiagramConnectorPosition.y);
 		diagramConnectorLine.setAttribute('x2', endDiagramConnectorPosition.x);
 		diagramConnectorLine.setAttribute('y2', endDiagramConnectorPosition.y);
-		
+
 		diagramSvg.appendChild(diagramConnectorLine);
 
 		return diagramConnectorLine;
@@ -196,14 +196,13 @@
 		}
 	}
 
-
 	function enableDiagramBlockDragging(diagramBlock) {
 		let x = 0, y = 0;
-	
+
 		function diagramDragStart(event) {
 			event = event || window.event;
 			event.preventDefault();
-	
+
 			if (event.type == 'touchstart') {
 				x = event.touches[0].clientX;
 				y = event.touches[0].clientY;
@@ -211,22 +210,22 @@
 				x = event.clientX;
 				y = event.clientY;
 			}
-	
+
 			diagramBlock.style.zIndex = '3';
-	
+
 			document.onmousemove = diagramBlockDrag;
 			document.ontouchmove = diagramBlockDrag;
-	
+
 			document.onmouseup = diagramDragEnd;
 			document.ontouchend = diagramDragEnd;
 		}
-	
+
 		function diagramBlockDrag(event) {
 			event = event || window.event;
 			event.preventDefault();
-	
+
 			let clientX, clientY;
-	
+
 			if (event.type == 'touchmove') {
 				clientX = event.touches[0].clientX;
 				clientY = event.touches[0].clientY;
@@ -234,13 +233,13 @@
 				clientX = event.clientX;
 				clientY = event.clientY;
 			}
-	
+
 			const diagramBlockLeft = diagramBlock.offsetLeft - (x - clientX);
 			const diagramBlockTop = diagramBlock.offsetTop - (y - clientY);
-	
+
 			const diagramContainerLeftBorder = (diagramBlock.offsetWidth * diagramCurrentScale - diagramBlock.offsetWidth) / 2;
 			const diagramContainerTopBorder = (diagramBlock.offsetHeight * diagramCurrentScale - diagramBlock.offsetHeight) / 2;
-	
+
 			if (diagramBlockLeft >= diagramContainerLeftBorder) {
 				diagramBlock.style.left = `${diagramBlockLeft}px`;
 			} else {
@@ -251,22 +250,22 @@
 			} else {
 				diagramBlock.style.top = `${diagramContainerTopBorder}px`;
 			}
-	
+
 			x = clientX;
 			y = clientY;
-	
+
 			updateConnectorLine(diagramBlock);
 		}
-	
+
 		function diagramDragEnd() {
 			diagramBlock.style.zIndex = '1';
-	
+
 			document.onmousemove = null;
 			document.ontouchmove = null;
-	
+
 			document.onmouseup = null;
 			document.ontouchend = null;
-	
+
 			fetch(`/telegram-bot/${telegramBotId}/command/${diagramBlock.id}/save-position/`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
@@ -276,11 +275,10 @@
 				}),
 			});
 		}
-	
+
 		diagramBlock.onmousedown = diagramDragStart;
 		diagramBlock.ontouchstart = diagramDragStart;
 	}
-	
 
 	function createDiagramBlock(telegramBotCommand) {
 		const diagramBlock = document.createElement('div');
@@ -298,7 +296,7 @@
 			`</button>`,
 			`<div class="diagram-name bg-light border text-center text-break p-2 mb-2">${telegramBotCommand['name']}</div>`,
 			(telegramBotCommand['image'] != '') ? `<img class="img-thumbnail rounded mb-2" src="/${telegramBotCommand['image']}">` : '',
-			`<div class="bg-light border rounded text-break p-2">${telegramBotCommand['message_text']}</div>`,
+			`<div class="bg-light border rounded text-break p-2">${telegramBotCommand['message_text'].replaceAll('\n', '<br>')}</div>`,
 		].join('');
 
 		let diagramKeyboardButtonPosition = 46;

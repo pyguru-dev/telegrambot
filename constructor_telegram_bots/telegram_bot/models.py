@@ -78,15 +78,15 @@ class TelegramBotCommand(models.Model):
 	class Meta:
 		db_table = 'telegram_bot_command'
 
-	def get_keyboard_as_dict(self) -> Union[dict, None]:
-		keyboard: Union['TelegramBotCommandKeyboard', None] = self.get_keyboard()
-		return keyboard.to_dict() if keyboard else None
-
 	def get_keyboard(self) -> Union['TelegramBotCommandKeyboard', None]:
 		try:
 			return self.keyboard
 		except ObjectDoesNotExist:
 			return None
+
+	def get_keyboard_as_dict(self) -> Union[dict, None]:
+		keyboard: Union['TelegramBotCommandKeyboard', None] = self.get_keyboard()
+		return keyboard.to_dict() if keyboard else None
 
 	def to_dict(self) -> dict:
 		return {

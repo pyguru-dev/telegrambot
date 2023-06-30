@@ -157,7 +157,7 @@ var intervalUpdateUsersId;
 							const telegramBotUserDiv = document.createElement('div');
 							telegramBotUserDiv.setAttribute('class', 'list-group-item pb-1');
 							telegramBotUserDiv.innerHTML = `<p class="text-center my-2">${telegramBotNotActivatedText}</p>`;
-							
+
 							telegramBotUsersDiv.append(telegramBotUserDiv);
 						} else {
 							telegramBotUsers.forEach(telegramBotUser => {
@@ -175,7 +175,7 @@ var intervalUpdateUsersId;
 								const telegramBotUserButtons = document.createElement('div');
 								telegramBotUserButtons.classList = 'col-auto';
 								telegramBotUserButtons.id = 'telegramBotUserButtons';
-								
+
 								const addOrDeleteTelegramBotAllowedUserButton = document.createElement('button');
 								addOrDeleteTelegramBotAllowedUserButton.classList = 'btn telegram-bot-allowed-user-button rounded-0 p-0 pe-1';
 								addOrDeleteTelegramBotAllowedUserButton.id = telegramBotUser['id'];
@@ -244,11 +244,11 @@ var intervalUpdateUsersId;
 										});
 									}
 								));
-								
+
 								telegramBotUserButtons.append(addOrDeleteTelegramBotAllowedUserButton);
 								telegramBotUserButtons.append(deleteTelegramBotUserButton);
 								telegramBotUserDiv.append(telegramBotUserButtons);
-			
+
 								listGroupItem.append(telegramBotUserDiv);
 								telegramBotUsersDiv.append(listGroupItem);
 							});

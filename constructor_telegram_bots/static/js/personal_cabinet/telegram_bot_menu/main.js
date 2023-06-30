@@ -134,7 +134,7 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 
 					createAlert(mainAlertContainer, startTelegramBotMessage, 'success');
 				}
-				
+
 			} else {
 				response.json().then(jsonResponse => {
 					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
@@ -154,7 +154,7 @@ document.querySelector('#telegramBotDeleteButton').addEventListener('click', () 
 			if (response.ok) {
 				setTimeout("window.location.href = '../';", 1000);
 			}
-			
+
 			response.json().then(jsonResponse => {
 				createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
 			});
