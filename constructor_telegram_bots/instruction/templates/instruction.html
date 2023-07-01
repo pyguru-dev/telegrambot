@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Инструкция" %}{% endblock title %}
+
+{% block main %}
+<div class="container my-3 my-lg-4">
+	<h1 class="fw-bold text-center mb-4">{% trans "Инструкция" %}</h1>
+	<div class="row row-cols-1 gy-2">
+		{% for instruction_section in instruction_sections %}
+			<div class="col">
+				<h3 class="mb-1">{{ instruction_section.title }}</h3>
+				{% autoescape off %}
+					{{ instruction_section.text }}
+				{% endautoescape %}
+			</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock main %}

@@ -17,6 +17,7 @@ urlpatterns = [
 	path('', include('home.urls')),
 	path('team/', include('team.urls')),
 	path('updates/', include('updates.urls')),
+	path('instruction/', include('instruction.urls')),
 	path('donation/', include('donation.urls')),
 	path('personal-cabinet/', include('personal_cabinet.urls')),
 	path('privacy-policy/', include('privacy_policy.urls')),
