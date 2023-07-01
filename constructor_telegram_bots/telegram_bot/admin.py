@@ -31,7 +31,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 	@admin.display(description=_('Количество команд'))
 	def show_telegram_bot_commands_count(self, telegram_bot: TelegramBot) -> int:
 		return telegram_bot.commands.count()
-	
+
 	@admin.display(description=_('Количество активаций'))
 	def show_telegram_bot_users_count(self, telegram_bot: TelegramBot) -> int:
 		return telegram_bot.users.count()
@@ -68,6 +68,6 @@ class TelegramBotAdmin(admin.ModelAdmin):
 		start_telegram_bot_button,
 		stop_telegram_bot_button,
 	]
-	
+
 	def has_add_permission(self, request: WSGIRequest, obj: None=None) -> bool:
 		return False

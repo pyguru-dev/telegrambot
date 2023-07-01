@@ -1,5 +1,6 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
+from django.utils.translation import gettext_lazy as _
 
 from ckeditor.widgets import CKEditorWidget
 
@@ -9,7 +10,7 @@ from updates.models import Update
 
 @admin.register(Update)
 class UpdateAdmin(TranslationAdmin):
-	list_display = ('title', '_date_added')
+	list_display = ('title', 'date_added')
 
 	fields = ('image', 'title', 'description')
 	formfield_overrides = {models.TextField: {'widget': CKEditorWidget}}
