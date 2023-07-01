@@ -15,6 +15,7 @@ from user.models import User
 def user_login(request: WSGIRequest, id: int, confirm_code: str) -> HttpResponse:
 	if User.objects.filter(id=id).exists():
 		user: User = User.objects.get(id=id)
+
 		if user.confirm_code == confirm_code:
 			user.confirm_code = None
 			user.save()

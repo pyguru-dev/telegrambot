@@ -8,4 +8,4 @@ class UserManager(BaseUserManager):
 		return self.create(id=user_id, **extra_fields)
 
 	def create_superuser(self, **fields) -> None:
-		return None
+		raise SyntaxError('Not support to create superuser!')
