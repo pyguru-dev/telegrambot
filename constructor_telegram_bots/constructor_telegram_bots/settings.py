@@ -85,8 +85,9 @@ TEMPLATES = [
 				'django.contrib.messages.context_processors.messages',
 
 				'constructor_telegram_bots.context_processors.add_constructor_telegram_bot_username',
-				'updates.context_processors.updates',
 				'team.context_processors.team_members',
+				'updates.context_processors.updates',
+				'instruction.context_processors.instruction_sections'
 			],
 		},
 	}
