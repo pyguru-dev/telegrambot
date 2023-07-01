@@ -53,6 +53,7 @@ INSTALLED_APPS = [
 	'home',
 	'team',
 	'updates',
+	'instruction',
 	'donation',
 	'personal_cabinet',
 	'privacy_policy',
