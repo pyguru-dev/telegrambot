@@ -16,7 +16,6 @@ import aiohttp
 
 from functools import wraps
 from typing import Union
-import jinja2
 
 
 def check_request(func):

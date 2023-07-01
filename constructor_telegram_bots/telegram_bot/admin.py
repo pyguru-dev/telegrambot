@@ -10,7 +10,7 @@ from telegram_bot.services import tasks
 
 @admin.register(TelegramBot)
 class TelegramBotAdmin(admin.ModelAdmin):
-	date_hierarchy = '_date_added'
+	date_hierarchy = 'date_added'
 	list_filter = ('is_running',)
 
 	list_display = (
@@ -20,7 +20,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 		'is_running',
 		'show_telegram_bot_commands_count',
 		'show_telegram_bot_users_count',
-		'_date_added',
+		'date_added',
 	)
 	list_display_links = None
 

@@ -124,23 +124,11 @@ def check_data_for_telegram_bot_command(func):
 		request: WSGIRequest = args[0]
 
 		if 'image' in request.FILES:
-			kwargs.update(
-				{
-					'image': request.FILES['image'],
-				}
-			)
+			kwargs.update({'image': request.FILES['image']})
 		elif 'image' in request.POST:
-			kwargs.update(
-				{
-					'image': request.POST['image'],
-				}
-			)
+			kwargs.update({'image': request.POST['image']})
 		else:
-			kwargs.update(
-				{
-					'image': None,
-				}
-			)
+			kwargs.update({'image': None})
 
 		telegram_bot_command_message_text: str = kwargs['message_text']
 

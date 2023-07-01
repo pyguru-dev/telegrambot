@@ -15,6 +15,7 @@ def check_user(func):
 		message: types.Message = args[1]
 
 		user: UserManager = await sync_to_async(User.objects.filter)(id=message.from_user.id)
+
 		if await user.aexists() is False:
 			await sync_to_async(User.objects.create_user)(user_id=message.from_user.id)
 

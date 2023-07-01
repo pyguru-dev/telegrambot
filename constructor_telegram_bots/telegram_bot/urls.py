@@ -6,7 +6,7 @@ from telegram_bot import views
 urlpatterns = [
 	path('add/', views.add_telegram_bot, name='add_telegram_bot'),
 	path('<int:telegram_bot_id>/edit-api-token/', views.edit_telegram_bot_api_token, name='edit_telegram_bot_api_token'),
-    path('<int:telegram_bot_id>/edit-private/', views.edit_telegram_bot_private, name='edit_telegram_bot_private'),
+	path('<int:telegram_bot_id>/edit-private/', views.edit_telegram_bot_private, name='edit_telegram_bot_private'),
 	path('<int:telegram_bot_id>/delete/', views.delete_telegram_bot, name='delete_telegram_bot'),
 
 	path('<int:telegram_bot_id>/get-data/', views.get_telegram_bot_data, name='get_telegram_bot_data'),
@@ -26,7 +26,7 @@ urlpatterns = [
 	path('<int:telegram_bot_id>/user/<int:telegram_bot_user_id>/add-allowed-user/', views.add_allowed_user, name='add_allowed_user'),
 	path('<int:telegram_bot_id>/user/<int:telegram_bot_user_id>/delete-allowed-user/', views.delete_allowed_user, name='delete_allowed_user'),
 	path('<int:telegram_bot_id>/user/<int:telegram_bot_user_id>/delete/', views.delete_telegram_bot_user, name='delete_telegram_bot_user'),
-    
+
 	path('<int:telegram_bot_id>/save-diagram-current-scale/', views.save_telegram_bot_diagram_current_scale, name='save_telegram_bot_diagram_current_scale'),
 	path('<int:telegram_bot_id>/command/<int:telegram_bot_command_id>/save-position/', views.save_telegram_bot_command_position, name='save_telegram_bot_command_position'),
 

@@ -18,9 +18,9 @@ class ConstructorTelegramBot:
 	@decorators.check_user
 	async def start_command(self, message: types.Message) -> None:
 		message_text = f"""\
-			Привет, @{message.from_user.username}!
-			Я являюсь Telegram ботом для сайта Constructor Telegram Bots.
-			Спасибо за то, что ты с нами ❤️
+			Hello, @{message.from_user.username}!
+			I am a Telegram bot for Constructor Telegram Bots site.
+			Thank you for being with us ❤️
 		""".replace('	', '')
 
 		await self.bot.send_message(chat_id=message.chat.id, text=message_text)
@@ -32,14 +32,14 @@ class ConstructorTelegramBot:
 
 	@decorators.check_user
 	async def login_command(self, message: types.Message) -> None:
-		message_text = 'Нажмите на кнопку ниже, чтобы авторизоваться на сайте.'
+		message_text = 'Click on the button below to login on the site.'
 
 		user: User = await User.objects.aget(id=message.from_user.id)
 		login_url: str = await user.alogin_url
 
 		inline_keyboard = types.InlineKeyboardMarkup(row_width=1)
 		inline_keyboard.add(
-			types.InlineKeyboardButton(text='Авторизация', url=login_url)
+			types.InlineKeyboardButton(text='Login', url=login_url)
 		)
 
 		await self.bot.send_message(chat_id=message.chat.id, text=message_text, reply_markup=inline_keyboard)

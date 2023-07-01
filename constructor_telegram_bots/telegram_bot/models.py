@@ -1,7 +1,8 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ObjectDoesNotExist
-from django.conf import settings
+from django.template import defaultfilters as filters
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from user.models import User
 from telegram_bot.managers import (
@@ -10,7 +11,6 @@ from telegram_bot.managers import (
 )
 
 from typing import Union
-import pytz
 
 
 class TelegramBot(models.Model):
@@ -21,7 +21,7 @@ class TelegramBot(models.Model):
 	is_private = models.BooleanField(_('Приватный'))
 	is_running = models.BooleanField(_('Включён'), default=False)
 	is_stopped = models.BooleanField(default=True)
-	_date_added = models.DateTimeField(_('Дата добавления'), auto_now_add=True)
+	date_added = models.DateTimeField(_('Дата добавления'), auto_now_add=True)
 
 	diagram_current_scale = models.FloatField(default=1.0)
 
@@ -32,12 +32,6 @@ class TelegramBot(models.Model):
 
 		verbose_name = _('Telegram бота')
 		verbose_name_plural = _('Telegram боты')
-
-	@property
-	def date_added(self) -> str:
-		return self._date_added.astimezone(
-			pytz.timezone(settings.TIME_ZONE)
-		).strftime('%d.%m.%Y - %H:%M:%S')
 
 	def get_commands_as_dict(self) -> list:
 		return [command.to_dict() for command in self.commands.all()]
@@ -54,7 +48,7 @@ class TelegramBot(models.Model):
 			'is_stopped': self.is_stopped,
 			'commands_count': self.commands.count(),
 			'users_count': self.users.count(),
-			'date_added': self.date_added,
+			'date_added': f'{filters.date(self.date_added)} {filters.time(self.date_added)}',
 		}
 
 	def __str__(self) -> str:
@@ -101,6 +95,83 @@ class TelegramBotCommand(models.Model):
 			'x': self.x,
 			'y': self.y,
 		}
+
+	def update(
+		self,
+	    telegram_bot_command: 'TelegramBotCommand',
+		name: str,
+		command: Union[str, None],
+		image: Union[InMemoryUploadedFile, str, None],
+		message_text: str,
+		keyboard: Union[dict, None],
+		api_request: Union[dict, None]
+	):
+		telegram_bot_command.name = name
+		telegram_bot_command.command = command
+
+		if image:
+			if isinstance(image, InMemoryUploadedFile) or image == 'null' and str(telegram_bot_command.image) != '':
+				telegram_bot_command.image.delete(save=False)
+
+				if isinstance(image, InMemoryUploadedFile):
+					telegram_bot_command.image = image
+
+		telegram_bot_command.message_text = message_text
+
+		telegram_bot_command_keyboard: TelegramBotCommandKeyboard = telegram_bot_command.get_keyboard()
+
+		if keyboard:
+			if telegram_bot_command_keyboard:
+				telegram_bot_command_keyboard.type = keyboard['type']
+				telegram_bot_command_keyboard.save()
+
+				buttons_id = []
+
+				for button in keyboard['buttons']:
+					if not button['id']:
+						button_: TelegramBotCommandKeyboardButton = TelegramBotCommandKeyboardButton.objects.create(
+							telegram_bot_command_keyboard=telegram_bot_command_keyboard,
+							**button
+						)
+					else:
+						button_id = int(button['id'])
+
+						is_finded_button = False
+
+						for button_ in telegram_bot_command_keyboard.buttons.all():
+							if button_id == button_.id:
+								is_finded_button = True
+								break
+
+						if is_finded_button:
+							button_: TelegramBotCommandKeyboardButton = telegram_bot_command_keyboard.buttons.get(id=button_id)
+							button_.row = button['row']
+							button_.text = button['text']
+							button_.url = button['url']
+							button_.save()
+						else:
+							button_: TelegramBotCommandKeyboardButton = TelegramBotCommandKeyboardButton.objects.create(
+								telegram_bot_command_keyboard=telegram_bot_command_keyboard,
+								**button
+							)
+
+					buttons_id.append(button_.id)
+
+				for button in telegram_bot_command_keyboard.buttons.all():
+					if button.id not in buttons_id:
+						button.delete()
+			else:
+				TelegramBotCommandKeyboard.objects.create(
+					telegram_bot_command=telegram_bot_command,
+					type=keyboard['type'],
+					buttons=keyboard['buttons']
+				)
+		else:
+			if telegram_bot_command_keyboard:
+				telegram_bot_command_keyboard.delete()
+
+		telegram_bot_command.api_request = api_request
+		telegram_bot_command.save()
 
 	def delete(self) -> None:
 		self.image.delete(save=False)
@@ -166,16 +237,10 @@ class TelegramBotUser(models.Model):
 	user_id = models.BigIntegerField()
 	full_name = models.CharField(max_length=129, null=True)
 	is_allowed = models.BooleanField(default=False)
-	_date_activated = models.DateTimeField(auto_now_add=True)
+	date_activated = models.DateTimeField(auto_now_add=True)
 
 	class Meta:
 		db_table = 'telegram_bot_user'
-
-	@property
-	def date_activated(self) -> str:
-		return self._date_activated.astimezone(
-			pytz.timezone(settings.TIME_ZONE)
-		).strftime('%d.%m.%Y - %H:%M:%S')
 
 	def to_dict(self) -> dict:
 		return {
@@ -183,5 +248,5 @@ class TelegramBotUser(models.Model):
 			'user_id': self.user_id,
 			'full_name': self.full_name,
 			'is_allowed': self.is_allowed,
-			'date_activated': self.date_activated,
+			'date_activated': f'{filters.date(self.date_activated)} {filters.time(self.date_activated)}',
 		}

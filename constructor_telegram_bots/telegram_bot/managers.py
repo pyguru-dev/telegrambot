@@ -17,7 +17,7 @@ class TelegramBotManager(models.Manager):
 		is_private: bool,
 		**extra_fields
 	) -> 'TelegramBotModels.TelegramBot':
-		username: str = check_telegram_bot_api_token(api_token=api_token)
+		username: str = check_telegram_bot_api_token(api_token)
 
 		return super().create(
 			owner=owner,

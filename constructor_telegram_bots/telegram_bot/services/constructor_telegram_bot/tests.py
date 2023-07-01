@@ -29,9 +29,9 @@ class ConstructorTelegramBotTests(CustomTestCase):
 		assert len(results) == 1
 		assert results[0]['method'] == 'send_message'
 		assert results[0]['text'] == f"""\
-			Привет, @test!
-			Я являюсь Telegram ботом для сайта Constructor Telegram Bots.
-			Спасибо за то, что ты с нами ❤️
+			Hello, @test!
+			I am a Telegram bot for Constructor Telegram Bots site.
+			Thank you for being with us ❤️
 		""".replace('	', '')
 
 	@setup
@@ -43,6 +43,6 @@ class ConstructorTelegramBotTests(CustomTestCase):
 
 		assert len(results) == 1
 		assert results[0]['method'] == 'send_message'
-		assert results[0]['text'] == 'Нажмите на кнопку ниже, чтобы авторизоваться на сайте.'
-		assert results[0]['reply_markup']['inline_keyboard'][0][0]['text'] == 'Авторизация'
+		assert results[0]['text'] == 'Click on the button below to login on the site.'
+		assert results[0]['reply_markup']['inline_keyboard'][0][0]['text'] == 'Login'
 		assert results[0]['reply_markup']['inline_keyboard'][0][0]['url'] == login_url

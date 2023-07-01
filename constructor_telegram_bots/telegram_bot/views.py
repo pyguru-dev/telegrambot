@@ -12,7 +12,6 @@ import telegram_bot.decorators
 from telegram_bot.models import (
 	TelegramBot,
 	TelegramBotCommand,
-	TelegramBotCommandKeyboard,
 	TelegramBotCommandKeyboardButton,
 	TelegramBotUser
 )
@@ -214,72 +213,7 @@ def edit_telegram_bot_command(
 	keyboard: Union[dict, None],
 	api_request: Union[dict, None]
 ) -> JsonResponse:
-	telegram_bot_command.name = name
-	telegram_bot_command.command = command
-
-	if image is not None:
-		if isinstance(image, InMemoryUploadedFile) or image == 'null' and str(telegram_bot_command.image) != '':
-			telegram_bot_command.image.delete(save=False)
-
-			if isinstance(image, InMemoryUploadedFile):
-				telegram_bot_command.image = image
-
-	telegram_bot_command.message_text = message_text
-
-	telegram_bot_command_keyboard: TelegramBotCommandKeyboard = telegram_bot_command.get_keyboard()
-
-	if keyboard is not None:
-		if telegram_bot_command_keyboard is not None:
-			telegram_bot_command_keyboard.type = keyboard['type']
-			telegram_bot_command_keyboard.save()
-
-			buttons_id = []
-
-			for button in keyboard['buttons']:
-				if button['id'] == '':
-					button_: TelegramBotCommandKeyboardButton = TelegramBotCommandKeyboardButton.objects.create(
-						telegram_bot_command_keyboard=telegram_bot_command_keyboard,
-						**button
-					)
-				else:
-					button_id = int(button['id'])
-
-					is_finded_button = False
-
-					for button_ in telegram_bot_command_keyboard.buttons.all():
-						if button_id == button_.id:
-							is_finded_button = True
-							break
-
-					if is_finded_button:
-						button_: TelegramBotCommandKeyboardButton = telegram_bot_command_keyboard.buttons.get(id=button_id)
-						button_.row = button['row']
-						button_.text = button['text']
-						button_.url = button['url']
-						button_.save()
-					else:
-						button_: TelegramBotCommandKeyboardButton = TelegramBotCommandKeyboardButton.objects.create(
-							telegram_bot_command_keyboard=telegram_bot_command_keyboard,
-							**button
-						)
-
-				buttons_id.append(button_.id)
-
-			for button in telegram_bot_command_keyboard.buttons.all():
-				if button.id not in buttons_id:
-					button.delete()
-		else:
-			TelegramBotCommandKeyboard.objects.create(
-				telegram_bot_command=telegram_bot_command,
-				type=keyboard['type'],
-				buttons=keyboard['buttons']
-			)
-	else:
-		if telegram_bot_command_keyboard is not None:
-			telegram_bot_command_keyboard.delete()
-
-	telegram_bot_command.api_request = api_request
-	telegram_bot_command.save()
+	telegram_bot_command.update(telegram_bot_command, name, command, image, message_text, keyboard, api_request)
 
 	return JsonResponse(
 		{
@@ -295,6 +229,7 @@ def edit_telegram_bot_command(
 @telegram_bot.decorators.check_telegram_bot_command_id
 def delete_telegram_bot_command(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand) -> JsonResponse:
 	telegram_bot_command.delete()
+
 	return JsonResponse(
 		{
 			'message': _('Вы успешно удалили команду Telegram бота.'),
@@ -420,6 +355,7 @@ def delete_allowed_user(request: WSGIRequest, telegram_bot: TelegramBot, telegra
 @telegram_bot.decorators.check_telegram_bot_user_id
 def delete_telegram_bot_user(request: WSGIRequest, telegram_bot: TelegramBot, telegram_bot_user: TelegramBotUser) -> JsonResponse:
 	telegram_bot_user.delete()
+
 	return JsonResponse(
 		{
 			'message': _('Вы успешно удалили пользователя Telegram бота.'),
@@ -439,7 +375,7 @@ def save_telegram_bot_diagram_current_scale(request: WSGIRequest, telegram_bot: 
 	else:
 		telegram_bot.diagram_current_scale = 1.0
 	telegram_bot.save()
-	
+
 	return JsonResponse(
 		{
 			'message': None,
@@ -457,7 +393,7 @@ def save_telegram_bot_command_position(request: WSGIRequest, telegram_bot: Teleg
 	telegram_bot_command.x = x
 	telegram_bot_command.y = y
 	telegram_bot_command.save()
-	
+
 	return JsonResponse(
 		{
 			'message': None,
