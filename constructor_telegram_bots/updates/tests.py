@@ -22,10 +22,7 @@ class UpdatesViewsTest(BaseTestCase):
 			}
 		)
 
-		Update.objects.create(
-			title='test',
-			description='test'
-		)
+		Update.objects.create(title='test', description='test')
 
 		response = self.client.get(urls.reverse('update', kwargs={'update_id': 1}))
 		self.assertEqual(response.status_code, 200)
