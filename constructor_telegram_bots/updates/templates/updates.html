@@ -11,33 +11,13 @@
 		{% for update in updates %}
 			<div class="col">
 				<div class="list-group">
-					<a class="list-group-item list-group-item-action text-start px-4 py-3" href="#">
+					<a class="list-group-item list-group-item-action text-start px-4 py-3" href="{% url 'update' update.id %}">
 						<div class="row row-cols-1 gy-1">
 							<div class="col">
 								<div class="row row-cols-1 gx-3 gy-1">
 									<div class="col-auto">
 										<i class="bi bi-calendar-event-fill"></i>
 										{{ update.date_added }}
-									</div>
-									<div class="col-auto">
-										<i class="bi bi-eye-fill"></i>
-										{{ update.views }}
-									</div>
-									<div class="col-auto">
-										<i class="bi bi-chat-fill"></i>
-										{% if update.comments.count %}
-											{{ update.comments.count }}
-										{% else %}
-											0
-										{% endif %}
-									</div>
-									<div class="col-auto">
-										<i class="bi bi-heart-fill"></i>
-										{% if update.likes.count %}
-											{{ update.likes.count }}
-										{% else %}
-											0
-										{% endif %}
 									</div>
 								</div>
 							</div>
