@@ -5,12 +5,20 @@
 
 {% block main %}
 <div class="container my-3">
-	<div class="row justify-content-center text-center">
-		<div class="col-12 col-lg-8 my-auto">
+	<div class="row justify-content-center text-center gy-3 gx-lg-5 gy-lg-4">
+		<div class="col-12">
+			<div class="d-flex justify-content-center align-items-center">
+				<span class="text-secondary me-2">{% trans "Новое обновление:" %}</span>
+				{% with updates.first as last_update %}
+					<a class="btn btn-sm btn-warning rounded-5" href="{% url 'update' last_update.id %}"><b>{{ last_update.title }}</b></a>
+				{% endwith %}
+			</div>
+		</div>
+		<div class="col-12 col-lg-8">
 			<h1>Constructor Telegram Bots</h1>
 			<p class="lead mb-0">{% trans "Сайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний в программирование, сделать своего многофункционального Telegram бота." %}</p>
 		</div>
-		<div class="col-12 col-lg-4 mt-3 mt-lg-0">
+		<div class="col-12 col-lg-6">
 			<h3>{% trans "Информация о сайте" %}</h3>
 			<div class="w-100 mb-1">
 				<div class="rounded-5 border border-2 p-2" id="usersNumber">
@@ -24,6 +32,27 @@
 				</div>
 				<label for="telegramBotsNumber">{% trans "Количество добавленных Telegram ботов" %}</label>
 			</div>
+		</div>
+		<div class="col-12 col-lg-6">
+			<h3>{% trans "Список пожертвований" %}</h3>
+			<table class="table table-sm table-hover">
+				<thead>
+					<tr>
+						<th scope="col">{% trans "Дата" %}</th>
+						<th scope="col">Telegram</th>
+						<th scope="col">{% trans "Сумма" %}</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for donation in donations %}
+						<tr>
+							<td>{{ donation.date }}</td>
+							<td><a class="link-dark" href="{{ donation.telegram_url }}" target="_blank">{{ donation.telegram_url }}</a></td>
+							<td>{{ donation.sum }}€</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div>
