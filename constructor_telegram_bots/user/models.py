@@ -44,5 +44,5 @@ class User(AbstractBaseUser, PermissionsMixin):
 	def get_telegram_bots_as_dict(self) -> list:
 		return [telegram_bot.to_dict() for telegram_bot in self.telegram_bots.all()]
 
-	def __str__(self):
+	def __str__(self) -> str:
 		return f'{_("Пользователь")}: {self.id if self.username is None else self.username}'

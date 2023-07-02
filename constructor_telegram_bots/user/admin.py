@@ -25,7 +25,7 @@ class UserAdmin(admin.ModelAdmin):
 
 	@admin.display(description=_('Имя пользователя'))
 	def show_username(self, user: User) -> str:
-		if user.has_perm('change_user'):
+		if user.is_staff:
 			return html.format_html(f'<a href="{user.id}/change/">{user.username}<a>')
 		else:
 			return user.username
