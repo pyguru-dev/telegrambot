@@ -49,9 +49,9 @@ class TelegramBotAdmin(admin.ModelAdmin):
 
 				self.log_change(request=request, obj=telegram_bot, message=message)
 
-				messages.success(request, f'@{telegram_bot.name} {message}')
+				messages.success(request, f'@{telegram_bot.username} {message}')
 			else:
-				messages.error(request, f'@{telegram_bot.name} {_("Telegram бот уже включен!")}')
+				messages.error(request, f'@{telegram_bot.username} {_("Telegram бот уже включен!")}')
 
 	@admin.action(permissions=['change'], description=_('Выключить Telegram бота'))
 	def stop_telegram_bot_button(self, request: WSGIRequest, telegram_bots: list[TelegramBot]) -> None:
@@ -63,9 +63,9 @@ class TelegramBotAdmin(admin.ModelAdmin):
 
 				self.log_change(request=request, obj=telegram_bot, message=message)
 
-				messages.success(request, f'@{telegram_bot.name} {message}')
+				messages.success(request, f'@{telegram_bot.username} {message}')
 			else:
-				messages.error(request, f'@{telegram_bot.name} {_("Telegram бот уже выключен!")}')
+				messages.error(request, f'@{telegram_bot.username} {_("Telegram бот уже выключен!")}')
 
 	actions = [
 		start_telegram_bot_button,
