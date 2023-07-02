@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-02 02:22+0000\n"
+"POT-Creation-Date: 2023-07-02 03:43+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -48,7 +48,7 @@ msgstr "Russian"
 msgid "Ссылка на Telegram"
 msgstr "Telegram link"
 
-#: donation/admin.py:20 donation/models.py:8 home/templates/home.html:43
+#: donation/admin.py:20 donation/models.py:8 home/templates/home.html:45
 msgid "Сумма"
 msgstr "Sum"
 
@@ -56,7 +56,7 @@ msgstr "Sum"
 msgid "Пожертвования"
 msgstr "Donations"
 
-#: donation/models.py:6 home/templates/home.html:41
+#: donation/models.py:6 home/templates/home.html:43
 msgid "Дата"
 msgstr "Date"
 
@@ -189,11 +189,11 @@ msgstr "and ask him that question."
 msgid "Бесплатный конструктор Telegram ботов"
 msgstr "Free Constructor Telegram Bots"
 
-#: home/templates/home.html:11
+#: home/templates/home.html:13
 msgid "Новое обновление:"
 msgstr "New update:"
 
-#: home/templates/home.html:19 templates/base.html:13
+#: home/templates/home.html:21 templates/base.html:13
 msgid ""
 "Сайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний "
 "в программирование, сделать своего многофункционального Telegram бота."
@@ -201,19 +201,19 @@ msgstr ""
 "A site with which you can easily, for free and without any knowledge into "
 "programming, to make your multifunctional Telegram bot."
 
-#: home/templates/home.html:22
+#: home/templates/home.html:24
 msgid "Информация о сайте"
 msgstr "Information about the site"
 
-#: home/templates/home.html:27
+#: home/templates/home.html:29
 msgid "Количество пользователей"
 msgstr "Number of users"
 
-#: home/templates/home.html:33
+#: home/templates/home.html:35
 msgid "Количество добавленных Telegram ботов"
 msgstr "Number of added Telegram bots"
 
-#: home/templates/home.html:37
+#: home/templates/home.html:39
 msgid "Список пожертвований"
 msgstr "Donation list"
 
@@ -288,13 +288,13 @@ msgstr "API-token"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:49
 #: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:48
-#: telegram_bot/admin.py:35
+#: telegram_bot/admin.py:38
 msgid "Количество активаций"
 msgstr "Number of activations"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:50
 #: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:52
-#: telegram_bot/admin.py:31
+#: telegram_bot/admin.py:34
 msgid "Количество команд"
 msgstr "Number of commands"
 
@@ -351,13 +351,13 @@ msgstr "You have successfully disabled the Telegram bot."
 
 #: personal_cabinet/templates/telegram_bot_menu/main.html:68
 #: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:67
-#: telegram_bot/admin.py:39
+#: telegram_bot/admin.py:42
 msgid "Включить Telegram бота"
 msgstr "Enable the Telegram bot"
 
 #: personal_cabinet/templates/telegram_bot_menu/main.html:69
 #: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:67
-#: telegram_bot/admin.py:53
+#: telegram_bot/admin.py:56
 msgid "Выключить Telegram бота"
 msgstr "Disable the Telegram bot"
 
@@ -504,6 +504,7 @@ msgstr "Add a button"
 
 #: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:59
 #: personal_cabinet/templates/telegram_bot_menu/telegram_bot_command.html:72
+#: telegram_bot/models.py:65
 msgid "API-запрос"
 msgstr "API-request"
 
@@ -742,21 +743,25 @@ msgid "Члены команды"
 msgstr "Team members"
 
 #: team/templates/team.html:5 team/templates/team.html:14
-#: templates/navbar.html:19
+#: telegram_bot/models.py:62 templates/navbar.html:19
 msgid "Команда"
 msgstr "Team"
 
-#: telegram_bot/admin.py:45
+#: telegram_bot/admin.py:48
 msgid "Telegram бот успешно включен."
 msgstr "The Telegram bot is successfully enabled"
 
-#: telegram_bot/admin.py:59
+#: telegram_bot/admin.py:62
 msgid "Telegram бот успешно выключен."
 msgstr "The Telegram bot is successfully disabled"
 
-#: telegram_bot/apps.py:9 telegram_bot/models.py:34
-msgid "Telegram боты"
-msgstr "Telegram bots"
+#: telegram_bot/admin.py:96 telegram_bot/models.py:61
+msgid "Название"
+msgstr "Name"
+
+#: telegram_bot/apps.py:9
+msgid "Telegram боты и команды"
+msgstr "Telegram bots and commands"
 
 #: telegram_bot/decorators.py:22
 msgid "Введите API-токен Telegram бота!"
@@ -830,6 +835,34 @@ msgstr "Enabled"
 #: telegram_bot/models.py:33
 msgid "Telegram бота"
 msgstr "Telegram bot"
+
+#: telegram_bot/models.py:34
+msgid "Telegram боты"
+msgstr "Telegram bots"
+
+#: telegram_bot/models.py:59
+msgid "Telegram бот"
+msgstr "Telegram bot"
+
+#: telegram_bot/models.py:64
+msgid "Текст сообщения"
+msgstr "Message text"
+
+#: telegram_bot/models.py:67
+msgid "Координата X"
+msgstr "Coordinate X"
+
+#: telegram_bot/models.py:68
+msgid "Координата Y"
+msgstr "Coordinate Y"
+
+#: telegram_bot/models.py:75
+msgid "Команда Telegram бота"
+msgstr "Telegram bot command"
+
+#: telegram_bot/models.py:76
+msgid "Команды Telegram ботов"
+msgstr "Telegram bots commands"
 
 #: telegram_bot/views.py:41
 msgid "Вы успешно добавили Telegram бота."
