@@ -6,14 +6,16 @@
 {% block main %}
 <div class="container my-3">
 	<div class="row justify-content-center text-center gy-3 gx-lg-5 gy-lg-4">
-		<div class="col-12">
-			<div class="d-flex justify-content-center align-items-center">
-				<span class="text-secondary me-2">{% trans "Новое обновление:" %}</span>
-				{% with updates.first as last_update %}
-					<a class="btn btn-sm btn-warning rounded-5" href="{% url 'update' last_update.id %}"><b>{{ last_update.title }}</b></a>
-				{% endwith %}
-			</div>
-		</div>
+		{% with updates.first as last_update %}
+			{% if last_update %}
+				<div class="col-12">
+					<div class="d-flex justify-content-center align-items-center">
+						<span class="text-secondary me-2">{% trans "Новое обновление:" %}</span>
+						<a class="btn btn-sm btn-warning rounded-5" href="{% url 'update' last_update.id %}"><b>{{ last_update.title }}</b></a>
+					</div>
+				</div>
+			{% endif %}
+		{% endwith %}
 		<div class="col-12 col-lg-8">
 			<h1>Constructor Telegram Bots</h1>
 			<p class="lead mb-0">{% trans "Сайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний в программирование, сделать своего многофункционального Telegram бота." %}</p>
