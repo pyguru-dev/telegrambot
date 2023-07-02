@@ -13,3 +13,7 @@ class TeamMember(models.Model):
 
 		verbose_name = _('Члена команды')
 		verbose_name_plural = _('Члены команды')
+
+	def delete(self) -> None:
+		self.image.delete(save=False)
+		return super().delete()

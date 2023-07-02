@@ -3,7 +3,10 @@ from django.utils.translation import gettext_lazy as _
 from django.core.handlers.wsgi import WSGIRequest
 from django.utils import html
 
-from telegram_bot.models import TelegramBot
+from ckeditor.widgets import CKEditorWidget
+
+from django.db import models
+from telegram_bot.models import TelegramBot, TelegramBotCommand
 
 from telegram_bot.services import tasks
 
@@ -71,3 +74,25 @@ class TelegramBotAdmin(admin.ModelAdmin):
 
 	def has_add_permission(self, request: WSGIRequest, obj: None=None) -> bool:
 		return False
+
+
+@admin.register(TelegramBotCommand)
+class TelegramBotCommandAdmin(admin.ModelAdmin):
+	list_display = ('telegram_bot', 'show_name')
+	list_display_links = None
+
+	fields = (
+		'telegram_bot',
+		'name',
+		'command',
+		'image',
+		'message_text',
+		'api_request',
+		'x',
+		'y'
+	)
+	formfield_overrides = {models.TextField: {'widget': CKEditorWidget}}
+
+	@admin.display(description=_('Название'))
+	def show_name(self, telegram_bot_command: TelegramBotCommand):
+		return html.format_html(f'<a href="{telegram_bot_command.id}/change/">{telegram_bot_command.name}<a>')

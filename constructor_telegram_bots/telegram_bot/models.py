@@ -56,21 +56,24 @@ class TelegramBot(models.Model):
 
 
 class TelegramBotCommand(models.Model):
-	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, related_name='commands', null=True)
+	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, related_name='commands', null=True, verbose_name=_('Telegram бот'))
 
-	name = models.CharField(max_length=255)
-	command = models.CharField(max_length=32, null=True)
-	image = models.ImageField(upload_to='static/images/commands/', null=True)
-	message_text = models.TextField(max_length=4096)
-	api_request = models.JSONField(null=True)
+	name = models.CharField(_('Название'), max_length=255)
+	command = models.CharField(_('Команда'), max_length=32, blank=True, null=True)
+	image = models.ImageField(upload_to='static/images/commands/', blank=True, null=True)
+	message_text = models.TextField(_('Текст сообщения'), max_length=4096)
+	api_request = models.JSONField(_('API-запрос'), blank=True, null=True)
 
-	x =	models.IntegerField(default=0)
-	y = models.IntegerField(default=0)
+	x =	models.IntegerField(_('Координата X'), default=0)
+	y = models.IntegerField(_('Координата Y'), default=0)
 
 	objects = TelegramBotCommandManager()
 
 	class Meta:
 		db_table = 'telegram_bot_command'
+
+		verbose_name = _('Команда Telegram бота')
+		verbose_name_plural = _('Команды Telegram ботов')
 
 	def get_keyboard(self) -> Union['TelegramBotCommandKeyboard', None]:
 		try:
@@ -176,6 +179,9 @@ class TelegramBotCommand(models.Model):
 	def delete(self) -> None:
 		self.image.delete(save=False)
 		return super().delete()
+
+	def __str__(self) -> str:
+		return f'Команда {self.name} @{self.telegram_bot.username} {_("Telegram бота")}'
 
 
 class TelegramBotCommandKeyboard(models.Model):
