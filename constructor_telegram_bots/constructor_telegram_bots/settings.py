@@ -87,7 +87,8 @@ TEMPLATES = [
 				'constructor_telegram_bots.context_processors.add_constructor_telegram_bot_username',
 				'team.context_processors.team_members',
 				'updates.context_processors.updates',
-				'instruction.context_processors.instruction_sections'
+				'instruction.context_processors.instruction_sections',
+				'donation.context_processors.donations',
 			],
 		},
 	}

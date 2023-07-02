@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-02 00:46+0000\n"
+"POT-Creation-Date: 2023-07-02 02:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,20 +32,36 @@ msgstr "The request body has the wrong data type!"
 msgid "В тело запроса переданы не все данные!"
 msgstr "The request body has not all required data!"
 
-#: constructor_telegram_bots/settings.py:119
+#: constructor_telegram_bots/settings.py:120
 msgid "Английский"
 msgstr "English"
 
-#: constructor_telegram_bots/settings.py:120
+#: constructor_telegram_bots/settings.py:121
 msgid "Украинский"
 msgstr "Ukrainian"
 
-#: constructor_telegram_bots/settings.py:121
+#: constructor_telegram_bots/settings.py:122
 msgid "Русский"
 msgstr "Russian"
 
-#: donation/templates/base_donation.html:4
-#: donation/templates/base_donation.html:8 templates/navbar.html:31
+#: donation/admin.py:16 donation/models.py:7
+msgid "Ссылка на Telegram"
+msgstr "Telegram link"
+
+#: donation/admin.py:20 donation/models.py:8 home/templates/home.html:43
+msgid "Сумма"
+msgstr "Sum"
+
+#: donation/apps.py:7 donation/models.py:14
+msgid "Пожертвования"
+msgstr "Donations"
+
+#: donation/models.py:6 home/templates/home.html:41
+msgid "Дата"
+msgstr "Date"
+
+#: donation/models.py:13 donation/templates/base_donation.html:4
+#: templates/navbar.html:31
 msgid "Пожертвование"
 msgstr "Donation"
 
@@ -173,7 +189,11 @@ msgstr "and ask him that question."
 msgid "Бесплатный конструктор Telegram ботов"
 msgstr "Free Constructor Telegram Bots"
 
-#: home/templates/home.html:11 templates/base.html:13
+#: home/templates/home.html:11
+msgid "Новое обновление:"
+msgstr "New update:"
+
+#: home/templates/home.html:19 templates/base.html:13
 msgid ""
 "Сайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний "
 "в программирование, сделать своего многофункционального Telegram бота."
@@ -181,17 +201,21 @@ msgstr ""
 "A site with which you can easily, for free and without any knowledge into "
 "programming, to make your multifunctional Telegram bot."
 
-#: home/templates/home.html:14
+#: home/templates/home.html:22
 msgid "Информация о сайте"
 msgstr "Information about the site"
 
-#: home/templates/home.html:19
+#: home/templates/home.html:27
 msgid "Количество пользователей"
 msgstr "Number of users"
 
-#: home/templates/home.html:25
+#: home/templates/home.html:33
 msgid "Количество добавленных Telegram ботов"
 msgstr "Number of added Telegram bots"
+
+#: home/templates/home.html:37
+msgid "Список пожертвований"
+msgstr "Donation list"
 
 #: instruction/admin.py:22 instruction/models.py:7 updates/models.py:7
 msgid "Заголовок"
@@ -520,32 +544,31 @@ msgid "Список пользователей Telegram бота"
 msgstr "List of Telegram bot users"
 
 #: privacy_policy/templates/privacy_policy.html:4
-#: privacy_policy/templates/privacy_policy.html:8
 msgid "Политика конфиденциальности"
 msgstr "Privacy policy"
 
-#: privacy_policy/templates/privacy_policy.html:11
+#: privacy_policy/templates/privacy_policy.html:10
 msgid "Политика конфиденциальности сайта"
 msgstr "Privacy policy the site"
 
-#: privacy_policy/templates/privacy_policy.html:12
+#: privacy_policy/templates/privacy_policy.html:11
 msgid "Пожалуйста, внимательно прочитайте и изучите данную"
 msgstr "Please read and study the"
 
-#: privacy_policy/templates/privacy_policy.html:12
+#: privacy_policy/templates/privacy_policy.html:11
 msgid "политику конфиденциальности"
 msgstr "privacy policy"
 
-#: privacy_policy/templates/privacy_policy.html:12
+#: privacy_policy/templates/privacy_policy.html:11
 msgid "перед использованием сайта."
 msgstr "before using the site."
 
-#: privacy_policy/templates/privacy_policy.html:15
+#: privacy_policy/templates/privacy_policy.html:14
 msgid ""
 "Согласие на сбор, хранение и использование персональных данных пользователя"
 msgstr "Consent to the collection, storage and use of personal user data"
 
-#: privacy_policy/templates/privacy_policy.html:16
+#: privacy_policy/templates/privacy_policy.html:15
 msgid ""
 "Используя наш сайт, а именно после первой авторизации на сайте, вы даёте нам "
 "своё согласие на сбор, хранение и использование ваших персональных данных, "
@@ -555,39 +578,39 @@ msgstr ""
 "give us your consent to the collection, storage and use of your personal "
 "data, as described in this"
 
-#: privacy_policy/templates/privacy_policy.html:16
+#: privacy_policy/templates/privacy_policy.html:15
 msgid "политике конфиденциальности"
 msgstr "privacy policy"
 
-#: privacy_policy/templates/privacy_policy.html:19
+#: privacy_policy/templates/privacy_policy.html:18
 msgid "Сбор, хранение и использование персональных данных пользователя"
 msgstr "Collection, storage and use of personal user data"
 
-#: privacy_policy/templates/privacy_policy.html:21
+#: privacy_policy/templates/privacy_policy.html:20
 msgid "Cайт собирает и хранит следующие персональные данные пользователя"
 msgstr "The site collects and stores the following personal data of the user"
 
-#: privacy_policy/templates/privacy_policy.html:22
+#: privacy_policy/templates/privacy_policy.html:21
 msgid "Telegram ID пользователя"
 msgstr "Telegram ID user"
 
-#: privacy_policy/templates/privacy_policy.html:22
+#: privacy_policy/templates/privacy_policy.html:21
 msgid ""
 "является уникальным числовым идентификатором, присвоенным каждому "
 "пользователю в Telegram."
 msgstr "is a unique numeric identifier assigned to each to a user on Telegram."
 
-#: privacy_policy/templates/privacy_policy.html:23
+#: privacy_policy/templates/privacy_policy.html:22
 msgid "API-токены Telegram ботов"
 msgstr "Telegram bots API-tokens"
 
-#: privacy_policy/templates/privacy_policy.html:23
+#: privacy_policy/templates/privacy_policy.html:22
 msgid ""
 "представляют собой уникальные ключи доступа, которые выдаются при создании "
 "Telegram бота."
 msgstr "are unique access keys that are issued when you createTelegram bot."
 
-#: privacy_policy/templates/privacy_policy.html:25
+#: privacy_policy/templates/privacy_policy.html:24
 msgid ""
 "Эти данные используются исключительно для добавления и поддержки ваших "
 "Telegram ботов, которых вы добавляете через наш сайт. Мы не продаем, не "
@@ -597,11 +620,11 @@ msgstr ""
 "through our site. We don't sell, we don't we rent out and do not share this "
 "data with third parties."
 
-#: privacy_policy/templates/privacy_policy.html:28
+#: privacy_policy/templates/privacy_policy.html:27
 msgid "Безопасность персональных данных пользователя"
 msgstr "Security of user personal data"
 
-#: privacy_policy/templates/privacy_policy.html:29
+#: privacy_policy/templates/privacy_policy.html:28
 msgid ""
 "Мы предпринимаем все необходимые меры для защиты ваших персональных данных, "
 "хранящихся на нашем сайте, а именно"
@@ -609,62 +632,62 @@ msgstr ""
 "We take all necessary measures to protect your personal data, stored on our "
 "site, namely"
 
-#: privacy_policy/templates/privacy_policy.html:29
+#: privacy_policy/templates/privacy_policy.html:28
 msgid "защита от атак CSRF"
 msgstr "protection against CSRF attacks"
 
-#: privacy_policy/templates/privacy_policy.html:29
+#: privacy_policy/templates/privacy_policy.html:28
 msgid "защита от SQL-инъекций"
 msgstr "SQL injection protection"
 
-#: privacy_policy/templates/privacy_policy.html:29
+#: privacy_policy/templates/privacy_policy.html:28
 msgid "защита от утечек информации"
 msgstr "data leakage protection"
 
-#: privacy_policy/templates/privacy_policy.html:29
+#: privacy_policy/templates/privacy_policy.html:28
 msgid "защита от переполнения буфера"
 msgstr "buffer overflow protection"
 
-#: privacy_policy/templates/privacy_policy.html:29
+#: privacy_policy/templates/privacy_policy.html:28
 msgid "и"
 msgstr "and"
 
-#: privacy_policy/templates/privacy_policy.html:29
+#: privacy_policy/templates/privacy_policy.html:28
 msgid "защита от скрытых уязвимостей"
 msgstr "Protection against hidden vulnerabilities"
 
-#: privacy_policy/templates/privacy_policy.html:29
+#: privacy_policy/templates/privacy_policy.html:28
 msgid ""
 "Мы также удаляем персональные данные пользователя, если они становятся "
 "ненужными."
 msgstr "We also delete the user personal data if it becomes unnecessary."
 
-#: privacy_policy/templates/privacy_policy.html:32
+#: privacy_policy/templates/privacy_policy.html:31
 msgid "Использование файлов cookie"
 msgstr "Using cookies"
 
-#: privacy_policy/templates/privacy_policy.html:34
+#: privacy_policy/templates/privacy_policy.html:33
 msgid "Cайт использует следующие"
 msgstr "The site uses the following"
 
-#: privacy_policy/templates/privacy_policy.html:34
+#: privacy_policy/templates/privacy_policy.html:33
 msgid "файлы cookie"
 msgstr "cookies"
 
-#: privacy_policy/templates/privacy_policy.html:35
+#: privacy_policy/templates/privacy_policy.html:34
 msgid ""
 "представляет собой защитную меру против атак подделки межсайтовых запросов."
 msgstr "is a protective measure against cross-site request forgery attacks."
 
-#: privacy_policy/templates/privacy_policy.html:36
+#: privacy_policy/templates/privacy_policy.html:35
 msgid "используется для отслеживания состояния сеанса пользователя на сайте."
 msgstr "is used to track the status of the user's session on the site."
 
-#: privacy_policy/templates/privacy_policy.html:38
+#: privacy_policy/templates/privacy_policy.html:37
 msgid "Файлы cookie"
 msgstr "Cookies"
 
-#: privacy_policy/templates/privacy_policy.html:38
+#: privacy_policy/templates/privacy_policy.html:37
 msgid ""
 "используются для улучшения вашего опыта использования сайта и обеспечения "
 "его безопасности."
@@ -672,11 +695,11 @@ msgstr ""
 "are used to improve your experience of using the site and to ensure his "
 "safety."
 
-#: privacy_policy/templates/privacy_policy.html:41
+#: privacy_policy/templates/privacy_policy.html:40
 msgid "Доступ к персональным данным пользователя"
 msgstr "Access to personal user data"
 
-#: privacy_policy/templates/privacy_policy.html:42
+#: privacy_policy/templates/privacy_policy.html:41
 msgid ""
 "Если вы хотите получить доступ к вашим персональным данным, хранящимся на "
 "нашем сайте, напишите нам по адресу"
@@ -684,16 +707,16 @@ msgstr ""
 "If you want to access your personal data stored on the site, write to at the "
 "address"
 
-#: privacy_policy/templates/privacy_policy.html:42
-#: privacy_policy/templates/privacy_policy.html:46
+#: privacy_policy/templates/privacy_policy.html:41
+#: privacy_policy/templates/privacy_policy.html:45
 msgid "или основателю сайта в"
 msgstr "or to the founder of the site at"
 
-#: privacy_policy/templates/privacy_policy.html:45
+#: privacy_policy/templates/privacy_policy.html:44
 msgid "Обратная связь"
 msgstr "Feedback"
 
-#: privacy_policy/templates/privacy_policy.html:46
+#: privacy_policy/templates/privacy_policy.html:45
 msgid ""
 "Если у вас возникли вопросы или проблемы, связанные с использованием нашего "
 "сайта или обработкой ваших персональных данных, пожалуйста, напишите нам по "
