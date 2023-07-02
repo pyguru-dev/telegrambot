@@ -118,21 +118,32 @@ def check_message_text(func):
 	@wraps(func)
 	async def wrapper(*args, **kwargs):
 		message: types.Message = kwargs['message']
+		callback_query: Union[types.CallbackQuery, None] = kwargs['callback_query']
 		telegram_bot_command: TelegramBotCommand = kwargs['telegram_bot_command']
 
-		variables = {
-			'user_id': message.from_user.id,
-			'user_username': message.from_user.username,
-			'user_first_name': message.from_user.first_name,
-			'user_last_name': message.from_user.last_name,
-			'user_message_id': message.message_id,
-			'user_message_text': message.text,
-		}
+		if not callback_query:
+			variables = {
+				'user_id': message.from_user.id,
+				'user_username': message.from_user.username,
+				'user_first_name': message.from_user.first_name,
+				'user_last_name': message.from_user.last_name,
+				'user_message_id': message.message_id,
+				'user_message_text': message.text,
+			}
+		else:
+			variables = {
+				'user_id': callback_query.from_user.id,
+				'user_username': callback_query.from_user.username,
+				'user_first_name': callback_query.from_user.first_name,
+				'user_last_name': callback_query.from_user.last_name,
+				'user_message_id': message.message_id,
+				'user_message_text': message.text,
+			}
 
 		if telegram_bot_command.api_request:
 			async with aiohttp.ClientSession() as session:
-				url: str = await functions.replace_text_variables(message, telegram_bot_command.api_request['url'], variables)
-				data: str = await functions.replace_text_variables(message, telegram_bot_command.api_request['data'], variables)
+				url: str = await functions.replace_text_variables(telegram_bot_command.api_request['url'], variables)
+				data: str = await functions.replace_text_variables(telegram_bot_command.api_request['data'], variables)
 
 				async with session.post(url, data=data) as response:
 					try:
@@ -142,7 +153,7 @@ def check_message_text(func):
 					except aiohttp.client_exceptions.ContentTypeError:
 						variables.update({'api_response': 'API-request return not JSON!'})
 
-		message_text: str = await functions.replace_text_variables(message, telegram_bot_command.message_text, variables)
+		message_text: str = await functions.replace_text_variables(telegram_bot_command.message_text, variables)
 
 		if len(message_text) > 4096:
 			message_text = 'The message text must contain no more than 4096 characters!'

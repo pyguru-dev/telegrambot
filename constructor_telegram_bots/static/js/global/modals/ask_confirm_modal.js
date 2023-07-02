@@ -12,10 +12,14 @@
 		askConfirm.title.innerHTML = title;
 		askConfirm.text.innerHTML = text;
 
-		askConfirm.button.addEventListener('click', function() {
+		if (askConfirm.button.onclick) {
+			askConfirm.button.removeEventListener('click', askConfirm.button.onclick);
+		}
+
+		askConfirm.button.onclick = function() {
 			askConfirm.modal.toggle();
 			func();
-		});
+		}
 
 		askConfirm.modal.toggle();
 	}

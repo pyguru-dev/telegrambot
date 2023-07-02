@@ -47,10 +47,10 @@
 
 		setTimeout((alertDiv) => {
 			alertDiv.classList.add('show');
-			
+
 			setTimeout((alertDiv) => {
 				alertDiv.classList.remove('show');
-				
+
 				setTimeout((alertDiv) => {
 					alertDiv.remove();
 

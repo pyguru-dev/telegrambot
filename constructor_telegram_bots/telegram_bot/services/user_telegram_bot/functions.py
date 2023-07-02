@@ -32,7 +32,7 @@ async def search_telegram_bot_command(
 					):
 						return await sync_to_async(telegram_bot_command_keyboard_button.get_command)()
 
-async def replace_text_variables(message: types.Message, text: str, variables: dict) -> str:
+async def replace_text_variables(text: str, variables: dict) -> str:
 	try:
 		jinja2_env = jinja2.Environment(enable_async=True)
 		jinja2_template: jinja2.Template = jinja2_env.from_string(text)

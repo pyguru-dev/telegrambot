@@ -309,8 +309,8 @@
 				diagramKeyboardButton.style.bottom = `-${diagramKeyboardButtonPosition}px`;
 				diagramKeyboardButton.innerHTML = [
 					`${telegramBotCommandKeyboardButton['text']}`,
-					`<div class="diagram-connector diagram-connector-left" id="${telegramBotCommand['id']}:left:${telegramBotCommandKeyboardButton['id']}"></div>`,
-					`<div class="diagram-connector diagram-connector-right" id="${telegramBotCommand['id']}:right:${telegramBotCommandKeyboardButton['id']}"></div>`,
+					`<div class="diagram-connector diagram-connector-left${(telegramBotCommandKeyboardButton['url'] != null) ? ' d-none' : ''}" id="${telegramBotCommand['id']}:left:${telegramBotCommandKeyboardButton['id']}"></div>`,
+					`<div class="diagram-connector diagram-connector-right${(telegramBotCommandKeyboardButton['url'] != null) ? ' d-none' : ''}" id="${telegramBotCommand['id']}:right:${telegramBotCommandKeyboardButton['id']}"></div>`,
 				].join('');
 				diagramBlock.append(diagramKeyboardButton);
 

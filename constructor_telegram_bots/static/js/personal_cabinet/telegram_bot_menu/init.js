@@ -75,11 +75,11 @@ var intervalUpdateUsersId;
 											}
 
 											updateTelegramBotCommands();
-
-											response.json().then(jsonResponse => {
-												createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
-											});
 										}
+
+										response.json().then(jsonResponse => {
+											createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+										});
 									});
 								}
 							);
