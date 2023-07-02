@@ -2,17 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 	<url>
 		<loc>https://constructor.exg1o.org/</loc>
-		<lastmod>2023-06-25</lastmod>
+		<lastmod>2023-07-02</lastmod>
 		<priority>1.0</priority>
 	</url>
 	<url>
+		<loc>https://constructor.exg1o.org/team/</loc>
+		<lastmod>2023-07-02</lastmod>
+		<priority>0.8</priority>
+	</url>
+	<url>
+		<loc>https://constructor.exg1o.org/updates/</loc>
+		<lastmod>2023-07-02</lastmod>
+		<priority>0.8</priority>
+	</url>
+	<url>
+		<loc>https://constructor.exg1o.org/instruction/</loc>
+		<lastmod>2023-07-02</lastmod>
+		<priority>0.8</priority>
+	</url>
+	<url>
 		<loc>https://constructor.exg1o.org/donation/</loc>
-		<lastmod>2023-06-25</lastmod>
+		<lastmod>2023-07-02</lastmod>
 		<priority>0.8</priority>
 	</url>
 	<url>
 		<loc>https://constructor.exg1o.org/privacy-policy/</loc>
-		<lastmod>2023-06-25</lastmod>
+		<lastmod>2023-07-02</lastmod>
 		<priority>0.8</priority>
 	</url>
 </urlset>

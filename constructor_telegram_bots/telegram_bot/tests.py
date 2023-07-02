@@ -1,6 +1,7 @@
 from constructor_telegram_bots.tests import BaseTestCase
 
 from django import urls
+from django.template import defaultfilters as filters
 
 from telegram_bot.models import TelegramBot
 
@@ -31,7 +32,7 @@ class TelegramBotModelsTest(BaseTestCase):
 						'buttons': [
 							{
 								'id': 1,
-								
+
 								'row': None,
 
 								'text': '1',
@@ -71,7 +72,7 @@ class TelegramBotModelsTest(BaseTestCase):
 					'user_id': 123456789,
 					'full_name': 'Test A',
 					'is_allowed': False,
-					'date_activated': self.telegram_bot_user.date_activated,
+					'date_activated': f'{filters.date(self.telegram_bot_user.date_activated)} {filters.time(self.telegram_bot_user.date_activated)}',
 				},
 			]
 		)
@@ -86,7 +87,7 @@ class TelegramBotModelsTest(BaseTestCase):
 				'is_stopped': True,
 				'commands_count': 1,
 				'users_count': 1,
-				'date_added': self.telegram_bot.date_added,
+				'date_added': f'{filters.date(self.telegram_bot.date_added)} {filters.time(self.telegram_bot.date_added)}',
 			}
 		)
 
@@ -128,7 +129,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -172,7 +173,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -206,7 +207,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -227,7 +228,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -246,7 +247,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				'response': self.telegram_bot.to_dict(),
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -334,7 +335,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -428,7 +429,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -456,7 +457,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -482,7 +483,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				'response': self.telegram_bot_command.to_dict(),
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -511,7 +512,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -539,7 +540,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -567,7 +568,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -598,7 +599,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -637,7 +638,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -656,7 +657,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				'response': self.telegram_bot.get_commands_as_dict(),
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)
 
@@ -674,6 +675,6 @@ class TelegramBotViewsTest(BaseTestCase):
 				'response': self.telegram_bot.get_users_as_dict(),
 			},
 		]
-		
+
 		self.assertUnauthorizedAccess(tests[-1]['url'])
 		self.assertTests(tests)

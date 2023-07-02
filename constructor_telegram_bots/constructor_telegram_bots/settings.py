@@ -2,8 +2,8 @@ from django.utils.translation import gettext_lazy as _
 
 from constructor_telegram_bots.functions import generate_random_string
 
-from pathlib import Path
 from dotenv import load_dotenv
+from pathlib import Path
 import sys
 import os
 
@@ -13,21 +13,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv()
 
-SECRET_KEY = os.getenv('SECRET_KEY')
-DEBUG = DEBUG = os.getenv('DEBUG', 'False') == 'True'
+SECRET_KEY = os.getenv('SECRET_KEY', f"django-insecure-{generate_random_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}")
+DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
-if SECRET_KEY is None:
-	SECRET_KEY = f"django-insecure-{generate_random_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}"
-
-if DEBUG is None:
-	DEBUG = True
-
-if sys.argv[0] == 'manage.py':
-	if sys.argv[1] == 'test':
-		TEST = True
-	else:
-		TEST = False
-else:
+try:
+	TEST = sys.argv[0] == 'manage.py' and sys.argv[1] == 'test'
+except:
 	TEST = False
 
 CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
@@ -46,6 +37,9 @@ CELERY_TASK_SERIALIZER = 'json'
 
 
 INSTALLED_APPS = [
+	'modeltranslation',
+	'ckeditor',
+
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
@@ -57,6 +51,9 @@ INSTALLED_APPS = [
 	'telegram_bot',
 
 	'home',
+	'team',
+	'updates',
+	'instruction',
 	'donation',
 	'personal_cabinet',
 	'privacy_policy',
@@ -86,7 +83,12 @@ TEMPLATES = [
 				'django.template.context_processors.request',
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
+
 				'constructor_telegram_bots.context_processors.add_constructor_telegram_bot_username',
+				'team.context_processors.team_members',
+				'updates.context_processors.updates',
+				'instruction.context_processors.instruction_sections',
+				'donation.context_processors.donations',
 			],
 		},
 	}

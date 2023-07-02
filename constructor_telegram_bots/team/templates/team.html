@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Команда" %}{% endblock title %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'css/team/team_members.css' %}">
+{% endblock styles %}
+
+{% block main %}
+<div class="container text-center my-3 my-lg-4">
+	<h1 class="fw-bold mb-3 mb-lg-4">{% trans "Команда" %}</h1>
+	<div class="row row-cols-1 row-cols-lg-4 justify-content-center g-5">
+		{% for team_member in team_members %}
+			<div class="col">
+				<div class="row row-cols-1 g-1">
+					<div class="col">
+						<img class="border team-member-image" src="/{{ team_member.image }}">
+					</div>
+					<div class="col">
+						<h5 class="fw-bold mb-1">
+							@<a class="link-dark" href="tg://resolve?domain={{ team_member.username }}">{{ team_member.username }}</a>
+						</h5>
+					</div>
+					<div class="col">{{ team_member.speciality }}</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+</div>
+{% endblock main %}

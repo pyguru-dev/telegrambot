@@ -13,7 +13,7 @@ from telegram_bot.models import (
 class BaseTestCase(TestCase):
 	def setUp(self) -> None:
 		self.client = Client(enforce_csrf_checks=True)
-		
+
 		self.user: User = User.objects.create_user(user_id=123456789)
 		self.telegram_bot: TelegramBot = TelegramBot.objects.create(
 			owner=self.user,

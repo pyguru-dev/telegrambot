@@ -1,4 +1,4 @@
-function showTelegramBots() {
+function updateTelegramBots() {
 	fetch(getTelegramBotsUrl, {
 		method: 'POST',
 	}).then(response => {
@@ -71,4 +71,4 @@ function showTelegramBots() {
 	});
 }
 
-showTelegramBots();
+updateTelegramBots();

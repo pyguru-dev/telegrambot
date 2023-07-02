@@ -2,11 +2,12 @@ from celery import shared_task
 
 from telegram_bot.models import TelegramBot
 
-from telegram_bots import ConstructorTelegramBot
-from telegram_bots import UserTelegramBot
+from telegram_bot.services import ConstructorTelegramBot
+from telegram_bot.services import UserTelegramBot
 
 from threading import Thread
 from typing import Union
+from sys import platform
 
 
 @shared_task
@@ -40,4 +41,7 @@ def start_all_telegram_bots() -> None:
 
 	for telegram_bot in TelegramBot.objects.all():
 		if telegram_bot.is_running:
-			start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
+			if platform == 'win32':
+				start_telegram_bot(telegram_bot_id=telegram_bot.id)
+			else:
+				start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)

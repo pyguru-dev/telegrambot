@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Обновления" %}{% endblock title %}
+
+{% block main %}
+<div class="container text-center my-3 my-lg-4">
+	<h1 class="fw-bold mb-3 mb-lg-4">{% trans "Обновления" %}</h1>
+	<div class="list-group">
+		{% for update in updates %}
+			<a class="list-group-item list-group-item-action text-start px-4 py-3" href="{% url 'update' update.id %}">
+				<div class="row row-cols-1 gy-1">
+					<div class="col">
+						<div class="row row-cols-1 gx-3 gy-1">
+							<div class="col-auto">
+								<i class="bi bi-calendar-event-fill"></i>
+								{{ update.date_added }}
+							</div>
+						</div>
+					</div>
+					<div class="col">
+						<h3 class="mb-0">{{ update.title }}</h3>
+					</div>
+				</div>
+			</a>
+		{% endfor %}
+	</div>
+</div>
+{% endblock main %}

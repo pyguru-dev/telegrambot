@@ -1,5 +1,4 @@
 from django.db import models
-
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from user.models import User
@@ -18,7 +17,7 @@ class TelegramBotManager(models.Manager):
 		is_private: bool,
 		**extra_fields
 	) -> 'TelegramBotModels.TelegramBot':
-		username: str = check_telegram_bot_api_token(api_token=api_token)
+		username: str = check_telegram_bot_api_token(api_token)
 
 		return super().create(
 			owner=owner,
@@ -54,7 +53,7 @@ class TelegramBotCommandManager(models.Manager):
 			**extra_fields
 		)
 
-		if keyboard is not None:
+		if keyboard:
 			TelegramBotModels.TelegramBotCommandKeyboard.objects.create(
 				telegram_bot_command=telegram_bot_command,
 				type=keyboard['type'],

@@ -1,9 +1,7 @@
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import JsonResponse
-
-from django.utils.translation import gettext as _
-
 from django.core.exceptions import RequestDataTooBig
+from django.http import JsonResponse
+from django.utils.translation import gettext as _
 
 from functools import wraps
 import json
@@ -33,7 +31,7 @@ def check_post_request_data_items(needed_request_data: dict):
 					continue
 
 				if key in needed_request_data:
-					if isinstance(value, needed_request_data[key]) is False:
+					if not isinstance(value, needed_request_data[key]):
 						return JsonResponse(
 							{
 								'message': _('В тело запроса передан неверный тип данных!'),
