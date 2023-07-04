@@ -27,6 +27,12 @@ CONSTRUCTOR_TELEGRAM_BOT_USERNAME = os.getenv('TELEGRAM_BOT_USERNAME')
 
 SITE_DOMAIN = 'http://127.0.0.1:8000/' if DEBUG else 'https://constructor.exg1o.org/'
 ALLOWED_HOSTS = ['127.0.0.1', 'constructor.exg1o.org']
+CSRF_TRUSTED_ORIGINS = [
+	'http://*.127.0.0.1',
+	'https://*.127.0.0.1',
+	'http://constructor.exg1o.org',
+	'https://constructor.exg1o.org',
+]
 
 
 CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
