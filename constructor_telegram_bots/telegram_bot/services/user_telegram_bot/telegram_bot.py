@@ -43,12 +43,22 @@ class UserTelegramBot:
 				reply_markup=telegram_keyboard
 			)
 		else:
-			await self.dispatcher.bot.send_photo(
-				chat_id=message.chat.id,
-				photo=types.InputFile(telegram_bot_command.image.path),
-				caption=message_text,
-				reply_markup=telegram_keyboard
-			)
+			try:
+				await self.dispatcher.bot.send_photo(
+					chat_id=message.chat.id,
+					photo=types.InputFile(telegram_bot_command.image.path),
+					caption=message_text,
+					reply_markup=telegram_keyboard
+				)
+			except FileNotFoundError:
+				telegram_bot_command.image = None
+				await telegram_bot_command.asave()
+
+				await self.dispatcher.bot.send_message(
+					chat_id=message.chat.id,
+					text=message_text,
+					reply_markup=telegram_keyboard
+				)
 
 	async def setup(self) -> None:
 		self.bot = CustomBot(token=self.telegram_bot.api_token, loop=self.loop)

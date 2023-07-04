@@ -79,7 +79,7 @@ def check_telegram_bot_command(func):
 		telegram_bot: TelegramBot = args[0].telegram_bot
 
 		message: types.Message = kwargs['message']
-		callback_query: types.CallbackQuery = kwargs['callback_query']
+		callback_query: Union[types.CallbackQuery, None] = kwargs['callback_query']
 
 		if not callback_query:
 			telegram_bot_commands: TelegramBotCommandManager = await sync_to_async(telegram_bot.commands.filter)(command=message.text)
@@ -98,13 +98,10 @@ def check_telegram_bot_command(func):
 			)
 
 		if not telegram_bot_command:
+			text_variables: dict = await functions.get_text_variables(message, callback_query)
+
 			async for telegram_bot_command_ in telegram_bot.commands.all():
-				if (
-					message.text == await functions.replace_text_variables(
-						message=message,
-						text=telegram_bot_command_.command
-					)
-				):
+				if (message.text == await functions.replace_text_variables(telegram_bot_command_.command, text_variables)):
 					telegram_bot_command = telegram_bot_command_
 					break
 
@@ -121,39 +118,25 @@ def check_message_text(func):
 		callback_query: Union[types.CallbackQuery, None] = kwargs['callback_query']
 		telegram_bot_command: TelegramBotCommand = kwargs['telegram_bot_command']
 
-		if not callback_query:
-			variables = {
-				'user_id': message.from_user.id,
-				'user_username': message.from_user.username,
-				'user_first_name': message.from_user.first_name,
-				'user_last_name': message.from_user.last_name,
-				'user_message_id': message.message_id,
-				'user_message_text': message.text,
-			}
-		else:
-			variables = {
-				'user_id': callback_query.from_user.id,
-				'user_username': callback_query.from_user.username,
-				'user_first_name': callback_query.from_user.first_name,
-				'user_last_name': callback_query.from_user.last_name,
-				'user_message_id': message.message_id,
-				'user_message_text': message.text,
-			}
+		text_variables: dict = await functions.get_text_variables(message, callback_query)
 
 		if telegram_bot_command.api_request:
-			async with aiohttp.ClientSession() as session:
-				url: str = await functions.replace_text_variables(telegram_bot_command.api_request['url'], variables)
-				data: str = await functions.replace_text_variables(telegram_bot_command.api_request['data'], variables)
+			try:
+				async with aiohttp.ClientSession() as session:
+					url: str = await functions.replace_text_variables(telegram_bot_command.api_request['url'], text_variables)
+					data: str = await functions.replace_text_variables(telegram_bot_command.api_request['data'], text_variables)
 
-				async with session.post(url, data=data) as response:
-					try:
-						response_json: Union[list, dict] = await response.json()
+					async with session.post(url, data=data) as response:
+						try:
+							response_json: Union[list, dict] = await response.json()
 
-						variables.update({'api_response': response_json})
-					except aiohttp.client_exceptions.ContentTypeError:
-						variables.update({'api_response': 'API-request return not JSON!'})
+							text_variables.update({'api_response': response_json})
+						except aiohttp.client_exceptions.ContentTypeError:
+							text_variables.update({'api_response': 'API-request return not JSON!'})
+			except aiohttp.client_exceptions.InvalidURL:
+				text_variables.update({'api_response': 'URL is invalid!'})
 
-		message_text: str = await functions.replace_text_variables(telegram_bot_command.message_text, variables)
+		message_text: str = await functions.replace_text_variables(telegram_bot_command.message_text, text_variables)
 
 		if len(message_text) > 4096:
 			message_text = 'The message text must contain no more than 4096 characters!'

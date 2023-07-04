@@ -32,11 +32,33 @@ async def search_telegram_bot_command(
 					):
 						return await sync_to_async(telegram_bot_command_keyboard_button.get_command)()
 
-async def replace_text_variables(text: str, variables: dict) -> str:
+async def get_text_variables(message: types.Message, callback_query: Union[types.CallbackQuery, None]) -> dict:
+	if not callback_query:
+		text_variables = {
+			'user_id': message.from_user.id,
+			'user_username': message.from_user.username,
+			'user_first_name': message.from_user.first_name,
+			'user_last_name': message.from_user.last_name,
+			'user_message_id': message.message_id,
+			'user_message_text': message.text,
+		}
+	else:
+		text_variables = {
+			'user_id': callback_query.from_user.id,
+			'user_username': callback_query.from_user.username,
+			'user_first_name': callback_query.from_user.first_name,
+			'user_last_name': callback_query.from_user.last_name,
+			'user_message_id': message.message_id,
+			'user_message_text': message.text,
+		}
+
+	return text_variables
+
+async def replace_text_variables(text: str, text_variables: dict) -> str:
 	try:
 		jinja2_env = jinja2.Environment(enable_async=True)
 		jinja2_template: jinja2.Template = jinja2_env.from_string(text)
-		result: str = await jinja2_template.render_async(variables)
+		result: str = await jinja2_template.render_async(text_variables)
 		return result.replace('\n\n', '\n')
 	except Exception as exception:
 		return f'{exception.args[0].capitalize()}!'
