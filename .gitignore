@@ -5,6 +5,5 @@ logs/
 env/
 
 # Файлы
-DataBase.db
 .env
 *.mo

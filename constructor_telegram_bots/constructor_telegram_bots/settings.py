@@ -99,12 +99,25 @@ WSGI_APPLICATION = 'constructor_telegram_bots.wsgi.application'
 
 
 AUTH_USER_MODEL = 'user.User'
-DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.sqlite3',
-		'NAME': BASE_DIR / 'DataBase.db',
+
+if sys.argv[0] == 'manage.py' and sys.argv[1] == 'test':
+	DATABASES = {
+		'default': {
+			'ENGINE': 'django.db.backends.sqlite3',
+			'NAME': BASE_DIR / 'DataBase.db',
+		},
 	}
-}
+else:
+	DATABASES = {
+		'default': {
+			'ENGINE': 'django.db.backends.postgresql',
+			'NAME': os.getenv('POSTGRESQL_DATABASE_NAME'), 
+			'USER': os.getenv('POSTGRESQL_DATABASE_USER'),
+			'PASSWORD': os.getenv('POSTGRESQL_DATABASE_PASSWORD'),
+			'HOST': '127.0.0.1', 
+			'PORT': '5432',
+		},
+	}
 
 
 # Internationalization
