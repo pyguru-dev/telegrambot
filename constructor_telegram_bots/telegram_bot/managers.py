@@ -38,7 +38,7 @@ class TelegramBotCommandManager(models.Manager):
 		image: Union[InMemoryUploadedFile, None] = None,
 		keyboard: Union[dict, None] = None,
 		api_request: Union[list, None] = None,
-		database_record: Union[dict, None] = None,
+		database_record: Union[str, None] = None,
 		**extra_fields
 	) -> 'TelegramBotModels.TelegramBotCommand':
 		if not isinstance(image, InMemoryUploadedFile):

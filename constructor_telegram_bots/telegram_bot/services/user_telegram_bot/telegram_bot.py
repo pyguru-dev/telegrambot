@@ -5,7 +5,14 @@ from telegram_bot.services.custom_aiogram import CustomBot, CustomDispatcher
 
 from telegram_bot.models import TelegramBot, TelegramBotCommand
 
-from telegram_bot.services.user_telegram_bot import decorators, functions
+from telegram_bot.services.user_telegram_bot.decorators import (
+	check_request,
+	check_telegram_bot_user,
+	check_telegram_bot_command,
+	check_telegram_bot_command_database_record,
+	check_message_text
+)
+from telegram_bot.services.user_telegram_bot.functions import get_telegram_keyboard
 
 import asyncio
 
@@ -17,10 +24,11 @@ class UserTelegramBot:
 		self.loop = asyncio.new_event_loop()
 		self.telegram_bot = telegram_bot
 
-	@decorators.check_request
-	@decorators.check_telegram_bot_user
-	@decorators.check_telegram_bot_command
-	@decorators.check_message_text
+	@check_request
+	@check_telegram_bot_user
+	@check_telegram_bot_command
+	@check_telegram_bot_command_database_record
+	@check_message_text
 	async def message_and_callback_query_handler(
 		self,
 		message: types.Message,
@@ -28,7 +36,7 @@ class UserTelegramBot:
 		telegram_bot_command: TelegramBotCommand,
 		message_text: str
 	) -> None:
-		telegram_keyboard: Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup] = await functions.get_telegram_keyboard(telegram_bot_command)
+		telegram_keyboard: Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup] = await get_telegram_keyboard(telegram_bot_command)
 
 		if callback_query:
 			await self.dispatcher.bot.delete_message(

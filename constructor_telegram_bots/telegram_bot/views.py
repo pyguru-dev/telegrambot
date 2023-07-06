@@ -154,11 +154,11 @@ def stop_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> JsonRe
 @constructor_telegram_bots.decorators.check_post_request_data_items(
 	{
 		'name': str,
-		'command': Union[str, None],
 		'message_text': str,
+		'command': Union[str, None],
 		'keyboard': Union[dict, None],
 		'api_request': Union[dict, None],
-		'database_record': Union[dict, None],
+		'database_record': Union[str, None],
 	}
 )
 @telegram_bot.decorators.check_data_for_telegram_bot_command
@@ -166,12 +166,12 @@ def add_telegram_bot_command(
 	request: WSGIRequest,
 	telegram_bot: TelegramBot,
 	name: str,
-	command: Union[str, None],
-	image: Union[InMemoryUploadedFile, None],
 	message_text: str,
-	keyboard: Union[dict, None],
-	api_request: Union[dict, None],
-	database_record: Union[dict, None],
+	command: Union[str, None] = None,
+	image: Union[InMemoryUploadedFile, None] = None,
+	keyboard: Union[dict, None] = None,
+	api_request: Union[dict, None] = None,
+	database_record: Union[str, None] = None,
 ) -> JsonResponse:
 	TelegramBotCommand.objects.create(
 		telegram_bot=telegram_bot,
@@ -203,7 +203,7 @@ def add_telegram_bot_command(
 		'message_text': str,
 		'keyboard': Union[dict, None],
 		'api_request': Union[dict, None],
-		'database_record': Union[dict, None],
+		'database_record': Union[str, None],
 	}
 )
 @telegram_bot.decorators.check_data_for_telegram_bot_command
@@ -212,12 +212,12 @@ def edit_telegram_bot_command(
 	telegram_bot: TelegramBot,
 	telegram_bot_command: TelegramBotCommand,
 	name: str,
-	command: Union[str, None],
-	image: Union[InMemoryUploadedFile, str, None],
 	message_text: str,
-	keyboard: Union[dict, None],
-	api_request: Union[dict, None],
-	database_record: Union[dict, None],
+	command: Union[str, None] = None,
+	image: Union[InMemoryUploadedFile, str, None] = None,
+	keyboard: Union[dict, None] = None,
+	api_request: Union[dict, None] = None,
+	database_record: Union[str, None] = None,
 ) -> JsonResponse:
 	telegram_bot_command.update(
 		telegram_bot_command=telegram_bot_command,
@@ -456,12 +456,7 @@ def delete_databese_record(request: WSGIRequest, telegram_bot: TelegramBot, reco
 def get_databese_records(request: WSGIRequest, telegram_bot: TelegramBot) -> JsonResponse:
 	client = pymongo.MongoClient('127.0.0.1', 27017)
 	collection = client.telegram_bots.get_collection(str(telegram_bot.id))
-
-	records = []
-
-	for record in collection.find():
-		records.append(record)
-
+	records = [record for record in collection.find()]
 	client.close()
 
 	return JsonResponse(records, safe=False)
