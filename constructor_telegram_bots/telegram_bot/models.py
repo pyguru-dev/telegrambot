@@ -96,7 +96,6 @@ class TelegramBotCommand(models.Model):
 			'keyboard': self.get_keyboard_as_dict(),
 			'api_request': self.api_request,
 			'database_record': self.database_record,
-
 			'x': self.x,
 			'y': self.y,
 		}
@@ -105,12 +104,12 @@ class TelegramBotCommand(models.Model):
 		self,
 	    telegram_bot_command: 'TelegramBotCommand',
 		name: str,
-		command: Union[str, None],
-		image: Union[InMemoryUploadedFile, str, None],
 		message_text: str,
-		keyboard: Union[dict, None],
-		api_request: Union[dict, None],
-		database_record: Union[str, None]
+		command: Union[str, None] = None,
+		image: Union[InMemoryUploadedFile, str, None] = None,
+		keyboard: Union[dict, None] = None,
+		api_request: Union[dict, None] = None,
+		database_record: Union[str, None] = None
 	):
 		telegram_bot_command.name = name
 		telegram_bot_command.command = command
@@ -228,12 +227,9 @@ class TelegramBotCommandKeyboardButton(models.Model):
 	def to_dict(self) -> dict:
 		return {
 			'id': self.id,
-
 			'row': self.row,
-
 			'text': self.text,
 			'url': self.url,
-
 			'telegram_bot_command_id': self.telegram_bot_command.id if self.telegram_bot_command is not None else None,
 			'start_diagram_connector': self.start_diagram_connector,
 			'end_diagram_connector' : self.end_diagram_connector,

@@ -7,9 +7,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 
-from django.contrib.auth import login, logout
-
 from user.models import User
+
+from django.contrib.auth import login, logout
 
 
 def user_login(request: WSGIRequest, id: int, confirm_code: str) -> HttpResponse:

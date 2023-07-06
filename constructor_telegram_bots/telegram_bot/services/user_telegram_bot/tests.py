@@ -71,19 +71,16 @@ class UserTelegramBotTests(CustomTestCase):
 				'buttons': [
 					{
 						'row': None,
-
 						'text': '1',
 						'url': None,
 					},
 					{
 						'row': 2,
-
 						'text': '2',
 						'url': None,
 					},
 					{
 						'row': 2,
-
 						'text': '3',
 						'url': None,
 					},
@@ -112,7 +109,6 @@ class UserTelegramBotTests(CustomTestCase):
 				'buttons': [
 					{
 						'row': None,
-
 						'text': '1',
 						'url': 'https://example.com/',
 					},
@@ -140,7 +136,6 @@ class UserTelegramBotTests(CustomTestCase):
 				'buttons': [
 					{
 						'row': None,
-
 						'text': '1',
 						'url': None,
 					},
@@ -177,7 +172,6 @@ class UserTelegramBotTests(CustomTestCase):
 				'buttons': [
 					{
 						'row': None,
-
 						'text': '1',
 						'url': None,
 					},

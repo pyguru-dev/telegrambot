@@ -91,7 +91,6 @@ class TelegramBotCommandAdmin(admin.ModelAdmin):
 		'x',
 		'y'
 	)
-	formfield_overrides = {models.TextField: {'widget': CKEditorWidget}}
 
 	@admin.display(description=_('Название'))
 	def show_name(self, telegram_bot_command: TelegramBotCommand):

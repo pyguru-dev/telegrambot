@@ -2,10 +2,10 @@ from django.core.handlers.wsgi import WSGIRequest
 from django.http import JsonResponse
 from django.utils.translation import gettext as _
 
-from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotCommandKeyboard
-
 from constructor_telegram_bots.functions import is_valid_url
 from telegram_bot.functions import check_telegram_bot_api_token as check_telegram_bot_api_token_
+
+from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotCommandKeyboard
 
 from functools import wraps
 from typing import Union
