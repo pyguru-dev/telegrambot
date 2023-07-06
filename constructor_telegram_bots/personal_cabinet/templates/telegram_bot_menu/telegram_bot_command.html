@@ -8,15 +8,16 @@
 				<label class="mb-1" for="telegramBotCommandVariables">{% trans "Доступные переменные" %}</label>
 				<div class="border rounded" id="telegramBotCommandVariables">
 					<div class="row gy-1 py-1 px-3">
-						<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserIdVariableButton">{% trans "ID пользователя" %}</button>
-						<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserUsernameVariableButton">{% trans "@username пользователя" %}</button>
-						<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserFirstNameVariableButton">{% trans "Имя пользователя" %}</button>
-						<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserLastNameVariableButton">{% trans "Фамилия пользователя" %}</button>
-						<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserMessageIdVariableButton">{% trans "ID сообщения пользователя" %}</button>
-						<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandUserMessageTextVariableButton">{% trans "Текст сообщения пользователя" %}</button>
-						<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandConditionVariableButton">{% trans "Условие" %}</button>
-						<button class="btn btn-sm btn-dark" type="button" id="telegramBotCommandLoopVariableButton">{% trans "Цикл" %}</button>
-						<button class="btn btn-sm btn-dark d-none" type="button" id="telegramBotCommandApiResponseVariableButton">{% trans "Ответ с API-запроса" %}</button>
+						<button class="btn btn-sm btn-dark" id="telegramBotCommandUserIdVariableButton" type="button">{% trans "ID пользователя" %}</button>
+						<button class="btn btn-sm btn-dark" id="telegramBotCommandUserUsernameVariableButton" type="button">{% trans "@username пользователя" %}</button>
+						<button class="btn btn-sm btn-dark" id="telegramBotCommandUserFirstNameVariableButton" type="button">{% trans "Имя пользователя" %}</button>
+						<button class="btn btn-sm btn-dark" id="telegramBotCommandUserLastNameVariableButton" type="button">{% trans "Фамилия пользователя" %}</button>
+						<button class="btn btn-sm btn-dark" id="telegramBotCommandUserMessageIdVariableButton" type="button">{% trans "ID сообщения пользователя" %}</button>
+						<button class="btn btn-sm btn-dark" id="telegramBotCommandUserMessageTextVariableButton" type="button">{% trans "Текст сообщения пользователя" %}</button>
+						<button class="btn btn-sm btn-dark" id="telegramBotCommandConditionVariableButton" type="button">{% trans "Условие" %}</button>
+						<button class="btn btn-sm btn-dark" id="telegramBotCommandLoopVariableButton" type="button">{% trans "Цикл" %}</button>
+						<button class="btn btn-sm btn-dark" id="telegramBotCommandDatabaseRecordDataVariableButton" type="button">{% trans "Получить данные из базы данных" %}</button>
+						<button class="btn btn-sm btn-dark d-none" id="telegramBotCommandApiResponseVariableButton" type="button">{% trans "Ответ с API-запроса" %}</button>
 					</div>
 				</div>
 			</div>
@@ -62,6 +63,10 @@
 					<input class="form-control" id="telegramBotCommandApiRequestDataInput" type="text" placeholder="{% trans "Данные" %}">
 				</div>
 			</div>
+			<div class="col d-none" id="telegramBotCommandDatabaseRecordAddition">
+				<label class="mb-1" for="telegramBotCommandDatabaseRecordDataInput">{% trans "Запись в базу данных" %}</label>
+				<input class="form-control" id="telegramBotCommandDatabaseRecordDataInput" type="text" placeholder="{% trans "Введите данные (JSON)" %}">
+			</div>
 			<div class="col">
 				<label class="mb-1" for="telegramBotCommandAddition">{% trans "Добавить" %}</label>
 				<div class="border rounded w-100" id="telegramBotCommandAddition">
@@ -70,6 +75,7 @@
 						<button class="btn btn-sm btn-dark" id="telegramBotCommandAddImageAdditionButton" type="button">{% trans "Изображение" %}</button>
 						<button class="btn btn-sm btn-dark" id="telegramBotCommandAddKeyboardAdditionButton" type="button">{% trans "Клавиатуру" %}</button>
 						<button class="btn btn-sm btn-dark" id="telegramBotCommandAddApiRequestAdditionButton" type="button">{% trans "API-запрос" %}</button>
+						<button class="btn btn-sm btn-dark" id="telegramBotCommandAddDatabaseRecordAdditionButton" type="button">{% trans "Запись в базу данных" %}</button>
 					</div>
 				</div>
 			</div>

@@ -158,6 +158,7 @@ def stop_telegram_bot(request: WSGIRequest, telegram_bot: TelegramBot) -> JsonRe
 		'message_text': str,
 		'keyboard': Union[dict, None],
 		'api_request': Union[dict, None],
+		'database_record': Union[dict, None],
 	}
 )
 @telegram_bot.decorators.check_data_for_telegram_bot_command
@@ -169,7 +170,8 @@ def add_telegram_bot_command(
 	image: Union[InMemoryUploadedFile, None],
 	message_text: str,
 	keyboard: Union[dict, None],
-	api_request: Union[dict, None]
+	api_request: Union[dict, None],
+	database_record: Union[dict, None],
 ) -> JsonResponse:
 	TelegramBotCommand.objects.create(
 		telegram_bot=telegram_bot,
@@ -178,7 +180,8 @@ def add_telegram_bot_command(
 		image=image,
 		message_text=message_text,
 		keyboard=keyboard,
-		api_request=api_request
+		api_request=api_request,
+		database_record=database_record
 	)
 
 	return JsonResponse(
@@ -200,6 +203,7 @@ def add_telegram_bot_command(
 		'message_text': str,
 		'keyboard': Union[dict, None],
 		'api_request': Union[dict, None],
+		'database_record': Union[dict, None],
 	}
 )
 @telegram_bot.decorators.check_data_for_telegram_bot_command
@@ -212,9 +216,19 @@ def edit_telegram_bot_command(
 	image: Union[InMemoryUploadedFile, str, None],
 	message_text: str,
 	keyboard: Union[dict, None],
-	api_request: Union[dict, None]
+	api_request: Union[dict, None],
+	database_record: Union[dict, None],
 ) -> JsonResponse:
-	telegram_bot_command.update(telegram_bot_command, name, command, image, message_text, keyboard, api_request)
+	telegram_bot_command.update(
+		telegram_bot_command=telegram_bot_command,
+		name=name,
+		command=command,
+		image=image,
+		message_text=message_text,
+		keyboard=keyboard,
+		api_request=api_request,
+		database_record=database_record
+	)
 
 	return JsonResponse(
 		{
