@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 
 	'user',
+	'user_plagin',
 	'telegram_bot',
 
 	'home',

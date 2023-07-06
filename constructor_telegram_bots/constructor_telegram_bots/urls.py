@@ -12,6 +12,7 @@ urlpatterns = [
 	path("i18n/", include("django.conf.urls.i18n")),
 
 	path('user/', include('user.urls')),
+	path('user-plagin/', include('user_plagin.urls')),
 	path('telegram-bot/', include('telegram_bot.urls')),
 
 	path('', include('home.urls')),
