@@ -57,6 +57,7 @@ class TelegramBotModelsTest(BaseTestCase):
 						],
 					},
 					'api_request': None,
+					'database_record': None,
 
 					'x': 0,
 					'y': 0,

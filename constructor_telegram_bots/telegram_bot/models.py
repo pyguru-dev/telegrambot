@@ -63,6 +63,7 @@ class TelegramBotCommand(models.Model):
 	image = models.ImageField(upload_to='static/images/commands/', blank=True, null=True)
 	message_text = models.TextField(_('Текст сообщения'), max_length=4096)
 	api_request = models.JSONField(_('API-запрос'), blank=True, null=True)
+	database_record = models.TextField(_('Запись в базу данных'), blank=True, null=True)
 
 	x =	models.IntegerField(_('Координата X'), default=0)
 	y = models.IntegerField(_('Координата Y'), default=0)
@@ -94,6 +95,7 @@ class TelegramBotCommand(models.Model):
 			'message_text': self.message_text,
 			'keyboard': self.get_keyboard_as_dict(),
 			'api_request': self.api_request,
+			'database_record': self.database_record,
 
 			'x': self.x,
 			'y': self.y,
@@ -107,10 +109,14 @@ class TelegramBotCommand(models.Model):
 		image: Union[InMemoryUploadedFile, str, None],
 		message_text: str,
 		keyboard: Union[dict, None],
-		api_request: Union[dict, None]
+		api_request: Union[dict, None],
+		database_record: Union[str, None]
 	):
 		telegram_bot_command.name = name
 		telegram_bot_command.command = command
+		telegram_bot_command.message_text = message_text
+		telegram_bot_command.api_request = api_request
+		telegram_bot_command.database_record = database_record
 
 		if image:
 			if isinstance(image, InMemoryUploadedFile) or image == 'null' and str(telegram_bot_command.image) != '':
@@ -118,8 +124,6 @@ class TelegramBotCommand(models.Model):
 
 				if isinstance(image, InMemoryUploadedFile):
 					telegram_bot_command.image = image
-
-		telegram_bot_command.message_text = message_text
 
 		telegram_bot_command_keyboard: TelegramBotCommandKeyboard = telegram_bot_command.get_keyboard()
 
@@ -173,7 +177,6 @@ class TelegramBotCommand(models.Model):
 			if telegram_bot_command_keyboard:
 				telegram_bot_command_keyboard.delete()
 
-		telegram_bot_command.api_request = api_request
 		telegram_bot_command.save()
 
 	def delete(self) -> None:

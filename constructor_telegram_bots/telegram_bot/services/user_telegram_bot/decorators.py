@@ -9,13 +9,19 @@ from telegram_bot.models import (
 	TelegramBotCommandManager
 )
 
-from telegram_bot.services.user_telegram_bot import functions
+from telegram_bot.services.user_telegram_bot.functions import (
+	search_telegram_bot_command,
+	get_text_variables,
+	replace_text_variables,
+)
 
 from asgiref.sync import sync_to_async
 import aiohttp
 
 from functools import wraps
 from typing import Union
+import pymongo
+import json
 
 
 def check_request(func):
@@ -87,21 +93,21 @@ def check_telegram_bot_command(func):
 			if await telegram_bot_commands.aexists():
 				telegram_bot_command: TelegramBotCommand = await telegram_bot_commands.afirst()
 			else:
-				telegram_bot_command: Union[TelegramBotCommand, None] = await functions.search_telegram_bot_command(
+				telegram_bot_command: Union[TelegramBotCommand, None] = await search_telegram_bot_command(
 					telegram_bot=telegram_bot,
 					message_text=message.text
 				)
 		else:
-			telegram_bot_command: Union[TelegramBotCommand, None] = await functions.search_telegram_bot_command(
+			telegram_bot_command: Union[TelegramBotCommand, None] = await search_telegram_bot_command(
 				telegram_bot=telegram_bot,
 				button_id=int(callback_query.data)
 			)
 
 		if not telegram_bot_command:
-			text_variables: dict = await functions.get_text_variables(message, callback_query)
+			text_variables: dict = await get_text_variables(message, callback_query)
 
 			async for telegram_bot_command_ in telegram_bot.commands.all():
-				if (message.text == await functions.replace_text_variables(telegram_bot_command_.command, text_variables)):
+				if (message.text == await replace_text_variables(telegram_bot_command_.command, text_variables)):
 					telegram_bot_command = telegram_bot_command_
 					break
 
@@ -111,20 +117,57 @@ def check_telegram_bot_command(func):
 			return await func(*args, **kwargs)
 	return wrapper
 
-def check_message_text(func):
+def check_telegram_bot_command_database_record(func):
 	@wraps(func)
 	async def wrapper(*args, **kwargs):
+		self = args[0]
 		message: types.Message = kwargs['message']
 		callback_query: Union[types.CallbackQuery, None] = kwargs['callback_query']
 		telegram_bot_command: TelegramBotCommand = kwargs['telegram_bot_command']
 
-		text_variables: dict = await functions.get_text_variables(message, callback_query)
+		if telegram_bot_command.database_record is not None:
+			text_variables: dict = await get_text_variables(message, callback_query)
+
+			for key, value in text_variables.items():
+				text_variables[key] = f'"{value}"'
+
+			database_record: str = await replace_text_variables(telegram_bot_command.database_record, text_variables)
+
+			database_error_record = {'message': 'Failed to write record to database!'}
+
+			try:
+				database_record: Union[list, dict] = json.loads(database_record)
+			except:
+				database_record = database_error_record
+
+			if not isinstance(database_record, dict):
+				database_record = database_error_record
+
+			client = pymongo.MongoClient('127.0.0.1', 27017)
+			collection = client.telegram_bots.get_collection(str(self.telegram_bot.id))
+			database_record.update({'_id': collection.count_documents({}) + 1})
+			collection.insert_one(database_record)
+			client.close()
+
+		return await func(*args, **kwargs)
+	return wrapper
+
+
+def check_message_text(func):
+	@wraps(func)
+	async def wrapper(*args, **kwargs):
+		self = args[0]
+		message: types.Message = kwargs['message']
+		callback_query: Union[types.CallbackQuery, None] = kwargs['callback_query']
+		telegram_bot_command: TelegramBotCommand = kwargs['telegram_bot_command']
+
+		text_variables: dict = await get_text_variables(message, callback_query)
 
 		if telegram_bot_command.api_request:
 			try:
 				async with aiohttp.ClientSession() as session:
-					url: str = await functions.replace_text_variables(telegram_bot_command.api_request['url'], text_variables)
-					data: str = await functions.replace_text_variables(telegram_bot_command.api_request['data'], text_variables)
+					url: str = await replace_text_variables(telegram_bot_command.api_request['url'], text_variables)
+					data: str = await replace_text_variables(telegram_bot_command.api_request['data'], text_variables)
 
 					async with session.post(url, data=data) as response:
 						try:
@@ -136,7 +179,18 @@ def check_message_text(func):
 			except aiohttp.client_exceptions.InvalidURL:
 				text_variables.update({'api_response': 'URL is invalid!'})
 
-		message_text: str = await functions.replace_text_variables(telegram_bot_command.message_text, text_variables)
+		client = pymongo.MongoClient('127.0.0.1', 27017)
+		collection = client.telegram_bots.get_collection(str(self.telegram_bot.id))
+
+		records = {}
+
+		for record in collection.find():
+			records.update({str(record['_id']): record})
+
+		text_variables.update(records)
+		client.close()
+
+		message_text: str = await replace_text_variables(telegram_bot_command.message_text, text_variables)
 
 		if len(message_text) > 4096:
 			message_text = 'The message text must contain no more than 4096 characters!'

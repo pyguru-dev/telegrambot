@@ -8,6 +8,7 @@
 		userMessageText: document.querySelector('#telegramBotCommandUserMessageTextVariableButton'),
 		condition: document.querySelector('#telegramBotCommandConditionVariableButton'),
 		loop: document.querySelector('#telegramBotCommandLoopVariableButton'),
+		databaseRecordData: document.querySelector('#telegramBotCommandDatabaseRecordDataVariableButton'),
 		apiResponse: document.querySelector('#telegramBotCommandApiResponseVariableButton'),
 	};
 
@@ -60,6 +61,14 @@
 				urlInput: document.querySelector('#telegramBotCommandApiRequestUrlInput'),
 				dataInput: document.querySelector('#telegramBotCommandApiRequestDataInput'),
 			},
+			databaseRecord: {
+				button: document.querySelector('#telegramBotCommandAddDatabaseRecordAdditionButton'),
+				div: document.querySelector('#telegramBotCommandDatabaseRecordAddition'),
+
+				variablesButtons: [],
+
+				dataInput: document.querySelector('#telegramBotCommandDatabaseRecordDataInput'),
+			},
 		},
 
 		backToAddButton: document.querySelector('.back-add-telegram-bot-command-button'),
@@ -107,9 +116,22 @@
 			allowedInputs: [telegramBotCommand.textInput],
 			value: '{% for value in values %}\n{{ value }}\n{% endfor %}',
 		},
+		databaseRecordData: {
+			button: telegramBotCommandVariablesButtons.databaseRecordData,
+			allowedInputs: [
+				telegramBotCommand.textInput,
+				telegramBotCommand.additions.command.input,
+				telegramBotCommand.additions.apiRequest.urlInput,
+				telegramBotCommand.additions.apiRequest.dataInput,
+			],
+			value: '{{ database_record_data.key or database_record_data[0] }}',
+		},
 		apiResponse: {
 			button: telegramBotCommandVariablesButtons.apiResponse,
-			allowedInputs: [telegramBotCommand.textInput],
+			allowedInputs: [
+				telegramBotCommand.textInput,
+				telegramBotCommand.additions.databaseRecord.dataInput,
+			],
 			value: '{{ api_response.key or api_response[0] }}',
 		},
 
@@ -118,6 +140,7 @@
 			telegramBotCommand.additions.command.input,
 			telegramBotCommand.additions.apiRequest.urlInput,
 			telegramBotCommand.additions.apiRequest.dataInput,
+			telegramBotCommand.additions.databaseRecord.dataInput,
 		],
 
 		selected: null,
@@ -529,6 +552,13 @@
 			telegramBotCommand.additions.apiRequest.dataInput.value = telegramBotCommand_['api_request']['data'];
 		}
 
+		if (telegramBotCommand_['database_record'] != null) {
+			telegramBotCommand.additions.databaseRecord.button.classList.replace('btn-dark', 'btn-secondary');
+			telegramBotCommand.additions.databaseRecord.div.classList.remove('d-none');
+
+			telegramBotCommand.additions.databaseRecord.dataInput.value = telegramBotCommand_['database_record'];
+		}
+
 		telegramBotCommand.backToAddButton.classList.remove('d-none');
 
 		telegramBotCommand.addOrEditButton.id = telegramBotCommand_['id'];
@@ -542,6 +572,7 @@
 			'message_text': telegramBotCommand.textInput.value,
 			'keyboard': null,
 			'api_request': null,
+			'database_record': null,
 		}
 
 		if (telegramBotCommand.additions.command.div.classList.contains('d-none') == false) {
@@ -592,6 +623,10 @@
 				'url': telegramBotCommand.additions.apiRequest.urlInput.value,
 				'data': telegramBotCommand.additions.apiRequest.dataInput.value,
 			}
+		}
+
+		if (telegramBotCommand.additions.databaseRecord.div.classList.contains('d-none') == false) {
+			telegramBotCommandData_['database_record'] = telegramBotCommand.additions.databaseRecord.dataInput.value;
 		}
 
 		telegramBotCommandData.append('data', JSON.stringify(telegramBotCommandData_));

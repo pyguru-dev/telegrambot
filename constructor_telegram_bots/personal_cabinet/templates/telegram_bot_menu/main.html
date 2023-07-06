@@ -19,10 +19,13 @@
 		<div class="col-12">
 			{% include 'telegram_bot_menu/telegram_bot_users.html' %}
 		</div>
+		<div class="col-12">
+			{% include 'telegram_bot_menu/telegram_bot_database.html' %}
+		</div>
 		{% comment %}
 			<div class="col-12">
 				{% include 'telegram_bot_menu/telegram_bot_exemples.html' %}
-			</div> 
+			</div>
 		{% endcomment %}
 		<div class="col-12 col-lg-5">
 			{% include 'telegram_bot_menu/telegram_bot_command.html' %}
@@ -86,10 +89,13 @@
 
 	const deleteTelegramBotCommandAskConfirmModalTitle = "{% trans 'Удаление команды Telegram бота' %}";
 	const deleteTelegramBotCommandAskConfirmModalText = "{% trans 'Вы точно хотите удалить команду Telegram бота?' %}";
+
+	const getTelegramBotDatabeseRecordsUrl = "{% url 'get_databese_records' telegram_bot.id %}";
 </script>
 
 <script src="{% static 'js/personal_cabinet/telegram_bot_menu/init.js' %}"></script>
 <script src="{% static 'js/personal_cabinet/telegram_bot_menu/main.js' %}"></script>
+<script src="{% static 'js/personal_cabinet/telegram_bot_menu/telegram_bot_database.js' %}"></script>
 <script src="{% static 'js/personal_cabinet/telegram_bot_menu/telegram_bot_command.js' %}"></script>
 <script src="{% static 'js/personal_cabinet/telegram_bot_menu/diagram.js' %}"></script>
 {% endblock scripts %}
