@@ -21,6 +21,7 @@ from telegram_bot.functions import check_telegram_bot_api_token
 
 from typing import Union
 from sys import platform
+import pymongo
 
 
 @django.views.decorators.csrf.csrf_exempt
@@ -415,3 +416,39 @@ def get_telegram_bot_commands(request: WSGIRequest, telegram_bot: TelegramBot) -
 @telegram_bot.decorators.check_telegram_bot_id
 def get_telegram_bot_users(request: WSGIRequest, telegram_bot: TelegramBot) -> JsonResponse:
 	return JsonResponse(telegram_bot.get_users_as_dict(), safe=False)
+
+
+@django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
+@constructor_telegram_bots.decorators.check_post_request_data_items({'record_id': int})
+def delete_databese_record(request: WSGIRequest, telegram_bot: TelegramBot, record_id: int) -> JsonResponse:
+	client = pymongo.MongoClient('127.0.0.1', 27017)
+	collection = client.telegram_bots.get_collection(str(telegram_bot.id))
+	collection.delete_one({'_id': record_id})
+	client.close()
+
+	return JsonResponse(
+		{
+			'message': _('Вы успешно удалили запись из базы данных.'),
+			'level': 'success',
+		}
+	)
+
+@django.views.decorators.csrf.csrf_exempt
+@django.views.decorators.http.require_POST
+@django.contrib.auth.decorators.login_required
+@telegram_bot.decorators.check_telegram_bot_id
+def get_databese_records(request: WSGIRequest, telegram_bot: TelegramBot) -> JsonResponse:
+	client = pymongo.MongoClient('127.0.0.1', 27017)
+	collection = client.telegram_bots.get_collection(str(telegram_bot.id))
+
+	records = []
+
+	for record in collection.find():
+		records.append(record)
+
+	client.close()
+
+	return JsonResponse(records, safe=False)
