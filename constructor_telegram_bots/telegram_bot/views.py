@@ -422,7 +422,6 @@ def get_telegram_bot_users(request: WSGIRequest, telegram_bot: TelegramBot) -> J
 @django.views.decorators.http.require_POST
 @django.contrib.auth.decorators.login_required
 @telegram_bot.decorators.check_telegram_bot_id
-@constructor_telegram_bots.decorators.check_post_request_data_items({'record_id': int})
 def delete_databese_record(request: WSGIRequest, telegram_bot: TelegramBot, record_id: int) -> JsonResponse:
 	client = pymongo.MongoClient('127.0.0.1', 27017)
 	collection = client.telegram_bots.get_collection(str(telegram_bot.id))
