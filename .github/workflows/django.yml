@@ -17,19 +17,19 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: [3.10.11]
+        mongodb-version: ['6.0']
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install Dependencies
+    - name: Set up MongoDB
+      uses: supercharge/mongodb-github-action@1.9.0
+      with:
+        mongodb-version: ${{ matrix.mongodb-version }}
+    - name: Install Requirements
       run: |
-        sudo apt-get install gnupg
-        curl -fsSL https://pgp.mongodb.com/server-6.0.asc | \ sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg \ --dearmor
-        echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
-        sudo apt install -y mongodb-org
-        sudo systemctl start mongod
         sudo apt install redis
         pip install -U pip
         pip install -r requirements.txt
