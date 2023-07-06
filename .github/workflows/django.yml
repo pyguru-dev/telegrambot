@@ -24,7 +24,7 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Set up MongoDB
+    - name: Set up MongoDB ${{ matrix.mongodb-version }}
       uses: supercharge/mongodb-github-action@1.9.0
       with:
         mongodb-version: ${{ matrix.mongodb-version }}

@@ -52,7 +52,7 @@ class TelegramBot(models.Model):
 		}
 
 	def __str__(self) -> str:
-		return f'@{self.username} {_("Telegram бот")}'
+		return f'@{self.username}'
 
 
 class TelegramBotCommand(models.Model):

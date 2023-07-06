@@ -3,9 +3,6 @@ from django.utils.translation import gettext_lazy as _
 from django.core.handlers.wsgi import WSGIRequest
 from django.utils import html
 
-from ckeditor.widgets import CKEditorWidget
-
-from django.db import models
 from telegram_bot.models import TelegramBot, TelegramBotCommand
 
 from telegram_bot.services import tasks
@@ -17,6 +14,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 	list_filter = ('is_running',)
 
 	list_display = (
+		'id',
 		'owner',
 		'show_telegram_bot_username',
 		'is_private',
@@ -25,7 +23,6 @@ class TelegramBotAdmin(admin.ModelAdmin):
 		'show_telegram_bot_users_count',
 		'date_added',
 	)
-	list_display_links = None
 
 	@admin.display(description='@username')
 	def show_telegram_bot_username(self, telegram_bot: TelegramBot) -> str:
