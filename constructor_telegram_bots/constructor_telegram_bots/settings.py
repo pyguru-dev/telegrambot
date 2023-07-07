@@ -43,6 +43,8 @@ CELERY_TASK_SERIALIZER = 'json'
 
 
 INSTALLED_APPS = [
+	'rest_framework',
+	'rest_framework.authtoken',
 	'modeltranslation',
 	'ckeditor',
 
@@ -75,6 +77,13 @@ MIDDLEWARE = [
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
 	'django.middleware.locale.LocaleMiddleware'
 ]
+
+REST_FRAMEWORK = {
+	'DEFAULT_AUTHENTICATION_CLASSES': [
+		'rest_framework.authentication.BasicAuthentication',
+		'rest_framework.authentication.SessionAuthentication',
+	],
+}
 
 ROOT_URLCONF = 'constructor_telegram_bots.urls'
 

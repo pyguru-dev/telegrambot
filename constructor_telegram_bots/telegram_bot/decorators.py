@@ -1,6 +1,7 @@
-from django.core.handlers.wsgi import WSGIRequest
-from django.http import JsonResponse
+from django.http import HttpRequest, JsonResponse
 from django.utils.translation import gettext as _
+
+from rest_framework.request import Request
 
 from constructor_telegram_bots.functions import is_valid_url
 from telegram_bot.functions import check_telegram_bot_api_token as check_telegram_bot_api_token_
@@ -25,7 +26,7 @@ def check_telegram_bot_api_token(func):
 				status=400
 			)
 
-		request: WSGIRequest = args[0]
+		request: HttpRequest = args[0]
 
 		if request.user.telegram_bots.filter(api_token=api_token).exists():
 			return JsonResponse(
@@ -59,8 +60,8 @@ def check_telegram_bot_api_token(func):
 def check_telegram_bot_id(func):
 	@wraps(func)
 	def wrapper(*args, **kwargs):
-		request: WSGIRequest = args[0]
-		telegram_bot_id: int = kwargs['telegram_bot_id']
+		request: Union[HttpRequest, Request] = args[-1]
+		telegram_bot_id: int = kwargs.pop('telegram_bot_id')
 
 		if not request.user.telegram_bots.filter(id=telegram_bot_id).exists():
 			return JsonResponse(
@@ -71,7 +72,6 @@ def check_telegram_bot_id(func):
 				status=400
 			)
 
-		del kwargs['telegram_bot_id']
 		kwargs.update({'telegram_bot': request.user.telegram_bots.get(id=telegram_bot_id)})
 
 		return func(*args, **kwargs)
@@ -121,7 +121,7 @@ def check_data_for_telegram_bot_command(func):
 					status=400
 				)
 
-		request: WSGIRequest = args[0]
+		request: HttpRequest = args[0]
 
 		if 'image' in request.FILES:
 			kwargs.update({'image': request.FILES['image']})
