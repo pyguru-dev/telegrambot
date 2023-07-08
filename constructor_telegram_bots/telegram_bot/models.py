@@ -233,14 +233,17 @@ class TelegramBotCommandKeyboardButton(models.Model):
 
 
 class TelegramBotUser(models.Model):
-	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, related_name='users', null=True)
-	user_id = models.BigIntegerField()
-	full_name = models.CharField(max_length=129, null=True)
-	is_allowed = models.BooleanField(default=False)
-	date_activated = models.DateTimeField(auto_now_add=True)
+	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, related_name='users', verbose_name=_('Telegram бот'), null=True)
+	user_id = models.BigIntegerField(_('Telegram ID пользователя'))
+	full_name = models.CharField(_('Полное имя пользователя'), max_length=129, null=True)
+	is_allowed = models.BooleanField(_('Разрешён'), default=False)
+	date_activated = models.DateTimeField(_('Дата активации'), auto_now_add=True)
 
 	class Meta:
 		db_table = 'telegram_bot_user'
+
+		verbose_name = _('Пользователя Telegram бота')
+		verbose_name_plural = _('Пользователи Telegram ботов')
 
 	def to_dict(self) -> dict:
 		return {
@@ -250,3 +253,6 @@ class TelegramBotUser(models.Model):
 			'is_allowed': self.is_allowed,
 			'date_activated': f'{filters.date(self.date_activated)} {filters.time(self.date_activated)}',
 		}
+
+	def __str__(self) -> str:
+		return self.full_name
