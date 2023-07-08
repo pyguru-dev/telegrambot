@@ -51,6 +51,8 @@
 	<script src="{% static 'js/global/alert.js' %}"></script>
 	{% if user.is_authenticated %}
 		<script>
+			const userApiToken = '{{ request.user.auth_token.key }}';
+
 			const userLogoutUrl = "{% url 'user_logout' %}";
 
 			const userLogoutAskConfirmModalTitle = "{% trans 'Выход из аккаунта' %}";

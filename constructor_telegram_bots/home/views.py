@@ -1,16 +1,6 @@
-from django.core.handlers.wsgi import WSGIRequest
-from django.shortcuts import HttpResponse, render
-
-from user.models import User
-from telegram_bot.models import TelegramBot
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 
 
-def home(request: WSGIRequest) -> HttpResponse:
-	return render(
-		request,
-		'home.html',
-		{
-			'users_count': User.objects.count(),
-			'telegram_bots_count': TelegramBot.objects.count(),
-		}
-	)
+def home(request: HttpRequest) -> HttpResponse:
+	return render(request, 'home.html')

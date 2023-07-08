@@ -61,7 +61,10 @@
 						'diagram_current_scale': diagramCurrentScale,
 					}
 				),
-				headers: {'Content-Type': 'application/json'},
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Token ${userApiToken}`,
+				},
 			});
 
 			diagramSetZoom();
@@ -163,6 +166,7 @@
 
 								fetch(`/telegram-bot/${telegramBotId}/command/${selectedDiagramConnectorBlockId}/keyboard-button/${diagramKeyboardButtonId}/delete-telegram-bot-command/`, {
 									method: 'POST',
+									headers: {'Authorization': `Token ${userApiToken}`},
 								});
 							}
 						});
@@ -174,7 +178,10 @@
 
 							fetch(`/telegram-bot/${telegramBotId}/command/${selectedDiagramConnectorBlockId}/keyboard-button/${selectedDiagramKeyboardButtonId}/add-telegram-bot-command/`, {
 								method: 'POST',
-								headers: {'Content-Type': 'application/json'},
+								headers: {
+									'Content-Type': 'application/json',
+									'Authorization': `Token ${userApiToken}`,
+								},
 								body: JSON.stringify(
 									{
 										'telegram_bot_command_id': parseInt(selectDiagramConnectorBlockId),
@@ -268,7 +275,10 @@
 
 			fetch(`/telegram-bot/${telegramBotId}/command/${diagramBlock.id}/save-position/`, {
 				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
+				headers: {
+					'Content-Type': 'application/json',
+					'Authorization': `Token ${userApiToken}`,
+				},
 				body: JSON.stringify({
 					'x': diagramBlock.offsetLeft,
 					'y': diagramBlock.offsetTop,

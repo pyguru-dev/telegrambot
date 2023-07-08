@@ -17,4 +17,4 @@ class InstructionSection(models.Model):
 		verbose_name_plural = _('Разделы')
 
 	def __str__(self) -> str:
-		return f"{_('Раздел')}: {self.title}"
+		return self.title

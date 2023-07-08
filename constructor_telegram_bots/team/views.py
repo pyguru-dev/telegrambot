@@ -1,6 +1,6 @@
-from django.core.handlers.wsgi import WSGIRequest
-from django.shortcuts import HttpResponse, render
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 
 
-def team(request: WSGIRequest) -> HttpResponse:
+def team(request: HttpRequest) -> HttpResponse:
 	return render(request, 'team.html')

@@ -1,7 +1,8 @@
-from django.core.handlers.wsgi import WSGIRequest
 from django.core.exceptions import RequestDataTooBig
-from django.http import JsonResponse
 from django.utils.translation import gettext as _
+
+from rest_framework.request import Request
+from rest_framework.response import Response
 
 from functools import wraps
 import json
@@ -11,14 +12,14 @@ def check_post_request_data_items(needed_request_data: dict):
 	def decorator(func):
 		@wraps(func)
 		def wrapper(*args, **kwargs):
-			request: WSGIRequest = args[0]
+			request: Request = args[0]
 
 			try:
 				request_data: dict = json.loads(request.body)
 			except (UnicodeDecodeError, json.decoder.JSONDecodeError):
 				request_data: dict = json.loads(request.POST['data'])
 			except RequestDataTooBig:
-				return JsonResponse(
+				return Response(
 					{
 						'message': _('Тело запроса не должно весить больше 2.5MB!'),
 						'level': 'danger',
@@ -34,7 +35,7 @@ def check_post_request_data_items(needed_request_data: dict):
 
 				if key in needed_request_data:
 					if not isinstance(value, needed_request_data[key]):
-						return JsonResponse(
+						return Response(
 							{
 								'message': _('В тело запроса передан неверный тип данных!'),
 								'level': 'danger',

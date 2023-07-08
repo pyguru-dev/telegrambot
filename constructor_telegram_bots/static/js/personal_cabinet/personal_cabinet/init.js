@@ -1,6 +1,7 @@
 function updateTelegramBots() {
 	fetch(getTelegramBotsUrl, {
 		method: 'POST',
+		headers: {'Authorization': `Token ${userApiToken}`},
 	}).then(response => {
 		if (response.ok) {
 			response.json().then(telegramBots => {

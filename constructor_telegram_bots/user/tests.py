@@ -32,8 +32,8 @@ class UserModelsTest(BaseTestCase):
 class UserViewsTest(BaseTestCase):
 	def test_user_login_view(self) -> None:
 		login_urls = {
-			urls.reverse('user_login', kwargs={'id': 0, 'confirm_code': 0}): 'Не удалось найти пользователя!',
-			urls.reverse('user_login', kwargs={'id': 123456789, 'confirm_code': 0}): 'Неверный код подтверждения!',
+			urls.reverse('user_login', kwargs={'user_id': 0, 'confirm_code': 0}): 'Не удалось найти пользователя!',
+			urls.reverse('user_login', kwargs={'user_id': 123456789, 'confirm_code': 0}): 'Неверный код подтверждения!',
 			self.user.login_url: 'Успешная авторизация',
 		}
 
@@ -58,6 +58,6 @@ class UserViewsTest(BaseTestCase):
 
 		self.assertUnauthorizedAccess(url)
 
-		response: HttpResponse = self.client.post(url)
+		response: HttpResponse = self.client.post(url, headers={'Authorization': f'Token {self.user.auth_token.key}'})
 		self.assertEqual(response.status_code, 200)
 		self.assertJSONEqual(response.content, self.user.get_telegram_bots_as_dict())

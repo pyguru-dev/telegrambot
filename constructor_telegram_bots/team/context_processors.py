@@ -1,7 +1,7 @@
-from django.core.handlers.wsgi import WSGIRequest
+from django.http import HttpRequest
 
 from team.models import TeamMember
 
 
-def team_members(request: WSGIRequest) -> dict:
+def team_members(request: HttpRequest) -> dict:
     return {'team_members': TeamMember.objects.all()}

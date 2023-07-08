@@ -4,6 +4,7 @@
 	function updateDatabaseRecords() {
 		fetch(getTelegramBotDatabeseRecordsUrl, {
 			method: 'POST',
+			headers: {'Authorization': `Token ${userApiToken}`},
 		}).then(response => {
 			response.json().then(jsonResponse => {
 				if (response.ok) {
@@ -21,7 +22,8 @@
 
 						databaseRecordDiv.querySelector(`.delete`).addEventListener('click', function() {
 							fetch(`/telegram-bot/${telegramBotId}/database/record/${this.id}/delete/`, {
-								'method': 'POST',
+								method: 'POST',
+								headers: {'Authorization': `Token ${userApiToken}`},
 							}).then(response => {response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']))});
 						});
 

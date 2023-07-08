@@ -15,7 +15,6 @@ from typing import Union
 
 class TelegramBot(models.Model):
 	owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name='telegram_bots', null=True, verbose_name=_('Владелец'))
-
 	username = models.CharField('@username', max_length=32, unique=True)
 	api_token = models.CharField(max_length=50, unique=True)
 	is_private = models.BooleanField(_('Приватный'))
@@ -57,7 +56,6 @@ class TelegramBot(models.Model):
 
 class TelegramBotCommand(models.Model):
 	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, related_name='commands', null=True, verbose_name=_('Telegram бот'))
-
 	name = models.CharField(_('Название'), max_length=255)
 	command = models.CharField(_('Команда'), max_length=32, blank=True, null=True)
 	image = models.ImageField(upload_to='static/images/commands/', blank=True, null=True)
@@ -188,8 +186,7 @@ class TelegramBotCommand(models.Model):
 
 class TelegramBotCommandKeyboard(models.Model):
 	telegram_bot_command = models.OneToOneField(TelegramBotCommand, on_delete=models.CASCADE, related_name='keyboard', null=True)
-
-	type = models.CharField(max_length=7, choices=(('default', 'Default',), ('inline', 'Inline',),), default='default')
+	type = models.CharField(max_length=7, choices=(('default', 'Default'), ('inline', 'Inline')), default='default')
 
 	objects = TelegramBotCommandKeyboardManager()
 
@@ -210,7 +207,6 @@ class TelegramBotCommandKeyboardButton(models.Model):
 	telegram_bot_command_keyboard = models.ForeignKey(TelegramBotCommandKeyboard, on_delete=models.CASCADE, related_name='buttons', null=True)
 
 	row = models.IntegerField(null=True)
-
 	text = models.TextField(max_length=4096)
 	url = models.TextField(max_length=2048, null=True)
 
@@ -238,7 +234,6 @@ class TelegramBotCommandKeyboardButton(models.Model):
 
 class TelegramBotUser(models.Model):
 	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, related_name='users', null=True)
-
 	user_id = models.BigIntegerField()
 	full_name = models.CharField(max_length=129, null=True)
 	is_allowed = models.BooleanField(default=False)

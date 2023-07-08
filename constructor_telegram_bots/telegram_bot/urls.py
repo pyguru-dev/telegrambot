@@ -35,6 +35,4 @@ urlpatterns = [
 
 	path('<int:telegram_bot_id>/database/record/<int:record_id>/delete/', views.delete_databese_record, name='delete_databese_record'),
     path('<int:telegram_bot_id>/database/get-records/', views.get_databese_records, name='get_databese_records'),
-
-	# path('<int:telegram_bot_id>/api/database/', views.TelegramBotDatabaseView.as_view()),
 ]

@@ -9,6 +9,7 @@ from telegram_bot.models import (
 	TelegramBotCommandManager
 )
 
+from telegram_bot.services import database_telegram_bot
 from telegram_bot.services.user_telegram_bot.functions import (
 	search_telegram_bot_command,
 	get_text_variables,
@@ -131,11 +132,10 @@ def check_telegram_bot_command_database_record(func):
 			for key, value in text_variables.items():
 				text_variables[key] = f'"{value}"'
 
-			database_record: str = await replace_text_variables(telegram_bot_command.database_record, text_variables)
-
 			database_error_record = {'message': 'Failed to write record to database!'}
 
 			try:
+				database_record: str = await replace_text_variables(telegram_bot_command.database_record, text_variables)
 				database_record: Union[list, dict] = json.loads(database_record)
 			except:
 				database_record = database_error_record
@@ -143,11 +143,7 @@ def check_telegram_bot_command_database_record(func):
 			if not isinstance(database_record, dict):
 				database_record = database_error_record
 
-			client = pymongo.MongoClient('127.0.0.1', 27017)
-			collection = client.telegram_bots.get_collection(str(self.telegram_bot.id))
-			database_record.update({'_id': collection.count_documents({}) + 1})
-			collection.insert_one(database_record)
-			client.close()
+			database_telegram_bot.insert_one_record(self.telegram_bot, database_record)
 
 		return await func(*args, **kwargs)
 	return wrapper
@@ -179,16 +175,10 @@ def check_message_text(func):
 			except aiohttp.client_exceptions.InvalidURL:
 				text_variables.update({'api_response': 'URL is invalid!'})
 
-		client = pymongo.MongoClient('127.0.0.1', 27017)
-		collection = client.telegram_bots.get_collection(str(self.telegram_bot.id))
+		records: list[dict] = database_telegram_bot.get_all_records(self.telegram_bot)
 
-		records = {}
-
-		for record in collection.find():
-			records.update({str(record['_id']): record})
-
-		text_variables.update(records)
-		client.close()
+		for record in records:
+			text_variables.update({str(record['_id']): record})
 
 		message_text: str = await replace_text_variables(telegram_bot_command.message_text, text_variables)
 

@@ -12,11 +12,7 @@ from typing import Union
 import jinja2
 
 
-async def search_telegram_bot_command(
-	telegram_bot: TelegramBot,
-	message_text: str = None,
-	button_id: int = None
-) -> Union[TelegramBotCommand, None]:
+async def search_telegram_bot_command(telegram_bot: TelegramBot, message_text: str = None, button_id: int = None) -> Union[TelegramBotCommand, None]:
 	async for telegram_bot_command in telegram_bot.commands.all():
 		telegram_bot_command_keyboard: TelegramBotCommandKeyboard = await sync_to_async(telegram_bot_command.get_keyboard)()
 

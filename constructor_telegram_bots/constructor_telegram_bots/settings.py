@@ -56,14 +56,13 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 
 	'user',
-	'telegram_bot',
-
 	'home',
 	'team',
 	'updates',
 	'instruction',
 	'donation',
 	'personal_cabinet',
+	'telegram_bot',
 	'privacy_policy',
 ]
 
@@ -100,6 +99,8 @@ TEMPLATES = [
 				'django.contrib.messages.context_processors.messages',
 
 				'constructor_telegram_bots.context_processors.add_constructor_telegram_bot_username',
+				'user.context_processors.users',
+				'telegram_bot.context_processors.telegram_bots',
 				'team.context_processors.team_members',
 				'updates.context_processors.updates',
 				'instruction.context_processors.instruction_sections',

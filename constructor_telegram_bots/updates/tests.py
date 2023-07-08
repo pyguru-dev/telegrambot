@@ -8,12 +8,15 @@ from updates.models import Update
 
 class UpdatesViewsTest(BaseTestCase):
 	def test_updates_view(self) -> None:
-		response: HttpResponse = self.client.get(urls.reverse('updates'))
+		url: str = urls.reverse('updates')
+		response: HttpResponse = self.client.get(url)
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'updates.html')
 
 	def test_update_view(self) -> None:
-		response: HttpResponse = self.client.get(urls.reverse('update', kwargs={'update_id': 1}))
+		url: str = urls.reverse('update', kwargs={'update_id': 1})
+
+		response: HttpResponse = self.client.get(url)
 		self.assertJSONEqual(
 			response.content,
 			{
@@ -24,6 +27,6 @@ class UpdatesViewsTest(BaseTestCase):
 
 		Update.objects.create(title='test', description='test')
 
-		response = self.client.get(urls.reverse('update', kwargs={'update_id': 1}))
+		response = self.client.get(url)
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'update.html')

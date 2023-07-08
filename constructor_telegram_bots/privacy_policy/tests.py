@@ -5,9 +5,10 @@ from django import urls
 
 class PrivacyPolicyViewsTests(TestCase):
 	def setUp(self) -> None:
-		self.client = Client(enforce_csrf_checks=True)
+		self.client = Client()
 
 	def test_privacy_policy_view(self) -> None:
-		response: HttpResponse = self.client.get(urls.reverse('privacy_policy'))
+		url: str = urls.reverse('privacy_policy')
+		response: HttpResponse = self.client.get(url)
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'privacy_policy.html')

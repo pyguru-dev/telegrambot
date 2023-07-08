@@ -8,6 +8,7 @@ class TeamViewsTests(TestCase):
 		self.client = Client(enforce_csrf_checks=True)
 
 	def test_team_view(self) -> None:
-		response: HttpResponse = self.client.get(urls.reverse('team'))
+		url: str = urls.reverse('team')
+		response: HttpResponse = self.client.get(url)
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'team.html')

@@ -631,10 +631,10 @@
 
 		telegramBotCommandData.append('data', JSON.stringify(telegramBotCommandData_));
 
-		fetch(
-			(telegramBotCommand.addOrEditButton.id == '0') ? addTelegramBotCommandUrl : `/telegram-bot/${telegramBotId}/command/${telegramBotCommand.addOrEditButton.id}/edit/`,
+		fetch((telegramBotCommand.addOrEditButton.id == '0') ? addTelegramBotCommandUrl : `/telegram-bot/${telegramBotId}/command/${telegramBotCommand.addOrEditButton.id}/edit/`,
 			{
 				method: 'POST',
+				headers: {'Authorization': `Token ${userApiToken}`},
 				body: telegramBotCommandData,
 			}
 		).then(response => {

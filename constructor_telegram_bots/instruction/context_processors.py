@@ -1,7 +1,7 @@
-from django.core.handlers.wsgi import WSGIRequest
+from django.http import HttpRequest
 
 from instruction.models import InstructionSection
 
 
-def instruction_sections(request: WSGIRequest) -> dict:
+def instruction_sections(request: HttpRequest) -> dict:
     return {'instruction_sections': InstructionSection.objects.all()}

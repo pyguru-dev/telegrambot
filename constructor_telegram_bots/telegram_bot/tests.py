@@ -32,9 +32,7 @@ class TelegramBotModelsTest(BaseTestCase):
 						'buttons': [
 							{
 								'id': 1,
-
 								'row': None,
-
 								'text': '1',
 								'url': 'http://example.com/',
 
@@ -44,9 +42,7 @@ class TelegramBotModelsTest(BaseTestCase):
 							},
 							{
 								'id': 2,
-
 								'row': None,
-
 								'text': '2',
 								'url': None,
 
@@ -95,9 +91,10 @@ class TelegramBotModelsTest(BaseTestCase):
 
 class TelegramBotViewsTest(BaseTestCase):
 	def test_add_telegram_bot_view(self) -> None:
+		url: str = urls.reverse('add_telegram_bot')
 		tests = [
 			{
-				'url': urls.reverse('add_telegram_bot'),
+				'url': url,
 				'data': {
 					'api_token': '123456789:qwertyuiop',
 					'is_private': True,
@@ -108,7 +105,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 			{
-				'url': urls.reverse('add_telegram_bot'),
+				'url': url,
 				'data': {
 					'api_token': None,
 					'is_private': None,
@@ -119,7 +116,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 			{
-				'url': urls.reverse('add_telegram_bot'),
+				'url': url,
 				'data': {
 					'api_token': '123456789:dwawdadwa',
 					'is_private': True,
@@ -131,7 +128,7 @@ class TelegramBotViewsTest(BaseTestCase):
 			},
 		]
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
+		self.assertUnauthorizedAccess(url)
 		self.assertTests(tests)
 
 	def test_edit_telegram_bot_api_token_view(self) -> None:
@@ -289,7 +286,6 @@ class TelegramBotViewsTest(BaseTestCase):
 						'buttons': [
 							{
 								'row': None,
-
 								'text': 'test1',
 								'url': '-',
 							},
@@ -383,7 +379,6 @@ class TelegramBotViewsTest(BaseTestCase):
 						'buttons': [
 							{
 								'row': None,
-
 								'text': 'test1',
 								'url': '-',
 							},

@@ -19,7 +19,10 @@
 					'is_private': addTelegramBot.IsPrivateCheckBox.checked,
 				}
 			),
-			headers: {'Content-Type': 'application/json'},
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Token ${userApiToken}`,
+			},
 		}).then(response => {
 			response.json().then(jsonResponse => {
 				if (response.ok) {

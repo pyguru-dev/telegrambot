@@ -7,7 +7,8 @@ var intervalUpdateUsersId;
 
 	function updateTelegramBot() {
 		fetch (getTelegramBotDataUrl, {
-			method: 'POST'
+			method: 'POST',
+			headers: {'Authorization': `Token ${userApiToken}`},
 		}).then(response => {
 			if (response.ok) {
 				response.json().then(telegramBot => {
@@ -32,6 +33,7 @@ var intervalUpdateUsersId;
 	function updateTelegramBotCommands() {
 		fetch(getTelegramBotCommandsUrl, {
 			method: 'POST',
+			headers: {'Authorization': `Token ${userApiToken}`},
 		}).then(response => {
 			if (response.ok) {
 				response.json().then(telegramBotCommands => {
@@ -45,6 +47,7 @@ var intervalUpdateUsersId;
 						diagramEditButton.addEventListener('click', function() {
 							fetch(`/telegram-bot/${telegramBotId}/command/${this.id}/get-data/`, {
 								method: 'POST',
+								headers: {'Authorization': `Token ${userApiToken}`},
 							}).then(response => {
 								if (response.ok) {
 									response.json().then(telegramBotCommand => {
@@ -68,6 +71,7 @@ var intervalUpdateUsersId;
 								function() {
 									fetch(`/telegram-bot/${telegramBotId}/command/${telegramBotCommandId}/delete/`, {
 										method: 'POST',
+										headers: {'Authorization': `Token ${userApiToken}`},
 									}).then(response => {
 										if (response.ok) {
 											if (telegramBotCommand.addOrEditButton.id != '0') {
@@ -145,6 +149,7 @@ var intervalUpdateUsersId;
 		if (document.hidden == false) {
 			fetch(getTelegramBotUsersUrl, {
 				method: 'POST',
+				headers: {'Authorization': `Token ${userApiToken}`},
 			}).then(response => {
 				if (response.ok) {
 					response.json().then(telegramBotUsers => {
@@ -197,6 +202,7 @@ var intervalUpdateUsersId;
 
 										fetch(`/telegram-bot/${telegramBotId}/user/${telegramBotUser['id']}/delete-allowed-user/`, {
 											method: 'POST',
+											headers: {'Authorization': `Token ${userApiToken}`},
 										}).then(response => {
 											response.json().then(jsonResponse => {
 												createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
@@ -208,6 +214,7 @@ var intervalUpdateUsersId;
 
 										fetch(`/telegram-bot/${telegramBotId}/user/${telegramBotUser['id']}/add-allowed-user/`, {
 											method: 'POST',
+											headers: {'Authorization': `Token ${userApiToken}`},
 										}).then(response => {
 											response.json().then(jsonResponse => {
 												createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
@@ -233,6 +240,7 @@ var intervalUpdateUsersId;
 									function() {
 										fetch(`/telegram-bot/${telegramBotId}/user/${telegramBotUser['id']}/delete/`, {
 											method: 'POST',
+											headers: {'Authorization': `Token ${userApiToken}`},
 										}).then(response => {
 											if (response.ok) {
 												updateTelegramBotUsers();

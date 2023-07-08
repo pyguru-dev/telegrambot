@@ -25,12 +25,11 @@
 
 		fetch(editTelegramBotApiTokenUrl, {
 			method: 'POST',
-			headers: {'Content-Type': 'application/json'},
-			body: JSON.stringify(
-				{
-					'api_token': telegramBotApiTokenInput.value,
-				}
-			),
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Token ${userApiToken}`,
+			},
+			body: JSON.stringify({'api_token': telegramBotApiTokenInput.value}),
 		}).then(response => {
 			if (response.ok) {
 				updateTelegramBot();
@@ -56,7 +55,10 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 				'is_private': telegramBotIsPrivateCheckBox.checked,
 			}
 		),
-		headers: {'Content-Type': 'application/json'},
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `Token ${userApiToken}`,
+		},
 	}).then(response => {
 		if (response.ok) {
 			updateTelegramBotUsers();
@@ -81,6 +83,7 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 
 		fetch((telegramBotIsRunning) ? stopTelegramBotUrl : startTelegramBotUrl, {
 			method: 'POST',
+			headers: {'Authorization': `Token ${userApiToken}`},
 		}).then(response => {
 			if (response.ok) {
 				const telegramBotStatus = document.querySelector('#telegramBotStatus');
@@ -88,7 +91,8 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 				if (telegramBotIsRunning) {
 					function checkTelegramBotIsStopped() {
 						fetch (getTelegramBotDataUrl, {
-							method: 'POST'
+							method: 'POST',
+							headers: {'Authorization': `Token ${userApiToken}`},
 						}).then(response => {
 							if (response.ok) {
 								response.json().then(telegramBot => {
@@ -150,6 +154,7 @@ document.querySelector('#telegramBotDeleteButton').addEventListener('click', () 
 	function() {
 		fetch(deleteTelegramBotUrl, {
 			method: 'POST',
+			headers: {'Authorization': `Token ${userApiToken}`},
 		}).then(response => {
 			if (response.ok) {
 				setTimeout("window.location.href = '../';", 1000);

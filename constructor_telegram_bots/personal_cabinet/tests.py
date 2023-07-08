@@ -6,21 +6,21 @@ from django import urls
 
 class PersonalCabinetViewsTests(BaseTestCase):
 	def test_personal_cabinet_view(self) -> None:
-		url = urls.reverse('personal_cabinet')
+		url: str = urls.reverse('personal_cabinet')
 
 		self.assertUnauthorizedAccess(url, method='GET')
 
-		response: HttpResponse = self.client.get(urls.reverse('personal_cabinet'))
+		response: HttpResponse = self.client.get(url)
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'personal_cabinet/main.html')
 
 	def test_telegram_bot_menu_view(self) -> None:
-		self.assertUnauthorizedAccess(
-			urls.reverse('telegram_bot_menu', kwargs={'telegram_bot_id': 1}),
-			method='GET'
-		)
+		url_1: str = urls.reverse('telegram_bot_menu', kwargs={'telegram_bot_id': 1})
 
-		response: HttpResponse = self.client.get(urls.reverse('telegram_bot_menu', kwargs={'telegram_bot_id': 0}))
+		self.assertUnauthorizedAccess(url_1, method='GET')
+
+		url_2: str = urls.reverse('telegram_bot_menu', kwargs={'telegram_bot_id': 0})
+		response: HttpResponse = self.client.get(url_2)
 		self.assertJSONEqual(
 			response.content,
 			{
@@ -29,6 +29,6 @@ class PersonalCabinetViewsTests(BaseTestCase):
 			}
 		)
 
-		response = self.client.get(urls.reverse('telegram_bot_menu', kwargs={'telegram_bot_id': 1}))
+		response = self.client.get(url_1)
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'telegram_bot_menu/main.html')
