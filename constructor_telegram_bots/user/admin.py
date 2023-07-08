@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.http.request import HttpRequest
 from django.utils.translation import gettext_lazy as _
 
 from user.models import User, UserPlagin, UserPlaginLog
@@ -22,6 +23,9 @@ class UserAdmin(admin.ModelAdmin):
 	@admin.display(description=_('Количество Telegram ботов'))
 	def show_telegram_bots_count(self, user: User) -> int:
 		return user.telegram_bots.count()
+
+	def has_add_permission(self, request: HttpRequest) -> bool:
+		return False
 
 
 @admin.register(UserPlagin)

@@ -1,12 +1,15 @@
+from typing import Optional
 from django.contrib import admin, messages
+from django.http.request import HttpRequest
 from django.utils.translation import gettext_lazy as _
 from django.core.handlers.wsgi import WSGIRequest
 from django.utils import html
 
-from telegram_bot.models import TelegramBot, TelegramBotCommand
+from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotUser
 
 from telegram_bot.services import tasks
 
+from typing import Union
 
 @admin.register(TelegramBot)
 class TelegramBotAdmin(admin.ModelAdmin):
@@ -85,10 +88,25 @@ class TelegramBotCommandAdmin(admin.ModelAdmin):
 		'image',
 		'message_text',
 		'api_request',
+		'database_record',
 		'x',
-		'y'
+		'y',
 	)
 
 	@admin.display(description=_('Название'))
 	def show_name(self, telegram_bot_command: TelegramBotCommand):
 		return html.format_html(f'<a href="{telegram_bot_command.id}/change/">{telegram_bot_command.name}<a>')
+
+@admin.register(TelegramBotUser)
+class TelegramBotUserAdmin(admin.ModelAdmin):
+	date_hierarchy = 'date_activated'
+
+	list_display = ('id', 'telegram_bot', 'full_name', 'date_activated')
+
+	fields = ('telegram_bot', 'user_id', 'full_name', 'is_allowed', 'date_activated',)
+
+	def has_add_permission(self, request: HttpRequest) -> bool:
+		return False
+
+	def has_change_permission(self, request: HttpRequest, telegram_bot_user: Union[TelegramBotUser, None] = None) -> bool:
+		return False
