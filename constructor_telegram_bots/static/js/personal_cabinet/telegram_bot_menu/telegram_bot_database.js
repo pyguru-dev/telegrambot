@@ -86,8 +86,8 @@
 			});
 
 			databaseRecordConfirmButton.addEventListener('click', function() {
-				fetch(`/telegram-bot/${telegramBotId}/database/record/${this.id}/update/`, {
-					method: 'POST',
+				fetch(`/telegram-bot/${telegramBotId}/database/record/${this.id}/`, {
+					method: 'PATCH',
 					headers: {
 						'Content-Type': 'application/json',
 						'Authorization': `Token ${userApiToken}`,
@@ -118,8 +118,8 @@
 					deleteTelegramBotDatabaseRecordAskConfirmModalTitle,
 					deleteTelegramBotDatabaseRecordAskConfirmModalText,
 					function() {
-						fetch(`/telegram-bot/${telegramBotId}/database/record/${databaseRecordId}/delete/`, {
-							method: 'POST',
+						fetch(`/telegram-bot/${telegramBotId}/database/record/${databaseRecordId}/`, {
+							method: 'DELETE',
 							headers: {'Authorization': `Token ${userApiToken}`},
 						}).then(response => {
 							if (response.ok) {
@@ -137,7 +137,7 @@
 	{
 		const updateDatabaseRecords = () => {
 			fetch(getTelegramBotDatabeseRecordsUrl, {
-				method: 'POST',
+				method: 'GET',
 				headers: {'Authorization': `Token ${userApiToken}`},
 			}).then(response => {
 				response.json().then(jsonResponse => {
@@ -238,7 +238,7 @@
 					databaseRecordMonacoEditor.onDidChangeModelContent(event => updateDatabaseRecordMonacoEditorHeight());
 
 					databaseRecordConfirmButton.addEventListener('click', function() {
-						fetch(`/telegram-bot/${telegramBotId}/database/record/insert/`, {
+						fetch(`/telegram-bot/${telegramBotId}/database/record/`, {
 							method: 'POST',
 							headers: {
 								'Content-Type': 'application/json',

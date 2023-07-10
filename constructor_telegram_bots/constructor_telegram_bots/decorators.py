@@ -12,7 +12,7 @@ def check_post_request_data_items(needed_request_data: dict):
 	def decorator(func):
 		@wraps(func)
 		def wrapper(*args, **kwargs):
-			request: Request = args[0]
+			request: Request = args[-1]
 
 			try:
 				request_data: dict = json.loads(request.body)
