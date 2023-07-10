@@ -444,12 +444,46 @@ def get_telegram_bot_users(request: Request, telegram_bot: TelegramBot) -> Respo
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 @check_telegram_bot_id
-def delete_databese_record(request: Request, telegram_bot: TelegramBot, record_id: int) -> Response:
-	database_telegram_bot.delete_one_record(telegram_bot, record_id)
+@check_post_request_data_items({'record': dict})
+def insert_databese_record(request: Request, telegram_bot: TelegramBot, record: dict) -> Response:
+	database_telegram_bot.insert_record(telegram_bot, record)
 
 	return Response(
 		{
-			'message': _('Вы успешно удалили запись из базы данных.'),
+			'message': _('Вы успешно добавили запись в базу данных Telegram бота.'),
+			'level': 'success',
+
+			'record': record,
+		}
+	)
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+@check_telegram_bot_id
+@check_post_request_data_items({'updated_record': dict})
+def update_databese_record(request: Request, telegram_bot: TelegramBot, record_id: int, updated_record: dict) -> Response:
+	record: dict = database_telegram_bot.update_record(telegram_bot, record_id, updated_record)
+
+	return Response(
+		{
+			'message': _('Вы успешно обновили запись в базе данных Telegram бота.'),
+			'level': 'success',
+
+			'record': record,
+		}
+	)
+
+@api_view(['POST'])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+@check_telegram_bot_id
+def delete_databese_record(request: Request, telegram_bot: TelegramBot, record_id: int) -> Response:
+	database_telegram_bot.delete_record(telegram_bot, record_id)
+
+	return Response(
+		{
+			'message': _('Вы успешно удалили запись из базы данных Telegram бота.'),
 			'level': 'success',
 		}
 	)
@@ -459,4 +493,4 @@ def delete_databese_record(request: Request, telegram_bot: TelegramBot, record_i
 @permission_classes([IsAuthenticated])
 @check_telegram_bot_id
 def get_databese_records(request: Request, telegram_bot: TelegramBot) -> Response:
-	return Response(database_telegram_bot.get_all_records(telegram_bot))
+	return Response(database_telegram_bot.get_records(telegram_bot))

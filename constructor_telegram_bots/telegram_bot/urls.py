@@ -33,6 +33,8 @@ urlpatterns = [
 	path('<int:telegram_bot_id>/get-commands/', views.get_telegram_bot_commands, name='get_telegram_bot_commands'),
 	path('<int:telegram_bot_id>/get-users/', views.get_telegram_bot_users, name='get_telegram_bot_users'),
 
+	path('<int:telegram_bot_id>/database/record/insert/', views.insert_databese_record, name='insert_databese_record'),
+	path('<int:telegram_bot_id>/database/record/<int:record_id>/update/', views.update_databese_record, name='update_databese_record'),
 	path('<int:telegram_bot_id>/database/record/<int:record_id>/delete/', views.delete_databese_record, name='delete_databese_record'),
-    path('<int:telegram_bot_id>/database/get-records/', views.get_databese_records, name='get_databese_records'),
+	path('<int:telegram_bot_id>/database/get-records/', views.get_databese_records, name='get_databese_records'),
 ]

@@ -2,18 +2,7 @@
 
 <div class="card h-100">
 	<h5 class="card-header text-center">{% trans "База данных Telegram бота" %}</h5>
-	<div class="card-body">
-		<div class="list-group" id="databaseRecords">
-			{% comment %} <div class="list-group-item p-2">
-				<div class="row">
-					<div class="col-7 col-sm-8 col-lg-10 pe-0">
-						<p class="ms-2 my-2">Эхо Telegram бот</p>
-					</div>
-					<div class="col-5 col-sm-4 col-lg-2">
-						<div class="btn btn-dark w-100" type="button">{% trans "Применить" %}</div>
-					</div>
-				</div>
-			</div> {% endcomment %}
-		</div>
+	<div class="card-footer border-0 p-0">
+		<button class="btn btn-light rounded-top-0 w-100 px-3" id="showDatabaseRecords" type="button" style="height: 42px;">{% trans "Показать все записи" %}</button>
 	</div>
 </div>
