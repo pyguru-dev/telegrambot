@@ -60,7 +60,7 @@ def check_telegram_bot_api_token(func):
 def check_telegram_bot_id(func):
 	@wraps(func)
 	def wrapper(*args, **kwargs):
-		request: Union[HttpRequest, Request] = args[0]
+		request: Union[HttpRequest, Request] = args[-1]
 		telegram_bot_id: int = kwargs.pop('telegram_bot_id')
 
 		if not request.user.telegram_bots.filter(id=telegram_bot_id).exists():

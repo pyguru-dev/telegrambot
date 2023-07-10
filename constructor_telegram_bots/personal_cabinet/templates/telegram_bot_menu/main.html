@@ -6,6 +6,10 @@
 
 {% block styles %}
 {{ block.super }}
+<!-- Monaco Editor -->
+<link rel="stylesheet" href="{% static 'monaco_editor/min/vs/editor/editor.main.css' %}">
+<!-- END Monaco Editor -->
+
 <link rel="stylesheet" href="{% static 'css/personal_cabinet/telegram_bot_menu/telegram_bot_command.css' %}">
 <link rel="stylesheet" href="{% static 'css/personal_cabinet/telegram_bot_menu/diagram.css' %}">
 {% endblock styles %}
@@ -78,6 +82,13 @@
 	const deleteTelegramBotUserAskConfirmModalTitle = "{% trans 'Удаление пользователя Telegram бота' %}";
 	const deleteTelegramBotUserAskConfirmModalText = "{% trans 'Вы точно хотите удалить пользователя Telegram бота?' %}";
 
+	const telegramBotDatabaseNotHaveDataText = "{% trans 'В базе данных вашего Telegram бота нет никаких данных.' %}";
+
+	const deleteTelegramBotDatabaseRecordAskConfirmModalTitle = "{% trans 'Удаление записи из базы данных Telegram бота.' %}";
+	const deleteTelegramBotDatabaseRecordAskConfirmModalText = "{% trans 'Вы точно хотите удалить запись из базы данных Telegram бота?' %}";
+
+	const telegramBotDatabaseAddRecordButtonText = "{% trans 'Добавить запись' %}";
+
 	const telegramBotCommandCardHeaderAddCommandTitleText = "{% trans 'Добавление команды' %}";
 	const telegramBotCommandCardHeaderEditCommandTitleText = "{% trans 'Редактирование команды' %}";
 
@@ -91,7 +102,13 @@
 	const deleteTelegramBotCommandAskConfirmModalText = "{% trans 'Вы точно хотите удалить команду Telegram бота?' %}";
 
 	const getTelegramBotDatabeseRecordsUrl = "{% url 'get_databese_records' telegram_bot.id %}";
+
+	const monacoEditorMinVsFolderUrl = "{% static 'monaco_editor/min/vs' %}";
 </script>
+
+<!-- Monaco Editor -->
+<script src="{% static 'monaco_editor/min/vs/loader.js' %}"></script>
+<!-- END Monaco Editor -->
 
 <script src="{% static 'js/personal_cabinet/telegram_bot_menu/init.js' %}"></script>
 <script src="{% static 'js/personal_cabinet/telegram_bot_menu/main.js' %}"></script>

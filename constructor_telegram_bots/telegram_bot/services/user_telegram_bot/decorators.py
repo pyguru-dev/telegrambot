@@ -1,7 +1,6 @@
 from aiogram import types
 
 from django.db import models
-
 from telegram_bot.models import (
 	TelegramBot,
 	TelegramBotUser,
@@ -20,8 +19,7 @@ from asgiref.sync import sync_to_async
 import aiohttp
 
 from functools import wraps
-from typing import Union
-import pymongo
+from typing import List, Union
 import json
 
 
@@ -175,7 +173,7 @@ def check_message_text(func):
 			except aiohttp.client_exceptions.InvalidURL:
 				text_variables.update({'api_response': 'URL is invalid!'})
 
-		records: list[dict] = database_telegram_bot.get_all_records(self.telegram_bot)
+		records: List[dict] = database_telegram_bot.get_records(self.telegram_bot)
 
 		for record in records:
 			text_variables.update({str(record['_id']): record})
