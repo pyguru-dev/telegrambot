@@ -46,7 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 		return [telegram_bot.to_dict() for telegram_bot in self.telegram_bots.all()]
 
 	def __str__(self) -> str:
-		return str(self.id)
+		return self.username
 
 
 class UserPlugin(models.Model):
