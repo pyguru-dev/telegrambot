@@ -9,6 +9,7 @@ from constructor_telegram_bots.functions import generate_random_string
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+	telegram_id = models.BigIntegerField('Telegram ID', unique=True, null=True)
 	username = models.CharField(_('Имя пользователя'), max_length=32, unique=True, null=True)
 	password = None
 	is_staff = models.BooleanField(_('Сотрудник'), default=False)
@@ -31,7 +32,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 			self.confirm_code = generate_random_string(length=25, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
 			self.save()
 
-		return f'{settings.SITE_DOMAIN}user/login/{self.id}/{self.confirm_code}/'
+		return f'{settings.SITE_DOMAIN}user/login/{self.telegram_id}/{self.confirm_code}/'
 
 	@property
 	async def alogin_url(self) -> str:
@@ -39,7 +40,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 			self.confirm_code = generate_random_string(length=25, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
 			await self.asave()
 
-		return f'{settings.SITE_DOMAIN}user/login/{self.id}/{self.confirm_code}/'
+		return f'{settings.SITE_DOMAIN}user/login/{self.telegram_id}/{self.confirm_code}/'
 
 	def get_telegram_bots_as_dict(self) -> list:
 		return [telegram_bot.to_dict() for telegram_bot in self.telegram_bots.all()]
@@ -48,7 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 		return str(self.id)
 
 
-class UserPlagin(models.Model):
+class UserPlugin(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Пользователь'))
 	telegram_bot = models.ForeignKey('telegram_bot.TelegramBot', on_delete=models.CASCADE, verbose_name=_('Telegram бот'))
 	name = models.CharField(_('Название'), max_length=255)
@@ -57,7 +58,7 @@ class UserPlagin(models.Model):
 	date_added = models.DateTimeField(_('Дата добавления'), auto_now_add=True)
 
 	class Meta:
-		db_table = 'user_plagin'
+		db_table = 'user_plugin'
 
 		verbose_name = _('Плагин пользователя')
 		verbose_name_plural = _('Плагины пользователей')
@@ -66,19 +67,19 @@ class UserPlagin(models.Model):
 		return self.name
 
 
-class UserPlaginLog(models.Model):
+class UserPluginLog(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Пользователь'))
 	telegram_bot = models.ForeignKey('telegram_bot.TelegramBot', on_delete=models.CASCADE, verbose_name=_('Telegram бот'))
-	plagin = models.ForeignKey(UserPlagin, on_delete=models.CASCADE, verbose_name=_('Плагин'))
+	plugin = models.ForeignKey(UserPlugin, on_delete=models.CASCADE, verbose_name=_('Плагин'))
 	message = models.TextField(_('Сообщение'))
 	level = models.CharField(_('Уровень'), max_length=7, choices=(('info', 'Info'), ('success', 'Success'), ('danger', 'Danger')), default='info')
 	date_added = models.DateTimeField(_('Дата добавления'), auto_now_add=True)
 
 	class Meta:
-		db_table = 'user_plagin_log'
+		db_table = 'user_plugin_log'
 
 		verbose_name = _('Журнал плагина пользователя')
 		verbose_name_plural = _('Журналы плагинов пользователей')
 
 	def __str__(self) -> str:
-		return self.plagin.name
+		return self.plugin.name

@@ -15,9 +15,9 @@ from user.models import User
 from django.contrib.auth import login, logout
 
 
-def user_login(request: HttpRequest, user_id: int, confirm_code: str) -> HttpResponse:
-	if User.objects.filter(id=user_id).exists():
-		user: User = User.objects.get(id=user_id)
+def user_login(request: HttpRequest, telegram_id: int, confirm_code: str) -> HttpResponse:
+	if User.objects.filter(telegram_id=telegram_id).exists():
+		user: User = User.objects.get(telegram_id=telegram_id)
 
 		if user.confirm_code == confirm_code:
 			user.confirm_code = None

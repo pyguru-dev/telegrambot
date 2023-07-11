@@ -11,8 +11,8 @@ class UserManager(BaseUserManager):
 		Token.objects.create(user=user)
 		return user
 
-	def create_user(self, user_id: int, **extra_fields) -> 'UserModels.User':
-		return self.create(id=user_id, **extra_fields)
+	def create_user(self, telegram_id: int, **extra_fields) -> 'UserModels.User':
+		return self.create(telegram_id=telegram_id, **extra_fields)
 
 	def create_superuser(self, **fields) -> None:
 		raise SyntaxError('Not support to create superuser!')
