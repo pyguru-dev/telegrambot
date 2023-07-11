@@ -10,7 +10,8 @@ from user.models import User
 class UserModelsTest(BaseTestCase):
 	def test_models(self) -> None:
 		user: User = User.objects.filter(
-			id=123456789,
+			id=1,
+			telegram_id=123456789,
 			username=None,
 			last_login=None,
 			confirm_code=None,
@@ -18,13 +19,13 @@ class UserModelsTest(BaseTestCase):
 		).first()
 		self.assertIsNotNone(user)
 
-		self.assertEqual(user.login_url, f'{settings.SITE_DOMAIN}user/login/{user.id}/{user.confirm_code}/')
+		self.assertEqual(user.login_url, f'{settings.SITE_DOMAIN}user/login/{user.telegram_id}/{user.confirm_code}/')
 		self.assertIsNone(user.last_login)
 		self.assertIsNotNone(user.confirm_code)
 
 		self.client.get(user.login_url)
 
-		user: User = User.objects.get(id=123456789)
+		user: User = User.objects.get(telegram_id=123456789)
 		self.assertIsNotNone(user.last_login)
 		self.assertIsNone(user.confirm_code)
 
@@ -32,8 +33,8 @@ class UserModelsTest(BaseTestCase):
 class UserViewsTest(BaseTestCase):
 	def test_user_login_view(self) -> None:
 		login_urls = {
-			urls.reverse('user_login', kwargs={'user_id': 0, 'confirm_code': 0}): 'Не удалось найти пользователя!',
-			urls.reverse('user_login', kwargs={'user_id': 123456789, 'confirm_code': 0}): 'Неверный код подтверждения!',
+			urls.reverse('user_login', kwargs={'telegram_id': 0, 'confirm_code': 0}): 'Не удалось найти пользователя!',
+			urls.reverse('user_login', kwargs={'telegram_id': 123456789, 'confirm_code': 0}): 'Неверный код подтверждения!',
 			self.user.login_url: 'Успешная авторизация',
 		}
 
