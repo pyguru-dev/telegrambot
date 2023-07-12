@@ -12,14 +12,14 @@ urlpatterns = [
 	path("i18n/", include("django.conf.urls.i18n")),
 
 	path('user/', include('user.urls')),
-	path('telegram-bot/', include('telegram_bot.urls')),
-
 	path('', include('home.urls')),
 	path('team/', include('team.urls')),
 	path('updates/', include('updates.urls')),
 	path('instruction/', include('instruction.urls')),
 	path('donation/', include('donation.urls')),
 	path('personal-cabinet/', include('personal_cabinet.urls')),
+	path('telegram-bot/', include('telegram_bot.urls')),
+	path('', include('plugin.urls')),
 	path('privacy-policy/', include('privacy_policy.urls')),
 ]
 
