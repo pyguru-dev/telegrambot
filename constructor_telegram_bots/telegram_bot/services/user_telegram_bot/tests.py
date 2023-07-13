@@ -19,7 +19,7 @@ from functools import wraps
 
 class UserTelegramBotTests(CustomTestCase):
 	def setUp(self) -> None:
-		self.user: User = User.objects.create_user(telegram_id=123456789)
+		self.user: User = User.objects.create(123456789, 'exg1o')
 		self.telegram_bot: TelegramBot = TelegramBot.objects.create(
 			owner=self.user,
 			api_token='123456789:qwertyuiop',

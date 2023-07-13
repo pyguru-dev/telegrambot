@@ -6,6 +6,7 @@ from django.conf import settings
 from user.managers import UserManager
 
 from constructor_telegram_bots.functions import generate_random_string
+from constructor_telegram_bots import environment
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -44,6 +45,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 	def get_telegram_bots_as_dict(self) -> list:
 		return [telegram_bot.to_dict() for telegram_bot in self.telegram_bots.all()]
+
+	def delete(self) -> None:
+		environment.delete_user(self)
+		super().delete()
 
 	def __str__(self) -> str:
 		return self.username

@@ -11,7 +11,7 @@ from .decorators import check_plugin_id
 from .models import Plugin, PluginLog
 from telegram_bot.models import TelegramBot
 
-import requests
+from constructor_telegram_bots import environment
 
 
 class Plugins(APIView):
@@ -21,7 +21,9 @@ class Plugins(APIView):
 	@check_post_request_data_items({'telegram_bot_id': int, 'name': str, 'code': str})
 	@check_telegram_bot_id
 	def post(request: Request, telegram_bot: TelegramBot, name: str, code: str) -> Response:
-		Plugin.objects.create(user=request.user, telegram_bot=telegram_bot, name=name, code=code)
+		plugin: Plugin = Plugin.objects.create(user=request.user, telegram_bot=telegram_bot, name=name, code=code)
+
+		environment.add_plugin(plugin)
 
 		return Response(
 			{
@@ -33,11 +35,10 @@ class Plugins(APIView):
 	@check_post_request_data_items({'plugin_id': int, 'name': str, 'code': str})
 	@check_plugin_id
 	def patch(request: Request, telegram_bot: TelegramBot, plugin: Plugin, name: str, code: str) -> Response:
-		plugin.name = name
 		plugin.code = code
 		plugin.save()
 
-		# requests.
+		environment.update_plugin(plugin)
 
 		return Response(
 			{
@@ -51,7 +52,7 @@ class Plugins(APIView):
 	def delete(request: Request, telegram_bot: TelegramBot, plugin: Plugin) -> Response:
 		plugin.delete()
 
-		# requests.
+		environment.delete_plugin(plugin)
 
 		return Response(
 			{
