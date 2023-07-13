@@ -63,6 +63,7 @@ INSTALLED_APPS = [
 	'donation',
 	'personal_cabinet',
 	'telegram_bot',
+	'plugin',
 	'privacy_policy',
 ]
 

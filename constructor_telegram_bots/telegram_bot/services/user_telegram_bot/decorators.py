@@ -8,12 +8,9 @@ from telegram_bot.models import (
 	TelegramBotCommandManager
 )
 
+from constructor_telegram_bots import environment
 from telegram_bot.services import database_telegram_bot
-from telegram_bot.services.user_telegram_bot.functions import (
-	search_telegram_bot_command,
-	get_text_variables,
-	replace_text_variables,
-)
+from telegram_bot.services.user_telegram_bot.functions import search_telegram_bot_command, get_text_variables
 
 from asgiref.sync import sync_to_async
 import aiohttp
@@ -103,10 +100,10 @@ def check_telegram_bot_command(func):
 			)
 
 		if not telegram_bot_command:
-			text_variables: dict = await get_text_variables(message, callback_query)
+			text_variables: dict = await get_text_variables(telegram_bot, message, callback_query)
 
 			async for telegram_bot_command_ in telegram_bot.commands.all():
-				if (message.text == await replace_text_variables(telegram_bot_command_.command, text_variables)):
+				if (message.text == await sync_to_async(environment.replace_text_variables)(telegram_bot, telegram_bot_command_.command, text_variables)):
 					telegram_bot_command = telegram_bot_command_
 					break
 
@@ -125,7 +122,7 @@ def check_telegram_bot_command_database_record(func):
 		telegram_bot_command: TelegramBotCommand = kwargs['telegram_bot_command']
 
 		if telegram_bot_command.database_record is not None:
-			text_variables: dict = await get_text_variables(message, callback_query)
+			text_variables: dict = await get_text_variables(self.telegram_bot, message, callback_query)
 
 			for key, value in text_variables.items():
 				text_variables[key] = f'"{value}"'
@@ -133,7 +130,7 @@ def check_telegram_bot_command_database_record(func):
 			database_error_record = {'message': 'Failed to write record to database!'}
 
 			try:
-				database_record: str = await replace_text_variables(telegram_bot_command.database_record, text_variables)
+				database_record: str = await sync_to_async(environment.replace_text_variables)(self.telegram_bot, telegram_bot_command.database_record, text_variables)
 				database_record: Union[list, dict] = json.loads(database_record)
 			except:
 				database_record = database_error_record
@@ -155,35 +152,27 @@ def check_message_text(func):
 		callback_query: Union[types.CallbackQuery, None] = kwargs['callback_query']
 		telegram_bot_command: TelegramBotCommand = kwargs['telegram_bot_command']
 
-		text_variables: dict = await get_text_variables(message, callback_query)
+		text_variables: dict = await get_text_variables(self.telegram_bot, message, callback_query)
 
 		if telegram_bot_command.api_request:
 			try:
 				async with aiohttp.ClientSession() as session:
-					url: str = await replace_text_variables(telegram_bot_command.api_request['url'], text_variables)
-					data: str = await replace_text_variables(telegram_bot_command.api_request['data'], text_variables)
+					url: str = await sync_to_async(environment.replace_text_variables)(self.telegram_bot, telegram_bot_command.api_request['url'], text_variables)
+					data: str = await sync_to_async(environment.replace_text_variables)(self.telegram_bot, telegram_bot_command.api_request['data'], text_variables)
 
 					async with session.post(url, data=data) as response:
 						try:
 							response_json: Union[list, dict] = await response.json()
-
 							text_variables.update({'api_response': response_json})
 						except aiohttp.client_exceptions.ContentTypeError:
 							text_variables.update({'api_response': 'API-request return not JSON!'})
 			except aiohttp.client_exceptions.InvalidURL:
 				text_variables.update({'api_response': 'URL is invalid!'})
 
-		records: List[dict] = database_telegram_bot.get_records(self.telegram_bot)
-
-		for record in records:
-			text_variables.update({str(record['_id']): record})
-
-		message_text: str = await replace_text_variables(telegram_bot_command.message_text, text_variables)
+		message_text: str = await sync_to_async(environment.replace_text_variables)(self.telegram_bot, telegram_bot_command.message_text, text_variables)
 
 		if len(message_text) > 4096:
 			message_text = 'The message text must contain no more than 4096 characters!'
 
-		kwargs.update({'message_text': message_text})
-
-		return await func(*args, **kwargs)
+		return await func(message_text=message_text, *args, **kwargs)
 	return wrapper

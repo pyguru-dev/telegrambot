@@ -4,15 +4,19 @@ from rest_framework.authtoken.models import Token
 
 import user.models as UserModels
 
+from constructor_telegram_bots import environment
+
 
 class UserManager(BaseUserManager):
-	def create(self, **fields) -> 'UserModels.User':
-		user: UserModels.User = super().create(**fields)
+	def create(self, telegram_id: int, username: str, **extra_fields) -> 'UserModels.User':
+		user: UserModels.User = super().create(
+			telegram_id=telegram_id,
+			username=username,
+			**extra_fields
+		)
 		Token.objects.create(user=user)
+		environment.create_user(user)
 		return user
-
-	def create_user(self, telegram_id: int, **extra_fields) -> 'UserModels.User':
-		return self.create(telegram_id=telegram_id, **extra_fields)
 
 	def create_superuser(self, **fields) -> None:
 		raise SyntaxError('Not support to create superuser!')
