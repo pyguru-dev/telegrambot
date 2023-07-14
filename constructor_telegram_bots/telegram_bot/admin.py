@@ -1,15 +1,14 @@
-from typing import Optional
 from django.contrib import admin, messages
-from django.http.request import HttpRequest
+from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
-from django.core.handlers.wsgi import WSGIRequest
 from django.utils import html
 
-from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotUser
+from .models import TelegramBot, TelegramBotCommand, TelegramBotUser
 
-from telegram_bot.services import tasks
+from .services import tasks
 
-from typing import Union
+from typing import List, Union
+
 
 @admin.register(TelegramBot)
 class TelegramBotAdmin(admin.ModelAdmin):
@@ -40,7 +39,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 		return telegram_bot.users.count()
 
 	@admin.action(permissions=['change'], description=_('Включить Telegram бота'))
-	def start_telegram_bot_button(self, request: WSGIRequest, telegram_bots: list[TelegramBot]) -> None:
+	def start_telegram_bot_button(self, request: HttpRequest, telegram_bots: List[TelegramBot]) -> None:
 		for telegram_bot in telegram_bots:
 			if telegram_bot.is_stopped:
 				tasks.start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
@@ -54,7 +53,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 				messages.error(request, f'@{telegram_bot.username} {_("Telegram бот уже включен!")}')
 
 	@admin.action(permissions=['change'], description=_('Выключить Telegram бота'))
-	def stop_telegram_bot_button(self, request: WSGIRequest, telegram_bots: list[TelegramBot]) -> None:
+	def stop_telegram_bot_button(self, request: HttpRequest, telegram_bots: List[TelegramBot]) -> None:
 		for telegram_bot in telegram_bots:
 			if telegram_bot.is_running:
 				tasks.stop_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
@@ -67,12 +66,9 @@ class TelegramBotAdmin(admin.ModelAdmin):
 			else:
 				messages.error(request, f'@{telegram_bot.username} {_("Telegram бот уже выключен!")}')
 
-	actions = [
-		start_telegram_bot_button,
-		stop_telegram_bot_button,
-	]
+	actions = [start_telegram_bot_button, stop_telegram_bot_button]
 
-	def has_add_permission(self, request: WSGIRequest, obj: None=None) -> bool:
+	def has_add_permission(self, *args, **kwargs) -> bool:
 		return False
 
 
@@ -102,11 +98,10 @@ class TelegramBotUserAdmin(admin.ModelAdmin):
 	date_hierarchy = 'date_activated'
 
 	list_display = ('id', 'telegram_bot', 'full_name', 'date_activated')
-
 	fields = ('telegram_bot', 'user_id', 'full_name', 'is_allowed', 'date_activated',)
 
-	def has_add_permission(self, request: HttpRequest) -> bool:
+	def has_add_permission(self, *args, **kwargs) -> bool:
 		return False
 
-	def has_change_permission(self, request: HttpRequest, telegram_bot_user: Union[TelegramBotUser, None] = None) -> bool:
+	def has_change_permission(self, *args, **kwargs) -> bool:
 		return False

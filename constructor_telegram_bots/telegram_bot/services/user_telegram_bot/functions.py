@@ -5,7 +5,7 @@ from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotComm
 from telegram_bot.services import database_telegram_bot
 
 from asgiref.sync import sync_to_async
-from typing import Union
+from typing import List, Union
 
 
 async def search_telegram_bot_command(telegram_bot: TelegramBot, message_text: str = None, button_id: int = None) -> Union[TelegramBotCommand, None]:
@@ -44,19 +44,9 @@ async def get_text_variables(telegram_bot: TelegramBot, message: types.Message, 
 		{
 			'user_message_id': message.message_id,
 			'user_message_text': message.text,
-			'database_records': {},
+			'database_records': database_telegram_bot.get_records(telegram_bot),
 		}
 	)
-
-	for record in database_telegram_bot.get_records(telegram_bot):
-		for key in record:
-			if key in text_variables['database_records']:
-				if isinstance(text_variables['database_records'][key], list):
-					text_variables['database_records'][key].append(record)
-				else:
-					text_variables['database_records'].update({key: [text_variables['database_records'][key], record]})
-			else:
-				text_variables['database_records'].update({key: record})
 
 	return text_variables
 

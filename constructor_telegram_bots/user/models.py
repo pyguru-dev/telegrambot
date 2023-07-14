@@ -3,7 +3,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 
-from user.managers import UserManager
+from .managers import UserManager
 
 from constructor_telegram_bots.functions import generate_random_string
 from constructor_telegram_bots import environment
@@ -33,7 +33,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 			self.confirm_code = generate_random_string(length=25, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
 			self.save()
 
-		return f'{settings.SITE_DOMAIN}user/login/{self.telegram_id}/{self.confirm_code}/'
+		return f'{settings.SITE_DOMAIN}user/login/{self.id}/{self.confirm_code}/'
 
 	@property
 	async def alogin_url(self) -> str:
@@ -41,7 +41,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 			self.confirm_code = generate_random_string(length=25, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
 			await self.asave()
 
-		return f'{settings.SITE_DOMAIN}user/login/{self.telegram_id}/{self.confirm_code}/'
+		return f'{settings.SITE_DOMAIN}user/login/{self.id}/{self.confirm_code}/'
 
 	def get_telegram_bots_as_dict(self) -> list:
 		return [telegram_bot.to_dict() for telegram_bot in self.telegram_bots.all()]

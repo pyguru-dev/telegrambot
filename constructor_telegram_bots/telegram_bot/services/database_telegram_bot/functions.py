@@ -8,7 +8,12 @@ from typing import List
 
 @connect_to_database
 def insert_record(telegram_bot: TelegramBot, record: dict, *, collection: Collection) -> None:
-	record.update({'_id': collection.count_documents({}) + 1})
+	if collection.count_documents({}) > 0:
+		record_id = [record['_id'] for record in collection.find()][-1] + 1
+	else:
+		record_id = 1
+
+	record.update({'_id': record_id})
 	collection.insert_one(record)
 
 @connect_to_database

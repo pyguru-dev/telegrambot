@@ -13,12 +13,10 @@ def check_plugin_id(func):
 		plugin_id: int = kwargs.pop('plugin_id')
 
 		if not Plugin.objects.filter(id=plugin_id).exists():
-			return Response(
-				{
-					'message': _('Плагин не найден!'),
-					'level': 'danger',
-				}
-			)
+			return Response({
+				'message': _('Плагин не найден!'),
+				'level': 'danger',
+			}, status=404)
 
 		return func(plugin=Plugin.objects.get(id=plugin_id), *args, **kwargs)
 	return wrapper

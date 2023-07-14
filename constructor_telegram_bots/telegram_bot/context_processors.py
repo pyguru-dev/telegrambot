@@ -1,7 +1,5 @@
-from django.http import HttpRequest
-
-from telegram_bot.models import TelegramBot
+from .models import TelegramBot
 
 
-def telegram_bots(request: HttpRequest) -> dict:
+def telegram_bots(*args, **kwargs) -> dict:
     return {'telegram_bots': TelegramBot.objects.all()}

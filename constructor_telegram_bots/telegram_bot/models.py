@@ -5,10 +5,7 @@ from django.template import defaultfilters as filters
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from user.models import User
-from telegram_bot.managers import (
-	TelegramBotManager,
-	TelegramBotCommandManager, TelegramBotCommandKeyboardManager
-)
+from .managers import TelegramBotManager, TelegramBotCommandManager, TelegramBotCommandKeyboardManager
 
 from typing import Union
 
@@ -94,6 +91,7 @@ class TelegramBotCommand(models.Model):
 			'keyboard': self.get_keyboard_as_dict(),
 			'api_request': self.api_request,
 			'database_record': self.database_record,
+
 			'x': self.x,
 			'y': self.y,
 		}
@@ -139,7 +137,6 @@ class TelegramBotCommand(models.Model):
 						)
 					else:
 						button_id = int(button['id'])
-
 						is_finded_button = False
 
 						for button_ in telegram_bot_command_keyboard.buttons.all():
@@ -205,12 +202,12 @@ class TelegramBotCommandKeyboard(models.Model):
 
 class TelegramBotCommandKeyboardButton(models.Model):
 	telegram_bot_command_keyboard = models.ForeignKey(TelegramBotCommandKeyboard, on_delete=models.CASCADE, related_name='buttons', null=True)
-
 	row = models.IntegerField(null=True)
 	text = models.TextField(max_length=4096)
 	url = models.TextField(max_length=2048, null=True)
 
 	telegram_bot_command = models.ForeignKey(TelegramBotCommand, on_delete=models.SET_NULL, null=True)
+
 	start_diagram_connector = models.TextField(null=True)
 	end_diagram_connector = models.TextField(null=True)
 
@@ -226,7 +223,9 @@ class TelegramBotCommandKeyboardButton(models.Model):
 			'row': self.row,
 			'text': self.text,
 			'url': self.url,
+
 			'telegram_bot_command_id': self.telegram_bot_command.id if self.telegram_bot_command is not None else None,
+
 			'start_diagram_connector': self.start_diagram_connector,
 			'end_diagram_connector' : self.end_diagram_connector,
 		}

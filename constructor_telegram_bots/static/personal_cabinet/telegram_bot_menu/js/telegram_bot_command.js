@@ -124,7 +124,7 @@
 				telegramBotCommand.additions.apiRequest.urlInput,
 				telegramBotCommand.additions.apiRequest.dataInput,
 			],
-			value: '{{ database_record_data.key or database_record_data[0] }}',
+			value: '{{ database_records.key }}',
 		},
 		apiResponse: {
 			button: telegramBotCommandVariablesButtons.apiResponse,
@@ -132,7 +132,7 @@
 				telegramBotCommand.textInput,
 				telegramBotCommand.additions.databaseRecord.dataInput,
 			],
-			value: '{{ api_response.key or api_response[0] }}',
+			value: '{{ api_response.key }}',
 		},
 
 		allowedInputs: [

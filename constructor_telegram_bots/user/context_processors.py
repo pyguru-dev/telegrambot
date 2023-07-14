@@ -1,7 +1,5 @@
-from django.http import HttpRequest
-
-from user.models import User
+from .models import User
 
 
-def users(request: HttpRequest) -> dict:
+def users(*args, **kwargs) -> dict:
     return {'users': User.objects.all()}

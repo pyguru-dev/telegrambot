@@ -6,7 +6,7 @@ from django.utils import html
 from ckeditor.widgets import CKEditorWidget
 
 from django.db import models
-from instruction.models import InstructionSection
+from .models import InstructionSection
 
 
 @admin.register(InstructionSection)

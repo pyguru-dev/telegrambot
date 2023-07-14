@@ -3,7 +3,7 @@ from constructor_telegram_bots.tests import BaseTestCase
 from django import urls
 from django.template import defaultfilters as filters
 
-from telegram_bot.models import TelegramBot
+from .models import TelegramBot
 
 
 class TelegramBotModelsTest(BaseTestCase):

@@ -19,7 +19,7 @@ urlpatterns = [
 	path('donation/', include('donation.urls')),
 	path('personal-cabinet/', include('personal_cabinet.urls')),
 	path('telegram-bot/', include('telegram_bot.urls')),
-	path('', include('plugin.urls')),
+	path('plugins/', include('plugin.urls')),
 	path('privacy-policy/', include('privacy_policy.urls')),
 ]
 

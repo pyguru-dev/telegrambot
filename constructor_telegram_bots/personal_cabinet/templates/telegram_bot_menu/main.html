@@ -10,8 +10,8 @@
 <link rel="stylesheet" href="{% static 'monaco_editor/min/vs/editor/editor.main.css' %}">
 <!-- END Monaco Editor -->
 
-<link rel="stylesheet" href="{% static 'css/personal_cabinet/telegram_bot_menu/telegram_bot_command.css' %}">
-<link rel="stylesheet" href="{% static 'css/personal_cabinet/telegram_bot_menu/diagram.css' %}">
+<link rel="stylesheet" href="{% static 'personal_cabinet/telegram_bot_menu/css/telegram_bot_command.css' %}">
+<link rel="stylesheet" href="{% static 'personal_cabinet/telegram_bot_menu/css/diagram.css' %}">
 {% endblock styles %}
 
 {% block main %}
@@ -101,7 +101,7 @@
 	const deleteTelegramBotCommandAskConfirmModalTitle = "{% trans 'Удаление команды Telegram бота' %}";
 	const deleteTelegramBotCommandAskConfirmModalText = "{% trans 'Вы точно хотите удалить команду Telegram бота?' %}";
 
-	const getTelegramBotDatabeseRecordsUrl = "{% url 'get_databese_records' telegram_bot.id %}";
+	const telegramBotDatabeseRecordsUrl = "{% url 'telegram_bot_databese_records' telegram_bot.id %}";
 
 	const monacoEditorMinVsFolderUrl = "{% static 'monaco_editor/min/vs' %}";
 </script>
@@ -110,9 +110,9 @@
 <script src="{% static 'monaco_editor/min/vs/loader.js' %}"></script>
 <!-- END Monaco Editor -->
 
-<script src="{% static 'js/personal_cabinet/telegram_bot_menu/init.js' %}"></script>
-<script src="{% static 'js/personal_cabinet/telegram_bot_menu/main.js' %}"></script>
-<script src="{% static 'js/personal_cabinet/telegram_bot_menu/telegram_bot_database.js' %}"></script>
-<script src="{% static 'js/personal_cabinet/telegram_bot_menu/telegram_bot_command.js' %}"></script>
-<script src="{% static 'js/personal_cabinet/telegram_bot_menu/diagram.js' %}"></script>
+<script src="{% static 'personal_cabinet/telegram_bot_menu/js/init.js' %}"></script>
+<script src="{% static 'personal_cabinet/telegram_bot_menu/js/main.js' %}"></script>
+<script src="{% static 'personal_cabinet/telegram_bot_menu/js/telegram_bot_database.js' %}"></script>
+<script src="{% static 'personal_cabinet/telegram_bot_menu/js/telegram_bot_command.js' %}"></script>
+<script src="{% static 'personal_cabinet/telegram_bot_menu/js/diagram.js' %}"></script>
 {% endblock scripts %}

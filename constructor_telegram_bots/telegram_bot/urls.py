@@ -1,6 +1,6 @@
 from django.urls import path
 
-from telegram_bot import views
+from . import views
 
 
 urlpatterns = [
@@ -33,7 +33,6 @@ urlpatterns = [
 	path('<int:telegram_bot_id>/get-commands/', views.get_telegram_bot_commands, name='get_telegram_bot_commands'),
 	path('<int:telegram_bot_id>/get-users/', views.get_telegram_bot_users, name='get_telegram_bot_users'),
 
-	path('<int:telegram_bot_id>/database/record/', views.insert_databese_record, name='insert_databese_record'),
-	path('<int:telegram_bot_id>/database/record/<int:record_id>/', views.UpdateOrDeleteDatabeseRecord.as_view(), name='update_or_delete_databese_record'),
-	path('<int:telegram_bot_id>/database/records/', views.get_databese_records, name='get_databese_records'),
+	path('<int:telegram_bot_id>/database/records/', views.TelegramBotDatabeseRecordsView.as_view(), name='telegram_bot_databese_records'),
+    path('<int:telegram_bot_id>/database/records/<int:record_id>/', views.TelegramBotDatabeseRecordView.as_view(), name='telegram_bot_databese_record'),
 ]

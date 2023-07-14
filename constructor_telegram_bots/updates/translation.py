@@ -1,6 +1,6 @@
 from modeltranslation.translator import register, TranslationOptions
 
-from updates.models import Update
+from .models import Update
 
 
 @register(Update)

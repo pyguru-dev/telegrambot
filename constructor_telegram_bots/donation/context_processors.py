@@ -1,7 +1,5 @@
-from django.http import HttpRequest
-
-from donation.models import Donation
+from .models import Donation
 
 
-def donations(request: HttpRequest) -> dict:
+def donations(*args, **kwargs) -> dict:
     return {'donations': Donation.objects.all()}

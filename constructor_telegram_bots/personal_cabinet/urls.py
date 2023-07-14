@@ -1,6 +1,6 @@
 from django.urls import path
 
-from personal_cabinet import views
+from . import views
 
 
 urlpatterns = [

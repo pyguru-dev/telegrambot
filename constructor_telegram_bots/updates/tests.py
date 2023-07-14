@@ -3,7 +3,7 @@ from constructor_telegram_bots.tests import BaseTestCase
 from django.http import HttpResponse
 from django import urls
 
-from updates.models import Update
+from .models import Update
 
 
 class UpdatesViewsTest(BaseTestCase):
@@ -17,13 +17,10 @@ class UpdatesViewsTest(BaseTestCase):
 		url: str = urls.reverse('update', kwargs={'update_id': 1})
 
 		response: HttpResponse = self.client.get(url)
-		self.assertJSONEqual(
-			response.content,
-			{
-				'message': 'Обновление не найдено!',
-				'level': 'danger',
-			}
-		)
+		self.assertJSONEqual(response.content, {
+			'message': 'Обновление не найдено!',
+			'level': 'danger',
+		})
 
 		Update.objects.create(title='test', description='test')
 

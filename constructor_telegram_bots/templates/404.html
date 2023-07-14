@@ -1,7 +1,9 @@
-{% extends 'base_error_or_success.html' %}
+{% extends 'base_success_or_error.html' %}
 {% load i18n %}
 
 {% block title %}{% trans "Страница не найдена" %}{% endblock title %}
+
+{% block meta_refresh_url %}{% url 'home' %}{% endblock meta_refresh_url %}
 
 {% block content_heading %}{% trans "Ошибка 404!" %}{% endblock content_heading %}
 {% block content_text %}{% trans "Страница не найдена, автоматический переход на главную страницу через 3 секунды." %}{% endblock content_text %}

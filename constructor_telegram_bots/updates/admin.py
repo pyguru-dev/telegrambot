@@ -4,7 +4,7 @@ from modeltranslation.admin import TranslationAdmin
 from ckeditor.widgets import CKEditorWidget
 
 from django.db import models
-from updates.models import Update
+from .models import Update
 
 
 @admin.register(Update)

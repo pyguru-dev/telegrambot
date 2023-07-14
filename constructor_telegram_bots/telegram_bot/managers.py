@@ -4,19 +4,13 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from user.models import User
 import telegram_bot.models as TelegramBotModels
 
-from telegram_bot.functions import check_telegram_bot_api_token
+from .functions import check_telegram_bot_api_token
 
 from typing import Union
 
 
 class TelegramBotManager(models.Manager):
-	def create(
-		self,
-	    owner: User,
-		api_token: str,
-		is_private: bool,
-		**extra_fields
-	) -> 'TelegramBotModels.TelegramBot':
+	def create(self, owner: User, api_token: str, is_private: bool, **extra_fields) -> 'TelegramBotModels.TelegramBot':
 		username: str = check_telegram_bot_api_token(api_token)
 
 		return super().create(

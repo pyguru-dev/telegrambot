@@ -1,10 +1,9 @@
-from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
-from django.utils.translation import gettext as _
+from django.shortcuts import render
 
-from updates.decorators import check_update_id
+from .decorators import check_update_id
 
-from updates.models import Update
+from .models import Update
 
 
 def updates(request: HttpRequest) -> HttpResponse:

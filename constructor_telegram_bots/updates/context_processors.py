@@ -1,7 +1,5 @@
-from django.core.handlers.wsgi import WSGIRequest
-
-from updates.models import Update
+from .models import Update
 
 
-def updates(request: WSGIRequest) -> dict:
+def updates(*args, **kwargs) -> dict:
     return {'updates': Update.objects.all()}

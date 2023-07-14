@@ -5,7 +5,7 @@ from .models import Plugin, PluginLog
 
 @admin.register(Plugin)
 class PluginAdmin(admin.ModelAdmin):
-	date_hierarchy = 'added_date'
+	date_hierarchy = 'date_added'
 	list_filter = ('is_checked',)
 
 	list_display = ('id', 'user', 'telegram_bot', 'name', 'is_checked')
@@ -13,7 +13,7 @@ class PluginAdmin(admin.ModelAdmin):
 
 @admin.register(PluginLog)
 class PluginLogAdmin(admin.ModelAdmin):
-	date_hierarchy = 'added_date'
+	date_hierarchy = 'date_added'
 	list_filter = ('level',)
 
 	list_display = ('id', 'user', 'telegram_bot', 'plugin', 'message', 'level')

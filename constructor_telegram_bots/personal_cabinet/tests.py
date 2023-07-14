@@ -21,13 +21,10 @@ class PersonalCabinetViewsTests(BaseTestCase):
 
 		url_2: str = urls.reverse('telegram_bot_menu', kwargs={'telegram_bot_id': 0})
 		response: HttpResponse = self.client.get(url_2)
-		self.assertJSONEqual(
-			response.content,
-			{
-				'message': 'Telegram бот не найден!',
-				'level': 'danger',
-			}
-		)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
 
 		response = self.client.get(url_1)
 		self.assertEqual(response.status_code, 200)
