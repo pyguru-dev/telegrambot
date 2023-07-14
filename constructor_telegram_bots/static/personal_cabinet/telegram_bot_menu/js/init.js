@@ -10,17 +10,15 @@ var intervalUpdateUsersId;
 			method: 'POST',
 			headers: {'Authorization': `Token ${userApiToken}`},
 		}).then(response => {
-			if (response.ok) {
-				response.json().then(telegramBot => {
-					telegramBotUsername.href = `tg://resolve?domain=${telegramBot['username']}`;
-					telegramBotUsername.innerHTML = `@${telegramBot['username']}`;
-					telegramBotApiToken.innerHTML = telegramBot['api_token'];
-				});
-			} else {
-				response.json().then(jsonResponse => {
+			response.json().then(jsonResponse => {
+				if (response.ok) {
+					telegramBotUsername.href = `tg://resolve?domain=${jsonResponse['username']}`;
+					telegramBotUsername.innerHTML = `@${jsonResponse['username']}`;
+					telegramBotApiToken.innerHTML = jsonResponse['api_token'];
+				} else {
 					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
-				});
-			}
+				}
+			});
 		});
 	}
 
@@ -49,15 +47,13 @@ var intervalUpdateUsersId;
 								method: 'POST',
 								headers: {'Authorization': `Token ${userApiToken}`},
 							}).then(response => {
-								if (response.ok) {
-									response.json().then(telegramBotCommand => {
-										editTelegramBotCommand(telegramBotCommand);
-									});
-								} else {
-									response.json().then(jsonResponse => {
+								response.json().then(jsonResponse => {
+									if (response.ok) {
+										editTelegramBotCommand(jsonResponse);
+									} else {
 										createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level'])
-									});
-								}
+									}
+								})
 							});
 						});
 					});
@@ -136,7 +132,6 @@ var intervalUpdateUsersId;
 		updateTelegramBotUsers();
 		if (telegramBotIsRunning && intervalUpdateUsersIsRunning == false) {
 			intervalUpdateUsersIsRunning = true;
-
 			intervalUpdateUsersId = setInterval(updateTelegramBotUsers, 3000);
 		}
 	}
@@ -162,7 +157,6 @@ var intervalUpdateUsersId;
 							const telegramBotUserDiv = document.createElement('div');
 							telegramBotUserDiv.setAttribute('class', 'list-group-item pb-1');
 							telegramBotUserDiv.innerHTML = `<p class="text-center my-2">${telegramBotNotActivatedText}</p>`;
-
 							telegramBotUsersDiv.append(telegramBotUserDiv);
 						} else {
 							telegramBotUsers.forEach(telegramBotUser => {

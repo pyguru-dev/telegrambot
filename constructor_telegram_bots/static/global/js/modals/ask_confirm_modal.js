@@ -1,26 +1,22 @@
 {
-	const askConfirm = {
-		modal: new bootstrap.Modal('#askConfirmModal'),
-
-		title: document.querySelector('#askConfirmModalLabel'),
-		text: document.querySelector('#askConfirmText'),
-
-		button: document.querySelector('#askConfirmYesButton'),
-	}
+	const askConfirmBootstrapModal = new bootstrap.Modal('#askConfirmModal');
+	const askConfirmModalTitle = document.querySelector('#askConfirmModalTitle');
+	const askConfirmModalText = document.querySelector('#askConfirmModalText');
+	const askConfirmModalYesButton = document.querySelector('#askConfirmModalYesButton');
 
 	function askConfirmModal(title, text, func) {
-		askConfirm.title.innerHTML = title;
-		askConfirm.text.innerHTML = text;
+		askConfirmModalTitle.innerHTML = title;
+		askConfirmModalText.innerHTML = text;
 
-		if (askConfirm.button.onclick) {
-			askConfirm.button.removeEventListener('click', askConfirm.button.onclick);
+		if (askConfirmModalYesButton.onclick) {
+			askConfirmModalYesButton.removeEventListener('click', askConfirmModalYesButton.onclick);
 		}
 
-		askConfirm.button.onclick = function() {
-			askConfirm.modal.toggle();
+		askConfirmModalYesButton.onclick = function() {
+			askConfirmBootstrapModal.toggle();
 			func();
 		}
 
-		askConfirm.modal.toggle();
+		askConfirmBootstrapModal.toggle();
 	}
 }

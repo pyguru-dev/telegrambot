@@ -1,10 +1,10 @@
 {% load i18n %}
 
-<div class="modal fade" id="addTelegramBotModal" tabindex="-1" aria-labelledby="addTelegramBotModalLabel" aria-hidden="true">
+<div class="modal fade" id="addTelegramBotModal" tabindex="-1" aria-labelledby="addTelegramBotModalTitle" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="addTelegramBotModalLabel">{% trans "Добавление Telegram бота" %}</h5>
+				<h5 class="modal-title" id="addTelegramBotModalTitle">{% trans "Добавление Telegram бота" %}</h5>
 				<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -12,20 +12,20 @@
 				<div class="row row-cols-1 gy-2">
 					<div class="col">
 						<form class="form-floating">
-							<input class="form-control" id="addTelegramBotApiTokenInput" type="text" placeholder="{% trans "Введите API-токен Telegram бота" %}">
-							<label for="addTelegramBotApiTokenInput">{% trans "Введите API-токен Telegram бота" %}</label>
+							<input class="form-control" id="addTelegramBotModalApiTokenInput" type="text" placeholder="{% trans "Введите API-токен Telegram бота" %}">
+							<label for="addTelegramBotModalApiTokenInput">{% trans "Введите API-токен Telegram бота" %}</label>
 						</form>
 					</div>
 					<div class="col-auto">
 						<div class="form-check form-switch form-check-reverse mb-0">
-							<input class="form-check-input" id="addTelegramBotIsPrivateCheckBox" type="checkbox">
-							<label class="form-check-label" for="addTelegramBotIsPrivateCheckBox">{% trans "Сделать Telegram бота приватным" %}: </label>
+							<input class="form-check-input" id="addTelegramBotModalIsPrivateCheckBox" type="checkbox">
+							<label class="form-check-label" for="addTelegramBotModalIsPrivateCheckBox">{% trans "Сделать Telegram бота приватным" %}: </label>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-success w-100" id="addTelegramBotButton" type="button">{% trans "Добавить Telegram бота" %}</button>
+				<button class="btn btn-success w-100" id="addTelegramBotModalAddTelegramBotButton" type="button">{% trans "Добавить Telegram бота" %}</button>
 			</div>
 		</div>
 	</div>

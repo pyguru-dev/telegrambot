@@ -1,6 +1,5 @@
 {
 	const diagramSvg = document.querySelector('.diagram-svg');
-
 	const diagramContainer = document.querySelector('.diagram-container');
 
 	let diagramCurrentScaleNum = 0;
@@ -56,11 +55,7 @@
 
 			fetch(saveTelegramBotDiagramCurrentScaleUrl, {
 				method: 'POST',
-				body: JSON.stringify(
-					{
-						'diagram_current_scale': diagramCurrentScale,
-					}
-				),
+				body: JSON.stringify({'diagram_current_scale': diagramCurrentScale}),
 				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': `Token ${userApiToken}`,
@@ -182,13 +177,11 @@
 									'Content-Type': 'application/json',
 									'Authorization': `Token ${userApiToken}`,
 								},
-								body: JSON.stringify(
-									{
-										'telegram_bot_command_id': parseInt(selectDiagramConnectorBlockId),
-										'start_diagram_connector': selectedDiagramConnector.id,
-										'end_diagram_connector': event.target.id,
-									}
-								),
+								body: JSON.stringify({
+									'telegram_bot_command_id': parseInt(selectDiagramConnectorBlockId),
+									'start_diagram_connector': selectedDiagramConnector.id,
+									'end_diagram_connector': event.target.id,
+								}),
 							});
 						}
 

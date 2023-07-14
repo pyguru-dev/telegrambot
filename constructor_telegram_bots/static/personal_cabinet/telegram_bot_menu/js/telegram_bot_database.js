@@ -9,7 +9,10 @@
 			databaseRecordsDiv.append(databaseNotHaveRecordDiv);
 		} else {
 			const databaseNotHaveRecordDiv = databaseRecordsDiv.querySelector('.database-not-have-record');
-			if (databaseNotHaveRecordDiv != null) {databaseNotHaveRecordDiv.remove()}
+
+			if (databaseNotHaveRecordDiv != null) {
+				databaseNotHaveRecordDiv.remove()
+			}
 		}
 	}
 
@@ -127,7 +130,9 @@
 								checkDatabaseRecordsСount();
 							}
 
-							response.json().then(jsonResponse => {createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level'])});
+							response.json().then(jsonResponse => {
+								createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+							});
 						});
 					}
 				);
@@ -143,8 +148,15 @@
 				response.json().then(jsonResponse => {
 					if (response.ok) {
 						databaseRecordsDiv.innerHTML = '';
-						(jsonResponse.length > 0) ? jsonResponse.forEach(databaseRecord => addDatabaseRecord(databaseRecord)) : checkDatabaseRecordsСount();
-					} else {createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level'])}
+
+						if (jsonResponse.length > 0) {
+							jsonResponse.forEach(databaseRecord => addDatabaseRecord(databaseRecord));
+						} else {
+							checkDatabaseRecordsСount();
+						}
+					} else {
+						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+					}
 				});
 			});
 		}

@@ -201,11 +201,9 @@
 
 				if (telegramBotCommandVariables.selected != telegramBotCommandVariables[variable].value) {
 					telegramBotCommandVariables[variable].button.classList.replace('btn-dark', 'btn-secondary');
-
 					telegramBotCommandVariables.selected = telegramBotCommandVariables[variable].value;
 				} else {
 					telegramBotCommandVariables[variable].button.classList.replace('btn-secondary', 'btn-dark');
-
 					telegramBotCommandVariables.selected = null;
 				}
 			});
@@ -229,10 +227,7 @@
 		telegramBotCommandKeyboardButtonRowButton.id = row;
 		telegramBotCommandKeyboardButtonRowButton.type = 'button';
 		telegramBotCommandKeyboardButtonRowButton.innerHTML = row;
-		telegramBotCommandKeyboardButtonRowButton.addEventListener('click', function() {
-			telegramBotCommandKeyboardButtonRowButton.remove();
-		});
-
+		telegramBotCommandKeyboardButtonRowButton.addEventListener('click', () => telegramBotCommandKeyboardButtonRowButton.remove());
 		return telegramBotCommandKeyboardButtonRowButton;
 	}
 
@@ -348,9 +343,7 @@
 		telegramBotCommandKeyboardButton.append(telegramBotCommandKeyboardButtonMoveDownButton);
 
 		if (telegramBotCommandKeyboardButtonRow != null) {
-			telegramBotCommandKeyboardButton.append(
-				telegramBotCommandAddKeyboardButtonRowButton(telegramBotCommandKeyboardButtonRow)
-			);
+			telegramBotCommandKeyboardButton.append(telegramBotCommandAddKeyboardButtonRowButton(telegramBotCommandKeyboardButtonRow));
 		}
 
 		const telegramBotCommandKeyboardButtonNameInput = document.createElement('input');
@@ -414,7 +407,6 @@
 		});
 
 		telegramBotCommandKeyboardButton.append(telegramBotCommandKeyboardButtonDelete);
-
 		telegramBotCommand.additions.keyboard.buttons.append(telegramBotCommandKeyboardButton);
 
 		telegramBotCommandKeyboardButtonNameInput.focus();
@@ -602,14 +594,12 @@
 				const telegramBotCommandKeyboardButtonNameInput = telegramBotCommandKeyboardButton.querySelector('.telegram-bot-command-keyboard-button-name-input');
 				const telegramBotCommandKeyboardButtonLinkInput = telegramBotCommandKeyboardButton.querySelector('.telegram-bot-command-keyboard-button-link-input');
 
-				telegramBotCommandKeyboardButtons_.push(
-					{
-						'id': telegramBotCommandKeyboardButton.id,
-						'row': (telegramBotCommandKeyboardButtonRowButton == null) ? null : parseInt(telegramBotCommandKeyboardButtonRowButton.id),
-						'text': (telegramBotCommandKeyboardButtonNameInput == null) ? null : telegramBotCommandKeyboardButtonNameInput.value,
-						'url': (telegramBotCommandKeyboardButtonLinkInput == null) ? null : telegramBotCommandKeyboardButtonLinkInput.value,
-					}
-				);
+				telegramBotCommandKeyboardButtons_.push({
+					'id': telegramBotCommandKeyboardButton.id,
+					'row': (telegramBotCommandKeyboardButtonRowButton == null) ? null : parseInt(telegramBotCommandKeyboardButtonRowButton.id),
+					'text': (telegramBotCommandKeyboardButtonNameInput == null) ? null : telegramBotCommandKeyboardButtonNameInput.value,
+					'url': (telegramBotCommandKeyboardButtonLinkInput == null) ? null : telegramBotCommandKeyboardButtonLinkInput.value,
+				});
 			});
 
 			telegramBotCommandData_['keyboard'] = {
@@ -631,19 +621,19 @@
 
 		telegramBotCommandData.append('data', JSON.stringify(telegramBotCommandData_));
 
-		fetch((telegramBotCommand.addOrEditButton.id == '0') ? addTelegramBotCommandUrl : `/telegram-bot/${telegramBotId}/command/${telegramBotCommand.addOrEditButton.id}/edit/`,
-			{
-				method: 'POST',
-				headers: {'Authorization': `Token ${userApiToken}`},
-				body: telegramBotCommandData,
-			}
-		).then(response => {
+		fetch((telegramBotCommand.addOrEditButton.id == '0') ? addTelegramBotCommandUrl : `/telegram-bot/${telegramBotId}/command/${telegramBotCommand.addOrEditButton.id}/edit/`, {
+			method: 'POST',
+			headers: {'Authorization': `Token ${userApiToken}`},
+			body: telegramBotCommandData,
+		}).then(response => {
 			if (response.ok) {
 				updateTelegramBotCommands();
 				telegramBotCommandClearAll();
 			}
 
-			response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
+			response.json().then(jsonResponse => {
+				createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+			});
 		});
 	});
 }

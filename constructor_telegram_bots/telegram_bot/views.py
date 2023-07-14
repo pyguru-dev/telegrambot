@@ -33,11 +33,13 @@ from sys import platform
 @check_post_request_data_items({'api_token': str, 'is_private': bool})
 @check_telegram_bot_api_token
 def add_telegram_bot(request: Request, api_token: str, is_private: bool) -> Response:
-	TelegramBot.objects.create(owner=request.user, api_token=api_token, is_private=is_private)
+	telegram_bot: TelegramBot = TelegramBot.objects.create(owner=request.user, api_token=api_token, is_private=is_private)
 
 	return Response({
 		'message': _('Вы успешно добавили Telegram бота.'),
 		'level': 'success',
+
+		'telegram_bot': telegram_bot.to_dict(),
 	})
 
 @api_view(['POST'])

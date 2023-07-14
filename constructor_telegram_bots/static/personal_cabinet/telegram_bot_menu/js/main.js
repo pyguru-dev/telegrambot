@@ -50,11 +50,7 @@ var telegramBotIsPrivateCheckBox = document.querySelector('#telegramBotIsPrivate
 telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 	fetch(editTelegramBotPrivateUrl, {
 		method: 'POST',
-		body: JSON.stringify(
-			{
-				'is_private': telegramBotIsPrivateCheckBox.checked,
-			}
-		),
+		body: JSON.stringify({'is_private': telegramBotIsPrivateCheckBox.checked}),
 		headers: {
 			'Content-Type': 'application/json',
 			'Authorization': `Token ${userApiToken}`,
@@ -111,7 +107,7 @@ telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 										telegramBotStartOrStopButton.innerHTML = telegramBotStartButtonText;
 
 										createAlert(mainAlertContainer, stopTelegramBotMessage, 'success');
-									} 
+									}
 								});
 							} else {
 								response.json().then(jsonResponse => {
