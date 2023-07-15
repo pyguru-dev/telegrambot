@@ -6,8 +6,6 @@
 		userLastName: document.querySelector('#telegramBotCommandUserLastNameVariableButton'),
 		userMessageId:  document.querySelector('#telegramBotCommandUserMessageIdVariableButton'),
 		userMessageText: document.querySelector('#telegramBotCommandUserMessageTextVariableButton'),
-		condition: document.querySelector('#telegramBotCommandConditionVariableButton'),
-		loop: document.querySelector('#telegramBotCommandLoopVariableButton'),
 		databaseRecordData: document.querySelector('#telegramBotCommandDatabaseRecordDataVariableButton'),
 		apiResponse: document.querySelector('#telegramBotCommandApiResponseVariableButton'),
 	};
@@ -105,16 +103,6 @@
 			button: telegramBotCommandVariablesButtons.userMessageText,
 			allowedInputs: [],
 			value: '{{ user_message_text }}',
-		},
-		condition: {
-			button: telegramBotCommandVariablesButtons.condition,
-			allowedInputs: [telegramBotCommand.textInput],
-			value: '{% if value == value %}\nText\n{% else %}\nOther text\n{% endif %}',
-		},
-		loop: {
-			button: telegramBotCommandVariablesButtons.loop,
-			allowedInputs: [telegramBotCommand.textInput],
-			value: '{% for value in values %}\n{{ value }}\n{% endfor %}',
 		},
 		databaseRecordData: {
 			button: telegramBotCommandVariablesButtons.databaseRecordData,

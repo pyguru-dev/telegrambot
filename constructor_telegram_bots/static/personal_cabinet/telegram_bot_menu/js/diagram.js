@@ -321,8 +321,8 @@
 			});
 		}
 
-		enableDiagramBlockDragging(diagramBlock);
-
 		diagramContainer.append(diagramBlock);
+
+		enableDiagramBlockDragging(diagramBlock);
 	}
 }

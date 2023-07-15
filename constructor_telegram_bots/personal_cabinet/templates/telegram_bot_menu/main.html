@@ -26,11 +26,6 @@
 		<div class="col-12">
 			{% include 'telegram_bot_menu/telegram_bot_database.html' %}
 		</div>
-		{% comment %}
-			<div class="col-12">
-				{% include 'telegram_bot_menu/telegram_bot_exemples.html' %}
-			</div>
-		{% endcomment %}
 		<div class="col-12 col-lg-5">
 			{% include 'telegram_bot_menu/telegram_bot_command.html' %}
 		</div>
@@ -87,8 +82,6 @@
 	const deleteTelegramBotDatabaseRecordAskConfirmModalTitle = "{% trans 'Удаление записи из базы данных Telegram бота.' %}";
 	const deleteTelegramBotDatabaseRecordAskConfirmModalText = "{% trans 'Вы точно хотите удалить запись из базы данных Telegram бота?' %}";
 
-	const telegramBotDatabaseAddRecordButtonText = "{% trans 'Добавить запись' %}";
-
 	const telegramBotCommandCardHeaderAddCommandTitleText = "{% trans 'Добавление команды' %}";
 	const telegramBotCommandCardHeaderEditCommandTitleText = "{% trans 'Редактирование команды' %}";
 
@@ -110,9 +103,10 @@
 <script src="{% static 'monaco_editor/min/vs/loader.js' %}"></script>
 <!-- END Monaco Editor -->
 
-<script src="{% static 'personal_cabinet/telegram_bot_menu/js/init.js' %}"></script>
-<script src="{% static 'personal_cabinet/telegram_bot_menu/js/main.js' %}"></script>
-<script src="{% static 'personal_cabinet/telegram_bot_menu/js/telegram_bot_database.js' %}"></script>
-<script src="{% static 'personal_cabinet/telegram_bot_menu/js/telegram_bot_command.js' %}"></script>
 <script src="{% static 'personal_cabinet/telegram_bot_menu/js/diagram.js' %}"></script>
+<script src="{% static 'personal_cabinet/telegram_bot_menu/js/telegram_bot_command.js' %}"></script>
+<script src="{% static 'personal_cabinet/telegram_bot_menu/js/telegram_bot_database.js' %}"></script>
+<script src="{% static 'personal_cabinet/telegram_bot_menu/js/telegram_bot_users.js' %}"></script>
+<script src="{% static 'personal_cabinet/telegram_bot_menu/js/telegram_bot.js' %}"></script>
+<script src="{% static 'personal_cabinet/telegram_bot_menu/js/init.js' %}"></script>
 {% endblock scripts %}
