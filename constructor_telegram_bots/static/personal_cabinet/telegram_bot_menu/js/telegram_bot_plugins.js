@@ -20,12 +20,14 @@
 		telegramBotPluginDiv.innerHTML = [
 			`<h5>${telegramBotPluginNameText} ${telegramBotPlugin['name']}</h5>`,
 			'<div class="d-flex justify-content-between align-items-center">',
-			'	<div class="editor border border-2 border-dark-subtle rounded w-100 pe-2 py-2">',
-			'		<div class="spinner-border text-secondary ms-2 mt-2" role="status">',
-			'			<span class="visually-hidden"></span>',
+			'	<div class="border border-2 border-dark-subtle rounded w-100 pe-2 py-2">',
+			'		<div class="editor">',
+			'			<div class="spinner-border text-secondary ms-2 mt-2" role="status">',
+			'				<span class="visually-hidden"></span>',
+			'			</div>',
 			'		</div>',
 			'	</div>',
-			'	<div class="d-flex buttons align-items-center ms-3 me-2">',
+			'	<div class="d-flex buttons align-items-center ms-3">',
 			'		<div class="d-flex me-3">',
 			'			<span class="me-1">Проверен:</span>',
 			`			<i class="bi bi-${(telegramBotPlugin['is_checked']) ? 'check' : 'x'}-circle-fill text-${(telegramBotPlugin['is_checked']) ? 'success' : 'danger'} d-flex align-items-center is_checked" style="margin-top: 2px"></i>`,
@@ -68,7 +70,6 @@
 			const telegramBotPluginMonacoEditor = monaco.editor.create(telegramBotPluginEditorDiv, {
 				value: telegramBotPluginCode,
 				language: 'python',
-				lineHeight: 21,
 				folding: false,
 				lineDecorationsWidth: 0,
 				minimap: {enabled: false},
@@ -79,7 +80,7 @@
 			});
 
 			const telegramBotPluginMonacoEditorHeight = () => {
-				telegramBotPluginMonacoEditor.layout({height: telegramBotPluginMonacoEditor.getContentHeight() - 16});
+				telegramBotPluginMonacoEditor.layout({height: telegramBotPluginMonacoEditor.getContentHeight()});
 				telegramBotPluginMonacoEditor.layout();
 			}
 			telegramBotPluginMonacoEditorHeight();
@@ -174,13 +175,15 @@
 			'<div class="d-flex justify-content-between align-items-center">',
 			'	<div class="w-100">',
 			`		<input class="form-control name mb-2" type="text" placeholder="${telegramBotPluginNameInputPlaceholderText}">`,
-			'		<div class="editor border border-2 border-success-subtle rounded pe-2 py-2">',
-			'			<div class="spinner-border text-secondary ms-2 mt-2" role="status">',
-			'				<span class="visually-hidden"></span>',
+			'		<div class="border border-2 border-success-subtle rounded pe-2 py-2">',
+			'			<div class="editor">',
+			'				<div class="spinner-border text-secondary ms-2 mt-2" role="status">',
+			'					<span class="visually-hidden"></span>',
+			'				</div>',
 			'			</div>',
 			'		</div>',
 			'	</div>',
-			'	<div class="btn-group ms-3 me-2" role="group">',
+			'	<div class="btn-group ms-3" role="group">',
 			'		<button class="btn btn-success confirm px-2 py-1 disabled">',
 			'			<div class="spinner-border spinner-border-sm role="status">',
 			'				<span class="visually-hidden"></span>',
@@ -215,7 +218,6 @@
 			const telegramBotPluginMonacoEditor = monaco.editor.create(telegramBotPluginEditorDiv, {
 				value: '# Write your plugin code.',
 				language: 'python',
-				lineHeight: 21,
 				folding: false,
 				lineDecorationsWidth: 0,
 				minimap: {enabled: false},
@@ -226,7 +228,7 @@
 			});
 
 			const telegramBotPluginMonacoEditorHeight = () => {
-				telegramBotPluginMonacoEditor.layout({height: telegramBotPluginMonacoEditor.getContentHeight() - 16});
+				telegramBotPluginMonacoEditor.layout({height: telegramBotPluginMonacoEditor.getContentHeight()});
 				telegramBotPluginMonacoEditor.layout();
 			}
 			telegramBotPluginMonacoEditorHeight();

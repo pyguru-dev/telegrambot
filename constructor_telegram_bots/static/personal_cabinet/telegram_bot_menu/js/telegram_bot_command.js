@@ -134,11 +134,8 @@
 		selected: null,
 	};
 
-	function checkTelegramBotCommandVariable(variable) {
-		return (variable != 'allowedInputs' &&  variable != 'selected');
-	}
-
-	function searchAllowedInputInTelegramBotCommandVariable(allowedInput) {
+	const checkTelegramBotCommandVariable = (variable) => {return (variable != 'allowedInputs' &&  variable != 'selected')}
+	const searchAllowedInputInTelegramBotCommandVariable = (allowedInput) => {
 		if (telegramBotCommandVariables.selected != null) {
 			for (const variable in telegramBotCommandVariables) {
 				if (checkTelegramBotCommandVariable(variable)) {
@@ -156,8 +153,7 @@
 		}
 		return false;
 	}
-
-	function telegramBotCommandVariablesAllClear() {
+	const telegramBotCommandVariablesAllClear = () => {
 		for (const variable in telegramBotCommandVariables) {
 			if (checkTelegramBotCommandVariable(variable)) {
 				telegramBotCommandVariables[variable].button.classList.replace('btn-secondary', 'btn-dark');
@@ -166,10 +162,7 @@
 	}
 
 	telegramBotCommandVariables.allowedInputs.forEach(allowedInput => {
-		allowedInput.addEventListener('mouseover', function() {
-			allowedInput.style.cursor = (searchAllowedInputInTelegramBotCommandVariable(allowedInput)) ? 'copy' : 'auto';
-		});
-
+		allowedInput.addEventListener('mouseover', () => allowedInput.style.cursor = (searchAllowedInputInTelegramBotCommandVariable(allowedInput)) ? 'copy' : 'auto');
 		allowedInput.addEventListener('click', function() {
 			if (searchAllowedInputInTelegramBotCommandVariable(allowedInput)) {
 				allowedInput.style.cursor = 'auto';
@@ -181,7 +174,6 @@
 			}
 		})
 	});
-
 	for (const variable in telegramBotCommandVariables) {
 		if (checkTelegramBotCommandVariable(variable) == true) {
 			telegramBotCommandVariables[variable].button.addEventListener('click', function() {
@@ -200,8 +192,8 @@
 
 	telegramBotCommand.additions.image.input.addEventListener('change', function(event) {
 		telegramBotCommand.additions.image.file = event.target.files[0];
-
 		const telegramBotCommandImageReader = new FileReader();
+
 		telegramBotCommandImageReader.addEventListener('load', function() {
 			telegramBotCommand.additions.image.preview.classList.remove('d-none');
 			telegramBotCommand.additions.image.preview.src = telegramBotCommandImageReader.result;
@@ -434,9 +426,7 @@
 				telegramBotCommand.additions[addition].button.classList.replace('btn-dark', 'btn-secondary');
 			}
 
-			telegramBotCommand.additions[addition].variablesButtons.forEach(variableButton => {
-				variableButton.classList.toggle('d-none');
-			});
+			telegramBotCommand.additions[addition].variablesButtons.forEach(variableButton => variableButton.classList.toggle('d-none'));
 		});
 	}
 

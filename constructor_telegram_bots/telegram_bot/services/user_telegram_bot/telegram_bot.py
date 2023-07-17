@@ -48,6 +48,7 @@ class UserTelegramBot:
 			await self.dispatcher.bot.send_message(
 				chat_id=message.chat.id,
 				text=message_text,
+				parse_mode='Markdown',
 				reply_markup=telegram_keyboard
 			)
 		else:
@@ -56,6 +57,7 @@ class UserTelegramBot:
 					chat_id=message.chat.id,
 					photo=types.InputFile(telegram_bot_command.image.path),
 					caption=message_text,
+					parse_mode='Markdown',
 					reply_markup=telegram_keyboard
 				)
 			except FileNotFoundError:
@@ -65,6 +67,7 @@ class UserTelegramBot:
 				await self.dispatcher.bot.send_message(
 					chat_id=message.chat.id,
 					text=message_text,
+					parse_mode='Markdown',
 					reply_markup=telegram_keyboard
 				)
 

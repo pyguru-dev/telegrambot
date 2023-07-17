@@ -5,8 +5,8 @@
 		const telegramBotDiv = document.createElement('div');
 		telegramBotDiv.classList = 'col';
 		telegramBotDiv.innerHTML = [
-			'<div class="card h-100">',
-			`	<h5 class="card-header bg-${(telegramBot['is_running']) ? 'success' : 'danger'} text-light text-center fw-bold">${(telegramBot['is_running']) ? telegramBotCardHeaderIsRunningText : telegramBotCardHeaderIsNotRunningText}</h5>`,
+			'<div class="card border h-100">',
+			`	<h5 class="card-header border-0 bg-${(telegramBot['is_running']) ? 'success' : 'danger'} text-light text-center fw-bold">${(telegramBot['is_running']) ? telegramBotCardHeaderIsRunningText : telegramBotCardHeaderIsNotRunningText}</h5>`,
 			'	<div class="card-body p-2">',
 			'		<table class="table table-sm table-borderless mb-0">',
 			'			<tbody>',
@@ -35,15 +35,15 @@
 			'			</tbody>',
 			'		</table>',
 			'	</div>',
-			'	<div class="card-footer p-0">',
-			`		<a class="btn btn-light rounded-top-0 w-100" href="/personal-cabinet/${telegramBot['id']}/" style="height: 42px;">${telegramBotCardFooterPersonalCabinetButtonText}</a>`,
+			'	<div class="card-footer border-top p-0">',
+			`		<a class="btn btn-light border-0 rounded-top-0 w-100 pt-2" href="/personal-cabinet/${telegramBot['id']}/" style="height: 42px;">${telegramBotCardFooterPersonalCabinetButtonText}</a>`,
 			'	</div>',
 			'</div>',
 		].join('');
 		telegramBotsDiv.append(telegramBotDiv);
 	}
 
-	function updateTelegramBots() {
+	const updateTelegramBots = () => {
 		fetch(getTelegramBotsUrl, {
 			method: 'POST',
 			headers: {'Authorization': `Token ${userApiToken}`},
@@ -57,12 +57,12 @@
 						telegramBotDiv.classList = 'col';
 						telegramBotDiv.id = 'notAddedTelegramBot';
 						telegramBotDiv.innerHTML = [
-							'<div class="card h-100">',
+							'<div class="card border h-100">',
 							'	<div class="card-body">',
 							`		<h5 class="text-center text-break mb-0">${telegramBotCardBodyNotAddedText}</h5>`,
 							'	</div>',
-							'	<div class="card-footer p-0">',
-							`		<button class="btn btn-light rounded-top-0 w-100" type="button" style="height: 42px;" data-bs-toggle="modal" data-bs-target="#howToAddTelegramBotModal">${telegramBotCardFooterHowToAddButtonText}</button>`,
+							'	<div class="card-footer border-top p-0">',
+							`		<button class="btn btn-light border-0 rounded-top-0 w-100" type="button" style="height: 42px;" data-bs-toggle="modal" data-bs-target="#howToAddTelegramBotModal">${telegramBotCardFooterHowToAddButtonText}</button>`,
 							'	</div>',
 							'</div>',
 						].join('');

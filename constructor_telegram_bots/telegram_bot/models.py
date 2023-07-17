@@ -84,10 +84,10 @@ class TelegramBotCommand(models.Model):
 	def to_dict(self) -> dict:
 		return {
 			'id': self.id,
-			'name': self.name,
+			'name': filters.escape(self.name),
 			'command': self.command,
 			'image': str(self.image),
-			'message_text': self.message_text,
+			'message_text': filters.escape(self.message_text),
 			'keyboard': self.get_keyboard_as_dict(),
 			'api_request': self.api_request,
 			'database_record': self.database_record,
@@ -221,7 +221,7 @@ class TelegramBotCommandKeyboardButton(models.Model):
 		return {
 			'id': self.id,
 			'row': self.row,
-			'text': self.text,
+			'text': filters.escape(self.text),
 			'url': self.url,
 
 			'telegram_bot_command_id': self.telegram_bot_command.id if self.telegram_bot_command is not None else None,

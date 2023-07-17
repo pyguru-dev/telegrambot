@@ -35,8 +35,8 @@
 	const telegramBotPluginsLogsBootstrapСollapse = new bootstrap.Collapse('#telegramBotPluginsLogsСollapse');
 
 	telegramBotPluginsLogsСollapseButton.addEventListener('click', function() {
-		updateTelegramBotPluginsLogsButton.classList.toggle('disabled');
 		telegramBotPluginsLogsСollapseButton.innerHTML = (telegramBotPluginsLogsСollapseButton.querySelector('i').classList.contains('bi-arrow-up')) ? '<i class="bi bi-arrow-down d-flex" style="font-size: 20px;"></i>' : '<i class="bi bi-arrow-up d-flex" style="font-size: 20px;"></i>';
+		updateTelegramBotPluginsLogsButton.classList.toggle('disabled');
 		telegramBotPluginsLogsBootstrapСollapse.toggle();
 	});
 	updateTelegramBotPluginsLogsButton.addEventListener('click', () => updateTelegramBotPluginsLogs());

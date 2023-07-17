@@ -150,7 +150,7 @@
 <!-- Monaco Editor -->
 <script src="{% static 'monaco_editor/min/vs/loader.js' %}"></script>
 <script>
-	const monacoEditorMinVsFolderUrl = "{% static 'monaco_editor/min/vs' %}";
+	require.config({paths: {'vs': "{% static 'monaco_editor/min/vs' %}"}});
 </script>
 <!-- END Monaco Editor -->
 

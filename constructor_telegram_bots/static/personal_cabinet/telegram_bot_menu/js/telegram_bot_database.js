@@ -1,41 +1,40 @@
 {
-	const databaseRecordsDiv = document.querySelector('#databaseRecords');
+	const telegramBotDatabaseRecordsDiv = document.querySelector('#telegramBotDatabaseRecords');
 
-	const checkDatabaseRecordsСount = () => {
-		if (databaseRecordsDiv.querySelectorAll('.database-record').length == 0) {
-			const databaseNotHaveRecordDiv = document.createElement('div');
-			databaseNotHaveRecordDiv.className = 'list-group-item database-not-have-record px-3 py-2';
-			databaseNotHaveRecordDiv.innerHTML = `<p class="text-center my-2">${telegramBotDatabaseNotHaveDataText}</p>`;
-			databaseRecordsDiv.append(databaseNotHaveRecordDiv);
+	const checkTelegramBotDatabaseRecordsСount = () => {
+		if (telegramBotDatabaseRecordsDiv.querySelectorAll('.database-record').length == 0) {
+			const telegramBotDatabaseNotHaveRecordDiv = document.createElement('div');
+			telegramBotDatabaseNotHaveRecordDiv.className = 'list-group-item database-not-have-record px-3 py-2';
+			telegramBotDatabaseNotHaveRecordDiv.innerHTML = `<p class="text-center my-2">${telegramBotDatabaseNotHaveDataText}</p>`;
+			telegramBotDatabaseRecordsDiv.append(telegramBotDatabaseNotHaveRecordDiv);
 		} else {
-			const databaseNotHaveRecordDiv = databaseRecordsDiv.querySelector('.database-not-have-record');
-
-			if (databaseNotHaveRecordDiv != null) {
-				databaseNotHaveRecordDiv.remove()
-			}
+			const telegramBotDatabaseNotHaveRecordDiv = telegramBotDatabaseRecordsDiv.querySelector('.database-not-have-record');
+			if (telegramBotDatabaseNotHaveRecordDiv != null) {telegramBotDatabaseNotHaveRecordDiv.remove()}
 		}
 	}
 
-	const addDatabaseRecord = (databaseRecord) => {
-		const databaseRecordDiv = document.createElement('div');
-		databaseRecordDiv.className = 'list-group-item database-record p-3';
-		databaseRecordDiv.innerHTML = [
+	const addTelegramBotDatabaseRecord = (telegramBotDatabaseRecord) => {
+		const telegramBotDatabaseRecordDiv = document.createElement('div');
+		telegramBotDatabaseRecordDiv.className = 'list-group-item database-record p-3';
+		telegramBotDatabaseRecordDiv.innerHTML = [
 			'<div class="d-flex justify-content-between align-items-center">',
-			'	<div class="editor border border-2 border-dark-subtle rounded w-100 p-2">',
-			'		<div class="spinner-border text-secondary ms-2 mt-2" role="status">',
-			'			<span class="visually-hidden"></span>',
+			'	<div class="border border-2 border-dark-subtle rounded w-100 p-2">',
+			'		<div class="editor">',
+			'			<div class="spinner-border text-secondary ms-2 mt-2" role="status">',
+			'				<span class="visually-hidden"></span>',
+			'			</div>',
 			'		</div>',
 			'	</div>',
-			'	<div class="d-flex buttons justify-content-between align-items-center mx-3">',
+			'	<div class="d-flex buttons justify-content-between align-items-center ms-3">',
 			'		<div class="btn-group confirm-and-cancel me-2 d-none" role="group">',
-			`			<button class="btn btn-success confirm px-2 py-1" id="${databaseRecord['_id']}">`,
+			`			<button class="btn btn-success confirm px-2 py-1" id="${telegramBotDatabaseRecord['_id']}">`,
 			'				<i class="bi bi-check-lg d-flex justify-content-center" style="font-size: 20px"></i>',
 			'			</button>',
 			`			<button class="btn btn-danger cancel px-2 py-1">`,
 			'				<i class="bi bi-x-lg d-flex justify-content-center" style="font-size: 20px; -webkit-text-stroke: 1px;"></i>',
 			'			</button>',
 			'		</div>',
-			`		<button class="btn btn-danger delete px-2 py-1 disabled" id="${databaseRecord['_id']}">`,
+			`		<button class="btn btn-danger delete px-2 py-1 disabled" id="${telegramBotDatabaseRecord['_id']}">`,
 			'			<div class="spinner-border spinner-border-sm" role="status">',
 			'				<span class="visually-hidden"></span>',
 			'			</div>',
@@ -43,24 +42,24 @@
 			'	</div>',
 			'</div>',
 		].join('');
-		databaseRecordsDiv.append(databaseRecordDiv);
+		telegramBotDatabaseRecordsDiv.append(telegramBotDatabaseRecordDiv);
 
-		checkDatabaseRecordsСount();
+		checkTelegramBotDatabaseRecordsСount();
 
-		const databaseRecordEditorDiv = databaseRecordDiv.querySelector('.editor');
-		const databaseRecordConfirmAndCancelButtonsGroup = databaseRecordDiv.querySelector('.confirm-and-cancel');
-		const databaseRecordConfirmButton = databaseRecordDiv.querySelector('.confirm');
-		const databaseRecordCancelButton = databaseRecordDiv.querySelector('.cancel');
-		const databaseRecordDeleteButton = databaseRecordDiv.querySelector('.delete');
+		const telegramBotDatabaseRecordEditorDiv = telegramBotDatabaseRecordDiv.querySelector('.editor');
+		const telegramBotDatabaseRecordConfirmAndCancelButtonsGroup = telegramBotDatabaseRecordDiv.querySelector('.confirm-and-cancel');
+		const telegramBotDatabaseRecordConfirmButton = telegramBotDatabaseRecordDiv.querySelector('.confirm');
+		const telegramBotDatabaseRecordCancelButton = telegramBotDatabaseRecordDiv.querySelector('.cancel');
+		const telegramBotDatabaseRecordDeleteButton = telegramBotDatabaseRecordDiv.querySelector('.delete');
 
 		require(['vs/editor/editor.main'], function() {
-			databaseRecordEditorDiv.querySelector('.spinner-border').remove();
+			telegramBotDatabaseRecordEditorDiv.querySelector('.spinner-border').remove();
 
-			databaseRecordDeleteButton.classList.remove('disabled');
-			databaseRecordDeleteButton.innerHTML = '<i class="bi bi-trash d-flex justify-content-center" style="font-size: 20px;"></i>';
+			telegramBotDatabaseRecordDeleteButton.classList.remove('disabled');
+			telegramBotDatabaseRecordDeleteButton.innerHTML = '<i class="bi bi-trash d-flex justify-content-center" style="font-size: 20px;"></i>';
 
-			const databaseRecordMonacoEditor = monaco.editor.create(databaseRecordEditorDiv, {
-				value: JSON.stringify(databaseRecord, null, '\t'),
+			const telegramBotDatabaseRecordMonacoEditor = monaco.editor.create(telegramBotDatabaseRecordEditorDiv, {
+				value: JSON.stringify(telegramBotDatabaseRecord, null, '\t'),
 				language: 'json',
 				lineNumbers: "off",
 				folding: false,
@@ -75,63 +74,56 @@
 				renderLineHighlight: 'none',
 			});
 
-			const updateDatabaseRecordMonacoEditorHeight = () => {
-				databaseRecordMonacoEditor.layout({height: databaseRecordMonacoEditor.getContentHeight() - 16});
-				databaseRecordMonacoEditor.layout();
+			const updateTelegramBotDatabaseRecordMonacoEditorHeight = () => {
+				telegramBotDatabaseRecordMonacoEditor.layout({height: telegramBotDatabaseRecordMonacoEditor.getContentHeight()});
+				telegramBotDatabaseRecordMonacoEditor.layout();
 			}
-
-			updateDatabaseRecordMonacoEditorHeight();
-
-			databaseRecordMonacoEditor.onDidChangeModelContent(event => {
-				databaseRecordConfirmAndCancelButtonsGroup.classList.remove('d-none');
-				updateDatabaseRecordMonacoEditorHeight();
+			updateTelegramBotDatabaseRecordMonacoEditorHeight();
+			telegramBotDatabaseRecordMonacoEditor.onDidChangeModelContent(event => {
+				telegramBotDatabaseRecordConfirmAndCancelButtonsGroup.classList.remove('d-none');
+				updateTelegramBotDatabaseRecordMonacoEditorHeight();
 			});
 
-			databaseRecordConfirmButton.addEventListener('click', function() {
+			telegramBotDatabaseRecordConfirmButton.addEventListener('click', function() {
 				fetch(`/telegram-bot/${telegramBotId}/database/records/${this.id}/`, {
 					method: 'PATCH',
 					headers: {
 						'Content-Type': 'application/json',
 						'Authorization': `Token ${userApiToken}`,
 					},
-					body: JSON.stringify({'updated_record': JSON.parse(databaseRecordMonacoEditor.getModel().getValue())}),
+					body: JSON.stringify({'updated_record': JSON.parse(telegramBotDatabaseRecordMonacoEditor.getModel().getValue())}),
 				}).then(response => {
 					response.json().then(jsonResponse => {
 						if (response.ok) {
-							databaseRecordMonacoEditor.setValue(JSON.stringify(jsonResponse['record'], null, '\t'));
-							databaseRecordDiv.querySelector('.buttons').classList.replace('mx-3', 'ms-3');
-							databaseRecordConfirmAndCancelButtonsGroup.classList.add('d-none');
+							telegramBotDatabaseRecordMonacoEditor.setValue(JSON.stringify(jsonResponse['record'], null, '\t'));
+							telegramBotDatabaseRecordConfirmAndCancelButtonsGroup.classList.add('d-none');
 						}
 
 						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
 					});
 				});
 			});
-
-			databaseRecordCancelButton.addEventListener('click', function() {
-				databaseRecordMonacoEditor.setValue(JSON.stringify(databaseRecord, null, '\t'));
-				databaseRecordConfirmAndCancelButtonsGroup.classList.add('d-none');
+			telegramBotDatabaseRecordCancelButton.addEventListener('click', function() {
+				telegramBotDatabaseRecordMonacoEditor.setValue(JSON.stringify(telegramBotDatabaseRecord, null, '\t'));
+				telegramBotDatabaseRecordConfirmAndCancelButtonsGroup.classList.add('d-none');
 			});
-
-			databaseRecordDeleteButton.addEventListener('click', function() {
-				const databaseRecordId = this.id;
+			telegramBotDatabaseRecordDeleteButton.addEventListener('click', function() {
+				const telegramBotDatabaseRecordId = this.id;
 
 				askConfirmModal(
 					deleteTelegramBotDatabaseRecordAskConfirmModalTitle,
 					deleteTelegramBotDatabaseRecordAskConfirmModalText,
 					function() {
-						fetch(`/telegram-bot/${telegramBotId}/database/records/${databaseRecordId}/`, {
+						fetch(`/telegram-bot/${telegramBotId}/database/records/${telegramBotDatabaseRecordId}/`, {
 							method: 'DELETE',
 							headers: {'Authorization': `Token ${userApiToken}`},
 						}).then(response => {
 							if (response.ok) {
-								databaseRecordDiv.remove();
-								checkDatabaseRecordsСount();
+								telegramBotDatabaseRecordDiv.remove();
+								checkTelegramBotDatabaseRecordsСount();
 							}
 
-							response.json().then(jsonResponse => {
-								createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
-							});
+							response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
 						});
 					}
 				);
@@ -140,40 +132,45 @@
 	}
 
 	{
-		const updateDatabaseRecords = () => {
+		const updateTelegramBotDatabaseRecords = () => {
 			fetch(telegramBotDatabeseRecordsUrl, {
 				method: 'GET',
 				headers: {'Authorization': `Token ${userApiToken}`},
 			}).then(response => {
 				response.json().then(jsonResponse => {
 					if (response.ok) {
-						databaseRecordsDiv.innerHTML = '';
-
-						if (jsonResponse.length > 0) {
-							jsonResponse.forEach(databaseRecord => addDatabaseRecord(databaseRecord));
-						} else {
-							checkDatabaseRecordsСount();
-						}
-					} else {
-						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
-					}
+						telegramBotDatabaseRecordsDiv.innerHTML = '';
+						(jsonResponse.length > 0) ? jsonResponse.forEach(telegramBotDatabaseRecord => addTelegramBotDatabaseRecord(telegramBotDatabaseRecord)) : checkTelegramBotDatabaseRecordsСount();
+					} else {createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level'])}
 				});
 			});
 		}
 
-		const addDatabaseRecordButton = document.querySelector('#addDatabaseRecordButton');
+		const telegramBotDatabaseRecordsСollapseButton = document.querySelector('#telegramBotDatabaseRecordsСollapseButton');
+		const updateTelegramBotDatabaseRecordsButton = document.querySelector('#updateTelegramBotDatabaseRecordsButton');
+		const telegramBotDatabaseRecordsBootstrapСollapse = new bootstrap.Collapse('#telegramBotDatabaseRecordsСollapse');
+		const addTelegramBotDatabaseRecordButton = document.querySelector('#addTelegramBotDatabaseRecordButton');
 
-		addDatabaseRecordButton.addEventListener('click', function() {
-			const databaseRecordDiv = document.createElement('div');
-			databaseRecordDiv.className = 'list-group-item database-record p-3';
-			databaseRecordDiv.innerHTML = [
+		telegramBotDatabaseRecordsСollapseButton.addEventListener('click', function() {
+			updateTelegramBotDatabaseRecordsButton.classList.toggle('disabled');
+			telegramBotDatabaseRecordsBootstrapСollapse.toggle();
+			addTelegramBotDatabaseRecordButton.classList.toggle('disabled');
+			telegramBotDatabaseRecordsСollapseButton.innerHTML = (telegramBotDatabaseRecordsСollapseButton.querySelector('i').classList.contains('bi-arrow-up')) ? '<i class="bi bi-arrow-down d-flex" style="font-size: 20px;"></i>' : '<i class="bi bi-arrow-up d-flex" style="font-size: 20px;"></i>';
+		});
+		updateTelegramBotDatabaseRecordsButton.addEventListener('click', () => updateTelegramBotDatabaseRecords());
+		addTelegramBotDatabaseRecordButton.addEventListener('click', function() {
+			const telegramBotDatabaseRecordDiv = document.createElement('div');
+			telegramBotDatabaseRecordDiv.className = 'list-group-item database-record p-3';
+			telegramBotDatabaseRecordDiv.innerHTML = [
 				'<div class="d-flex justify-content-between align-items-center">',
-				'	<div class="editor border border-2 border-success-subtle rounded w-100 p-2">',
-				'		<div class="spinner-border text-secondary ms-2 mt-2" role="status">',
-				'			<span class="visually-hidden"></span>',
+				'	<div class="border border-2 border-success-subtle rounded w-100 p-2">',
+				'		<div class="editor">',
+				'			<div class="spinner-border text-secondary ms-2 mt-2" role="status">',
+				'				<span class="visually-hidden"></span>',
+				'			</div>',
 				'		</div>',
 				'	</div>',
-				'	<div class="d-flex justify-content-between align-items-center mx-3">',
+				'	<div class="d-flex justify-content-between align-items-center ms-3">',
 				'	<div class="btn-group" role="group">',
 				`		<button class="btn btn-success confirm px-2 py-1 disabled">`,
 				'			<div class="spinner-border spinner-border-sm" role="status">',
@@ -188,24 +185,24 @@
 				'	</div>',
 				'</div>',
 			].join('');
-			databaseRecordsDiv.append(databaseRecordDiv);
+			telegramBotDatabaseRecordsDiv.append(telegramBotDatabaseRecordDiv);
 
-			checkDatabaseRecordsСount();
+			checkTelegramBotDatabaseRecordsСount();
 
-			const databaseRecordEditorDiv = databaseRecordDiv.querySelector('.editor');
-			const databaseRecordConfirmButton = databaseRecordDiv.querySelector('.confirm');
-			const databaseRecordCancelButton = databaseRecordDiv.querySelector('.cancel');
+			const telegramBotDatabaseRecordEditorDiv = telegramBotDatabaseRecordDiv.querySelector('.editor');
+			const telegramBotDatabaseRecordConfirmButton = telegramBotDatabaseRecordDiv.querySelector('.confirm');
+			const telegramBotDatabaseRecordCancelButton = telegramBotDatabaseRecordDiv.querySelector('.cancel');
 
 			require(['vs/editor/editor.main'], function() {
-				databaseRecordEditorDiv.querySelector('.spinner-border').remove();
+				telegramBotDatabaseRecordEditorDiv.querySelector('.spinner-border').remove();
 
-				databaseRecordConfirmButton.classList.remove('disabled');
-				databaseRecordConfirmButton.innerHTML = '<i class="bi bi-check-lg d-flex justify-content-center" style="font-size: 20px"></i>';
+				telegramBotDatabaseRecordConfirmButton.classList.remove('disabled');
+				telegramBotDatabaseRecordConfirmButton.innerHTML = '<i class="bi bi-check-lg d-flex justify-content-center" style="font-size: 20px"></i>';
 
-				databaseRecordCancelButton.classList.remove('disabled');
-				databaseRecordCancelButton.innerHTML = '<i class="bi bi-x-lg d-flex justify-content-center" style="font-size: 20px; -webkit-text-stroke: 1px;"></i>';
+				telegramBotDatabaseRecordCancelButton.classList.remove('disabled');
+				telegramBotDatabaseRecordCancelButton.innerHTML = '<i class="bi bi-x-lg d-flex justify-content-center" style="font-size: 20px; -webkit-text-stroke: 1px;"></i>';
 
-				const databaseRecordMonacoEditor = monaco.editor.create(databaseRecordEditorDiv, {
+				const telegramBotDatabaseRecordMonacoEditor = monaco.editor.create(telegramBotDatabaseRecordEditorDiv, {
 					value: JSON.stringify({'key': 'value'}, null, '\t'),
 					language: 'json',
 					lineNumbers: "off",
@@ -218,44 +215,42 @@
 						vertical: 'hidden',
 						horizontal: 'hidden',
 					},
+					renderLineHighlight: 'none',
 				});
 
-				const updateDatabaseRecordMonacoEditorHeight = () => {
-					databaseRecordMonacoEditor.layout({height: databaseRecordMonacoEditor.getContentHeight() - 16});
-					databaseRecordMonacoEditor.layout();
+				const updateTelegramBotDatabaseRecordMonacoEditorHeight = () => {
+					telegramBotDatabaseRecordMonacoEditor.layout({height: telegramBotDatabaseRecordMonacoEditor.getContentHeight()});
+					telegramBotDatabaseRecordMonacoEditor.layout();
 				}
+				updateTelegramBotDatabaseRecordMonacoEditorHeight();
+				telegramBotDatabaseRecordMonacoEditor.onDidChangeModelContent(event => updateTelegramBotDatabaseRecordMonacoEditorHeight());
 
-				updateDatabaseRecordMonacoEditorHeight();
-
-				databaseRecordMonacoEditor.onDidChangeModelContent(event => updateDatabaseRecordMonacoEditorHeight());
-
-				databaseRecordConfirmButton.addEventListener('click', function() {
+				telegramBotDatabaseRecordConfirmButton.addEventListener('click', function() {
 					fetch(telegramBotDatabeseRecordsUrl, {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json',
 							'Authorization': `Token ${userApiToken}`,
 						},
-						body: JSON.stringify({'record': JSON.parse(databaseRecordMonacoEditor.getModel().getValue())}),
+						body: JSON.stringify({'record': JSON.parse(telegramBotDatabaseRecordMonacoEditor.getModel().getValue())}),
 					}).then(response => {
 						response.json().then(jsonResponse => {
 							if (response.ok) {
-								databaseRecordDiv.remove();
-								addDatabaseRecord(jsonResponse['record']);
+								telegramBotDatabaseRecordDiv.remove();
+								addTelegramBotDatabaseRecord(jsonResponse['record']);
 							}
 
 							createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
 						});
 					});
 				});
-
-				databaseRecordCancelButton.addEventListener('click', function() {
-					databaseRecordDiv.remove();
-					checkDatabaseRecordsСount();
+				telegramBotDatabaseRecordCancelButton.addEventListener('click', function() {
+					telegramBotDatabaseRecordDiv.remove();
+					checkTelegramBotDatabaseRecordsСount();
 				});
 			});
 		});
 
-		updateDatabaseRecords();
+		updateTelegramBotDatabaseRecords();
 	}
 }

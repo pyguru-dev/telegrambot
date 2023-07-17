@@ -1,5 +1,23 @@
 {
 	const telegramBotApiToken = document.querySelector('#telegramBotApiToken');
+	const telegramBotUsername = document.querySelector('#telegramBotUsername');
+
+	const updateTelegramBot = () => {
+		fetch (getTelegramBotDataUrl, {
+			method: 'POST',
+			headers: {'Authorization': `Token ${userApiToken}`},
+		}).then(response => {
+			response.json().then(jsonResponse => {
+				if (response.ok) {
+					telegramBotUsername.href = `tg://resolve?domain=${jsonResponse['username']}`;
+					telegramBotUsername.innerHTML = `@${jsonResponse['username']}`;
+					telegramBotApiToken.innerHTML = jsonResponse['api_token'];
+				} else {createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level'])}
+			});
+		});
+	}
+
+	updateTelegramBot();
 
 	{
 		const telegramBotApiTokenEditButton = document.querySelector('#telegramBotApiTokenEditButton');
@@ -9,11 +27,7 @@
 		const telegramBotApiTokenEditOrSaveOrCancel = () => {
 			const telegramBotApiTokenInput = telegramBotApiToken.querySelector('input');
 
-			if (telegramBotApiTokenInput == null) {
-				telegramBotApiToken.innerHTML = `<input class="form-control" id="${telegramBotApiToken.innerHTML}" type="text" placeholder="${telegramBotTableLineApiTokenInputText}" value="${telegramBotApiToken.innerHTML}">`;
-			} else {
-				telegramBotApiToken.innerHTML = telegramBotApiTokenInput.id;
-			}
+			telegramBotApiToken.innerHTML = (telegramBotApiTokenInput == null) ? `<input class="form-control" id="${telegramBotApiToken.innerHTML}" type="text" placeholder="${telegramBotTableLineApiTokenInputText}" value="${telegramBotApiToken.innerHTML}">` : telegramBotApiTokenInput.id;
 
 			telegramBotApiTokenEditButton.classList.toggle('d-none');
 			telegramBotApiTokenSaveButton.classList.toggle('d-none');
@@ -37,9 +51,7 @@
 					telegramBotApiTokenEditOrSaveOrCancel();
 				}
 
-				response.json().then(jsonResponse => {
-					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
-				});
+				response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
 			});
 		});
 		telegramBotApiTokenCancelButton.addEventListener('click', telegramBotApiTokenEditOrSaveOrCancel);
@@ -56,18 +68,14 @@
 				'Authorization': `Token ${userApiToken}`,
 			},
 		}).then(response => {
-			if (response.ok) {
-				updateTelegramBotUsers();
-			}
-
-			response.json().then(jsonResponse => {
-				createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
-			});
+			if (response.ok) {updateTelegramBotUsers()}
+			response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
 		});
 	});
 
 	{
 		const telegramBotStartOrStopButton = document.querySelector('#telegramBotStartOrStopButton');
+		const telegramBotStatusDiv = document.querySelector('#telegramBotStatus');
 
 		telegramBotStartOrStopButton.addEventListener('click', function() {
 			telegramBotStartOrStopButton.disabled = true;
@@ -82,25 +90,21 @@
 				headers: {'Authorization': `Token ${userApiToken}`},
 			}).then(response => {
 				if (response.ok) {
-					const telegramBotStatus = document.querySelector('#telegramBotStatus');
-
 					if (telegramBotIsRunning) {
+						let intervalCheckTelegramBotIsStoppedId;
+
 						const checkTelegramBotIsStopped = () => {
 							fetch (getTelegramBotDataUrl, {
 								method: 'POST',
 								headers: {'Authorization': `Token ${userApiToken}`},
 							}).then(response => {
-								if (response.ok) {
-									response.json().then(telegramBot => {
-										if (telegramBot['is_stopped']) {
-											intervalUpdateUsersIsRunning = false;
-											telegramBotIsRunning = false;
+								response.json().then(jsonResponse => {
+									if (response.ok) {
+										if (jsonResponse['is_stopped']) {
+											clearInterval(intervalCheckTelegramBotIsStoppedId);
 
-											clearInterval(intervalUpdateUsersId)
-											clearInterval(intervalCheckTelegramBotIsStoppedId)
-
-											telegramBotStatus.classList.replace('bg-success', 'bg-danger');
-											telegramBotStatus.innerHTML = telegramBotCardHeaderIsNotRunningText;
+											telegramBotStatusDiv.classList.replace('bg-success', 'bg-danger');
+											telegramBotStatusDiv.innerHTML = telegramBotCardHeaderIsNotRunningText;
 
 											telegramBotStartOrStopButton.classList.replace('btn-danger', 'btn-success');
 											telegramBotStartOrStopButton.disabled = false;
@@ -108,25 +112,15 @@
 
 											createAlert(mainAlertContainer, stopTelegramBotMessage, 'success');
 										}
-									});
-								} else {
-									response.json().then(jsonResponse => {
-										createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
-									});
-								}
+									} else {createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level'])}
+								});
 							});
 						}
 
-						const intervalCheckTelegramBotIsStoppedId = setInterval(checkTelegramBotIsStopped, 3000)
+						intervalCheckTelegramBotIsStoppedId = setInterval(checkTelegramBotIsStopped, 3000)
 					} else {
-						intervalUpdateUsersIsRunning = true;
-						telegramBotIsRunning = true;
-
-						updateTelegramBotUsers();
-						intervalUpdateUsersId = setInterval(updateTelegramBotUsers, 3000);
-
-						telegramBotStatus.classList.replace('bg-danger', 'bg-success');
-						telegramBotStatus.innerHTML = telegramBotCardHeaderIsRunningText;
+						telegramBotStatusDiv.classList.replace('bg-danger', 'bg-success');
+						telegramBotStatusDiv.innerHTML = telegramBotCardHeaderIsRunningText;
 
 						telegramBotStartOrStopButton.classList.replace('btn-success', 'btn-danger');
 						telegramBotStartOrStopButton.disabled = false;
@@ -135,11 +129,7 @@
 						createAlert(mainAlertContainer, startTelegramBotMessage, 'success');
 					}
 
-				} else {
-					response.json().then(jsonResponse => {
-						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
-					});
-				}
+				} else {response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']))}
 			});
 		});
 	}
@@ -152,37 +142,9 @@
 				method: 'POST',
 				headers: {'Authorization': `Token ${userApiToken}`},
 			}).then(response => {
-				if (response.ok) {
-					setTimeout("window.location.href = '../';", 1000);
-				}
-
-				response.json().then(jsonResponse => {
-					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
-				});
+				if (response.ok) {setTimeout("window.location.href = '../';", 1000)}
+				response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
 			});
 		}
 	));
-
-	{
-		const telegramBotUsername = document.querySelector('#telegramBotUsername');
-
-		function updateTelegramBot() {
-			fetch (getTelegramBotDataUrl, {
-				method: 'POST',
-				headers: {'Authorization': `Token ${userApiToken}`},
-			}).then(response => {
-				response.json().then(jsonResponse => {
-					if (response.ok) {
-						telegramBotUsername.href = `tg://resolve?domain=${jsonResponse['username']}`;
-						telegramBotUsername.innerHTML = `@${jsonResponse['username']}`;
-						telegramBotApiToken.innerHTML = jsonResponse['api_token'];
-					} else {
-						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
-					}
-				});
-			});
-		}
-
-		updateTelegramBot();
-	}
 }

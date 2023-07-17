@@ -138,7 +138,7 @@ def check_telegram_bot_command_database_record(func):
 			if not isinstance(database_record, dict):
 				database_record = database_error_record
 
-			database_telegram_bot.insert_one_record(self.telegram_bot, database_record)
+			database_telegram_bot.insert_record(self.telegram_bot, database_record)
 
 		return await func(*args, **kwargs)
 	return wrapper

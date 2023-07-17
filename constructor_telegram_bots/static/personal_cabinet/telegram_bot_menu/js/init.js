@@ -1,5 +1,3 @@
-require.config({paths: {'vs': monacoEditorMinVsFolderUrl}});
-
 {
 	const telegramBotCommandsCount = document.querySelector('#telegramBotCommandsCount');
 
