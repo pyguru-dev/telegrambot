@@ -7,7 +7,7 @@ from .models import TelegramBot, TelegramBotCommand, TelegramBotUser
 
 from .services import tasks
 
-from typing import List, Union
+from typing import List
 
 
 @admin.register(TelegramBot)
@@ -44,11 +44,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 			if telegram_bot.is_stopped:
 				tasks.start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
 
-				message = _('Telegram бот успешно включен.')
-
-				self.log_change(request=request, obj=telegram_bot, message=message)
-
-				messages.success(request, f'@{telegram_bot.username} {message}')
+				messages.success(request, f'@{telegram_bot.username} {_("Telegram бот успешно включен.")}')
 			else:
 				messages.error(request, f'@{telegram_bot.username} {_("Telegram бот уже включен!")}')
 
@@ -58,11 +54,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 			if telegram_bot.is_running:
 				tasks.stop_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
 
-				message = _('Telegram бот успешно выключен.')
-
-				self.log_change(request=request, obj=telegram_bot, message=message)
-
-				messages.success(request, f'@{telegram_bot.username} {message}')
+				messages.success(request, f'@{telegram_bot.username} {_("Telegram бот успешно выключен.")}')
 			else:
 				messages.error(request, f'@{telegram_bot.username} {_("Telegram бот уже выключен!")}')
 

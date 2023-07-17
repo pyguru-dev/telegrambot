@@ -76,7 +76,7 @@ def check_data_for_telegram_bot_command(func):
 		api_request: Union[dict, None] = kwargs['api_request']
 
 		if name:
-			if len(name) >= 255:
+			if len(name) > 255:
 				return Response({
 					'message': _('Название команды должно содержать не более 255 символов!'),
 					'level': 'danger',
@@ -88,7 +88,7 @@ def check_data_for_telegram_bot_command(func):
 			}, status=400)
 
 		if message_text:
-			if len(message_text) >= 4096:
+			if len(message_text) > 4096:
 				return Response({
 					'message': _('Текст сообщения должно содержать не более 4096 символов!'),
 					'level': 'danger',
@@ -101,7 +101,7 @@ def check_data_for_telegram_bot_command(func):
 
 		if command is not None:
 			if command:
-				if len(command) >= 32:
+				if len(command) > 32:
 					return Response({
 						'message': _('Команда должна содержать не более 32 символов!'),
 						'level': 'danger',

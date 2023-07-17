@@ -8,7 +8,7 @@ from rest_framework.response import Response
 
 from constructor_telegram_bots.decorators import check_post_request_data_items
 from telegram_bot.decorators import check_telegram_bot_id
-from .decorators import check_plugin_id
+from .decorators import check_plugin_id, check_plugin_data
 
 from .models import Plugin, PluginLog
 from telegram_bot.models import TelegramBot
@@ -22,19 +22,20 @@ class PluginsView(APIView):
 
 	@check_post_request_data_items({'name': str, 'code': str})
 	@check_telegram_bot_id
+	@check_plugin_data
 	def post(self, request: Request, telegram_bot: TelegramBot, name: str, code: str) -> Response:
 		plugin: Plugin = Plugin.objects.create(user=request.user, telegram_bot=telegram_bot, name=name, code=code)
-
-		environment.add_plugin(plugin)
 
 		return Response({
 			'message': _('Вы успешно добавили плагин вашему Telgram боту.'),
 			'level': 'success',
+
+			'plugin': plugin.to_dict(),
 		})
 
 	@check_telegram_bot_id
 	def get(self, request: Request, telegram_bot: TelegramBot) -> Response:
-		return Response([plugin.to_dict() for plugin in telegram_bot.plugins])
+		return Response([plugin.to_dict() for plugin in telegram_bot.plugins.all()])
 
 class PluginView(APIView):
 	authentication_classes = [TokenAuthentication]
@@ -42,22 +43,24 @@ class PluginView(APIView):
 
 	@check_post_request_data_items({'code': str})
 	@check_plugin_id
+	@check_plugin_data
 	def patch(self, request: Request, plugin: Plugin, code: str) -> Response:
+		plugin.is_checked = False
 		plugin.code = code
 		plugin.save()
 
-		environment.update_plugin(plugin)
+		environment.delete_plugin(plugin)
 
 		return Response({
 			'message': _('Вы успешно обновили плагин вашего Telgram бота.'),
 			'level': 'success',
+
+			'plugin': plugin.to_dict(),
 		})
 
 	@check_plugin_id
 	def delete(self, request: Request, plugin: Plugin) -> Response:
 		plugin.delete()
-
-		environment.delete_plugin(plugin)
 
 		return Response({
 			'message': _('Вы успешно удалили плагин вашего Telgram бота.'),

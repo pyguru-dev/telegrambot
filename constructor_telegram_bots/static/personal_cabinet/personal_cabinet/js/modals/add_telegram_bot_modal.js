@@ -18,7 +18,7 @@
 		}).then(response => {
 			response.json().then(jsonResponse => {
 				if (response.ok) {
-					const notHaveTelegramBotDiv = document.querySelector('#notHaveTelegramBot');
+					const notHaveTelegramBotDiv = document.querySelector('#notAddedTelegramBot');
 
 					if (notHaveTelegramBotDiv != null) {
 						notHaveTelegramBotDiv.remove();
