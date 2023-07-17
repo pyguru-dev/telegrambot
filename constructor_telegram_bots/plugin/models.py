@@ -60,7 +60,7 @@ class PluginLog(models.Model):
 
 	def to_dict(self) -> dict:
 		return {
-			'id': self.id,
+			'plugin_name': self.plugin.name,
 			'message': self.message,
 			'level': self.level,
 			'date_added': f'{filters.date(self.date_added)} {filters.time(self.date_added)}',
