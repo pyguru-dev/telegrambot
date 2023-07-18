@@ -49,8 +49,6 @@
 						].join('');
 						telegramBotUsersDiv.append(telegramBotUserDiv);
 
-						checkTelegramBotUsersСount();
-
 						const telegramBotUserAddAllowedButton = telegramBotUserDiv.querySelector('.add-allowed');
 						const telegramBotUserDeleteAllowedButton = telegramBotUserDiv.querySelector('.delete-allowed');
 						const telegramBotUserDeleteButton = telegramBotUserDiv.querySelector('.delete');
@@ -114,6 +112,8 @@
 							}
 						));
 					});
+
+					checkTelegramBotUsersСount();
 				} else {
 					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
 				}

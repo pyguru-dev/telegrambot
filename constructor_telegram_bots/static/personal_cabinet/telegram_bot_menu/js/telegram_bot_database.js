@@ -218,7 +218,7 @@
 				telegramBotDatabaseRecordConfirmButton.innerHTML = '<i class="bi bi-check-lg d-flex justify-content-center" style="font-size: 20px"></i>';
 
 				telegramBotDatabaseRecordCancelButton.classList.remove('disabled');
-				telegramBotDatabaseRecordCancelButton.innerHTML = '<i class="bi bi-x-lg d-flex justify-content-center" style="font-size: 20px; -webkit-text-stroke: 1px;"></i>';
+				telegramBotDatabaseRecordCancelButton.innerHTML = '<i class="bi bi-x-lg d-flex justify-content-center" style="font-size: 20px;"></i>';
 
 				const telegramBotDatabaseRecordMonacoEditor = monaco.editor.create(telegramBotDatabaseRecordEditorDiv, {
 					value: JSON.stringify({'key': 'value'}, null, '\t'),

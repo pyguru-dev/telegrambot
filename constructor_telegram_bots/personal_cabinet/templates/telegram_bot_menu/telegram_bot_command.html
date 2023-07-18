@@ -30,7 +30,10 @@
 				<input class="form-control" id="telegramBotCommandImageInput" type="file" accept="image/*">
 			</div>
 			<div class="col">
-				<textarea class="form-control" id="telegramBotCommandTextInput" type="text" rows="10" placeholder="{% trans "Введите текст сообщения" %}"></textarea>
+				<div class="border rounded p-2">
+					<div id="telegramBotCommandMessageTextEditor"></div>
+				</div>
+				{% comment %} <textarea class="form-control" id="telegramBotCommandTextInput" type="text" rows="10" placeholder="{% trans "Введите текст сообщения" %}"></textarea> {% endcomment %}
 			</div>
 			<div class="col d-none" id="telegramBotCommandKeyboardAddition">
 				<div class="row row-cols-1 gy-2">
@@ -56,14 +59,18 @@
 			</div>
 			<div class="col d-none" id="telegramBotCommandApiRequestAddition">
 				<label class="mb-1" for="telegramBotCommandApiRequest">{% trans "API-запрос" %}</label>
-				<div class="input-group" id="telegramBotCommandApiRequest">
-					<input class="form-control" id="telegramBotCommandApiRequestUrlInput" type="text" placeholder="{% trans "URL-адрес" %}">
-					<input class="form-control" id="telegramBotCommandApiRequestDataInput" type="text" placeholder="{% trans "Данные" %}">
+				<input class="form-control mb-2" id="telegramBotCommandApiRequestUrlInput" type="text" placeholder="{% trans "Введите URL-адрес" %}">
+				<div class="border rounded p-2">
+					<div id="telegramBotCommandApiRequestDataEditor"></div>
 				</div>
+				{% comment %} <input class="form-control" id="telegramBotCommandApiRequestDataInput" type="text" placeholder="{% trans "Данные" %}"> {% endcomment %}
 			</div>
 			<div class="col d-none" id="telegramBotCommandDatabaseRecordAddition">
 				<label class="mb-1" for="telegramBotCommandDatabaseRecordDataInput">{% trans "Запись в базу данных" %}</label>
-				<input class="form-control" id="telegramBotCommandDatabaseRecordDataInput" type="text" placeholder="{% trans "Введите данные (JSON)" %}">
+				<div class="border rounded p-2">
+					<div id="telegramBotCommandDatabaseRecordDataEditor"></div>
+				</div>
+				{% comment %} <input class="form-control" id="telegramBotCommandDatabaseRecordDataInput" type="text" placeholder="{% trans "Введите данные (JSON)" %}"> {% endcomment %}
 			</div>
 			<div class="col">
 				<label class="mb-1" for="telegramBotCommandAddition">{% trans "Добавить" %}</label>
