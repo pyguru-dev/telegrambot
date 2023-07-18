@@ -84,10 +84,10 @@ class TelegramBotCommand(models.Model):
 	def to_dict(self) -> dict:
 		return {
 			'id': self.id,
-			'name': filters.escape(self.name),
+			'name': self.name,
 			'command': self.command,
 			'image': str(self.image),
-			'message_text': filters.escape(self.message_text),
+			'message_text': self.message_text,
 			'keyboard': self.get_keyboard_as_dict(),
 			'api_request': self.api_request,
 			'database_record': self.database_record,
@@ -130,31 +130,29 @@ class TelegramBotCommand(models.Model):
 				buttons_id = []
 
 				for button in keyboard['buttons']:
-					if not button['id']:
-						button_: TelegramBotCommandKeyboardButton = TelegramBotCommandKeyboardButton.objects.create(
-							telegram_bot_command_keyboard=telegram_bot_command_keyboard,
-							**button
-						)
-					else:
+					is_finded_button = False
+
+					if button['id']:
 						button_id = int(button['id'])
-						is_finded_button = False
 
 						for button_ in telegram_bot_command_keyboard.buttons.all():
 							if button_id == button_.id:
 								is_finded_button = True
 								break
 
-						if is_finded_button:
-							button_: TelegramBotCommandKeyboardButton = telegram_bot_command_keyboard.buttons.get(id=button_id)
-							button_.row = button['row']
-							button_.text = button['text']
-							button_.url = button['url']
-							button_.save()
-						else:
-							button_: TelegramBotCommandKeyboardButton = TelegramBotCommandKeyboardButton.objects.create(
-								telegram_bot_command_keyboard=telegram_bot_command_keyboard,
-								**button
-							)
+					if is_finded_button:
+						button_: TelegramBotCommandKeyboardButton = telegram_bot_command_keyboard.buttons.get(id=button_id)
+						button_.row = button['row']
+						button_.text = button['text']
+						button_.url = button['url']
+						button_.save()
+					else:
+						button_: TelegramBotCommandKeyboardButton = TelegramBotCommandKeyboardButton.objects.create(
+							telegram_bot_command_keyboard=telegram_bot_command_keyboard,
+							row = button['row'],
+							text = button['text'],
+							url = button['url']
+						)
 
 					buttons_id.append(button_.id)
 
@@ -221,7 +219,7 @@ class TelegramBotCommandKeyboardButton(models.Model):
 		return {
 			'id': self.id,
 			'row': self.row,
-			'text': filters.escape(self.text),
+			'text': self.text,
 			'url': self.url,
 
 			'telegram_bot_command_id': self.telegram_bot_command.id if self.telegram_bot_command is not None else None,

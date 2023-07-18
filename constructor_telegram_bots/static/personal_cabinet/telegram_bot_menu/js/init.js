@@ -81,9 +81,7 @@
 							const diagramBlockImage = diagramBlock.querySelector('img');
 
 							if (diagramBlockImage != null) {
-								diagramBlockImage.addEventListener('load', function() {
-									createDiagramConnectorLines(telegramBotCommand['keyboard']);
-								});
+								diagramBlockImage.addEventListener('load', () => createDiagramConnectorLines(telegramBotCommand['keyboard']));
 							} else {
 								createDiagramConnectorLines(telegramBotCommand['keyboard']);
 							}

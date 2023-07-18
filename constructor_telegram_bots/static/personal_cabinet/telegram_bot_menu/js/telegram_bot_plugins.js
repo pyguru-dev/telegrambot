@@ -10,7 +10,10 @@
 			telegramBotPluginsDiv.append(telegramBotNotHavePluginsDiv);
 		} else {
 			const telegramBotNotHavePluginsDiv = telegramBotPluginsDiv.querySelector('#telegramBotNotHavePlugins');
-			if (telegramBotNotHavePluginsDiv != null) {telegramBotNotHavePluginsDiv.remove()}
+
+			if (telegramBotNotHavePluginsDiv != null) {
+				telegramBotNotHavePluginsDiv.remove();
+			}
 		}
 	}
 
@@ -105,10 +108,14 @@
 					body: JSON.stringify({'code': telegramBotPluginMonacoEditor.getModel().getValue()}),
 				}).then(response => {
 					response.json().then(jsonResponse => {
-						telegramBotPluginIsCheckedIcon.classList.remove('bi-check-circle-fill', 'text-success');
-						telegramBotPluginIsCheckedIcon.classList.add('bi-x-circle-fill', 'text-danger');
-						telegramBotPluginCode = jsonResponse['plugin']['code'];
-						if (response.ok) {telegramBotPluginConfirmOrCancelButtonClick(telegramBotPluginCode)}
+						if (response.ok) {
+							telegramBotPluginIsCheckedIcon.classList.remove('bi-check-circle-fill', 'text-success');
+							telegramBotPluginIsCheckedIcon.classList.add('bi-x-circle-fill', 'text-danger');
+							telegramBotPluginCode = jsonResponse['plugin']['code'];
+
+							telegramBotPluginConfirmOrCancelButtonClick(telegramBotPluginCode);
+						}
+
 						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
 					});
 				});
@@ -130,7 +137,9 @@
 								checkTelegramBotPluginsСount();
 							}
 
-							response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
+							response.json().then(jsonResponse => {
+								createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+							});
 						});
 					}
 				);
@@ -146,7 +155,12 @@
 			response.json().then(jsonResponse => {
 				if (response.ok) {
 					telegramBotPluginsDiv.innerHTML = '';
-					(jsonResponse.length > 0) ? jsonResponse.forEach(telegramBotPlugin => addTelegramBotPlugin(telegramBotPlugin)) : checkTelegramBotPluginsСount();
+
+					if (jsonResponse.length > 0) {
+						jsonResponse.forEach(telegramBotPlugin => addTelegramBotPlugin(telegramBotPlugin));
+					} else {
+						checkTelegramBotPluginsСount();
+					}
 				} else {
 					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
 				}
@@ -165,7 +179,12 @@
 		updateTelegramBotPluginsButton.classList.toggle('disabled');
 		telegramBotPluginsBootstrapСollapse.toggle();
 		addTelegramBotPluginButton.classList.toggle('disabled');
-		telegramBotPluginsСollapseButton.innerHTML = (telegramBotPluginsСollapseButton.querySelector('i').classList.contains('bi-arrow-up')) ? '<i class="bi bi-arrow-down d-flex" style="font-size: 20px;"></i>' : '<i class="bi bi-arrow-up d-flex" style="font-size: 20px;"></i>';
+
+		if (telegramBotPluginsСollapseButton.querySelector('i').classList.contains('bi-arrow-up')) {
+			telegramBotPluginsСollapseButton.innerHTML = '<i class="bi bi-arrow-down d-flex" style="font-size: 20px;"></i>';
+		} else {
+			telegramBotPluginsСollapseButton.innerHTML = '<i class="bi bi-arrow-up d-flex" style="font-size: 20px;"></i>';
+		}
 	});
 	updateTelegramBotPluginsButton.addEventListener('click', () => updateTelegramBotPlugins());
 	addTelegramBotPluginButton.addEventListener('click', function() {

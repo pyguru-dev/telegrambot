@@ -12,7 +12,9 @@
 					telegramBotUsername.href = `tg://resolve?domain=${jsonResponse['username']}`;
 					telegramBotUsername.innerHTML = `@${jsonResponse['username']}`;
 					telegramBotApiToken.innerHTML = jsonResponse['api_token'];
-				} else {createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level'])}
+				} else {
+					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+				}
 			});
 		});
 	}
@@ -27,7 +29,11 @@
 		const telegramBotApiTokenEditOrSaveOrCancel = () => {
 			const telegramBotApiTokenInput = telegramBotApiToken.querySelector('input');
 
-			telegramBotApiToken.innerHTML = (telegramBotApiTokenInput == null) ? `<input class="form-control" id="${telegramBotApiToken.innerHTML}" type="text" placeholder="${telegramBotTableLineApiTokenInputText}" value="${telegramBotApiToken.innerHTML}">` : telegramBotApiTokenInput.id;
+			if (telegramBotApiTokenInput == null) {
+				telegramBotApiToken.innerHTML = `<input class="form-control" id="${telegramBotApiToken.innerHTML}" type="text" placeholder="${telegramBotTableLineApiTokenInputText}" value="${telegramBotApiToken.innerHTML}">`;
+			} else {
+				telegramBotApiToken.innerHTML = telegramBotApiTokenInput.id;
+			}
 
 			telegramBotApiTokenEditButton.classList.toggle('d-none');
 			telegramBotApiTokenSaveButton.classList.toggle('d-none');
@@ -51,7 +57,9 @@
 					telegramBotApiTokenEditOrSaveOrCancel();
 				}
 
-				response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
+				response.json().then(jsonResponse => {
+					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+				});
 			});
 		});
 		telegramBotApiTokenCancelButton.addEventListener('click', telegramBotApiTokenEditOrSaveOrCancel);
@@ -68,8 +76,13 @@
 				'Authorization': `Token ${userApiToken}`,
 			},
 		}).then(response => {
-			if (response.ok) {updateTelegramBotUsers()}
-			response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
+			if (response.ok) {
+				updateTelegramBotUsers();
+			}
+
+			response.json().then(jsonResponse => {
+				createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+			});
 		});
 	});
 
@@ -112,7 +125,9 @@
 
 											createAlert(mainAlertContainer, stopTelegramBotMessage, 'success');
 										}
-									} else {createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level'])}
+									} else {
+										createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+									}
 								});
 							});
 						}
@@ -128,8 +143,11 @@
 
 						createAlert(mainAlertContainer, startTelegramBotMessage, 'success');
 					}
-
-				} else {response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']))}
+				} else {
+					response.json().then(jsonResponse => {
+						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+					});
+				}
 			});
 		});
 	}
@@ -142,8 +160,13 @@
 				method: 'POST',
 				headers: {'Authorization': `Token ${userApiToken}`},
 			}).then(response => {
-				if (response.ok) {setTimeout("window.location.href = '../';", 1000)}
-				response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
+				if (response.ok) {
+					setTimeout("window.location.href = '../';", 1000);
+				}
+
+				response.json().then(jsonResponse => {
+					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+				});
 			});
 		}
 	));

@@ -9,7 +9,10 @@
 			telegramBotDatabaseRecordsDiv.append(telegramBotDatabaseNotHaveRecordDiv);
 		} else {
 			const telegramBotDatabaseNotHaveRecordDiv = telegramBotDatabaseRecordsDiv.querySelector('.database-not-have-record');
-			if (telegramBotDatabaseNotHaveRecordDiv != null) {telegramBotDatabaseNotHaveRecordDiv.remove()}
+
+			if (telegramBotDatabaseNotHaveRecordDiv != null) {
+				telegramBotDatabaseNotHaveRecordDiv.remove();
+			}
 		}
 	}
 
@@ -58,8 +61,10 @@
 			telegramBotDatabaseRecordDeleteButton.classList.remove('disabled');
 			telegramBotDatabaseRecordDeleteButton.innerHTML = '<i class="bi bi-trash d-flex justify-content-center" style="font-size: 20px;"></i>';
 
+			let telegramBotDatabaseRecordData = JSON.stringify(telegramBotDatabaseRecord, null, '\t');
+
 			const telegramBotDatabaseRecordMonacoEditor = monaco.editor.create(telegramBotDatabaseRecordEditorDiv, {
-				value: JSON.stringify(telegramBotDatabaseRecord, null, '\t'),
+				value: telegramBotDatabaseRecordData,
 				language: 'json',
 				lineNumbers: "off",
 				folding: false,
@@ -95,7 +100,8 @@
 				}).then(response => {
 					response.json().then(jsonResponse => {
 						if (response.ok) {
-							telegramBotDatabaseRecordMonacoEditor.setValue(JSON.stringify(jsonResponse['record'], null, '\t'));
+							telegramBotDatabaseRecordData = JSON.stringify(jsonResponse['record'], null, '\t');
+							telegramBotDatabaseRecordMonacoEditor.setValue(telegramBotDatabaseRecordData);
 							telegramBotDatabaseRecordConfirmAndCancelButtonsGroup.classList.add('d-none');
 						}
 
@@ -104,7 +110,7 @@
 				});
 			});
 			telegramBotDatabaseRecordCancelButton.addEventListener('click', function() {
-				telegramBotDatabaseRecordMonacoEditor.setValue(JSON.stringify(telegramBotDatabaseRecord, null, '\t'));
+				telegramBotDatabaseRecordMonacoEditor.setValue(telegramBotDatabaseRecordData);
 				telegramBotDatabaseRecordConfirmAndCancelButtonsGroup.classList.add('d-none');
 			});
 			telegramBotDatabaseRecordDeleteButton.addEventListener('click', function() {
@@ -140,8 +146,15 @@
 				response.json().then(jsonResponse => {
 					if (response.ok) {
 						telegramBotDatabaseRecordsDiv.innerHTML = '';
-						(jsonResponse.length > 0) ? jsonResponse.forEach(telegramBotDatabaseRecord => addTelegramBotDatabaseRecord(telegramBotDatabaseRecord)) : checkTelegramBotDatabaseRecordsСount();
-					} else {createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level'])}
+
+						if (jsonResponse.length > 0) {
+							jsonResponse.forEach(telegramBotDatabaseRecord => addTelegramBotDatabaseRecord(telegramBotDatabaseRecord));
+						} else {
+							checkTelegramBotDatabaseRecordsСount();
+						}
+					} else {
+						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level'])
+					};
 				});
 			});
 		}
@@ -155,7 +168,12 @@
 			updateTelegramBotDatabaseRecordsButton.classList.toggle('disabled');
 			telegramBotDatabaseRecordsBootstrapСollapse.toggle();
 			addTelegramBotDatabaseRecordButton.classList.toggle('disabled');
-			telegramBotDatabaseRecordsСollapseButton.innerHTML = (telegramBotDatabaseRecordsСollapseButton.querySelector('i').classList.contains('bi-arrow-up')) ? '<i class="bi bi-arrow-down d-flex" style="font-size: 20px;"></i>' : '<i class="bi bi-arrow-up d-flex" style="font-size: 20px;"></i>';
+
+			if (telegramBotDatabaseRecordsСollapseButton.querySelector('i').classList.contains('bi-arrow-up')) {
+				telegramBotDatabaseRecordsСollapseButton.innerHTML = '<i class="bi bi-arrow-down d-flex" style="font-size: 20px;"></i>';
+			} else {
+				telegramBotDatabaseRecordsСollapseButton.innerHTML = '<i class="bi bi-arrow-up d-flex" style="font-size: 20px;"></i>';
+			}
 		});
 		updateTelegramBotDatabaseRecordsButton.addEventListener('click', () => updateTelegramBotDatabaseRecords());
 		addTelegramBotDatabaseRecordButton.addEventListener('click', function() {

@@ -134,7 +134,9 @@
 		selected: null,
 	};
 
-	const checkTelegramBotCommandVariable = (variable) => {return (variable != 'allowedInputs' &&  variable != 'selected')}
+	const checkTelegramBotCommandVariable = (variable) => {
+		return (variable != 'allowedInputs' &&  variable != 'selected');
+	}
 	const searchAllowedInputInTelegramBotCommandVariable = (allowedInput) => {
 		if (telegramBotCommandVariables.selected != null) {
 			for (const variable in telegramBotCommandVariables) {
@@ -162,7 +164,13 @@
 	}
 
 	telegramBotCommandVariables.allowedInputs.forEach(allowedInput => {
-		allowedInput.addEventListener('mouseover', () => allowedInput.style.cursor = (searchAllowedInputInTelegramBotCommandVariable(allowedInput)) ? 'copy' : 'auto');
+		allowedInput.addEventListener('mouseover', function() {
+			if (searchAllowedInputInTelegramBotCommandVariable(allowedInput)) {
+				allowedInput.style.cursor = 'copy';
+			} else {
+				allowedInput.style.cursor = 'auto';
+			}
+		});
 		allowedInput.addEventListener('click', function() {
 			if (searchAllowedInputInTelegramBotCommandVariable(allowedInput)) {
 				allowedInput.style.cursor = 'auto';
@@ -234,7 +242,7 @@
 			);
 		} 
 
-		telegramBotCommandKeyboardButtonLinkInput.focus();	
+		telegramBotCommandKeyboardButtonLinkInput.focus();
 	}
 
 	function telegramBotCommandAddKeyboardButtonAddLinkButton(telegramBotCommandKeyboardButton) {
@@ -302,7 +310,6 @@
 				);
 			}
 		});
-
 		telegramBotCommandKeyboardButton.append(telegramBotCommandKeyboardButtonMoveUpButton);
 
 		const telegramBotCommandKeyboardButtonMoveDownButton = document.createElement('button');
@@ -378,9 +385,7 @@
 			const telegramBotCommandKeyboardRows = telegramBotCommand.additions.keyboard.rows.querySelectorAll('#telegramBotCommandKeyboardRow');
 			const telegramBotCommandKeyboardRow = telegramBotCommandKeyboardRows[telegramBotCommandKeyboardRows.length - 1];
 
-			telegramBotCommand.additions.keyboard.buttons.querySelectorAll(`.telegram-bot-command-keyboard-button-row-button[id="${telegramBotCommandKeyboardRow.innerHTML}"]`).forEach(
-				telegramBotCommandKeyboardButtonRowButton => telegramBotCommandKeyboardButtonRowButton.remove()
-			)
+			telegramBotCommand.additions.keyboard.buttons.querySelectorAll(`.telegram-bot-command-keyboard-button-row-button[id="${telegramBotCommandKeyboardRow.innerHTML}"]`).forEach(telegramBotCommandKeyboardButtonRowButton => telegramBotCommandKeyboardButtonRowButton.remove());
 
 			telegramBotCommandKeyboardRow.parentElement.remove();
 			telegramBotCommandKeyboardButton.remove();
@@ -400,7 +405,6 @@
 			telegramBotCommandKeyboardButtonLinkInput => telegramBotCommandKeyboardButtonLinkInput.remove()
 		);
 	});
-
 	telegramBotCommand.additions.keyboard.inlineRadio.addEventListener('click', function() {
 		telegramBotCommand.additions.keyboard.buttons.querySelectorAll('.keyboard-button').forEach(
 			telegramBotCommandKeyboardButton => {

@@ -10,7 +10,10 @@
 			telegramBotUsersDiv.append(telegramBotNotActivatedDiv);
 		} else {
 			const telegramBotNotActivatedDiv = telegramBotUsersDiv.querySelector('.telegram-bot-not-activated');
-			if (telegramBotNotActivatedDiv != null) {telegramBotNotActivatedDiv.remove()}
+
+			if (telegramBotNotActivatedDiv != null) {
+				telegramBotNotActivatedDiv.remove();
+			}
 		}
 	}
 
@@ -45,6 +48,8 @@
 							'</div>',
 						].join('');
 						telegramBotUsersDiv.append(telegramBotUserDiv);
+
+						checkTelegramBotUsersСount();
 
 						const telegramBotUserAddAllowedButton = telegramBotUserDiv.querySelector('.add-allowed');
 						const telegramBotUserDeleteAllowedButton = telegramBotUserDiv.querySelector('.delete-allowed');
@@ -109,7 +114,6 @@
 							}
 						));
 					});
-					checkTelegramBotUsersСount();
 				} else {
 					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
 				}
@@ -126,7 +130,12 @@
 	telegramBotUsersСollapseButton.addEventListener('click', function() {
 		updateTelegramBotUsersButton.classList.toggle('disabled');
 		telegramBotUsersBootstrapСollapse.toggle();
-		telegramBotUsersСollapseButton.innerHTML = (telegramBotUsersСollapseButton.querySelector('i').classList.contains('bi-arrow-up')) ? '<i class="bi bi-arrow-down d-flex" style="font-size: 20px;"></i>' : '<i class="bi bi-arrow-up d-flex" style="font-size: 20px;"></i>';
+
+		if (telegramBotUsersСollapseButton.querySelector('i').classList.contains('bi-arrow-up')) {
+			telegramBotUsersСollapseButton.innerHTML = '<i class="bi bi-arrow-down d-flex" style="font-size: 20px;"></i>';
+		} else {
+			telegramBotUsersСollapseButton.innerHTML = '<i class="bi bi-arrow-up d-flex" style="font-size: 20px;"></i>';
+		}
 	});
 	updateTelegramBotUsersButton.addEventListener('click', () => updateTelegramBotUsers());
 }

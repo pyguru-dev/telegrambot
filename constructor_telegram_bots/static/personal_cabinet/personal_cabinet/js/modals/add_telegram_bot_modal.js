@@ -7,14 +7,14 @@
 	document.querySelector('#addTelegramBotModalAddTelegramBotButton').addEventListener('click', function() {
 		fetch(addTelegramBotUrl, {
 			method: 'POST',
-			body: JSON.stringify({
-				'api_token': addTelegramBotModalApiTokenInput.value,
-				'is_private': addTelegramBotModalIsPrivateCheckBox.checked,
-			}),
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Token ${userApiToken}`,
 			},
+			body: JSON.stringify({
+				'api_token': addTelegramBotModalApiTokenInput.value,
+				'is_private': addTelegramBotModalIsPrivateCheckBox.checked,
+			}),
 		}).then(response => {
 			response.json().then(jsonResponse => {
 				if (response.ok) {

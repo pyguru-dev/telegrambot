@@ -1,8 +1,8 @@
+const mainAlertContainer = document.querySelector('#mainAlertContainer');
+
 {
 	const mainContainer = document.querySelector('main .container');
 	const mainContainerClass = mainContainer.getAttribute('class');
-
-	var mainAlertContainer = document.querySelector('#mainAlertContainer');
 
 	const bootstrapBreakpoints = ['', 'sm-', 'md-', 'lg-', 'xl-', 'xxl-'];
 

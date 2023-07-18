@@ -27,14 +27,11 @@
 	}
 
 	function diagramSetZoom() {
-		document.querySelectorAll('.diagram-block').forEach(diagramBlock => {
-			diagramBlock.style.transform = `scale(${diagramCurrentScale})`;
-		});
+		document.querySelectorAll('.diagram-block').forEach(diagramBlock => diagramBlock.style.transform = `scale(${diagramCurrentScale})`);
 		document.querySelectorAll('.connector-line').forEach(connectorLine => {
 			const diagramConnectorsId = connectorLine.id.split('-');
 
 			connectorLine.remove();
-
 			connectorLine = createDiagramConnectorLine(
 				document.querySelector(`.diagram-connector[id="${diagramConnectorsId[0]}"]`),
 				document.querySelector(`.diagram-connector[id="${diagramConnectorsId[1]}"]`)
@@ -55,11 +52,11 @@
 
 			fetch(saveTelegramBotDiagramCurrentScaleUrl, {
 				method: 'POST',
-				body: JSON.stringify({'diagram_current_scale': diagramCurrentScale}),
 				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': `Token ${userApiToken}`,
 				},
+				body: JSON.stringify({'diagram_current_scale': diagramCurrentScale}),
 			});
 
 			diagramSetZoom();
@@ -70,12 +67,8 @@
 		const diagramConnectorRect = diagramConnector.getBoundingClientRect();
 		const diagramContainerRect = diagramContainer.getBoundingClientRect();
 
-		let x = diagramConnectorRect.left - diagramContainerRect.left;
-		x += diagramContainer.scrollLeft + diagramConnectorRect.width / 2;
-		x--;
-		let y = diagramConnectorRect.top - diagramContainerRect.top;
-		y += diagramContainer.scrollTop + diagramConnectorRect.height / 2;
-		y--;
+		const x = diagramConnectorRect.left - diagramContainerRect.left + diagramContainer.scrollLeft + diagramConnectorRect.width / 2 - 1;
+		const y = diagramConnectorRect.top - diagramContainerRect.top + diagramContainer.scrollTop + diagramConnectorRect.height / 2 - 1;
 
 		return {x, y}
 	}
@@ -107,11 +100,10 @@
 	}
 
 	function createDiagramConnectorLine(startDiagramConnector, endDiagramConnector) {
-		const diagramConnectorLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-
 		const startDiagramConnectorPosition = getCenterDiagramConnectorPosition(startDiagramConnector);
 		const endDiagramConnectorPosition = getCenterDiagramConnectorPosition(endDiagramConnector);
 
+		const diagramConnectorLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
 		diagramConnectorLine.classList = 'connector-line';
 		diagramConnectorLine.id = `${startDiagramConnector.id}-${endDiagramConnector.id}`;
 		diagramConnectorLine.style.strokeWidth = `${1 + diagramCurrentScale}px`;
@@ -137,9 +129,9 @@
 				selectedDiagramConnector = event.target;
 				selectedDiagramConnector.classList.add('connector-highlight');
 			} else if (selectedDiagramConnector != null) {
-				const selectedDiagramConnectorBlockId = selectedDiagramConnector.id.split(':')[0]
-				const selectedDiagramConnectorPosition = selectedDiagramConnector.id.split(':')[1]
-				const selectDiagramConnectorBlockId = event.target.id.split(':')[0]
+				const selectedDiagramConnectorBlockId = selectedDiagramConnector.id.split(':')[0];
+				const selectedDiagramConnectorPosition = selectedDiagramConnector.id.split(':')[1];
+				const selectDiagramConnectorBlockId = event.target.id.split(':')[0];
 
 				if (selectedDiagramConnector != event.target) {
 					if (
@@ -302,26 +294,28 @@
 			`<div class="bg-light border rounded text-break p-2">${telegramBotCommand['message_text'].replaceAll('\n', '<br>')}</div>`,
 		].join('');
 
-		let diagramKeyboardButtonPosition = 46;
-
 		if (telegramBotCommand['keyboard'] != null) {
 			telegramBotCommand['keyboard']['buttons'].forEach(telegramBotCommandKeyboardButton => {
 				const diagramKeyboardButton = document.createElement('div')
-				diagramKeyboardButton.className = 'diagram-keyboard-button btn btn-dark w-100';
+				diagramKeyboardButton.className = 'diagram-keyboard-button bg-dark rounded text-light text-center text-break w-100 p-2';
 				diagramKeyboardButton.id = telegramBotCommand['id'];
-				diagramKeyboardButton.style.bottom = `-${diagramKeyboardButtonPosition}px`;
 				diagramKeyboardButton.innerHTML = [
 					`${telegramBotCommandKeyboardButton['text']}`,
 					`<div class="diagram-connector diagram-connector-left${(telegramBotCommandKeyboardButton['url'] != null) ? ' d-none' : ''}" id="${telegramBotCommand['id']}:left:${telegramBotCommandKeyboardButton['id']}"></div>`,
 					`<div class="diagram-connector diagram-connector-right${(telegramBotCommandKeyboardButton['url'] != null) ? ' d-none' : ''}" id="${telegramBotCommand['id']}:right:${telegramBotCommandKeyboardButton['id']}"></div>`,
 				].join('');
 				diagramBlock.append(diagramKeyboardButton);
-
-				diagramKeyboardButtonPosition += 38 + 4;
 			});
 		}
 
 		diagramContainer.append(diagramBlock);
+
+		let diagramKeyboardButtonPosition = 4;
+
+		diagramBlock.querySelectorAll('.diagram-keyboard-button').forEach(diagramKeyboardButton => {
+			diagramKeyboardButtonPosition += diagramKeyboardButton.offsetHeight + 4;
+			diagramKeyboardButton.style.bottom = `-${diagramKeyboardButtonPosition}px`;
+		});
 
 		enableDiagramBlockDragging(diagramBlock);
 	}
