@@ -29,8 +29,8 @@ class TelegramBot(models.Model):
 		verbose_name = _('Telegram бота')
 		verbose_name_plural = _('Telegram боты')
 
-	def get_commands_as_dict(self) -> list:
-		return [command.to_dict() for command in self.commands.all()]
+	def get_commands_as_dict(self, escape: bool = False) -> list:
+		return [command.to_dict(escape=escape) for command in self.commands.all()]
 
 	def get_users_as_dict(self) -> list:
 		return [user.to_dict() for user in self.users.all()]
@@ -77,18 +77,18 @@ class TelegramBotCommand(models.Model):
 		except ObjectDoesNotExist:
 			return None
 
-	def get_keyboard_as_dict(self) -> Union[dict, None]:
+	def get_keyboard_as_dict(self, escape: bool = False) -> Union[dict, None]:
 		keyboard: Union['TelegramBotCommandKeyboard', None] = self.get_keyboard()
-		return keyboard.to_dict() if keyboard else None
+		return keyboard.to_dict(escape=escape) if keyboard else None
 
-	def to_dict(self) -> dict:
+	def to_dict(self, escape: bool = False) -> dict:
 		return {
 			'id': self.id,
-			'name': self.name,
+			'name': filters.escape(self.name) if escape else self.name,
 			'command': self.command,
 			'image': str(self.image),
-			'message_text': self.message_text,
-			'keyboard': self.get_keyboard_as_dict(),
+			'message_text': filters.escape(self.message_text) if escape else self.message_text,
+			'keyboard': self.get_keyboard_as_dict(escape=escape),
 			'api_request': self.api_request,
 			'database_record': self.database_record,
 
@@ -188,13 +188,13 @@ class TelegramBotCommandKeyboard(models.Model):
 	class Meta:
 		db_table = 'telegram_bot_command_keyboard'
 
-	def get_buttons_as_dict(self) -> list:
-		return [button.to_dict() for button in self.buttons.all()]
+	def get_buttons_as_dict(self, escape: bool = False) -> list:
+		return [button.to_dict(escape=escape) for button in self.buttons.all()]
 
-	def to_dict(self) -> dict:
+	def to_dict(self, escape: bool = False) -> dict:
 		return {
 			'type': self.type,
-			'buttons': self.get_buttons_as_dict(),
+			'buttons': self.get_buttons_as_dict(escape=escape),
 		}
 
 
@@ -215,11 +215,11 @@ class TelegramBotCommandKeyboardButton(models.Model):
 	def get_command(self) -> Union[TelegramBotCommand, None]:
 		return self.telegram_bot_command
 
-	def to_dict(self) -> dict:
+	def to_dict(self, escape: bool = False) -> dict:
 		return {
 			'id': self.id,
 			'row': self.row,
-			'text': self.text,
+			'text': filters.escape(self.text) if escape else self.text,
 			'url': self.url,
 
 			'telegram_bot_command_id': self.telegram_bot_command.id if self.telegram_bot_command is not None else None,

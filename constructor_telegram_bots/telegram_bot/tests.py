@@ -1,5 +1,6 @@
 from constructor_telegram_bots.tests import BaseTestCase
 
+from django.http import HttpResponse
 from django import urls
 from django.template import defaultfilters as filters
 
@@ -115,21 +116,30 @@ class TelegramBotViewsTest(BaseTestCase):
 					'level': 'danger',
 				},
 			},
-			{
-				'url': url,
-				'data': {
-					'api_token': '123456789:dwawdadwa',
-					'is_private': True,
-				},
-				'response': {
-					'message': 'Вы успешно добавили Telegram бота.',
-					'level': 'success',
-				},
-			},
 		]
 
 		self.assertUnauthorizedAccess(url)
 		self.assertTests(tests)
+
+		response: HttpResponse = self.client.post(
+			path=url,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'api_token': '123456789:dwawdadwa',
+				'is_private': True,
+			}
+		)
+
+		telegram_bot: TelegramBot = TelegramBot.objects.get(username='123456789:dwawdadwa_test_telegram_bot')
+
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': 'Вы успешно добавили Telegram бота.',
+			'level': 'success',
+
+			'telegram_bot': telegram_bot.to_dict(),
+		})
 
 	def test_edit_telegram_bot_api_token_view(self) -> None:
 		tests = [

@@ -12,7 +12,7 @@ class UserModelsTest(BaseTestCase):
 		user: User = User.objects.filter(
 			id=1,
 			telegram_id=123456789,
-			username='exg1o',
+			first_name='exg1o',
 			is_staff=False,
 			is_superuser=False,
 			confirm_code=None,

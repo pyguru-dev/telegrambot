@@ -2,6 +2,9 @@ from django.contrib import admin, messages
 from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 from django.utils import html
+from django.db import models
+
+from django_json_widget.widgets import JSONEditorWidget
 
 from .models import TelegramBot, TelegramBotCommand, TelegramBotUser
 
@@ -80,6 +83,8 @@ class TelegramBotCommandAdmin(admin.ModelAdmin):
 		'x',
 		'y',
 	)
+
+	formfield_overrides = {models.JSONField: {'widget': JSONEditorWidget}}
 
 	@admin.display(description=_('Название'))
 	def show_name(self, telegram_bot_command: TelegramBotCommand):

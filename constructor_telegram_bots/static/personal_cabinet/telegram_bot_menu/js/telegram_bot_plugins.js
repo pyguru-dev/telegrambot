@@ -82,20 +82,16 @@
 				renderLineHighlight: 'none',
 			});
 
-			const telegramBotPluginMonacoEditorHeight = () => {
-				telegramBotPluginMonacoEditor.layout({height: telegramBotPluginMonacoEditor.getContentHeight()});
-				telegramBotPluginMonacoEditor.layout();
-			}
-			telegramBotPluginMonacoEditorHeight();
-			telegramBotPluginMonacoEditor.onDidChangeModelContent(event => {
+			updateMonacoEditorHeight(telegramBotPluginMonacoEditor);
+			telegramBotPluginMonacoEditor.onDidChangeModelContent(() => {
 				telegramBotPluginConfirmAndCancelButtonsGroup.classList.remove('d-none');
-				telegramBotPluginMonacoEditorHeight();
+				updateMonacoEditorHeight(telegramBotPluginMonacoEditor);
 			});
 
 			const telegramBotPluginConfirmOrCancelButtonClick = () => {
 				telegramBotPluginMonacoEditor.setValue(telegramBotPluginCode);
 				telegramBotPluginConfirmAndCancelButtonsGroup.classList.add('d-none');
-				telegramBotPluginMonacoEditorHeight();
+				updateMonacoEditorHeight(telegramBotPluginMonacoEditor);
 			}
 
 			telegramBotPluginConfirmButton.addEventListener('click', function() {
@@ -235,7 +231,7 @@
 			telegramBotPluginCancelButton.innerHTML = '<i class="bi bi-x-lg d-flex justify-content-center" style="font-size: 20px;"></i>';
 
 			const telegramBotPluginMonacoEditor = monaco.editor.create(telegramBotPluginEditorDiv, {
-				value: '# Write your plugin code.',
+				value: `# ${telegramBotPluginCodePlaceholderText}`,
 				language: 'python',
 				folding: false,
 				lineDecorationsWidth: 0,
@@ -246,12 +242,8 @@
 				renderLineHighlight: 'none',
 			});
 
-			const telegramBotPluginMonacoEditorHeight = () => {
-				telegramBotPluginMonacoEditor.layout({height: telegramBotPluginMonacoEditor.getContentHeight()});
-				telegramBotPluginMonacoEditor.layout();
-			}
-			telegramBotPluginMonacoEditorHeight();
-			telegramBotPluginMonacoEditor.onDidChangeModelContent(event => telegramBotPluginMonacoEditorHeight());
+			updateMonacoEditorHeight(telegramBotPluginMonacoEditor);
+			telegramBotPluginMonacoEditor.onDidChangeModelContent(() => updateMonacoEditorHeight(telegramBotPluginMonacoEditor));
 
 			telegramBotPluginConfirmButton.addEventListener('click', function() {
 				fetch(telegramBotPluginsUrl, {

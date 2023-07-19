@@ -31,9 +31,12 @@
 			</div>
 			<div class="col">
 				<div class="border rounded p-2">
-					<div id="telegramBotCommandMessageTextEditor"></div>
+					<div id="telegramBotCommandMessageTextEditor">
+						<div class="spinner-border text-secondary ms-2 mt-2" role="status">
+							<span class="visually-hidden"></span>
+						</div>
+					</div>
 				</div>
-				{% comment %} <textarea class="form-control" id="telegramBotCommandTextInput" type="text" rows="10" placeholder="{% trans "Введите текст сообщения" %}"></textarea> {% endcomment %}
 			</div>
 			<div class="col d-none" id="telegramBotCommandKeyboardAddition">
 				<div class="row row-cols-1 gy-2">
@@ -61,16 +64,22 @@
 				<label class="mb-1" for="telegramBotCommandApiRequest">{% trans "API-запрос" %}</label>
 				<input class="form-control mb-2" id="telegramBotCommandApiRequestUrlInput" type="text" placeholder="{% trans "Введите URL-адрес" %}">
 				<div class="border rounded p-2">
-					<div id="telegramBotCommandApiRequestDataEditor"></div>
+					<div id="telegramBotCommandApiRequestDataEditor">
+						<div class="spinner-border text-secondary ms-2 mt-2" role="status">
+							<span class="visually-hidden"></span>
+						</div>
+					</div>
 				</div>
-				{% comment %} <input class="form-control" id="telegramBotCommandApiRequestDataInput" type="text" placeholder="{% trans "Данные" %}"> {% endcomment %}
 			</div>
 			<div class="col d-none" id="telegramBotCommandDatabaseRecordAddition">
 				<label class="mb-1" for="telegramBotCommandDatabaseRecordDataInput">{% trans "Запись в базу данных" %}</label>
 				<div class="border rounded p-2">
-					<div id="telegramBotCommandDatabaseRecordDataEditor"></div>
+					<div id="telegramBotCommandDatabaseRecordDataEditor">
+						<div class="spinner-border text-secondary ms-2 mt-2" role="status">
+							<span class="visually-hidden"></span>
+						</div>
+					</div>
 				</div>
-				{% comment %} <input class="form-control" id="telegramBotCommandDatabaseRecordDataInput" type="text" placeholder="{% trans "Введите данные (JSON)" %}"> {% endcomment %}
 			</div>
 			<div class="col">
 				<label class="mb-1" for="telegramBotCommandAddition">{% trans "Добавить" %}</label>

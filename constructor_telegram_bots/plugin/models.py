@@ -11,7 +11,7 @@ from constructor_telegram_bots import environment
 class Plugin(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name=_('Пользователь'))
 	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, related_name='plugins', verbose_name=_('Telegram бот'))
-	name = models.CharField(_('Название'), unique=True, max_length=255)
+	name = models.CharField(_('Название'), max_length=255)
 	code = models.TextField(_('Код'))
 	is_checked = models.BooleanField(_('Проверен'), default=False)
 	date_added = models.DateTimeField(_('Дата добавления'), auto_now_add=True)

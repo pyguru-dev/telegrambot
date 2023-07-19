@@ -17,3 +17,6 @@ class TeamMember(models.Model):
 	def delete(self) -> None:
 		self.image.delete(save=False)
 		return super().delete()
+
+	def __str__(self) -> str:
+		return f'@{self.username}'

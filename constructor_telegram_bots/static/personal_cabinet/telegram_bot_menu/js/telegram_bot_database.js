@@ -61,7 +61,7 @@
 			telegramBotDatabaseRecordDeleteButton.classList.remove('disabled');
 			telegramBotDatabaseRecordDeleteButton.innerHTML = '<i class="bi bi-trash d-flex justify-content-center" style="font-size: 20px;"></i>';
 
-			let telegramBotDatabaseRecordData = JSON.stringify(telegramBotDatabaseRecord, null, '\t');
+			let telegramBotDatabaseRecordData = JSON.stringify(telegramBotDatabaseRecord, null, '    ');
 
 			const telegramBotDatabaseRecordMonacoEditor = monaco.editor.create(telegramBotDatabaseRecordEditorDiv, {
 				value: telegramBotDatabaseRecordData,
@@ -79,14 +79,10 @@
 				renderLineHighlight: 'none',
 			});
 
-			const updateTelegramBotDatabaseRecordMonacoEditorHeight = () => {
-				telegramBotDatabaseRecordMonacoEditor.layout({height: telegramBotDatabaseRecordMonacoEditor.getContentHeight()});
-				telegramBotDatabaseRecordMonacoEditor.layout();
-			}
-			updateTelegramBotDatabaseRecordMonacoEditorHeight();
-			telegramBotDatabaseRecordMonacoEditor.onDidChangeModelContent(event => {
+			updateMonacoEditorHeight(telegramBotDatabaseRecordMonacoEditor);
+			telegramBotDatabaseRecordMonacoEditor.onDidChangeModelContent(() => {
 				telegramBotDatabaseRecordConfirmAndCancelButtonsGroup.classList.remove('d-none');
-				updateTelegramBotDatabaseRecordMonacoEditorHeight();
+				updateMonacoEditorHeight(telegramBotDatabaseRecordMonacoEditor);
 			});
 
 			telegramBotDatabaseRecordConfirmButton.addEventListener('click', function() {
@@ -100,7 +96,7 @@
 				}).then(response => {
 					response.json().then(jsonResponse => {
 						if (response.ok) {
-							telegramBotDatabaseRecordData = JSON.stringify(jsonResponse['record'], null, '\t');
+							telegramBotDatabaseRecordData = JSON.stringify(jsonResponse['record'], null, '    ');
 							telegramBotDatabaseRecordMonacoEditor.setValue(telegramBotDatabaseRecordData);
 							telegramBotDatabaseRecordConfirmAndCancelButtonsGroup.classList.add('d-none');
 						}
@@ -221,7 +217,7 @@
 				telegramBotDatabaseRecordCancelButton.innerHTML = '<i class="bi bi-x-lg d-flex justify-content-center" style="font-size: 20px;"></i>';
 
 				const telegramBotDatabaseRecordMonacoEditor = monaco.editor.create(telegramBotDatabaseRecordEditorDiv, {
-					value: JSON.stringify({'key': 'value'}, null, '\t'),
+					value: JSON.stringify({'key': 'value'}, null, '    '),
 					language: 'json',
 					lineNumbers: "off",
 					folding: false,
@@ -236,12 +232,8 @@
 					renderLineHighlight: 'none',
 				});
 
-				const updateTelegramBotDatabaseRecordMonacoEditorHeight = () => {
-					telegramBotDatabaseRecordMonacoEditor.layout({height: telegramBotDatabaseRecordMonacoEditor.getContentHeight()});
-					telegramBotDatabaseRecordMonacoEditor.layout();
-				}
-				updateTelegramBotDatabaseRecordMonacoEditorHeight();
-				telegramBotDatabaseRecordMonacoEditor.onDidChangeModelContent(event => updateTelegramBotDatabaseRecordMonacoEditorHeight());
+				updateMonacoEditorHeight(telegramBotDatabaseRecordMonacoEditor);
+				telegramBotDatabaseRecordMonacoEditor.onDidChangeModelContent(() => updateMonacoEditorHeight(telegramBotDatabaseRecordMonacoEditor));
 
 				telegramBotDatabaseRecordConfirmButton.addEventListener('click', function() {
 					fetch(telegramBotDatabeseRecordsUrl, {

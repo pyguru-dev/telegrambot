@@ -284,14 +284,14 @@
 		diagramBlock.innerHTML = [
 			`<div class="diagram-connector diagram-connector-top" id="${telegramBotCommand['id']}:top:${telegramBotCommand['id']}"></div>`,
 			`<button class="diagram-button diagram-edit-button btn btn-secondary rounded-end-0 text-center" id="${telegramBotCommand['id']}">`,
-			`	<i class="bi bi-pencil-square" style="font-size: 1.5rem;"></i>`,
+			`	<i class="bi bi-pencil-square d-flex" style="font-size: 1.5rem;"></i>`,
 			`</button>`,
 			`<button class="diagram-button diagram-delete-button btn btn-danger rounded-start-0 text-center" id="${telegramBotCommand['id']}">`,
-			`	<i class="bi bi-trash" style="font-size: 1.5rem;"></i>`,
+			`	<i class="bi bi-trash d-flex" style="font-size: 1.5rem;"></i>`,
 			`</button>`,
 			`<div class="diagram-name bg-light border text-center text-break p-2 mb-2">${telegramBotCommand['name']}</div>`,
 			(telegramBotCommand['image'] != '') ? `<img class="img-thumbnail rounded mb-2" src="/${telegramBotCommand['image']}">` : '',
-			`<div class="bg-light border rounded text-break p-2">${telegramBotCommand['message_text'].replaceAll('\n', '<br>')}</div>`,
+			`<div class="language-html bg-light border rounded text-break p-2" style="font-size: 14px;"><pre class="bg-light p-0 m-0"><code>${telegramBotCommand['message_text']}</code></pre></div>`,
 		].join('');
 
 		if (telegramBotCommand['keyboard'] != null) {
@@ -316,6 +316,8 @@
 			diagramKeyboardButtonPosition += diagramKeyboardButton.offsetHeight + 4;
 			diagramKeyboardButton.style.bottom = `-${diagramKeyboardButtonPosition}px`;
 		});
+
+		Prism.highlightAll();
 
 		enableDiagramBlockDragging(diagramBlock);
 	}

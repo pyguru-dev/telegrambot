@@ -11,13 +11,13 @@ from constructor_telegram_bots import environment
 
 class User(AbstractBaseUser, PermissionsMixin):
 	telegram_id = models.BigIntegerField('Telegram ID', unique=True, null=True)
-	username = models.CharField(_('Имя пользователя'), max_length=32, unique=True, null=True)
+	first_name = models.CharField(_('Имя пользователя'), max_length=64, null=True)
 	password = None
 	is_staff = models.BooleanField(_('Сотрудник'), default=False)
 	confirm_code = models.CharField(max_length=25, unique=True, null=True)
 	date_joined = models.DateTimeField(_('Дата присоединения'), auto_now_add=True)
 
-	USERNAME_FIELD = 'username'
+	USERNAME_FIELD = 'telegram_id'
 
 	objects = UserManager()
 
@@ -51,4 +51,4 @@ class User(AbstractBaseUser, PermissionsMixin):
 		super().delete()
 
 	def __str__(self) -> str:
-		return self.username
+		return self.first_name

@@ -1,8 +1,10 @@
 {
 	require(['vs/editor/editor.main'], function() {
 		const telegramBotCommandMessageTextEditorDiv = document.querySelector('#telegramBotCommandMessageTextEditor');
+		telegramBotCommandMessageTextEditorDiv.querySelector('.spinner-border').remove();
+
 		const telegramBotCommandMessageTextMonacoEditor = monaco.editor.create(telegramBotCommandMessageTextEditorDiv, {
-			value: '',
+			value: `<!-- ${telegramBotCommandMessageTextPlaceholderText} -->`,
 			language: 'html',
 			lineNumbers: "off",
 			folding: false,
@@ -20,8 +22,10 @@
 		telegramBotCommandMessageTextMonacoEditor.onDidChangeModelContent(() => updateMonacoEditorHeight(telegramBotCommandMessageTextMonacoEditor));
 
 		const telegramBotCommandApiRequestDataEditorDiv = document.querySelector('#telegramBotCommandApiRequestDataEditor');
+		telegramBotCommandApiRequestDataEditorDiv.querySelector('.spinner-border').remove();
+
 		const telegramBotCommandApiRequestDataMonacoEditor = monaco.editor.create(telegramBotCommandApiRequestDataEditorDiv, {
-			value: '',
+			value: JSON.stringify({'key': 'value'}, null, '    '),
 			language: 'json',
 			lineNumbers: "off",
 			folding: false,
@@ -38,8 +42,10 @@
 		telegramBotCommandApiRequestDataMonacoEditor.onDidChangeModelContent(() => updateMonacoEditorHeight(telegramBotCommandApiRequestDataMonacoEditor));
 
 		const telegramBotCommandDatabaseRecordDataEditorDiv = document.querySelector('#telegramBotCommandDatabaseRecordDataEditor');
+		telegramBotCommandDatabaseRecordDataEditorDiv.querySelector('.spinner-border').remove();
+
 		const telegramBotCommandDatabaseRecordDataMonacoEditor = monaco.editor.create(telegramBotCommandDatabaseRecordDataEditorDiv, {
-			value: '',
+			value: JSON.stringify({'key': 'value'}, null, '    '),
 			language: 'json',
 			lineNumbers: "off",
 			folding: false,
@@ -509,7 +515,7 @@
 			telegramBotCommand.cardHeader.innerHTML = telegramBotCommandCardHeaderAddCommandTitleText;
 
 			telegramBotCommand.nameInput.value = '';
-			telegramBotCommand.messageTextInput[1].setValue('');
+			telegramBotCommand.messageTextInput[1].setValue(`<!-- ${telegramBotCommandMessageTextPlaceholderText} -->`);
 
 			telegramBotCommand.additions.command.input.value = '';
 
@@ -528,9 +534,9 @@
 			telegramBotCommand.additions.apiRequest.variablesButtons[0].classList.add('d-none');
 
 			telegramBotCommand.additions.apiRequest.urlInput.value = '';
-			telegramBotCommand.additions.apiRequest.dataInput[1].setValue('');
+			telegramBotCommand.additions.apiRequest.dataInput[1].setValue(JSON.stringify({'key': 'value'}, null, '    '));
 
-			telegramBotCommand.additions.databaseRecord.dataInput[1].setValue('');
+			telegramBotCommand.additions.databaseRecord.dataInput[1].setValue(JSON.stringify({'key': 'value'}, null, '    '));
 
 			for (const addition in telegramBotCommand.additions) {
 				telegramBotCommand.additions[addition].button.classList.replace('btn-secondary', 'btn-dark');

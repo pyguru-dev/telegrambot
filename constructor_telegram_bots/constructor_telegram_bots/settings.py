@@ -45,7 +45,10 @@ CELERY_TASK_SERIALIZER = 'json'
 INSTALLED_APPS = [
 	'rest_framework',
 	'rest_framework.authtoken',
+
 	'modeltranslation',
+
+	'django_json_widget',
 	'ckeditor',
 
 	'django.contrib.admin',
@@ -75,7 +78,7 @@ MIDDLEWARE = [
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	'django.middleware.locale.LocaleMiddleware'
+	'django.middleware.locale.LocaleMiddleware',
 ]
 
 REST_FRAMEWORK = {

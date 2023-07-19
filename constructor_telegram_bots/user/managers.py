@@ -8,8 +8,8 @@ from constructor_telegram_bots import environment
 
 
 class UserManager(BaseUserManager):
-	def create(self, telegram_id: int, username: str, **extra_fields) -> 'UserModels.User':
-		user: UserModels.User = super().create(telegram_id=telegram_id, username=username, **extra_fields)
+	def create(self, telegram_id: int, first_name: str, **extra_fields) -> 'UserModels.User':
+		user: UserModels.User = super().create(telegram_id=telegram_id, first_name=first_name, **extra_fields)
 		Token.objects.create(user=user)
 		environment.create_user(user=user)
 		return user

@@ -13,3 +13,6 @@ class Update(models.Model):
 
 		verbose_name = _('Обновление')
 		verbose_name_plural = _('Обновления')
+
+	def __str__(self) -> str:
+		return self.title

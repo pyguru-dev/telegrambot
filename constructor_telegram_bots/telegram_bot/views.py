@@ -349,7 +349,7 @@ def delete_telegram_bot_user(request: Request, telegram_bot: TelegramBot, telegr
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 @check_telegram_bot_id
-@check_post_request_data_items({'diagram_current_scale': float})
+@check_post_request_data_items({'diagram_current_scale': Union[int, float]})
 def save_telegram_bot_diagram_current_scale(request: Request, telegram_bot: TelegramBot, diagram_current_scale: float) -> Response:
 	if 0.1 <= diagram_current_scale <= 2.0:
 		telegram_bot.diagram_current_scale = diagram_current_scale
@@ -390,7 +390,7 @@ def save_telegram_bot_command_position(
 @permission_classes([IsAuthenticated])
 @check_telegram_bot_id
 def get_telegram_bot_commands(request: Request, telegram_bot: TelegramBot) -> Response:
-	return Response(telegram_bot.get_commands_as_dict())
+	return Response(telegram_bot.get_commands_as_dict(escape=True))
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])

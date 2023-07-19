@@ -4,7 +4,6 @@ import requests
 
 def create_user(user) -> None:
 	if not settings.TEST:
-		print({'username': f'_{user.id}', 'password': user.auth_token.key})
 		requests.post('http://127.0.0.1:99/users/', json={'user_id': user.id, 'token': user.auth_token.key})
 
 def delete_user(user) -> None:
