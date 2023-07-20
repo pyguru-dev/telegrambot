@@ -40,6 +40,12 @@ CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
+CELERY_BEAT_SCHEDULE = {
+	'check_users_first_name_schedule' : {
+		'task': 'user.tasks.check_users_first_name',
+		'schedule': 86400, # 60 * 60 * 24 = 86400 секунд
+	},
+}
 
 
 INSTALLED_APPS = [

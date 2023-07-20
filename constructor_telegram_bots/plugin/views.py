@@ -65,7 +65,7 @@ class PluginView(APIView):
 		return Response({
 			'message': _('Вы успешно удалили плагин вашего Telgram бота.'),
 			'level': 'success',
-		})	
+		})
 
 @api_view(['GET'])
 @authentication_classes([TokenAuthentication])
