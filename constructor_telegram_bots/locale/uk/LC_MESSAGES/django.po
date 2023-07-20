@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-20 20:22+0000\n"
+"POT-Creation-Date: 2023-07-20 23:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -287,13 +287,13 @@ msgstr "API-токен"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:49
 #: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:36
-#: telegram_bot/admin.py:40
+#: telegram_bot/admin.py:43
 msgid "Количество активаций"
 msgstr "Кількість активацій"
 
 #: personal_cabinet/templates/personal_cabinet/main.html:50
 #: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:40
-#: telegram_bot/admin.py:36
+#: telegram_bot/admin.py:39
 msgid "Количество команд"
 msgstr "Кількість команд"
 
@@ -353,13 +353,13 @@ msgstr "Ви успішно вимкнули Telegram бота."
 
 #: personal_cabinet/templates/telegram_bot_menu/main.html:79
 #: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:55
-#: telegram_bot/admin.py:44
+#: telegram_bot/admin.py:47
 msgid "Включить Telegram бота"
 msgstr "Увімкнути Telegram бота"
 
 #: personal_cabinet/templates/telegram_bot_menu/main.html:80
 #: personal_cabinet/templates/telegram_bot_menu/telegram_bot.html:55
-#: telegram_bot/admin.py:54
+#: telegram_bot/admin.py:57
 msgid "Выключить Telegram бота"
 msgstr "Вимкнути Telegram бота"
 
@@ -637,7 +637,7 @@ msgstr "Користувач"
 msgid "Telegram бот"
 msgstr "Telegram бот"
 
-#: plugin/models.py:14 telegram_bot/admin.py:89 telegram_bot/models.py:56
+#: plugin/models.py:14 telegram_bot/models.py:56
 msgid "Название"
 msgstr "Назва"
 
@@ -666,11 +666,11 @@ msgid "Уровень"
 msgstr "Рівень"
 
 #: plugin/models.py:58
-msgid "Журнал плагина"
+msgid "Логи плагина"
 msgstr "Журнал плагіна"
 
 #: plugin/models.py:59
-msgid "Журналы плагинов"
+msgid "Логи плагинов"
 msgstr "Журнали плагінів"
 
 #: plugin/views.py:30
@@ -1203,7 +1203,7 @@ msgstr "Описание"
 msgid "Обновление"
 msgstr "Оновлення"
 
-#: user/admin.py:17
+#: user/admin.py:18
 msgid "Количество Telegram ботов"
 msgstr "Кількість Telegram ботів"
 

@@ -55,8 +55,8 @@ class PluginLog(models.Model):
 	class Meta:
 		db_table = 'plugin_log'
 
-		verbose_name = _('Журнал плагина')
-		verbose_name_plural = _('Журналы плагинов')
+		verbose_name = _('Логи плагина')
+		verbose_name_plural = _('Логи плагинов')
 
 	def to_dict(self) -> dict:
 		return {
