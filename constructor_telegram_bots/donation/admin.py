@@ -2,15 +2,14 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from django.utils.html import format_html
 
-from donation.models import Donation
+from .models import Donation
 
 
 @admin.register(Donation)
 class TeamMemberAdmin(admin.ModelAdmin):
 	date_hierarchy = 'date'
 
-	list_display = ('date', 'show_telegram_url', 'show_sum')
-
+	list_display = ('id', 'date', 'show_telegram_url', 'show_sum')
 	fields = ('date', 'telegram_url', 'sum')
 
 	@admin.action(description=_('Ссылка на Telegram'))

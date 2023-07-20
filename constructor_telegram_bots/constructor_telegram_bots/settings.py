@@ -40,10 +40,21 @@ CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
+CELERY_BEAT_SCHEDULE = {
+	'check_users_first_name_schedule' : {
+		'task': 'user.tasks.check_users_first_name',
+		'schedule': 86400, # 60 * 60 * 24 = 86400 секунд
+	},
+}
 
 
 INSTALLED_APPS = [
+	'rest_framework',
+	'rest_framework.authtoken',
+
 	'modeltranslation',
+
+	'django_json_widget',
 	'ckeditor',
 
 	'django.contrib.admin',
@@ -54,14 +65,14 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 
 	'user',
-	'telegram_bot',
-
 	'home',
 	'team',
 	'updates',
 	'instruction',
 	'donation',
 	'personal_cabinet',
+	'telegram_bot',
+	'plugin',
 	'privacy_policy',
 ]
 
@@ -73,8 +84,15 @@ MIDDLEWARE = [
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
 	'django.middleware.clickjacking.XFrameOptionsMiddleware',
-	'django.middleware.locale.LocaleMiddleware'
+	'django.middleware.locale.LocaleMiddleware',
 ]
+
+REST_FRAMEWORK = {
+	'DEFAULT_AUTHENTICATION_CLASSES': [
+		'rest_framework.authentication.BasicAuthentication',
+		'rest_framework.authentication.SessionAuthentication',
+	],
+}
 
 ROOT_URLCONF = 'constructor_telegram_bots.urls'
 
@@ -91,6 +109,8 @@ TEMPLATES = [
 				'django.contrib.messages.context_processors.messages',
 
 				'constructor_telegram_bots.context_processors.add_constructor_telegram_bot_username',
+				'user.context_processors.users',
+				'telegram_bot.context_processors.telegram_bots',
 				'team.context_processors.team_members',
 				'updates.context_processors.updates',
 				'instruction.context_processors.instruction_sections',

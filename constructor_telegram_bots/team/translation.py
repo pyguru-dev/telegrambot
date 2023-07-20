@@ -1,6 +1,6 @@
 from modeltranslation.translator import register, TranslationOptions
 
-from team.models import TeamMember
+from .models import TeamMember
 
 
 @register(TeamMember)

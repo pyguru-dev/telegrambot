@@ -13,8 +13,8 @@ class InstructionSection(models.Model):
 
 		ordering = ['position']
 
-		verbose_name = _('Раздел')
-		verbose_name_plural = _('Разделы')
+		verbose_name = _('Раздел инструкции')
+		verbose_name_plural = _('Разделы инструкции')
 
 	def __str__(self) -> str:
-		return f"{_('Раздел')}: {self.title}"
+		return self.title

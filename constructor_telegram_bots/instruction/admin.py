@@ -6,7 +6,7 @@ from django.utils import html
 from ckeditor.widgets import CKEditorWidget
 
 from django.db import models
-from instruction.models import InstructionSection
+from .models import InstructionSection
 
 
 @admin.register(InstructionSection)
@@ -21,4 +21,4 @@ class InstructionSectionAdmin(TranslationAdmin):
 
 	@admin.display(description=_('Заголовок'))
 	def show_instruction_section_title(self, instruction_section: InstructionSection) -> str:
-		return html.format_html(f'<a href="{instruction_section.id}/change/">{instruction_section.title}<a>')
+		return html.format_html(f'<a href="{instruction_section.id}/change/"><b>{instruction_section.title}</b><a>')

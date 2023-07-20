@@ -1,11 +1,10 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
-from django.utils.translation import gettext_lazy as _
 
 from ckeditor.widgets import CKEditorWidget
 
 from django.db import models
-from updates.models import Update
+from .models import Update
 
 
 @admin.register(Update)

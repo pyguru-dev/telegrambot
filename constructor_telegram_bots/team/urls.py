@@ -1,8 +1,8 @@
 from django.urls import path
 
-from team import views
+from . import views
 
 
 urlpatterns = [
-	path('', views.team, name='team'),
+	path('', views.team_view, name='team'),
 ]

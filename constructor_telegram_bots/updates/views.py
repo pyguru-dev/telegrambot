@@ -1,15 +1,14 @@
-from django.core.handlers.wsgi import WSGIRequest
-from django.shortcuts import HttpResponse, render
-from django.utils.translation import gettext as _
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 
-from updates.decorators import check_update_id
+from .decorators import check_update_id
 
-from updates.models import Update
+from .models import Update
 
 
-def updates(request: WSGIRequest) -> HttpResponse:
+def updates(request: HttpRequest) -> HttpResponse:
 	return render(request, 'updates.html')
 
 @check_update_id
-def update(request: WSGIRequest, update: Update) -> HttpResponse:
+def update(request: HttpRequest, update: Update) -> HttpResponse:
 	return render(request, 'update.html', {'update': update})

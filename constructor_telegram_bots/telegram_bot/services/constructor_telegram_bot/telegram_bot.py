@@ -1,13 +1,11 @@
-from aiogram import types
-
 from telegram_bot.services.custom_aiogram import CustomBot, CustomDispatcher
-
-from user.models import User
+from aiogram import types
 
 from telegram_bot.services.constructor_telegram_bot import decorators
 
-from django.conf import settings
+from user.models import User
 
+from django.conf import settings
 import asyncio
 
 
@@ -34,7 +32,7 @@ class ConstructorTelegramBot:
 	async def login_command(self, message: types.Message) -> None:
 		message_text = 'Click on the button below to login on the site.'
 
-		user: User = await User.objects.aget(id=message.from_user.id)
+		user: User = await User.objects.aget(telegram_id=message.from_user.id)
 		login_url: str = await user.alogin_url
 
 		inline_keyboard = types.InlineKeyboardMarkup(row_width=1)

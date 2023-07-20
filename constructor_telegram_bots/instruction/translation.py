@@ -1,6 +1,6 @@
 from modeltranslation.translator import register, TranslationOptions
 
-from instruction.models import InstructionSection
+from .models import InstructionSection
 
 
 @register(InstructionSection)

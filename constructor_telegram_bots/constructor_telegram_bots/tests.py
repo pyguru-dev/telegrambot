@@ -2,19 +2,16 @@ from django.test import TestCase, Client
 from django.http import HttpResponse
 
 from user.models import User
-from telegram_bot.models import (
-	TelegramBot,
-	TelegramBotCommand,
-	TelegramBotCommandKeyboard,
-	TelegramBotUser
-)
+from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotCommandKeyboard, TelegramBotUser
 
 
 class BaseTestCase(TestCase):
 	def setUp(self) -> None:
+		self.maxDiff = None
+
 		self.client = Client(enforce_csrf_checks=True)
 
-		self.user: User = User.objects.create_user(user_id=123456789)
+		self.user: User = User.objects.create(123456789, 'exg1o')
 		self.telegram_bot: TelegramBot = TelegramBot.objects.create(
 			owner=self.user,
 			api_token='123456789:qwertyuiop',
@@ -31,13 +28,11 @@ class BaseTestCase(TestCase):
 			buttons=[
 				{
 					'row': None,
-
 					'text': '1',
 					'url': 'http://example.com/',
 				},
 				{
 					'row': None,
-
 					'text': '2',
 					'url': None,
 				},
@@ -52,18 +47,19 @@ class BaseTestCase(TestCase):
 	def assertUnauthorizedAccess(self, url: str, method: str = 'POST'):
 		if method == 'POST':
 			response: HttpResponse = self.client.post(url)
+			self.assertEqual(response.status_code, 401)
 		else:
 			response: HttpResponse = self.client.get(url)
-		self.assertEqual(response.status_code, 302)
+			self.assertEqual(response.status_code, 302)
 
 		self.client.get(self.user.login_url)
 
 	def assertTests(self, tests: list):
 		for test in tests:
 			if 'data' in test:
-				response: HttpResponse = self.client.post(test['url'], test['data'], 'application/json')
+				response: HttpResponse = self.client.post(test['url'], test['data'], 'application/json', headers={'Authorization': f'Token {self.user.auth_token.key}'})
 			else:
-				response: HttpResponse = self.client.post(test['url'])
+				response: HttpResponse = self.client.post(test['url'], headers={'Authorization': f'Token {self.user.auth_token.key}'})
 
 			if 'response' in test:
 				self.assertJSONEqual(response.content, test['response'])

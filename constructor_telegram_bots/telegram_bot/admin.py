@@ -1,14 +1,17 @@
 from django.contrib import admin, messages
+from django.http import HttpRequest
+from django.http.request import HttpRequest
 from django.utils.translation import gettext_lazy as _
-from django.core.handlers.wsgi import WSGIRequest
 from django.utils import html
-
-from ckeditor.widgets import CKEditorWidget
-
 from django.db import models
-from telegram_bot.models import TelegramBot, TelegramBotCommand
 
-from telegram_bot.services import tasks
+from django_json_widget.widgets import JSONEditorWidget
+
+from .models import TelegramBot, TelegramBotCommand, TelegramBotUser
+
+from .services import tasks
+
+from typing import List, Optional
 
 
 @admin.register(TelegramBot)
@@ -17,6 +20,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 	list_filter = ('is_running',)
 
 	list_display = (
+		'id',
 		'owner',
 		'show_telegram_bot_username',
 		'is_private',
@@ -25,7 +29,8 @@ class TelegramBotAdmin(admin.ModelAdmin):
 		'show_telegram_bot_users_count',
 		'date_added',
 	)
-	list_display_links = None
+
+	fields = ('owner', 'username', 'api_token', 'is_private', 'is_running', 'date_added')
 
 	@admin.display(description='@username')
 	def show_telegram_bot_username(self, telegram_bot: TelegramBot) -> str:
@@ -40,59 +45,50 @@ class TelegramBotAdmin(admin.ModelAdmin):
 		return telegram_bot.users.count()
 
 	@admin.action(permissions=['change'], description=_('Включить Telegram бота'))
-	def start_telegram_bot_button(self, request: WSGIRequest, telegram_bots: list[TelegramBot]) -> None:
+	def start_telegram_bot_button(self, request: HttpRequest, telegram_bots: List[TelegramBot]) -> None:
 		for telegram_bot in telegram_bots:
 			if telegram_bot.is_stopped:
 				tasks.start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
 
-				message = _('Telegram бот успешно включен.')
-
-				self.log_change(request=request, obj=telegram_bot, message=message)
-
-				messages.success(request, f'@{telegram_bot.username} {message}')
+				messages.success(request, f'@{telegram_bot.username} {_("Telegram бот успешно включен.")}')
 			else:
 				messages.error(request, f'@{telegram_bot.username} {_("Telegram бот уже включен!")}')
 
 	@admin.action(permissions=['change'], description=_('Выключить Telegram бота'))
-	def stop_telegram_bot_button(self, request: WSGIRequest, telegram_bots: list[TelegramBot]) -> None:
+	def stop_telegram_bot_button(self, request: HttpRequest, telegram_bots: List[TelegramBot]) -> None:
 		for telegram_bot in telegram_bots:
 			if telegram_bot.is_running:
 				tasks.stop_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
 
-				message = _('Telegram бот успешно выключен.')
-
-				self.log_change(request=request, obj=telegram_bot, message=message)
-
-				messages.success(request, f'@{telegram_bot.username} {message}')
+				messages.success(request, f'@{telegram_bot.username} {_("Telegram бот успешно выключен.")}')
 			else:
 				messages.error(request, f'@{telegram_bot.username} {_("Telegram бот уже выключен!")}')
 
-	actions = [
-		start_telegram_bot_button,
-		stop_telegram_bot_button,
-	]
+	actions = [start_telegram_bot_button, stop_telegram_bot_button]
 
-	def has_add_permission(self, request: WSGIRequest, obj: None=None) -> bool:
+	def has_add_permission(self, *args, **kwargs) -> bool:
 		return False
 
+	def has_change_permission(self, *args, **kwargs) -> bool:
+		return False
 
 @admin.register(TelegramBotCommand)
 class TelegramBotCommandAdmin(admin.ModelAdmin):
-	list_display = ('telegram_bot', 'show_name')
-	list_display_links = None
+	list_display = ('id', 'telegram_bot', 'name')
 
-	fields = (
-		'telegram_bot',
-		'name',
-		'command',
-		'image',
-		'message_text',
-		'api_request',
-		'x',
-		'y'
-	)
-	formfield_overrides = {models.TextField: {'widget': CKEditorWidget}}
+	formfield_overrides = {models.JSONField: {'widget': JSONEditorWidget}}
 
-	@admin.display(description=_('Название'))
-	def show_name(self, telegram_bot_command: TelegramBotCommand):
-		return html.format_html(f'<a href="{telegram_bot_command.id}/change/">{telegram_bot_command.name}<a>')
+	def has_add_permission(self, *args, **kwargs) -> bool:
+		return False
+
+@admin.register(TelegramBotUser)
+class TelegramBotUserAdmin(admin.ModelAdmin):
+	date_hierarchy = 'date_activated'
+
+	list_display = ('id', 'telegram_bot', 'full_name', 'date_activated')
+
+	def has_add_permission(self, *args, **kwargs) -> bool:
+		return False
+
+	def has_change_permission(self, *args, **kwargs) -> bool:
+		return False

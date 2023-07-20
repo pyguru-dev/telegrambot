@@ -1,7 +1,5 @@
-from django.core.handlers.wsgi import WSGIRequest
-
-from donation.models import Donation
+from .models import Donation
 
 
-def donations(request: WSGIRequest) -> dict:
+def donations(*args, **kwargs) -> dict:
     return {'donations': Donation.objects.all()}

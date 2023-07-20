@@ -1,8 +1,8 @@
 from django.urls import path
 
-from privacy_policy import views
+from . import views
 
 
 urlpatterns = [
-	path('', views.privacy_policy, name='privacy_policy'),
+	path('', views.privacy_policy_view, name='privacy_policy'),
 ]

@@ -5,9 +5,10 @@ from django import urls
 
 class InstructionViewsTests(TestCase):
 	def setUp(self) -> None:
-		self.client = Client(enforce_csrf_checks=True)
+		self.client = Client()
 
 	def test_instruction_view(self) -> None:
-		response: HttpResponse = self.client.get(urls.reverse('instruction'))
+		url: str = urls.reverse('instruction')
+		response: HttpResponse = self.client.get(url)
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'instruction.html')

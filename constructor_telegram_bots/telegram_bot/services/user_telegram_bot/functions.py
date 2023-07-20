@@ -1,22 +1,14 @@
 from aiogram import types
 
-from telegram_bot.models import (
-	TelegramBot,
-	TelegramBotCommand,
-	TelegramBotCommandKeyboard
-)
+from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotCommandKeyboard
+
+from telegram_bot.services import database_telegram_bot
 
 from asgiref.sync import sync_to_async
-
-from typing import Union
-import jinja2
+from typing import List, Union
 
 
-async def search_telegram_bot_command(
-	telegram_bot: TelegramBot,
-	message_text: str = None,
-	button_id: int = None
-) -> Union[TelegramBotCommand, None]:
+async def search_telegram_bot_command(telegram_bot: TelegramBot, message_text: str = None, button_id: int = None) -> Union[TelegramBotCommand, None]:
 	async for telegram_bot_command in telegram_bot.commands.all():
 		telegram_bot_command_keyboard: TelegramBotCommandKeyboard = await sync_to_async(telegram_bot_command.get_keyboard)()
 
@@ -32,15 +24,13 @@ async def search_telegram_bot_command(
 					):
 						return await sync_to_async(telegram_bot_command_keyboard_button.get_command)()
 
-async def get_text_variables(message: types.Message, callback_query: Union[types.CallbackQuery, None]) -> dict:
+async def get_text_variables(telegram_bot: TelegramBot, message: types.Message, callback_query: Union[types.CallbackQuery, None]) -> dict:
 	if not callback_query:
 		text_variables = {
 			'user_id': message.from_user.id,
 			'user_username': message.from_user.username,
 			'user_first_name': message.from_user.first_name,
 			'user_last_name': message.from_user.last_name,
-			'user_message_id': message.message_id,
-			'user_message_text': message.text,
 		}
 	else:
 		text_variables = {
@@ -48,20 +38,17 @@ async def get_text_variables(message: types.Message, callback_query: Union[types
 			'user_username': callback_query.from_user.username,
 			'user_first_name': callback_query.from_user.first_name,
 			'user_last_name': callback_query.from_user.last_name,
-			'user_message_id': message.message_id,
-			'user_message_text': message.text,
 		}
 
-	return text_variables
+	text_variables.update(
+		{
+			'user_message_id': message.message_id,
+			'user_message_text': message.text,
+			'database_records': database_telegram_bot.get_records(telegram_bot),
+		}
+	)
 
-async def replace_text_variables(text: str, text_variables: dict) -> str:
-	try:
-		jinja2_env = jinja2.Environment(enable_async=True)
-		jinja2_template: jinja2.Template = jinja2_env.from_string(text)
-		result: str = await jinja2_template.render_async(text_variables)
-		return result.replace('\n\n', '\n')
-	except Exception as exception:
-		return f'{exception.args[0].capitalize()}!'
+	return text_variables
 
 async def get_telegram_keyboard(command: TelegramBotCommand) -> Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup]:
 	telegram_bot_command_keyboard: TelegramBotCommandKeyboard =  await sync_to_async(command.get_keyboard)()

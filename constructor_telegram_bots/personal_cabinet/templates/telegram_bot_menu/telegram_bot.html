@@ -1,7 +1,7 @@
 {% load i18n %}
 
-<div class="card">
-	<h5 class="card-header bg-{% if telegram_bot.is_running %}success{% else %}danger{% endif %} text-light fw-bold text-center" id="telegramBotStatus">{% if telegram_bot.is_running %}{% trans "Telegram бот включен" %}{% else %}{% trans "Telegram бот выключен" %}{% endif %}</h5>
+<div class="card border">
+	<h5 class="card-header border-0 bg-{% if telegram_bot.is_running %}success{% else %}danger{% endif %} text-light fw-bold text-center" id="telegramBotStatus">{% if telegram_bot.is_running %}{% trans "Telegram бот включен" %}{% else %}{% trans "Telegram бот выключен" %}{% endif %}</h5>
 	<div class="card-body p-2">
 		<div class="row justify-content-center">
 			<div class="col-12 col-lg-6">
@@ -17,22 +17,10 @@
 							<th class="align-middle" scope="row">{% trans "API-токен" %}:</td>
 							<td class="text-break" id="telegramBotApiToken"></td>
 							<td class="align-middle">
-								<div class="row">
-									<div class="col-12">
-										<button class="btn text-secondary w-100 p-0" id="telegramBotApiTokenEditButton" type="button">
-											<i class="bi bi-pencil-square" style="font-size: 1.2rem; -webkit-text-stroke: 0.4px;"></i>
-										</button>
-									</div>
-									<div class="col-6 ps-1 pe-0">
-										<button class="btn text-success w-100 p-0 d-none" id="telegramBotApiTokenSaveButton" type="button">
-											<i class="bi bi-check-lg" style="font-size: 1.2rem; -webkit-text-stroke: 1.4px;"></i>
-										</button>
-									</div>
-									<div class="col-6 ps-0">
-										<button class="btn text-danger w-100 p-0 d-none" id="telegramBotApiTokenCancelButton" type="button">
-											<i class="bi bi-x-lg" style="font-size: 1.2rem; -webkit-text-stroke: 1.8px;"></i>
-										</button>
-									</div>
+								<i class="bi bi-pencil-square d-flex text-secondary" id="telegramBotApiTokenEditButton" type="button" style="font-size: 1.2rem; -webkit-text-stroke: 0.4px;"></i>
+								<div class="d-flex">
+									<i class="bi bi-check-lg d-flex text-success me-3 d-none" id="telegramBotApiTokenSaveButton" type="button" style="font-size: 1.2rem; -webkit-text-stroke: 1.4px;"></i>
+									<i class="bi bi-x-lg d-flex text-danger d-none" id="telegramBotApiTokenCancelButton" type="button" style="font-size: 1.2rem; -webkit-text-stroke: 1.8px;"></i>
 								</div>
 							</td>
 						</tr>
@@ -46,11 +34,11 @@
 						</tr>
 						<tr>
 							<th scope="row">{% trans "Количество активаций" %}:</th>
-							<td class="align-middle telegram-bot-users-count"></td>
+							<td class="align-middle" id="telegramBotUsersCount"></td>
 						</tr>
 						<tr>
 							<th scope="row">{% trans "Количество команд" %}:</th>
-							<td class="align-middle telegram-bot-commands-count"></td>
+							<td class="align-middle" id="telegramBotCommandsCount"></td>
 						</tr>
 						<tr>
 							<th scope="row">{% trans "Дата добавления" %}:</th>
@@ -61,7 +49,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="card-footer p-3">
+	<div class="card-footer border-top p-3">
 		<div class="row row-cols-1 row-cols-lg-2 g-2 g-lg-3">
 			<div class="col">
 				<button class="btn btn-{% if telegram_bot.is_running %}danger{% else %}success{% endif %} w-100 " id="telegramBotStartOrStopButton" type="button">{% if telegram_bot.is_running %}{% trans "Выключить Telegram бота" %}{% else %}{% trans "Включить Telegram бота" %}{% endif %}</button>

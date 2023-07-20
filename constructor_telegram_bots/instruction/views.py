@@ -1,6 +1,6 @@
-from django.core.handlers.wsgi import WSGIRequest
-from django.shortcuts import HttpResponse, render
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 
 
-def instruction(request: WSGIRequest) -> HttpResponse:
+def instruction(request: HttpRequest) -> HttpResponse:
 	return render(request, 'instruction.html')

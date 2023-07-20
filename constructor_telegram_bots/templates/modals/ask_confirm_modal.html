@@ -1,19 +1,19 @@
 {% load i18n %}
 
-<div class="modal fade" id="askConfirmModal" tabindex="-1" aria-labelledby="askConfirmModalLabel" aria-hidden="true">
+<div class="modal fade" id="askConfirmModal" tabindex="-1" aria-labelledby="askConfirmModalTitle" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title" id="askConfirmModalLabel"></h5>
+				<h5 class="modal-title" id="askConfirmModalTitle"></h5>
 				<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<p class="mb-0" id="askConfirmText"></p>
+				<p class="mb-0" id="askConfirmModalText"></p>
 			</div>
 			<div class="modal-footer">
 				<div class="row w-100">
 					<div class="col-6 ps-0 pe-2">
-						<button class="btn btn-success w-100" id="askConfirmYesButton" type="button">{% trans "Да" %}</button>
+						<button class="btn btn-success w-100" id="askConfirmModalYesButton" type="button">{% trans "Да" %}</button>
 					</div>
 					<div class="col-6 ps-2 pe-0">
 						<button class="btn btn-danger w-100" type="button" data-bs-dismiss="modal">{% trans "Нет" %}</button>

@@ -12,6 +12,8 @@
 
 ## Требования
 - Python 3.10.11
+- PostgreSQL
+- MongoDB
 - Redis
 
 ## Установка проекта и запуск сайта
@@ -49,6 +51,8 @@ celery -A constructor_telegram_bots worker --loglevel=INFO -f logs/celery.log
 
 ## Вимоги
 - Python 3.10.11
+- PostgreSQL
+- MongoDB
 - Redis
 
 ## Встановлення проекту та запуск сайту
@@ -86,6 +90,8 @@ You can donate to the site at this link: **https://www.paypal.com/donate/?hosted
 
 ## Requirements
 - Python 3.10.11
+- PostgreSQL
+- MongoDB
 - Redis
 
 ## Installing the project and running the site

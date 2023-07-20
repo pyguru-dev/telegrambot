@@ -4,19 +4,13 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from user.models import User
 import telegram_bot.models as TelegramBotModels
 
-from telegram_bot.functions import check_telegram_bot_api_token
+from .functions import check_telegram_bot_api_token
 
 from typing import Union
 
 
 class TelegramBotManager(models.Manager):
-	def create(
-		self,
-	    owner: User,
-		api_token: str,
-		is_private: bool,
-		**extra_fields
-	) -> 'TelegramBotModels.TelegramBot':
+	def create(self, owner: User, api_token: str, is_private: bool, **extra_fields) -> 'TelegramBotModels.TelegramBot':
 		username: str = check_telegram_bot_api_token(api_token)
 
 		return super().create(
@@ -38,6 +32,7 @@ class TelegramBotCommandManager(models.Manager):
 		image: Union[InMemoryUploadedFile, None] = None,
 		keyboard: Union[dict, None] = None,
 		api_request: Union[list, None] = None,
+		database_record: Union[str, None] = None,
 		**extra_fields
 	) -> 'TelegramBotModels.TelegramBotCommand':
 		if not isinstance(image, InMemoryUploadedFile):
@@ -50,6 +45,7 @@ class TelegramBotCommandManager(models.Manager):
 			image=image,
 			message_text=message_text,
 			api_request=api_request,
+			database_record=database_record,
 			**extra_fields
 		)
 

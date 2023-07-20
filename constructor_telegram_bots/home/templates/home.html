@@ -24,13 +24,13 @@
 			<h3>{% trans "Информация о сайте" %}</h3>
 			<div class="w-100 mb-1">
 				<div class="rounded-5 border border-2 p-2" id="usersNumber">
-					<h6 class="fw-bold mb-0">{{ users_count }}</h6>
+					<h6 class="fw-bold mb-0">{{ users.count }}</h6>
 				</div>
 				<label for="usersNumber">{% trans "Количество пользователей" %}</label>
 			</div>
 			<div class="w-100">
 				<div class="rounded-5 border border-2 p-2" id="telegramBotsNumber">
-					<h6 class="fw-bold mb-0">{{ telegram_bots_count }}</h6>
+					<h6 class="fw-bold mb-0">{{ telegram_bots.count }}</h6>
 				</div>
 				<label for="telegramBotsNumber">{% trans "Количество добавленных Telegram ботов" %}</label>
 			</div>

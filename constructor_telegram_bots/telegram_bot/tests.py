@@ -1,9 +1,10 @@
 from constructor_telegram_bots.tests import BaseTestCase
 
+from django.http import HttpResponse
 from django import urls
 from django.template import defaultfilters as filters
 
-from telegram_bot.models import TelegramBot
+from .models import TelegramBot
 
 
 class TelegramBotModelsTest(BaseTestCase):
@@ -32,9 +33,7 @@ class TelegramBotModelsTest(BaseTestCase):
 						'buttons': [
 							{
 								'id': 1,
-
 								'row': None,
-
 								'text': '1',
 								'url': 'http://example.com/',
 
@@ -44,9 +43,7 @@ class TelegramBotModelsTest(BaseTestCase):
 							},
 							{
 								'id': 2,
-
 								'row': None,
-
 								'text': '2',
 								'url': None,
 
@@ -57,6 +54,7 @@ class TelegramBotModelsTest(BaseTestCase):
 						],
 					},
 					'api_request': None,
+					'database_record': None,
 
 					'x': 0,
 					'y': 0,
@@ -94,9 +92,10 @@ class TelegramBotModelsTest(BaseTestCase):
 
 class TelegramBotViewsTest(BaseTestCase):
 	def test_add_telegram_bot_view(self) -> None:
+		url: str = urls.reverse('add_telegram_bot')
 		tests = [
 			{
-				'url': urls.reverse('add_telegram_bot'),
+				'url': url,
 				'data': {
 					'api_token': '123456789:qwertyuiop',
 					'is_private': True,
@@ -107,7 +106,7 @@ class TelegramBotViewsTest(BaseTestCase):
 				},
 			},
 			{
-				'url': urls.reverse('add_telegram_bot'),
+				'url': url,
 				'data': {
 					'api_token': None,
 					'is_private': None,
@@ -117,21 +116,30 @@ class TelegramBotViewsTest(BaseTestCase):
 					'level': 'danger',
 				},
 			},
-			{
-				'url': urls.reverse('add_telegram_bot'),
-				'data': {
-					'api_token': '123456789:dwawdadwa',
-					'is_private': True,
-				},
-				'response': {
-					'message': 'Вы успешно добавили Telegram бота.',
-					'level': 'success',
-				},
-			},
 		]
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
+		self.assertUnauthorizedAccess(url)
 		self.assertTests(tests)
+
+		response: HttpResponse = self.client.post(
+			path=url,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'api_token': '123456789:dwawdadwa',
+				'is_private': True,
+			}
+		)
+
+		telegram_bot: TelegramBot = TelegramBot.objects.get(username='123456789:dwawdadwa_test_telegram_bot')
+
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': 'Вы успешно добавили Telegram бота.',
+			'level': 'success',
+
+			'telegram_bot': telegram_bot.to_dict(),
+		})
 
 	def test_edit_telegram_bot_api_token_view(self) -> None:
 		tests = [
@@ -288,7 +296,6 @@ class TelegramBotViewsTest(BaseTestCase):
 						'buttons': [
 							{
 								'row': None,
-
 								'text': 'test1',
 								'url': '-',
 							},
@@ -382,7 +389,6 @@ class TelegramBotViewsTest(BaseTestCase):
 						'buttons': [
 							{
 								'row': None,
-
 								'text': 'test1',
 								'url': '-',
 							},

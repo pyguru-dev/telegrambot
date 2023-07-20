@@ -19,7 +19,7 @@ from functools import wraps
 
 class UserTelegramBotTests(CustomTestCase):
 	def setUp(self) -> None:
-		self.user: User = User.objects.create_user(user_id=123456789)
+		self.user: User = User.objects.create(123456789, 'exg1o')
 		self.telegram_bot: TelegramBot = TelegramBot.objects.create(
 			owner=self.user,
 			api_token='123456789:qwertyuiop',
@@ -71,19 +71,16 @@ class UserTelegramBotTests(CustomTestCase):
 				'buttons': [
 					{
 						'row': None,
-
 						'text': '1',
 						'url': None,
 					},
 					{
 						'row': 2,
-
 						'text': '2',
 						'url': None,
 					},
 					{
 						'row': 2,
-
 						'text': '3',
 						'url': None,
 					},
@@ -112,7 +109,6 @@ class UserTelegramBotTests(CustomTestCase):
 				'buttons': [
 					{
 						'row': None,
-
 						'text': '1',
 						'url': 'https://example.com/',
 					},
@@ -140,7 +136,6 @@ class UserTelegramBotTests(CustomTestCase):
 				'buttons': [
 					{
 						'row': None,
-
 						'text': '1',
 						'url': None,
 					},
@@ -177,7 +172,6 @@ class UserTelegramBotTests(CustomTestCase):
 				'buttons': [
 					{
 						'row': None,
-
 						'text': '1',
 						'url': None,
 					},

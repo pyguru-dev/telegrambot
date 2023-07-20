@@ -61,11 +61,11 @@ class CustomTestCase(TestCase):
 							'username': 'Test',
 							'type': 'private',
 						},
-							'date': 1,
-							'text': '',
-							'reply_markup': {
-								'inline_keyboard': [],
-							},
+						'date': 1,
+						'text': '',
+						'reply_markup': {
+							'inline_keyboard': [],
+						},
 					},
 					'chat_instance': '1',
 					'data': data,

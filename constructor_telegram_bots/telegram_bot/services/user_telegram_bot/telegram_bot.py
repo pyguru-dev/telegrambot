@@ -5,7 +5,14 @@ from telegram_bot.services.custom_aiogram import CustomBot, CustomDispatcher
 
 from telegram_bot.models import TelegramBot, TelegramBotCommand
 
-from telegram_bot.services.user_telegram_bot import decorators, functions
+from telegram_bot.services.user_telegram_bot.decorators import (
+	check_request,
+	check_telegram_bot_user,
+	check_telegram_bot_command,
+	check_telegram_bot_command_database_record,
+	check_message_text
+)
+from telegram_bot.services.user_telegram_bot.functions import get_telegram_keyboard
 
 import asyncio
 
@@ -17,10 +24,11 @@ class UserTelegramBot:
 		self.loop = asyncio.new_event_loop()
 		self.telegram_bot = telegram_bot
 
-	@decorators.check_request
-	@decorators.check_telegram_bot_user
-	@decorators.check_telegram_bot_command
-	@decorators.check_message_text
+	@check_request
+	@check_telegram_bot_user
+	@check_telegram_bot_command
+	@check_telegram_bot_command_database_record
+	@check_message_text
 	async def message_and_callback_query_handler(
 		self,
 		message: types.Message,
@@ -28,37 +36,47 @@ class UserTelegramBot:
 		telegram_bot_command: TelegramBotCommand,
 		message_text: str
 	) -> None:
-		telegram_keyboard: Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup] = await functions.get_telegram_keyboard(telegram_bot_command)
+		telegram_keyboard: Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup] = await get_telegram_keyboard(telegram_bot_command)
 
-		if callback_query:
-			await self.dispatcher.bot.delete_message(
-				chat_id=message.chat.id,
-				message_id=message.message_id
-			)
+		try:
+			if callback_query:
+				await self.dispatcher.bot.delete_message(
+					chat_id=message.chat.id,
+					message_id=message.message_id
+				)
 
-		if not telegram_bot_command.image:
-			await self.dispatcher.bot.send_message(
-				chat_id=message.chat.id,
-				text=message_text,
-				reply_markup=telegram_keyboard
-			)
-		else:
-			try:
+			if not telegram_bot_command.image:
+				await self.dispatcher.bot.send_message(
+					chat_id=message.chat.id,
+					text=message_text,
+					parse_mode='HTML',
+					reply_markup=telegram_keyboard
+				)
+			else:
 				await self.dispatcher.bot.send_photo(
 					chat_id=message.chat.id,
 					photo=types.InputFile(telegram_bot_command.image.path),
 					caption=message_text,
+					parse_mode='HTML',
 					reply_markup=telegram_keyboard
 				)
-			except FileNotFoundError:
-				telegram_bot_command.image = None
-				await telegram_bot_command.asave()
+		except FileNotFoundError:
+			telegram_bot_command.image = None
+			await telegram_bot_command.asave()
 
-				await self.dispatcher.bot.send_message(
-					chat_id=message.chat.id,
-					text=message_text,
-					reply_markup=telegram_keyboard
-				)
+			await self.dispatcher.bot.send_message(
+				chat_id=message.chat.id,
+				text=message_text,
+				parse_mode='HTML',
+				reply_markup=telegram_keyboard
+			)
+		except Exception as exception:
+			await self.dispatcher.bot.send_message(
+				chat_id=message.chat.id,
+				text=f'<b>Error</b>: {exception}',
+				parse_mode='HTML',
+				reply_markup=telegram_keyboard
+			)
 
 	async def setup(self) -> None:
 		self.bot = CustomBot(token=self.telegram_bot.api_token, loop=self.loop)

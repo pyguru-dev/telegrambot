@@ -3,19 +3,21 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 
-from user.managers import UserManager
+from .managers import UserManager
 
 from constructor_telegram_bots.functions import generate_random_string
+from constructor_telegram_bots import environment
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-	username = models.CharField(_('Имя пользователя'), max_length=32, unique=True, null=True)
+	telegram_id = models.BigIntegerField('Telegram ID', unique=True, null=True)
+	first_name = models.CharField(_('Имя пользователя'), max_length=64, null=True)
 	password = None
 	is_staff = models.BooleanField(_('Сотрудник'), default=False)
 	confirm_code = models.CharField(max_length=25, unique=True, null=True)
 	date_joined = models.DateTimeField(_('Дата присоединения'), auto_now_add=True)
 
-	USERNAME_FIELD = 'username'
+	USERNAME_FIELD = 'telegram_id'
 
 	objects = UserManager()
 
@@ -44,5 +46,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 	def get_telegram_bots_as_dict(self) -> list:
 		return [telegram_bot.to_dict() for telegram_bot in self.telegram_bots.all()]
 
+	def delete(self) -> None:
+		environment.delete_user(self)
+		super().delete()
+
 	def __str__(self) -> str:
-		return f'{_("Пользователь")}: {self.id if self.username is None else self.username}'
+		return self.first_name

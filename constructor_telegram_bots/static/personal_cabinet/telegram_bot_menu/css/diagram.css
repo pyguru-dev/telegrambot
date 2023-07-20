@@ -1,0 +1,113 @@
+.diagram-container {
+	overflow: auto;
+	position: relative;
+}
+
+@media only screen and (max-width: 991px) {
+	.diagram-container {
+		height: 500px;
+	}
+}
+
+@media only screen and (min-width: 992px) {
+	.diagram-container {
+		height: 100%;
+	}
+}
+
+.diagram-zoom {
+	width: 90px;
+	height: 40px;
+
+	left: -1px;
+
+	z-index: 4;
+
+	position: absolute;
+}
+
+.diagram-zoom-btn {
+	-webkit-text-stroke: 0.1px;
+	font-size: 1.2rem;
+}
+
+.diagram-block {
+	width: 300px;
+
+	position: absolute;
+	cursor: move;
+}
+
+.diagram-button {
+	height: 42px;
+
+	padding: 0;
+	padding-left: 7px;
+	padding-right: 7px;
+
+	position: absolute;
+}
+
+.diagram-edit-button {
+	left: -39px;
+}
+
+.diagram-delete-button {
+	right: -39px;
+}
+
+.diagram-keyboard-button {
+	position: absolute;
+}
+
+.diagram-connector {
+	width: 12px;
+	height: 12px;
+
+	cursor: pointer;
+	position: absolute;
+
+	background-color: var(--bs-secondary);
+	border-radius: 50%;
+}
+
+.diagram-connector-left {
+	left: -6px;
+	top: calc(50% - 6px);
+}
+
+.diagram-connector-right {
+	right: -6px;
+	top: calc(50% - 6px);
+}
+
+.diagram-connector-top {
+	left: calc(50% - 6px);
+	top: -6px;
+}
+
+.connector-highlight {
+	background-color: var(--bs-danger);
+}
+
+.diagram-svg {
+	width: 10000px;
+	height: 10000px;
+
+	top: 0;
+	left: 0;
+
+	z-index: 2;
+
+	position: absolute;
+	pointer-events: none;
+}
+
+.connector-line {
+	stroke: var(--bs-secondary);
+	stroke-width: 2px;
+}
+
+#arrow {
+	fill: var(--bs-secondary);
+}
