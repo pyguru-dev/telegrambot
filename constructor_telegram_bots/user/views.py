@@ -46,7 +46,7 @@ def user_logout(request: HttpRequest) -> HttpResponse:
 		'title': _('Выход из аккаунта'),
 		'meta': {'refresh': {'url': urls.reverse('home')}},
 		'content': {
-			'heading': _('Успешный выход из аккаунта.'),
+			'heading': _('Успешный выход из аккаунта'),
 			'text': _('Автоматический переход на главную страницу через 3 секунды.'),
 		},
 	})
