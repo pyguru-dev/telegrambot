@@ -21,4 +21,4 @@ class InstructionSectionAdmin(TranslationAdmin):
 
 	@admin.display(description=_('Заголовок'))
 	def show_instruction_section_title(self, instruction_section: InstructionSection) -> str:
-		return html.format_html(f'<a href="{instruction_section.id}/change/">{instruction_section.title}<a>')
+		return html.format_html(f'<a href="{instruction_section.id}/change/"><b>{instruction_section.title}</b><a>')

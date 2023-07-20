@@ -1,5 +1,6 @@
 from django.contrib import admin, messages
 from django.http import HttpRequest
+from django.http.request import HttpRequest
 from django.utils.translation import gettext_lazy as _
 from django.utils import html
 from django.db import models
@@ -10,7 +11,7 @@ from .models import TelegramBot, TelegramBotCommand, TelegramBotUser
 
 from .services import tasks
 
-from typing import List
+from typing import List, Optional
 
 
 @admin.register(TelegramBot)
@@ -28,6 +29,8 @@ class TelegramBotAdmin(admin.ModelAdmin):
 		'show_telegram_bot_users_count',
 		'date_added',
 	)
+
+	fields = ('owner', 'username', 'api_token', 'is_private', 'is_running', 'date_added')
 
 	@admin.display(description='@username')
 	def show_telegram_bot_username(self, telegram_bot: TelegramBot) -> str:
@@ -66,36 +69,23 @@ class TelegramBotAdmin(admin.ModelAdmin):
 	def has_add_permission(self, *args, **kwargs) -> bool:
 		return False
 
+	def has_change_permission(self, *args, **kwargs) -> bool:
+		return False
 
 @admin.register(TelegramBotCommand)
 class TelegramBotCommandAdmin(admin.ModelAdmin):
-	list_display = ('telegram_bot', 'show_name')
-	list_display_links = None
-
-	fields = (
-		'telegram_bot',
-		'name',
-		'command',
-		'image',
-		'message_text',
-		'api_request',
-		'database_record',
-		'x',
-		'y',
-	)
+	list_display = ('id', 'telegram_bot', 'name')
 
 	formfield_overrides = {models.JSONField: {'widget': JSONEditorWidget}}
 
-	@admin.display(description=_('Название'))
-	def show_name(self, telegram_bot_command: TelegramBotCommand):
-		return html.format_html(f'<a href="{telegram_bot_command.id}/change/">{telegram_bot_command.name}<a>')
+	def has_add_permission(self, *args, **kwargs) -> bool:
+		return False
 
 @admin.register(TelegramBotUser)
 class TelegramBotUserAdmin(admin.ModelAdmin):
 	date_hierarchy = 'date_activated'
 
 	list_display = ('id', 'telegram_bot', 'full_name', 'date_activated')
-	fields = ('telegram_bot', 'user_id', 'full_name', 'is_allowed', 'date_activated',)
 
 	def has_add_permission(self, *args, **kwargs) -> bool:
 		return False

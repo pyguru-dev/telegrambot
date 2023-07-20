@@ -9,7 +9,7 @@ from .models import Donation
 class TeamMemberAdmin(admin.ModelAdmin):
 	date_hierarchy = 'date'
 
-	list_display = ('date', 'show_telegram_url', 'show_sum')
+	list_display = ('id', 'date', 'show_telegram_url', 'show_sum')
 	fields = ('date', 'telegram_url', 'sum')
 
 	@admin.action(description=_('Ссылка на Telegram'))
