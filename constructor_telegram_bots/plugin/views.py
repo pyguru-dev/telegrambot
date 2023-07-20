@@ -27,7 +27,7 @@ class PluginsView(APIView):
 		plugin: Plugin = Plugin.objects.create(user=request.user, telegram_bot=telegram_bot, name=name, code=code)
 
 		return Response({
-			'message': _('Вы успешно добавили плагин вашему Telgram боту.'),
+			'message': _('Вы успешно добавили плагин вашему Telegram боту.'),
 			'level': 'success',
 
 			'plugin': plugin.to_dict(),
@@ -52,7 +52,7 @@ class PluginView(APIView):
 		environment.delete_plugin(plugin)
 
 		return Response({
-			'message': _('Вы успешно обновили плагин вашего Telgram бота.'),
+			'message': _('Вы успешно обновили плагин вашего Telegram бота.'),
 			'level': 'success',
 
 			'plugin': plugin.to_dict(),
@@ -63,7 +63,7 @@ class PluginView(APIView):
 		plugin.delete()
 
 		return Response({
-			'message': _('Вы успешно удалили плагин вашего Telgram бота.'),
+			'message': _('Вы успешно удалили плагин вашего Telegram бота.'),
 			'level': 'success',
 		})
 

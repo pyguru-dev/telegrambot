@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-20 19:53+0000\n"
+"POT-Creation-Date: 2023-07-20 20:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -668,16 +668,16 @@ msgid "Журналы плагинов"
 msgstr "Plugins logs"
 
 #: plugin/views.py:30
-msgid "Вы успешно добавили плагин вашему Telgram боту."
-msgstr "You have successfully added the plugin to the your Telgram bot."
+msgid "Вы успешно добавили плагин вашему Telegram боту."
+msgstr "You have successfully added the plugin to the your Telegram bot."
 
 #: plugin/views.py:55
-msgid "Вы успешно обновили плагин вашего Telgram бота."
-msgstr "You have successfully updated the plugin your Telgram bot."
+msgid "Вы успешно обновили плагин вашего Telegram бота."
+msgstr "You have successfully updated the plugin your Telegram bot."
 
 #: plugin/views.py:66
-msgid "Вы успешно удалили плагин вашего Telgram бота."
-msgstr "You have successfully deleted the plugin your Telgram bot."
+msgid "Вы успешно удалили плагин вашего Telegram бота."
+msgstr "You have successfully deleted the plugin your Telegram bot."
 
 #: privacy_policy/templates/privacy_policy.html:4
 msgid "Политика конфиденциальности"
