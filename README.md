@@ -8,7 +8,10 @@
 
 Если вы хотите как-то поддержать сайт, то вы можете сделать пожертвование сайту.<br> 
 Ваше пожертвование очень сильно поможет развитию и улучшению сайта.<br>
-Пожертвование сайту можно сделать по данной ссылке: **https://www.paypal.com/donate/?hosted_button_id=RBCS5HAMZS5Z6**
+
+| Buy Me a Coffee | Paypal |
+| ------ | ------- |
+| <a href="https://www.buymeacoffee.com/exg1o" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a> | [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=RBCS5HAMZS5Z6) |
 
 ## Требования
 - Python 3.10.11
@@ -47,7 +50,10 @@ celery -A constructor_telegram_bots worker --loglevel=INFO -f logs/celery.log
 
 Якщо ви хочете якось підтримати сайт, то ви можете зробити пожертву сайту.<br>
 Ваша пожертва дуже сильно допоможе розвитку та покращенню сайту.<br>
-Пожертву сайту можна зробити за цим посиланням: **https://www.paypal.com/donate/?hosted_button_id=RBCS5HAMZS5Z6**
+
+| Buy Me a Coffee | Paypal |
+| ------ | ------- |
+| <a href="https://www.buymeacoffee.com/exg1o" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a> | [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=RBCS5HAMZS5Z6) |
 
 ## Вимоги
 - Python 3.10.11
@@ -86,7 +92,10 @@ The site was created because, unfortunately, all similar sites are commercial an
 
 If you want to somehow support the site, you can donate the site.<br>
 Your donation will greatly contribute to the development and improvement of the site.<br>
-You can donate to the site at this link: **https://www.paypal.com/donate/?hosted_button_id=RBCS5HAMZS5Z6**
+
+| Buy Me a Coffee | Paypal |
+| ------ | ------- |
+| <a href="https://www.buymeacoffee.com/exg1o" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a> | [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=RBCS5HAMZS5Z6) |
 
 ## Requirements
 - Python 3.10.11
