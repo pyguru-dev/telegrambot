@@ -11,6 +11,8 @@ class Update(models.Model):
 	class Meta:
 		db_table = 'update'
 
+		ordering = ['-date_added']
+
 		verbose_name = _('Обновление')
 		verbose_name_plural = _('Обновления')
 
