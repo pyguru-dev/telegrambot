@@ -128,9 +128,9 @@
 </script>
 <!-- END -->
 
-<!-- Telegram bot plugins command -->
+<!-- Telegram bot command -->
 <script>
-	const addTelegramBotCommandUrl = "{% url 'add_telegram_bot_command' telegram_bot.id %}";
+	const telegramBotCommandsUrl = "{% url 'telegram_bot_commands' telegram_bot.id %}";
 
 	const telegramBotCommandCardHeaderAddCommandTitleText = "{% trans 'Добавление команды' %}";
 	const telegramBotCommandCardHeaderEditCommandTitleText = "{% trans 'Редактирование команды' %}";
@@ -145,9 +145,8 @@
 </script>
 <!-- END -->
 
-<!-- Telegram bot plugins diagram -->
+<!-- Telegram bot diagram -->
 <script>
-	const getTelegramBotCommandsUrl = "{% url 'get_telegram_bot_commands' telegram_bot.id %}";
 	const saveTelegramBotDiagramCurrentScaleUrl = "{% url 'save_telegram_bot_diagram_current_scale' telegram_bot.id %}";
 
 	const deleteTelegramBotCommandAskConfirmModalTitle = "{% trans 'Удаление команды Telegram бота' %}";

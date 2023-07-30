@@ -68,7 +68,7 @@ def check_telegram_bot_id(func):
 def check_data_for_telegram_bot_command(func):
 	@wraps(func)
 	def wrapper(*args, **kwargs):
-		request: Request = args[0]
+		request: Request = args[-1]
 		name: str = kwargs['name']
 		message_text: str = kwargs['message_text']
 		command: Union[str, None] = kwargs['command']

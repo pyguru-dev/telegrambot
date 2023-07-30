@@ -46,7 +46,6 @@ class TelegramBotsView(APIView):
 	def get(self, request: Request) -> Response:
 		return Response(request.user.get_telegram_bots_as_dict())
 
-
 class TelegramBotView(APIView):
 	authentication_classes = [TokenAuthentication]
 	permission_classes = [IsAuthenticated]
@@ -138,113 +137,69 @@ def stop_telegram_bot(request: Request, telegram_bot: TelegramBot) -> Response:
 	})
 
 
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-@check_post_request_data_items(
-	{
+class TelegramBotCommandsView(APIView):
+	authentication_classes = [TokenAuthentication]
+	permission_classes = [IsAuthenticated]
+
+	@check_telegram_bot_id
+	@check_post_request_data_items({
 		'name': str,
 		'message_text': str,
 		'command': Union[str, None],
 		'keyboard': Union[dict, None],
 		'api_request': Union[dict, None],
 		'database_record': Union[str, None],
-	}
-)
-@check_data_for_telegram_bot_command
-def add_telegram_bot_command(
-	request: Request,
-	telegram_bot: TelegramBot,
-	name: str,
-	message_text: str,
-	command: Union[str, None] = None,
-	image: Union[InMemoryUploadedFile, None] = None,
-	keyboard: Union[dict, None] = None,
-	api_request: Union[dict, None] = None,
-	database_record: Union[str, None] = None,
-) -> Response:
-	TelegramBotCommand.objects.create(
-		telegram_bot=telegram_bot,
-		name=name,
-		command=command,
-		image=image,
-		message_text=message_text,
-		keyboard=keyboard,
-		api_request=api_request,
-		database_record=database_record
-	)
-
-	return Response({
-		'message': _('Вы успешно добавили команду Telegram боту.'),
-		'level': 'success',
 	})
+	@check_data_for_telegram_bot_command
+	def post(self, request: Request, **fields) -> Response:
+		TelegramBotCommand.objects.create(**fields)
 
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-@check_telegram_bot_command_id
-@check_post_request_data_items(
-	{
+		return Response({
+			'message': _('Вы успешно добавили команду Telegram боту.'),
+			'level': 'success',
+		})
+
+	@check_telegram_bot_id
+	def get(self, request: Request, telegram_bot: TelegramBot) -> Response:
+		return Response(telegram_bot.get_commands_as_dict(escape=True))
+
+class TelegramBotCommandView(APIView):
+	authentication_classes = [TokenAuthentication]
+	permission_classes = [IsAuthenticated]
+
+	@check_telegram_bot_id
+	@check_telegram_bot_command_id
+	@check_post_request_data_items({
 		'name': str,
 		'message_text': str,
 		'command': Union[str, None],
 		'keyboard': Union[dict, None],
 		'api_request': Union[dict, None],
 		'database_record': Union[str, None],
-	}
-)
-@check_data_for_telegram_bot_command
-def edit_telegram_bot_command(
-	request: Request,
-	telegram_bot: TelegramBot,
-	telegram_bot_command: TelegramBotCommand,
-	name: str,
-	message_text: str,
-	command: Union[str, None] = None,
-	image: Union[InMemoryUploadedFile, str, None] = None,
-	keyboard: Union[dict, None] = None,
-	api_request: Union[dict, None] = None,
-	database_record: Union[str, None] = None,
-) -> Response:
-	telegram_bot_command.update(
-		telegram_bot_command=telegram_bot_command,
-		name=name,
-		command=command,
-		image=image,
-		message_text=message_text,
-		keyboard=keyboard,
-		api_request=api_request,
-		database_record=database_record
-	)
-
-	return Response({
-		'message': _('Вы успешно изменили команду Telegram бота.'),
-		'level': 'success',
 	})
+	@check_data_for_telegram_bot_command
+	def patch(self, request: Request, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand, **fields) -> Response:
+		telegram_bot_command.update(**fields)
 
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-@check_telegram_bot_command_id
-def delete_telegram_bot_command(request: Request, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand) -> Response:
-	telegram_bot_command.delete()
+		return Response({
+			'message': _('Вы успешно изменили команду Telegram бота.'),
+			'level': 'success',
+		})
 
-	return Response({
-		'message': _('Вы успешно удалили команду Telegram бота.'),
-		'level': 'success',
-	})
+	@check_telegram_bot_id
+	@check_telegram_bot_command_id
+	def delete(self, request: Request, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand) -> Response:
+		telegram_bot_command.delete()
 
+		return Response({
+			'message': _('Вы успешно удалили команду Telegram бота.'),
+			'level': 'success',
+		})
 
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-@check_telegram_bot_command_id
-def get_telegram_bot_command_data(request: Request, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand) -> Response:
-	return Response(telegram_bot_command.to_dict())
+	@check_telegram_bot_id
+	@check_telegram_bot_command_id
+	def get(self, request: Request, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand) -> Response:
+		return Response(telegram_bot_command.to_dict())
 
 
 @api_view(['POST'])
@@ -389,13 +344,6 @@ def save_telegram_bot_command_position(
 		'level': 'success',
 	})
 
-
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-def get_telegram_bot_commands(request: Request, telegram_bot: TelegramBot) -> Response:
-	return Response(telegram_bot.get_commands_as_dict(escape=True))
 
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])

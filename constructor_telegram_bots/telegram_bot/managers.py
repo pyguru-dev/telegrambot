@@ -41,9 +41,9 @@ class TelegramBotCommandManager(models.Manager):
 		telegram_bot_command: TelegramBotModels.TelegramBotCommand = super().create(
 			telegram_bot=telegram_bot,
 			name=name,
+			message_text=message_text,
 			command=command,
 			image=image,
-			message_text=message_text,
 			api_request=api_request,
 			database_record=database_record,
 			**extra_fields
