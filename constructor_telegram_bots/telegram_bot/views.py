@@ -27,79 +27,84 @@ from typing import Union
 from sys import platform
 
 
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_post_request_data_items({'api_token': str, 'is_private': bool})
-@check_telegram_bot_api_token
-def add_telegram_bot(request: Request, api_token: str, is_private: bool) -> Response:
-	telegram_bot: TelegramBot = TelegramBot.objects.create(owner=request.user, api_token=api_token, is_private=is_private)
+class TelegramBotsView(APIView):
+	authentication_classes = [TokenAuthentication]
+	permission_classes = [IsAuthenticated]
 
-	return Response({
-		'message': _('Вы успешно добавили Telegram бота.'),
-		'level': 'success',
+	@check_post_request_data_items({'api_token': str, 'is_private': bool})
+	@check_telegram_bot_api_token
+	def post(self, request: Request, api_token: str, is_private: bool) -> Response:
+		telegram_bot: TelegramBot = TelegramBot.objects.create(owner=request.user, api_token=api_token, is_private=is_private)
 
-		'telegram_bot': telegram_bot.to_dict(),
-	})
-
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-@check_post_request_data_items({'api_token': str})
-@check_telegram_bot_api_token
-def edit_telegram_bot_api_token(request: Request, telegram_bot: TelegramBot, api_token: bool) -> Response:
-	username: str = check_telegram_bot_api_token_(api_token)
-
-	telegram_bot.username = username
-	telegram_bot.api_token = api_token
-	telegram_bot.is_running = False
-	telegram_bot.save()
-
-	return Response({
-		'message': _('Вы успешно изменили API-токен Telegram бота.'),
-		'level': 'success',
-	})
-
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-@check_post_request_data_items({'is_private': bool})
-def edit_telegram_bot_private(request: Request, telegram_bot: TelegramBot, is_private: bool) -> Response:
-	telegram_bot.is_private = is_private
-	telegram_bot.save()
-
-	if is_private:
 		return Response({
-			'message': _('Вы успешно сделали Telegram бота приватным.'),
+			'message': _('Вы успешно добавили Telegram бота.'),
 			'level': 'success',
+
+			'telegram_bot': telegram_bot.to_dict(),
 		})
-	else:
+
+	def get(self, request: Request) -> Response:
+		return Response(request.user.get_telegram_bots_as_dict())
+
+
+class TelegramBotView(APIView):
+	authentication_classes = [TokenAuthentication]
+	permission_classes = [IsAuthenticated]
+
+	@check_telegram_bot_api_token
+	def edit_telegram_bot_api_token(self, request: Request, telegram_bot: TelegramBot, api_token: bool) -> Response:
+		username: str = check_telegram_bot_api_token_(api_token)
+
+		telegram_bot.username = username
+		telegram_bot.api_token = api_token
+		telegram_bot.is_running = False
+		telegram_bot.save()
+
 		return Response({
-			'message': _('Вы успешно сделали Telegram бота не приватным.'),
+			'message': _('Вы успешно изменили API-токен Telegram бота.'),
 			'level': 'success',
 		})
 
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-def delete_telegram_bot(request: Request, telegram_bot: TelegramBot) -> Response:
-	telegram_bot.delete()
+	def edit_telegram_bot_private(self, request: Request, telegram_bot: TelegramBot, is_private: bool) -> Response:
+		telegram_bot.is_private = is_private
+		telegram_bot.save()
 
-	return Response({
-		'message': _('Вы успешно удалили Telegram бота.'),
-		'level': 'success',
-	})
+		if is_private:
+			return Response({
+				'message': _('Вы успешно сделали Telegram бота приватным.'),
+				'level': 'success',
+			})
+		else:
+			return Response({
+				'message': _('Вы успешно сделали Telegram бота не приватным.'),
+				'level': 'success',
+			})
 
+	@check_telegram_bot_id
+	@check_post_request_data_items({'api_token': Union[str, None], 'is_private': Union[bool, None]})
+	def patch(self, request: Request, telegram_bot: TelegramBot, api_token: Union[str, None], is_private: Union[bool, None]) -> Response:
+		if api_token is not None:
+			return self.edit_telegram_bot_api_token(request, telegram_bot=telegram_bot, api_token=api_token)
+		elif is_private is not None:
+			return self.edit_telegram_bot_private(request, telegram_bot=telegram_bot, is_private=is_private)
+		else:
+			return Response({
+				'message': _('Произошла ошибка, попробуйте ещё раз позже!'),
+				'level': 'danger',
+			})
 
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-def get_telegram_bot_data(request: Request, telegram_bot: TelegramBot) -> Response:
-	return Response(telegram_bot.to_dict())
+	@check_telegram_bot_id
+	def delete(self, request: Request, telegram_bot: TelegramBot) -> Response:
+		telegram_bot.delete()
+
+		return Response({
+			'message': _('Вы успешно удалили Telegram бота.'),
+			'level': 'success',
+		})
+
+	@check_telegram_bot_id
+	def get(self, request: Request, telegram_bot: TelegramBot) -> Response:
+		return Response(telegram_bot.to_dict())
 
 
 @api_view(['POST'])

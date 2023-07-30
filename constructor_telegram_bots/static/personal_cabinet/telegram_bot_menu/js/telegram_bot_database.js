@@ -86,7 +86,7 @@
 			});
 
 			telegramBotDatabaseRecordConfirmButton.addEventListener('click', function() {
-				fetch(`/telegram-bot/${telegramBotId}/database/records/${this.id}/`, {
+				fetch(`/telegram-bots/${telegramBotId}/database/records/${this.id}/`, {
 					method: 'PATCH',
 					headers: {
 						'Content-Type': 'application/json',
@@ -116,7 +116,7 @@
 					deleteTelegramBotDatabaseRecordAskConfirmModalTitle,
 					deleteTelegramBotDatabaseRecordAskConfirmModalText,
 					function() {
-						fetch(`/telegram-bot/${telegramBotId}/database/records/${telegramBotDatabaseRecordId}/`, {
+						fetch(`/telegram-bots/${telegramBotId}/database/records/${telegramBotDatabaseRecordId}/`, {
 							method: 'DELETE',
 							headers: {'Authorization': `Token ${userApiToken}`},
 						}).then(response => {

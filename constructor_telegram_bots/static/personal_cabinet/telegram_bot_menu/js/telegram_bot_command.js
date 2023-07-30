@@ -679,7 +679,7 @@
 
 			telegramBotCommandData.append('data', JSON.stringify(telegramBotCommandData_));
 
-			fetch((telegramBotCommand.addOrEditButton.id == '0') ? addTelegramBotCommandUrl : `/telegram-bot/${telegramBotId}/command/${telegramBotCommand.addOrEditButton.id}/edit/`, {
+			fetch((telegramBotCommand.addOrEditButton.id == '0') ? addTelegramBotCommandUrl : `/telegram-bots/${telegramBotId}/command/${telegramBotCommand.addOrEditButton.id}/edit/`, {
 				method: 'POST',
 				headers: {'Authorization': `Token ${userApiToken}`},
 				body: telegramBotCommandData,
@@ -712,7 +712,7 @@
 						telegramBotCommands.forEach(telegramBotCommand => createDiagramBlock(telegramBotCommand));
 						document.querySelectorAll('.diagram-edit-button').forEach(diagramEditButton => {
 							diagramEditButton.addEventListener('click', function() {
-								fetch(`/telegram-bot/${telegramBotId}/command/${this.id}/get-data/`, {
+								fetch(`/telegram-bots/${telegramBotId}/command/${this.id}/get-data/`, {
 									method: 'POST',
 									headers: {'Authorization': `Token ${userApiToken}`},
 								}).then(response => {
@@ -734,7 +734,7 @@
 									deleteTelegramBotCommandAskConfirmModalTitle,
 									deleteTelegramBotCommandAskConfirmModalText,
 									function() {
-										fetch(`/telegram-bot/${telegramBotId}/command/${telegramBotCommandId}/delete/`, {
+										fetch(`/telegram-bots/${telegramBotId}/command/${telegramBotCommandId}/delete/`, {
 											method: 'POST',
 											headers: {'Authorization': `Token ${userApiToken}`},
 										}).then(response => {

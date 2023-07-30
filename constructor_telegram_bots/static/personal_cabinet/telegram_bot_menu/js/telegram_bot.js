@@ -3,8 +3,8 @@
 	const telegramBotUsername = document.querySelector('#telegramBotUsername');
 
 	const updateTelegramBot = () => {
-		fetch (getTelegramBotDataUrl, {
-			method: 'POST',
+		fetch(telegramBotUrl, {
+			method: 'GET',
 			headers: {'Authorization': `Token ${userApiToken}`},
 		}).then(response => {
 			response.json().then(jsonResponse => {
@@ -44,13 +44,16 @@
 		telegramBotApiTokenSaveButton.addEventListener('click', function() {
 			const telegramBotApiTokenInput = telegramBotApiToken.querySelector('input');
 
-			fetch(editTelegramBotApiTokenUrl, {
-				method: 'POST',
+			fetch(telegramBotUrl, {
+				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': `Token ${userApiToken}`,
 				},
-				body: JSON.stringify({'api_token': telegramBotApiTokenInput.value}),
+				body: JSON.stringify({
+					'api_token': telegramBotApiTokenInput.value,
+					'is_private': null,
+				}),
 			}).then(response => {
 				if (response.ok) {
 					updateTelegramBot();
@@ -68,9 +71,12 @@
 	var telegramBotIsPrivateCheckBox = document.querySelector('#telegramBotIsPrivateCheckBox');
 
 	telegramBotIsPrivateCheckBox.addEventListener('click', function() {
-		fetch(editTelegramBotPrivateUrl, {
-			method: 'POST',
-			body: JSON.stringify({'is_private': telegramBotIsPrivateCheckBox.checked}),
+		fetch(telegramBotUrl, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				'api_token': null,
+				'is_private': telegramBotIsPrivateCheckBox.checked,
+			}),
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Token ${userApiToken}`,
@@ -107,8 +113,8 @@
 						let intervalCheckTelegramBotIsStoppedId;
 
 						const checkTelegramBotIsStopped = () => {
-							fetch (getTelegramBotDataUrl, {
-								method: 'POST',
+							fetch (telegramBotUrl, {
+								method: 'GET',
 								headers: {'Authorization': `Token ${userApiToken}`},
 							}).then(response => {
 								response.json().then(jsonResponse => {
@@ -156,8 +162,8 @@
 		deleteTelegramBotAskConfirmModalTitle,
 		deleteTelegramBotAskConfirmModalText,
 		function() {
-			fetch(deleteTelegramBotUrl, {
-				method: 'POST',
+			fetch(telegramBotUrl, {
+				method: 'DELETE',
 				headers: {'Authorization': `Token ${userApiToken}`},
 			}).then(response => {
 				if (response.ok) {

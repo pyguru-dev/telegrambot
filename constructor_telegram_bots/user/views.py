@@ -5,12 +5,6 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.request import Request
-from rest_framework.response import Response
-
 from .models import User
 
 
@@ -50,10 +44,3 @@ def user_logout(request: HttpRequest) -> HttpResponse:
 			'text': _('Автоматический переход на главную страницу через 3 секунды.'),
 		},
 	})
-
-
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def get_user_telegram_bots(request: Request) -> Response:
-	return Response(request.user.get_telegram_bots_as_dict())

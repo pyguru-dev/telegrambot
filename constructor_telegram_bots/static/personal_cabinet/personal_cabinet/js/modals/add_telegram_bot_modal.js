@@ -5,7 +5,7 @@
 	const addTelegramBotModalIsPrivateCheckBox = document.querySelector('#addTelegramBotModalIsPrivateCheckBox');
 
 	document.querySelector('#addTelegramBotModalAddTelegramBotButton').addEventListener('click', function() {
-		fetch(addTelegramBotUrl, {
+		fetch(telegramBotsUrl, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

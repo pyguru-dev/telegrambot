@@ -16,7 +16,7 @@ from typing import Union
 def check_telegram_bot_api_token(func):
 	@wraps(func)
 	def wrapper(*args, **kwargs):
-		request: Request = args[0]
+		request: Request = args[-1]
 		api_token: str = kwargs['api_token']
 
 		if not api_token:

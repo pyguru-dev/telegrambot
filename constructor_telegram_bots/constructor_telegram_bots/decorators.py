@@ -24,7 +24,7 @@ def check_post_request_data_items(needed_request_data: dict):
 					'level': 'danger',
 				}, status=400)
 
-			request_data_delete_items = []
+			delete_request_data_items = []
 
 			for key, value in request_data.items():
 				if key == 'image':
@@ -37,10 +37,16 @@ def check_post_request_data_items(needed_request_data: dict):
 							'level': 'danger',
 						}, status=400)
 				else:
-					request_data_delete_items.append(key)
+					delete_request_data_items.append(key)
 
-			for request_data_delete_item in request_data_delete_items:
-				del request_data[request_data_delete_item]
+			for delete_request_data_item in delete_request_data_items:
+				del request_data[delete_request_data_item]
+
+			if needed_request_data.keys() != request_data.keys():
+				return Response({
+					'message': _('В тело запроса переданы не все данных!'),
+					'level': 'danger',
+				}, status=400)
 
 			return func(*args, **kwargs, **request_data)
 		return wrapper

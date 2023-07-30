@@ -44,8 +44,8 @@
 	}
 
 	const updateTelegramBots = () => {
-		fetch(getTelegramBotsUrl, {
-			method: 'POST',
+		fetch(telegramBotsUrl, {
+			method: 'GET',
 			headers: {'Authorization': `Token ${userApiToken}`},
 		}).then(response => {
 			if (response.ok) {

@@ -61,10 +61,8 @@
 
 <!-- Telegram bot -->
 <script>
-	const getTelegramBotDataUrl = "{% url 'get_telegram_bot_data' telegram_bot.id %}";
-	const editTelegramBotApiTokenUrl = "{% url 'edit_telegram_bot_api_token' telegram_bot.id %}";
-	const editTelegramBotPrivateUrl = "{% url 'edit_telegram_bot_private' telegram_bot.id %}";
-	const deleteTelegramBotUrl = "{% url 'delete_telegram_bot' telegram_bot.id %}";
+	const telegramBotsUrl = "{% url 'telegram_bots' %}";
+	const telegramBotUrl = "{% url 'telegram_bot' telegram_bot.id %}";
 	const startTelegramBotUrl = "{% url 'start_telegram_bot' telegram_bot.id %}";
 	const stopTelegramBotUrl = "{% url 'stop_telegram_bot' telegram_bot.id %}";
 

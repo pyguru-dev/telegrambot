@@ -65,7 +65,7 @@
 						}
 
 						telegramBotUserAddAllowedButton.addEventListener('click', function() {
-							fetch(`/telegram-bot/${telegramBotId}/user/${telegramBotUser['id']}/add-allowed-user/`, {
+							fetch(`/telegram-bots/${telegramBotId}/user/${telegramBotUser['id']}/add-allowed-user/`, {
 								method: 'POST',
 								headers: {'Authorization': `Token ${userApiToken}`},
 							}).then(response => {
@@ -79,7 +79,7 @@
 							});
 						});
 						telegramBotUserDeleteAllowedButton.addEventListener('click', function() {
-							fetch(`/telegram-bot/${telegramBotId}/user/${telegramBotUser['id']}/delete-allowed-user/`, {
+							fetch(`/telegram-bots/${telegramBotId}/user/${telegramBotUser['id']}/delete-allowed-user/`, {
 								method: 'POST',
 								headers: {'Authorization': `Token ${userApiToken}`},
 							}).then(response => {
@@ -96,7 +96,7 @@
 							deleteTelegramBotUserAskConfirmModalTitle,
 							deleteTelegramBotUserAskConfirmModalText,
 							function() {
-								fetch(`/telegram-bot/${telegramBotId}/user/${telegramBotUser['id']}/delete/`, {
+								fetch(`/telegram-bots/${telegramBotId}/user/${telegramBotUser['id']}/delete/`, {
 									method: 'POST',
 									headers: {'Authorization': `Token ${userApiToken}`},
 								}).then(response => {
