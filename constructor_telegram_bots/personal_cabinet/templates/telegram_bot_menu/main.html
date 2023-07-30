@@ -63,8 +63,7 @@
 <script>
 	const telegramBotsUrl = "{% url 'telegram_bots' %}";
 	const telegramBotUrl = "{% url 'telegram_bot' telegram_bot.id %}";
-	const startTelegramBotUrl = "{% url 'start_telegram_bot' telegram_bot.id %}";
-	const stopTelegramBotUrl = "{% url 'stop_telegram_bot' telegram_bot.id %}";
+	const startOrStopTelegramBotUrl = "{% url 'start_or_stop_telegram_bot' telegram_bot.id %}";
 
 	const telegramBotCardHeaderIsRunningText = "{% trans 'Telegram бот включен' %}";
 	const telegramBotCardHeaderIsNotRunningText = "{% trans 'Telegram бот выключен' %}";
@@ -84,7 +83,7 @@
 
 <!-- Telegram bot users -->
 <script>
-	const getTelegramBotUsersUrl = "{% url 'get_telegram_bot_users' telegram_bot.id %}";
+	const telegramBotUsersUrl = "{% url 'telegram_bot_users' telegram_bot.id %}";
 
 	const telegramBotNotActivatedText = "{% trans 'Вашего Telegram бота ещё никто не активировал.' %}";
 

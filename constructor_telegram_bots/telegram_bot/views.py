@@ -1,4 +1,3 @@
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils.translation import gettext as _
 
 from rest_framework.views import APIView
@@ -105,37 +104,43 @@ class TelegramBotView(APIView):
 	def get(self, request: Request, telegram_bot: TelegramBot) -> Response:
 		return Response(telegram_bot.to_dict())
 
-
 @api_view(['POST'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 @check_telegram_bot_id
-def start_telegram_bot(request: Request, telegram_bot: TelegramBot) -> Response:
-	if platform == 'win32':
-		tasks.start_telegram_bot(telegram_bot_id=telegram_bot.id)
-	else:
-		tasks.start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
+def start_or_stop_telegram_bot(request: Request, telegram_bot: TelegramBot) -> Response:
+	if not telegram_bot.is_running and telegram_bot.is_stopped:
+		if platform == 'win32':
+			tasks.start_telegram_bot(telegram_bot_id=telegram_bot.id)
+		else:
+			tasks.start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
+	elif telegram_bot.is_running and not telegram_bot.is_stopped:
+		if platform == 'win32':
+			tasks.stop_telegram_bot(telegram_bot_id=telegram_bot.id)
+		else:
+			tasks.stop_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
 
 	return Response({
 		'message': None,
 		'level': 'success',
 	})
 
-@api_view(['POST'])
+@api_view(['PATCH'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 @check_telegram_bot_id
-def stop_telegram_bot(request: Request, telegram_bot: TelegramBot) -> Response:
-	if platform == 'win32':
-		tasks.stop_telegram_bot(telegram_bot_id=telegram_bot.id)
+@check_post_request_data_items({'diagram_current_scale': Union[int, float]})
+def save_telegram_bot_diagram_current_scale(request: Request, telegram_bot: TelegramBot, diagram_current_scale: float) -> Response:
+	if 0.1 <= diagram_current_scale <= 2.0:
+		telegram_bot.diagram_current_scale = diagram_current_scale
 	else:
-		tasks.stop_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
+		telegram_bot.diagram_current_scale = 1.0
+	telegram_bot.save()
 
 	return Response({
 		'message': None,
 		'level': 'success',
 	})
-
 
 class TelegramBotCommandsView(APIView):
 	authentication_classes = [TokenAuthentication]
@@ -201,128 +206,7 @@ class TelegramBotCommandView(APIView):
 	def get(self, request: Request, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand) -> Response:
 		return Response(telegram_bot_command.to_dict())
 
-
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-@check_telegram_bot_command_id
-@check_telegram_bot_command_keyboard_button_id
-@check_post_request_data_items(
-	{
-		'telegram_bot_command_id': int,
-		'start_diagram_connector': str,
-		'end_diagram_connector': str,
-	}
-)
-def add_telegram_bot_command_keyboard_button_telegram_bot_command(
-	request: Request,
-	telegram_bot: TelegramBot,
-	telegram_bot_command: TelegramBotCommand,
-	telegram_bot_command_keyboard_button: TelegramBotCommandKeyboardButton,
-	telegram_bot_command_id: int,
-	start_diagram_connector: str,
-	end_diagram_connector: str
-) -> Response:
-	if not telegram_bot.commands.filter(id=telegram_bot_command_id).exists():
-		return Response({
-			'message': _('Команда Telegram бота не найдена!'),
-			'level': 'danger',
-		}, status=400)
-
-	telegram_bot_command_keyboard_button.telegram_bot_command = telegram_bot.commands.get(id=telegram_bot_command_id)
-	telegram_bot_command_keyboard_button.start_diagram_connector = start_diagram_connector
-	telegram_bot_command_keyboard_button.end_diagram_connector = end_diagram_connector
-	telegram_bot_command_keyboard_button.save()
-
-	return Response({
-		'message': None,
-		'level': 'success',
-	})
-
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-@check_telegram_bot_command_id
-@check_telegram_bot_command_keyboard_button_id
-def delete_telegram_bot_command_keyboard_button_telegram_bot_command(
-	request: Request,
-	telegram_bot: TelegramBot,
-	telegram_bot_command: TelegramBotCommand,
-	telegram_bot_command_keyboard_button: TelegramBotCommandKeyboardButton
-) -> Response:
-	telegram_bot_command_keyboard_button.telegram_bot_command = None
-	telegram_bot_command_keyboard_button.start_diagram_connector = None
-	telegram_bot_command_keyboard_button.end_diagram_connector = None
-	telegram_bot_command_keyboard_button.save()
-
-	return Response({
-		'message': None,
-		'level': 'success',
-	})
-
-
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-@check_telegram_bot_user_id
-def add_allowed_user(request: Request, telegram_bot: TelegramBot, telegram_bot_user: TelegramBotUser) -> Response:
-	telegram_bot_user.is_allowed = True
-	telegram_bot_user.save()
-
-	return Response({
-		'message': _('Вы успешно добавили пользователя в список разрешённых пользователей Telegram бота.'),
-		'level': 'success',
-	})
-
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-@check_telegram_bot_user_id
-def delete_allowed_user(request: Request, telegram_bot: TelegramBot, telegram_bot_user: TelegramBotUser) -> Response:
-	telegram_bot_user.is_allowed = False
-	telegram_bot_user.save()
-
-	return Response({
-		'message': _('Вы успешно удалили пользователя из списка разрешённых пользователей Telegram бота.'),
-		'level': 'success',
-	})
-
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-@check_telegram_bot_user_id
-def delete_telegram_bot_user(request: Request, telegram_bot: TelegramBot, telegram_bot_user: TelegramBotUser) -> Response:
-	telegram_bot_user.delete()
-
-	return Response({
-		'message': _('Вы успешно удалили пользователя Telegram бота.'),
-		'level': 'success',
-	})
-
-
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-@check_post_request_data_items({'diagram_current_scale': Union[int, float]})
-def save_telegram_bot_diagram_current_scale(request: Request, telegram_bot: TelegramBot, diagram_current_scale: float) -> Response:
-	if 0.1 <= diagram_current_scale <= 2.0:
-		telegram_bot.diagram_current_scale = diagram_current_scale
-	else:
-		telegram_bot.diagram_current_scale = 1.0
-	telegram_bot.save()
-
-	return Response({
-		'message': None,
-		'level': 'success',
-	})
-
-@api_view(['POST'])
+@api_view(['PATCH'])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 @check_telegram_bot_id
@@ -344,14 +228,111 @@ def save_telegram_bot_command_position(
 		'level': 'success',
 	})
 
+class TelegramBotCommandKeyboardButtonTelegramBotCommandView(APIView):
+	authentication_classes = [TokenAuthentication]
+	permission_classes = [IsAuthenticated]
 
-@api_view(['POST'])
-@authentication_classes([TokenAuthentication])
-@permission_classes([IsAuthenticated])
-@check_telegram_bot_id
-def get_telegram_bot_users(request: Request, telegram_bot: TelegramBot) -> Response:
-	return Response(telegram_bot.get_users_as_dict())
+	@check_telegram_bot_id
+	@check_telegram_bot_command_id
+	@check_telegram_bot_command_keyboard_button_id
+	@check_post_request_data_items({
+		'telegram_bot_command_id': int,
+		'start_diagram_connector': str,
+		'end_diagram_connector': str,
+	})
+	def post(
+		self,
+		request: Request,
+		telegram_bot: TelegramBot,
+		telegram_bot_command: TelegramBotCommand,
+		telegram_bot_command_keyboard_button: TelegramBotCommandKeyboardButton,
+		telegram_bot_command_id: int,
+		start_diagram_connector: str,
+		end_diagram_connector: str
+	) -> Response:
+		if not telegram_bot.commands.filter(id=telegram_bot_command_id).exists():
+			return Response({
+				'message': _('Команда Telegram бота не найдена!'),
+				'level': 'danger',
+			}, status=400)
 
+		telegram_bot_command_keyboard_button.telegram_bot_command = telegram_bot.commands.get(id=telegram_bot_command_id)
+		telegram_bot_command_keyboard_button.start_diagram_connector = start_diagram_connector
+		telegram_bot_command_keyboard_button.end_diagram_connector = end_diagram_connector
+		telegram_bot_command_keyboard_button.save()
+
+		return Response({
+			'message': None,
+			'level': 'success',
+		})
+
+	@check_telegram_bot_id
+	@check_telegram_bot_command_id
+	@check_telegram_bot_command_keyboard_button_id
+	def delete(
+		self,
+		request: Request,
+		telegram_bot: TelegramBot,
+		telegram_bot_command: TelegramBotCommand,
+		telegram_bot_command_keyboard_button: TelegramBotCommandKeyboardButton
+	) -> Response:
+		telegram_bot_command_keyboard_button.telegram_bot_command = None
+		telegram_bot_command_keyboard_button.start_diagram_connector = None
+		telegram_bot_command_keyboard_button.end_diagram_connector = None
+		telegram_bot_command_keyboard_button.save()
+
+		return Response({
+			'message': None,
+			'level': 'success',
+		})
+
+class TelegramBotUsersView(APIView):
+	authentication_classes = [TokenAuthentication]
+	permission_classes = [IsAuthenticated]
+
+	@check_telegram_bot_id
+	def get(self, request: Request, telegram_bot: TelegramBot) -> Response:
+		return Response(telegram_bot.get_users_as_dict())
+
+class TelegramBotUserView(APIView):
+	authentication_classes = [TokenAuthentication]
+	permission_classes = [IsAuthenticated]
+
+	@check_telegram_bot_id
+	@check_telegram_bot_user_id
+	def delete(self, request: Request, telegram_bot: TelegramBot, telegram_bot_user: TelegramBotUser) -> Response:
+		telegram_bot_user.delete()
+
+		return Response({
+			'message': _('Вы успешно удалили пользователя Telegram бота.'),
+			'level': 'success',
+		})
+
+class TelegramBotAllowedUserView(APIView):
+	authentication_classes = [TokenAuthentication]
+	permission_classes = [IsAuthenticated]
+
+	@check_telegram_bot_id
+	@check_telegram_bot_user_id
+	def post(self, request: Request, telegram_bot: TelegramBot, telegram_bot_user: TelegramBotUser) -> Response:
+		telegram_bot_user.is_allowed = True
+		telegram_bot_user.save()
+
+		return Response({
+			'message': _('Вы успешно добавили пользователя в список разрешённых пользователей Telegram бота.'),
+			'level': 'success',
+		})
+
+	@check_telegram_bot_id
+	@check_telegram_bot_user_id
+	def delete(self, request: Request, telegram_bot: TelegramBot, telegram_bot_user: TelegramBotUser) -> Response:
+		telegram_bot_user.is_allowed = False
+		telegram_bot_user.save()
+
+		return Response({
+			'message': _('Вы успешно удалили пользователя из списка разрешённых пользователей Telegram бота.'),
+			'level': 'success',
+		})
 
 class TelegramBotDatabeseRecordsView(APIView):
 	authentication_classes = [TokenAuthentication]

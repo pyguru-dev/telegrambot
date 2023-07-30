@@ -52,13 +52,3 @@ class BaseTestCase(TestCase):
 			self.assertEqual(response.status_code, 302)
 
 		self.client.get(self.user.login_url)
-
-	def assertTests(self, tests: list):
-		for test in tests:
-			if 'data' in test:
-				response: HttpResponse = self.client.post(test['url'], test['data'], 'application/json', headers={'Authorization': f'Token {self.user.auth_token.key}'})
-			else:
-				response: HttpResponse = self.client.post(test['url'], headers={'Authorization': f'Token {self.user.auth_token.key}'})
-
-			if 'response' in test:
-				self.assertJSONEqual(response.content, test['response'])

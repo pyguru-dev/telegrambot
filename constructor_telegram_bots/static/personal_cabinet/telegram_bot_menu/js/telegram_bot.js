@@ -73,14 +73,14 @@
 	telegramBotIsPrivateCheckBox.addEventListener('click', function() {
 		fetch(telegramBotUrl, {
 			method: 'PATCH',
-			body: JSON.stringify({
-				'api_token': null,
-				'is_private': telegramBotIsPrivateCheckBox.checked,
-			}),
 			headers: {
 				'Content-Type': 'application/json',
 				'Authorization': `Token ${userApiToken}`,
 			},
+			body: JSON.stringify({
+				'api_token': null,
+				'is_private': telegramBotIsPrivateCheckBox.checked,
+			}),
 		}).then(response => {
 			if (response.ok) {
 				updateTelegramBotUsers();
@@ -93,8 +93,75 @@
 	});
 
 	{
-		const telegramBotStartOrStopButton = document.querySelector('#telegramBotStartOrStopButton');
 		const telegramBotStatusDiv = document.querySelector('#telegramBotStatus');
+		const telegramBotStartOrStopButton = document.querySelector('#telegramBotStartOrStopButton');
+
+		const checkTelegramBotStatus = (wait, extraFunc) => {
+			fetch (telegramBotUrl, {
+				method: 'GET',
+				headers: {'Authorization': `Token ${userApiToken}`},
+			}).then(response => {
+				response.json().then(jsonResponse => {
+					if (response.ok) {
+						if (!jsonResponse['is_running'] && jsonResponse['is_stopped'] && wait == 'stop') {
+							telegramBotStatusDiv.classList.replace('bg-success', 'bg-danger');
+							telegramBotStatusDiv.innerHTML = telegramBotCardHeaderIsNotRunningText;
+
+							telegramBotStartOrStopButton.classList.replace('btn-danger', 'btn-success');
+							telegramBotStartOrStopButton.disabled = false;
+							telegramBotStartOrStopButton.innerHTML = telegramBotStartButtonText;
+
+							if (extraFunc != null) {
+								extraFunc();
+							}
+						} else if (jsonResponse['is_running'] && !jsonResponse['is_stopped'] && wait == 'start') {
+							telegramBotStatusDiv.classList.replace('bg-danger', 'bg-success');
+							telegramBotStatusDiv.innerHTML = telegramBotCardHeaderIsRunningText;
+
+							telegramBotStartOrStopButton.classList.replace('btn-success', 'btn-danger');
+							telegramBotStartOrStopButton.disabled = false;
+							telegramBotStartOrStopButton.innerHTML = telegramBotStopButtonText;
+
+							if (extraFunc != null) {
+								extraFunc();
+							}
+						}
+					} else {
+						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+					}
+				});
+			});
+		}
+
+		const checkTelegramBotIsStopped = () => {
+			const intervalCheckTelegramBotIsStoppedId = setInterval(() => checkTelegramBotStatus('stop', function() {
+				telegramBotIsRunning = false;
+				clearInterval(intervalCheckTelegramBotIsStoppedId);
+				createAlert(mainAlertContainer, stopTelegramBotMessage, 'success');
+			}), 3000);
+		}
+
+		fetch (telegramBotUrl, {
+			method: 'GET',
+			headers: {'Authorization': `Token ${userApiToken}`},
+		}).then(response => {
+			response.json().then(jsonResponse => {
+				if (response.ok) {
+					if (!jsonResponse['is_running'] && !jsonResponse['is_stopped']) {
+						telegramBotStartOrStopButton.disabled = true;
+						telegramBotStartOrStopButton.innerHTML = [
+							'<div class="spinner-border spinner-border-sm role="status">',
+							'	<span class="sr-only"></span>',
+							'</div>',
+						].join('');
+
+						checkTelegramBotIsStopped();
+					}
+				} else {
+					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+				}
+			});
+		});
 
 		telegramBotStartOrStopButton.addEventListener('click', function() {
 			telegramBotStartOrStopButton.disabled = true;
@@ -104,50 +171,19 @@
 				'</div>',
 			].join('');
 
-			fetch((telegramBotIsRunning) ? stopTelegramBotUrl : startTelegramBotUrl, {
+			fetch(startOrStopTelegramBotUrl, {
 				method: 'POST',
 				headers: {'Authorization': `Token ${userApiToken}`},
 			}).then(response => {
 				if (response.ok) {
 					if (telegramBotIsRunning) {
-						let intervalCheckTelegramBotIsStoppedId;
-
-						const checkTelegramBotIsStopped = () => {
-							fetch (telegramBotUrl, {
-								method: 'GET',
-								headers: {'Authorization': `Token ${userApiToken}`},
-							}).then(response => {
-								response.json().then(jsonResponse => {
-									if (response.ok) {
-										if (jsonResponse['is_stopped']) {
-											clearInterval(intervalCheckTelegramBotIsStoppedId);
-
-											telegramBotStatusDiv.classList.replace('bg-success', 'bg-danger');
-											telegramBotStatusDiv.innerHTML = telegramBotCardHeaderIsNotRunningText;
-
-											telegramBotStartOrStopButton.classList.replace('btn-danger', 'btn-success');
-											telegramBotStartOrStopButton.disabled = false;
-											telegramBotStartOrStopButton.innerHTML = telegramBotStartButtonText;
-
-											createAlert(mainAlertContainer, stopTelegramBotMessage, 'success');
-										}
-									} else {
-										createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
-									}
-								});
-							});
-						}
-
-						intervalCheckTelegramBotIsStoppedId = setInterval(checkTelegramBotIsStopped, 3000)
+						checkTelegramBotIsStopped();
 					} else {
-						telegramBotStatusDiv.classList.replace('bg-danger', 'bg-success');
-						telegramBotStatusDiv.innerHTML = telegramBotCardHeaderIsRunningText;
-
-						telegramBotStartOrStopButton.classList.replace('btn-success', 'btn-danger');
-						telegramBotStartOrStopButton.disabled = false;
-						telegramBotStartOrStopButton.innerHTML = telegramBotStopButtonText;
-
-						createAlert(mainAlertContainer, startTelegramBotMessage, 'success');
+						const intervalCheckTelegramBotIsStartedId = setInterval(() => checkTelegramBotStatus('start', function() {
+							telegramBotIsRunning = true;
+							clearInterval(intervalCheckTelegramBotIsStartedId);
+							createAlert(mainAlertContainer, startTelegramBotMessage, 'success')
+						}), 3000);
 					}
 				} else {
 					response.json().then(jsonResponse => {

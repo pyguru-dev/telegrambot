@@ -30,7 +30,6 @@ class UserModelsTest(BaseTestCase):
 		self.assertIsNone(user.confirm_code)
 		self.assertIsNotNone(user.last_login)
 
-
 class UserViewsTest(BaseTestCase):
 	def test_user_login_view(self) -> None:
 		login_urls = {
@@ -55,7 +54,6 @@ class UserViewsTest(BaseTestCase):
 		response: HttpResponse = self.client.get(url)
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'base_success_or_error.html')
-
 
 	def test_get_user_telegram_bots_view(self) -> None:
 		url: str = urls.reverse('get_user_telegram_bots')
