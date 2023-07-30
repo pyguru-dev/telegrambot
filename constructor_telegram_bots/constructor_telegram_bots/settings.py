@@ -1,6 +1,6 @@
 from django.utils.translation import gettext_lazy as _
 
-from constructor_telegram_bots.functions import generate_random_string
+from .functions import generate_random_string
 
 from dotenv import load_dotenv
 from pathlib import Path

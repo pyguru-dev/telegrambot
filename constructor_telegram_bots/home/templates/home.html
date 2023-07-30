@@ -15,7 +15,7 @@
 		{% if last_update %}
 			<div class="d-flex align-items-center mb-2">
 				<span class="text-secondary me-2">{% trans "Новое обновление:" %}</span>
-				<a class="btn btn-sm btn-new-update rounded-3 fw-bold" href="{% url 'update' last_update.id %}">{{ last_update.title }}</a>
+				<a class="btn-new-update rounded-3 text-dark text-decoration-none fw-bold px-2 py-1" href="{% url 'update' last_update.id %}">{{ last_update.title }}</a>
 			</div>
 		{% endif %}
 	{% endwith %}
@@ -58,7 +58,7 @@
 				{% endfor %}
 			</tbody>
 		</table>
-		<a class="btn btn-support-site fw-bold" href="{% url 'donation' %}">Поддержать сайт</a>
+		<a class="btn-support-site rounded-2 text-dark text-decoration-none fw-bold px-3 py-2" href="{% url 'donation' %}">Поддержать сайт</a>
 	</div>
 </div>
 {% endblock main %}

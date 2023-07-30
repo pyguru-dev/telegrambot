@@ -8,7 +8,6 @@ from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotComm
 class BaseTestCase(TestCase):
 	def setUp(self) -> None:
 		self.maxDiff = None
-
 		self.client = Client(enforce_csrf_checks=True)
 
 		self.user: User = User.objects.create(123456789, 'exg1o')
