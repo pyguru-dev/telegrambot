@@ -151,8 +151,8 @@
 
 								const diagramKeyboardButtonId = diagramConnectorLine.id.split('-')[0].split(':')[2];
 
-								fetch(`/telegram-bots/${telegramBotId}/command/${selectedDiagramConnectorBlockId}/keyboard-button/${diagramKeyboardButtonId}/delete-telegram-bot-command/`, {
-									method: 'POST',
+								fetch(`/telegram-bots/${telegramBotId}/commands/${selectedDiagramConnectorBlockId}/keyboard-button/${diagramKeyboardButtonId}/telegram-bot-command/`, {
+									method: 'DELETE',
 									headers: {'Authorization': `Token ${userApiToken}`},
 								});
 							}
@@ -163,7 +163,7 @@
 
 							const selectedDiagramKeyboardButtonId = selectedDiagramConnector.id.split(':')[2];
 
-							fetch(`/telegram-bots/${telegramBotId}/command/${selectedDiagramConnectorBlockId}/keyboard-button/${selectedDiagramKeyboardButtonId}/add-telegram-bot-command/`, {
+							fetch(`/telegram-bots/${telegramBotId}/commands/${selectedDiagramConnectorBlockId}/keyboard-button/${selectedDiagramKeyboardButtonId}/telegram-bot-command/`, {
 								method: 'POST',
 								headers: {
 									'Content-Type': 'application/json',
@@ -258,8 +258,8 @@
 			document.onmouseup = null;
 			document.ontouchend = null;
 
-			fetch(`/telegram-bots/${telegramBotId}/command/${diagramBlock.id}/save-position/`, {
-				method: 'POST',
+			fetch(`/telegram-bots/${telegramBotId}/commands/${diagramBlock.id}/save-position/`, {
+				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': `Token ${userApiToken}`,
