@@ -53,7 +53,6 @@ INSTALLED_APPS = [
 	'rest_framework.authtoken',
 
 	'modeltranslation',
-
 	'django_json_widget',
 	'ckeditor',
 
@@ -145,12 +144,10 @@ else:
 		},
 	}
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
-LOCALE_PATHS = (BASE_DIR / 'locale',)
 
-# Language
+# Languages
 USE_I18N = True
 USE_L10N = True
 
@@ -161,6 +158,9 @@ LANGUAGES = (
 	('ru', _('Русский')),
 )
 MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
+
+LOCALE_PATHS = (BASE_DIR / 'locale',)
+
 
 # Timezone
 TIME_ZONE = 'UTC'
@@ -174,9 +174,6 @@ if DEBUG:
 	]
 else:
 	STATIC_ROOT = BASE_DIR / 'static/'
-
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 if os.path.exists(BASE_DIR / 'logs') is False:
