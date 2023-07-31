@@ -6,7 +6,6 @@
 
 {% block main %}
 <div class="container text-center my-3 my-lg-4">
-	<h1 class="fw-bold mb-3 mb-lg-4">{% trans "Обновления" %}</h1>
 	<div class="list-group">
 		{% for update in updates %}
 			<a class="list-group-item list-group-item-action text-start px-4 py-3" href="{% url 'update' update.id %}">
