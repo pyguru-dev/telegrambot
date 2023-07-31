@@ -1,4 +1,4 @@
-from telegram_bot.services.database_telegram_bot.decorators import connect_to_database
+from .decorators import connect_to_database
 
 from telegram_bot.models import TelegramBot
 

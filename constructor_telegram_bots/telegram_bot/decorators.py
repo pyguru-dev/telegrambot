@@ -10,7 +10,7 @@ from .functions import check_telegram_bot_api_token as check_telegram_bot_api_to
 from .models import TelegramBot, TelegramBotCommand, TelegramBotCommandKeyboard
 
 from functools import wraps
-from typing import Union
+from typing import Optional, Union
 
 
 def check_telegram_bot_api_token(func):
@@ -71,9 +71,9 @@ def check_data_for_telegram_bot_command(func):
 		request: Request = args[-1]
 		name: str = kwargs['name']
 		message_text: str = kwargs['message_text']
-		command: Union[str, None] = kwargs['command']
-		keyboard: Union[dict, None] = kwargs['keyboard']
-		api_request: Union[dict, None] = kwargs['api_request']
+		command: Optional[str] = kwargs['command']
+		keyboard: Optional[dict] = kwargs['keyboard']
+		api_request: Optional[dict] = kwargs['api_request']
 
 		if name:
 			if len(name) > 255:
@@ -131,11 +131,11 @@ def check_data_for_telegram_bot_command(func):
 					is_instance = True
 
 					if key == 'row':
-						is_instance = isinstance(value, Union[int, None])
+						is_instance = isinstance(value, Optional[int])
 					elif key == 'text':
 						is_instance = isinstance(value, str)
 					elif key == 'url':
-						is_instance = isinstance(value, Union[str, None])
+						is_instance = isinstance(value, Optional[str])
 
 					if not is_instance:
 						return Response({

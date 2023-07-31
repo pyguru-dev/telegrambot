@@ -13,7 +13,7 @@ def check_user(func):
 
 		user: UserManager = await sync_to_async(User.objects.filter)(telegram_id=message.from_user.id)
 
-		if await user.aexists() is False:
+		if not await user.aexists():
 			await sync_to_async(User.objects.create)(telegram_id=message.from_user.id, first_name=message.from_user.first_name)
 
 		return await func(*args, **kwargs)

@@ -1,7 +1,6 @@
 from django.contrib.auth.base_user import BaseUserManager
 
 from rest_framework.authtoken.models import Token
-
 import user.models as UserModels
 
 from constructor_telegram_bots import environment

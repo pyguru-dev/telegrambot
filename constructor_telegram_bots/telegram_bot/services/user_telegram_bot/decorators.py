@@ -10,13 +10,13 @@ from telegram_bot.models import (
 
 from constructor_telegram_bots import environment
 from telegram_bot.services import database_telegram_bot
-from telegram_bot.services.user_telegram_bot.functions import search_telegram_bot_command, get_text_variables
+from .functions import search_telegram_bot_command, get_text_variables
 
 from asgiref.sync import sync_to_async
 import aiohttp
 
 from functools import wraps
-from typing import List, Union
+from typing import Optional, Union
 import json
 
 
@@ -26,26 +26,22 @@ def check_request(func):
 		if isinstance(args[1], types.Message):
 			message: types.Message = args[1]
 
-			kwargs.update(
-				{
-					'message': message,
-					'callback_query': None,
-					'user_id': message.from_user.id,
-					'user_full_name': message.from_user.full_name,
-				}
-			)
+			kwargs.update({
+				'message': message,
+				'callback_query': None,
+				'user_id': message.from_user.id,
+				'user_full_name': message.from_user.full_name,
+			})
 		else:
 			callback_query: types.CallbackQuery = args[1]
 			message: types.Message = callback_query.message
 
-			kwargs.update(
-				{
-					'message': message,
-					'callback_query': callback_query,
-					'user_id': callback_query.from_user.id,
-					'user_full_name': callback_query.from_user.full_name,
-				}
-			)
+			kwargs.update({
+				'message': message,
+				'callback_query': callback_query,
+				'user_id': callback_query.from_user.id,
+				'user_full_name': callback_query.from_user.full_name,
+			})
 
 		return await func(args[0], **kwargs)
 	return wrapper
@@ -81,7 +77,7 @@ def check_telegram_bot_command(func):
 		telegram_bot: TelegramBot = args[0].telegram_bot
 
 		message: types.Message = kwargs['message']
-		callback_query: Union[types.CallbackQuery, None] = kwargs['callback_query']
+		callback_query: Optional[types.CallbackQuery] = kwargs['callback_query']
 
 		if not callback_query:
 			telegram_bot_commands: TelegramBotCommandManager = await sync_to_async(telegram_bot.commands.filter)(command=message.text)
@@ -89,12 +85,12 @@ def check_telegram_bot_command(func):
 			if await telegram_bot_commands.aexists():
 				telegram_bot_command: TelegramBotCommand = await telegram_bot_commands.afirst()
 			else:
-				telegram_bot_command: Union[TelegramBotCommand, None] = await search_telegram_bot_command(
+				telegram_bot_command: Optional[TelegramBotCommand] = await search_telegram_bot_command(
 					telegram_bot=telegram_bot,
 					message_text=message.text
 				)
 		else:
-			telegram_bot_command: Union[TelegramBotCommand, None] = await search_telegram_bot_command(
+			telegram_bot_command: Optional[TelegramBotCommand] = await search_telegram_bot_command(
 				telegram_bot=telegram_bot,
 				button_id=int(callback_query.data)
 			)
@@ -108,9 +104,7 @@ def check_telegram_bot_command(func):
 					break
 
 		if telegram_bot_command:
-			kwargs.update({'telegram_bot_command': telegram_bot_command})
-
-			return await func(*args, **kwargs)
+			return await func(telegram_bot_command=telegram_bot_command, *args, **kwargs)
 	return wrapper
 
 def check_telegram_bot_command_database_record(func):
@@ -118,7 +112,7 @@ def check_telegram_bot_command_database_record(func):
 	async def wrapper(*args, **kwargs):
 		self = args[0]
 		message: types.Message = kwargs['message']
-		callback_query: Union[types.CallbackQuery, None] = kwargs['callback_query']
+		callback_query: Optional[types.CallbackQuery] = kwargs['callback_query']
 		telegram_bot_command: TelegramBotCommand = kwargs['telegram_bot_command']
 
 		if telegram_bot_command.database_record is not None:
@@ -149,7 +143,7 @@ def check_message_text(func):
 	async def wrapper(*args, **kwargs):
 		self = args[0]
 		message: types.Message = kwargs['message']
-		callback_query: Union[types.CallbackQuery, None] = kwargs['callback_query']
+		callback_query: Optional[types.CallbackQuery] = kwargs['callback_query']
 		telegram_bot_command: TelegramBotCommand = kwargs['telegram_bot_command']
 
 		text_variables: dict = await get_text_variables(self.telegram_bot, message, callback_query)

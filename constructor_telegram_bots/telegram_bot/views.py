@@ -8,21 +8,14 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from constructor_telegram_bots.decorators import check_post_request_data_items
-from .decorators import (
-	check_telegram_bot_api_token,
-	check_telegram_bot_id,
-	check_data_for_telegram_bot_command,
-	check_telegram_bot_command_id,
-	check_telegram_bot_command_keyboard_button_id,
-	check_telegram_bot_user_id
-)
+from .decorators import *
 
 from .models import TelegramBot, TelegramBotCommand, TelegramBotCommandKeyboardButton, TelegramBotUser
 
 from .services import tasks, database_telegram_bot
 from .functions import check_telegram_bot_api_token as check_telegram_bot_api_token_
 
-from typing import Union
+from typing import Optional, Union
 from sys import platform
 
 
@@ -79,8 +72,8 @@ class TelegramBotView(APIView):
 			})
 
 	@check_telegram_bot_id
-	@check_post_request_data_items({'api_token': Union[str, None], 'is_private': Union[bool, None]})
-	def patch(self, request: Request, telegram_bot: TelegramBot, api_token: Union[str, None], is_private: Union[bool, None]) -> Response:
+	@check_post_request_data_items({'api_token': Optional[str], 'is_private': Optional[bool]})
+	def patch(self, request: Request, telegram_bot: TelegramBot, api_token: Optional[str], is_private: Optional[bool]) -> Response:
 		if api_token is not None:
 			return self.edit_telegram_bot_api_token(request, telegram_bot=telegram_bot, api_token=api_token)
 		elif is_private is not None:
@@ -150,10 +143,10 @@ class TelegramBotCommandsView(APIView):
 	@check_post_request_data_items({
 		'name': str,
 		'message_text': str,
-		'command': Union[str, None],
-		'keyboard': Union[dict, None],
-		'api_request': Union[dict, None],
-		'database_record': Union[str, None],
+		'command': Optional[str],
+		'keyboard': Optional[dict],
+		'api_request': Optional[dict],
+		'database_record': Optional[str],
 	})
 	@check_data_for_telegram_bot_command
 	def post(self, request: Request, **fields) -> Response:
@@ -177,10 +170,10 @@ class TelegramBotCommandView(APIView):
 	@check_post_request_data_items({
 		'name': str,
 		'message_text': str,
-		'command': Union[str, None],
-		'keyboard': Union[dict, None],
-		'api_request': Union[dict, None],
-		'database_record': Union[str, None],
+		'command': Optional[str],
+		'keyboard': Optional[dict],
+		'api_request': Optional[dict],
+		'database_record': Optional[str],
 	})
 	@check_data_for_telegram_bot_command
 	def patch(self, request: Request, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand, **fields) -> Response:
@@ -212,13 +205,7 @@ class TelegramBotCommandView(APIView):
 @check_telegram_bot_id
 @check_telegram_bot_command_id
 @check_post_request_data_items({'x': int, 'y': int})
-def save_telegram_bot_command_position(
-	request: Request,
-	telegram_bot: TelegramBot,
-	telegram_bot_command: TelegramBotCommand,
-	x: int,
-	y: int
-) -> Response:
+def save_telegram_bot_command_position(request: Request, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand, x: int, y: int) -> Response:
 	telegram_bot_command.x = x
 	telegram_bot_command.y = y
 	telegram_bot_command.save()

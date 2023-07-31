@@ -7,7 +7,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from user.models import User
 from .managers import TelegramBotManager, TelegramBotCommandManager, TelegramBotCommandKeyboardManager
 
-from typing import Union
+from typing import Optional, Union
 
 
 class TelegramBot(models.Model):
@@ -71,14 +71,14 @@ class TelegramBotCommand(models.Model):
 		verbose_name = _('Команда Telegram бота')
 		verbose_name_plural = _('Команды Telegram ботов')
 
-	def get_keyboard(self) -> Union['TelegramBotCommandKeyboard', None]:
+	def get_keyboard(self) -> Optional['TelegramBotCommandKeyboard']:
 		try:
 			return self.keyboard
 		except ObjectDoesNotExist:
 			return None
 
-	def get_keyboard_as_dict(self, escape: bool = False) -> Union[dict, None]:
-		keyboard: Union['TelegramBotCommandKeyboard', None] = self.get_keyboard()
+	def get_keyboard_as_dict(self, escape: bool = False) -> Optional[dict]:
+		keyboard: Optional['TelegramBotCommandKeyboard'] = self.get_keyboard()
 		return keyboard.to_dict(escape=escape) if keyboard else None
 
 	def to_dict(self, escape: bool = False) -> dict:
@@ -100,11 +100,11 @@ class TelegramBotCommand(models.Model):
 		self,
 		name: str,
 		message_text: str,
-		command: Union[str, None] = None,
+		command: Optional[str] = None,
 		image: Union[InMemoryUploadedFile, str, None] = None,
-		keyboard: Union[dict, None] = None,
-		api_request: Union[dict, None] = None,
-		database_record: Union[str, None] = None
+		keyboard: Optional[dict] = None,
+		api_request: Optional[dict] = None,
+		database_record: Optional[str] = None
 	):
 		self.name = name
 		self.message_text = message_text
@@ -211,7 +211,7 @@ class TelegramBotCommandKeyboardButton(models.Model):
 	class Meta:
 		db_table = 'telegram_bot_command_keyboard_button'
 
-	def get_command(self) -> Union[TelegramBotCommand, None]:
+	def get_command(self) -> Optional[TelegramBotCommand]:
 		return self.telegram_bot_command
 
 	def to_dict(self, escape: bool = False) -> dict:

@@ -5,10 +5,10 @@ from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotComm
 from telegram_bot.services import database_telegram_bot
 
 from asgiref.sync import sync_to_async
-from typing import List, Union
+from typing import Optional, Union
 
 
-async def search_telegram_bot_command(telegram_bot: TelegramBot, message_text: str = None, button_id: int = None) -> Union[TelegramBotCommand, None]:
+async def search_telegram_bot_command(telegram_bot: TelegramBot, message_text: str = None, button_id: int = None) -> Optional[TelegramBotCommand]:
 	async for telegram_bot_command in telegram_bot.commands.all():
 		telegram_bot_command_keyboard: TelegramBotCommandKeyboard = await sync_to_async(telegram_bot_command.get_keyboard)()
 
@@ -24,7 +24,7 @@ async def search_telegram_bot_command(telegram_bot: TelegramBot, message_text: s
 					):
 						return await sync_to_async(telegram_bot_command_keyboard_button.get_command)()
 
-async def get_text_variables(telegram_bot: TelegramBot, message: types.Message, callback_query: Union[types.CallbackQuery, None]) -> dict:
+async def get_text_variables(telegram_bot: TelegramBot, message: types.Message, callback_query: Optional[types.CallbackQuery]) -> dict:
 	if not callback_query:
 		text_variables = {
 			'user_id': message.from_user.id,
@@ -40,13 +40,11 @@ async def get_text_variables(telegram_bot: TelegramBot, message: types.Message, 
 			'user_last_name': callback_query.from_user.last_name,
 		}
 
-	text_variables.update(
-		{
-			'user_message_id': message.message_id,
-			'user_message_text': message.text,
-			'database_records': database_telegram_bot.get_records(telegram_bot),
-		}
-	)
+	text_variables.update({
+		'user_message_id': message.message_id,
+		'user_message_text': message.text,
+		'database_records': database_telegram_bot.get_records(telegram_bot),
+	})
 
 	return text_variables
 

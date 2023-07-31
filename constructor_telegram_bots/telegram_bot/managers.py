@@ -6,7 +6,7 @@ import telegram_bot.models as TelegramBotModels
 
 from .functions import check_telegram_bot_api_token
 
-from typing import Union
+from typing import Optional, Union
 
 
 class TelegramBotManager(models.Manager):
@@ -28,11 +28,11 @@ class TelegramBotCommandManager(models.Manager):
 		telegram_bot: 'TelegramBotModels.TelegramBot',
 		name: str,
 		message_text: str,
-		command: Union[str, None] = None,
+		command: Optional[str] = None,
 		image: Union[InMemoryUploadedFile, None] = None,
-		keyboard: Union[dict, None] = None,
-		api_request: Union[list, None] = None,
-		database_record: Union[str, None] = None,
+		keyboard: Optional[dict] = None,
+		api_request: Optional[list] = None,
+		database_record: Optional[str] = None,
 		**extra_fields
 	) -> 'TelegramBotModels.TelegramBotCommand':
 		if not isinstance(image, InMemoryUploadedFile):
