@@ -213,6 +213,7 @@ class TelegramBotCommandKeyboardButton(models.Model):
 
 	class Meta:
 		db_table = 'telegram_bot_command_keyboard_button'
+		ordering = ['id']
 
 	def get_command(self) -> Optional[TelegramBotCommand]:
 		return self.telegram_bot_command

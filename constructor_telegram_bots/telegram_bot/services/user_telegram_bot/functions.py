@@ -40,10 +40,15 @@ async def get_text_variables(telegram_bot: TelegramBot, message: types.Message, 
 			'user_last_name': callback_query.from_user.last_name,
 		}
 
+	database_records = {}
+
+	for record in database_telegram_bot.get_records(telegram_bot):
+		database_records[record['_id']] = record
+
 	text_variables.update({
 		'user_message_id': message.message_id,
 		'user_message_text': message.text,
-		'database_records': database_telegram_bot.get_records(telegram_bot),
+		'database_records': database_records,
 	})
 
 	return text_variables

@@ -1,12 +1,7 @@
 from aiogram import types
 
 from django.db import models
-from telegram_bot.models import (
-	TelegramBot,
-	TelegramBotUser,
-	TelegramBotCommand,
-	TelegramBotCommandManager
-)
+from telegram_bot.models import TelegramBot, TelegramBotUser, TelegramBotCommand, TelegramBotCommandManager
 
 from constructor_telegram_bots import environment
 from telegram_bot.services import database_telegram_bot
@@ -57,7 +52,7 @@ def check_telegram_bot_user(func):
 		telegram_bot_users: models.Manager = await sync_to_async(TelegramBotUser.objects.filter)(user_id=user_id)
 
 		if not await telegram_bot_users.aexists():
-			telegram_bot_user: TelegramBotUser = await sync_to_async(TelegramBotUser.objects.create)(
+			telegram_bot_user: TelegramBotUser = await TelegramBotUser.objects.acreate(
 				telegram_bot=telegram_bot,
 				user_id=user_id,
 				full_name=user_full_name
