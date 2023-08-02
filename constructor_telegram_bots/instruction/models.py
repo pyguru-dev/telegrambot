@@ -10,7 +10,6 @@ class InstructionSection(models.Model):
 
 	class Meta:
 		db_table = 'instruction_section'
-
 		ordering = ['position']
 
 		verbose_name = _('Раздел инструкции')

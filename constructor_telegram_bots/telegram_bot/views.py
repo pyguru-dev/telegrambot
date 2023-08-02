@@ -1,4 +1,5 @@
 from django.utils.translation import gettext as _
+from django.conf import settings
 
 from rest_framework.views import APIView
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
@@ -82,7 +83,7 @@ class TelegramBotView(APIView):
 			return Response({
 				'message': _('Произошла ошибка, попробуйте ещё раз позже!'),
 				'level': 'danger',
-			})
+			}, status=500)
 
 	@check_telegram_bot_id
 	def delete(self, request: Request, telegram_bot: TelegramBot) -> Response:
@@ -102,16 +103,17 @@ class TelegramBotView(APIView):
 @permission_classes([IsAuthenticated])
 @check_telegram_bot_id
 def start_or_stop_telegram_bot(request: Request, telegram_bot: TelegramBot) -> Response:
-	if not telegram_bot.is_running and telegram_bot.is_stopped:
-		if platform == 'win32':
-			tasks.start_telegram_bot(telegram_bot_id=telegram_bot.id)
-		else:
-			tasks.start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
-	elif telegram_bot.is_running and not telegram_bot.is_stopped:
-		if platform == 'win32':
-			tasks.stop_telegram_bot(telegram_bot_id=telegram_bot.id)
-		else:
-			tasks.stop_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
+	if not settings.TEST:
+		if not telegram_bot.is_running and telegram_bot.is_stopped:
+			if platform == 'win32':
+				tasks.start_telegram_bot(telegram_bot_id=telegram_bot.id)
+			else:
+				tasks.start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
+		elif telegram_bot.is_running and not telegram_bot.is_stopped:
+			if platform == 'win32':
+				tasks.stop_telegram_bot(telegram_bot_id=telegram_bot.id)
+			else:
+				tasks.stop_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
 
 	return Response({
 		'message': None,
@@ -328,7 +330,7 @@ class TelegramBotDatabeseRecordsView(APIView):
 	@check_telegram_bot_id
 	@check_post_request_data_items({'record': dict})
 	def post(self, request: Request, telegram_bot: TelegramBot, record: dict) -> Response:
-		database_telegram_bot.insert_record(telegram_bot, record)
+		record: dict = database_telegram_bot.insert_record(telegram_bot, record)
 
 		return Response({
 			'message': _('Вы успешно добавили запись в базу данных Telegram бота.'),

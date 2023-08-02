@@ -1,12 +1,7 @@
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiohttp.helpers import sentinel
-from aiogram.utils.exceptions import (
-	TerminatedByOtherGetUpdates,
-	TelegramAPIError,
-	ConflictError,
-	NetworkError
-)
+from aiogram.utils.exceptions import TerminatedByOtherGetUpdates, TelegramAPIError, ConflictError, NetworkError
 
 from django.conf import settings
 

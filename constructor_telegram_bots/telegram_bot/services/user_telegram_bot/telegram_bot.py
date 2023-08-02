@@ -109,4 +109,4 @@ class UserTelegramBot:
 			if not self.telegram_bot.is_running:
 				self.dispatcher.stop_polling()
 			else:
-				await asyncio.sleep(60)
+				await asyncio.sleep(30)

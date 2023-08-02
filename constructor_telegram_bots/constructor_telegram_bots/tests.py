@@ -1,5 +1,4 @@
 from django.test import TestCase, Client
-from django.http import HttpResponse
 
 from user.models import User
 from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotCommandKeyboard, TelegramBotUser
@@ -42,13 +41,3 @@ class BaseTestCase(TestCase):
 			user_id=123456789,
 			full_name='Test A'
 		)
-
-	def assertUnauthorizedAccess(self, url: str, method: str = 'POST'):
-		if method == 'POST':
-			response: HttpResponse = self.client.post(url)
-			self.assertEqual(response.status_code, 401)
-		else:
-			response: HttpResponse = self.client.get(url)
-			self.assertEqual(response.status_code, 302)
-
-		self.client.get(self.user.login_url)

@@ -9,14 +9,16 @@ def delete_collection(*, collection: Collection) -> None:
 	collection.drop()
 
 @connect_to_database
-def insert_record(record: dict, *, collection: Collection) -> None:
+def insert_record(record: dict, *, collection: Collection) -> dict:
 	if collection.count_documents({}) > 0:
 		record_id = [record['_id'] for record in collection.find()][-1] + 1
 	else:
 		record_id = 1
 
 	record.update({'_id': record_id})
+
 	collection.insert_one(record)
+	return collection.find_one({'_id': record['_id']})
 
 @connect_to_database
 def update_record(record_id: int, updated_record: dict, *, collection: Collection) -> dict:
