@@ -89,7 +89,6 @@ class TelegramBotModelsTest(BaseTestCase):
 			}
 		)
 
-
 class TelegramBotViewsTest(BaseTestCase):
 	def test_add_telegram_bot_view(self) -> None:
 		url: str = urls.reverse('add_telegram_bot')

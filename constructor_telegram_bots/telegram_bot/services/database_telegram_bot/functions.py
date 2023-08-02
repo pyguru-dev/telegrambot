@@ -1,13 +1,15 @@
 from .decorators import connect_to_database
 
-from telegram_bot.models import TelegramBot
-
 from pymongo.collection import Collection
 from typing import List
 
 
 @connect_to_database
-def insert_record(telegram_bot: TelegramBot, record: dict, *, collection: Collection) -> None:
+def delete_collection(*, collection: Collection) -> None:
+	collection.drop()
+
+@connect_to_database
+def insert_record(record: dict, *, collection: Collection) -> None:
 	if collection.count_documents({}) > 0:
 		record_id = [record['_id'] for record in collection.find()][-1] + 1
 	else:
@@ -17,7 +19,7 @@ def insert_record(telegram_bot: TelegramBot, record: dict, *, collection: Collec
 	collection.insert_one(record)
 
 @connect_to_database
-def update_record(telegram_bot: TelegramBot, record_id: int, updated_record: dict, *, collection: Collection) -> dict:
+def update_record(record_id: int, updated_record: dict, *, collection: Collection) -> dict:
 	updated_record_ = {
 		'$set': {},
 		'$unset': {},
@@ -40,9 +42,9 @@ def update_record(telegram_bot: TelegramBot, record_id: int, updated_record: dic
 	return collection.find_one({'_id': record_id})
 
 @connect_to_database
-def delete_record(telegram_bot: TelegramBot, record_id: int, *, collection: Collection) -> None:
+def delete_record(record_id: int, *, collection: Collection) -> None:
 	collection.delete_one({'_id': record_id})
 
 @connect_to_database
-def get_records(telegram_bot: TelegramBot, *, collection: Collection) -> List[dict]:
+def get_records(*, collection: Collection) -> List[dict]:
 	return [record for record in collection.find()]

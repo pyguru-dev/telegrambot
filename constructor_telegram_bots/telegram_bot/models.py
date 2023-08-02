@@ -7,6 +7,8 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from user.models import User
 from .managers import TelegramBotManager, TelegramBotCommandManager, TelegramBotCommandKeyboardManager
 
+from .services import database_telegram_bot
+
 from typing import Optional, Union
 
 
@@ -47,9 +49,12 @@ class TelegramBot(models.Model):
 			'date_added': f'{filters.date(self.date_added)} {filters.time(self.date_added)}',
 		}
 
+	def delete(self) -> None:
+		database_telegram_bot.delete_collection(self)
+		super().delete()
+
 	def __str__(self) -> str:
 		return f'@{self.username}'
-
 
 class TelegramBotCommand(models.Model):
 	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, related_name='commands', null=True, verbose_name=_('Telegram бот'))
@@ -177,7 +182,6 @@ class TelegramBotCommand(models.Model):
 	def __str__(self) -> str:
 		return f'Команда {self.name} @{self.telegram_bot.username} {_("Telegram бота")}'
 
-
 class TelegramBotCommandKeyboard(models.Model):
 	telegram_bot_command = models.OneToOneField(TelegramBotCommand, on_delete=models.CASCADE, related_name='keyboard', null=True)
 	type = models.CharField(max_length=7, choices=(('default', 'Default'), ('inline', 'Inline')), default='default')
@@ -195,7 +199,6 @@ class TelegramBotCommandKeyboard(models.Model):
 			'type': self.type,
 			'buttons': self.get_buttons_as_dict(escape=escape),
 		}
-
 
 class TelegramBotCommandKeyboardButton(models.Model):
 	telegram_bot_command_keyboard = models.ForeignKey(TelegramBotCommandKeyboard, on_delete=models.CASCADE, related_name='buttons', null=True)
@@ -226,7 +229,6 @@ class TelegramBotCommandKeyboardButton(models.Model):
 			'start_diagram_connector': self.start_diagram_connector,
 			'end_diagram_connector' : self.end_diagram_connector,
 		}
-
 
 class TelegramBotUser(models.Model):
 	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, related_name='users', verbose_name=_('Telegram бот'), null=True)

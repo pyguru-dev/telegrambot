@@ -1,7 +1,7 @@
 from celery import shared_task
 
-from . import ConstructorTelegramBot
-from . import UserTelegramBot
+from .constructor_telegram_bot import ConstructorTelegramBot
+from .user_telegram_bot import UserTelegramBot
 
 from telegram_bot.models import TelegramBot
 

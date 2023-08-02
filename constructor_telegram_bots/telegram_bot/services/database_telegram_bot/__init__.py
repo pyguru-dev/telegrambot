@@ -1,1 +1,1 @@
-from telegram_bot.services.database_telegram_bot.functions import *
+from .functions import *
