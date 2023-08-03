@@ -94,7 +94,7 @@ def check_telegram_bot_command(func):
 			text_variables: dict = await get_text_variables(telegram_bot, message, callback_query)
 
 			async for telegram_bot_command_ in telegram_bot.commands.all():
-				if (message.text == await sync_to_async(environment.replace_text_variables)(telegram_bot, telegram_bot_command_.command, text_variables)):
+				if telegram_bot_command_.command and message.text == await sync_to_async(environment.replace_text_variables)(telegram_bot, telegram_bot_command_.command, text_variables):
 					telegram_bot_command = telegram_bot_command_
 					break
 
