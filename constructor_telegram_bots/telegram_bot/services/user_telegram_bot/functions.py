@@ -65,7 +65,7 @@ async def get_telegram_keyboard(command: TelegramBotCommand) -> Union[types.Repl
 		telegram_keyboard_row = 1
 
 		if telegram_bot_command_keyboard.type == 'default':
-			telegram_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
+			telegram_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 
 			async for button in telegram_bot_command_keyboard.buttons.all():
 				telegram_keyboard_buttons[telegram_keyboard_row if not button.row else button.row].append(
