@@ -690,7 +690,7 @@
 				}
 
 				response.json().then(jsonResponse => {
-					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+					createToast(jsonResponse['message'], jsonResponse['level']);
 				});
 			});
 		});
@@ -720,7 +720,7 @@
 										if (response.ok) {
 											editTelegramBotCommand(jsonResponse);
 										} else {
-											createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+											createToast(jsonResponse['message'], jsonResponse['level']);
 										}
 									});
 								});
@@ -747,7 +747,7 @@
 											}
 
 											response.json().then(jsonResponse => {
-												createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+												createToast(jsonResponse['message'], jsonResponse['level']);
 											});
 										});
 									}
@@ -791,7 +791,7 @@
 					});
 				} else {
 					response.json().then(jsonResponse => {
-						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+						createToast(jsonResponse['message'], jsonResponse['level']);
 					});
 				}
 			});

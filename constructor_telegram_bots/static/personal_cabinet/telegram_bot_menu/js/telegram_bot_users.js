@@ -5,8 +5,8 @@
 	const checkTelegramBotUsersСount = () => {
 		if (telegramBotUsersDiv.querySelectorAll('.telegram-bot-user').length == 0) {
 			const telegramBotNotActivatedDiv = document.createElement('div');
-			telegramBotNotActivatedDiv.setAttribute('class', 'list-group-item telegram-bot-not-activated p-3');
-			telegramBotNotActivatedDiv.innerHTML = `<p class="text-center m-0">${telegramBotNotActivatedText}</p>`;
+			telegramBotNotActivatedDiv.setAttribute('class', 'list-group-item telegram-bot-not-activated text-center p-3');
+			telegramBotNotActivatedDiv.innerHTML = telegramBotNotActivatedText;
 			telegramBotUsersDiv.append(telegramBotNotActivatedDiv);
 		} else {
 			const telegramBotNotActivatedDiv = telegramBotUsersDiv.querySelector('.telegram-bot-not-activated');
@@ -74,7 +74,7 @@
 								}
 
 								response.json().then(jsonResponse => {
-									createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+									createToast(jsonResponse['message'], jsonResponse['level']);
 								});
 							});
 						});
@@ -88,7 +88,7 @@
 								}
 
 								response.json().then(jsonResponse => {
-									createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+									createToast(jsonResponse['message'], jsonResponse['level']);
 								});
 							});
 						});
@@ -106,7 +106,7 @@
 									}
 
 									response.json().then(jsonResponse => {
-										createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+										createToast(jsonResponse['message'], jsonResponse['level']);
 									});
 								});
 							}
@@ -115,7 +115,7 @@
 
 					checkTelegramBotUsersСount();
 				} else {
-					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+					createToast(jsonResponse['message'], jsonResponse['level']);
 				}
 			});
 		});

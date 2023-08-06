@@ -13,7 +13,7 @@
 					telegramBotUsername.innerHTML = `@${jsonResponse['username']}`;
 					telegramBotApiToken.innerHTML = jsonResponse['api_token'];
 				} else {
-					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+					createToast(jsonResponse['message'], jsonResponse['level']);
 				}
 			});
 		});
@@ -61,7 +61,7 @@
 				}
 
 				response.json().then(jsonResponse => {
-					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+					createToast(jsonResponse['message'], jsonResponse['level']);
 				});
 			});
 		});
@@ -87,7 +87,7 @@
 			}
 
 			response.json().then(jsonResponse => {
-				createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+				createToast(jsonResponse['message'], jsonResponse['level']);
 			});
 		});
 	});
@@ -127,7 +127,7 @@
 							}
 						}
 					} else {
-						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+						createToast(jsonResponse['message'], jsonResponse['level']);
 					}
 				});
 			});
@@ -137,7 +137,7 @@
 			const intervalCheckTelegramBotIsStoppedId = setInterval(() => checkTelegramBotStatus('stop', function() {
 				telegramBotIsRunning = false;
 				clearInterval(intervalCheckTelegramBotIsStoppedId);
-				createAlert(mainAlertContainer, stopTelegramBotMessage, 'success');
+				createToast(stopTelegramBotMessage, 'success');
 			}), 3000);
 		}
 
@@ -158,7 +158,7 @@
 						checkTelegramBotIsStopped();
 					}
 				} else {
-					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+					createToast(jsonResponse['message'], jsonResponse['level']);
 				}
 			});
 		});
@@ -182,12 +182,12 @@
 						const intervalCheckTelegramBotIsStartedId = setInterval(() => checkTelegramBotStatus('start', function() {
 							telegramBotIsRunning = true;
 							clearInterval(intervalCheckTelegramBotIsStartedId);
-							createAlert(mainAlertContainer, startTelegramBotMessage, 'success')
+							createToast(startTelegramBotMessage, 'success')
 						}), 3000);
 					}
 				} else {
 					response.json().then(jsonResponse => {
-						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+						createToast(jsonResponse['message'], jsonResponse['level']);
 					});
 				}
 			});
@@ -207,7 +207,7 @@
 				}
 
 				response.json().then(jsonResponse => {
-					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+					createToast(jsonResponse['message'], jsonResponse['level']);
 				});
 			});
 		}

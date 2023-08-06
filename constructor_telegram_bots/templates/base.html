@@ -34,7 +34,7 @@
 		{% endif %}
 		{% endblock modals %}
 
-		<div class="container" id="mainAlertContainer"></div>
+		<div class="toast-container position-fixed bottom-0 end-0 p-3" id="mainToastContainer"></div>
 
 		<main class="{% block main_class %}my-auto{% endblock main_class %}">
 			{% block main %}{% endblock main %}
@@ -48,7 +48,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
 
 	{% block scripts %}
-	<script src="{% static 'global/js/alert.js' %}"></script>
+	<script src="{% static 'global/js/toast.js' %}"></script>
 	{% if user.is_authenticated %}
 		<script>
 			const userApiToken = '{{ request.user.auth_token.key }}';

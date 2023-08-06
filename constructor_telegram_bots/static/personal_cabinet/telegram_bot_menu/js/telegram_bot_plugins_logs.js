@@ -19,12 +19,12 @@
 						});
 					} else {
 						const telegramBotNotHavePluginsLogsDiv = document.createElement('div');
-						telegramBotNotHavePluginsLogsDiv.classList = 'list-group-item telegram-bot-plugin p-3 ps-2';
-						telegramBotNotHavePluginsLogsDiv.innerHTML = `<p class="text-center m-0">${telegramBotNotHavePluginsLogsText}</p>`;
+						telegramBotNotHavePluginsLogsDiv.classList = 'list-group-item telegram-bot-plugin text-center p-3';
+						telegramBotNotHavePluginsLogsDiv.innerHTML = telegramBotNotHavePluginsLogsText;
 						telegramBotPluginsLogsDiv.append(telegramBotNotHavePluginsLogsDiv);
 					}
 				} else {
-					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+					createToast(jsonResponse['message'], jsonResponse['level']);
 				}
 			});
 		});
