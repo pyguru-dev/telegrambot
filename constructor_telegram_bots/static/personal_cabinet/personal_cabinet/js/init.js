@@ -56,16 +56,7 @@
 						const telegramBotDiv = document.createElement('div');
 						telegramBotDiv.classList = 'col';
 						telegramBotDiv.id = 'notAddedTelegramBot';
-						telegramBotDiv.innerHTML = [
-							'<div class="card border h-100">',
-							'	<div class="card-body">',
-							`		<h5 class="text-center text-break mb-0">${telegramBotCardBodyNotAddedText}</h5>`,
-							'	</div>',
-							'	<div class="card-footer border-top p-0">',
-							`		<button class="btn btn-light border-0 rounded-top-0 w-100" type="button" style="height: 42px;" data-bs-toggle="modal" data-bs-target="#howToAddTelegramBotModal">${telegramBotCardFooterHowToAddButtonText}</button>`,
-							'	</div>',
-							'</div>',
-						].join('');
+						telegramBotDiv.innerHTML = `<div class="border rounded text-center p-3">${telegramBotCardBodyNotAddedText}</div>`;
 						telegramBotsDiv.append(telegramBotDiv);
 					} else {
 						telegramBots.forEach(telegramBot => addTelegramBot(telegramBot));
