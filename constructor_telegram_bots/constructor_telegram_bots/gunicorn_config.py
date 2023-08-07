@@ -1,4 +1,4 @@
-from .settings import BASE_DIR
+from constructor_telegram_bots.settings import BASE_DIR
 
 
 workers = 9
