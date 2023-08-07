@@ -31,6 +31,8 @@
 		{% block modals %}
 		{% if user.is_authenticated %}
 			{% include 'modals/ask_confirm_modal.html' %}
+		{% else %}
+			{% include 'modals/login_via_telegram_modal.html' %}
 		{% endif %}
 		{% endblock modals %}
 
@@ -60,6 +62,12 @@
 		</script>
 		<script src="{% static 'global/js/modals/ask_confirm_modal.js' %}"></script>
 		<script src="{% static 'global/js/logout.js' %}"></script>
+	{% else %}
+		<script>
+			const constructorTelegramBotUsername = "{{ constructor_telegram_bot_username }}";
+		</script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src="{% static 'global/js/login_via_telegram_button.js' %}"></script>
 	{% endif %}
 	{% endblock scripts %}
 </html>
