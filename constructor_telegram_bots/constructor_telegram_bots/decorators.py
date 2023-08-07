@@ -44,7 +44,7 @@ def check_post_request_data_items(needed_request_data: dict):
 
 			if needed_request_data.keys() != request_data.keys():
 				return Response({
-					'message': _('В тело запроса переданы не все данных!'),
+					'message': _('В тело запроса переданы не все данные!'),
 					'level': 'danger',
 				}, status=400)
 
