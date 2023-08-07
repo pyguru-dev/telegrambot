@@ -4,9 +4,9 @@
 	const checkTelegramBotPluginsСount = () => {
 		if (telegramBotPluginsDiv.querySelectorAll('.telegram-bot-plugin').length == 0) {
 			const telegramBotNotHavePluginsDiv = document.createElement('div');
-			telegramBotNotHavePluginsDiv.className = 'list-group-item px-3 py-2';
+			telegramBotNotHavePluginsDiv.className = 'list-group-item text-center p-3';
 			telegramBotNotHavePluginsDiv.id = 'telegramBotNotHavePlugins';
-			telegramBotNotHavePluginsDiv.innerHTML = `<p class="text-center my-2">${telegramBotNotHavePluginText}</p>`;
+			telegramBotNotHavePluginsDiv.innerHTML = telegramBotNotHavePluginText;
 			telegramBotPluginsDiv.append(telegramBotNotHavePluginsDiv);
 		} else {
 			const telegramBotNotHavePluginsDiv = telegramBotPluginsDiv.querySelector('#telegramBotNotHavePlugins');
@@ -112,7 +112,7 @@
 							telegramBotPluginConfirmOrCancelButtonClick(telegramBotPluginCode);
 						}
 
-						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+						createToast(jsonResponse['message'], jsonResponse['level']);
 					});
 				});
 			});
@@ -134,7 +134,7 @@
 							}
 
 							response.json().then(jsonResponse => {
-								createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+								createToast(jsonResponse['message'], jsonResponse['level']);
 							});
 						});
 					}
@@ -158,7 +158,7 @@
 						checkTelegramBotPluginsСount();
 					}
 				} else {
-					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+					createToast(jsonResponse['message'], jsonResponse['level']);
 				}
 			});
 		});
@@ -263,7 +263,7 @@
 							addTelegramBotPlugin(jsonResponse['plugin']);
 						}
 
-						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+						createToast(jsonResponse['message'], jsonResponse['level']);
 					});
 				});
 			});

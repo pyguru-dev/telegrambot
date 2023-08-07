@@ -7,7 +7,6 @@
 {% block modals %}
 {{ block.super }}
 {% include 'personal_cabinet/modals/add_telegram_bot_modal.html' %}
-{% include 'personal_cabinet/modals/how_to_add_telegram_bot_modal.html' %}
 {% endblock modals %}
 
 {% block main_class %}{% endblock main_class %}
@@ -36,11 +35,9 @@
 {% block scripts %}
 {{ block.super }}
 <script>
-	const addTelegramBotUrl = "{% url 'add_telegram_bot' %}";
-	const getTelegramBotsUrl = "{% url 'get_user_telegram_bots' %}";
+	const telegramBotsUrl = "{% url 'telegram_bots' %}";
 
-	const telegramBotCardBodyNotAddedText = "{% trans 'Вы ещё не добавили Telegram бота' %}";
-	const telegramBotCardFooterHowToAddButtonText = "{% trans 'Как добавить Telegram бота?' %}";
+	const telegramBotCardBodyNotAddedText = "{% trans 'Вы ещё не добавили Telegram ботов' %}";
 
 	const telegramBotCardHeaderIsRunningText = "{% trans 'Telegram бот включен' %}";
 	const telegramBotCardHeaderIsNotRunningText = "{% trans 'Telegram бот выключен' %}";

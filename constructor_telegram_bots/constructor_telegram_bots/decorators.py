@@ -19,15 +19,12 @@ def check_post_request_data_items(needed_request_data: dict):
 			except (UnicodeDecodeError, json.decoder.JSONDecodeError):
 				request_data: dict = json.loads(request.POST['data'])
 			except RequestDataTooBig:
-				return Response(
-					{
-						'message': _('Тело запроса не должно весить больше 2.5MB!'),
-						'level': 'danger',
-					},
-					status=400
-				)
+				return Response({
+					'message': _('Тело запроса не должно весить больше 2.5MB!'),
+					'level': 'danger',
+				}, status=400)
 
-			request_data_delete_items = []
+			delete_request_data_items = []
 
 			for key, value in request_data.items():
 				if key == 'image':
@@ -35,18 +32,21 @@ def check_post_request_data_items(needed_request_data: dict):
 
 				if key in needed_request_data:
 					if not isinstance(value, needed_request_data[key]):
-						return Response(
-							{
-								'message': _('В тело запроса передан неверный тип данных!'),
-								'level': 'danger',
-							},
-							status=400
-						)
+						return Response({
+							'message': _('В тело запроса передан неверный тип данных!'),
+							'level': 'danger',
+						}, status=400)
 				else:
-					request_data_delete_items.append(key)
+					delete_request_data_items.append(key)
 
-			for request_data_delete_item in request_data_delete_items:
-				del request_data[request_data_delete_item]
+			for delete_request_data_item in delete_request_data_items:
+				del request_data[delete_request_data_item]
+
+			if needed_request_data.keys() != request_data.keys():
+				return Response({
+					'message': _('В тело запроса переданы не все данные!'),
+					'level': 'danger',
+				}, status=400)
 
 			return func(*args, **kwargs, **request_data)
 		return wrapper

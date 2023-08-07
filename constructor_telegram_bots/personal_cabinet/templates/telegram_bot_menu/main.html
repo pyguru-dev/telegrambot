@@ -7,7 +7,7 @@
 {% block styles %}
 {{ block.super }}
 <!-- Monaco Editor -->
-<link rel="stylesheet" href="{% static 'monaco_editor/min/vs/editor/editor.main.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.40.0/min/vs/editor/editor.main.min.css" integrity="sha512-MOoQ02h80hklccfLrXFYkCzG+WVjORflOp9Zp8dltiaRP+35LYnO4LKOklR64oMGfGgJDLO8WJpkM1o5gZXYZQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
 <!-- END Monaco Editor -->
 
 <!-- Prism -->
@@ -61,12 +61,9 @@
 
 <!-- Telegram bot -->
 <script>
-	const getTelegramBotDataUrl = "{% url 'get_telegram_bot_data' telegram_bot.id %}";
-	const editTelegramBotApiTokenUrl = "{% url 'edit_telegram_bot_api_token' telegram_bot.id %}";
-	const editTelegramBotPrivateUrl = "{% url 'edit_telegram_bot_private' telegram_bot.id %}";
-	const deleteTelegramBotUrl = "{% url 'delete_telegram_bot' telegram_bot.id %}";
-	const startTelegramBotUrl = "{% url 'start_telegram_bot' telegram_bot.id %}";
-	const stopTelegramBotUrl = "{% url 'stop_telegram_bot' telegram_bot.id %}";
+	const telegramBotsUrl = "{% url 'telegram_bots' %}";
+	const telegramBotUrl = "{% url 'telegram_bot' telegram_bot.id %}";
+	const startOrStopTelegramBotUrl = "{% url 'start_or_stop_telegram_bot' telegram_bot.id %}";
 
 	const telegramBotCardHeaderIsRunningText = "{% trans 'Telegram бот включен' %}";
 	const telegramBotCardHeaderIsNotRunningText = "{% trans 'Telegram бот выключен' %}";
@@ -86,9 +83,9 @@
 
 <!-- Telegram bot users -->
 <script>
-	const getTelegramBotUsersUrl = "{% url 'get_telegram_bot_users' telegram_bot.id %}";
+	const telegramBotUsersUrl = "{% url 'telegram_bot_users' telegram_bot.id %}";
 
-	const telegramBotNotActivatedText = "{% trans 'Вашего Telegram бота ещё никто не активировал.' %}";
+	const telegramBotNotActivatedText = "{% trans 'Вашего Telegram бота ещё никто не активировал' %}";
 
 	const deleteTelegramBotUserAskConfirmModalTitle = "{% trans 'Удаление пользователя Telegram бота' %}";
 	const deleteTelegramBotUserAskConfirmModalText = "{% trans 'Вы точно хотите удалить пользователя Telegram бота?' %}";
@@ -99,7 +96,7 @@
 <script>
 	const telegramBotDatabeseRecordsUrl = "{% url 'telegram_bot_databese_records' telegram_bot.id %}";
 
-	const telegramBotDatabaseNotHaveDataText = "{% trans 'В базе данных вашего Telegram бота нет никаких записей.' %}";
+	const telegramBotDatabaseNotHaveDataText = "{% trans 'В базе данных вашего Telegram бота ещё нет никаких записей' %}";
 
 	const deleteTelegramBotDatabaseRecordAskConfirmModalTitle = "{% trans 'Удаление записи из базы данных Telegram бота' %}";
 	const deleteTelegramBotDatabaseRecordAskConfirmModalText = "{% trans 'Вы точно хотите удалить запись из базы данных Telegram бота?' %}";
@@ -110,7 +107,7 @@
 <script>
 	const telegramBotPluginsUrl = "{% url 'plugins' telegram_bot.id %}";
 
-	const telegramBotNotHavePluginText = "{% trans 'Вы ещё не добавили плагин вашему Telegram боту.' %}";
+	const telegramBotNotHavePluginText = "{% trans 'Вы ещё не добавили плагины для вашего Telegram бота' %}";
 
 	const telegramBotPluginNameInputPlaceholderText = "{% trans 'Введите название' %}";
 	const telegramBotPluginCodePlaceholderText = "{% trans 'Введите код вашего плагина' %}";
@@ -126,13 +123,13 @@
 <script>
 	const telegramBotPluginsLogs = "{% url 'plugins_logs' telegram_bot.id %}";
 
-	const telegramBotNotHavePluginsLogsText = "{% trans 'Логов плагинов Telegram бота ещё нет.' %}";
+	const telegramBotNotHavePluginsLogsText = "{% trans 'Сообщений в логах плагинов вашего Telegram бота ещё нет' %}";
 </script>
 <!-- END -->
 
-<!-- Telegram bot plugins command -->
+<!-- Telegram bot command -->
 <script>
-	const addTelegramBotCommandUrl = "{% url 'add_telegram_bot_command' telegram_bot.id %}";
+	const telegramBotCommandsUrl = "{% url 'telegram_bot_commands' telegram_bot.id %}";
 
 	const telegramBotCommandCardHeaderAddCommandTitleText = "{% trans 'Добавление команды' %}";
 	const telegramBotCommandCardHeaderEditCommandTitleText = "{% trans 'Редактирование команды' %}";
@@ -147,9 +144,8 @@
 </script>
 <!-- END -->
 
-<!-- Telegram bot plugins diagram -->
+<!-- Telegram bot diagram -->
 <script>
-	const getTelegramBotCommandsUrl = "{% url 'get_telegram_bot_commands' telegram_bot.id %}";
 	const saveTelegramBotDiagramCurrentScaleUrl = "{% url 'save_telegram_bot_diagram_current_scale' telegram_bot.id %}";
 
 	const deleteTelegramBotCommandAskConfirmModalTitle = "{% trans 'Удаление команды Telegram бота' %}";
@@ -158,9 +154,9 @@
 <!-- END -->
 
 <!-- Monaco editor -->
-<script src="{% static 'monaco_editor/min/vs/loader.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.40.0/min/vs/loader.min.js" integrity="sha512-QzMpXeCPciAHP4wbYlV2PYgrQcaEkDQUjzkPU4xnjyVSD9T36/udamxtNBqb4qK4/bMQMPZ8ayrBe9hrGdBFjQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-	require.config({paths: {'vs': "{% static 'monaco_editor/min/vs' %}"}});
+	require.config({paths: {'vs': "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.40.0/min/vs"}});
 </script>
 <!-- END -->
 

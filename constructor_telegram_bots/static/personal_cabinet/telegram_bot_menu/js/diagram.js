@@ -51,7 +51,7 @@
 			}
 
 			fetch(saveTelegramBotDiagramCurrentScaleUrl, {
-				method: 'POST',
+				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': `Token ${userApiToken}`,
@@ -126,6 +126,7 @@
 			const selectDiagramConnectorPosition = event.target.id.split(':')[1]
 
 			if (selectedDiagramConnector == null && selectDiagramConnectorPosition != 'top') {
+				// Надо исправить баг из-за которого юзер может одну и ту же кнопку прикрепить к двум сообщениям (Можно только к одной)
 				selectedDiagramConnector = event.target;
 				selectedDiagramConnector.classList.add('connector-highlight');
 			} else if (selectedDiagramConnector != null) {
@@ -151,8 +152,8 @@
 
 								const diagramKeyboardButtonId = diagramConnectorLine.id.split('-')[0].split(':')[2];
 
-								fetch(`/telegram-bot/${telegramBotId}/command/${selectedDiagramConnectorBlockId}/keyboard-button/${diagramKeyboardButtonId}/delete-telegram-bot-command/`, {
-									method: 'POST',
+								fetch(`/telegram-bots/${telegramBotId}/commands/${selectedDiagramConnectorBlockId}/keyboard-buttons/${diagramKeyboardButtonId}/telegram-bot-command/`, {
+									method: 'DELETE',
 									headers: {'Authorization': `Token ${userApiToken}`},
 								});
 							}
@@ -163,7 +164,7 @@
 
 							const selectedDiagramKeyboardButtonId = selectedDiagramConnector.id.split(':')[2];
 
-							fetch(`/telegram-bot/${telegramBotId}/command/${selectedDiagramConnectorBlockId}/keyboard-button/${selectedDiagramKeyboardButtonId}/add-telegram-bot-command/`, {
+							fetch(`/telegram-bots/${telegramBotId}/commands/${selectedDiagramConnectorBlockId}/keyboard-buttons/${selectedDiagramKeyboardButtonId}/telegram-bot-command/`, {
 								method: 'POST',
 								headers: {
 									'Content-Type': 'application/json',
@@ -258,8 +259,8 @@
 			document.onmouseup = null;
 			document.ontouchend = null;
 
-			fetch(`/telegram-bot/${telegramBotId}/command/${diagramBlock.id}/save-position/`, {
-				method: 'POST',
+			fetch(`/telegram-bots/${telegramBotId}/commands/${diagramBlock.id}/save-position/`, {
+				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',
 					'Authorization': `Token ${userApiToken}`,

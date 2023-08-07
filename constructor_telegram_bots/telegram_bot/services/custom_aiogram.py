@@ -1,16 +1,12 @@
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiohttp.helpers import sentinel
-from aiogram.utils.exceptions import (
-	TerminatedByOtherGetUpdates,
-	TelegramAPIError,
-	ConflictError,
-	NetworkError
-)
+from aiogram.utils.exceptions import TerminatedByOtherGetUpdates, TelegramAPIError, ConflictError, NetworkError
 
 from django.conf import settings
 
 import asyncio
+from asyncio.exceptions import TimeoutError
 import aiohttp
 
 import logging
@@ -49,7 +45,6 @@ class CustomBot(Bot):
 	async def get_results(self):
 		return self.results
 
-
 class CustomDispatcher(Dispatcher):
 	def __init__(self, bot_username: str, bot: CustomBot):
 		self.bot_username = bot_username
@@ -86,7 +81,7 @@ class CustomDispatcher(Dispatcher):
 			except TerminatedByOtherGetUpdates:
 				log.error(f'@{self.bot_username} || Telegram bot is already started!')
 				break
-			except (TelegramAPIError, ConflictError, NetworkError):
+			except (TelegramAPIError, ConflictError, NetworkError, TimeoutError):
 				pass
 			except asyncio.CancelledError:
 				break

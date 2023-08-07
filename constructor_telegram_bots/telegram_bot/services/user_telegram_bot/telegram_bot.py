@@ -5,18 +5,16 @@ from telegram_bot.services.custom_aiogram import CustomBot, CustomDispatcher
 
 from telegram_bot.models import TelegramBot, TelegramBotCommand
 
-from telegram_bot.services.user_telegram_bot.decorators import (
-	check_request,
-	check_telegram_bot_user,
-	check_telegram_bot_command,
-	check_telegram_bot_command_database_record,
-	check_message_text
-)
-from telegram_bot.services.user_telegram_bot.functions import get_telegram_keyboard
+from .decorators import *
+from .functions import get_telegram_keyboard
 
 import asyncio
+from aiohttp import ClientSession
 
-from typing import Union
+from typing import Optional, Union
+
+
+PARSE_MODE = 'HTML'
 
 
 class UserTelegramBot:
@@ -32,7 +30,7 @@ class UserTelegramBot:
 	async def message_and_callback_query_handler(
 		self,
 		message: types.Message,
-		callback_query: Union[types.CallbackQuery, None],
+		callback_query: Optional[types.CallbackQuery],
 		telegram_bot_command: TelegramBotCommand,
 		message_text: str
 	) -> None:
@@ -49,7 +47,7 @@ class UserTelegramBot:
 				await self.dispatcher.bot.send_message(
 					chat_id=message.chat.id,
 					text=message_text,
-					parse_mode='HTML',
+					parse_mode=PARSE_MODE,
 					reply_markup=telegram_keyboard
 				)
 			else:
@@ -57,7 +55,7 @@ class UserTelegramBot:
 					chat_id=message.chat.id,
 					photo=types.InputFile(telegram_bot_command.image.path),
 					caption=message_text,
-					parse_mode='HTML',
+					parse_mode=PARSE_MODE,
 					reply_markup=telegram_keyboard
 				)
 		except FileNotFoundError:
@@ -67,14 +65,14 @@ class UserTelegramBot:
 			await self.dispatcher.bot.send_message(
 				chat_id=message.chat.id,
 				text=message_text,
-				parse_mode='HTML',
+				parse_mode=PARSE_MODE,
 				reply_markup=telegram_keyboard
 			)
 		except Exception as exception:
 			await self.dispatcher.bot.send_message(
 				chat_id=message.chat.id,
 				text=f'<b>Error</b>: {exception}',
-				parse_mode='HTML',
+				parse_mode=PARSE_MODE,
 				reply_markup=telegram_keyboard
 			)
 
@@ -101,14 +99,14 @@ class UserTelegramBot:
 
 			await self.telegram_bot.adelete()
 
-		session = await self.bot.get_session()
+		session: ClientSession = await self.bot.get_session()
 		await session.close()
 
 	async def stop(self) -> None:
 		while self.telegram_bot.is_running:
 			self.telegram_bot: TelegramBot = await TelegramBot.objects.aget(id=self.telegram_bot.id)
 
-			if self.telegram_bot.is_running is False:
+			if not self.telegram_bot.is_running:
 				self.dispatcher.stop_polling()
 			else:
-				await asyncio.sleep(5)
+				await asyncio.sleep(30)

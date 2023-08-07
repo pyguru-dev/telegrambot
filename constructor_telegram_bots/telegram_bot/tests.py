@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django import urls
 from django.template import defaultfilters as filters
 
-from .models import TelegramBot
+from .models import TelegramBot, TelegramBotCommand
 
 
 class TelegramBotModelsTest(BaseTestCase):
@@ -89,45 +89,68 @@ class TelegramBotModelsTest(BaseTestCase):
 			}
 		)
 
+class TelegramBotsViewTest(BaseTestCase):
+	url: str = urls.reverse('telegram_bots')
 
-class TelegramBotViewsTest(BaseTestCase):
-	def test_add_telegram_bot_view(self) -> None:
-		url: str = urls.reverse('add_telegram_bot')
-		tests = [
-			{
-				'url': url,
-				'data': {
-					'api_token': '123456789:qwertyuiop',
-					'is_private': True,
-				},
-				'response': {
-					'message': 'Вы уже используете этот API-токен Telegram бота на сайте!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': url,
-				'data': {
-					'api_token': None,
-					'is_private': None,
-				},
-				'response': {
-					'message': 'В тело запроса передан неверный тип данных!',
-					'level': 'danger',
-				},
-			},
-		]
+	def test_post_method(self) -> None:
+		response: HttpResponse = self.client.post(self.url)
+		self.assertEqual(response.status_code, 401)
 
-		self.assertUnauthorizedAccess(url)
-		self.assertTests(tests)
+		response: HttpResponse = self.client.post(self.url, headers={'Authorization': 'Token ---'})
+		self.assertEqual(response.status_code, 401)
 
 		response: HttpResponse = self.client.post(
-			path=url,
+			self.url,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'api_token': None,
+				'is_private': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertJSONEqual(response.content, {
+			'message': 'В тело запроса передан неверный тип данных!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.post(
+			self.url,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'api_token': '',
+				'is_private': False,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertJSONEqual(response.content, {
+			'message':'Введите API-токен Telegram бота!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.post(
+			self.url,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'api_token': '123456789:qwertyuiop',
+				'is_private': False,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertJSONEqual(response.content, {
+			'message': 'Вы уже используете этот API-токен Telegram бота на сайте!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.post(
+			self.url,
 			headers={'Authorization': f'Token {self.user.auth_token.key}'},
 			content_type='application/json',
 			data={
 				'api_token': '123456789:dwawdadwa',
-				'is_private': True,
+				'is_private': False,
 			}
 		)
 
@@ -141,546 +164,812 @@ class TelegramBotViewsTest(BaseTestCase):
 			'telegram_bot': telegram_bot.to_dict(),
 		})
 
-	def test_edit_telegram_bot_api_token_view(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('edit_telegram_bot_api_token', kwargs={'telegram_bot_id': 0}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('edit_telegram_bot_api_token', kwargs={'telegram_bot_id': 1}),
-				'data': {
-					'api_token': None,
-				},
-				'response': {
-					'message': 'В тело запроса передан неверный тип данных!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('edit_telegram_bot_api_token', kwargs={'telegram_bot_id': 1}),
-				'data': {
-					'api_token': '123456789:qwertyuiop',
-				},
-				'response': {
-					'message': 'Вы уже используете этот API-токен Telegram бота на сайте!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('edit_telegram_bot_api_token', kwargs={'telegram_bot_id': 1}),
-				'data': {
-					'api_token': '123456789:dwawdadwa',
-				},
-				'response': {
-					'message': 'Вы успешно изменили API-токен Telegram бота.',
-					'level': 'success',
-				},
-			},
-		]
+	def test_get_method(self) -> None:
+		response: HttpResponse = self.client.get(self.url)
+		self.assertEqual(response.status_code, 401)
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
+		response: HttpResponse = self.client.get(self.url, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, self.user.get_telegram_bots_as_dict())
 
-	def test_edit_telegram_bot_private_view(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('edit_telegram_bot_private', kwargs={'telegram_bot_id': 0}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('edit_telegram_bot_private', kwargs={'telegram_bot_id': 1}),
-				'data': {
-					'is_private': None,
-				},
-				'response': {
-					'message': 'В тело запроса передан неверный тип данных!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('edit_telegram_bot_private', kwargs={'telegram_bot_id': 1}),
-				'data': {
-					'is_private': False,
-				},
-				'response': {
-					'message': 'Вы успешно сделали Telegram бота не приватным.',
-					'level': 'success',
-				},
-			},
-		]
+class TelegramBotViewTest(BaseTestCase):
+	def setUp(self) -> None:
+		super().setUp()
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
+		self.url_1: str = urls.reverse('telegram_bot', kwargs={'telegram_bot_id': self.telegram_bot.id})
+		self.url_2: str = urls.reverse('telegram_bot', kwargs={'telegram_bot_id': 0})
 
-	def test_delete_telegram_bot_view(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('delete_telegram_bot', kwargs={'telegram_bot_id': 0}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('delete_telegram_bot', kwargs={'telegram_bot_id': 1}),
-				'response': {
-					'message': 'Вы успешно удалили Telegram бота.',
-					'level': 'success',
-				},
-			},
-		]
+	def test_patch_method(self) -> None:
+		response: HttpResponse = self.client.patch(self.url_1)
+		self.assertEqual(response.status_code, 401)
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
+		response: HttpResponse = self.client.patch(
+			self.url_2,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'api_token': None,
+				'is_private': None,
+			}
+		)
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
 
+		response: HttpResponse = self.client.patch(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'api_token': None,
+				'is_private': None,
+			}
+		)
+		self.assertEqual(response.status_code, 500)
+		self.assertJSONEqual(response.content, {
+			'message': 'Произошла ошибка, попробуйте ещё раз позже!',
+			'level': 'danger',
+		})
 
-	def test_get_telegram_bot_data_view(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('get_telegram_bot_data', kwargs={'telegram_bot_id': 0}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('get_telegram_bot_data', kwargs={'telegram_bot_id': 1}),
-				'response': self.telegram_bot.to_dict(),
-			},
-		]
+		response: HttpResponse = self.client.patch(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'api_token': '123456789:qwertyuiop',
+				'is_private': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertJSONEqual(response.content, {
+			'message': 'Вы уже используете этот API-токен Telegram бота на сайте!',
+			'level': 'danger',
+		})
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
+		response: HttpResponse = self.client.patch(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'api_token': '123456789:dwawdadwa',
+				'is_private': None,
+			}
+		)
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': 'Вы успешно изменили API-токен Telegram бота.',
+			'level': 'success',
+		})
 
+		response: HttpResponse = self.client.patch(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'api_token': None,
+				'is_private': False,
+			}
+		)
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': 'Вы успешно сделали Telegram бота не приватным.',
+			'level': 'success',
+		})
 
-	def test_add_telegram_bot_command_view(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('add_telegram_bot_command', kwargs={'telegram_bot_id': 0}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('add_telegram_bot_command', kwargs={'telegram_bot_id': 1}),
-				'data': {
-					'image': None,
-					'name': None,
-					'command': None,
-					'message_text': None,
-					'keyboard': None,
-					'api_request': None,
-				},
-				'response': {
-					'message': 'В тело запроса передан неверный тип данных!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('add_telegram_bot_command', kwargs={'telegram_bot_id': 1}),
-				'data': {
-					'image': 'null',
-					'name': 'Стартовая команда',
-					'command': None,
-					'message_text': 'Привет!',
-					'keyboard': {
-						'type': 'inline',
-						'buttons': [
-							{
-								'row': None,
-								'text': 'test1',
-								'url': '-',
-							},
-						],
-					},
-					'api_request': None,
-				},
-				'response': {
-					'message': 'Введите правильный URL-адрес!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('add_telegram_bot_command', kwargs={'telegram_bot_id': 1}),
-				'data': {
-					'image': 'null',
-					'name': 'Стартовая команда',
-					'command': None,
-					'message_text': 'Привет!',
-					'keyboard': None,
-					'api_request': {
-						'url': '-',
-						'data': '',
-					},
-				},
-				'response': {
-					'message': 'Введите правильный URL-адрес!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('add_telegram_bot_command', kwargs={'telegram_bot_id': 1}),
-				'data': {
-					'image': 'null',
-					'name': 'Стартовая команда',
-					'command': None,
-					'message_text': 'Привет!',
-					'keyboard': None,
-					'api_request': None,
-				},
-				'response': {
-					'message': 'Вы успешно добавили команду Telegram боту.',
-					'level': 'success',
-				},
-			},
-		]
+		response: HttpResponse = self.client.patch(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'api_token': None,
+				'is_private': True,
+			}
+		)
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': 'Вы успешно сделали Telegram бота приватным.',
+			'level': 'success',
+		})
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
+	def test_delete_method(self) -> None:
+		response: HttpResponse = self.client.delete(self.url_1)
+		self.assertEqual(response.status_code, 401)
 
-	def test_edit_telegram_bot_command_view(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('edit_telegram_bot_command', kwargs={'telegram_bot_id': 0, 'telegram_bot_command_id': 1}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('edit_telegram_bot_command', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 0}),
-				'response': {
-					'message': 'Команда Telegram бота не найдена!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('edit_telegram_bot_command', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
-				'data': {
-					'image': None,
-					'name': None,
-					'command': None,
-					'message_text': None,
-					'keyboard': None,
-					'api_request': None,
-				},
-				'response': {
-					'message': 'В тело запроса передан неверный тип данных!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('edit_telegram_bot_command', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
-				'data': {
-					'image': 'null',
-					'name': 'Стартовая команда',
-					'command': None,
-					'message_text': 'Привет!',
-					'keyboard': {
-						'type': 'inline',
-						'buttons': [
-							{
-								'row': None,
-								'text': 'test1',
-								'url': '-',
-							},
-						],
-					},
-					'api_request': None,
-				},
-				'response': {
-					'message': 'Введите правильный URL-адрес!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('edit_telegram_bot_command', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
-				'data': {
-					'image': 'null',
-					'name': 'Стартовая команда',
-					'command': None,
-					'message_text': 'Привет!',
-					'keyboard': None,
-					'api_request': {
-						'url': '-',
-						'data': '',
-					},
-				},
-				'response': {
-					'message': 'Введите правильный URL-адрес!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('edit_telegram_bot_command', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
-				'data': {
-					'image': 'not_edited',
-					'name': 'Стартовая команда',
-					'command': '/start',
-					'message_text': 'Привет!',
-					'keyboard': None,
-					'api_request': None,
-				},
-				'response': {
-					'message': 'Вы успешно изменили команду Telegram бота.',
-					'level': 'success',
-				},
-			},
-		]
+		response: HttpResponse = self.client.delete(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
+		response: HttpResponse = self.client.delete(self.url_1, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': 'Вы успешно удалили Telegram бота.',
+			'level': 'success',
+		})
 
-	def test_delete_telegram_bot_command_view(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('delete_telegram_bot_command', kwargs={'telegram_bot_id': 0, 'telegram_bot_command_id': 1}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('delete_telegram_bot_command', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 0}),
-				'response': {
-					'message': 'Команда Telegram бота не найдена!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('delete_telegram_bot_command', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
-				'response': {
-					'message': 'Вы успешно удалили команду Telegram бота.',
-					'level': 'success',
-				},
-			},
-		]
+	def test_get_method(self) -> None:
+		response: HttpResponse = self.client.get(self.url_1)
+		self.assertEqual(response.status_code, 401)
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
+		response: HttpResponse = self.client.get(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
 
+		response: HttpResponse = self.client.get(self.url_1, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, self.telegram_bot.to_dict())
 
-	def test_get_telegram_bot_command_data_view(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('get_telegram_bot_command_data', kwargs={'telegram_bot_id': 0, 'telegram_bot_command_id': 1}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('get_telegram_bot_command_data', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 0}),
-				'response': {
-					'message': 'Команда Telegram бота не найдена!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('get_telegram_bot_command_data', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
-				'response': self.telegram_bot_command.to_dict(),
-			},
-		]
+class StartOrStopTelegramBotViewTest(BaseTestCase):
+	def setUp(self) -> None:
+		super().setUp()
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
+		self.url_1: str = urls.reverse('start_or_stop_telegram_bot', kwargs={'telegram_bot_id': self.telegram_bot.id})
+		self.url_2: str = urls.reverse('start_or_stop_telegram_bot', kwargs={'telegram_bot_id': 0})
 
+	def test_start_or_stop_telegram_bot_view(self) -> None:
+		response: HttpResponse = self.client.post(self.url_1)
+		self.assertEqual(response.status_code, 401)
 
-	def test_add_allowed_user_view(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('add_allowed_user', kwargs={'telegram_bot_id': 0, 'telegram_bot_user_id': 1}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('add_allowed_user', kwargs={'telegram_bot_id': 1, 'telegram_bot_user_id': 0}),
-				'response': {
-					'message': 'Пользователь Telegram бота не найдена!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('add_allowed_user', kwargs={'telegram_bot_id': 1, 'telegram_bot_user_id': 1}),
-				'response': {
-					'message': 'Вы успешно добавили пользователя в список разрешённых пользователей Telegram бота.',
-					'level': 'success',
-				},
-			},
-		]
+		response: HttpResponse = self.client.post(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
+		response: HttpResponse = self.client.post(self.url_1, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': None,
+			'level': 'success',
+		})
 
-	def test_delete_allowed_user_view(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('delete_allowed_user', kwargs={'telegram_bot_id': 0, 'telegram_bot_user_id': 1}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('delete_allowed_user', kwargs={'telegram_bot_id': 1, 'telegram_bot_user_id': 0}),
-				'response': {
-					'message': 'Пользователь Telegram бота не найдена!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('delete_allowed_user', kwargs={'telegram_bot_id': 1, 'telegram_bot_user_id': 1}),
-				'response': {
-					'message': 'Вы успешно удалили пользователя из списка разрешённых пользователей Telegram бота.',
-					'level': 'success',
-				},
-			},
-		]
+class SaveTelegramBotDiagramCurrentScaleViewTest(BaseTestCase):
+	def setUp(self) -> None:
+		super().setUp()
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
+		self.url_1: str = urls.reverse('save_telegram_bot_diagram_current_scale', kwargs={'telegram_bot_id': self.telegram_bot.id})
+		self.url_2: str = urls.reverse('save_telegram_bot_diagram_current_scale', kwargs={'telegram_bot_id': 0})
 
-	def test_delete_telegram_bot_user_view(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('delete_telegram_bot_user', kwargs={'telegram_bot_id': 0, 'telegram_bot_user_id': 1}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('delete_telegram_bot_user', kwargs={'telegram_bot_id': 1, 'telegram_bot_user_id': 0}),
-				'response': {
-					'message': 'Пользователь Telegram бота не найдена!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('delete_telegram_bot_user', kwargs={'telegram_bot_id': 1, 'telegram_bot_user_id': 1}),
-				'response': {
-					'message': 'Вы успешно удалили пользователя Telegram бота.',
-					'level': 'success',
-				},
-			},
-		]
+	def test_save_telegram_bot_diagram_current_scale_view(self) -> None:
+		response: HttpResponse = self.client.patch(self.url_1)
+		self.assertEqual(response.status_code, 401)
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
+		response: HttpResponse = self.client.patch(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
 
+		response: HttpResponse = self.client.patch(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={'diagram_current_scale': 0.8}
+		)
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': None,
+			'level': 'success',
+		})
 
-	def test_save_telegram_bot_diagram_current_scale(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('save_telegram_bot_diagram_current_scale', kwargs={'telegram_bot_id': 0}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('save_telegram_bot_diagram_current_scale', kwargs={'telegram_bot_id': 1}),
-				'data': {
-					'diagram_current_scale': None,
-				},
-				'response': {
-					'message': 'В тело запроса передан неверный тип данных!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('save_telegram_bot_diagram_current_scale', kwargs={'telegram_bot_id': 1}),
-				'data': {
-					'diagram_current_scale': 1.0,
-				},
-			},
-		]
+class TelegramBotCommandsViewTest(BaseTestCase):
+	def setUp(self) -> None:
+		super().setUp()
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
+		self.url_1: str = urls.reverse('telegram_bot_commands', kwargs={'telegram_bot_id': self.telegram_bot.id})
+		self.url_2: str = urls.reverse('telegram_bot_commands', kwargs={'telegram_bot_id': 0})
 
-	def test_save_telegram_bot_command_position(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('save_telegram_bot_command_position', kwargs={'telegram_bot_id': 0, 'telegram_bot_command_id': 1}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('save_telegram_bot_command_position', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 0}),
-				'response': {
-					'message': 'Команда Telegram бота не найдена!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('save_telegram_bot_command_position', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
-				'data': {
-					'x': None,
-					'y': None,
-				},
-				'response': {
-					'message': 'В тело запроса передан неверный тип данных!',
-					'level': 'danger',
-				},
-			},
-			{
-				'url': urls.reverse('save_telegram_bot_command_position', kwargs={'telegram_bot_id': 1, 'telegram_bot_command_id': 1}),
-				'data': {
-					'x': 10,
-					'y': 50,
-				},
-			},
-		]
+	def test_post_method(self) -> None:
+		response: HttpResponse = self.client.post(self.url_1)
+		self.assertEqual(response.status_code, 401)
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
+		response: HttpResponse = self.client.post(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
 
+		response: HttpResponse = self.client.post(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': '',
+				'message_text': 'Привет!',
+				'command': None,
+				'keyboard': None,
+				'api_request': None,
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertJSONEqual(response.content, {
+			'message': 'Введите название команде!',
+			'level': 'danger',
+		})
 
-	def test_get_telegram_bot_commands_view(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('get_telegram_bot_commands', kwargs={'telegram_bot_id': 0}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
+		response: HttpResponse = self.client.post(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Стартовая команда',
+				'message_text': '',
+				'command': None,
+				'keyboard': None,
+				'api_request': None,
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertJSONEqual(response.content, {
+			'message': 'Введите текст сообщения!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.post(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Стартовая команда',
+				'message_text': 'Привет!',
+				'command': '',
+				'keyboard': None,
+				'api_request': None,
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertJSONEqual(response.content, {
+			'message': 'Введите команду!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.post(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Стартовая команда',
+				'message_text': 'Привет!',
+				'command': None,
+				'keyboard': {
+					'type': 'inline',
+					'buttons': [
+						{
+							'row': None,
+							'text': 'test1',
+							'url': '-',
+						},
+					],
 				},
-			},
-			{
-				'url': urls.reverse('get_telegram_bot_commands', kwargs={'telegram_bot_id': 1}),
-				'response': self.telegram_bot.get_commands_as_dict(),
-			},
-		]
+				'api_request': None,
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertJSONEqual(response.content, {
+			'message': 'Введите правильный URL-адрес!',
+			'level': 'danger',
+		})
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
-
-	def test_get_telegram_bot_users_view(self) -> None:
-		tests = [
-			{
-				'url': urls.reverse('get_telegram_bot_users', kwargs={'telegram_bot_id': 0}),
-				'response': {
-					'message': 'Telegram бот не найден!',
-					'level': 'danger',
+		response: HttpResponse = self.client.post(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Стартовая команда',
+				'message_text': 'Привет!',
+				'command': None,
+				'keyboard': None,
+				'api_request': {
+					'url': '-',
+					'data': '',
 				},
-			},
-			{
-				'url': urls.reverse('get_telegram_bot_users', kwargs={'telegram_bot_id': 1}),
-				'response': self.telegram_bot.get_users_as_dict(),
-			},
-		]
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertJSONEqual(response.content, {
+			'message': 'Введите правильный URL-адрес!',
+			'level': 'danger',
+		})
 
-		self.assertUnauthorizedAccess(tests[-1]['url'])
-		self.assertTests(tests)
+		response: HttpResponse = self.client.post(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Стартовая команда',
+				'message_text': 'Привет!',
+				'command': None,
+				'keyboard': None,
+				'api_request': None,
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': 'Вы успешно добавили команду Telegram боту.',
+			'level': 'success',
+		})
+
+	def test_get_method(self) -> None:
+		response: HttpResponse = self.client.get(self.url_1)
+		self.assertEqual(response.status_code, 401)
+
+		response: HttpResponse = self.client.get(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.get(self.url_1, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, self.telegram_bot.get_commands_as_dict(escape=True))
+
+class TelegramBotCommandViewTest(BaseTestCase):
+	def setUp(self) -> None:
+		super().setUp()
+
+		self.url_1: str = urls.reverse('telegram_bot_command', kwargs={
+			'telegram_bot_id': self.telegram_bot.id,
+			'telegram_bot_command_id': self.telegram_bot_command.id,
+		})
+		self.url_2: str = urls.reverse('telegram_bot_command', kwargs={
+			'telegram_bot_id': 0,
+			'telegram_bot_command_id': self.telegram_bot_command.id,
+		})
+		self.url_3: str = urls.reverse('telegram_bot_command', kwargs={
+			'telegram_bot_id': self.telegram_bot.id,
+			'telegram_bot_command_id': 0,
+		})
+
+	def test_patch_method(self) -> None:
+		response: HttpResponse = self.client.patch(self.url_1)
+		self.assertEqual(response.status_code, 401)
+
+		response: HttpResponse = self.client.patch(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.patch(self.url_3, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Команда Telegram бота не найдена!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.patch(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Стартовая команда',
+				'message_text': 'Привет!',
+				'command': None,
+				'keyboard': {
+					'type': 'inline',
+					'buttons': [
+						{
+							'row': None,
+							'text': 'test1',
+							'url': '-',
+						},
+					],
+				},
+				'api_request': None,
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertJSONEqual(response.content, {
+			'message': 'Введите правильный URL-адрес!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.patch(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Стартовая команда',
+				'message_text': 'Привет!',
+				'command': None,
+				'keyboard': None,
+				'api_request': {
+					'url': '-',
+					'data': '',
+				},
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertJSONEqual(response.content, {
+			'message': 'Введите правильный URL-адрес!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.patch(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Стартовая команда',
+				'message_text': 'Привет!',
+				'command': None,
+				'keyboard': None,
+				'api_request': None,
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': 'Вы успешно изменили команду Telegram бота.',
+			'level': 'success',
+		})
+
+	def test_delete_method(self) -> None:
+		response: HttpResponse = self.client.delete(self.url_1)
+		self.assertEqual(response.status_code, 401)
+
+		response: HttpResponse = self.client.delete(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.delete(self.url_3, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Команда Telegram бота не найдена!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.delete(self.url_1, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': 'Вы успешно удалили команду Telegram бота.',
+			'level': 'success',
+		})
+
+	def test_get_method(self) -> None:
+		response: HttpResponse = self.client.get(self.url_1)
+		self.assertEqual(response.status_code, 401)
+
+		response: HttpResponse = self.client.get(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.get(self.url_3, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Команда Telegram бота не найдена!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.get(self.url_1, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, self.telegram_bot_command.to_dict())
+
+class SaveTelegramBotCommandPositionViewTest(BaseTestCase):
+	def setUp(self) -> None:
+		super().setUp()
+
+		self.url_1: str = urls.reverse('save_telegram_bot_command_position', kwargs={
+			'telegram_bot_id': self.telegram_bot.id,
+			'telegram_bot_command_id': self.telegram_bot_command.id,
+		})
+		self.url_2: str = urls.reverse('save_telegram_bot_command_position', kwargs={
+			'telegram_bot_id': 0,
+			'telegram_bot_command_id': self.telegram_bot_command.id,
+		})
+		self.url_3: str = urls.reverse('save_telegram_bot_command_position', kwargs={
+			'telegram_bot_id': self.telegram_bot.id,
+			'telegram_bot_command_id': 0,
+		})
+
+	def test_patch_method(self) -> None:
+		response: HttpResponse = self.client.patch(self.url_1)
+		self.assertEqual(response.status_code, 401)
+
+		response: HttpResponse = self.client.patch(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'},)
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.patch(self.url_3, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Команда Telegram бота не найдена!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.patch(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'x': 123,
+				'y': 321,
+			}
+		)
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': None,
+			'level': 'success',
+		})
+
+class TelegramBotCommandKeyboardButtonTelegramBotCommandViewTest(BaseTestCase):
+	def setUp(self) -> None:
+		super().setUp()
+
+		telegram_bot_command_keyboard_button_id: int = self.telegram_bot_command_keyboard.get_buttons_as_dict()[0]['id']
+
+		self.url_1: str = urls.reverse('telegram_bot_command_keyboard_button_telegram_bot_command', kwargs={
+			'telegram_bot_id': self.telegram_bot.id,
+			'telegram_bot_command_id': self.telegram_bot_command.id,
+			'telegram_bot_command_keyboard_button_id': telegram_bot_command_keyboard_button_id,
+		})
+		self.url_2: str = urls.reverse('telegram_bot_command_keyboard_button_telegram_bot_command', kwargs={
+			'telegram_bot_id': 0,
+			'telegram_bot_command_id': self.telegram_bot_command.id,
+			'telegram_bot_command_keyboard_button_id': telegram_bot_command_keyboard_button_id,
+		})
+		self.url_3: str = urls.reverse('telegram_bot_command_keyboard_button_telegram_bot_command', kwargs={
+			'telegram_bot_id': self.telegram_bot.id,
+			'telegram_bot_command_id': 0,
+			'telegram_bot_command_keyboard_button_id': telegram_bot_command_keyboard_button_id,
+		})
+		self.url_4: str = urls.reverse('telegram_bot_command_keyboard_button_telegram_bot_command', kwargs={
+			'telegram_bot_id': self.telegram_bot.id,
+			'telegram_bot_command_id': self.telegram_bot_command.id,
+			'telegram_bot_command_keyboard_button_id': 0,
+		})
+
+	def test_post_method(self) -> None:
+		response: HttpResponse = self.client.post(self.url_1)
+		self.assertEqual(response.status_code, 401)
+
+		response: HttpResponse = self.client.post(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.post(self.url_3, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Команда Telegram бота не найдена!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.post(self.url_4, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Кнопка клавиатуры команды Telegram бота не найдена!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.post(
+			self.url_3,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'telegram_bot_command_id': 0,
+				'start_diagram_connector': '',
+				'end_diagram_connector': '',
+			}
+		)
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Команда Telegram бота не найдена!',
+			'level': 'danger',
+		})
+
+		telegram_bot_command: TelegramBotCommand = TelegramBotCommand.objects.create(
+			telegram_bot=self.telegram_bot,
+			name='Стартовая команда 2',
+			message_text='Привет!'
+		)
+
+		response: HttpResponse = self.client.post(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'telegram_bot_command_id': telegram_bot_command.id,
+				'start_diagram_connector': '',
+				'end_diagram_connector': '',
+			}
+		)
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': None,
+			'level': 'success',
+		})
+
+	def test_delete_method(self) -> None:
+		response: HttpResponse = self.client.delete(self.url_1)
+		self.assertEqual(response.status_code, 401)
+
+		response: HttpResponse = self.client.delete(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.delete(self.url_3, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Команда Telegram бота не найдена!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.delete(self.url_4, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Кнопка клавиатуры команды Telegram бота не найдена!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.delete(self.url_1, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': None,
+			'level': 'success',
+		})
+
+class TelegramBotUsersViewTest(BaseTestCase):
+	def setUp(self) -> None:
+		super().setUp()
+
+		self.url_1: str = urls.reverse('telegram_bot_users', kwargs={'telegram_bot_id': self.telegram_bot.id})
+		self.url_2: str = urls.reverse('telegram_bot_users', kwargs={'telegram_bot_id': 0})
+
+	def test_get_method(self) -> None:
+		response: HttpResponse = self.client.get(self.url_1)
+		self.assertEqual(response.status_code, 401)
+
+		response: HttpResponse = self.client.get(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.get(self.url_1, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, self.telegram_bot.get_users_as_dict())
+
+class TelegramBotUserViewTest(BaseTestCase):
+	def setUp(self) -> None:
+		super().setUp()
+
+		self.url_1: str = urls.reverse('telegram_bot_user', kwargs={
+			'telegram_bot_id': self.telegram_bot.id,
+			'telegram_bot_user_id': self.telegram_bot_user.id,
+		})
+		self.url_2: str = urls.reverse('telegram_bot_user', kwargs={
+			'telegram_bot_id': 0,
+			'telegram_bot_user_id': self.telegram_bot_user.id,
+		})
+		self.url_3: str = urls.reverse('telegram_bot_user', kwargs={
+			'telegram_bot_id': self.telegram_bot.id,
+			'telegram_bot_user_id': 0,
+		})
+
+	def test_delete_method(self) -> None:
+		response: HttpResponse = self.client.delete(self.url_1)
+		self.assertEqual(response.status_code, 401)
+
+		response: HttpResponse = self.client.delete(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.delete(self.url_3, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Пользователь Telegram бота не найдена!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.delete(self.url_1, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': 'Вы успешно удалили пользователя Telegram бота.',
+			'level': 'success',
+		})
+
+class TelegramBotAllowedUserViewTest(BaseTestCase):
+	def setUp(self) -> None:
+		super().setUp()
+
+		self.url_1: str = urls.reverse('telegram_bot_allowed_user', kwargs={
+			'telegram_bot_id': self.telegram_bot.id,
+			'telegram_bot_user_id': self.telegram_bot_user.id,
+		})
+		self.url_2: str = urls.reverse('telegram_bot_allowed_user', kwargs={
+			'telegram_bot_id': 0,
+			'telegram_bot_user_id': self.telegram_bot_user.id,
+		})
+		self.url_3: str = urls.reverse('telegram_bot_allowed_user', kwargs={
+			'telegram_bot_id': self.telegram_bot.id,
+			'telegram_bot_user_id': 0,
+		})
+
+	def test_post_method(self) -> None:
+		response: HttpResponse = self.client.post(self.url_1)
+		self.assertEqual(response.status_code, 401)
+
+		response: HttpResponse = self.client.post(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.post(self.url_3, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Пользователь Telegram бота не найдена!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.post(self.url_1, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': 'Вы успешно добавили пользователя в список разрешённых пользователей Telegram бота.',
+			'level': 'success',
+		})
+
+	def test_delete_method(self) -> None:
+		response: HttpResponse = self.client.delete(self.url_1)
+		self.assertEqual(response.status_code, 401)
+
+		response: HttpResponse = self.client.delete(self.url_2, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Telegram бот не найден!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.delete(self.url_3, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 404)
+		self.assertJSONEqual(response.content, {
+			'message': 'Пользователь Telegram бота не найдена!',
+			'level': 'danger',
+		})
+
+		response: HttpResponse = self.client.delete(self.url_1, headers={'Authorization': f'Token {self.user.auth_token.key}'})
+		self.assertEqual(response.status_code, 200)
+		self.assertJSONEqual(response.content, {
+			'message': 'Вы успешно удалили пользователя из списка разрешённых пользователей Telegram бота.',
+			'level': 'success',
+		})

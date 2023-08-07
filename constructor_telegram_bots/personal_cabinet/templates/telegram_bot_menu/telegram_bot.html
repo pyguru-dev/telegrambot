@@ -1,7 +1,7 @@
 {% load i18n %}
 
 <div class="card border">
-	<h5 class="card-header border-0 bg-{% if telegram_bot.is_running %}success{% else %}danger{% endif %} text-light fw-bold text-center" id="telegramBotStatus">{% if telegram_bot.is_running %}{% trans "Telegram бот включен" %}{% else %}{% trans "Telegram бот выключен" %}{% endif %}</h5>
+	<h5 class="card-header border-0 bg-{% if not telegram_bot.is_running and telegram_bot.is_stopped %}danger{% else %}success{% endif %} text-light fw-bold text-center" id="telegramBotStatus">{% if not telegram_bot.is_running and telegram_bot.is_stopped %}{% trans "Telegram бот выключен" %}{% else %}{% trans "Telegram бот включен" %}{% endif %}</h5>
 	<div class="card-body p-2">
 		<div class="row justify-content-center">
 			<div class="col-12 col-lg-6">
@@ -52,7 +52,7 @@
 	<div class="card-footer border-top p-3">
 		<div class="row row-cols-1 row-cols-lg-2 g-2 g-lg-3">
 			<div class="col">
-				<button class="btn btn-{% if telegram_bot.is_running %}danger{% else %}success{% endif %} w-100 " id="telegramBotStartOrStopButton" type="button">{% if telegram_bot.is_running %}{% trans "Выключить Telegram бота" %}{% else %}{% trans "Включить Telegram бота" %}{% endif %}</button>
+				<button class="btn btn-{% if not telegram_bot.is_running and telegram_bot.is_stopped %}success{% else %}danger{% endif %} w-100 " id="telegramBotStartOrStopButton" type="button">{% if not telegram_bot.is_running and telegram_bot.is_stopped %}{% trans "Включить Telegram бота" %}{% else %}{% trans "Выключить Telegram бота" %}{% endif %}</button>
 			</div>
 			<div class="col">
 				<button class="btn btn-danger w-100" id="telegramBotDeleteButton" type="button">{% trans "Удалить Telegram бота" %}</button>	

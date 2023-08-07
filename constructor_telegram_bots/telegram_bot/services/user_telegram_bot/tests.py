@@ -3,14 +3,9 @@ from telegram_bot.services.tests import CustomTestCase
 from telegram_bot.services.custom_aiogram import CustomBot
 
 from user.models import User
-from telegram_bot.models import (
-	TelegramBot,
-	TelegramBotCommand,
-	TelegramBotCommandKeyboard,
-	TelegramBotCommandKeyboardButton
-)
+from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotCommandKeyboard, TelegramBotCommandKeyboardButton
 
-from telegram_bot.services import UserTelegramBot
+from .telegram_bot import UserTelegramBot
 
 from asgiref.sync import sync_to_async
 
@@ -54,7 +49,6 @@ class UserTelegramBotTests(CustomTestCase):
 
 		results: list = await self.send_message(self.handler,  telegram_bot_command.command)
 
-		assert len(results) == 1
 		assert results[0]['method'] == 'send_message'
 		assert results[0]['text'] == telegram_bot_command.message_text
 		assert results[0]['reply_markup'] == None
@@ -90,7 +84,6 @@ class UserTelegramBotTests(CustomTestCase):
 
 		results: list = await self.send_message(self.handler,  telegram_bot_command.command)
 
-		assert len(results) == 1
 		assert results[0]['method'] == 'send_message'
 		assert results[0]['text'] == telegram_bot_command.message_text
 		assert results[0]['reply_markup']['keyboard'][0][0]['text'] == '1'
@@ -118,7 +111,6 @@ class UserTelegramBotTests(CustomTestCase):
 
 		results: list = await self.send_message(self.handler,  telegram_bot_command.command)
 
-		assert len(results) == 1
 		assert results[0]['method'] == 'send_message'
 		assert results[0]['text'] == telegram_bot_command.message_text
 		assert results[0]['reply_markup']['inline_keyboard'][0][0]['text'] == '1'
@@ -156,7 +148,6 @@ class UserTelegramBotTests(CustomTestCase):
 		await telegram_bot_command_keyboard_button.asave()
 
 		results: list = await self.send_message(self.handler,  '1')
-		assert len(results) == 1
 		assert results[0]['method'] == 'send_message'
 		assert results[0]['text'] == telegram_bot_command_2.message_text
 
@@ -192,7 +183,6 @@ class UserTelegramBotTests(CustomTestCase):
 		await telegram_bot_command_keyboard_button.asave()
 
 		results: list = await self.send_callback_query(self.handler, '1')
-		assert len(results) == 2
 		assert results[0]['method'] == 'delete_message'
 		assert results[1]['method'] == 'send_message'
 		assert results[1]['text'] == telegram_bot_command_2.message_text

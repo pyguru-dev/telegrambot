@@ -7,7 +7,9 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from user.models import User
 from .managers import TelegramBotManager, TelegramBotCommandManager, TelegramBotCommandKeyboardManager
 
-from typing import Union
+from .services import database_telegram_bot
+
+from typing import Optional, Union
 
 
 class TelegramBot(models.Model):
@@ -47,16 +49,19 @@ class TelegramBot(models.Model):
 			'date_added': f'{filters.date(self.date_added)} {filters.time(self.date_added)}',
 		}
 
+	def delete(self) -> None:
+		database_telegram_bot.delete_collection(self)
+		super().delete()
+
 	def __str__(self) -> str:
 		return f'@{self.username}'
-
 
 class TelegramBotCommand(models.Model):
 	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, related_name='commands', null=True, verbose_name=_('Telegram бот'))
 	name = models.CharField(_('Название'), max_length=255)
+	message_text = models.TextField(_('Текст сообщения'), max_length=4096)
 	command = models.CharField(_('Команда'), max_length=32, blank=True, null=True)
 	image = models.ImageField(upload_to='static/images/commands/', blank=True, null=True)
-	message_text = models.TextField(_('Текст сообщения'), max_length=4096)
 	api_request = models.JSONField(_('API-запрос'), blank=True, null=True)
 	database_record = models.TextField(_('Запись в базу данных'), blank=True, null=True)
 
@@ -71,23 +76,23 @@ class TelegramBotCommand(models.Model):
 		verbose_name = _('Команда Telegram бота')
 		verbose_name_plural = _('Команды Telegram ботов')
 
-	def get_keyboard(self) -> Union['TelegramBotCommandKeyboard', None]:
+	def get_keyboard(self) -> Optional['TelegramBotCommandKeyboard']:
 		try:
 			return self.keyboard
 		except ObjectDoesNotExist:
 			return None
 
-	def get_keyboard_as_dict(self, escape: bool = False) -> Union[dict, None]:
-		keyboard: Union['TelegramBotCommandKeyboard', None] = self.get_keyboard()
+	def get_keyboard_as_dict(self, escape: bool = False) -> Optional[dict]:
+		keyboard: Optional['TelegramBotCommandKeyboard'] = self.get_keyboard()
 		return keyboard.to_dict(escape=escape) if keyboard else None
 
 	def to_dict(self, escape: bool = False) -> dict:
 		return {
 			'id': self.id,
 			'name': filters.escape(self.name) if escape else self.name,
+			'message_text': filters.escape(self.message_text) if escape else self.message_text,
 			'command': self.command,
 			'image': str(self.image),
-			'message_text': filters.escape(self.message_text) if escape else self.message_text,
 			'keyboard': self.get_keyboard_as_dict(escape=escape),
 			'api_request': self.api_request,
 			'database_record': self.database_record,
@@ -98,29 +103,28 @@ class TelegramBotCommand(models.Model):
 
 	def update(
 		self,
-	    telegram_bot_command: 'TelegramBotCommand',
 		name: str,
 		message_text: str,
-		command: Union[str, None] = None,
+		command: Optional[str] = None,
 		image: Union[InMemoryUploadedFile, str, None] = None,
-		keyboard: Union[dict, None] = None,
-		api_request: Union[dict, None] = None,
-		database_record: Union[str, None] = None
+		keyboard: Optional[dict] = None,
+		api_request: Optional[dict] = None,
+		database_record: Optional[str] = None
 	):
-		telegram_bot_command.name = name
-		telegram_bot_command.command = command
-		telegram_bot_command.message_text = message_text
-		telegram_bot_command.api_request = api_request
-		telegram_bot_command.database_record = database_record
+		self.name = name
+		self.message_text = message_text
+		self.command = command
+		self.api_request = api_request
+		self.database_record = database_record
 
 		if image:
-			if isinstance(image, InMemoryUploadedFile) or image == 'null' and str(telegram_bot_command.image) != '':
-				telegram_bot_command.image.delete(save=False)
+			if isinstance(image, InMemoryUploadedFile) or image == 'null' and str(self.image) != '':
+				self.image.delete(save=False)
 
 				if isinstance(image, InMemoryUploadedFile):
-					telegram_bot_command.image = image
+					self.image = image
 
-		telegram_bot_command_keyboard: TelegramBotCommandKeyboard = telegram_bot_command.get_keyboard()
+		telegram_bot_command_keyboard: TelegramBotCommandKeyboard = self.get_keyboard()
 
 		if keyboard:
 			if telegram_bot_command_keyboard:
@@ -161,7 +165,7 @@ class TelegramBotCommand(models.Model):
 						button.delete()
 			else:
 				TelegramBotCommandKeyboard.objects.create(
-					telegram_bot_command=telegram_bot_command,
+					telegram_bot_command=self,
 					type=keyboard['type'],
 					buttons=keyboard['buttons']
 				)
@@ -169,7 +173,7 @@ class TelegramBotCommand(models.Model):
 			if telegram_bot_command_keyboard:
 				telegram_bot_command_keyboard.delete()
 
-		telegram_bot_command.save()
+		self.save()
 
 	def delete(self) -> None:
 		self.image.delete(save=False)
@@ -177,7 +181,6 @@ class TelegramBotCommand(models.Model):
 
 	def __str__(self) -> str:
 		return f'Команда {self.name} @{self.telegram_bot.username} {_("Telegram бота")}'
-
 
 class TelegramBotCommandKeyboard(models.Model):
 	telegram_bot_command = models.OneToOneField(TelegramBotCommand, on_delete=models.CASCADE, related_name='keyboard', null=True)
@@ -197,7 +200,6 @@ class TelegramBotCommandKeyboard(models.Model):
 			'buttons': self.get_buttons_as_dict(escape=escape),
 		}
 
-
 class TelegramBotCommandKeyboardButton(models.Model):
 	telegram_bot_command_keyboard = models.ForeignKey(TelegramBotCommandKeyboard, on_delete=models.CASCADE, related_name='buttons', null=True)
 	row = models.IntegerField(null=True)
@@ -211,8 +213,9 @@ class TelegramBotCommandKeyboardButton(models.Model):
 
 	class Meta:
 		db_table = 'telegram_bot_command_keyboard_button'
+		ordering = ['id']
 
-	def get_command(self) -> Union[TelegramBotCommand, None]:
+	def get_command(self) -> Optional[TelegramBotCommand]:
 		return self.telegram_bot_command
 
 	def to_dict(self, escape: bool = False) -> dict:
@@ -227,7 +230,6 @@ class TelegramBotCommandKeyboardButton(models.Model):
 			'start_diagram_connector': self.start_diagram_connector,
 			'end_diagram_connector' : self.end_diagram_connector,
 		}
-
 
 class TelegramBotUser(models.Model):
 	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, related_name='users', verbose_name=_('Telegram бот'), null=True)

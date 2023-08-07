@@ -1,9 +1,9 @@
 from celery import shared_task
 
-from telegram_bot.models import TelegramBot
+from .constructor_telegram_bot import ConstructorTelegramBot
+from .user_telegram_bot import UserTelegramBot
 
-from telegram_bot.services import ConstructorTelegramBot
-from telegram_bot.services import UserTelegramBot
+from telegram_bot.models import TelegramBot
 
 from threading import Thread
 from typing import Union

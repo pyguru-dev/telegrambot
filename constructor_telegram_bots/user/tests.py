@@ -30,11 +30,10 @@ class UserModelsTest(BaseTestCase):
 		self.assertIsNone(user.confirm_code)
 		self.assertIsNotNone(user.last_login)
 
-
 class UserViewsTest(BaseTestCase):
 	def test_user_login_view(self) -> None:
 		login_urls = {
-			urls.reverse('user_login', kwargs={'user_id': 0, 'confirm_code': 0}): 'Не удалось найти пользователя!',
+			urls.reverse('user_login', kwargs={'user_id': 0, 'confirm_code': 1}): 'Не удалось найти пользователя!',
 			urls.reverse('user_login', kwargs={'user_id': 1, 'confirm_code': 0}): 'Неверный код подтверждения!',
 		}
 
@@ -50,18 +49,10 @@ class UserViewsTest(BaseTestCase):
 	def test_user_logout_view(self) -> None:
 		url: str = urls.reverse('user_logout')
 
-		self.assertUnauthorizedAccess(url, method='GET')
+		response: HttpResponse = self.client.get(url)
+		self.assertEqual(response.status_code, 302)
+		self.client.get(self.user.login_url)
 
 		response: HttpResponse = self.client.get(url)
 		self.assertEqual(response.status_code, 200)
 		self.assertTemplateUsed(response, 'base_success_or_error.html')
-
-
-	def test_get_user_telegram_bots_view(self) -> None:
-		url: str = urls.reverse('get_user_telegram_bots')
-
-		self.assertUnauthorizedAccess(url)
-
-		response: HttpResponse = self.client.post(url, headers={'Authorization': f'Token {self.user.auth_token.key}'})
-		self.assertEqual(response.status_code, 200)
-		self.assertJSONEqual(response.content, self.user.get_telegram_bots_as_dict())

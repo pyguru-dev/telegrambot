@@ -9,6 +9,7 @@ class Donation(models.Model):
 
 	class Meta:
 		db_table = 'donation'
+		ordering = ['-date']
 
 		verbose_name = _('Пожертвование')
 		verbose_name_plural = _('Пожертвования')

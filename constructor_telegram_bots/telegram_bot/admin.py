@@ -11,7 +11,7 @@ from .models import TelegramBot, TelegramBotCommand, TelegramBotUser
 
 from .services import tasks
 
-from typing import List, Optional
+from typing import List
 
 
 @admin.register(TelegramBot)

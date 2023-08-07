@@ -4,8 +4,8 @@
 	const checkTelegramBotDatabaseRecordsСount = () => {
 		if (telegramBotDatabaseRecordsDiv.querySelectorAll('.database-record').length == 0) {
 			const telegramBotDatabaseNotHaveRecordDiv = document.createElement('div');
-			telegramBotDatabaseNotHaveRecordDiv.className = 'list-group-item database-not-have-record px-3 py-2';
-			telegramBotDatabaseNotHaveRecordDiv.innerHTML = `<p class="text-center my-2">${telegramBotDatabaseNotHaveDataText}</p>`;
+			telegramBotDatabaseNotHaveRecordDiv.className = 'list-group-item database-not-have-record text-center p-3';
+			telegramBotDatabaseNotHaveRecordDiv.innerHTML = telegramBotDatabaseNotHaveDataText
 			telegramBotDatabaseRecordsDiv.append(telegramBotDatabaseNotHaveRecordDiv);
 		} else {
 			const telegramBotDatabaseNotHaveRecordDiv = telegramBotDatabaseRecordsDiv.querySelector('.database-not-have-record');
@@ -86,7 +86,7 @@
 			});
 
 			telegramBotDatabaseRecordConfirmButton.addEventListener('click', function() {
-				fetch(`/telegram-bot/${telegramBotId}/database/records/${this.id}/`, {
+				fetch(`/telegram-bots/${telegramBotId}/database/records/${this.id}/`, {
 					method: 'PATCH',
 					headers: {
 						'Content-Type': 'application/json',
@@ -101,7 +101,7 @@
 							telegramBotDatabaseRecordConfirmAndCancelButtonsGroup.classList.add('d-none');
 						}
 
-						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+						createToast(jsonResponse['message'], jsonResponse['level']);
 					});
 				});
 			});
@@ -116,7 +116,7 @@
 					deleteTelegramBotDatabaseRecordAskConfirmModalTitle,
 					deleteTelegramBotDatabaseRecordAskConfirmModalText,
 					function() {
-						fetch(`/telegram-bot/${telegramBotId}/database/records/${telegramBotDatabaseRecordId}/`, {
+						fetch(`/telegram-bots/${telegramBotId}/database/records/${telegramBotDatabaseRecordId}/`, {
 							method: 'DELETE',
 							headers: {'Authorization': `Token ${userApiToken}`},
 						}).then(response => {
@@ -125,7 +125,7 @@
 								checkTelegramBotDatabaseRecordsСount();
 							}
 
-							response.json().then(jsonResponse => createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']));
+							response.json().then(jsonResponse => createToast(jsonResponse['message'], jsonResponse['level']));
 						});
 					}
 				);
@@ -149,7 +149,7 @@
 							checkTelegramBotDatabaseRecordsСount();
 						}
 					} else {
-						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level'])
+						createToast(jsonResponse['message'], jsonResponse['level'])
 					};
 				});
 			});
@@ -250,7 +250,7 @@
 								addTelegramBotDatabaseRecord(jsonResponse['record']);
 							}
 
-							createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+							createToast(jsonResponse['message'], jsonResponse['level']);
 						});
 					});
 				});

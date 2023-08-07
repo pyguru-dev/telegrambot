@@ -1,5 +1,4 @@
 from django.contrib import admin
-from django.http.request import HttpRequest
 from django.utils.translation import gettext_lazy as _
 
 from .models import User
@@ -7,6 +6,7 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
+	search_fields = ('first_name',)
 	date_hierarchy = 'date_joined'
 	list_filter = ('is_staff',)
 

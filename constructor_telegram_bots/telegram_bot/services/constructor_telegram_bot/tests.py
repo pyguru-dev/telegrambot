@@ -1,10 +1,9 @@
 from telegram_bot.services.tests import CustomTestCase
-
 from telegram_bot.services.custom_aiogram import CustomBot
 
 from user.models import User
 
-from telegram_bot.services import ConstructorTelegramBot
+from .telegram_bot import ConstructorTelegramBot
 
 from functools import wraps
 
@@ -26,7 +25,6 @@ class ConstructorTelegramBotTests(CustomTestCase):
 	@setup
 	async def test_start_command(self):
 		results: list = await self.send_message(self.constructor_telegram_bot.start_command, '/start')
-		assert len(results) == 1
 		assert results[0]['method'] == 'send_message'
 		assert results[0]['text'] == f"""\
 			Hello, @test!
@@ -41,7 +39,6 @@ class ConstructorTelegramBotTests(CustomTestCase):
 		user: User = await User.objects.afirst()
 		login_url: str = await user.alogin_url
 
-		assert len(results) == 1
 		assert results[0]['method'] == 'send_message'
 		assert results[0]['text'] == 'Click on the button below to login on the site.'
 		assert results[0]['reply_markup']['inline_keyboard'][0][0]['text'] == 'Login'

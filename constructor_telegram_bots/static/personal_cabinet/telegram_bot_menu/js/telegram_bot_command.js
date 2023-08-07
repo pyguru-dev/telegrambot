@@ -618,8 +618,8 @@
 		telegramBotCommand.addOrEditButton.addEventListener('click', function() {
 			const telegramBotCommandData_ = {
 				'name': telegramBotCommand.nameInput.value,
-				'command': null,
 				'message_text': telegramBotCommand.messageTextInput[1].getModel().getValue(),
+				'command': null,
 				'keyboard': null,
 				'api_request': null,
 				'database_record': null,
@@ -679,8 +679,8 @@
 
 			telegramBotCommandData.append('data', JSON.stringify(telegramBotCommandData_));
 
-			fetch((telegramBotCommand.addOrEditButton.id == '0') ? addTelegramBotCommandUrl : `/telegram-bot/${telegramBotId}/command/${telegramBotCommand.addOrEditButton.id}/edit/`, {
-				method: 'POST',
+			fetch((telegramBotCommand.addOrEditButton.id == '0') ? telegramBotCommandsUrl : `/telegram-bots/${telegramBotId}/commands/${telegramBotCommand.addOrEditButton.id}/`, {
+				method: (telegramBotCommand.addOrEditButton.id == '0') ? 'POST': 'PATCH',
 				headers: {'Authorization': `Token ${userApiToken}`},
 				body: telegramBotCommandData,
 			}).then(response => {
@@ -690,7 +690,7 @@
 				}
 
 				response.json().then(jsonResponse => {
-					createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+					createToast(jsonResponse['message'], jsonResponse['level']);
 				});
 			});
 		});
@@ -698,8 +698,8 @@
 		const telegramBotCommandsCount = document.querySelector('#telegramBotCommandsCount');
 
 		const updateTelegramBotCommands = () => {
-			fetch(getTelegramBotCommandsUrl, {
-				method: 'POST',
+			fetch(telegramBotCommandsUrl, {
+				method: 'GET',
 				headers: {'Authorization': `Token ${userApiToken}`},
 			}).then(response => {
 				if (response.ok) {
@@ -712,15 +712,15 @@
 						telegramBotCommands.forEach(telegramBotCommand => createDiagramBlock(telegramBotCommand));
 						document.querySelectorAll('.diagram-edit-button').forEach(diagramEditButton => {
 							diagramEditButton.addEventListener('click', function() {
-								fetch(`/telegram-bot/${telegramBotId}/command/${this.id}/get-data/`, {
-									method: 'POST',
+								fetch(`/telegram-bots/${telegramBotId}/commands/${this.id}/`, {
+									method: 'GET',
 									headers: {'Authorization': `Token ${userApiToken}`},
 								}).then(response => {
 									response.json().then(jsonResponse => {
 										if (response.ok) {
 											editTelegramBotCommand(jsonResponse);
 										} else {
-											createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+											createToast(jsonResponse['message'], jsonResponse['level']);
 										}
 									});
 								});
@@ -734,8 +734,8 @@
 									deleteTelegramBotCommandAskConfirmModalTitle,
 									deleteTelegramBotCommandAskConfirmModalText,
 									function() {
-										fetch(`/telegram-bot/${telegramBotId}/command/${telegramBotCommandId}/delete/`, {
-											method: 'POST',
+										fetch(`/telegram-bots/${telegramBotId}/commands/${telegramBotCommandId}/`, {
+											method: 'DELETE',
 											headers: {'Authorization': `Token ${userApiToken}`},
 										}).then(response => {
 											if (response.ok) {
@@ -747,7 +747,7 @@
 											}
 
 											response.json().then(jsonResponse => {
-												createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+												createToast(jsonResponse['message'], jsonResponse['level']);
 											});
 										});
 									}
@@ -791,7 +791,7 @@
 					});
 				} else {
 					response.json().then(jsonResponse => {
-						createAlert(mainAlertContainer, jsonResponse['message'], jsonResponse['level']);
+						createToast(jsonResponse['message'], jsonResponse['level']);
 					});
 				}
 			});
