@@ -12,20 +12,20 @@
 {% block main_class %}{% endblock main_class %}
 
 {% block main %}
-<div class="container mt-3 mt-lg-4">
+<div class="container my-3 my-lg-4">
 	<div class="row justify-content-between">
 		<div class="col-12 col-lg-auto">
 			<h1 class="text-center fw-bold mb-lg-0">{% trans "Добавленные Telegram боты" %}</h1>
 		</div>
 		<div class="col-12 col-lg-auto">
 			<button class="btn btn-lg btn-primary w-100" id="addTelegramBotModalButton" type="button">
-				<i class="bi bi-plus-lg me-1" style="-webkit-text-stroke: 2px;"></i>
+				<i class="bi bi-plus-lg me-1" style="-webkit-text-stroke: 1.5px;"></i>
 				{% trans "Добавить Telegram бота" %}
 			</button>
 		</div>
 	</div>
 </div>
-<div class="container mt-2 mb-3 mb-lg-4">
+<div class="container mb-3 mb-lg-4">
 	<div class="row row-cols-1 row-cols-lg-3 g-3" id="telegramBots"></div>
 </div>
 {% endblock main %}
