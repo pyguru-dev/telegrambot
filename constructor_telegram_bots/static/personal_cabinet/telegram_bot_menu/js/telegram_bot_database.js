@@ -157,19 +157,11 @@
 
 		const telegramBotDatabaseRecordsСollapseButton = document.querySelector('#telegramBotDatabaseRecordsСollapseButton');
 		const updateTelegramBotDatabaseRecordsButton = document.querySelector('#updateTelegramBotDatabaseRecordsButton');
-		const telegramBotDatabaseRecordsBootstrapСollapse = new bootstrap.Collapse('#telegramBotDatabaseRecordsСollapse');
 		const addTelegramBotDatabaseRecordButton = document.querySelector('#addTelegramBotDatabaseRecordButton');
 
 		telegramBotDatabaseRecordsСollapseButton.addEventListener('click', function() {
 			updateTelegramBotDatabaseRecordsButton.classList.toggle('disabled');
-			telegramBotDatabaseRecordsBootstrapСollapse.toggle();
 			addTelegramBotDatabaseRecordButton.classList.toggle('disabled');
-
-			if (telegramBotDatabaseRecordsСollapseButton.querySelector('i').classList.contains('bi-arrow-up')) {
-				telegramBotDatabaseRecordsСollapseButton.innerHTML = '<i class="bi bi-arrow-down d-flex" style="font-size: 20px;"></i>';
-			} else {
-				telegramBotDatabaseRecordsСollapseButton.innerHTML = '<i class="bi bi-arrow-up d-flex" style="font-size: 20px;"></i>';
-			}
 		});
 		updateTelegramBotDatabaseRecordsButton.addEventListener('click', () => updateTelegramBotDatabaseRecords());
 		addTelegramBotDatabaseRecordButton.addEventListener('click', function() {

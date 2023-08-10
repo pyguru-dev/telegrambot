@@ -168,19 +168,11 @@
 
 	const telegramBotPluginsСollapseButton = document.querySelector('#telegramBotPluginsСollapseButton');
 	const updateTelegramBotPluginsButton = document.querySelector('#updateTelegramBotPluginsButton');
-	const telegramBotPluginsBootstrapСollapse = new bootstrap.Collapse('#telegramBotPluginsСollapse');
 	const addTelegramBotPluginButton = document.querySelector('#addTelegramBotPluginButton');
 
 	telegramBotPluginsСollapseButton.addEventListener('click', function() {
 		updateTelegramBotPluginsButton.classList.toggle('disabled');
-		telegramBotPluginsBootstrapСollapse.toggle();
 		addTelegramBotPluginButton.classList.toggle('disabled');
-
-		if (telegramBotPluginsСollapseButton.querySelector('i').classList.contains('bi-arrow-up')) {
-			telegramBotPluginsСollapseButton.innerHTML = '<i class="bi bi-arrow-down d-flex" style="font-size: 20px;"></i>';
-		} else {
-			telegramBotPluginsСollapseButton.innerHTML = '<i class="bi bi-arrow-up d-flex" style="font-size: 20px;"></i>';
-		}
 	});
 	updateTelegramBotPluginsButton.addEventListener('click', () => updateTelegramBotPlugins());
 	addTelegramBotPluginButton.addEventListener('click', function() {

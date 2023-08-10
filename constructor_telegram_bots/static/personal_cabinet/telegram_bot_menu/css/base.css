@@ -1,0 +1,9 @@
+.btn-toggle i::before {
+    transition: transform .38s ease;
+    transform-origin: 0.5em 50%;
+	transform: rotate(180deg);
+}
+
+.btn-toggle[aria-expanded="true"] i::before {
+    transform: rotate(360deg);
+}

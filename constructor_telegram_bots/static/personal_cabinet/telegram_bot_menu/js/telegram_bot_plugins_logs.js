@@ -34,17 +34,7 @@
 
 	const telegramBotPluginsLogsСollapseButton = document.querySelector('#telegramBotPluginsLogsСollapseButton');
 	const updateTelegramBotPluginsLogsButton = document.querySelector('#updateTelegramBotPluginsLogsButton');
-	const telegramBotPluginsLogsBootstrapСollapse = new bootstrap.Collapse('#telegramBotPluginsLogsСollapse');
 
-	telegramBotPluginsLogsСollapseButton.addEventListener('click', function() {
-		updateTelegramBotPluginsLogsButton.classList.toggle('disabled');
-		telegramBotPluginsLogsBootstrapСollapse.toggle();
-
-		if (telegramBotPluginsLogsСollapseButton.querySelector('i').classList.contains('bi-arrow-up')) {
-			telegramBotPluginsLogsСollapseButton.innerHTML = '<i class="bi bi-arrow-down d-flex" style="font-size: 20px;"></i>';
-		} else {
-			telegramBotPluginsLogsСollapseButton.innerHTML = '<i class="bi bi-arrow-up d-flex" style="font-size: 20px;"></i>';
-		}
-	});
+	telegramBotPluginsLogsСollapseButton.addEventListener('click', () => updateTelegramBotPluginsLogsButton.classList.toggle('disabled'));
 	updateTelegramBotPluginsLogsButton.addEventListener('click', () => updateTelegramBotPluginsLogs());
 }
