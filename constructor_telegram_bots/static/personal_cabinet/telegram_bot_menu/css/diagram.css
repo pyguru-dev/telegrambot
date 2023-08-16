@@ -1,4 +1,6 @@
 .diagram-container {
+	height: 100%;
+
 	overflow: auto;
 	position: relative;
 }
@@ -6,12 +8,6 @@
 @media only screen and (max-width: 991px) {
 	.diagram-container {
 		height: 500px;
-	}
-}
-
-@media only screen and (min-width: 992px) {
-	.diagram-container {
-		height: 100%;
 	}
 }
 

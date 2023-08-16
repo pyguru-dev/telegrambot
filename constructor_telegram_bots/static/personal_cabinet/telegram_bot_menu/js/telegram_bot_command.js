@@ -69,6 +69,7 @@
 			userMessageId:  document.querySelector('#telegramBotCommandUserMessageIdVariableButton'),
 			userMessageText: document.querySelector('#telegramBotCommandUserMessageTextVariableButton'),
 			databaseRecordData: document.querySelector('#telegramBotCommandDatabaseRecordDataVariableButton'),
+			runPlugin: document.querySelector('#telegramBotCommandRunPluginVariableButton'),
 			apiResponse: document.querySelector('#telegramBotCommandApiResponseVariableButton'),
 		};
 
@@ -174,7 +175,12 @@
 					telegramBotCommand.additions.apiRequest.urlInput,
 					telegramBotCommand.additions.apiRequest.dataInput,
 				],
-				value: '{{ database_records.key }}',
+				value: '{{ database_records["1"]["key"] }}',
+			},
+			runPlugin: {
+				button: telegramBotCommandVariablesButtons.runPlugin,
+				allowedInputs: [],
+				value: `{{ run_plugin(${telegramBotCommandRunPluginVariablePlaceholderText}) }}`,
 			},
 			apiResponse: {
 				button: telegramBotCommandVariablesButtons.apiResponse,
@@ -182,7 +188,7 @@
 					telegramBotCommand.messageTextInput,
 					telegramBotCommand.additions.databaseRecord.dataInput,
 				],
-				value: '{{ api_response.key }}',
+				value: '{{ api_response["key"] }}',
 			},
 
 			allowedInputs: [
@@ -200,18 +206,16 @@
 			return (variable != 'allowedInputs' &&  variable != 'selected');
 		}
 		const searchAllowedInputInTelegramBotCommandVariable = (allowedInput) => {
-			if (telegramBotCommandVariables.selected != null) {
-				for (const variable in telegramBotCommandVariables) {
-					if (checkTelegramBotCommandVariable(variable)) {
-						if (
-							telegramBotCommandVariables[variable].value == telegramBotCommandVariables.selected && 
-							(
-								telegramBotCommandVariables[variable].allowedInputs.length == 0 ||
-								telegramBotCommandVariables[variable].allowedInputs.indexOf(allowedInput) != -1
-							)
-						) {
-							return true;
-						}
+			for (const variable in telegramBotCommandVariables) {
+				if (checkTelegramBotCommandVariable(variable)) {
+					if (
+						telegramBotCommandVariables[variable].value == telegramBotCommandVariables.selected && 
+						(
+							telegramBotCommandVariables[variable].allowedInputs.length == 0 ||
+							telegramBotCommandVariables[variable].allowedInputs.indexOf(allowedInput) != -1
+						)
+					) {
+						return true;
 					}
 				}
 			}
@@ -228,8 +232,12 @@
 		telegramBotCommandVariables.allowedInputs.forEach(allowedInput => {
 			if (allowedInput instanceof Element) {
 				allowedInput.addEventListener('mouseover', function() {
-					if (searchAllowedInputInTelegramBotCommandVariable(allowedInput)) {
-						allowedInput.style.cursor = 'copy';
+					if (telegramBotCommandVariables.selected != null) {
+						if (searchAllowedInputInTelegramBotCommandVariable(allowedInput)) {
+							allowedInput.style.cursor = 'copy';
+						} else {
+							allowedInput.style.cursor = 'not-allowed';
+						}
 					} else {
 						allowedInput.style.cursor = 'auto';
 					}
@@ -250,9 +258,14 @@
 				const monacoEditorViewLinesDiv = editorDiv.querySelector('.view-lines');
 
 				editorDiv.addEventListener('mouseover', function() {
-					if (searchAllowedInputInTelegramBotCommandVariable(allowedInput)) {
-						editorParentDiv.style.cursor = 'copy';
-						monacoEditorViewLinesDiv.style.cursor = 'copy';
+					if (telegramBotCommandVariables.selected != null) {
+						if (searchAllowedInputInTelegramBotCommandVariable(allowedInput)) {
+							editorParentDiv.style.cursor = 'copy';
+							monacoEditorViewLinesDiv.style.cursor = 'copy';
+						} else {
+							editorParentDiv.style.cursor = 'not-allowed';
+							monacoEditorViewLinesDiv.style.cursor = 'not-allowed';
+						}
 					} else {
 						editorParentDiv.style.cursor = 'text';
 						monacoEditorViewLinesDiv.style.cursor = 'text';
