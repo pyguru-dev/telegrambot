@@ -25,7 +25,6 @@
 git clone https://github.com/EXG1O/Constructor-Telegram-Bots.git
 cd Constructor-Telegram-Bots
 source scripts/setup.sh
-cd constructor_telegram_bots
 ```
 2. Теперь запускаем сайт:
 ```
@@ -67,7 +66,6 @@ celery -A constructor_telegram_bots worker --loglevel=INFO -f logs/celery.log
 git clone https://github.com/EXG1O/Constructor-Telegram-Bots.git
 cd Constructor-Telegram-Bots
 source scripts/setup.sh
-cd constructor_telegram_bots
 ```
 2. Тепер запускаємо сайт:
 ```
@@ -109,7 +107,6 @@ Your donation will greatly contribute to the development and improvement of the 
 git clone https://github.com/EXG1O/Constructor-Telegram-Bots.git
 cd Constructor-Telegram-Bots
 source scripts/setup.sh
-cd constructor_telegram_bots
 ```
 2. Now run the site:
 ```
