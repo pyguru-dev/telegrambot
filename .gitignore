@@ -3,6 +3,8 @@ __pycache__/
 images/
 logs/
 env/
+.vscode/
+*.db
 
 # Файлы
 celerybeat-schedule
