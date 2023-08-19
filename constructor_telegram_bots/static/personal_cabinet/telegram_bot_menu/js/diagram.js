@@ -2,29 +2,7 @@
 	const diagramSvg = document.querySelector('.diagram-svg');
 	const diagramContainer = document.querySelector('.diagram-container');
 
-	let diagramCurrentScaleNum = 0;
-
-	if (diagramCurrentScale != 1) {
-		let diagramCurrentScaleTest = 1.0;
-
-		if (diagramCurrentScale > 1.0) {
-			for (diagramCurrentScaleNum; diagramCurrentScaleNum < 10; diagramCurrentScaleNum++) {
-				if (diagramCurrentScaleTest == diagramCurrentScale) {
-					break;
-				}
-
-				diagramCurrentScaleTest += 0.1;
-			}
-		} else if (diagramCurrentScale < 1.0) {
-			for (diagramCurrentScaleNum; diagramCurrentScaleNum > -9; diagramCurrentScaleNum--) {
-				if (diagramCurrentScaleTest == diagramCurrentScale) {
-					break;
-				}
-
-				diagramCurrentScaleTest -= 0.1;
-			}
-		}
-	}
+	let diagramCurrentScaleNum = Math.floor(diagramCurrentScale * 10 - 10);
 
 	function diagramSetZoom() {
 		document.querySelectorAll('.diagram-block').forEach(diagramBlock => diagramBlock.style.transform = `scale(${diagramCurrentScale})`);
@@ -42,13 +20,15 @@
 
 	document.querySelectorAll('.diagram-zoom-btn').forEach(diagramZoomButton => {
 		diagramZoomButton.addEventListener('click', function() {
-			if (this.id == '+' && diagramCurrentScaleNum != 10) {
+			if (diagramZoomButton.id == '+' && diagramCurrentScaleNum != 10) {
 				diagramCurrentScale += 0.1;
 				diagramCurrentScaleNum++;
-			} else if (this.id == '-' && diagramCurrentScaleNum != -9) {
+			} else if (diagramZoomButton.id == '-' && diagramCurrentScaleNum != -9) {
 				diagramCurrentScale -= 0.1;
 				diagramCurrentScaleNum--;
 			}
+
+			diagramSetZoom();
 
 			fetch(saveTelegramBotDiagramCurrentScaleUrl, {
 				method: 'PATCH',
@@ -58,12 +38,10 @@
 				},
 				body: JSON.stringify({'diagram_current_scale': diagramCurrentScale}),
 			});
-
-			diagramSetZoom();
 		});
 	});
 
-	function getCenterDiagramConnectorPosition(diagramConnector) {
+	const getCenterDiagramConnectorPosition = (diagramConnector) => {
 		const diagramConnectorRect = diagramConnector.getBoundingClientRect();
 		const diagramContainerRect = diagramContainer.getBoundingClientRect();
 
@@ -73,7 +51,33 @@
 		return {x, y}
 	}
 
-	function updateConnectorLine(block) {
+	function createDiagramConnectorLine(startDiagramConnector, endDiagramConnector) {
+		const startDiagramConnectorPosition = getCenterDiagramConnectorPosition(startDiagramConnector);
+		const endDiagramConnectorPosition = getCenterDiagramConnectorPosition(endDiagramConnector);
+
+		const diagramConnectorLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+		diagramConnectorLine.classList = 'connector-line';
+		diagramConnectorLine.id = `${startDiagramConnector.id}-${endDiagramConnector.id}`;
+		diagramConnectorLine.style.strokeWidth = `${1 + diagramCurrentScale}px`;
+
+		diagramConnectorLine.setAttribute('marker-end', 'url(#arrow)');
+		diagramConnectorLine.setAttribute('x1', startDiagramConnectorPosition.x);
+		diagramConnectorLine.setAttribute('y1', startDiagramConnectorPosition.y);
+		diagramConnectorLine.setAttribute('x2', endDiagramConnectorPosition.x);
+		diagramConnectorLine.setAttribute('y2', endDiagramConnectorPosition.y);
+
+		diagramSvg.appendChild(diagramConnectorLine);
+
+		startDiagramConnector.parentElement.querySelectorAll('.diagram-connector').forEach(diagramConnector => {
+			if (diagramConnector != startDiagramConnector) {
+				diagramConnector.classList.add('d-none')
+			}
+		});
+
+		return diagramConnectorLine;
+	}
+
+	const updateConnectorLine = (block) => {
 		diagramSvg.querySelectorAll('.connector-line').forEach(connectorLine => {
 			const diagramConnectorsId = connectorLine.id.split('-');
 
@@ -99,26 +103,6 @@
 		});
 	}
 
-	function createDiagramConnectorLine(startDiagramConnector, endDiagramConnector) {
-		const startDiagramConnectorPosition = getCenterDiagramConnectorPosition(startDiagramConnector);
-		const endDiagramConnectorPosition = getCenterDiagramConnectorPosition(endDiagramConnector);
-
-		const diagramConnectorLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-		diagramConnectorLine.classList = 'connector-line';
-		diagramConnectorLine.id = `${startDiagramConnector.id}-${endDiagramConnector.id}`;
-		diagramConnectorLine.style.strokeWidth = `${1 + diagramCurrentScale}px`;
-
-		diagramConnectorLine.setAttribute('marker-end', 'url(#arrow)');
-		diagramConnectorLine.setAttribute('x1', startDiagramConnectorPosition.x);
-		diagramConnectorLine.setAttribute('y1', startDiagramConnectorPosition.y);
-		diagramConnectorLine.setAttribute('x2', endDiagramConnectorPosition.x);
-		diagramConnectorLine.setAttribute('y2', endDiagramConnectorPosition.y);
-
-		diagramSvg.appendChild(diagramConnectorLine);
-
-		return diagramConnectorLine;
-	}
-
 	{
 		let selectedDiagramConnector = null;
 
@@ -126,7 +110,6 @@
 			const selectDiagramConnectorPosition = event.target.id.split(':')[1]
 
 			if (selectedDiagramConnector == null && selectDiagramConnectorPosition != 'top') {
-				// Надо исправить баг из-за которого юзер может одну и ту же кнопку прикрепить к двум сообщениям (Можно только к одной)
 				selectedDiagramConnector = event.target;
 				selectedDiagramConnector.classList.add('connector-highlight');
 			} else if (selectedDiagramConnector != null) {
@@ -149,6 +132,8 @@
 								findDiagramConnectorLine = true;
 
 								diagramConnectorLine.remove();
+
+								selectedDiagramConnector.parentElement.querySelectorAll('.diagram-connector').forEach(diagramConnector => diagramConnector.classList.remove('d-none'));
 
 								const diagramKeyboardButtonId = diagramConnectorLine.id.split('-')[0].split(':')[2];
 
@@ -189,11 +174,10 @@
 		}
 	}
 
-	function enableDiagramBlockDragging(diagramBlock) {
+	const enableDiagramBlockDragging = (diagramBlock) => {
 		let x = 0, y = 0;
 
-		function diagramDragStart(event) {
-			event = event || window.event;
+		const diagramDragStart = (event) => {
 			event.preventDefault();
 
 			if (event.type == 'touchstart') {
@@ -213,8 +197,7 @@
 			document.ontouchend = diagramDragEnd;
 		}
 
-		function diagramBlockDrag(event) {
-			event = event || window.event;
+		const diagramBlockDrag = (event) => {
 			event.preventDefault();
 
 			let clientX, clientY;
@@ -250,7 +233,7 @@
 			updateConnectorLine(diagramBlock);
 		}
 
-		function diagramDragEnd() {
+		const diagramDragEnd = () => {
 			diagramBlock.style.zIndex = '1';
 
 			document.onmousemove = null;

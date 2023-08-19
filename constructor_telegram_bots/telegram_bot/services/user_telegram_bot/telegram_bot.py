@@ -19,8 +19,12 @@ PARSE_MODE = 'HTML'
 
 class UserTelegramBot:
 	def __init__(self, telegram_bot: TelegramBot) -> None:
-		self.loop = asyncio.new_event_loop()
 		self.telegram_bot = telegram_bot
+
+		self.loop = asyncio.new_event_loop()
+
+		self.bot = CustomBot(token=self.telegram_bot.api_token, loop=self.loop)
+		self.dispatcher = CustomDispatcher(bot_username=self.telegram_bot.username, bot=self.bot)
 
 	@check_request
 	@check_telegram_bot_user
@@ -77,9 +81,6 @@ class UserTelegramBot:
 			)
 
 	async def setup(self) -> None:
-		self.bot = CustomBot(token=self.telegram_bot.api_token, loop=self.loop)
-		self.dispatcher = CustomDispatcher(bot_username=self.telegram_bot.username, bot=self.bot)
-
 		self.dispatcher.register_message_handler(self.message_and_callback_query_handler)
 		self.dispatcher.register_callback_query_handler(self.message_and_callback_query_handler)
 
