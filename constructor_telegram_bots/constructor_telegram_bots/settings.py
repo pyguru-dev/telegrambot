@@ -98,7 +98,10 @@ ROOT_URLCONF = 'constructor_telegram_bots.urls'
 TEMPLATES = [
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': [BASE_DIR / 'templates'],
+		'DIRS': [
+			BASE_DIR / 'templates',
+			BASE_DIR / 'constructor_telegram_bots/templates',
+		],
 		'APP_DIRS': True,
 		'OPTIONS': {
 			'context_processors': [
@@ -121,7 +124,6 @@ TEMPLATES = [
 
 
 WSGI_APPLICATION = 'constructor_telegram_bots.wsgi.application'
-
 
 AUTH_USER_MODEL = 'user.User'
 
@@ -168,12 +170,8 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
-if DEBUG:
-	STATICFILES_DIRS = [
-		BASE_DIR / 'static/',
-	]
-else:
-	STATIC_ROOT = BASE_DIR / 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'constructor_telegram_bots/static']
+STATIC_ROOT = BASE_DIR / 'static'
 
 
 if os.path.exists(BASE_DIR / 'logs') is False:

@@ -25,10 +25,9 @@ urlpatterns = [
 
 
 if settings.DEBUG:
-	from django.urls import re_path
-	from django.views.static import serve
+	from django.conf.urls.static import static
 
-	urlpatterns + [re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT})]
+	urlpatterns + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if not settings.TEST and platform == 'win32':
 	tasks.start_all_telegram_bots()
