@@ -1,12 +1,12 @@
 # Папки
 __pycache__/
 .vscode/
-Constructor-Telegram-Bots/constructor_telegram_bots/static
+constructor_telegram_bots/static/
 logs/
 env/
 
 # Файлы
 celerybeat-schedule
 .env
-*.mo
 *.db
+*.mo
