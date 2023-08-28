@@ -4,6 +4,7 @@
 
 {% block styles %}
 {{ block.super }}
+<link rel="stylesheet" href="{% static 'telegram_bot_menu/css/main.css' %}">
 {% block animation_styles %}
 <link rel="stylesheet" href="{% static 'telegram_bot_menu/css/animation.css' %}">
 {% endblock animation_styles %}
@@ -16,29 +17,17 @@
 
 {% block main %}
 <div class="container my-3 my-lg-4">
-	<nav class="navbar navbar-expand-lg bg-light rounded border px-3 py-2 mb-3 mb-lg-4">
-		<ul class="navbar-nav nav-underline text-center w-100 gap-0 gap-lg-2">
-			<li class="nav-item">
-				{% url 'telegram_bot_menu:telegram_bot' telegram_bot.id as telegram_bot_menu_url %}
-				<a class="nav-link {% if request.path == telegram_bot_menu_url %}active {% endif %}p-2 pb-1" href="{{ telegram_bot_menu_url }}">{% trans "Telegram бот" %}</a>
-			</li>
-			<li class="nav-item">
-				{% url 'telegram_bot_menu:telegram_bot_users' telegram_bot.id as telegram_bot_users_url %}
-				<a class="nav-link {% if request.path == telegram_bot_users_url %}active {% endif %}p-2 pb-1" href="{{ telegram_bot_users_url }}">{% trans "Список пользователей" %}</a>
-			</li>
-			<li class="nav-item">
-				{% url 'telegram_bot_menu:telegram_bot_database' telegram_bot.id as telegram_bot_database_url %}
-				<a class="nav-link {% if request.path == telegram_bot_database_url %}active {% endif %}p-2 pb-1" href="{{ telegram_bot_database_url }}">{% trans "База данных" %}</a>
-			</li>
-			<li class="nav-item">
-				{% url 'telegram_bot_menu:telegram_bot_plugins' telegram_bot.id as telegram_bot_plugins_url %}
-				<a class="nav-link {% if request.path == telegram_bot_plugins_url %}active {% endif %}p-2 pb-1" href="{{ telegram_bot_plugins_url }}">{% trans "Плагины" %}</a>
-			</li>
-			<li class="nav-item">
-				{% url 'telegram_bot_menu:telegram_bot_constructor' telegram_bot.id as telegram_bot_constructor_url %}
-				<a class="nav-link {% if request.path == telegram_bot_constructor_url %}active {% endif %}p-2 pb-1" href="{{ telegram_bot_constructor_url }}">{% trans "Конструктор" %}</a>
-			</li>
-		</ul>
+	<nav class="nav nav-pills nav-fill bg-light border rounded mb-3 mb-lg-4 p-2">
+		{% url 'telegram_bot_menu:telegram_bot' telegram_bot.id as telegram_bot_menu_url %}
+		<a class="nav-link link-dark {% if request.path == telegram_bot_menu_url %}active {% endif %}p-2" href="{{ telegram_bot_menu_url }}">{% trans "Telegram бот" %}</a>
+		{% url 'telegram_bot_menu:telegram_bot_users' telegram_bot.id as telegram_bot_users_url %}
+		<a class="nav-link link-dark {% if request.path == telegram_bot_users_url %}active {% endif %}p-2" href="{{ telegram_bot_users_url }}">{% trans "Список пользователей" %}</a>
+		{% url 'telegram_bot_menu:telegram_bot_database' telegram_bot.id as telegram_bot_database_url %}
+		<a class="nav-link link-dark {% if request.path == telegram_bot_database_url %}active {% endif %}p-2" href="{{ telegram_bot_database_url }}">{% trans "База данных" %}</a>
+		{% url 'telegram_bot_menu:telegram_bot_plugins' telegram_bot.id as telegram_bot_plugins_url %}
+		<a class="nav-link link-dark {% if request.path == telegram_bot_plugins_url %}active {% endif %}p-2" href="{{ telegram_bot_plugins_url }}">{% trans "Плагины" %}</a>
+		{% url 'telegram_bot_menu:telegram_bot_constructor' telegram_bot.id as telegram_bot_constructor_url %}
+		<a class="nav-link link-dark {% if request.path == telegram_bot_constructor_url %}active {% endif %}p-2" href="{{ telegram_bot_constructor_url }}">{% trans "Конструктор" %}</a>
 	</nav>
 	{% block content %}{% endblock content %}
 </div>

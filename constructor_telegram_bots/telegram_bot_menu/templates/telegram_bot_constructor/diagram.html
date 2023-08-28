@@ -10,10 +10,8 @@
 			<i class="bi bi-zoom-out"></i>
 		</button>
 	</div>
-	<button class="btn btn-sm btn-dark rounded" type="button" id="telegramBotCommandOffcanvasButton">
-		<i class="bi bi-plus-lg me-1" style="-webkit-text-stroke: 1.5px;"></i>
-		{% trans "Добавить команду" %}
-	</button>
+	{% trans "Добавить команду" as add_button_text %}
+	{% include 'widgets/add_button.html' with size="sm" extra_class="rounded" id="telegramBotCommandOffcanvasButton" text=add_button_text %}
 </div>
 <div class="border rounded" id="diagramContainer">
 	<svg id="diagramSvg">

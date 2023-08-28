@@ -8,9 +8,6 @@
 		</button>
 	</div>
 	{% if show_add_button %}
-		<button class="btn btn-sm btn-dark rounded" id="{{ id }}AddButton" type="button">
-			<i class="bi bi-plus-lg me-1" style="-webkit-text-stroke: 1.5px;"></i>
-			{{ add_button_text }}
-		</button>
+		{% include 'widgets/add_button.html' with size="sm" extra_class="rounded" id=id|add:"AddButton" text=add_button_text %}
 	{% endif %}
 </div>

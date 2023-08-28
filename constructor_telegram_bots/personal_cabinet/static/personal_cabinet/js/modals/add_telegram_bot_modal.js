@@ -18,10 +18,7 @@
 			response.json().then(jsonResponse => {
 				if (response.ok) {
 					const notHaveTelegramBotDiv = document.querySelector('#notAddedTelegramBot');
-
-					if (notHaveTelegramBotDiv != null) {
-						notHaveTelegramBotDiv.remove();
-					}
+					if (notHaveTelegramBotDiv != null) notHaveTelegramBotDiv.remove();
 
 					addTelegramBotBootstrapModal.toggle();
 					addTelegramBot(jsonResponse['telegram_bot']);

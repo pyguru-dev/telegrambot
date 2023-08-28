@@ -18,10 +18,8 @@
 			<h1 class="fw-semibold text-center mb-lg-0">{% trans "Добавленные Telegram боты" %}</h1>
 		</div>
 		<div class="col-12 col-lg-auto align-self-center">
-			<button class="btn btn-dark btn-add w-100" id="addTelegramBotModalButton" type="button">
-				<i class="bi bi-plus-lg me-1" style="-webkit-text-stroke: 1.5px;"></i>
-				{% trans "Добавить Telegram бота" %}
-			</button>
+			{% trans "Добавить Telegram бота" as add_button_text %}
+			{% include 'widgets/add_button.html' with extra_class="w-100" id="addTelegramBotModalButton" text=add_button_text %}
 		</div>
 	</div>
 	<div class="row row-cols-1 row-cols-lg-3 g-3" id="telegramBots"></div>
@@ -46,7 +44,6 @@
 
 	const telegramBotCardFooterPersonalCabinetButtonText = "{% trans 'Меню Telegram бота' %}";
 </script>
-
-<script src="{% static 'personal_cabinet/js/base.js' %}"></script>
+<script src="{% static 'personal_cabinet/js/main.js' %}"></script>
 <script src="{% static 'personal_cabinet/js/modals/add_telegram_bot_modal.js' %}"></script>
 {% endblock scripts %}

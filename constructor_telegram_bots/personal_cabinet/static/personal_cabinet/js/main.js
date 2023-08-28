@@ -36,31 +36,27 @@
 			'	</div>',
 			'</div>',
 		].join('');
-		telegramBotsDiv.append(telegramBotDiv);
+		telegramBotsDiv.appendChild(telegramBotDiv);
 	}
 
-	const updateTelegramBots = () => {
-		fetch(telegramBotsUrl, {
-			method: 'GET',
-			headers: {'Authorization': `Token ${userApiToken}`},
-		}).then(response => {
-			if (response.ok) {
-				response.json().then(telegramBots => {
-					telegramBotsDiv.innerHTML = '';
+	fetch(telegramBotsUrl, {
+		method: 'GET',
+		headers: {'Authorization': `Token ${userApiToken}`},
+	}).then(response => {
+		if (response.ok) {
+			response.json().then(telegramBots => {
+				telegramBotsDiv.innerHTML = '';
 
-					if (telegramBots.length == 0) {
-						const telegramBotDiv = document.createElement('div');
-						telegramBotDiv.classList = 'col';
-						telegramBotDiv.id = 'notAddedTelegramBot';
-						telegramBotDiv.innerHTML = `<div class="border rounded text-center p-3">${telegramBotCardBodyNotAddedText}</div>`;
-						telegramBotsDiv.append(telegramBotDiv);
-					} else {
-						telegramBots.forEach(telegramBot => addTelegramBot(telegramBot));
-					}
-				});
-			}
-		});
-	}
-
-	updateTelegramBots();
+				if (telegramBots.length == 0) {
+					const telegramBotDiv = document.createElement('div');
+					telegramBotDiv.classList = 'col';
+					telegramBotDiv.id = 'notAddedTelegramBot';
+					telegramBotDiv.innerHTML = `<div class="border rounded text-center p-3">${telegramBotCardBodyNotAddedText}</div>`;
+					telegramBotsDiv.appendChild(telegramBotDiv);
+				} else {
+					telegramBots.forEach(telegramBot => addTelegramBot(telegramBot));
+				}
+			});
+		}
+	});
 }

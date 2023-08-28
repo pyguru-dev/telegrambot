@@ -61,18 +61,12 @@
 	</div>
 	<div class="col-12 col-lg-6">
 		<div class="row text-center g-3">
-			<div class="col-6">
-				<div class="border border-2 rounded-4 fw-semibold p-2">{{ telegram_bot.users.count }}</div>
-				<span>{% trans "Количество пользователей" %}</span>
-			</div>
-			<div class="col-6">
-				<div class="border border-2 rounded-4 fw-semibold p-2">{{ telegram_bot.commands.count }}</div>
-				<span>{% trans "Количество команд" %}</span>
-			</div>
-			<div class="col-6">
-				<div class="border border-2 rounded-4 fw-semibold p-2">0</div>
-				<span>{% trans "Активность за 24 ч." %}</span>
-			</div>
+			{% trans "Количество пользователей" as info_area_text %}
+			{% include 'widgets/info_area.html' with class="col-6" value=telegram_bot.users.count text=info_area_text %}
+			{% trans "Количество команд" as info_area_text %}
+			{% include 'widgets/info_area.html' with class="col-6" value=telegram_bot.commands.count text=info_area_text %}
+			{% trans "Активность за 24 ч." as info_area_text %}
+			{% include 'widgets/info_area.html' with class="col-6" value="0" text=info_area_text %}
 		</div>
 	</div>
 </div>

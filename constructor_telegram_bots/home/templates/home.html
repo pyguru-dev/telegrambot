@@ -6,7 +6,7 @@
 
 {% block styles %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'home/css/base.css' %}">
+<link rel="stylesheet" href="{% static 'home/css/main.css' %}">
 {% endblock styles %}
 
 {% block main %}
@@ -25,18 +25,14 @@
 	</div>
 	<div class="information-about-site my-3 my-lg-4">
 		<h3>{% trans "Информация о сайте" %}</h3>
-		<div class="mb-1">
-			<div class="border border-2 rounded-4 fw-semibold p-2">{{ users.count }}</div>
-			<span>{% trans "Количество пользователей" %}</span>
-		</div>
-		<div>
-			<div class="border border-2 rounded-4 fw-semibold p-2">{{ telegram_bots.count }}</div>
-			<span>{% trans "Количество добавленных Telegram ботов" %}</span>
-		</div>
+		{% trans "Количество пользователей" as info_area_text %}
+		{% include 'widgets/info_area.html' with class="mb-1" value=users.count text=info_area_text %}
+		{% trans "Количество добавленных Telegram ботов" as info_area_text %}
+		{% include 'widgets/info_area.html' with value=telegram_bots.count text=info_area_text %}
 	</div>
 	<div class="donations">
 		<h3>{% trans "Список пожертвований" %}</h3>
-		<table class="table table-sm table-hover align-middle">
+		<table class="table table-sm align-middle">
 			<thead>
 				<tr>
 					<th class="date" scope="col">{% trans "Дата" %}</th>
