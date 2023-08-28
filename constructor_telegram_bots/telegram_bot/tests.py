@@ -81,6 +81,7 @@ class TelegramBotModelsTest(BaseTestCase):
 				'id': 1,
 				'username': '123456789:qwertyuiop_test_telegram_bot',
 				'api_token': '123456789:qwertyuiop',
+				'is_private': True,
 				'is_running': False,
 				'is_stopped': True,
 				'commands_count': 1,

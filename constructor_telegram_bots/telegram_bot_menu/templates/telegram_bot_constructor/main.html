@@ -1,0 +1,47 @@
+{% extends 'base_telegram_bot_menu.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Конструктор" %}{% endblock title %}
+
+{% block animation_styles %}{% endblock animation_styles %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'prism/css/prism.css' %}">
+<link rel="stylesheet" href="{% static 'telegram_bot_menu/css/telegram_bot_constructor/diagram.css' %}">
+{% endblock styles %}
+
+{% block content %}
+{% include 'telegram_bot_constructor/command_offcanvas.html' %}
+{% include 'telegram_bot_constructor/diagram.html' %}
+{% endblock content %}
+
+{% block animation_scripts %}{% endblock animation_scripts %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+	const telegramBotCommandsUrl = "{% url 'telegram_bot_commands' telegram_bot.id %}";
+	const saveTelegramBotDiagramCurrentScaleUrl = "{% url 'save_telegram_bot_diagram_current_scale' telegram_bot.id %}";
+
+	const telegramBotCommandOffcanvasAddCommandTitleText = "{% trans 'Добавление команды' %}";
+	const telegramBotCommandOffcanvasEditCommandTitleText = "{% trans 'Редактирование команды' %}";
+
+	const telegramBotCommandOffcanvasSuccessfullyCopyToBufferText = "{% trans 'Вы успешно скопировали переменную.' %}";
+
+	const telegramBotCommandOffcanvasMessageTextPlaceholderText = "{% trans 'Введите текст сообщения' %}";
+
+	const telegramBotCommandOffcanvasKeyboardButtonNameInputPlaceholderText = "{% trans 'Название кнопки' %}";
+	const telegramBotCommandOffcanvasKeyboardButtonUrlInputPlaceholderText = "{% trans 'URL-адрес' %}";
+
+	{% comment %} const telegramBotCommandFooterAddCommandButtonText = "{% trans 'Добавить команду' %}";
+	const telegramBotCommandFooterSaveCommandButtonText = "{% trans 'Сохранить команду' %}"; {% endcomment %}
+
+	{% comment %} const deleteTelegramBotCommandAskConfirmModalTitle = "{% trans 'Удаление команды Telegram бота' %}";
+	const deleteTelegramBotCommandAskConfirmModalText = "{% trans 'Вы точно хотите удалить команду Telegram бота?' %}"; {% endcomment %}
+</script>
+<script src="{% static 'prism/js/prism.js' %}"></script>
+<script src="{% static 'telegram_bot_menu/js/telegram_bot_constructor/diagram.js' %}"></script>
+<script src="{% static 'telegram_bot_menu/js/telegram_bot_constructor/command_offcanvas.js' %}"></script>
+{% endblock scripts %}

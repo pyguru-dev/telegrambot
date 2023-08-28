@@ -1,0 +1,31 @@
+{% extends 'base_telegram_bot_menu.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "База данных" %}{% endblock title %}
+
+{% block content %}
+<div class="card border">
+	<h5 class="card-header border-bottom text-center">{% trans "База данных Telegram бота" %}</h5>
+	<div class="card-body">
+		{% trans "Добавить запись" as add_button_text %}
+		{% include 'object_tools.html' with id="telegramBotDatabaseRecords" show_add_button=True add_button_text=add_button_text %}
+		<div class="collapse show" id="telegramBotDatabaseRecordsСollapse">
+			<div class="list-group" id="telegramBotDatabaseRecords"></div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+	const telegramBotDatabeseRecordsUrl = "{% url 'telegram_bot_databese_records' telegram_bot.id %}";
+
+	const telegramBotDatabaseNotHaveDataText = "{% trans 'В базе данных вашего Telegram бота ещё нет никаких записей' %}";
+
+	const deleteTelegramBotDatabaseRecordAskConfirmModalTitle = "{% trans 'Удаление записи из базы данных Telegram бота' %}";
+	const deleteTelegramBotDatabaseRecordAskConfirmModalText = "{% trans 'Вы точно хотите удалить запись из базы данных Telegram бота?' %}";
+</script>
+<script src="{% static 'telegram_bot_menu/js/telegram_bot_database.js' %}"></script>
+{% endblock scripts %}

@@ -1,6 +1,6 @@
 from django.contrib import admin
-from modeltranslation.admin import TranslationAdmin
 
+from modeltranslation.admin import TranslationAdmin
 from ckeditor.widgets import CKEditorWidget
 
 from django.db import models

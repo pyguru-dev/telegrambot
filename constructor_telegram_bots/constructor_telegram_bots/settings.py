@@ -25,7 +25,7 @@ CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 CONSTRUCTOR_TELEGRAM_BOT_USERNAME = os.getenv('TELEGRAM_BOT_USERNAME')
 
 
-SITE_DOMAIN = 'http://127.0.0.1:8000/' if DEBUG else 'https://constructor.exg1o.org/'
+SITE_DOMAIN = 'http://127.0.0.1:8000' if DEBUG else 'https://constructor.exg1o.org'
 ALLOWED_HOSTS = ['127.0.0.1', 'constructor.exg1o.org']
 CSRF_TRUSTED_ORIGINS = [
 	'http://*.127.0.0.1',
@@ -52,6 +52,9 @@ INSTALLED_APPS = [
 	'rest_framework',
 	'rest_framework.authtoken',
 
+	'jet.dashboard',
+	'jet',
+
 	'modeltranslation',
 	'django_json_widget',
 	'ckeditor',
@@ -70,6 +73,7 @@ INSTALLED_APPS = [
 	'instruction',
 	'donation',
 	'personal_cabinet',
+	'telegram_bot_menu',
 	'telegram_bot',
 	'plugin',
 	'privacy_policy',

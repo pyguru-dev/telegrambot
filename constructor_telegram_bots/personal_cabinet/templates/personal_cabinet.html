@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "Личный кабинет" %}{% endblock title %}
+
+{% block modals %}
+{{ block.super }}
+{% include 'modals/add_telegram_bot_modal.html' %}
+{% endblock modals %}
+
+{% block main_class %}{% endblock main_class %}
+
+{% block main %}
+<div class="container d-flex flex-column my-3 my-lg-4">
+	<div class="row justify-content-between mb-3 g-0">
+		<div class="col-12 col-lg-auto">
+			<h1 class="fw-semibold text-center mb-lg-0">{% trans "Добавленные Telegram боты" %}</h1>
+		</div>
+		<div class="col-12 col-lg-auto align-self-center">
+			<button class="btn btn-dark btn-add w-100" id="addTelegramBotModalButton" type="button">
+				<i class="bi bi-plus-lg me-1" style="-webkit-text-stroke: 1.5px;"></i>
+				{% trans "Добавить Telegram бота" %}
+			</button>
+		</div>
+	</div>
+	<div class="row row-cols-1 row-cols-lg-3 g-3" id="telegramBots"></div>
+</div>
+{% endblock main %}
+
+{% block footer_class %}mt-auto{% endblock footer_class %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+	const telegramBotsUrl = "{% url 'telegram_bots' %}";
+
+	const telegramBotCardBodyNotAddedText = "{% trans 'Вы ещё не добавили Telegram ботов' %}";
+
+	const telegramBotCardHeaderIsRunningText = "{% trans 'Telegram бот включен' %}";
+	const telegramBotCardHeaderIsNotRunningText = "{% trans 'Telegram бот выключен' %}";
+
+	const telegramBotTableLineApiTokenText = "{% trans 'API-токен' %}";
+	const telegramBotTableLineIsPrivateText = "{% trans 'Приватный' %}";
+	const telegramBotTableLineDateAddedText = "{% trans 'Дата добавления' %}";
+
+	const telegramBotCardFooterPersonalCabinetButtonText = "{% trans 'Меню Telegram бота' %}";
+</script>
+
+<script src="{% static 'personal_cabinet/js/base.js' %}"></script>
+<script src="{% static 'personal_cabinet/js/modals/add_telegram_bot_modal.js' %}"></script>
+{% endblock scripts %}

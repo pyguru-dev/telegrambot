@@ -8,7 +8,7 @@ from django.contrib.auth.decorators import login_required
 from .models import User
 
 
-def user_login(request: HttpRequest, user_id: int, confirm_code: str) -> HttpResponse:
+def user_login_view(request: HttpRequest, user_id: int, confirm_code: str) -> HttpResponse:
 	context = {
 		'title': _('Ошибка авторизации'),
 		'meta': {'refresh': {'url': urls.reverse('home')}},
@@ -33,7 +33,7 @@ def user_login(request: HttpRequest, user_id: int, confirm_code: str) -> HttpRes
 	return redirect(urls.reverse('personal_cabinet'))
 
 @login_required
-def user_logout(request: HttpRequest) -> HttpResponse:
+def user_logout_view(request: HttpRequest) -> HttpResponse:
 	logout(request)
 
 	return render(request, 'base_success_or_error.html', {

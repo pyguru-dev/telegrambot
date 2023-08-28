@@ -36,7 +36,7 @@
 		{% endif %}
 		{% endblock modals %}
 
-		<div class="toast-container position-fixed bottom-0 end-0 p-3" id="mainToastContainer"></div>
+		<div class="toast-container position-fixed bottom-0 end-0 px-3 pt-3" id="mainToastContainer"></div>
 
 		<main class="{% block main_class %}my-auto{% endblock main_class %}">
 			{% block main %}{% endblock main %}
@@ -55,7 +55,7 @@
 		<script>
 			const userApiToken = '{{ request.user.auth_token.key }}';
 
-			const userLogoutUrl = "{% url 'user_logout' %}";
+			const userLogoutUrl = "{% url 'user:logout' %}";
 
 			const userLogoutAskConfirmModalTitle = "{% trans 'Выход из аккаунта' %}";
 			const userLogoutAskConfirmModalText = "{% trans 'Вы точно хотите выйти из аккаунта?' %}";

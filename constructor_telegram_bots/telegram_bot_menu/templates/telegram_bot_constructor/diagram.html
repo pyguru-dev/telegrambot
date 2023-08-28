@@ -1,0 +1,26 @@
+{% load i18n %}
+
+<div class="d-flex justify-content-between mb-2">
+	<div class="btn-group diagram-zoom">
+		<button class="btn btn-sm btn-light btn-diagram-zoom border rounded rounded-end-0 px-3 py-1" id="+" type="button">
+			<i class="bi bi-zoom-in"></i>
+		</button>
+		<div class="bg-light border border-start-0 border-end-0 text-center px-2 py-1" id="diagramZoomPercent" style="width: 60px;"></div>
+		<button class="btn btn-sm btn-light btn-diagram-zoom border rounded rounded-start-0 px-3 py-1" id="-" type="button">
+			<i class="bi bi-zoom-out"></i>
+		</button>
+	</div>
+	<button class="btn btn-sm btn-dark rounded" type="button" id="telegramBotCommandOffcanvasButton">
+		<i class="bi bi-plus-lg me-1" style="-webkit-text-stroke: 1.5px;"></i>
+		{% trans "Добавить команду" %}
+	</button>
+</div>
+<div class="border rounded" id="diagramContainer">
+	<svg id="diagramSvg">
+		<defs>
+			<marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+				<path d="M0,0 L0,6 L9,3 z">
+			</marker>
+		</defs>
+	</svg>
+</div>

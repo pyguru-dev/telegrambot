@@ -1,13 +1,25 @@
+from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+from django import urls
 
-from .managers import UserManager
+from rest_framework.authtoken.models import Token
 
 from constructor_telegram_bots.functions import generate_random_string
 from constructor_telegram_bots import environment
 
+
+class UserManager(BaseUserManager):
+	def create(self, telegram_id: int, first_name: str, **extra_fields) -> 'User':
+		user: 'User' = super().create(telegram_id=telegram_id, first_name=first_name, **extra_fields)
+		Token.objects.create(user=user)
+		environment.create_user(user=user)
+		return user
+
+	def create_superuser(self, **fields) -> None:
+		raise SyntaxError('Not support to create superuser!')
 
 class User(AbstractBaseUser, PermissionsMixin):
 	telegram_id = models.BigIntegerField('Telegram ID', unique=True, null=True)
@@ -32,14 +44,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 		if not self.confirm_code:
 			self.confirm_code = generate_random_string(length=25, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
 			self.save()
-		return f'{settings.SITE_DOMAIN}user/login/{self.id}/{self.confirm_code}/'
+		return f"{settings.SITE_DOMAIN}{urls.reverse('user:login', kwargs={'user_id': self.id, 'confirm_code': self.confirm_code})}"
 
 	@property
 	async def alogin_url(self) -> str:
 		if not self.confirm_code:
 			self.confirm_code = generate_random_string(length=25, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
 			await self.asave()
-		return f'{settings.SITE_DOMAIN}user/login/{self.id}/{self.confirm_code}/'
+		return f"{settings.SITE_DOMAIN}{urls.reverse('user:login', kwargs={'user_id': self.id, 'confirm_code': self.confirm_code})}"
 
 	def get_telegram_bots_as_dict(self) -> list:
 		return [telegram_bot.to_dict() for telegram_bot in self.telegram_bots.all()]

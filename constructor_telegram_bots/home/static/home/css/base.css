@@ -8,23 +8,33 @@
 	background-color: #f5d256;
 }
 
+.about-site,
+.information-about-site,
+.donations {
+	width: 100%;
+}
+
 @media (min-width: 992px) {
 	.about-site {
 		width: 60%;
 	}
 
-	.information-about-site, .donations {
+	.information-about-site {
+		width: 40%;
+	}
+
+	.donations {
 		width: 50%;
 	}
 }
 
 .date, .sum {
-	width: 25%;
+	width: 30%;
 }
 
 .btn-support-site {
 	width: 180px;
-	padding: 7px 12px 7px 12px;
+	padding: 5px 12px 5px 12px;
 	background-color: #2bd987;
 }
 

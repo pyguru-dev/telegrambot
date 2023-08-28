@@ -20,7 +20,7 @@ class UserModelsTest(BaseTestCase):
 		).first()
 		self.assertIsNotNone(user)
 
-		self.assertEqual(user.login_url, f'{settings.SITE_DOMAIN}user/login/{user.id}/{user.confirm_code}/')
+		self.assertEqual(user.login_url, f"{settings.SITE_DOMAIN}{urls.reverse('user:login', kwargs={'user_id': user.id, 'confirm_code': user.confirm_code})}")
 		self.assertIsNotNone(user.confirm_code)
 		self.assertIsNone(user.last_login)
 
@@ -33,8 +33,8 @@ class UserModelsTest(BaseTestCase):
 class UserViewsTest(BaseTestCase):
 	def test_user_login_view(self) -> None:
 		login_urls = {
-			urls.reverse('user_login', kwargs={'user_id': 0, 'confirm_code': 1}): 'Не удалось найти пользователя!',
-			urls.reverse('user_login', kwargs={'user_id': 1, 'confirm_code': 0}): 'Неверный код подтверждения!',
+			urls.reverse('user:login', kwargs={'user_id': 0, 'confirm_code': 1}): 'Не удалось найти пользователя!',
+			urls.reverse('user:login', kwargs={'user_id': 1, 'confirm_code': 0}): 'Неверный код подтверждения!',
 		}
 
 		for login_url in login_urls:
@@ -47,7 +47,7 @@ class UserViewsTest(BaseTestCase):
 		self.assertEqual(response.status_code, 302)
 
 	def test_user_logout_view(self) -> None:
-		url: str = urls.reverse('user_logout')
+		url: str = urls.reverse('user:logout')
 
 		response: HttpResponse = self.client.get(url)
 		self.assertEqual(response.status_code, 302)

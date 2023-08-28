@@ -42,6 +42,7 @@ class TelegramBot(models.Model):
 			'id': self.id,
 			'username': self.username,
 			'api_token': self.api_token,
+			'is_private': self.is_private,
 			'is_running': self.is_running,
 			'is_stopped': self.is_stopped,
 			'commands_count': self.commands.count(),

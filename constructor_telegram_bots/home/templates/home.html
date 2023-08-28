@@ -10,32 +10,28 @@
 {% endblock styles %}
 
 {% block main %}
-<div class="container d-flex flex-column align-items-center text-center my-3">
+<div class="container d-flex flex-column align-items-center text-center my-3 my-lg-4">
 	{% with updates.first as last_update %}
 		{% if last_update %}
 			<div class="d-flex align-items-center mb-2">
 				<span class="text-secondary me-2">{% trans "Новое обновление:" %}</span>
-				<a class="btn btn-new-update rounded-3 fw-bold px-2 py-1" href="{% url 'update' last_update.id %}">{{ last_update.title }}</a>
+				<a class="btn btn-new-update rounded-3 fw-semibold px-2 py-1" href="{% url 'update' last_update.id %}">{{ last_update.title }}</a>
 			</div>
 		{% endif %}
 	{% endwith %}
-	<div class="about-site mb-4">
-		<h1 class="fw-bold">Constructor Telegram Bots</h1>
+	<div class="about-site">
+		<h1 class="fw-semibold">Constructor Telegram Bots</h1>
 		<p class="lead mb-0">{% trans "Сайт, с помощью которого вы можете легко, бесплатно и без каких-либо знаний в программирование, сделать своего многофункционального Telegram бота." %}</p>
 	</div>
-	<div class="information-about-site mb-4">
+	<div class="information-about-site my-3 my-lg-4">
 		<h3>{% trans "Информация о сайте" %}</h3>
 		<div class="mb-1">
-			<div class="border border-2 rounded-5 p-2" id="usersNumber">
-				<span class="fw-bold mb-0">{{ users.count }}</span>
-			</div>
-			<label for="usersNumber">{% trans "Количество пользователей" %}</label>
+			<div class="border border-2 rounded-4 fw-semibold p-2">{{ users.count }}</div>
+			<span>{% trans "Количество пользователей" %}</span>
 		</div>
 		<div>
-			<div class="border border-2 rounded-5 p-2" id="addedTelegramBotsNumber">
-				<span class="fw-bold mb-0">{{ telegram_bots.count }}</span>
-			</div>
-			<label for="addedTelegramBotsNumber">{% trans "Количество добавленных Telegram ботов" %}</label>
+			<div class="border border-2 rounded-4 fw-semibold p-2">{{ telegram_bots.count }}</div>
+			<span>{% trans "Количество добавленных Telegram ботов" %}</span>
 		</div>
 	</div>
 	<div class="donations">
@@ -64,7 +60,7 @@
 				{% endif %}
 			</tbody>
 		</table>
-		<a class="btn btn-support-site rounded-2 text-dark text-decoration-none fw-bold" href="{% url 'donation' %}">{% trans "Поддержать сайт" %}</a>
+		<a class="btn btn-support-site fw-semibold" href="{% url 'donation' %}">{% trans "Поддержать сайт" %}</a>
 	</div>
 </div>
 {% endblock main %}

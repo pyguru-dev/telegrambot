@@ -8,7 +8,7 @@
 
 	function createToast(message, type) {
 		const toastDiv = document.createElement('div');
-		toastDiv.className = `toast bg-light border fade`;
+		toastDiv.className = `toast bg-light border mb-3 fade`;
 		toastDiv.role = 'alert';
 		toastDiv.setAttribute('aria-live', 'assertive');
 		toastDiv.setAttribute('aria-atomic', 'true');
