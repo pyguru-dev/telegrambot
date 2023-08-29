@@ -8,9 +8,6 @@ from sys import platform
 
 
 urlpatterns = [
-	path('jet/', include('jet.urls', 'jet')),
-	path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),
-
 	path('admin/', admin.site.urls),
 	path('i18n/', include('django.conf.urls.i18n')),
 

@@ -52,9 +52,6 @@ INSTALLED_APPS = [
 	'rest_framework',
 	'rest_framework.authtoken',
 
-	'jet.dashboard',
-	'jet',
-
 	'modeltranslation',
 	'django_json_widget',
 	'ckeditor',
