@@ -52,6 +52,9 @@ INSTALLED_APPS = [
 	'rest_framework',
 	'rest_framework.authtoken',
 
+	'admin_interface',
+	'colorfield',
+
 	'modeltranslation',
 	'django_json_widget',
 	'ckeditor',
