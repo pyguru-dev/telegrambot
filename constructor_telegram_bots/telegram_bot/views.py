@@ -17,7 +17,7 @@ from .services import tasks, database_telegram_bot
 from .functions import check_telegram_bot_api_token as check_telegram_bot_api_token_
 
 from typing import Optional, Union
-from sys import platform
+import sys
 
 
 class TelegramBotsView(APIView):
@@ -105,12 +105,12 @@ class TelegramBotView(APIView):
 def start_or_stop_telegram_bot(request: Request, telegram_bot: TelegramBot) -> Response:
 	if not settings.TEST:
 		if not telegram_bot.is_running and telegram_bot.is_stopped:
-			if platform == 'win32':
+			if sys.platform == 'win32':
 				tasks.start_telegram_bot(telegram_bot_id=telegram_bot.id)
 			else:
 				tasks.start_telegram_bot.delay(telegram_bot_id=telegram_bot.id)
 		elif telegram_bot.is_running and not telegram_bot.is_stopped:
-			if platform == 'win32':
+			if sys.platform == 'win32':
 				tasks.stop_telegram_bot(telegram_bot_id=telegram_bot.id)
 			else:
 				tasks.stop_telegram_bot.delay(telegram_bot_id=telegram_bot.id)

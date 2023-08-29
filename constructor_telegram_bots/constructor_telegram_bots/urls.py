@@ -4,7 +4,7 @@ from django.conf import settings
 
 from telegram_bot.services import tasks
 
-from sys import platform
+import sys
 
 
 urlpatterns = [
@@ -31,5 +31,5 @@ if settings.DEBUG:
 
 	urlpatterns + [re_path(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT})]
 
-if not settings.TEST and platform == 'win32':
+if not settings.TEST and sys.argv[1] == 'runserver' and sys.platform == 'win32':
 	tasks.start_all_telegram_bots()
