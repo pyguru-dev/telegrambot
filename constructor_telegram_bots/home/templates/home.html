@@ -15,7 +15,7 @@
 		{% if last_update %}
 			<div class="d-flex align-items-center mb-2">
 				<span class="text-secondary me-2">{% trans "Новое обновление:" %}</span>
-				<a class="btn btn-new-update rounded-3 fw-semibold px-2 py-1" href="{% url 'update' last_update.id %}">{{ last_update.title }}</a>
+				<a class="btn btn-new-update rounded-3 fw-semibold px-2 py-1" href="{% url 'update' last_update.id %}">{{ last_update.version }}</a>
 			</div>
 		{% endif %}
 	{% endwith %}

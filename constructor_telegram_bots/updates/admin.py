@@ -1,17 +1,17 @@
 from django.contrib import admin
+from django.db import models
 
 from modeltranslation.admin import TranslationAdmin
 from ckeditor.widgets import CKEditorWidget
 
-from django.db import models
 from .models import Update
 
 
 @admin.register(Update)
 class UpdateAdmin(TranslationAdmin):
-	date_hierarchy = 'date_added'
+	date_hierarchy = 'added_date'
 
-	list_display = ('title', 'date_added')
+	list_display = ('version', 'added_date')
 
-	fields = ('image', 'title', 'description')
+	fields = ('image', 'version', 'description')
 	formfield_overrides = {models.TextField: {'widget': CKEditorWidget}}
