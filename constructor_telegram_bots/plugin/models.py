@@ -14,7 +14,7 @@ class Plugin(models.Model):
 	name = models.CharField(_('Название'), max_length=255)
 	code = models.TextField(_('Код'))
 	is_checked = models.BooleanField(_('Проверен'), default=False)
-	date_added = models.DateTimeField(_('Дата добавления'), auto_now_add=True)
+	added_date = models.DateTimeField(_('Добавлен'), auto_now_add=True)
 
 	class Meta:
 		db_table = 'plugin'
@@ -28,7 +28,7 @@ class Plugin(models.Model):
 			'name': self.name,
 			'code': self.code,
 			'is_checked': self.is_checked,
-			'date_added': f'{filters.date(self.date_added)} {filters.time(self.date_added)}',
+			'added_date': f'{filters.date(self.added_date)} {filters.time(self.added_date)}',
 		}
 
 	def save(self, *args, **kwargs) -> None:
@@ -50,20 +50,20 @@ class PluginLog(models.Model):
 	plugin = models.ForeignKey(Plugin, on_delete=models.CASCADE, related_name='logs', verbose_name=_('Плагин'))
 	message = models.TextField(_('Сообщение'))
 	level = models.CharField(_('Уровень'), max_length=7, choices=(('info', 'Info'), ('success', 'Success'), ('danger', 'Danger')), default='info')
-	date_added = models.DateTimeField(_('Дата добавления'), auto_now_add=True)
+	added_date = models.DateTimeField(_('Добавлен'), auto_now_add=True)
 
 	class Meta:
 		db_table = 'plugin_log'
 
-		verbose_name = _('Логи плагина')
-		verbose_name_plural = _('Логи плагинов')
+		verbose_name = _('Логи')
+		verbose_name_plural = _('Логи')
 
 	def to_dict(self) -> dict:
 		return {
 			'plugin_name': self.plugin.name,
 			'message': self.message,
 			'level': self.level,
-			'date_added': f'{filters.date(self.date_added)} {filters.time(self.date_added)}',
+			'added_date': f'{filters.date(self.added_date)} {filters.time(self.added_date)}',
 		}
 
 	def __str__(self) -> str:

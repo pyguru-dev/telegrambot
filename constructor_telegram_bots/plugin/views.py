@@ -7,11 +7,12 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 
 from constructor_telegram_bots.decorators import check_post_request_data_items
-from telegram_bot.decorators import check_telegram_bot_id
-from .decorators import check_plugin_id, check_plugin_data
 
-from .models import Plugin, PluginLog
 from telegram_bot.models import TelegramBot
+from telegram_bot.decorators import check_telegram_bot_id
+
+from .models import *
+from .decorators import check_plugin_id, check_plugin_data
 
 from constructor_telegram_bots import environment
 
