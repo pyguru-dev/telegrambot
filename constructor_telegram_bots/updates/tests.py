@@ -14,7 +14,7 @@ class UpdateModelTests(TestCase):
 		self.assertEqual(str(self.update.image), '')
 		self.assertEqual(self.update.version, '0.0.0-beta')
 		self.assertEqual(self.update.description, 'None...')
-		self.assertIsNotNone(self.update.date_added)
+		self.assertIsNotNone(self.update.added_date)
 
 class ViewsTests(TestCase):
 	def setUp(self) -> None:
