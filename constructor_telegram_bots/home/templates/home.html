@@ -32,21 +32,21 @@
 	</div>
 	<div class="donations">
 		<h3>{% trans "Список пожертвований" %}</h3>
-		<table class="table table-sm table-borderless align-middle">
+		<table class="table table-sm align-middle">
 			<thead>
 				<tr>
-					<th class="date" scope="col">{% trans "Дата" %}</th>
-					<th scope="col">Telegram</th>
 					<th class="sum" scope="col">{% trans "Сумма" %}</th>
+					<th scope="col">Telegram</th>
+					<th class="date" scope="col">{% trans "Дата" %}</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% if donations %}
 					{% for donation in donations %}
 						<tr>
-							<td>{{ donation.date }}</td>
-							<td><a class="link-dark" href="{{ donation.telegram_url }}" target="_blank">{{ donation.telegram_url }}</a></td>
 							<td>{{ donation.sum }}€</td>
+							<td><a class="link-dark" href="{{ donation.telegram_url }}" target="_blank">{{ donation.telegram_url }}</a></td>
+							<td>{{ donation.date }}</td>
 						</tr>
 					{% endfor %}
 				{% else %}

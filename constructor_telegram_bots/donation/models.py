@@ -3,9 +3,9 @@ from django.utils.translation import gettext_lazy as _
 
 
 class Donation(models.Model):
-	date = models.DateTimeField(_('Дата'))
-	telegram_url = models.CharField(_('Ссылка на Telegram'), max_length=255)
 	sum = models.FloatField(_('Сумма'))
+	telegram_url = models.CharField(_('Ссылка на Telegram'), max_length=255)
+	date = models.DateTimeField(_('Дата'))
 
 	class Meta:
 		db_table = 'donation'
