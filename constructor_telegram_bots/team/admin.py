@@ -7,8 +7,8 @@ from .models import TeamMember
 
 @admin.register(TeamMember)
 class TeamMemberAdmin(TranslationAdmin):
-	date_hierarchy = 'date_joined'
+	date_hierarchy = 'joined_date'
 	list_filter = ('speciality',)
 
-	list_display = ('username', 'speciality', 'date_joined')
-	fields = ('image', 'username', 'speciality', 'date_joined')
+	list_display = ('id', 'username', 'speciality', 'joined_date')
+	fields = ('image', 'username', 'speciality', 'joined_date')
