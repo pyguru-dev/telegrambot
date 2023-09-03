@@ -9,7 +9,7 @@ class BaseTestCase(TestCase):
 		self.maxDiff = None
 		self.client = Client(enforce_csrf_checks=True)
 
-		self.user: User = User.objects.create(123456789, 'exg1o')
+		self.user: User = User.objects.create(telegram_id=123456789, first_name='exg1o')
 		self.telegram_bot: TelegramBot = TelegramBot.objects.create(
 			owner=self.user,
 			api_token='123456789:qwertyuiop',

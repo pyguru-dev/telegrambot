@@ -5,7 +5,7 @@ from aiogram import types
 from typing import Any
 
 
-class CustomTestCase(TestCase):
+class BaseTestCase(TestCase):
 	async def send_message(self, handler: Any, text: str) -> list:
 		message: types.Message = types.Update(**{
 			'update_id': 1,

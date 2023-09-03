@@ -10,9 +10,11 @@ from rest_framework.authtoken.models import Token
 from constructor_telegram_bots.functions import generate_random_string
 from constructor_telegram_bots import environment
 
+import requests
+
 
 class UserManager(BaseUserManager):
-	def create(self, telegram_id: int, first_name: str, **extra_fields) -> 'User':
+	def create(self, *, telegram_id: int, first_name: str, **extra_fields) -> 'User':
 		user: 'User' = super().create(telegram_id=telegram_id, first_name=first_name, **extra_fields)
 		Token.objects.create(user=user)
 		environment.create_user(user=user)
@@ -52,6 +54,16 @@ class User(AbstractBaseUser, PermissionsMixin):
 			self.confirm_code = generate_random_string(length=25, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890')
 			await self.asave()
 		return f"{settings.SITE_DOMAIN}{urls.reverse('user:login', kwargs={'user_id': self.id, 'confirm_code': self.confirm_code})}"
+
+	def update_first_name(self) -> None:
+		response: requests.Response = requests.get(f'https://api.telegram.org/bot{settings.CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN}/getChat?chat_id={self.telegram_id}')
+
+		if response.status_code == 200:
+			first_name: str = response.json()['result']['first_name']
+
+			if self.first_name != first_name:
+				self.first_name = first_name
+				self.save()
 
 	def get_telegram_bots_as_dict(self) -> list:
 		return [telegram_bot.to_dict() for telegram_bot in self.telegram_bots.all()]

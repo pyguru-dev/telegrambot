@@ -1,4 +1,4 @@
-from telegram_bot.services.tests import CustomTestCase
+from telegram_bot.services.tests import BaseTestCase
 from telegram_bot.services.custom_aiogram import CustomBot
 
 from user.models import User
@@ -8,7 +8,7 @@ from .telegram_bot import ConstructorTelegramBot
 from functools import wraps
 
 
-class ConstructorTelegramBotTests(CustomTestCase):
+class ConstructorTelegramBotTests(BaseTestCase):
 	def setUp(self) -> None:
 		self.constructor_telegram_bot = ConstructorTelegramBot()
 

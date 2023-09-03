@@ -1,4 +1,4 @@
-from telegram_bot.services.tests import CustomTestCase
+from telegram_bot.services.tests import BaseTestCase
 
 from telegram_bot.services.custom_aiogram import CustomBot
 
@@ -12,14 +12,10 @@ from asgiref.sync import sync_to_async
 from functools import wraps
 
 
-class UserTelegramBotTests(CustomTestCase):
+class UserTelegramBotTests(BaseTestCase):
 	def setUp(self) -> None:
-		self.user: User = User.objects.create(123456789, 'exg1o')
-		self.telegram_bot: TelegramBot = TelegramBot.objects.create(
-			owner=self.user,
-			api_token='123456789:qwertyuiop',
-			is_private=False
-		)
+		self.user: User = User.objects.create(telegram_id=123456789, first_name='exg1o')
+		self.telegram_bot: TelegramBot = TelegramBot.objects.create(owner=self.user, api_token='123456789:qwertyuiop', is_private=False)
 
 		self.user_telegram_bot = UserTelegramBot(telegram_bot=self.telegram_bot)
 		self.handler = self.user_telegram_bot.message_and_callback_query_handler

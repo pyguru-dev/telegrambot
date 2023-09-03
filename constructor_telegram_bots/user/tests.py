@@ -1,5 +1,4 @@
-from constructor_telegram_bots.tests import BaseTestCase
-
+from django.test import TestCase, Client
 from django.http import HttpResponse
 from django import urls
 from django.conf import settings
@@ -7,34 +6,42 @@ from django.conf import settings
 from .models import User
 
 
-class UserModelsTest(BaseTestCase):
-	def test_models(self) -> None:
-		user: User = User.objects.filter(
-			id=1,
-			telegram_id=123456789,
-			first_name='exg1o',
-			is_staff=False,
-			is_superuser=False,
-			confirm_code=None,
-			last_login=None
-		).first()
-		self.assertIsNotNone(user)
+class BaseTestCase(TestCase):
+	def setUp(self) -> None:
+		self.client = Client()
+		self.user: User = User.objects.create(telegram_id=123456789, first_name='exg1o')
 
-		self.assertEqual(user.login_url, f"{settings.SITE_DOMAIN}{urls.reverse('user:login', kwargs={'user_id': user.id, 'confirm_code': user.confirm_code})}")
-		self.assertIsNotNone(user.confirm_code)
-		self.assertIsNone(user.last_login)
+class UserModelTests(BaseTestCase):
+	def test_fields(self) -> None:
+		self.assertEqual(self.user.telegram_id, 123456789)
+		self.assertEqual(self.user.first_name, 'exg1o')
+		self.assertFalse(self.user.is_superuser)
+		self.assertFalse(self.user.is_staff)
+		self.assertIsNone(self.user.confirm_code)
+		self.assertIsNone(self.user.last_login)
 
-		self.client.get(user.login_url)
+	def test_login_url(self) -> None:
+		self.assertEqual(self.user.login_url, f"{settings.SITE_DOMAIN}{urls.reverse('user:login', kwargs={'user_id': self.user.id, 'confirm_code': self.user.confirm_code})}")
+		self.assertIsNotNone(self.user.confirm_code)
+		self.assertIsNone(self.user.last_login)
 
-		user: User = User.objects.get(id=1)
-		self.assertIsNone(user.confirm_code)
-		self.assertIsNotNone(user.last_login)
+		self.client.get(self.user.login_url)
 
-class UserViewsTest(BaseTestCase):
+		self.user.refresh_from_db()
+		self.assertIsNone(self.user.confirm_code)
+		self.assertIsNotNone(self.user.last_login)
+
+class ViewsTests(BaseTestCase):
 	def test_user_login_view(self) -> None:
 		login_urls = {
-			urls.reverse('user:login', kwargs={'user_id': 0, 'confirm_code': 1}): 'Не удалось найти пользователя!',
-			urls.reverse('user:login', kwargs={'user_id': 1, 'confirm_code': 0}): 'Неверный код подтверждения!',
+			urls.reverse('user:login', kwargs={
+				'user_id': 0,
+				'confirm_code': 1,
+			}): 'Не удалось найти пользователя!',
+			urls.reverse('user:login', kwargs={
+				'user_id': 1,
+				'confirm_code': 0,
+			}): 'Неверный код подтверждения!',
 		}
 
 		for login_url in login_urls:
@@ -51,6 +58,7 @@ class UserViewsTest(BaseTestCase):
 
 		response: HttpResponse = self.client.get(url)
 		self.assertEqual(response.status_code, 302)
+
 		self.client.get(self.user.login_url)
 
 		response: HttpResponse = self.client.get(url)
