@@ -10,6 +10,7 @@ class TelegramBotMenuViewsTests(BaseTestCase):
 
 		response: HttpResponse = self.client.get(url)
 		self.assertEqual(response.status_code, 302)
+
 		self.client.get(self.user.login_url)
 
 		response: HttpResponse = self.client.get(url)
@@ -21,6 +22,7 @@ class TelegramBotMenuViewsTests(BaseTestCase):
 
 		response: HttpResponse = self.client.get(url)
 		self.assertEqual(response.status_code, 302)
+
 		self.client.get(self.user.login_url)
 
 		response: HttpResponse = self.client.get(url)
@@ -32,6 +34,7 @@ class TelegramBotMenuViewsTests(BaseTestCase):
 
 		response: HttpResponse = self.client.get(url)
 		self.assertEqual(response.status_code, 302)
+
 		self.client.get(self.user.login_url)
 
 		response: HttpResponse = self.client.get(url)
@@ -43,6 +46,7 @@ class TelegramBotMenuViewsTests(BaseTestCase):
 
 		response: HttpResponse = self.client.get(url)
 		self.assertEqual(response.status_code, 302)
+
 		self.client.get(self.user.login_url)
 
 		response: HttpResponse = self.client.get(url)
@@ -54,6 +58,7 @@ class TelegramBotMenuViewsTests(BaseTestCase):
 
 		response: HttpResponse = self.client.get(url)
 		self.assertEqual(response.status_code, 302)
+
 		self.client.get(self.user.login_url)
 
 		response: HttpResponse = self.client.get(url)
