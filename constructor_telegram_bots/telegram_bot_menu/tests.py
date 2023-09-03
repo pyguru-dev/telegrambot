@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from django import urls
 
 
-class TelegramBotMenuViewsTests(BaseTestCase):
+class ViewsTests(BaseTestCase):
 	def test_telegram_bot_view(self) -> None:
 		url: str = urls.reverse('telegram_bot_menu:telegram_bot', kwargs={'telegram_bot_id': self.telegram_bot.id})
 
