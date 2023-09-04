@@ -8,6 +8,9 @@ const copyToBuffer = (value) => {
 		constructor() {
 			this.input = document.querySelector('#telegramBotCommandOffcanvasNameInput');
 		}
+		get() {
+			return this.input.value;
+		}
 		reset() {
 			this.input.value = null;
 		}
@@ -15,8 +18,19 @@ const copyToBuffer = (value) => {
 
 	class Command {
 		constructor() {
+			this.parentDiv = document.querySelector('#telegramBotCommandOffcanvasCommandAddition');
 			this.input = document.querySelector('#telegramBotCommandOffcanvasCommandInput');
 			this.showInMenuCheckBox = document.querySelector('#telegramBotCommandOffcanvasCommandShowInMenuCheckbox');
+		}
+		get() {
+			if (!this.parentDiv.classList.contains('d-none')) {
+				return {
+					command: this.input.value,
+					show_in_menu: this.showInMenuCheckBox.checked,
+				}
+			} else {
+				return null;
+			}
 		}
 		reset() {
 			this.input.value = null;
@@ -28,6 +42,7 @@ const copyToBuffer = (value) => {
 		constructor() {
 			const self = this;
 
+			this.parentDiv = document.querySelector('#telegramBotCommandOffcanvasImageAddition');
 			this.previewImg = document.querySelector('#telegramBotCommandOffcanvasImagePreview');
 			this.input = document.querySelector('#telegramBotCommandOffcanvasImageInput');
 			this.file = null;
@@ -42,6 +57,20 @@ const copyToBuffer = (value) => {
 				});
 				imageReader.readAsDataURL(self.file);
 			});
+		}
+		get() {
+			if (
+				!this.parentDiv.classList.contains('d-none') &&
+				!this.previewImg.classList.contains('d-none')
+			) {
+				if (this.file) {
+					return this.file;
+				} else {
+					return 'not_edited';
+				}
+			} else {
+				return 'null';
+			}
 		}
 		reset() {
 			this.previewImg.classList.add('d-none');
@@ -114,6 +143,20 @@ const copyToBuffer = (value) => {
 				}
 			}
 		}
+		get() {
+			const data = {
+				mode: this.mode,
+				text: null,
+			}
+
+			if (this.mode === 'default') {
+				data.text = this.div.querySelector('textarea').value;
+			} else {
+				data.text = this.monacoEditor.getModel().getValue();
+			}
+
+			return data;
+		}
 		reset() {
 			this.monacoEditor = null;
 			this.mode = null;
@@ -123,6 +166,7 @@ const copyToBuffer = (value) => {
 
 	class Keyboard {
 		constructor() {
+			this.parentDiv = document.querySelector('#telegramBotCommandOffcanvasKeyboardAddition');
 			this.modesRadios = document.querySelectorAll('[name="telegramBotCommandOffcanvasKeyboardModes"]');
 			this.buttonsRowsDiv = document.querySelector('#telegramBotCommandOffcanvasKeyboardButtonsRows');
 			this.selectedKeyboardButtonRowButton = null;
@@ -255,6 +299,27 @@ const copyToBuffer = (value) => {
 				this.mode = mode;
 			}
 		}
+		get() {
+			if (!this.parentDiv.classList.contains('d-none')) {
+				const keyboardButtons = [];
+
+				this.buttonsDiv.querySelectorAll('.keyboard-button').forEach(keyboardButton => {
+					keyboardButtons.push({
+						id: keyboardButton.id,
+						row: keyboardButton.querySelector('.btn-row').innerHTML,
+						text: keyboardButton.querySelector('.name-input').value,
+						url: keyboardButton.querySelector('.link-input').value,
+					});
+				});
+
+				return {
+					mode: this.mode,
+					buttons: keyboardButtons,
+				}
+			} else {
+				return null;
+			}
+		}
 		reset() {
 			this.buttonsRowsDiv.innerHTML = '';
 			this.selectedKeyboardButtonRowButton = null;
@@ -266,12 +331,15 @@ const copyToBuffer = (value) => {
 
 	class ApiRequest {
 		constructor() {
+			this.parentDiv = document.querySelector('#telegramBotCommandOffcanvasApiRequestAddition');
 			this.urlInput = document.querySelector('#telegramBotCommandOffcanvasApiRequestUrlInput');
 			this.editorDiv = document.querySelector('#telegramBotCommandOffcanvasApiRequestDataEditor');
 			this.monacoEditor = null;
 			this.method = null;
 
-			document.querySelectorAll('[name="telegramBotCommandOffcanvasApiRequestMethods"]').forEach(apiRequestMethodRadio => this.setMethod(apiRequestMethodRadio.value));
+			document.querySelectorAll('[name="telegramBotCommandOffcanvasApiRequestMethods"]').forEach(
+				apiRequestMethodRadio => this.setMethod(apiRequestMethodRadio.value)
+			);
 		}
 		createMonacoEditor() {
 			const self = this;
@@ -317,6 +385,17 @@ const copyToBuffer = (value) => {
 				});
 			}
 		}
+		get() {
+			if (!this.parentDiv.classList.contains('d-none')) {
+				return {
+					url: this.urlInput.value,
+					method: this.method,
+					data: this.monacoEditor.getModel().getValue(),
+				}
+			} else {
+				return null;
+			}
+		}
 		reset() {
 			this.urlInput.value = '';
 			this.editorDiv.innerHTML = '';
@@ -328,6 +407,7 @@ const copyToBuffer = (value) => {
 
 	class DatabaseRecord {
 		constructor() {
+			this.parentDiv = document.querySelector('#telegramBotCommandOffcanvasDatabaseRecordAddition');
 			this.editorDiv = document.querySelector('#telegramBotCommandOffcanvasDatabaseRecordEditor');
 			this.monacoEditor = null;
 		}
@@ -364,6 +444,13 @@ const copyToBuffer = (value) => {
 				self.monacoEditor.onDidChangeModelContent(() => updateMonacoEditorHeight(self.monacoEditor));
 			});
 		}
+		get() {
+			if (!this.parentDiv.classList.contains('d-none')) {
+				return this.monacoEditor.getModel().getValue();
+			} else {
+				return null;
+			}
+		}
 		reset() {
 			this.editorDiv.innerHTML = '';
 			this.monacoEditor = null;
@@ -386,8 +473,10 @@ const copyToBuffer = (value) => {
 			this.apiRequest = new ApiRequest();
 			this.databaseRecord = new DatabaseRecord();
 
-			document.querySelector('#telegramBotCommandOffcanvasButton').addEventListener('click', () => this.addCommand());
+			this.addCommandButton = document.querySelector('#telegramBotCommandOffcanvasAddCommandButton');
+			this.saveCommandButton = document.querySelector('#telegramBotCommandOffcanvasSaveCommandButton');
 
+			document.querySelector('#telegramBotCommandOffcanvasButton').addEventListener('click', () => this.show('add', null));
 			this.additions.querySelectorAll('button').forEach(additionButton => {
 				const additionButtonAdditionTarget = document.querySelector(additionButton.getAttribute('addition-target'));
 
@@ -407,16 +496,59 @@ const copyToBuffer = (value) => {
 					}
 				});
 			});
+			this.addCommandButton.addEventListener('click', () => this.sendData('POST', telegramBotCommandsUrl));
+			this.saveCommandButton.addEventListener('click', function() {
+				const telegramBotCommandId = self.saveCommandButton.getAttribute('telegram-bot-command-id');
+				self.sendData('PATCH', `/telegram-bots/${telegramBotId}/commands/${telegramBotCommandId}/`);
+			});
 		}
-		addCommand() {
-			this.title.innerHTML = telegramBotCommandOffcanvasAddCommandTitleText;
-
+		show(mode, telegramBotCommand) {
 			this.reset();
+
+			if (mode === 'add') {
+				this.title.innerHTML = telegramBotCommandOffcanvasAddCommandTitleText;
+
+				this.addCommandButton.classList.remove('d-none');
+				this.saveCommandButton.classList.add('d-none');
+			} else {
+				this.title.innerHTML = telegramBotCommandOffcanvasEditCommandTitleText;
+
+				this.addCommandButton.classList.add('d-none');
+				this.saveCommandButton.classList.remove('d-none');
+				this.saveCommandButton.setAttribute('telegram-bot-command-id', telegramBotCommand.id);
+
+				// Здесь будет код для установки значений
+			}
 
 			this.bootstrap.toggle();
 		}
-		editCommand() {
-			
+		sendData(method, url) {
+			const self = this;
+
+			const data = {
+				'name': this.name.get(),
+				'command': this.command.get(),
+				'message_text': this.messageText.get(),
+				'keyboard': this.keyboard.get(),
+				'api_request': this.apiRequest.get(),
+				'database_record': this.databaseRecord.get(),
+			}
+			const formData = new FormData();
+			formData.append('image', this.image.get());
+			formData.append('data', JSON.stringify(data));
+
+			fetch(url, {
+				method: method,
+				headers: {'Authorization': `Token ${userApiToken}`},
+				body: formData,
+			}).then(response => {
+				if (response.ok) {
+					self.bootstrap.toggle();
+					self.reset();
+				}
+
+				response.json().then(jsonResponse => createToast(jsonResponse['message'], jsonResponse['level']));
+			});
 		}
 		reset() {
 			this.name.reset();
