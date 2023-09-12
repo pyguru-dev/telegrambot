@@ -7,13 +7,13 @@ from .models import User
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
 	search_fields = ('first_name',)
-	date_hierarchy = 'date_joined'
-	list_filter = ('is_staff', 'date_joined')
+	date_hierarchy = 'joined_date'
+	list_filter = ('is_staff', 'joined_date')
 
-	list_display = ('id', 'telegram_id', 'first_name', 'telegram_bots_count', 'is_staff', 'last_login', 'date_joined')
+	list_display = ('id', 'telegram_id', 'first_name', 'telegram_bots_count', 'is_staff', 'last_login', 'joined_date')
 
-	fields = ('id', 'telegram_id', 'first_name', 'telegram_bots_count', 'is_staff', 'groups', 'last_login', 'date_joined')
-	readonly_fields = ('id', 'telegram_id', 'first_name', 'telegram_bots_count', 'last_login', 'date_joined')
+	fields = ('id', 'telegram_id', 'first_name', 'telegram_bots_count', 'is_staff', 'groups', 'last_login', 'joined_date')
+	readonly_fields = ('id', 'telegram_id', 'first_name', 'telegram_bots_count', 'last_login', 'joined_date')
 
 	@admin.display(description=_('Количество Telegram ботов'))
 	def telegram_bots_count(self, user: User) -> int:
