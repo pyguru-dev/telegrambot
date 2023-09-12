@@ -1,4 +1,4 @@
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.http import HttpResponse
 from django import urls
 
@@ -7,7 +7,6 @@ from user.models import User
 
 class ViewsTests(TestCase):
 	def setUp(self) -> None:
-		self.client = Client(enforce_csrf_checks=True)
 		self.user: User = User.objects.create(telegram_id=123456789, first_name='exg1o')
 
 	def test_personal_cabinet_view(self) -> None:
