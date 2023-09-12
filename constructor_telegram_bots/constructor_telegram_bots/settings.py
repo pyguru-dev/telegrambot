@@ -15,11 +15,7 @@ load_dotenv()
 
 SECRET_KEY = os.getenv('SECRET_KEY', f"django-insecure-{generate_random_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}")
 DEBUG = os.getenv('DEBUG', 'False') == 'True'
-
-try:
-	TEST = sys.argv[0] == 'manage.py' and sys.argv[1] == 'test'
-except:
-	TEST = False
+TEST = len(sys.argv) >= 2 and sys.argv[0] == 'manage.py' and sys.argv[1] == 'test'
 
 CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
 CONSTRUCTOR_TELEGRAM_BOT_USERNAME = os.getenv('TELEGRAM_BOT_USERNAME')
@@ -97,8 +93,6 @@ REST_FRAMEWORK = {
 	],
 }
 
-ROOT_URLCONF = 'constructor_telegram_bots.urls'
-
 TEMPLATES = [
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -127,12 +121,14 @@ TEMPLATES = [
 	}
 ]
 
+ROOT_URLCONF = 'constructor_telegram_bots.urls'
 
 WSGI_APPLICATION = 'constructor_telegram_bots.wsgi.application'
 
+
 AUTH_USER_MODEL = 'user.User'
 
-if sys.argv[0] == 'manage.py' and sys.argv[1] == 'test':
+if TEST:
 	DATABASES = {
 		'default': {
 			'ENGINE': 'django.db.backends.sqlite3',
@@ -154,7 +150,6 @@ else:
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-# Languages
 USE_I18N = True
 USE_L10N = True
 
@@ -169,7 +164,6 @@ MODELTRANSLATION_DEFAULT_LANGUAGE = 'ru'
 LOCALE_PATHS = (BASE_DIR / 'locale',)
 
 
-# Timezone
 TIME_ZONE = 'UTC'
 USE_TZ = True
 
