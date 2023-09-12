@@ -1,4 +1,4 @@
-from django.test import TestCase, Client
+from django.test import TestCase
 from django.http import HttpResponse
 from django import urls
 from django.conf import settings
@@ -8,7 +8,6 @@ from .models import User
 
 class BaseTestCase(TestCase):
 	def setUp(self) -> None:
-		self.client = Client()
 		self.user: User = User.objects.create(telegram_id=123456789, first_name='exg1o')
 
 class UserModelTests(BaseTestCase):

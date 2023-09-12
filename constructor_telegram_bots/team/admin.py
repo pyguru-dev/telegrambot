@@ -14,4 +14,4 @@ class TeamMemberAdmin(TranslationAdmin):
 
 	@admin.display(description='@username', ordering='username')
 	def username_(self, team_member: TeamMember) -> str:
-		return str(team_member)
+		return f'@{team_member.username}'
