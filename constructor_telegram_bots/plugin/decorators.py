@@ -30,10 +30,9 @@ def check_plugin_data(func):
 	def wrapper(*args, **kwargs):
 		telegram_bot: TelegramBot = kwargs['telegram_bot'] if 'telegram_bot' in kwargs else kwargs['plugin'].telegram_bot
 		name: Optional[str] = kwargs['name'] if 'name' in kwargs else None
-		code: str = kwargs['code']
 
 		if name is not None:
-			if name:
+			if not name:
 				return Response({
 					'message': _('Введите название плагина!'),
 					'level': 'danger',
@@ -51,17 +50,11 @@ def check_plugin_data(func):
 					'level': 'danger',
 				}, status=400)
 
-		if Plugin.objects.filter(telegram_bot=telegram_bot, name=name).exists():
-			return Response({
-				'message': _('У вас уже добавлен плагин с таким названием!'),
-				'level': 'danger',
-			}, status=400)
-
-		if not code:
-			return Response({
-				'message': _('Введите код плагина!'),
-				'level': 'danger',
-			}, status=400)
+			if Plugin.objects.filter(telegram_bot=telegram_bot, name=name).exists():
+				return Response({
+					'message': _('У вас уже добавлен плагин с таким названием!'),
+					'level': 'danger',
+				}, status=400)
 
 		return func(*args, **kwargs)
 	return wrapper

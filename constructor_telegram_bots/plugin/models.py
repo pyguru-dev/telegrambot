@@ -22,7 +22,7 @@ class Plugin(models.Model):
 		verbose_name = _('Плагин')
 		verbose_name_plural = _('Плагины')
 
-	def to_dict(self) -> str:
+	def to_dict(self) -> dict:
 		return {
 			'id': self.id,
 			'name': self.name,
