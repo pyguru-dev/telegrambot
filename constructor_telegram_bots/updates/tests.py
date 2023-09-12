@@ -7,7 +7,6 @@ from .models import Update
 
 class UpdateModelTests(TestCase):
 	def setUp(self) -> None:
-		self.client = Client()
 		self.update = Update.objects.create(version='0.0.0-beta', description='None...')
 
 	def test_fields(self) -> None:
@@ -17,9 +16,6 @@ class UpdateModelTests(TestCase):
 		self.assertIsNotNone(self.update.added_date)
 
 class ViewsTests(TestCase):
-	def setUp(self) -> None:
-		self.client = Client()
-
 	def test_updates_view(self) -> None:
 		url: str = urls.reverse('updates')
 		response: HttpResponse = self.client.get(url)
