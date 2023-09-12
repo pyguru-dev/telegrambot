@@ -7,12 +7,12 @@ from .models import *
 
 class InstructionSectionModelTests(TestCase):
 	def setUp(self) -> None:
-		self.instruction_section: InstructionSection = InstructionSection.objects.create(position=1, title='Test', text='Test...')
+		self.instruction_section: InstructionSection = InstructionSection.objects.create(title='Test', text='Test...', position=1)
 
 	def test_fields(self) -> None:
-		self.assertEqual(self.instruction_section.position, 1)
 		self.assertEqual(self.instruction_section.title, 'Test')
 		self.assertEqual(self.instruction_section.text, 'Test...')
+		self.assertEqual(self.instruction_section.position, 1)
 
 class ViewsTests(TestCase):
 	def test_instruction_view(self) -> None:

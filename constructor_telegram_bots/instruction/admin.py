@@ -1,6 +1,5 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
-from django.utils.translation import gettext_lazy as _
 
 from ckeditor.widgets import CKEditorWidget
 
@@ -10,7 +9,7 @@ from .models import InstructionSection
 
 @admin.register(InstructionSection)
 class InstructionSectionAdmin(TranslationAdmin):
-	list_display = ('id', 'position', 'title')
+	list_display = ('title', 'position')
 
-	fields = ('position', 'title', 'text')
+	fields = ('title', 'text', 'position')
 	formfield_overrides = {models.TextField: {'widget': CKEditorWidget}}

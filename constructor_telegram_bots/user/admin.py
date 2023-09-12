@@ -6,9 +6,9 @@ from .models import User
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-	search_fields = ('first_name',)
+	search_fields = ('telegram_id', 'first_name')
 	date_hierarchy = 'joined_date'
-	list_filter = ('is_staff', 'joined_date')
+	list_filter = ('is_staff', 'last_login', 'joined_date')
 
 	list_display = ('id', 'telegram_id', 'first_name', 'telegram_bots_count', 'is_staff', 'last_login', 'joined_date')
 

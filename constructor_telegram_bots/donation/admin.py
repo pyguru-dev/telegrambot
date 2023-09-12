@@ -13,22 +13,20 @@ from .models import *
 class DonationAdmin(admin.ModelAdmin):
 	date_hierarchy = 'date'
 
-	list_display = ('id', 'show_sum', 'show_telegram_url', 'date')
+	list_display = ('id', 'sum_', 'telegram_url_', 'date')
 	fields = ('sum', 'telegram_url', 'date')
 
 	@admin.display(description=_('Сумма'), ordering='sum')
-	def show_sum(self, donation: Donation) -> str:
+	def sum_(self, donation: Donation) -> str:
 		return f'{donation.sum}€'
 
 	@admin.display(description=_('Telegram'), ordering='telegram_url')
-	def show_telegram_url(self, donation: Donation) -> str:
+	def telegram_url_(self, donation: Donation) -> str:
 		return html.format_html(f'<a href="{donation.telegram_url}" style="font-weight: 600;" target="_blank">{donation.telegram_url}</a>')
 
 @admin.register(DonationSection)
 class DonationSectionAdmin(TranslationAdmin):
-	ordering = ('position',)
+	list_display = ('title', 'position')
 
-	list_display = ('id', 'position', 'title')
-
-	fields = ('position', 'title', 'text')
+	fields = ('title', 'text', 'position')
 	formfield_overrides = {models.TextField: {'widget': CKEditorWidget}}

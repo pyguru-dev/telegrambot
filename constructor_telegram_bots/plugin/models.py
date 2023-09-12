@@ -49,7 +49,11 @@ class PluginLog(models.Model):
 	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, verbose_name=_('Telegram бот'))
 	plugin = models.ForeignKey(Plugin, on_delete=models.CASCADE, related_name='logs', verbose_name=_('Плагин'))
 	message = models.TextField(_('Сообщение'))
-	level = models.CharField(_('Уровень'), max_length=7, choices=(('info', 'Info'), ('success', 'Success'), ('danger', 'Danger')), default='info')
+	level = models.CharField(_('Уровень'), max_length=7, choices=(
+		('info', _('Информация')),
+		('success', _('Успех')),
+		('danger', _('Ошибка'))
+	), default='info')
 	added_date = models.DateTimeField(_('Добавлен'), auto_now_add=True)
 
 	class Meta:

@@ -18,9 +18,9 @@ class Donation(models.Model):
 		return self.telegram_url
 
 class DonationSection(models.Model):
-	position = models.IntegerField(_('Позиция'))
 	title = models.CharField(_('Заголовок'), max_length=255)
 	text = models.TextField(_('Текст'))
+	position = models.IntegerField(_('Позиция'))
 
 	class Meta:
 		db_table = 'donation_section'

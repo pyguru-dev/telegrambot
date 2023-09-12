@@ -1,6 +1,5 @@
 from django.contrib import admin
 from modeltranslation.admin import TranslationAdmin
-from django.utils.translation import gettext_lazy as _
 
 from .models import TeamMember
 
@@ -8,7 +7,11 @@ from .models import TeamMember
 @admin.register(TeamMember)
 class TeamMemberAdmin(TranslationAdmin):
 	date_hierarchy = 'joined_date'
-	list_filter = ('speciality',)
+	list_filter = ('speciality', 'joined_date')
 
-	list_display = ('id', 'username', 'speciality', 'joined_date')
+	list_display = ('username_', 'speciality', 'joined_date')
 	fields = ('image', 'username', 'speciality', 'joined_date')
+
+	@admin.display(description='@username', ordering='username')
+	def username_(self, team_member: TeamMember) -> str:
+		return str(team_member)
