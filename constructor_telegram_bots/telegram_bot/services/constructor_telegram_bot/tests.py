@@ -6,6 +6,7 @@ from user.models import User
 from .telegram_bot import ConstructorTelegramBot
 
 from functools import wraps
+import json
 
 
 class ConstructorTelegramBotTests(BaseTestCase):
@@ -24,22 +25,24 @@ class ConstructorTelegramBotTests(BaseTestCase):
 
 	@setup
 	async def test_start_command(self):
-		results: list = await self.send_message(self.constructor_telegram_bot.start_command, '/start')
-		assert results[0]['method'] == 'send_message'
-		assert results[0]['text'] == f"""\
+		result: dict = (await self.send_message(self.constructor_telegram_bot.start_command, '/start'))[0]
+
+		assert result['method'] == 'sendMessage'
+		assert result['text'] == f"""\
 			Hello, @test!
 			I am a Telegram bot for Constructor Telegram Bots site.
 			Thank you for being with us ❤️
-		""".replace('	', '')
+		""".replace('\t', '')
 
 	@setup
 	async def test_login_command(self):
-		results: list = await self.send_message(self.constructor_telegram_bot.login_command, '/login')
+		result: dict = (await self.send_message(self.constructor_telegram_bot.login_command, '/login'))[0]
+		result_keyboard: dict = json.loads(result['reply_markup'])['inline_keyboard']
 
 		user: User = await User.objects.afirst()
 		login_url: str = await user.alogin_url
 
-		assert results[0]['method'] == 'send_message'
-		assert results[0]['text'] == 'Click on the button below to login on the site.'
-		assert results[0]['reply_markup']['inline_keyboard'][0][0]['text'] == 'Login'
-		assert results[0]['reply_markup']['inline_keyboard'][0][0]['url'] == login_url
+		assert result['method'] == 'sendMessage'
+		assert result['text'] == 'Click on the button below to login on the site.'
+		assert result_keyboard[0][0]['text'] == 'Login'
+		assert result_keyboard[0][0]['url'] == login_url

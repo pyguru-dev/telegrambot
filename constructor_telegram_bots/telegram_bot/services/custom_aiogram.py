@@ -1,14 +1,14 @@
 from aiogram import Bot, types
 from aiogram.dispatcher import Dispatcher
 from aiohttp.helpers import sentinel
-from aiogram.utils.exceptions import TerminatedByOtherGetUpdates, TelegramAPIError, ConflictError, NetworkError
+from aiogram.utils.exceptions import *
 
 from django.conf import settings
 
 import asyncio
-from asyncio.exceptions import TimeoutError
 import aiohttp
 
+from typing import Optional, Union
 import logging
 
 
@@ -16,34 +16,22 @@ log = logging.getLogger('aiogram')
 
 
 class CustomBot(Bot):
-	def __init__(self, *args, **kwargs):
-		if not settings.TEST:
-			super().__init__(*args, **kwargs)
-		else:
+	def __init__(self, *args, **kwargs) -> None:
+		if settings.TEST:
 			self.results = []
-
-	async def delete_message(self, *args, **kwargs):
-		if not settings.TEST:
-			return await super().delete_message(*args, **kwargs)
 		else:
-			self.results.append({'method': 'delete_message'})
+			super().__init__(*args, **kwargs)
 
-	async def send_message(self, *args, **kwargs):
-		if not settings.TEST:
-			return await super().send_message(*args, **kwargs)
+	async def request(self, *args, **kwargs) ->  Union[list, dict, bool]:
+		if settings.TEST:
+			self.results.append({'method': args[0], **args[1]})
+			return {}
 		else:
-			kwargs.update({'method': 'send_message'})
-			self.results.append(kwargs)
+			return await super().request(*args, **kwargs)
 
-	async def send_photo(self, *args, **kwargs):
-		if not settings.TEST:
-			return await super().send_photo(*args, **kwargs)
-		else:
-			kwargs.update({'method': 'send_photo'})
-			self.results.append(kwargs)
-
-	async def get_results(self):
-		return self.results
+	async def get_results(self) -> Optional[list]:
+		print(self.results)
+		return self.results if settings.TEST else None
 
 class CustomDispatcher(Dispatcher):
 	def __init__(self, bot_username: str, bot: CustomBot):
@@ -81,7 +69,7 @@ class CustomDispatcher(Dispatcher):
 			except TerminatedByOtherGetUpdates:
 				log.error(f'@{self.bot_username} || Telegram bot is already started!')
 				break
-			except (TelegramAPIError, ConflictError, NetworkError, TimeoutError):
+			except (TelegramAPIError, ConflictError, NetworkError, asyncio.exceptions.TimeoutError):
 				pass
 			except asyncio.CancelledError:
 				break

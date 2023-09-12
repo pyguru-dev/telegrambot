@@ -1,3 +1,4 @@
+from django.utils.datastructures import MultiValueDictKeyError
 from django.core.exceptions import RequestDataTooBig
 from django.utils.translation import gettext as _
 
@@ -17,12 +18,23 @@ def check_post_request_data_items(needed_request_data: dict):
 			try:
 				request_data: dict = json.loads(request.body)
 			except (UnicodeDecodeError, json.decoder.JSONDecodeError):
-				request_data: dict = json.loads(request.POST['data'])
+				try:
+					request_data: dict = json.loads(request.POST['data'])
+				except MultiValueDictKeyError:
+					return Response({
+						'message': _('В тело запроса переданы не все данные!'),
+						'level': 'danger',
+					}, status=400)
 			except RequestDataTooBig:
 				return Response({
 					'message': _('Тело запроса не должно весить больше 2.5MB!'),
 					'level': 'danger',
 				}, status=400)
+			except:
+				return Response({
+					'message': _('На стороне сайта произошла непредвиденная ошибка, попробуйте ещё раз позже!'),
+					'level': 'danger',
+				}, status=500)
 
 			delete_request_data_items = []
 

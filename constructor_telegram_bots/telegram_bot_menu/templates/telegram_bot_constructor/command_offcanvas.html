@@ -82,15 +82,15 @@
 				<input type="text" class="form-control" id="telegramBotCommandOffcanvasApiRequestUrlInput" placeholder="{% trans 'Введите URL-адрес' %}">
 				<div class="btn-group" role="group">
 					{% with 'telegramBotCommandOffcanvasApiRequestMethods' as radio_name %}
-						<input class="btn-check" id="telegramBotCommandOffcanvasApiRequestGetMethod" name="{{ radio_name }}" value="GET" type="radio" autocomplete="off">
+						<input class="btn-check" id="telegramBotCommandOffcanvasApiRequestGetMethod" name="{{ radio_name }}" value="get" type="radio" autocomplete="off">
 						<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasApiRequestGetMethod" style="width: 20%;">GET</label>
-						<input class="btn-check" id="telegramBotCommandOffcanvasApiRequestPostMethod" name="{{ radio_name }}" value="POST" type="radio" autocomplete="off">
+						<input class="btn-check" id="telegramBotCommandOffcanvasApiRequestPostMethod" name="{{ radio_name }}" value="post" type="radio" autocomplete="off">
 						<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasApiRequestPostMethod" style="width: 20%;">POST</label>
-						<input class="btn-check" id="telegramBotCommandOffcanvasApiRequestPutMethod" name="{{ radio_name }}" value="PUT" type="radio" autocomplete="off">
+						<input class="btn-check" id="telegramBotCommandOffcanvasApiRequestPutMethod" name="{{ radio_name }}" value="put" type="radio" autocomplete="off">
 						<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasApiRequestPutMethod" style="width: 20%;">PUT</label>
-						<input class="btn-check" id="telegramBotCommandOffcanvasApiRequestPatchMethod" name="{{ radio_name }}" value="PATCH" type="radio" autocomplete="off">
+						<input class="btn-check" id="telegramBotCommandOffcanvasApiRequestPatchMethod" name="{{ radio_name }}" value="patch" type="radio" autocomplete="off">
 						<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasApiRequestPatchMethod" style="width: 20%;">PATCH</label>
-						<input class="btn-check" id="telegramBotCommandOffcanvasApiRequestDeleteMethod" name="{{ radio_name }}" value="DELETE" type="radio" autocomplete="off">
+						<input class="btn-check" id="telegramBotCommandOffcanvasApiRequestDeleteMethod" name="{{ radio_name }}" value="delete" type="radio" autocomplete="off">
 						<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasApiRequestDeleteMethod" style="width: 20%;">DELETE</label>
 					{% endwith %}
 				</div>

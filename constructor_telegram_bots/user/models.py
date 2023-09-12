@@ -14,7 +14,7 @@ import requests
 
 
 class UserManager(BaseUserManager):
-	def create(self, *, telegram_id: int, first_name: str, **extra_fields) -> 'User':
+	def create(self, telegram_id: int, first_name: str, **extra_fields) -> 'User':
 		user: 'User' = super().create(telegram_id=telegram_id, first_name=first_name, **extra_fields)
 		Token.objects.create(user=user)
 		environment.create_user(user=user)

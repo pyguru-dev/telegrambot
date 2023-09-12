@@ -1,8 +1,20 @@
-from .decorators import connect_to_database
-
+from pymongo import MongoClient
 from pymongo.collection import Collection
-from typing import List
 
+from django.conf import settings
+
+from typing import List, Union
+
+
+def connect_to_database(func):
+	def wrapper(telegram_bot, *args, **kwargs):
+		client = MongoClient('127.0.0.1', 27017)
+		collection = client.telegram_bots.get_collection('0' if settings.TEST else str(telegram_bot.id))
+		result: Union[list, dict, None] = func(collection=collection, *args, **kwargs)
+		client.close()
+
+		return result
+	return wrapper
 
 @connect_to_database
 def delete_collection(*, collection: Collection) -> None:

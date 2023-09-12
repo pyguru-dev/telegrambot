@@ -12,5 +12,3 @@ def check_telegram_bot_api_token(api_token: str) -> Optional[str]:
 
 	if responce.status_code == 200:
 		return responce.json()['result']['username']
-
-	return None

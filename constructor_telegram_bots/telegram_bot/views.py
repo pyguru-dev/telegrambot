@@ -5,15 +5,15 @@ from rest_framework.views import APIView
 from rest_framework.decorators import api_view, authentication_classes, permission_classes
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+# from rest_framework.status import *
 from rest_framework.request import Request
 from rest_framework.response import Response
 
 from constructor_telegram_bots.decorators import check_post_request_data_items
-from .decorators import *
 
 from .models import TelegramBot, TelegramBotCommand, TelegramBotCommandKeyboardButton, TelegramBotUser
-
 from .services import tasks, database_telegram_bot
+from .decorators import *
 from .functions import check_telegram_bot_api_token as check_telegram_bot_api_token_
 
 from typing import Optional, Union
@@ -81,7 +81,7 @@ class TelegramBotView(APIView):
 			return self.edit_telegram_bot_private(request, telegram_bot=telegram_bot, is_private=is_private)
 		else:
 			return Response({
-				'message': _('Произошла ошибка, попробуйте ещё раз позже!'),
+				'message': _('На стороне сайта произошла непредвиденная ошибка, попробуйте ещё раз позже!'),
 				'level': 'danger',
 			}, status=500)
 
@@ -144,11 +144,11 @@ class TelegramBotCommandsView(APIView):
 	@check_telegram_bot_id
 	@check_post_request_data_items({
 		'name': str,
-		'message_text': str,
-		'command': Optional[str],
+		'command': Optional[dict],
+		'message_text': dict,
 		'keyboard': Optional[dict],
 		'api_request': Optional[dict],
-		'database_record': Optional[str],
+		'database_record': Optional[dict],
 	})
 	@check_data_for_telegram_bot_command
 	def post(self, request: Request, **fields) -> Response:
@@ -171,11 +171,11 @@ class TelegramBotCommandView(APIView):
 	@check_telegram_bot_command_id
 	@check_post_request_data_items({
 		'name': str,
-		'message_text': str,
-		'command': Optional[str],
+		'command': Optional[dict],
+		'message_text': dict,
 		'keyboard': Optional[dict],
 		'api_request': Optional[dict],
-		'database_record': Optional[str],
+		'database_record': Optional[dict],
 	})
 	@check_data_for_telegram_bot_command
 	def patch(self, request: Request, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand, **fields) -> Response:

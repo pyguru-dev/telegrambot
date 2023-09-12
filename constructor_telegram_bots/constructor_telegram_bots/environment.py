@@ -1,5 +1,6 @@
 from django.conf import settings
 
+from asgiref.sync import sync_to_async
 import requests
 
 
@@ -52,3 +53,6 @@ def replace_text_variables(telegram_bot, text: str, text_variables: dict) -> str
 		'text': text,
 		'text_variables': text_variables,
 	}).json()['response']
+
+async def areplace_text_variables(telegram_bot, text: str, text_variables: dict) -> str:
+	return await sync_to_async(replace_text_variables)(telegram_bot=telegram_bot, text=text, text_variables=text_variables)

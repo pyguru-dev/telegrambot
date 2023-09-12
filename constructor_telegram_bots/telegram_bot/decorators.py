@@ -52,15 +52,10 @@ def check_telegram_bot_id(func):
 		telegram_bot_id: int = kwargs.pop('telegram_bot_id')
 
 		if not request.user.telegram_bots.filter(id=telegram_bot_id).exists():
-			data = {
+			return (JsonResponse if isinstance(request, HttpRequest) else Response)({
 				'message': _('Telegram бот не найден!'),
 				'level': 'danger',
-			}
-
-			if isinstance(request, HttpRequest):
-				return JsonResponse(data, status=404)
-			else:
-				return Response(data, status=404)
+			}, status=404)
 
 		return func(telegram_bot=request.user.telegram_bots.get(id=telegram_bot_id), *args, **kwargs)
 	return wrapper
@@ -70,45 +65,51 @@ def check_data_for_telegram_bot_command(func):
 	def wrapper(*args, **kwargs):
 		request: Request = args[-1]
 		name: str = kwargs['name']
-		message_text: str = kwargs['message_text']
-		command: Optional[str] = kwargs['command']
+		command: Optional[dict] = kwargs['command']
+		message_text: dict = kwargs['message_text']
 		keyboard: Optional[dict] = kwargs['keyboard']
 		api_request: Optional[dict] = kwargs['api_request']
 
-		if name:
-			if len(name) > 255:
-				return Response({
-					'message': _('Название команды должно содержать не более 255 символов!'),
-					'level': 'danger',
-				}, status=400)
-		else:
+		if not name:
 			return Response({
 				'message': _('Введите название команде!'),
 				'level': 'danger',
 			}, status=400)
 
-		if message_text:
-			if len(message_text) > 4096:
-				return Response({
-					'message': _('Текст сообщения должно содержать не более 4096 символов!'),
-					'level': 'danger',
-				}, status=400)
-		else:
+		if len(name) > 255:
 			return Response({
-				'message': _('Введите текст сообщения!'),
+				'message': _('Название команды должно содержать не более 255 символов!'),
 				'level': 'danger',
 			}, status=400)
 
 		if command is not None:
-			if command:
-				if len(command) > 32:
-					return Response({
-						'message': _('Команда должна содержать не более 32 символов!'),
-						'level': 'danger',
-					}, status=400)
-			else:
+			if (
+				'command' not in command or
+				'show_in_menu' not in command
+			):
+				return Response({
+					'message': _('В тело запроса переданы не все данные!'),
+					'level': 'danger',
+				}, status=400)
+
+			if (
+				not isinstance(command['command'], str) or
+				not isinstance(command['show_in_menu'], bool)
+			):
+				return Response({
+					'message': _('В тело запроса передан неверный тип данных!'),
+					'level': 'danger',
+				}, status=400)
+
+			if not command['command']:
 				return Response({
 					'message': _('Введите команду!'),
+					'level': 'danger',
+				}, status=400)
+
+			if len(command['command']) > 32:
+				return Response({
+					'message': _('Команда должна содержать не более 32 символов!'),
 					'level': 'danger',
 				}, status=400)
 
@@ -119,49 +120,104 @@ def check_data_for_telegram_bot_command(func):
 		else:
 			kwargs.update({'image': None})
 
+		if (
+			'mode' not in message_text or
+			'text' not in message_text
+		):
+			return Response({
+				'message': _('В тело запроса переданы не все данные!'),
+				'level': 'danger',
+			}, status=400)
+
+		if (
+			not isinstance(message_text['mode'], str) or
+			not isinstance(message_text['text'], str)
+		):
+			return Response({
+				'message': _('В тело запроса передан неверный тип данных!'),
+				'level': 'danger',
+			}, status=400)
+
+		if not message_text['text']:
+			return Response({
+				'message': _('Введите текст сообщения!'),
+				'level': 'danger',
+			}, status=400)
+
+		if len(message_text['text']) > 4096:
+			return Response({
+				'message': _('Текст сообщения должно содержать не более 4096 символов!'),
+				'level': 'danger',
+			}, status=400)
+
 		if keyboard is not None:
+			if 'mode' not in keyboard:
+				return Response({
+					'message': _('В тело запроса переданы не все данные!'),
+					'level': 'danger',
+				}, status=400)
+
+			if not isinstance(keyboard['mode'], str):
+				return Response({
+					'message': _('В тело запроса передан неверный тип данных!'),
+					'level': 'danger',
+				}, status=400)
+
 			for keyboard_button in keyboard['buttons']:
-				if ('row' not in keyboard_button or 'text' not in keyboard_button or 'url' not in keyboard_button):
+				if (
+					'row' not in keyboard_button or
+					'text' not in keyboard_button or
+					'url' not in keyboard_button
+				):
 					return Response({
 						'message': _('В тело запроса переданы не все данные!'),
 						'level': 'danger',
 					}, status=400)
 
-				for key, value in keyboard_button.items():
-					is_instance = True
+				if (
+					not isinstance(keyboard_button['row'], Optional[int]) or
+					not isinstance(keyboard_button['text'], str) or
+					not isinstance(keyboard_button['url'], Optional[str])
+				):
+					return Response({
+						'message': _('В тело запроса передан неверный тип данных!'),
+						'level': 'danger',
+					}, status=400)
 
-					if key == 'row':
-						is_instance = isinstance(value, Optional[int])
-					elif key == 'text':
-						is_instance = isinstance(value, str)
-					elif key == 'url':
-						is_instance = isinstance(value, Optional[str])
-
-					if not is_instance:
-						return Response({
-							'message': _('В тело запроса передан неверный тип данных!'),
-							'level': 'danger',
-						}, status=400)
-
-				if (keyboard_button['url'] and not is_valid_url(keyboard_button['url'])):
+				if keyboard_button['url'] and not is_valid_url(keyboard_button['url']):
 					return Response({
 						'message': _('Введите правильный URL-адрес!'),
 						'level': 'danger',
 					}, status=400)
 
 		if api_request is not None:
-			if ('url' not in api_request or 'data' not in api_request):
+			if (
+				'url' not in api_request or
+				'method' not in api_request or
+				'headers' not in api_request or
+				'data' not in api_request
+			):
 				return Response({
 					'message': _('В тело запроса переданы не все данные!'),
 					'level': 'danger',
 				}, status=400)
 
-			for key, value in api_request.items():
-				if not isinstance(value, str):
-					return Response({
-						'message': _('В тело запроса передан неверный тип данных!'),
-						'level': 'danger',
-					}, status=400)
+			if (
+				not isinstance(api_request['url'], str) or
+				not isinstance(api_request['method'], str) or
+				not isinstance(api_request['headers'], Optional[dict]) or
+				not isinstance(api_request['data'], Optional[dict])
+			):
+				return Response({
+					'message': _('В тело запроса передан неверный тип данных!'),
+					'level': 'danger',
+				}, status=400)
+
+			if not api_request['url']:
+				return Response({
+					'message': _('Введите URL-адрес!'),
+					'level': 'danger',
+				}, status=400)
 
 			if not is_valid_url(api_request['url']):
 				return Response({
