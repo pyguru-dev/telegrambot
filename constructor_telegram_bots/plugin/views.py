@@ -25,7 +25,12 @@ class PluginsView(APIView):
 	@check_post_request_data_items({'name': str, 'code': str})
 	@check_plugin_data
 	def post(self, request: Request, telegram_bot: TelegramBot, name: str, code: str) -> Response:
-		plugin: Plugin = Plugin.objects.create(user=request.user, telegram_bot=telegram_bot, name=name, code=code)
+		plugin: Plugin = Plugin.objects.create(
+			user=request.user,
+			telegram_bot=telegram_bot,
+			name=name,
+			code=code
+		)
 
 		return Response({
 			'message': _('Вы успешно добавили плагин вашему Telegram боту.'),
