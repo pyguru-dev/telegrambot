@@ -45,7 +45,7 @@
 					{% for donation in donations %}
 						<tr>
 							<td>{{ donation.sum }}€</td>
-							<td><a class="link-dark" href="{{ donation.telegram_url }}" target="_blank">{{ donation.telegram_url }}</a></td>
+							<td><a class="link-dark link-underline-opacity-0" href="{{ donation.telegram_url }}" target="_blank">{{ donation.telegram_url }}</a></td>
 							<td>{{ donation.date }}</td>
 						</tr>
 					{% endfor %}
