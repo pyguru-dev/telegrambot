@@ -83,10 +83,6 @@
 					'is_private': telegramBotIsPrivateCheckBox.checked,
 				}),
 			}).then(response => {
-				if (response.ok) {
-					updateTelegramBotUsers();
-				}
-
 				response.json().then(jsonResponse => {
 					createToast(jsonResponse['message'], jsonResponse['level']);
 				});
