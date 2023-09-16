@@ -1,23 +1,25 @@
 {
-	const diagramContainer = document.querySelector('#diagramContainer');
+	const diagram = document.querySelector('#diagram');
 	const diagramSvg = document.querySelector('#diagramSvg');
 
 	const diagramZoomPercent = document.querySelector('#diagramZoomPercent');
 	let diagramCurrentScaleNum = Math.floor(diagramCurrentScale * 10 - 10);
 
-	function diagramSetZoom() {
+	let selectedDiagramBlockConnector = null;
+
+	const diagramSetZoom = () => {
 		diagramZoomPercent.innerHTML = `${Math.floor(100 * diagramCurrentScale)}%`;
 
 		document.querySelectorAll('.diagram-block').forEach(diagramBlock => diagramBlock.style.transform = `scale(${diagramCurrentScale})`);
-		document.querySelectorAll('.connector-line').forEach(connectorLine => {
-			const diagramConnectorsId = connectorLine.id.split('-');
+		document.querySelectorAll('.diagram-block-connector-line').forEach(diagramBlockConnectorLine => {
+			const diagramBlockConnectorsId = diagramBlockConnectorLine.id.split('-');
 
-			connectorLine.remove();
-			connectorLine = createDiagramConnectorLine(
-				document.querySelector(`.diagram-connector[id="${diagramConnectorsId[0]}"]`),
-				document.querySelector(`.diagram-connector[id="${diagramConnectorsId[1]}"]`)
+			diagramBlockConnectorLine.remove();
+			diagramBlockConnectorLine = createDiagramBlockConnectorLine(
+				document.querySelector(`.diagram-block-connector[id="${diagramBlockConnectorsId[0]}"]`),
+				document.querySelector(`.diagram-block-connector[id="${diagramBlockConnectorsId[1]}"]`)
 			);
-			connectorLine.style = `stroke-width: ${1 + diagramCurrentScale}px;`;
+			diagramBlockConnectorLine.style = `stroke-width: ${1 + diagramCurrentScale}px;`;
 		});
 	}
 
@@ -44,60 +46,57 @@
 		});
 	});
 
-	const getCenterDiagramConnectorPosition = (diagramConnector) => {
-		const diagramConnectorRect = diagramConnector.getBoundingClientRect();
-		const diagramContainerRect = diagramContainer.getBoundingClientRect();
+	const getCenterDiagramBlockConnectorPosition = (diagramBlockConnector) => {
+		const diagramBlockConnectorRect = diagramBlockConnector.getBoundingClientRect();
+		const diagramRect = diagram.getBoundingClientRect();
 
-		const x = diagramConnectorRect.left - diagramContainerRect.left + diagramContainer.scrollLeft + diagramConnectorRect.width / 2 - 1;
-		const y = diagramConnectorRect.top - diagramContainerRect.top + diagramContainer.scrollTop + diagramConnectorRect.height / 2 - 1;
+		const x = diagramBlockConnectorRect.left - diagramRect.left + diagram.scrollLeft + diagramBlockConnectorRect.width / 2 - 1;
+		const y = diagramBlockConnectorRect.top - diagramRect.top + diagram.scrollTop + diagramBlockConnectorRect.height / 2 - 1;
 
 		return {x, y}
 	}
 
-	function createDiagramConnectorLine(startDiagramConnector, endDiagramConnector) {
-		const startDiagramConnectorPosition = getCenterDiagramConnectorPosition(startDiagramConnector);
-		const endDiagramConnectorPosition = getCenterDiagramConnectorPosition(endDiagramConnector);
+	const createDiagramBlockConnectorLine = (startDiagramBlockConnector, endDiagramBlockConnector) => {
+		const startDiagramBlockConnectorPosition = getCenterDiagramBlockConnectorPosition(startDiagramBlockConnector);
+		const endDiagramBlockConnectorPosition = getCenterDiagramBlockConnectorPosition(endDiagramBlockConnector);
 
-		const diagramConnectorLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-		diagramConnectorLine.classList = 'connector-line';
-		diagramConnectorLine.id = `${startDiagramConnector.id}-${endDiagramConnector.id}`;
-		diagramConnectorLine.style.strokeWidth = `${1 + diagramCurrentScale}px`;
+		const diagramBlockConnectorLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+		diagramBlockConnectorLine.classList = 'diagram-block-connector-line';
+		diagramBlockConnectorLine.id = `${startDiagramBlockConnector.id}-${endDiagramBlockConnector.id}`;
+		diagramBlockConnectorLine.setAttribute('marker-end', 'url(#arrow)');
+		diagramBlockConnectorLine.setAttribute('x1', startDiagramBlockConnectorPosition.x);
+		diagramBlockConnectorLine.setAttribute('y1', startDiagramBlockConnectorPosition.y);
+		diagramBlockConnectorLine.setAttribute('x2', endDiagramBlockConnectorPosition.x);
+		diagramBlockConnectorLine.setAttribute('y2', endDiagramBlockConnectorPosition.y);
+		diagramBlockConnectorLine.style.strokeWidth = `${1 + diagramCurrentScale}px`;
+		diagramSvg.appendChild(diagramBlockConnectorLine);
 
-		diagramConnectorLine.setAttribute('marker-end', 'url(#arrow)');
-		diagramConnectorLine.setAttribute('x1', startDiagramConnectorPosition.x);
-		diagramConnectorLine.setAttribute('y1', startDiagramConnectorPosition.y);
-		diagramConnectorLine.setAttribute('x2', endDiagramConnectorPosition.x);
-		diagramConnectorLine.setAttribute('y2', endDiagramConnectorPosition.y);
-
-		diagramSvg.appendChild(diagramConnectorLine);
-
-		startDiagramConnector.parentElement.querySelectorAll('.diagram-connector').forEach(diagramConnector => {
-			if (diagramConnector != startDiagramConnector) {
-				diagramConnector.classList.add('d-none')
+		startDiagramBlockConnector.parentElement.querySelectorAll('.diagram-block-connector').forEach(diagramBlockConnector => {
+			if (diagramBlockConnector != startDiagramBlockConnector) {
+				diagramBlockConnector.classList.add('d-none');
 			}
 		});
 
-		return diagramConnectorLine;
+		return diagramBlockConnectorLine;
 	}
 
-	const updateConnectorLine = (block) => {
-		diagramSvg.querySelectorAll('.connector-line').forEach(connectorLine => {
-			const diagramConnectorsId = connectorLine.id.split('-');
+	const updateDiagramBlockConnectorLine = (diagramBlock) => {
+		diagramSvg.querySelectorAll('.diagram-block-connector-line').forEach(diagramBlockConnectorLine => {
+			const diagramBlockConnectorsId = diagramBlockConnectorLine.id.split('-');
 
-			for (let i = 0; i < diagramConnectorsId.length; i++) {
-				const diagramConnectorId = diagramConnectorsId[i];
+			for (let i = 0; i < diagramBlockConnectorsId.length; i++) {
+				const diagramBlockConnectorId = diagramBlockConnectorsId[i];
 
-				if (diagramConnectorId.split(':')[0] == block.id) {
-					const diagramConnectorPosition = getCenterDiagramConnectorPosition(
-						document.querySelector(`.diagram-connector[id="${diagramConnectorId}"]`)
-					);
+				if (diagramBlockConnectorId.split(':')[0] == diagramBlock.id) {
+					const diagramBlockConnector = document.querySelector(`.diagram-block-connector[id="${diagramBlockConnectorId}"]`);
+					const diagramBlockConnectorPosition = getCenterDiagramBlockConnectorPosition(diagramBlockConnector);
 
 					if (i == 0) {
-						connectorLine.setAttribute('x1', diagramConnectorPosition.x);
-						connectorLine.setAttribute('y1', diagramConnectorPosition.y);
+						diagramBlockConnectorLine.setAttribute('x1', diagramBlockConnectorPosition.x);
+						diagramBlockConnectorLine.setAttribute('y1', diagramBlockConnectorPosition.y);
 					} else {
-						connectorLine.setAttribute('x2', diagramConnectorPosition.x);
-						connectorLine.setAttribute('y2', diagramConnectorPosition.y);
+						diagramBlockConnectorLine.setAttribute('x2', diagramBlockConnectorPosition.x);
+						diagramBlockConnectorLine.setAttribute('y2', diagramBlockConnectorPosition.y);
 					}
 
 					break;
@@ -106,73 +105,69 @@
 		});
 	}
 
-	{
-		let selectedDiagramConnector = null;
+	const diagramBlockConnectorClick = (event) => {
+		const selectDiagramBlockConnectorPosition = event.target.id.split(':')[1]
 
-		function connectorClick(event) {
-			const selectDiagramConnectorPosition = event.target.id.split(':')[1]
+		if (selectedDiagramBlockConnector == null && selectDiagramBlockConnectorPosition != 'top') {
+			selectedDiagramBlockConnector = event.target;
+			selectedDiagramBlockConnector.classList.add('diagram-block-connector-highlight');
+		} else if (selectedDiagramBlockConnector != null) {
+			const selectedDiagramBlockConnectorBlockId = selectedDiagramBlockConnector.id.split(':')[0];
+			const selectedDiagramBlockConnectorPosition = selectedDiagramBlockConnector.id.split(':')[1];
+			const selectDiagramBlockConnectorBlockId = event.target.id.split(':')[0];
 
-			if (selectedDiagramConnector == null && selectDiagramConnectorPosition != 'top') {
-				selectedDiagramConnector = event.target;
-				selectedDiagramConnector.classList.add('connector-highlight');
-			} else if (selectedDiagramConnector != null) {
-				const selectedDiagramConnectorBlockId = selectedDiagramConnector.id.split(':')[0];
-				const selectedDiagramConnectorPosition = selectedDiagramConnector.id.split(':')[1];
-				const selectDiagramConnectorBlockId = event.target.id.split(':')[0];
+			if (selectedDiagramBlockConnector != event.target) {
+				if (
+					selectedDiagramBlockConnectorBlockId != selectDiagramBlockConnectorBlockId &&
+					selectedDiagramBlockConnectorPosition != 'top' && selectDiagramBlockConnectorPosition == 'top'
+				) {
+					let findedDiagramBlockConnectorLine = false;
 
-				if (selectedDiagramConnector != event.target) {
-					if (
-						selectedDiagramConnectorBlockId != selectDiagramConnectorBlockId &&
-						selectedDiagramConnectorPosition != 'top' && selectDiagramConnectorPosition == 'top'
-					) {
-						let findDiagramConnectorLine = false;
+					diagramSvg.querySelectorAll('.diagram-block-connector-line').forEach(diagramBlockConnectorLine => {
+						if (
+							diagramBlockConnectorLine.id == `${selectedDiagramBlockConnector.id}-${event.target.id}` ||
+							diagramBlockConnectorLine.id == `${event.target.id}-${selectedDiagramBlockConnector.id}`
+						) {
+							findedDiagramBlockConnectorLine = true;
 
-						diagramSvg.querySelectorAll('.connector-line').forEach(diagramConnectorLine => {
-							if (
-								diagramConnectorLine.id == `${selectedDiagramConnector.id}-${event.target.id}` ||
-								diagramConnectorLine.id == `${event.target.id}-${selectedDiagramConnector.id}`
-							) {
-								findDiagramConnectorLine = true;
+							diagramBlockConnectorLine.remove();
 
-								diagramConnectorLine.remove();
+							selectedDiagramBlockConnector.parentElement.querySelectorAll('.diagram-block-connector').forEach(diagramBlockConnector => diagramBlockConnector.classList.remove('d-none'));
 
-								selectedDiagramConnector.parentElement.querySelectorAll('.diagram-connector').forEach(diagramConnector => diagramConnector.classList.remove('d-none'));
+							const diagramBlockKeyboardButtonId = diagramBlockConnectorLine.id.split('-')[0].split(':')[2];
 
-								const diagramKeyboardButtonId = diagramConnectorLine.id.split('-')[0].split(':')[2];
-
-								fetch(`/telegram-bots/${telegramBotId}/commands/${selectedDiagramConnectorBlockId}/keyboard-buttons/${diagramKeyboardButtonId}/telegram-bot-command/`, {
-									method: 'DELETE',
-									headers: {'Authorization': `Token ${userApiToken}`},
-								});
-							}
-						});
-
-						if (findDiagramConnectorLine == false) {
-							createDiagramConnectorLine(selectedDiagramConnector, event.target);
-
-							const selectedDiagramKeyboardButtonId = selectedDiagramConnector.id.split(':')[2];
-
-							fetch(`/telegram-bots/${telegramBotId}/commands/${selectedDiagramConnectorBlockId}/keyboard-buttons/${selectedDiagramKeyboardButtonId}/telegram-bot-command/`, {
-								method: 'POST',
-								headers: {
-									'Content-Type': 'application/json',
-									'Authorization': `Token ${userApiToken}`,
-								},
-								body: JSON.stringify({
-									'telegram_bot_command_id': parseInt(selectDiagramConnectorBlockId),
-									'start_diagram_connector': selectedDiagramConnector.id,
-									'end_diagram_connector': event.target.id,
-								}),
+							fetch(`/telegram-bots/${telegramBotId}/commands/${selectedDiagramBlockConnectorBlockId}/keyboard-buttons/${diagramBlockKeyboardButtonId}/telegram-bot-command/`, {
+								method: 'DELETE',
+								headers: {'Authorization': `Token ${userApiToken}`},
 							});
 						}
+					});
 
-						selectedDiagramConnector.classList.remove('connector-highlight');
-						selectedDiagramConnector = null;
+					if (findedDiagramBlockConnectorLine == false) {
+						createDiagramBlockConnectorLine(selectedDiagramBlockConnector, event.target);
+
+						const selectedDiagramBlockKeyboardButtonId = selectedDiagramBlockConnector.id.split(':')[2];
+
+						fetch(`/telegram-bots/${telegramBotId}/commands/${selectedDiagramBlockConnectorBlockId}/keyboard-buttons/${selectedDiagramBlockKeyboardButtonId}/telegram-bot-command/`, {
+							method: 'POST',
+							headers: {
+								'Content-Type': 'application/json',
+								'Authorization': `Token ${userApiToken}`,
+							},
+							body: JSON.stringify({
+								'telegram_bot_command_id': parseInt(selectDiagramBlockConnectorBlockId),
+								'start_diagram_connector': selectedDiagramBlockConnector.id,
+								'end_diagram_connector': event.target.id,
+							}),
+						});
 					}
-				} else {
-					selectedDiagramConnector.classList.remove('connector-highlight');
-					selectedDiagramConnector = null;
+
+					selectedDiagramBlockConnector.classList.remove('diagram-block-connector-highlight');
+					selectedDiagramBlockConnector = null;
 				}
+			} else {
+				selectedDiagramBlockConnector.classList.remove('diagram-block-connector-highlight');
+				selectedDiagramBlockConnector = null;
 			}
 		}
 	}
@@ -180,7 +175,7 @@
 	const enableDiagramBlockDragging = (diagramBlock) => {
 		let x = 0, y = 0;
 
-		const diagramDragStart = (event) => {
+		const startDrag = (event) => {
 			event.preventDefault();
 
 			if (event.type == 'touchstart') {
@@ -193,14 +188,14 @@
 
 			diagramBlock.style.zIndex = '3';
 
-			document.onmousemove = diagramBlockDrag;
-			document.ontouchmove = diagramBlockDrag;
+			document.onmousemove = drag;
+			document.ontouchmove = drag;
 
-			document.onmouseup = diagramDragEnd;
-			document.ontouchend = diagramDragEnd;
+			document.onmouseup = endDrag;
+			document.ontouchend = endDrag;
 		}
 
-		const diagramBlockDrag = (event) => {
+		const drag = (event) => {
 			event.preventDefault();
 
 			let clientX, clientY;
@@ -216,27 +211,27 @@
 			const diagramBlockLeft = diagramBlock.offsetLeft - (x - clientX);
 			const diagramBlockTop = diagramBlock.offsetTop - (y - clientY);
 
-			const diagramContainerLeftBorder = (diagramBlock.offsetWidth * diagramCurrentScale - diagramBlock.offsetWidth) / 2;
-			const diagramContainerTopBorder = (diagramBlock.offsetHeight * diagramCurrentScale - diagramBlock.offsetHeight) / 2;
+			const diagramLeftBorder = (diagramBlock.offsetWidth * diagramCurrentScale - diagramBlock.offsetWidth) / 2;
+			const diagramTopBorder = (diagramBlock.offsetHeight * diagramCurrentScale - diagramBlock.offsetHeight) / 2;
 
-			if (diagramBlockLeft >= diagramContainerLeftBorder) {
+			if (diagramBlockLeft >= diagramLeftBorder) {
 				diagramBlock.style.left = `${diagramBlockLeft}px`;
 			} else {
-				diagramBlock.style.left = `${diagramContainerLeftBorder}px`;
+				diagramBlock.style.left = `${diagramLeftBorder}px`;
 			}
-			if (diagramBlockTop >= diagramContainerTopBorder) {
+			if (diagramBlockTop >= diagramTopBorder) {
 				diagramBlock.style.top = `${diagramBlockTop}px`;
 			} else {
-				diagramBlock.style.top = `${diagramContainerTopBorder}px`;
+				diagramBlock.style.top = `${diagramTopBorder}px`;
 			}
 
 			x = clientX;
 			y = clientY;
 
-			updateConnectorLine(diagramBlock);
+			updateDiagramBlockConnectorLine(diagramBlock);
 		}
 
-		const diagramDragEnd = () => {
+		const endDrag = () => {
 			diagramBlock.style.zIndex = '1';
 
 			document.onmousemove = null;
@@ -258,54 +253,126 @@
 			});
 		}
 
-		diagramBlock.onmousedown = diagramDragStart;
-		diagramBlock.ontouchstart = diagramDragStart;
+		diagramBlock.onmousedown = startDrag;
+		diagramBlock.ontouchstart = startDrag;
 	}
 
-	function createDiagramBlock(telegramBotCommand) {
+	const createDiagramBlock = (telegramBotCommand) => {
 		const diagramBlock = document.createElement('div');
 		diagramBlock.classList = 'diagram-block';
-		diagramBlock.id = telegramBotCommand['id'];
-		diagramBlock.style.left = `${telegramBotCommand['x']}px`;
-		diagramBlock.style.top = `${telegramBotCommand['y']}px`;
+		diagramBlock.id = telegramBotCommand.id;
+		diagramBlock.style.left = `${telegramBotCommand.x}px`;
+		diagramBlock.style.top = `${telegramBotCommand.y}px`;
 		diagramBlock.innerHTML = [
-			`<div class="diagram-connector diagram-connector-top" id="${telegramBotCommand['id']}:top:${telegramBotCommand['id']}"></div>`,
-			`<button class="diagram-button diagram-edit-button btn btn-secondary rounded-end-0 text-center" id="${telegramBotCommand['id']}">`,
+			`<div class="diagram-block-connector diagram-block-connector-top" id="${diagramBlock.id}:top:${diagramBlock.id}"></div>`,
+			`<button class="btn-diagram btn-diagram-edit btn btn-secondary rounded-end-0 text-center" id="${diagramBlock.id}">`,
 			`	<i class="bi bi-pencil-square d-flex" style="font-size: 1.5rem;"></i>`,
 			`</button>`,
-			`<button class="diagram-button diagram-delete-button btn btn-danger rounded-start-0 text-center" id="${telegramBotCommand['id']}">`,
+			`<button class="btn-diagram btn-diagram-delete btn btn-danger rounded-start-0 text-center" id="${diagramBlock.id}">`,
 			`	<i class="bi bi-trash d-flex" style="font-size: 1.5rem;"></i>`,
 			`</button>`,
-			`<div class="diagram-name bg-light border text-center text-break p-2 mb-2">${telegramBotCommand['name']}</div>`,
-			(telegramBotCommand['image'] != '') ? `<img class="img-thumbnail rounded mb-2" src="/${telegramBotCommand['image']}">` : '',
-			`<div class="language-html bg-light border rounded text-break p-2" style="font-size: 14px;"><pre class="bg-light p-0 m-0"><code>${telegramBotCommand['message_text']}</code></pre></div>`,
+			`<div class="diagram-block-name bg-light border text-center text-break p-2 mb-2">${telegramBotCommand.name}</div>`,
+			(telegramBotCommand['image'] != '') ? `<img class="img-thumbnail rounded mb-2" src="/${telegramBotCommand.image}">` : '',
+			`<div class="language-html bg-light border rounded text-break p-2" style="font-size: 14px;"><pre class="bg-light p-0 m-0"><code>${telegramBotCommand.message_text.text}</code></pre></div>`,
 		].join('');
 
-		if (telegramBotCommand['keyboard'] != null) {
-			telegramBotCommand['keyboard']['buttons'].forEach(telegramBotCommandKeyboardButton => {
-				const diagramKeyboardButton = document.createElement('div')
-				diagramKeyboardButton.className = 'diagram-keyboard-button bg-dark rounded text-light text-center text-break w-100 p-2';
-				diagramKeyboardButton.id = telegramBotCommand['id'];
-				diagramKeyboardButton.innerHTML = [
-					`${telegramBotCommandKeyboardButton['text']}`,
-					`<div class="diagram-connector diagram-connector-left${(telegramBotCommandKeyboardButton['url'] != null) ? ' d-none' : ''}" id="${telegramBotCommand['id']}:left:${telegramBotCommandKeyboardButton['id']}"></div>`,
-					`<div class="diagram-connector diagram-connector-right${(telegramBotCommandKeyboardButton['url'] != null) ? ' d-none' : ''}" id="${telegramBotCommand['id']}:right:${telegramBotCommandKeyboardButton['id']}"></div>`,
+		if (telegramBotCommand.keyboard != null) {
+			telegramBotCommand.keyboard.buttons.forEach(telegramBotCommandKeyboardButton => {
+				const diagramBlockKeyboardButton = document.createElement('div')
+				diagramBlockKeyboardButton.className = 'diagram-block-keyboard-button bg-dark rounded text-light text-center text-break w-100 p-2';
+				diagramBlockKeyboardButton.id = diagramBlock.id;
+				diagramBlockKeyboardButton.innerHTML = [
+					`${telegramBotCommandKeyboardButton.text}`,
+					`<div class="diagram-block-connector diagram-block-connector-left${(telegramBotCommandKeyboardButton.url != null) ? ' d-none' : ''}" id="${diagramBlock.id}:left:${telegramBotCommandKeyboardButton.id}"></div>`,
+					`<div class="diagram-block-connector diagram-block-connector-right${(telegramBotCommandKeyboardButton.url != null) ? ' d-none' : ''}" id="${diagramBlock.id}:right:${telegramBotCommandKeyboardButton.id}"></div>`,
 				].join('');
-				diagramBlock.append(diagramKeyboardButton);
+				diagramBlock.appendChild(diagramBlockKeyboardButton);
 			});
 		}
 
-		diagramContainer.append(diagramBlock);
+		diagram.appendChild(diagramBlock);
 
-		let diagramKeyboardButtonPosition = 4;
+		const diagramBlockName = diagramBlock.querySelector('.diagram-block-name');
 
-		diagramBlock.querySelectorAll('.diagram-keyboard-button').forEach(diagramKeyboardButton => {
-			diagramKeyboardButtonPosition += diagramKeyboardButton.offsetHeight + 4;
-			diagramKeyboardButton.style.bottom = `-${diagramKeyboardButtonPosition}px`;
+		if (diagramBlockName.offsetHeight > 42) {
+			diagramBlockName.classList.add('rounded-bottom');
+		}
+
+		let diagramBlockKeyboardButtonPosition = 4;
+
+		diagramBlock.querySelectorAll('.diagram-block-keyboard-button').forEach(diagramBlockKeyboardButton => {
+			diagramBlockKeyboardButtonPosition += diagramBlockKeyboardButton.offsetHeight + 4;
+			diagramBlockKeyboardButton.style.bottom = `-${diagramBlockKeyboardButtonPosition}px`;
 		});
 
-		Prism.highlightAll();
+		diagramBlock.querySelectorAll('.diagram-block-connector').forEach(diagramBlockConnector => diagramBlockConnector.addEventListener('click', diagramBlockConnectorClick));
+
+		const diagramBlockDeleteButton = diagramBlock.querySelector('.btn-diagram-delete');
+
+		diagramBlockDeleteButton.addEventListener('click', () => askConfirmModal(
+			deleteTelegramBotCommandAskConfirmModalTitle,
+			deleteTelegramBotCommandAskConfirmModalText,
+			function() {
+				fetch(`/telegram-bots/${telegramBotId}/commands/${diagramBlockDeleteButton.id}/`, {
+					method: 'DELETE',
+					headers: {'Authorization': `Token ${userApiToken}`},
+				}).then(response => {
+					if (response.ok) {
+						updateDiagramBlocks();
+					}
+
+					response.json().then(jsonResponse => createToast(jsonResponse['message'], jsonResponse['level']));
+				});
+			}
+		));
 
 		enableDiagramBlockDragging(diagramBlock);
+		Prism.highlightAll();
 	}
+
+	function updateDiagramBlocks() {
+		fetch(telegramBotCommandsUrl, {
+			method: 'GET',
+			headers: {'Authorization': `Token ${userApiToken}`},
+		}).then(response => {
+			if (response.ok) {
+				response.json().then(telegramBotCommands => {
+					document.querySelectorAll('.diagram-block').forEach(diagramBlock => diagramBlock.remove());
+					document.querySelectorAll('.diagram-block-connector-line').forEach(diagramBlockConnectorLine => diagramBlockConnectorLine.remove());
+
+					telegramBotCommands.forEach(telegramBotCommand => createDiagramBlock(telegramBotCommand));
+
+					const createDiagramBlockConnectorLines = (telegramBotCommandKeyboard) => {
+						telegramBotCommandKeyboard.buttons.forEach(telegramBotCommandKeyboardButton => {
+							if (telegramBotCommandKeyboardButton.telegram_bot_command_id != null) {
+								const startDiagramBlockConnector = document.querySelector(`.diagram-block-connector[id="${telegramBotCommandKeyboardButton.start_diagram_connector}"]`);
+								const endDiagramBlockConnector = document.querySelector(`.diagram-block-connector[id="${telegramBotCommandKeyboardButton.end_diagram_connector}"]`);
+
+								createDiagramBlockConnectorLine(startDiagramBlockConnector, endDiagramBlockConnector);
+							}
+						});
+					}
+
+					telegramBotCommands.forEach(telegramBotCommand => {
+						if (telegramBotCommand.keyboard != null) {
+							const diagramBlock = document.querySelector(`.diagram-block[id="${telegramBotCommand.id}"]`);
+							const diagramBlockImage = diagramBlock.querySelector('img');
+
+							if (diagramBlockImage != null) {
+								diagramBlockImage.addEventListener('load', () => createDiagramBlockConnectorLines(telegramBotCommand.keyboard));
+							} else {
+								createDiagramBlockConnectorLines(telegramBotCommand.keyboard);
+							}
+						}
+					});
+				});
+
+				diagramSetZoom();
+			} else {
+				response.json().then(jsonResponse => createToast(jsonResponse['message'], jsonResponse['level']));
+			}
+		});
+	}
+
+	updateDiagramBlocks();
 }

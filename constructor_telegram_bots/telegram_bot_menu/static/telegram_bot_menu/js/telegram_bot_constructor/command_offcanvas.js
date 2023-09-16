@@ -247,6 +247,8 @@ const copyToBuffer = (value) => {
 					keyboardButtonDiv.appendChild(keyboardButtonRowButton);
 					keyboardButtonDiv.insertBefore(keyboardButtonRowButton, keyboardButtonNameInput);
 
+					keyboardButtonRowButton.addEventListener('click', () => keyboardButtonRowButton.remove())
+
 					self.selectedKeyboardButtonRowButton = null;
 					self.buttonsRowsDiv.querySelectorAll('button').forEach(
 						keyboardButtonRowButton => keyboardButtonRowButton.classList.replace('btn-secondary', 'btn-dark')
@@ -304,11 +306,14 @@ const copyToBuffer = (value) => {
 				const keyboardButtons = [];
 
 				this.buttonsDiv.querySelectorAll('.keyboard-button').forEach(keyboardButton => {
+					const keyboardButtonRowButton = keyboardButton.querySelector('.btn-row');
+					const keyboardButtonLinkInput = keyboardButton.querySelector('.link-input');
+
 					keyboardButtons.push({
 						id: keyboardButton.id,
-						row: keyboardButton.querySelector('.btn-row').innerHTML,
+						row: (keyboardButtonRowButton) ? parseInt(keyboardButtonRowButton.innerHTML) : null,
 						text: keyboardButton.querySelector('.name-input').value,
-						url: keyboardButton.querySelector('.link-input').value,
+						url: (keyboardButtonLinkInput) ? keyboardButtonLinkInput.value : null,
 					});
 				});
 
@@ -524,7 +529,6 @@ const copyToBuffer = (value) => {
 		}
 		sendData(method, url) {
 			const self = this;
-
 			const data = {
 				'name': this.name.get(),
 				'command': this.command.get(),
@@ -533,6 +537,7 @@ const copyToBuffer = (value) => {
 				'api_request': this.apiRequest.get(),
 				'database_record': this.databaseRecord.get(),
 			}
+
 			const formData = new FormData();
 			formData.append('image', this.image.get());
 			formData.append('data', JSON.stringify(data));
@@ -544,6 +549,7 @@ const copyToBuffer = (value) => {
 			}).then(response => {
 				if (response.ok) {
 					self.bootstrap.toggle();
+					updateDiagramBlocks();
 					self.reset();
 				}
 

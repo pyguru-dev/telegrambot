@@ -1,6 +1,6 @@
-#diagramContainer {
+#diagram {
 	width: 100%;
-	height: 750px;
+	height: 77vh;
 
 	overflow: auto;
 	position: relative;
@@ -38,7 +38,7 @@
 	cursor: move;
 }
 
-.diagram-button {
+.btn-diagram {
 	height: 42px;
 
 	padding: 0;
@@ -48,19 +48,19 @@
 	position: absolute;
 }
 
-.diagram-edit-button {
+.btn-diagram-edit {
 	left: -39px;
 }
 
-.diagram-delete-button {
+.btn-diagram-delete {
 	right: -39px;
 }
 
-.diagram-keyboard-button {
+.diagram-block-keyboard-button {
 	position: absolute;
 }
 
-.diagram-connector {
+.diagram-block-connector {
 	width: 12px;
 	height: 12px;
 
@@ -71,26 +71,26 @@
 	border-radius: 50%;
 }
 
-.diagram-connector-left {
+.diagram-block-connector-left {
 	left: -6px;
 	top: calc(50% - 6px);
 }
 
-.diagram-connector-right {
+.diagram-block-connector-right {
 	right: -6px;
 	top: calc(50% - 6px);
 }
 
-.diagram-connector-top {
+.diagram-block-connector-top {
 	left: calc(50% - 6px);
 	top: -6px;
 }
 
-.connector-highlight {
+.diagram-block-connector-highlight {
 	background-color: var(--bs-danger);
 }
 
-.connector-line {
+.diagram-block-connector-line {
 	stroke: var(--bs-secondary);
 	stroke-width: 2px;
 }
