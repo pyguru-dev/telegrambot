@@ -21,10 +21,10 @@
 					if (notHaveTelegramBotDiv != null) notHaveTelegramBotDiv.remove();
 
 					addTelegramBotBootstrapModal.toggle();
-					addTelegramBot(jsonResponse['telegram_bot']);
+					addTelegramBot(jsonResponse.telegram_bot);
 				}
 
-				createToast(jsonResponse['message'], jsonResponse['level']);
+				createToast(jsonResponse.message, jsonResponse.level);
 			});
 		});
 	});
