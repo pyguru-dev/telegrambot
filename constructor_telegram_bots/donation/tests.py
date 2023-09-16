@@ -10,7 +10,11 @@ from datetime import datetime
 class DonationModelTests(TestCase):
 	def setUp(self) -> None:
 		self.current_date: datetime = datetime.now()
-		self.donation: Donation = Donation.objects.create(sum=50.00, telegram_url='https://example.com/', date=self.current_date)
+		self.donation: Donation = Donation.objects.create(
+			sum=50.00,
+			telegram_url='https://example.com/',
+			date=self.current_date
+		)
 
 	def test_fields(self) -> None:
 		self.assertEqual(self.donation.sum, 50.00)
@@ -20,7 +24,11 @@ class DonationModelTests(TestCase):
 class DonationSectionModelTests(TestCase):
 	def setUp(self) -> None:
 		self.current_date: datetime = datetime.now()
-		self.donation_section: DonationSection = DonationSection.objects.create(title='Test', text='Test...', position=1)
+		self.donation_section: DonationSection = DonationSection.objects.create(
+			title='Test',
+			text='Test...',
+			position=1
+		)
 
 	def test_fields(self) -> None:
 		self.assertEqual(self.donation_section.title, 'Test')
