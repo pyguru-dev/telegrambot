@@ -9,11 +9,11 @@
 		}).then(response => {
 			response.json().then(jsonResponse => {
 				if (response.ok) {
-					telegramBotUsernameDiv.href = `tg://resolve?domain=${jsonResponse['username']}`;
-					telegramBotUsernameDiv.innerHTML = `@${jsonResponse['username']}`;
-					telegramBotApiTokenDiv.innerHTML = jsonResponse['api_token'];
+					telegramBotUsernameDiv.href = `tg://resolve?domain=${jsonResponse.username}`;
+					telegramBotUsernameDiv.innerHTML = `@${jsonResponse.username}`;
+					telegramBotApiTokenDiv.innerHTML = jsonResponse.api_token;
 				} else {
-					createToast(jsonResponse['message'], jsonResponse['level']);
+					createToast(jsonResponse.message, jsonResponse.level);
 				}
 			});
 		});
@@ -56,13 +56,11 @@
 				}),
 			}).then(response => {
 				if (response.ok) {
-					updateTelegramBot();
 					telegramBotApiTokenEditOrSaveOrCancel();
+					updateTelegramBot();
 				}
 
-				response.json().then(jsonResponse => {
-					createToast(jsonResponse['message'], jsonResponse['level']);
-				});
+				response.json().then(jsonResponse => createToast(jsonResponse.message, jsonResponse.level));
 			});
 		});
 		telegramBotApiTokenCancelButton.addEventListener('click', telegramBotApiTokenEditOrSaveOrCancel);
@@ -83,9 +81,7 @@
 					'is_private': telegramBotIsPrivateCheckBox.checked,
 				}),
 			}).then(response => {
-				response.json().then(jsonResponse => {
-					createToast(jsonResponse['message'], jsonResponse['level']);
-				});
+				response.json().then(jsonResponse => createToast(jsonResponse.message, jsonResponse.level));
 			});
 		});
 	}
@@ -101,7 +97,7 @@
 			}).then(response => {
 				response.json().then(jsonResponse => {
 					if (response.ok) {
-						if (!jsonResponse['is_running'] && jsonResponse['is_stopped'] && wait == 'stop') {
+						if (!jsonResponse.is_running && jsonResponse.is_stopped && wait == 'stop') {
 							telegramBotStatusDiv.classList.replace('bg-success', 'bg-danger');
 							telegramBotStatusDiv.innerHTML = telegramBotCardHeaderIsNotRunningText;
 
@@ -112,7 +108,7 @@
 							if (extraFunc != null) {
 								extraFunc();
 							}
-						} else if (jsonResponse['is_running'] && !jsonResponse['is_stopped'] && wait == 'start') {
+						} else if (jsonResponse.is_running && !jsonResponse.is_stopped && wait == 'start') {
 							telegramBotStatusDiv.classList.replace('bg-danger', 'bg-success');
 							telegramBotStatusDiv.innerHTML = telegramBotCardHeaderIsRunningText;
 
@@ -125,7 +121,7 @@
 							}
 						}
 					} else {
-						createToast(jsonResponse['message'], jsonResponse['level']);
+						createToast(jsonResponse.message, jsonResponse.level);
 					}
 				});
 			});
@@ -145,7 +141,7 @@
 		}).then(response => {
 			response.json().then(jsonResponse => {
 				if (response.ok) {
-					if (!jsonResponse['is_running'] && !jsonResponse['is_stopped']) {
+					if (!jsonResponse.is_running && !jsonResponse.is_stopped) {
 						telegramBotStartOrStopButton.disabled = true;
 						telegramBotStartOrStopButton.innerHTML = [
 							'<div class="spinner-border spinner-border-sm role="status">',
@@ -156,7 +152,7 @@
 						checkTelegramBotIsStopped();
 					}
 				} else {
-					createToast(jsonResponse['message'], jsonResponse['level']);
+					createToast(jsonResponse.message, jsonResponse.level);
 				}
 			});
 		});
@@ -184,9 +180,7 @@
 						}), 3000);
 					}
 				} else {
-					response.json().then(jsonResponse => {
-						createToast(jsonResponse['message'], jsonResponse['level']);
-					});
+					response.json().then(jsonResponse => createToast(jsonResponse.message, jsonResponse.level));
 				}
 			});
 		});
@@ -200,13 +194,8 @@
 				method: 'DELETE',
 				headers: {'Authorization': `Token ${userApiToken}`},
 			}).then(response => {
-				if (response.ok) {
-					setTimeout(() => window.location.href = personalCabinetUrl, 1000);
-				}
-
-				response.json().then(jsonResponse => {
-					createToast(jsonResponse['message'], jsonResponse['level']);
-				});
+				if (response.ok) setTimeout(() => window.location.href = personalCabinetUrl, 1000);
+				response.json().then(jsonResponse => createToast(jsonResponse.message, jsonResponse.level));
 			});
 		}
 	));

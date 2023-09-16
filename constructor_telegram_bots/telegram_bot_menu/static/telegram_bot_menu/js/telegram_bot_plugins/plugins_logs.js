@@ -14,7 +14,7 @@
 						jsonResponse.forEach(telegramBotPluginLog => {
 							const telegramBotPluginLogDiv = document.createElement('div');
 							telegramBotPluginLogDiv.classList = 'list-group-item telegram-bot-plugin p-3';
-							telegramBotPluginLogDiv.innerHTML = `<p class="m-0">[<span class="text-success-emphasis">${telegramBotPluginLog['added_date']}</span>]: <span class="text-primary">${telegramBotPluginLog['plugin_name']}</span> - <span class="text-${telegramBotPluginLog['level']}">${telegramBotPluginLog['message']}</span></p>`;
+							telegramBotPluginLogDiv.innerHTML = `<p class="m-0">[<span class="text-success-emphasis">${telegramBotPluginLog.added_date}</span>]: <span class="text-primary">${telegramBotPluginLog.plugin_name}</span> - <span class="text-${telegramBotPluginLog.level}">${telegramBotPluginLog.message}</span></p>`;
 							telegramBotPluginsLogsDiv.append(telegramBotPluginLogDiv);
 						});
 					} else {
@@ -24,7 +24,7 @@
 						telegramBotPluginsLogsDiv.append(telegramBotNotHavePluginsLogsDiv);
 					}
 				} else {
-					createToast(jsonResponse['message'], jsonResponse['level']);
+					createToast(jsonResponse.message, jsonResponse.level);
 				}
 			});
 		});

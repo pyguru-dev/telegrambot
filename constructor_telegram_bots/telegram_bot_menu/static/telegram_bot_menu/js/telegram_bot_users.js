@@ -4,15 +4,13 @@
 	const checkTelegramBotUsersСount = () => {
 		if (telegramBotUsersDiv.querySelectorAll('.telegram-bot-user').length == 0) {
 			const telegramBotNotActivatedDiv = document.createElement('div');
-			telegramBotNotActivatedDiv.setAttribute('class', 'list-group-item telegram-bot-not-activated text-center p-3');
+			telegramBotNotActivatedDiv.className = 'list-group-item text-center p-3';
+			telegramBotNotActivatedDiv.id = 'telegramBotNotActivated';
 			telegramBotNotActivatedDiv.innerHTML = telegramBotNotActivatedText;
 			telegramBotUsersDiv.append(telegramBotNotActivatedDiv);
 		} else {
-			const telegramBotNotActivatedDiv = telegramBotUsersDiv.querySelector('.telegram-bot-not-activated');
-
-			if (telegramBotNotActivatedDiv != null) {
-				telegramBotNotActivatedDiv.remove();
-			}
+			const telegramBotNotActivatedDiv = telegramBotUsersDiv.querySelector('#telegramBotNotActivated');
+			if (telegramBotNotActivatedDiv != null) telegramBotNotActivatedDiv.remove();
 		}
 	}
 
@@ -28,10 +26,10 @@
 					jsonResponse.forEach(telegramBotUser => {
 						const telegramBotUserDiv = document.createElement('div');
 						telegramBotUserDiv.classList = 'list-group-item telegram-bot-user p-3';
-						telegramBotUserDiv.id = telegramBotUser['id'];
+						telegramBotUserDiv.id = telegramBotUser.id;
 						telegramBotUserDiv.innerHTML = [
 							'<div class="d-flex justify-content-between align-items-center">',
-							`	<p class="m-0">[<span class="text-success-emphasis">${telegramBotUser['date_activated']}</span>]: <span class="text-primary">${telegramBotUser['user_id']}</span> - ${telegramBotUser['full_name']}</p>`,
+							`	<p class="m-0">[<span class="text-success-emphasis">${telegramBotUser.activated_date}</span>]: <span class="text-primary">${telegramBotUser.user_id}</span> - ${telegramBotUser.full_name}</p>`,
 							'	<div class="btn-group" role="group">',
 							'		<button class="btn btn-warning add-allowed px-2 py-1 d-none">',
 							'			<i class="bi bi-star d-flex justify-content-center text-light" style="font-size: 20px;"></i>',
@@ -52,7 +50,7 @@
 						const telegramBotUserDeleteButton = telegramBotUserDiv.querySelector('.delete');
 
 						if (telegramBotIsPrivateCheckBox.checked) {
-							if (telegramBotUser['is_allowed']) {
+							if (telegramBotUser.is_allowed) {
 								telegramBotUserDeleteAllowedButton.classList.add('rounded-start');
 								telegramBotUserDeleteAllowedButton.classList.remove('d-none');
 							} else {
@@ -63,38 +61,28 @@
 						}
 
 						telegramBotUserAddAllowedButton.addEventListener('click', function() {
-							fetch(`/telegram-bots/${telegramBotId}/users/${telegramBotUser['id']}/allowed-user/`, {
+							fetch(`/telegram-bots/${telegramBotId}/users/${telegramBotUser.id}/allowed-user/`, {
 								method: 'POST',
 								headers: {'Authorization': `Token ${userApiToken}`},
 							}).then(response => {
-								if (response.ok) {
-									updateTelegramBotUsers();
-								}
-
-								response.json().then(jsonResponse => {
-									createToast(jsonResponse['message'], jsonResponse['level']);
-								});
+								if (response.ok) updateTelegramBotUsers();
+								response.json().then(jsonResponse => createToast(jsonResponse.message, jsonResponse.level));
 							});
 						});
 						telegramBotUserDeleteAllowedButton.addEventListener('click', function() {
-							fetch(`/telegram-bots/${telegramBotId}/users/${telegramBotUser['id']}/allowed-user/`, {
+							fetch(`/telegram-bots/${telegramBotId}/users/${telegramBotUser.id}/allowed-user/`, {
 								method: 'DELETE',
 								headers: {'Authorization': `Token ${userApiToken}`},
 							}).then(response => {
-								if (response.ok) {
-									updateTelegramBotUsers();
-								}
-
-								response.json().then(jsonResponse => {
-									createToast(jsonResponse['message'], jsonResponse['level']);
-								});
+								if (response.ok) updateTelegramBotUsers();
+								response.json().then(jsonResponse => createToast(jsonResponse.message, jsonResponse.level));
 							});
 						});
 						telegramBotUserDeleteButton.addEventListener('click', () => askConfirmModal(
 							deleteTelegramBotUserAskConfirmModalTitle,
 							deleteTelegramBotUserAskConfirmModalText,
 							function() {
-								fetch(`/telegram-bots/${telegramBotId}/users/${telegramBotUser['id']}/`, {
+								fetch(`/telegram-bots/${telegramBotId}/users/${telegramBotUser.id}/`, {
 									method: 'DELETE',
 									headers: {'Authorization': `Token ${userApiToken}`},
 								}).then(response => {
@@ -103,9 +91,7 @@
 										checkTelegramBotUsersСount();
 									}
 
-									response.json().then(jsonResponse => {
-										createToast(jsonResponse['message'], jsonResponse['level']);
-									});
+									response.json().then(jsonResponse => createToast(jsonResponse.message, jsonResponse.level));
 								});
 							}
 						));
@@ -113,7 +99,7 @@
 
 					checkTelegramBotUsersСount();
 				} else {
-					createToast(jsonResponse['message'], jsonResponse['level']);
+					createToast(jsonResponse.message, jsonResponse.level);
 				}
 			});
 		});

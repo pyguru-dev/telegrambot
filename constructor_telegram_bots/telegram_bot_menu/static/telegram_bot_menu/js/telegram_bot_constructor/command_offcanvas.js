@@ -553,7 +553,7 @@ const copyToBuffer = (value) => {
 					self.reset();
 				}
 
-				response.json().then(jsonResponse => createToast(jsonResponse['message'], jsonResponse['level']));
+				response.json().then(jsonResponse => createToast(jsonResponse.message, jsonResponse.level));
 			});
 		}
 		reset() {

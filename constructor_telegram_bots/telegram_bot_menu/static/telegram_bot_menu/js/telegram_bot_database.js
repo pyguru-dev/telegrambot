@@ -4,15 +4,13 @@
 	const checkTelegramBotDatabaseRecordsСount = () => {
 		if (telegramBotDatabaseRecordsDiv.querySelectorAll('.database-record').length == 0) {
 			const telegramBotDatabaseNotHaveRecordDiv = document.createElement('div');
-			telegramBotDatabaseNotHaveRecordDiv.className = 'list-group-item database-not-have-record text-center p-3';
+			telegramBotDatabaseNotHaveRecordDiv.className = 'list-group-item text-center p-3';
+			telegramBotDatabaseNotHaveRecordDiv.id = 'telegramBotDatabaseNotHaveRecordText';
 			telegramBotDatabaseNotHaveRecordDiv.innerHTML = telegramBotDatabaseNotHaveDataText
 			telegramBotDatabaseRecordsDiv.append(telegramBotDatabaseNotHaveRecordDiv);
 		} else {
-			const telegramBotDatabaseNotHaveRecordDiv = telegramBotDatabaseRecordsDiv.querySelector('.database-not-have-record');
-
-			if (telegramBotDatabaseNotHaveRecordDiv != null) {
-				telegramBotDatabaseNotHaveRecordDiv.remove();
-			}
+			const telegramBotDatabaseNotHaveRecordDiv = telegramBotDatabaseRecordsDiv.querySelector('#telegramBotDatabaseNotHaveRecordText');
+			if (telegramBotDatabaseNotHaveRecordDiv != null) telegramBotDatabaseNotHaveRecordDiv.remove();
 		}
 	}
 
@@ -30,14 +28,14 @@
 			'	</div>',
 			'	<div class="d-flex buttons justify-content-between align-items-center ms-3">',
 			'		<div class="btn-group confirm-and-cancel me-2 d-none" role="group">',
-			`			<button class="btn btn-success confirm px-2 py-1" id="${telegramBotDatabaseRecord['_id']}">`,
+			`			<button class="btn btn-success confirm px-2 py-1" id="${telegramBotDatabaseRecord._id}">`,
 			'				<i class="bi bi-check-lg d-flex justify-content-center" style="font-size: 20px"></i>',
 			'			</button>',
 			`			<button class="btn btn-danger cancel px-2 py-1">`,
 			'				<i class="bi bi-x-lg d-flex justify-content-center" style="font-size: 20px; -webkit-text-stroke: 1px;"></i>',
 			'			</button>',
 			'		</div>',
-			`		<button class="btn btn-danger delete px-2 py-1 disabled" id="${telegramBotDatabaseRecord['_id']}">`,
+			`		<button class="btn btn-danger delete px-2 py-1 disabled" id="${telegramBotDatabaseRecord._id}">`,
 			'			<div class="spinner-border spinner-border-sm" role="status">',
 			'				<span class="visually-hidden"></span>',
 			'			</div>',
@@ -96,12 +94,12 @@
 				}).then(response => {
 					response.json().then(jsonResponse => {
 						if (response.ok) {
-							telegramBotDatabaseRecordData = JSON.stringify(jsonResponse['record'], null, '    ');
+							telegramBotDatabaseRecordData = JSON.stringify(jsonResponse.record, null, '    ');
 							telegramBotDatabaseRecordMonacoEditor.setValue(telegramBotDatabaseRecordData);
 							telegramBotDatabaseRecordConfirmAndCancelButtonsGroup.classList.add('d-none');
 						}
 
-						createToast(jsonResponse['message'], jsonResponse['level']);
+						createToast(jsonResponse.message, jsonResponse.level);
 					});
 				});
 			});
@@ -125,7 +123,7 @@
 								checkTelegramBotDatabaseRecordsСount();
 							}
 
-							response.json().then(jsonResponse => createToast(jsonResponse['message'], jsonResponse['level']));
+							response.json().then(jsonResponse => createToast(jsonResponse.message, jsonResponse.level));
 						});
 					}
 				);
@@ -149,7 +147,7 @@
 							checkTelegramBotDatabaseRecordsСount();
 						}
 					} else {
-						createToast(jsonResponse['message'], jsonResponse['level'])
+						createToast(jsonResponse.message, jsonResponse.level);
 					};
 				});
 			});
@@ -239,10 +237,10 @@
 						response.json().then(jsonResponse => {
 							if (response.ok) {
 								telegramBotDatabaseRecordDiv.remove();
-								addTelegramBotDatabaseRecord(jsonResponse['record']);
+								addTelegramBotDatabaseRecord(jsonResponse.record);
 							}
 
-							createToast(jsonResponse['message'], jsonResponse['level']);
+							createToast(jsonResponse.message, jsonResponse.level);
 						});
 					});
 				});

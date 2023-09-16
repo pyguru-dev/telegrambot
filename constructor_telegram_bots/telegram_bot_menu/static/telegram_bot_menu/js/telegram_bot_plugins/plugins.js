@@ -10,10 +10,7 @@
 			telegramBotPluginsDiv.append(telegramBotNotHavePluginsDiv);
 		} else {
 			const telegramBotNotHavePluginsDiv = telegramBotPluginsDiv.querySelector('#telegramBotNotHavePlugins');
-
-			if (telegramBotNotHavePluginsDiv != null) {
-				telegramBotNotHavePluginsDiv.remove();
-			}
+			if (telegramBotNotHavePluginsDiv != null) telegramBotNotHavePluginsDiv.remove();
 		}
 	}
 
@@ -21,7 +18,7 @@
 		const telegramBotPluginDiv = document.createElement('div');
 		telegramBotPluginDiv.classList = 'list-group-item telegram-bot-plugin p-3 pt-2';
 		telegramBotPluginDiv.innerHTML = [
-			`<h5>${telegramBotPluginNameText} ${telegramBotPlugin['name']}</h5>`,
+			`<h5>${telegramBotPluginNameText} ${telegramBotPlugin.name}</h5>`,
 			'<div class="d-flex justify-content-between align-items-center">',
 			'	<div class="border border-2 border-dark-subtle rounded w-100 pe-2 py-2">',
 			'		<div class="editor">',
@@ -33,17 +30,17 @@
 			'	<div class="d-flex buttons align-items-center ms-3">',
 			'		<div class="d-flex me-3">',
 			'			<span class="me-1">Проверен:</span>',
-			`			<i class="bi bi-${(telegramBotPlugin['is_checked']) ? 'check' : 'x'}-circle-fill text-${(telegramBotPlugin['is_checked']) ? 'success' : 'danger'} d-flex align-items-center is_checked" style="margin-top: 2px"></i>`,
+			`			<i class="bi bi-${(telegramBotPlugin.is_checked) ? 'check' : 'x'}-circle-fill text-${(telegramBotPlugin.is_checked) ? 'success' : 'danger'} d-flex align-items-center is_checked" style="margin-top: 2px"></i>`,
 			'		</div>',
 			'		<div class="btn-group confirm-and-cancel me-2 d-none" role="group">',
-			`			<button class="btn btn-success confirm px-2 py-1" id="${telegramBotPlugin['id']}">`,
+			`			<button class="btn btn-success confirm px-2 py-1" id="${telegramBotPlugin.id}">`,
 			'				<i class="bi bi-check-lg d-flex justify-content-center" style="font-size: 20px"></i>',
 			'			</button>',
 			'			<button class="btn btn-danger cancel px-2 py-1">',
 			'				<i class="bi bi-x-lg d-flex justify-content-center" style="font-size: 20px;"></i>',
 			'			</button>',
 			'		</div>',
-			`		<button class="btn btn-danger delete px-2 py-1 disabled" id="${telegramBotPlugin['id']}">`,
+			`		<button class="btn btn-danger delete px-2 py-1 disabled" id="${telegramBotPlugin.id}">`,
 			'			<div class="spinner-border spinner-border-sm" role="status">',
 			'				<span class="visually-hidden"></span>',
 			'			</div>',
@@ -68,7 +65,7 @@
 			telegramBotPluginDeleteButton.classList.remove('disabled');
 			telegramBotPluginDeleteButton.innerHTML = '<i class="bi bi-trash d-flex justify-content-center" style="font-size: 20px;"></i>';
 
-			let telegramBotPluginCode = telegramBotPlugin['code'];
+			let telegramBotPluginCode = telegramBotPlugin.code;
 
 			const telegramBotPluginMonacoEditor = monaco.editor.create(telegramBotPluginEditorDiv, {
 				value: telegramBotPluginCode,
@@ -107,12 +104,12 @@
 						if (response.ok) {
 							telegramBotPluginIsCheckedIcon.classList.remove('bi-check-circle-fill', 'text-success');
 							telegramBotPluginIsCheckedIcon.classList.add('bi-x-circle-fill', 'text-danger');
-							telegramBotPluginCode = jsonResponse['plugin']['code'];
+							telegramBotPluginCode = jsonResponse.plugin.code;
 
 							telegramBotPluginConfirmOrCancelButtonClick(telegramBotPluginCode);
 						}
 
-						createToast(jsonResponse['message'], jsonResponse['level']);
+						createToast(jsonResponse.message, jsonResponse.level);
 					});
 				});
 			});
@@ -133,9 +130,7 @@
 								checkTelegramBotPluginsСount();
 							}
 
-							response.json().then(jsonResponse => {
-								createToast(jsonResponse['message'], jsonResponse['level']);
-							});
+							response.json().then(jsonResponse => createToast(jsonResponse.message, jsonResponse.level));
 						});
 					}
 				);
@@ -158,7 +153,7 @@
 						checkTelegramBotPluginsСount();
 					}
 				} else {
-					createToast(jsonResponse['message'], jsonResponse['level']);
+					createToast(jsonResponse.message, jsonResponse.level);
 				}
 			});
 		});
@@ -252,10 +247,10 @@
 					response.json().then(jsonResponse => {
 						if (response.ok) {
 							telegramBotPluginDiv.remove();
-							addTelegramBotPlugin(jsonResponse['plugin']);
+							addTelegramBotPlugin(jsonResponse.plugin);
 						}
 
-						createToast(jsonResponse['message'], jsonResponse['level']);
+						createToast(jsonResponse.message, jsonResponse.level);
 					});
 				});
 			});

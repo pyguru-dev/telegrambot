@@ -317,11 +317,8 @@
 					method: 'DELETE',
 					headers: {'Authorization': `Token ${userApiToken}`},
 				}).then(response => {
-					if (response.ok) {
-						updateDiagramBlocks();
-					}
-
-					response.json().then(jsonResponse => createToast(jsonResponse['message'], jsonResponse['level']));
+					if (response.ok) updateDiagramBlocks();
+					response.json().then(jsonResponse => createToast(jsonResponse.message, jsonResponse.level));
 				});
 			}
 		));
@@ -369,7 +366,7 @@
 
 				diagramSetZoom();
 			} else {
-				response.json().then(jsonResponse => createToast(jsonResponse['message'], jsonResponse['level']));
+				response.json().then(jsonResponse => createToast(jsonResponse.message, jsonResponse.level));
 			}
 		});
 	}
