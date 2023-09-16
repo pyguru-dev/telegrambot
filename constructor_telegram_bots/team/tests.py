@@ -10,7 +10,11 @@ from datetime import datetime
 class TeamMemberModelTests(TestCase):
 	def setUp(self) -> None:
 		self.current_date: datetime = datetime.now()
-		self.team_member: TeamMember = TeamMember.objects.create(username='test', speciality='Test', joined_date=self.current_date)
+		self.team_member: TeamMember = TeamMember.objects.create(
+			username='test',
+			speciality='Test',
+			joined_date=self.current_date
+		)
 
 	def test_fields(self) -> None:
 		self.assertEqual(str(self.team_member.image), '')
