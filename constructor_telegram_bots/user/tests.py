@@ -20,7 +20,11 @@ class UserModelTests(BaseTestCase):
 		self.assertIsNone(self.user.last_login)
 
 	def test_login_url(self) -> None:
-		self.assertEqual(self.user.login_url, f"{settings.SITE_DOMAIN}{urls.reverse('user:login', kwargs={'user_id': self.user.id, 'confirm_code': self.user.confirm_code})}")
+		login_url: str = urls.reverse('user:login', kwargs={
+			'user_id': self.user.id,
+			'confirm_code': self.user.confirm_code,
+		})
+		self.assertEqual(self.user.login_url, f"{settings.SITE_DOMAIN}{login_url}")
 		self.assertIsNotNone(self.user.confirm_code)
 		self.assertIsNone(self.user.last_login)
 
