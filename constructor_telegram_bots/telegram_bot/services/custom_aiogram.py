@@ -30,7 +30,6 @@ class CustomBot(Bot):
 			return await super().request(*args, **kwargs)
 
 	async def get_results(self) -> Optional[list]:
-		print(self.results)
 		return self.results if settings.TEST else None
 
 class CustomDispatcher(Dispatcher):
