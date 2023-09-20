@@ -230,6 +230,7 @@ class TelegramBotCommand(models.Model):
 
 		self.message_text.mode = message_text['mode']
 		self.message_text.text = message_text['text']
+		self.message_text.save()
 
 		telegram_bot_command_keyboard: Optional[TelegramBotCommandKeyboard] = self.get_keyboard()
 
