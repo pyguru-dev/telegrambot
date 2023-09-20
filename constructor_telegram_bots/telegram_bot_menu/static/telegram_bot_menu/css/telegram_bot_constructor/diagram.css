@@ -28,7 +28,9 @@
 }
 
 #diagramZoomPercent {
+	width: 60px;
 	font-size: 14px;
+	cursor: default;
 }
 
 .diagram-block {

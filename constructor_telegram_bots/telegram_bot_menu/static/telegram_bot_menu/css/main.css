@@ -1,4 +1,13 @@
+.nav-pills .nav-link {
+	transition: color .15s ease-in-out, background-color .15s ease-in-out;
+}
+
 .nav-pills .nav-link.active {
 	color: var(--bs-light)!important;
-    background-color: var(--bs-dark)!important;
+    background-color: var(--bs-dark);
+}
+
+.nav-pills .nav-link:hover {
+	color: var(--bs-light)!important;
+	background-color: var(--bs-dark);
 }

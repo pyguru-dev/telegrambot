@@ -272,8 +272,8 @@
 			`	<i class="bi bi-trash d-flex" style="font-size: 1.5rem;"></i>`,
 			`</button>`,
 			`<div class="diagram-block-name bg-light border text-center text-break p-2 mb-2">${telegramBotCommand.name}</div>`,
-			(telegramBotCommand['image'] != '') ? `<img class="img-thumbnail rounded mb-2" src="/${telegramBotCommand.image}">` : '',
-			`<div class="language-html bg-light border rounded text-break p-2" style="font-size: 14px;"><pre class="bg-light p-0 m-0"><code>${telegramBotCommand.message_text.text}</code></pre></div>`,
+			(telegramBotCommand.image !== '') ? `<img class="img-thumbnail rounded mb-2" src="/${telegramBotCommand.image}">` : '',
+			(telegramBotCommand.message_text.mode !== 'default') ? `<div class="language-${telegramBotCommand.message_text.mode} bg-light border rounded text-break p-2" style="font-size: 14px;"><pre class="bg-light p-0 m-0"><code>${telegramBotCommand.message_text.text}</code></pre></div>` : `<div class="bg-light border rounded text-break p-2" style="font-size: 15px;">${telegramBotCommand.message_text.text}</div>`,
 		].join('');
 
 		if (telegramBotCommand.keyboard != null) {
@@ -306,6 +306,23 @@
 		});
 
 		diagramBlock.querySelectorAll('.diagram-block-connector').forEach(diagramBlockConnector => diagramBlockConnector.addEventListener('click', diagramBlockConnectorClick));
+
+		const diagramBlockEditButton = diagramBlock.querySelector('.btn-diagram-edit');
+
+		diagramBlockEditButton.addEventListener('click', function() {
+			fetch(`/telegram-bots/${telegramBotId}/commands/${this.id}/`, {
+				method: 'GET',
+				headers: {'Authorization': `Token ${userApiToken}`},
+			}).then(response => {
+				response.json().then(jsonResponse => {
+					if (response.ok) {
+						telegramBotCommandOffcanvas.show('edit', jsonResponse);
+					} else {
+						createToast(jsonResponse.message, jsonResponse.level);
+					}
+				});
+			});
+		});
 
 		const diagramBlockDeleteButton = diagramBlock.querySelector('.btn-diagram-delete');
 

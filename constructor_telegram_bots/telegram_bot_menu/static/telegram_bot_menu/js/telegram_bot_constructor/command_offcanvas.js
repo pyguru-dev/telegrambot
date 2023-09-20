@@ -4,6 +4,37 @@ const copyToBuffer = (value) => {
 }
 
 {
+	class Addition {
+		constructor(additionDiv) {
+			this.additionDiv = additionDiv;
+			this.additionButton = document.querySelector(`[addition-target="#${this.additionDiv.id}"]`);
+			this.additionButtonClickShowExtraFunc = null;
+			this.additionButtonClickHideExtraFunc = null;
+			this.isShow = false;
+
+			this.additionButton.addEventListener('click', () => this.toggle());
+		}
+		toggle() {
+			(this.additionDiv.classList.contains('d-none')) ? this.show() : this.hide();
+		}
+		show() {
+			this.isShow = true;
+
+			this.additionDiv.classList.remove('d-none');
+			this.additionButton.classList.replace('btn-dark', 'btn-secondary');
+
+			if (this.additionButtonClickShowExtraFunc) this.additionButtonClickShowExtraFunc();
+		}
+		hide() {
+			this.isShow = false;
+
+			this.additionDiv.classList.add('d-none');
+			this.additionButton.classList.replace('btn-secondary', 'btn-dark');
+
+			if (this.additionButtonClickHideExtraFunc) this.additionButtonClickHideExtraFunc();
+		}
+	}
+
 	class Name {
 		constructor() {
 			this.input = document.querySelector('#telegramBotCommandOffcanvasNameInput');
@@ -11,38 +42,50 @@ const copyToBuffer = (value) => {
 		get() {
 			return this.input.value;
 		}
+		set(telegramBotCommand) {
+			this.input.value = telegramBotCommand.name;
+		}
 		reset() {
 			this.input.value = null;
 		}
 	}
 
-	class Command {
+	class Command extends Addition {
 		constructor() {
-			this.parentDiv = document.querySelector('#telegramBotCommandOffcanvasCommandAddition');
+			super(document.querySelector('#telegramBotCommandOffcanvasCommandAddition'));
+
 			this.input = document.querySelector('#telegramBotCommandOffcanvasCommandInput');
-			this.showInMenuCheckBox = document.querySelector('#telegramBotCommandOffcanvasCommandShowInMenuCheckbox');
+			this.checkBox = document.querySelector('#telegramBotCommandOffcanvasCommandShowInMenuCheckbox');
 		}
 		get() {
-			if (!this.parentDiv.classList.contains('d-none')) {
+			if (this.isShow) {
 				return {
 					command: this.input.value,
-					show_in_menu: this.showInMenuCheckBox.checked,
+					show_in_menu: this.checkBox.checked,
 				}
 			} else {
 				return null;
 			}
 		}
+		set(telegramBotCommand) {
+			if (telegramBotCommand.command) {
+				this.show();
+				this.input.value = telegramBotCommand.command.command;
+				this.checkBox.checked = telegramBotCommand.command.show_in_menu;
+			}
+		}
 		reset() {
+			this.hide();
 			this.input.value = null;
-			this.showInMenuCheckBox.checked = false;
+			this.checkBox.checked = false;
 		}
 	}
 
-	class Image {
+	class Image extends Addition {
 		constructor() {
+			super(document.querySelector('#telegramBotCommandOffcanvasImageAddition'));
 			const self = this;
 
-			this.parentDiv = document.querySelector('#telegramBotCommandOffcanvasImageAddition');
 			this.previewImg = document.querySelector('#telegramBotCommandOffcanvasImagePreview');
 			this.input = document.querySelector('#telegramBotCommandOffcanvasImageInput');
 			this.file = null;
@@ -51,28 +94,29 @@ const copyToBuffer = (value) => {
 				self.file = event.target.files[0];
 				const imageReader = new FileReader();
 
+				imageReader.readAsDataURL(self.file);
 				imageReader.addEventListener('load', function() {
 					self.previewImg.classList.remove('d-none');
 					self.previewImg.src = imageReader.result;
 				});
-				imageReader.readAsDataURL(self.file);
 			});
 		}
 		get() {
-			if (
-				!this.parentDiv.classList.contains('d-none') &&
-				!this.previewImg.classList.contains('d-none')
-			) {
-				if (this.file) {
-					return this.file;
-				} else {
-					return 'not_edited';
-				}
+			if (this.isShow && !this.previewImg.classList.contains('d-none')) {
+				return (this.file) ? this.file : 'not_edited';
 			} else {
 				return 'null';
 			}
 		}
+		set(telegramBotCommand) {
+			if (telegramBotCommand.image) {
+				this.show();
+				this.previewImg.classList.remove('d-none');
+				this.previewImg.src = telegramBotCommand.image;
+			}
+		}
 		reset() {
+			this.hide();
 			this.previewImg.classList.add('d-none');
 			this.previewImg.removeAttribute('src');
 			this.input.value = null;
@@ -130,11 +174,7 @@ const copyToBuffer = (value) => {
 			if (mode !== this.mode) {
 				this.mode = mode;
 
-				this.messageTextModesRadios.forEach(messageTextModeRadio => {
-					if (messageTextModeRadio.value === this.mode) {
-						messageTextModeRadio.checked = true;
-					}
-				});
+				this.messageTextModesRadios.forEach(messageTextModeRadio => messageTextModeRadio.checked = (messageTextModeRadio.value === this.mode));
 
 				if (this.mode === 'default') {
 					this.div.innerHTML = `<textarea class="form-control" placeholder="${telegramBotCommandOffcanvasMessageTextPlaceholderText}" style="height: 160px; resize: none;"></textarea>`;
@@ -144,18 +184,35 @@ const copyToBuffer = (value) => {
 			}
 		}
 		get() {
-			const data = {
+			return {
 				mode: this.mode,
-				text: null,
+				text: (this.mode === 'default') ? this.div.querySelector('textarea').value : this.monacoEditor.getModel().getValue(),
 			}
+		}
+		set(telegramBotCommand) {
+			this.setMode(telegramBotCommand.message_text.mode);
 
 			if (this.mode === 'default') {
-				data.text = this.div.querySelector('textarea').value;
+				this.div.querySelector('textarea').value = telegramBotCommand.message_text.text;
 			} else {
-				data.text = this.monacoEditor.getModel().getValue();
-			}
+				const setMessageText = () => {
+					if (this.monacoEditor) {
+						this.monacoEditor.setValue(telegramBotCommand.message_text.text);
+						return true
+					}
+					return false
+				}
 
-			return data;
+				const isSuccess = setMessageText();
+
+				if (!isSuccess) {
+					const intervalId = setInterval(() => {
+						const isSuccess = setMessageText();
+						if (isSuccess) clearInterval(intervalId);
+					}, 1000);
+				}
+
+			}
 		}
 		reset() {
 			this.monacoEditor = null;
@@ -164,9 +221,10 @@ const copyToBuffer = (value) => {
 		}
 	}
 
-	class Keyboard {
+	class Keyboard extends Addition {
 		constructor() {
-			this.parentDiv = document.querySelector('#telegramBotCommandOffcanvasKeyboardAddition');
+			super(document.querySelector('#telegramBotCommandOffcanvasKeyboardAddition'));
+
 			this.modesRadios = document.querySelectorAll('[name="telegramBotCommandOffcanvasKeyboardModes"]');
 			this.buttonsRowsDiv = document.querySelector('#telegramBotCommandOffcanvasKeyboardButtonsRows');
 			this.selectedKeyboardButtonRowButton = null;
@@ -175,8 +233,42 @@ const copyToBuffer = (value) => {
 
 			this.modesRadios.forEach(keyboardModeRadio => keyboardModeRadio.addEventListener('click', () => this.setMode(keyboardModeRadio.value)));
 			document.querySelector('#telegramBotCommandOffcanvasKeyboardAddButton').addEventListener('click', () => this.createButton());
+
 		}
-		createButtonAddLinkButton(keyboardButtonDiv) {
+		createRowButton() {
+			const self = this;
+
+			const keyboardButtonsCount = this.buttonsDiv.querySelectorAll('.keyboard-button').length + 1;
+			const keyboardButtonRowButtonWidth = (this.buttonsRowsDiv.clientWidth - (8 + 4 * 7)) / 8;
+
+			const keyboardButtonRowButton = document.createElement('button');
+			keyboardButtonRowButton.classList = 'btn btn-sm btn-dark btn-row';
+			keyboardButtonRowButton.setAttribute('row-num', keyboardButtonsCount);
+			keyboardButtonRowButton.style.width = `${keyboardButtonRowButtonWidth}px`;
+			keyboardButtonRowButton.innerHTML = keyboardButtonsCount;
+			this.buttonsRowsDiv.appendChild(keyboardButtonRowButton);
+
+			keyboardButtonRowButton.addEventListener('click', function() {
+				self.buttonsRowsDiv.querySelectorAll('button').forEach(keyboardButtonRowButton => keyboardButtonRowButton.classList.replace('btn-secondary', 'btn-dark'));
+
+				if (self.selectedKeyboardButtonRowButton !== keyboardButtonRowButton) {
+					self.selectedKeyboardButtonRowButton = keyboardButtonRowButton;
+					keyboardButtonRowButton.classList.replace('btn-dark', 'btn-secondary');
+				} else {
+					self.selectedKeyboardButtonRowButton = null;
+				}
+			});
+		}
+		insertRowButton(keyboardButtonDiv, keyboardButtonNameInput, keyboardButtonRowButton_) {
+			const keyboardButtonRowButton = keyboardButtonRowButton_.cloneNode(true);
+			keyboardButtonRowButton.classList.replace('btn-dark', 'btn-secondary');
+			keyboardButtonRowButton.style.width = '35px';
+			keyboardButtonDiv.appendChild(keyboardButtonRowButton);
+			keyboardButtonDiv.insertBefore(keyboardButtonRowButton, keyboardButtonNameInput);
+
+			keyboardButtonRowButton.addEventListener('click', () => keyboardButtonRowButton.remove());
+		}
+		createAddLinkButton(keyboardButtonDiv) {
 			const keyboardButtonAddLinkButton = document.createElement('button');
 			keyboardButtonAddLinkButton.classList = 'btn btn-sm btn-primary btn-add-link';
 			keyboardButtonAddLinkButton.type = 'button';
@@ -194,37 +286,13 @@ const copyToBuffer = (value) => {
 				keyboardButtonLinkInput.focus();
 			});
 		}
-		createButton() {
+		createButton(telegramBotCommandKeyboardButton=null) {
 			const self = this;
 
-			const keyboardButtonsCount = this.buttonsDiv.querySelectorAll('.keyboard-button').length + 1;
-			const keyboardButtonRowButtonWidth = (this.buttonsRowsDiv.clientWidth - (8 + 4 * 7)) / 8;
-
-			const keyboardButtonRowButton = document.createElement('button');
-			keyboardButtonRowButton.className = 'btn btn-sm btn-dark btn-row';
-			keyboardButtonRowButton.style.width = `${keyboardButtonRowButtonWidth}px`;
-			keyboardButtonRowButton.innerHTML = keyboardButtonsCount;
-			this.buttonsRowsDiv.appendChild(keyboardButtonRowButton);
-
-			keyboardButtonRowButton.addEventListener('click', function() {
-				self.buttonsRowsDiv.querySelectorAll('button').forEach(
-					keyboardButtonRowButton => keyboardButtonRowButton.classList.replace('btn-secondary', 'btn-dark')
-				);
-
-				if (self.selectedKeyboardButtonRowButton !== keyboardButtonRowButton.innerHTML) {
-					self.selectedKeyboardButtonRowButton = keyboardButtonRowButton;
-
-					if (keyboardButtonRowButton.classList.contains('btn-dark')) {
-						keyboardButtonRowButton.classList.replace('btn-dark', 'btn-secondary');
-					} else {
-						keyboardButtonRowButton.classList.replace('btn-secondary', 'btn-dark');
-					}
-				} else {
-					self.selectedKeyboardButtonRowButton = null;
-				}
-			});
+			this.createRowButton();
 
 			const keyboardButtonDiv = document.createElement('div');
+			if (telegramBotCommandKeyboardButton) keyboardButtonDiv.id = telegramBotCommandKeyboardButton.id;
 			keyboardButtonDiv.classList = 'input-group keyboard-button';
 			keyboardButtonDiv.innerHTML = [
 				'<button class="btn btn-sm btn-dark btn-move-up" type="button"><i class="bi bi-arrow-up" style="-webkit-text-stroke: 1px;"></i></button>',
@@ -242,20 +310,18 @@ const copyToBuffer = (value) => {
 					const oldKeyboardButtonRowButton = keyboardButtonDiv.querySelector('.btn-row');
 					if (oldKeyboardButtonRowButton) oldKeyboardButtonRowButton.remove();
 
-					const keyboardButtonRowButton = self.selectedKeyboardButtonRowButton.cloneNode(true);
-					keyboardButtonRowButton.style.width = '35px';
-					keyboardButtonDiv.appendChild(keyboardButtonRowButton);
-					keyboardButtonDiv.insertBefore(keyboardButtonRowButton, keyboardButtonNameInput);
-
-					keyboardButtonRowButton.addEventListener('click', () => keyboardButtonRowButton.remove())
+					self.insertRowButton(keyboardButtonDiv, keyboardButtonNameInput, self.selectedKeyboardButtonRowButton);
 
 					self.selectedKeyboardButtonRowButton = null;
-					self.buttonsRowsDiv.querySelectorAll('button').forEach(
-						keyboardButtonRowButton => keyboardButtonRowButton.classList.replace('btn-secondary', 'btn-dark')
-					);
+					self.buttonsRowsDiv.querySelectorAll('button').forEach(keyboardButtonRowButton => keyboardButtonRowButton.classList.replace('btn-secondary', 'btn-dark'));
 				}
 			});
-			keyboardButtonNameInput.focus();
+
+			if (telegramBotCommandKeyboardButton) {
+				keyboardButtonNameInput.value = telegramBotCommandKeyboardButton.text;
+			} else {
+				keyboardButtonNameInput.focus();
+			}
 
 			keyboardButtonDiv.querySelector('.btn-move-up').addEventListener('click', function() {
 				const previousKeyboardButtonDiv = keyboardButtonDiv.previousElementSibling;
@@ -273,21 +339,32 @@ const copyToBuffer = (value) => {
 			});
 
 			if (this.mode === 'inline' || this.mode === 'payment') {
-				this.createButtonAddLinkButton(keyboardButtonDiv);
+				this.createAddLinkButton(keyboardButtonDiv);
 			}
 
-			keyboardButtonDiv.querySelector('.btn-delete').addEventListener('click', () => keyboardButtonDiv.remove());
+			keyboardButtonDiv.querySelector('.btn-delete').addEventListener('click', function() {
+				const keyboardButtonsRowsButtons = self.buttonsRowsDiv.querySelectorAll('.btn-row');
+				const lastKeyboardButtonRowButton = keyboardButtonsRowsButtons[keyboardButtonsRowsButtons.length - 1];
+
+				self.buttonsDiv.querySelectorAll('.keyboard-button').forEach(keyboardButton => {
+					const keyboardButtonRowButton = keyboardButton.querySelector('.btn-row');
+					if (keyboardButtonRowButton && lastKeyboardButtonRowButton.getAttribute('row-num') === keyboardButtonRowButton.getAttribute('row-num')) {
+						keyboardButtonRowButton.remove();
+					}
+				})
+
+				lastKeyboardButtonRowButton.remove();
+				keyboardButtonDiv.remove();
+			});
 		}
 		setMode(mode) {
 			if (mode !== this.mode) {
 				this.modesRadios.forEach(keyboardModeRadio => {
-					if (keyboardModeRadio.value === mode) {
-						keyboardModeRadio.checked = true;
-					}
+					if (keyboardModeRadio.value === mode) keyboardModeRadio.checked = true;
 				});
 
 				if (this.mode === 'default' && (mode === 'inline' || mode === 'payment')) {
-					this.buttonsDiv.querySelectorAll('.keyboard-button').forEach(keyboardButtonDiv => this.createButtonAddLinkButton(keyboardButtonDiv));
+					this.buttonsDiv.querySelectorAll('.keyboard-button').forEach(keyboardButtonDiv => this.createAddLinkButton(keyboardButtonDiv));
 				} else if ((this.mode === 'inline' || this.mode === 'payment') && mode === 'default') {
 					this.buttonsDiv.querySelectorAll('.keyboard-button').forEach(keyboardButtonDiv => {
 						const keyboardButtonAddLinkButton = keyboardButtonDiv.querySelector('.btn-add-link');
@@ -302,17 +379,17 @@ const copyToBuffer = (value) => {
 			}
 		}
 		get() {
-			if (!this.parentDiv.classList.contains('d-none')) {
+			if (this.isShow) {
 				const keyboardButtons = [];
 
-				this.buttonsDiv.querySelectorAll('.keyboard-button').forEach(keyboardButton => {
-					const keyboardButtonRowButton = keyboardButton.querySelector('.btn-row');
-					const keyboardButtonLinkInput = keyboardButton.querySelector('.link-input');
+				this.buttonsDiv.querySelectorAll('.keyboard-button').forEach(keyboardButtonDiv => {
+					const keyboardButtonRowButton = keyboardButtonDiv.querySelector('.btn-row');
+					const keyboardButtonLinkInput = keyboardButtonDiv.querySelector('.link-input');
 
 					keyboardButtons.push({
-						id: keyboardButton.id,
-						row: (keyboardButtonRowButton) ? parseInt(keyboardButtonRowButton.innerHTML) : null,
-						text: keyboardButton.querySelector('.name-input').value,
+						id: keyboardButtonDiv.id,
+						row: (keyboardButtonRowButton) ? parseInt(keyboardButtonRowButton.getAttribute('row-num')) : null,
+						text: keyboardButtonDiv.querySelector('.name-input').value,
 						url: (keyboardButtonLinkInput) ? keyboardButtonLinkInput.value : null,
 					});
 				});
@@ -325,7 +402,24 @@ const copyToBuffer = (value) => {
 				return null;
 			}
 		}
+		set(telegramBotCommand) {
+			if (telegramBotCommand.keyboard) {
+				this.show();
+				this.setMode(telegramBotCommand.keyboard.mode);
+				telegramBotCommand.keyboard.buttons.forEach(telegramBotCommandKeyboardButton => this.createButton(telegramBotCommandKeyboardButton));
+				telegramBotCommand.keyboard.buttons.forEach(telegramBotCommandKeyboardButton => {
+					if (telegramBotCommandKeyboardButton.row) {
+						const keyboardButtonDiv = document.querySelector(`.keyboard-button[id="${telegramBotCommandKeyboardButton.id}"]`);
+						const keyboardButtonNameInput = keyboardButtonDiv.querySelector('.name-input');
+						const keyboardButtonRowButton = this.buttonsRowsDiv.querySelector(`button[row-num="${telegramBotCommandKeyboardButton.row}"]`);
+
+						this.insertRowButton(keyboardButtonDiv, keyboardButtonNameInput, keyboardButtonRowButton);
+					}
+				});
+			}
+		}
 		reset() {
+			this.hide();
 			this.buttonsRowsDiv.innerHTML = '';
 			this.selectedKeyboardButtonRowButton = null;
 			this.buttonsDiv.innerHTML = '';
@@ -334,17 +428,18 @@ const copyToBuffer = (value) => {
 		}
 	}
 
-	class ApiRequest {
+	class ApiRequest extends Addition {
 		constructor() {
-			this.parentDiv = document.querySelector('#telegramBotCommandOffcanvasApiRequestAddition');
+			super(document.querySelector('#telegramBotCommandOffcanvasApiRequestAddition'));
+			this.additionButtonClickShowExtraFunc = this.createMonacoEditor;
+
 			this.urlInput = document.querySelector('#telegramBotCommandOffcanvasApiRequestUrlInput');
 			this.editorDiv = document.querySelector('#telegramBotCommandOffcanvasApiRequestDataEditor');
 			this.monacoEditor = null;
 			this.method = null;
 
-			document.querySelectorAll('[name="telegramBotCommandOffcanvasApiRequestMethods"]').forEach(
-				apiRequestMethodRadio => this.setMethod(apiRequestMethodRadio.value)
-			);
+			document.querySelectorAll('[name="telegramBotCommandOffcanvasApiRequestMethods"]').forEach(apiRequestMethodRadio => this.setMethod(apiRequestMethodRadio.value));
+
 		}
 		createMonacoEditor() {
 			const self = this;
@@ -384,14 +479,12 @@ const copyToBuffer = (value) => {
 				this.method = method;
 
 				document.querySelectorAll('[name="telegramBotCommandOffcanvasApiRequestMethods"]').forEach(apiRequestMethodRadio => {
-					if (this.method === apiRequestMethodRadio.value) {
-						apiRequestMethodRadio.checked = true;
-					}
+					if (this.method === apiRequestMethodRadio.value) apiRequestMethodRadio.checked = true;
 				});
 			}
 		}
 		get() {
-			if (!this.parentDiv.classList.contains('d-none')) {
+			if (this.isShow) {
 				return {
 					url: this.urlInput.value,
 					method: this.method,
@@ -402,17 +495,20 @@ const copyToBuffer = (value) => {
 			}
 		}
 		reset() {
+			this.hide();
 			this.urlInput.value = '';
 			this.editorDiv.innerHTML = '';
 			this.monacoEditor = null;
 			this.method = null;
-			this.setMethod('GET');
+			this.setMethod('get');
 		}
 	}
 
-	class DatabaseRecord {
+	class DatabaseRecord extends Addition {
 		constructor() {
-			this.parentDiv = document.querySelector('#telegramBotCommandOffcanvasDatabaseRecordAddition');
+			super(document.querySelector('#telegramBotCommandOffcanvasDatabaseRecordAddition'));
+			this.additionButtonClickShowExtraFunc = this.createMonacoEditor;
+
 			this.editorDiv = document.querySelector('#telegramBotCommandOffcanvasDatabaseRecordEditor');
 			this.monacoEditor = null;
 		}
@@ -450,13 +546,14 @@ const copyToBuffer = (value) => {
 			});
 		}
 		get() {
-			if (!this.parentDiv.classList.contains('d-none')) {
+			if (this.isShow) {
 				return this.monacoEditor.getModel().getValue();
 			} else {
 				return null;
 			}
 		}
 		reset() {
+			this.hide();
 			this.editorDiv.innerHTML = '';
 			this.monacoEditor = null;
 		}
@@ -468,7 +565,6 @@ const copyToBuffer = (value) => {
 
 			this.bootstrap = new bootstrap.Offcanvas('#telegramBotCommandOffcanvas');
 			this.title = document.querySelector('#telegramBotCommandOffcanvasLabel');
-			this.additions = document.querySelector('#telegramBotCommandOffcanvasAdditions');
 
 			this.name = new Name();
 			this.command = new Command();
@@ -482,25 +578,6 @@ const copyToBuffer = (value) => {
 			this.saveCommandButton = document.querySelector('#telegramBotCommandOffcanvasSaveCommandButton');
 
 			document.querySelector('#telegramBotCommandOffcanvasButton').addEventListener('click', () => this.show('add', null));
-			this.additions.querySelectorAll('button').forEach(additionButton => {
-				const additionButtonAdditionTarget = document.querySelector(additionButton.getAttribute('addition-target'));
-
-				additionButton.addEventListener('click', function() {
-					additionButtonAdditionTarget.classList.toggle('d-none');
-
-					if (additionButton.classList.contains('btn-dark')) {
-						if (additionButtonAdditionTarget.id === 'telegramBotCommandOffcanvasApiRequestAddition') {
-							self.apiRequest.createMonacoEditor();
-						} else if (additionButtonAdditionTarget.id === 'telegramBotCommandOffcanvasDatabaseRecordAddition') {
-							self.databaseRecord.createMonacoEditor();
-						}
-
-						additionButton.classList.replace('btn-dark', 'btn-secondary');
-					} else {
-						additionButton.classList.replace('btn-secondary', 'btn-dark');
-					}
-				});
-			});
 			this.addCommandButton.addEventListener('click', () => this.sendData('POST', telegramBotCommandsUrl));
 			this.saveCommandButton.addEventListener('click', function() {
 				const telegramBotCommandId = self.saveCommandButton.getAttribute('telegram-bot-command-id');
@@ -522,7 +599,11 @@ const copyToBuffer = (value) => {
 				this.saveCommandButton.classList.remove('d-none');
 				this.saveCommandButton.setAttribute('telegram-bot-command-id', telegramBotCommand.id);
 
-				// Здесь будет код для установки значений
+				this.name.set(telegramBotCommand);
+				this.command.set(telegramBotCommand);
+				this.image.set(telegramBotCommand);
+				this.messageText.set(telegramBotCommand);
+				this.keyboard.set(telegramBotCommand);
 			}
 
 			this.bootstrap.toggle();
@@ -564,13 +645,6 @@ const copyToBuffer = (value) => {
 			this.keyboard.reset();
 			this.apiRequest.reset();
 			this.databaseRecord.reset();
-
-			this.additions.querySelectorAll('button').forEach(additionButton => {
-				const additionButtonAdditionTarget = document.querySelector(additionButton.getAttribute('addition-target'));
-
-				additionButtonAdditionTarget.classList.add('d-none');
-				additionButton.classList.replace('btn-secondary', 'btn-dark');
-			});
 		}
 	}
 
