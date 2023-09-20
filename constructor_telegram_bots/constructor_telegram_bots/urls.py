@@ -28,10 +28,8 @@ urlpatterns = [
 if settings.DEBUG:
 	from django.conf.urls.static import static
 
-	urlpatterns + [
-		static(settings.STATIC_URL, document_root=settings.STATIC_ROOT),
-		static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT),
-	]
+	urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+	urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if not settings.TEST and sys.argv[1] == 'runserver' and sys.platform == 'win32':
 	tasks.start_all_telegram_bots()

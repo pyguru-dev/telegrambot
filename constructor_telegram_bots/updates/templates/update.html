@@ -5,7 +5,7 @@
 {% block main %}
 <div class="container text-center my-3 my-lg-4">
 	<div class="card">
-		<img class="card-img-top" src="/{{ update.image }}" alt="{{ update.version }}">
+		{% if update.image %}<img class="card-img-top" src="{{ update.image.url }}" alt="{{ update.version }}">{% endif %}
 		<div class="card-body text-start pb-0">
 			{% autoescape off %}
 				{{ update.description }}

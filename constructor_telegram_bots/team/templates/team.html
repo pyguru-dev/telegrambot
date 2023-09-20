@@ -14,7 +14,7 @@
 	<div class="row row-cols-1 row-cols-lg-5 justify-content-center g-4">
 		{% for team_member in team_members %}
 			<div class="col d-flex flex-column align-items-center px-2">
-				<img class="border team-member-image mb-1" src="/{{ team_member.image }}">
+				{% if team_member.image %}<img class="border team-member-image mb-1" src="{{ team_member.image.url }}">{% endif %}
 				<a class="h5 link-dark link-underline-opacity-0 fw-semibold mb-0" href="tg://resolve?domain={{ team_member.username }}">@{{ team_member.username }}</a>
 				<span>{{ team_member.speciality }}</span>
 			</div>

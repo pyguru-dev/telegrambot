@@ -2,6 +2,7 @@
 __pycache__/
 .vscode/
 constructor_telegram_bots/static/
+media/
 logs/
 env/
 

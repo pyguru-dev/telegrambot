@@ -3,7 +3,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class TeamMember(models.Model):
-	image = models.ImageField(upload_to='static/images/team/')
+	image = models.ImageField(upload_to='team/')
 	username = models.CharField('@username', max_length=32)
 	speciality = models.CharField(_('Специальность'), max_length=255)
 	joined_date = models.DateTimeField(_('Присоединился'))

@@ -105,7 +105,7 @@ const copyToBuffer = (value) => {
 			if (this.isShow && !this.previewImg.classList.contains('d-none')) {
 				return (this.file) ? this.file : 'not_edited';
 			} else {
-				return 'null';
+				return null;
 			}
 		}
 		set(telegramBotCommand) {

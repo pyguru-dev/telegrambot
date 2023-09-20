@@ -76,7 +76,7 @@ class TelegramBotModelTests(BaseTestCase):
 				'command': '/test',
 				'show_in_menu': False,
 			},
-			'image': '',
+			'image': None,
 			'message_text': {
 				'mode': 'default',
 				'text': 'Test...',
@@ -145,6 +145,7 @@ class TelegramBotModelTests(BaseTestCase):
 class TelegramBotCommandModelTests(BaseTestCase):
 	def test_fields(self) -> None:
 		self.assertEqual(self.telegram_bot_command.name, 'Test')
+		self.assertEqual(self.telegram_bot_command.image, None)
 		self.assertDictEqual(self.telegram_bot_command.database_record, {'key': 'value'})
 		self.assertEqual(self.telegram_bot_command.x, 0)
 		self.assertEqual(self.telegram_bot_command.y, 0)
@@ -198,7 +199,7 @@ class TelegramBotCommandModelTests(BaseTestCase):
 				'command': '/test',
 				'show_in_menu': False,
 			},
-			'image': '',
+			'image': None,
 			'message_text': {
 				'mode': 'default',
 				'text': 'Test...',

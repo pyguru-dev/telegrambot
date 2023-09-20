@@ -76,7 +76,7 @@ class TelegramBotCommandManager(models.Manager):
 		telegram_bot: TelegramBot,
 		name: str,
 		command: Optional[dict],
-		image: Optional[InMemoryUploadedFile],
+		image: Union[InMemoryUploadedFile, str, None],
 		message_text: dict,
 		keyboard: Optional[dict],
 		api_request: Optional[dict],
@@ -123,10 +123,13 @@ class TelegramBotCommandManager(models.Manager):
 	async def acreate(self, *args, **kwargs) -> 'TelegramBotCommand':
 		return await sync_to_async(self.create)(*args, **kwargs)
 
+def upload_telegram_bot_command_image_path(telegram_bot_command: 'TelegramBotCommand', file_name: str):
+	return f'telegram_bots/{telegram_bot_command.telegram_bot.id}/commands/{file_name}'
+
 class TelegramBotCommand(models.Model):
 	telegram_bot = models.ForeignKey(TelegramBot, on_delete=models.CASCADE, related_name='commands', null=True, verbose_name=_('Telegram бот'))
 	name = models.CharField(_('Название'), max_length=255)
-	image = models.ImageField(_('Изображение'), upload_to='static/images/commands/', blank=True, null=True)
+	image = models.ImageField(_('Изображение'), upload_to=upload_telegram_bot_command_image_path, blank=True, null=True)
 	database_record = models.JSONField(_('Запись в базу данных'), blank=True, null=True)
 
 	x =	models.IntegerField(_('Координата X'), default=0)
@@ -188,7 +191,7 @@ class TelegramBotCommand(models.Model):
 			'id': self.id,
 			'name': filters.escape(self.name) if escape else self.name,
 			'command': command.to_dict() if command else None,
-			'image': str(self.image),
+			'image': self.image.url if self.image else None,
 			'message_text': self.message_text.to_dict(escape=escape),
 			'keyboard': self.get_keyboard_as_dict(escape=escape),
 			'api_request': api_request.to_dict() if api_request else None,
@@ -219,7 +222,7 @@ class TelegramBotCommand(models.Model):
 			else:
 				telegram_bot_command_command.delete()
 
-		if isinstance(image, InMemoryUploadedFile) or image == 'null' and str(self.image) != '':
+		if isinstance(image, InMemoryUploadedFile) or image == 'null' and self.image != None:
 			self.image.delete(save=False)
 
 			if isinstance(image, InMemoryUploadedFile):
@@ -269,7 +272,7 @@ class TelegramBotCommand(models.Model):
 						button.delete()
 			else:
 				telegram_bot_command_keyboard.delete()
-		else:
+		elif keyboard:
 			TelegramBotCommandKeyboard.objects.create(
 				telegram_bot_command=self,
 				type=keyboard['mode'],
