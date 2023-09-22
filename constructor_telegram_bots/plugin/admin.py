@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Plugin, PluginLog
+from .models import *
 
 
 @admin.register(Plugin)

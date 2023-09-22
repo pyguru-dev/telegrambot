@@ -35,7 +35,7 @@
 
 			diagramSetZoom();
 
-			fetch(saveTelegramBotDiagramCurrentScaleUrl, {
+			fetch(updateTelegramBotDiagramCurrentScaleUrl, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',
@@ -240,7 +240,7 @@
 			document.onmouseup = null;
 			document.ontouchend = null;
 
-			fetch(`/telegram-bots/${telegramBotId}/commands/${diagramBlock.id}/save-position/`, {
+			fetch(`/telegram-bots/${telegramBotId}/commands/${diagramBlock.id}/update-position/`, {
 				method: 'PATCH',
 				headers: {
 					'Content-Type': 'application/json',

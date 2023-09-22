@@ -23,7 +23,7 @@
 {{ block.super }}
 <script>
 	const telegramBotCommandsUrl = "{% url 'telegram_bot_commands' telegram_bot.id %}";
-	const saveTelegramBotDiagramCurrentScaleUrl = "{% url 'save_telegram_bot_diagram_current_scale' telegram_bot.id %}";
+	const updateTelegramBotDiagramCurrentScaleUrl = "{% url 'update_telegram_bot_diagram_current_scale' telegram_bot.id %}";
 
 	const telegramBotCommandOffcanvasAddCommandTitleText = "{% trans 'Добавление команды' %}";
 	const telegramBotCommandOffcanvasEditCommandTitleText = "{% trans 'Редактирование команды' %}";

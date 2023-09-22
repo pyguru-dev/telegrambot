@@ -47,6 +47,7 @@ CELERY_BEAT_SCHEDULE = {
 INSTALLED_APPS = [
 	'rest_framework',
 	'rest_framework.authtoken',
+	'drf_standardized_errors',
 
 	'admin_interface',
 	'colorfield',
@@ -91,6 +92,10 @@ REST_FRAMEWORK = {
 		'rest_framework.authentication.BasicAuthentication',
 		'rest_framework.authentication.SessionAuthentication',
 	],
+	'EXCEPTION_HANDLER': 'drf_standardized_errors.handler.exception_handler',
+}
+DRF_STANDARDIZED_ERRORS = {
+	'EXCEPTION_FORMATTER_CLASS': 'constructor_telegram_bots.exception_formatter.CustomExceptionFormatter',
 }
 
 TEMPLATES = [
@@ -108,7 +113,7 @@ TEMPLATES = [
 				'django.contrib.auth.context_processors.auth',
 				'django.contrib.messages.context_processors.messages',
 
-				'constructor_telegram_bots.context_processors.add_constructor_telegram_bot_username',
+				'constructor_telegram_bots.context_processors.constructor_telegram_bot_username',
 				'user.context_processors.users',
 				'telegram_bot.context_processors.telegram_bots',
 				'team.context_processors.team_members',

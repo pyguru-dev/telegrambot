@@ -25,12 +25,11 @@
 		</div>
 		<div class="d-none" id="telegramBotCommandOffcanvasCommandAddition">
 			<h6 class="mb-1">{% trans "Команда" %}</h6>
-			<div class="d-flex flex-column gap-1">
-				<input class="form-control" id="telegramBotCommandOffcanvasCommandInput" type="text" placeholder="{% trans "Введите команду" %}">
-				<div class="form-check form-check-reverse form-switch mb-0" style="width: max-content;">
-					<input class="form-check-input" id="telegramBotCommandOffcanvasCommandShowInMenuCheckbox" type="checkbox">
-					<label class="form-check-label" for="telegramBotCommandOffcanvasCommandShowInMenuCheckbox">{% trans "Отображать в меню" %}: </label>
-				</div>
+			<div class="d-flex flex-column gap-2">
+				<input class="form-control" id="telegramBotCommandOffcanvasCommandTextInput" type="text" placeholder="{% trans "Введите команду" %}">
+				<input class="form-control d-none" id="telegramBotCommandOffcanvasCommandDescriptionInput" type="text" placeholder="{% trans "Введите описание команды" %}">
+				<button class="btn btn-sm btn-dark" id="telegramBotCommandOffcanvasCommandShowInMenuButton" type="button">{% trans "Отображать в меню" %}</button>
+				<button class="btn btn-sm btn-dark d-none" id="telegramBotCommandOffcanvasCommandNotShowInMenuButton" type="button">{% trans "Не отображать в меню" %}</button>
 			</div>
 		</div>
 		<div class="d-none" id="telegramBotCommandOffcanvasImageAddition">
@@ -44,14 +43,12 @@
 			<h6 class="mb-1">{% trans "Текст сообщения" %}</h6>
 			<div class="d-flex flex-column gap-2">
 				<div class="btn-group" role="group">
-					{% with 'telegramBotCommandOffcanvasMessageTextModes' as radio_name %}
-						<input class="btn-check" id="telegramBotCommandOffcanvasDefaultMessageTextModeRadio" name="{{ radio_name }}" value="default" type="radio" autocomplete="off">
-						<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasDefaultMessageTextModeRadio" style="width: 33%;">{% trans "Обычный" %}</label>
-						<input class="btn-check" id="telegramBotCommandOffcanvasMarkdownMessageTextModeRadio" name="{{ radio_name }}" value="markdown" type="radio" autocomplete="off">
-						<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasMarkdownMessageTextModeRadio" style="width: 34%;">Markdown</label>
-						<input class="btn-check" id="telegramBotCommandOffcanvasHTMLMessageTextModeRadio" name="{{ radio_name }}" value="html" type="radio" autocomplete="off">
-						<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasHTMLMessageTextModeRadio" style="width: 33%;">HTML</label>
-					{% endwith %}
+					<input class="btn-check" id="telegramBotCommandOffcanvasDefaultMessageTextModeRadio" name="telegramBotCommandOffcanvasMessageTextModes" value="default" type="radio" autocomplete="off">
+					<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasDefaultMessageTextModeRadio" style="width: 33%;">{% trans "Обычный" %}</label>
+					<input class="btn-check" id="telegramBotCommandOffcanvasMarkdownMessageTextModeRadio" name="telegramBotCommandOffcanvasMessageTextModes" value="markdown" type="radio" autocomplete="off">
+					<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasMarkdownMessageTextModeRadio" style="width: 34%;">Markdown</label>
+					<input class="btn-check" id="telegramBotCommandOffcanvasHTMLMessageTextModeRadio" name="telegramBotCommandOffcanvasMessageTextModes" value="html" type="radio" autocomplete="off">
+					<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasHTMLMessageTextModeRadio" style="width: 33%;">HTML</label>
 				</div>
 				<div id="telegramBotCommandOffcanvasMessageText"></div>
 			</div>
@@ -94,7 +91,12 @@
 						<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasApiRequestDeleteMethod" style="width: 20%;">DELETE</label>
 					{% endwith %}
 				</div>
-				<div class="border rounded p-2" id="telegramBotCommandOffcanvasApiRequestDataEditor"></div>
+				<div class="border rounded p-2 d-none" id="telegramBotCommandOffcanvasApiRequestHeadersEditor"></div>
+				<button class="btn btn-sm btn-dark" id="telegramBotCommandOffcanvasApiRequestShowHeadersEditorButton" type="button">{% trans "Добавить заголовки" %}</button>
+				<button class="btn btn-sm btn-dark d-none" id="telegramBotCommandOffcanvasApiRequestHideHeadersEditorButton" type="button">{% trans "Убрать заголовки" %}</button>
+				<div class="border rounded p-2 d-none" id="telegramBotCommandOffcanvasApiRequestDataEditor"></div>
+				<button class="btn btn-sm btn-dark" id="telegramBotCommandOffcanvasApiRequestShowDataEditorButton" type="button">{% trans "Добавить данные" %}</button>
+				<button class="btn btn-sm btn-dark d-none" id="telegramBotCommandOffcanvasApiRequestHideDataEditorButton" type="button">{% trans "Убрать данные" %}</button>
 			</div>
 		</div>
 		<div class="d-none" id="telegramBotCommandOffcanvasDatabaseRecordAddition">

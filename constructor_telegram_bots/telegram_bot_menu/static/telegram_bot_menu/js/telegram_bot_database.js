@@ -6,7 +6,7 @@
 			const telegramBotDatabaseNotHaveRecordDiv = document.createElement('div');
 			telegramBotDatabaseNotHaveRecordDiv.className = 'list-group-item text-center p-3';
 			telegramBotDatabaseNotHaveRecordDiv.id = 'telegramBotDatabaseNotHaveRecordText';
-			telegramBotDatabaseNotHaveRecordDiv.innerHTML = telegramBotDatabaseNotHaveDataText
+			telegramBotDatabaseNotHaveRecordDiv.innerHTML = telegramBotDatabaseNotHaveRecordText;
 			telegramBotDatabaseRecordsDiv.append(telegramBotDatabaseNotHaveRecordDiv);
 		} else {
 			const telegramBotDatabaseNotHaveRecordDiv = telegramBotDatabaseRecordsDiv.querySelector('#telegramBotDatabaseNotHaveRecordText');
