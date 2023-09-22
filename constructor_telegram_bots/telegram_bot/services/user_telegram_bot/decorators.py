@@ -50,7 +50,7 @@ def check_telegram_bot_command(func):
 				telegram_bot_command_command: Optional[TelegramBotCommandCommand] = await telegram_bot_command_.aget_command()
 				telegram_bot_command_command_command: str = await environment.areplace_text_variables(
 					telegram_bot=self.telegram_bot,
-					text=telegram_bot_command_command.command,
+					text=telegram_bot_command_command.text,
 					text_variables=text_variables
 				)
 

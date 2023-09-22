@@ -7,7 +7,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.status import HTTP_500_INTERNAL_SERVER_ERROR
+from rest_framework.status import *
 
 from .models import *
 from .services import tasks, database_telegram_bot
@@ -148,7 +148,7 @@ class TelegramBotCommandsView(APIView):
 
 	@check_telegram_bot_id
 	def post(self, request: Request, telegram_bot: TelegramBot) -> Response:
-		request_data: dict = json.loads(request.POST['data'])
+		request_data: dict = json.loads(request.POST['data']) if 'data' in request.POST else request.data
 
 		serializer = CreateTelegramBotCommandSerializer(data=request_data)
 		serializer.is_valid(raise_exception=True)
@@ -175,7 +175,7 @@ class TelegramBotCommandView(APIView):
 	@check_telegram_bot_id
 	@check_telegram_bot_command_id
 	def patch(self, request: Request, telegram_bot: TelegramBot, telegram_bot_command: TelegramBotCommand) -> Response:
-		request_data: dict = json.loads(request.POST['data'])
+		request_data: dict = json.loads(request.POST['data']) if 'data' in request.POST else request.data
 
 		serializer = UpdateTelegramBotCommandSerializer(data=request_data)
 		serializer.is_valid(raise_exception=True)

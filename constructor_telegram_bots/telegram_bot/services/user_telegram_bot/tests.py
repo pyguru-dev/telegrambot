@@ -39,8 +39,9 @@ class UserTelegramBotTests(BaseTestCase):
 			telegram_bot=self.telegram_bot,
 			name='Test',
 			command={
-				'command': '/test',
-				'show_in_menu': False,
+				'text': '/test',
+				'is_show_in_menu': False,
+				'description': None,
 			},
 			image=None,
 			message_text={
@@ -63,8 +64,9 @@ class UserTelegramBotTests(BaseTestCase):
 			telegram_bot=self.telegram_bot,
 			name='Test',
 			command={
-				'command': '/test',
-				'show_in_menu': False,
+				'text': '/test',
+				'is_show_in_menu': False,
+				'description': None,
 			},
 			image=None,
 			message_text={
@@ -110,8 +112,9 @@ class UserTelegramBotTests(BaseTestCase):
 			telegram_bot=self.telegram_bot,
 			name='Test',
 			command={
-				'command': '/test',
-				'show_in_menu': False,
+				'text': '/test',
+				'is_show_in_menu': False,
+				'description': None,
 			},
 			image=None,
 			message_text={
@@ -146,8 +149,9 @@ class UserTelegramBotTests(BaseTestCase):
 			telegram_bot=self.telegram_bot,
 			name='Test',
 			command={
-				'command': '/test',
-				'show_in_menu': False,
+				'text': '/test',
+				'is_show_in_menu': False,
+				'description': None,
 			},
 			image=None,
 			message_text={
@@ -197,8 +201,9 @@ class UserTelegramBotTests(BaseTestCase):
 			telegram_bot=self.telegram_bot,
 			name='Test',
 			command={
-				'command': '/test',
-				'show_in_menu': False,
+				'text': '/test',
+				'is_show_in_menu': False,
+				'description': None,
 			},
 			image=None,
 			message_text={

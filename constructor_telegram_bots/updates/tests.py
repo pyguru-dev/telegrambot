@@ -26,10 +26,7 @@ class ViewsTests(TestCase):
 		url: str = urls.reverse('update', kwargs={'update_id': 1})
 
 		response: HttpResponse = self.client.get(url)
-		self.assertJSONEqual(response.content, {
-			'message': 'Обновление не найдено!',
-			'level': 'danger',
-		})
+		self.assertEqual(response.status_code, 404)
 
 		Update.objects.create(version='0.0.0-beta', description='None...')
 

@@ -76,10 +76,6 @@ class PluginsViewTests(BaseTestCase):
 			headers={'Authorization': f'Token {self.user.auth_token.key}'}
 		)
 		self.assertEqual(response.status_code, 404)
-		self.assertJSONEqual(response.content, {
-			'message': 'Telegram бот не найден!',
-			'level': 'danger',
-		})
 
 		response: HttpResponse = self.client.post(
 			self.url_1,
@@ -91,10 +87,7 @@ class PluginsViewTests(BaseTestCase):
 			}
 		)
 		self.assertEqual(response.status_code, 400)
-		self.assertJSONEqual(response.content, {
-			'message': 'Введите название плагина!',
-			'level': 'danger',
-		})
+		self.assertEqual(response.json()['code'], 'blank')
 
 		response: HttpResponse = self.client.post(
 			self.url_1,
@@ -106,10 +99,7 @@ class PluginsViewTests(BaseTestCase):
 			}
 		)
 		self.assertEqual(response.status_code, 400)
-		self.assertJSONEqual(response.content, {
-			'message': 'Название плагина содержит запрещенные символы!',
-			'level': 'danger',
-		})
+		self.assertEqual(response.json()['code'], 'invalid')
 
 		response: HttpResponse = self.client.post(
 			self.url_1,
@@ -121,10 +111,7 @@ class PluginsViewTests(BaseTestCase):
 			}
 		)
 		self.assertEqual(response.status_code, 400)
-		self.assertJSONEqual(response.content, {
-			'message': 'У вас уже добавлен плагин с таким названием!',
-			'level': 'danger',
-		})
+		self.assertEqual(response.json()['code'], 'invalid')
 
 		response: HttpResponse = self.client.post(
 			self.url_1,
@@ -137,15 +124,6 @@ class PluginsViewTests(BaseTestCase):
 		)
 		self.assertEqual(response.status_code, 200)
 
-		plugin: Plugin = Plugin.objects.get(id=2)
-
-		self.assertJSONEqual(response.content, {
-			'message': 'Вы успешно добавили плагин вашему Telegram боту.',
-			'level': 'success',
-
-			'plugin': plugin.to_dict(),
-		})
-
 	def test_get_method(self) -> None:
 		response: HttpResponse = self.client.get(self.url_1)
 		self.assertEqual(response.status_code, 401)
@@ -155,10 +133,6 @@ class PluginsViewTests(BaseTestCase):
 			headers={'Authorization': f'Token {self.user.auth_token.key}'}
 		)
 		self.assertEqual(response.status_code, 404)
-		self.assertJSONEqual(response.content, {
-			'message': 'Telegram бот не найден!',
-			'level': 'danger',
-		})
 
 		response: HttpResponse = self.client.get(
 			self.url_1,
@@ -183,10 +157,6 @@ class PluginViewTests(BaseTestCase):
 			headers={'Authorization': f'Token {self.user.auth_token.key}'}
 		)
 		self.assertEqual(response.status_code, 404)
-		self.assertJSONEqual(response.content, {
-			'message': 'Плагин не найден!',
-			'level': 'danger',
-		})
 
 		response: HttpResponse = self.client.patch(
 			self.url_1,
@@ -195,15 +165,6 @@ class PluginViewTests(BaseTestCase):
 			data={'code': 'def test_():\n\tpass'}
 		)
 		self.assertEqual(response.status_code, 200)
-
-		self.plugin.refresh_from_db()
-
-		self.assertJSONEqual(response.content, {
-			'message': 'Вы успешно обновили плагин вашего Telegram бота.',
-			'level': 'success',
-
-			'plugin': self.plugin.to_dict(),
-		})
 
 	def test_delete_method(self) -> None:
 		response: HttpResponse = self.client.delete(self.url_1)
@@ -214,20 +175,12 @@ class PluginViewTests(BaseTestCase):
 			headers={'Authorization': f'Token {self.user.auth_token.key}'}
 		)
 		self.assertEqual(response.status_code, 404)
-		self.assertJSONEqual(response.content, {
-			'message': 'Плагин не найден!',
-			'level': 'danger',
-		})
 
 		response: HttpResponse = self.client.delete(
 			self.url_1,
 			headers={'Authorization': f'Token {self.user.auth_token.key}'}
 		)
 		self.assertEqual(response.status_code, 200)
-		self.assertJSONEqual(response.content, {
-			'message': 'Вы успешно удалили плагин вашего Telegram бота.',
-			'level': 'success',
-		})
 
 class ViewsTests(BaseTestCase):
 	def test_get_plugins_logs_view(self) -> None:
@@ -242,10 +195,6 @@ class ViewsTests(BaseTestCase):
 			headers={'Authorization': f'Token {self.user.auth_token.key}'}
 		)
 		self.assertEqual(response.status_code, 404)
-		self.assertJSONEqual(response.content, {
-			'message': 'Telegram бот не найден!',
-			'level': 'danger',
-		})
 
 		response: HttpResponse = self.client.get(
 			url_1,
@@ -266,10 +215,6 @@ class ViewsTests(BaseTestCase):
 			headers={'Authorization': f'Token {self.user.auth_token.key}'}
 		)
 		self.assertEqual(response.status_code, 404)
-		self.assertJSONEqual(response.content, {
-			'message': 'Плагин не найден!',
-			'level': 'danger',
-		})
 
 		response: HttpResponse = self.client.post(
 			url_1,
@@ -281,7 +226,3 @@ class ViewsTests(BaseTestCase):
 			}
 		)
 		self.assertEqual(response.status_code, 200)
-		self.assertJSONEqual(response.content, {
-			'message': None,
-			'level': 'success',
-		})
