@@ -3,6 +3,7 @@ from django.utils.translation import gettext as _
 
 from rest_framework.request import Request
 from rest_framework.response import Response
+from rest_framework.status import *
 
 from .models import TelegramBot, TelegramBotCommand, TelegramBotCommandKeyboard
 
@@ -20,7 +21,7 @@ def check_telegram_bot_id(func):
 			return (JsonResponse if isinstance(request, HttpRequest) else Response)({
 				'message': _('Telegram бот не найден!'),
 				'level': 'danger',
-			}, status=404)
+			}, status=HTTP_404_NOT_FOUND)
 
 		return func(telegram_bot=request.user.telegram_bots.get(id=telegram_bot_id), *args, **kwargs)
 	return wrapper
@@ -35,7 +36,7 @@ def check_telegram_bot_command_id(func):
 			return Response({
 				'message': _('Команда Telegram бота не найдена!'),
 				'level': 'danger',
-			}, status=404)
+			}, status=HTTP_404_NOT_FOUND)
 
 		return func(telegram_bot_command=telegram_bot.commands.get(id=telegram_bot_command_id), *args, **kwargs)
 	return wrapper
@@ -51,7 +52,7 @@ def check_telegram_bot_command_keyboard_button_id(func):
 			return Response({
 				'message': _('Кнопка клавиатуры команды Telegram бота не найдена!'),
 				'level': 'danger',
-			}, status=404)
+			}, status=HTTP_404_NOT_FOUND)
 
 		return func(telegram_bot_command_keyboard_button=telegram_bot_command_keyboard.buttons.get(id=telegram_bot_command_keyboard_button_id), *args, **kwargs)
 	return wrapper
@@ -65,7 +66,7 @@ def check_telegram_bot_user_id(func):
 			return Response({
 				'message': _('Пользователь Telegram бота не найдена!'),
 				'level': 'danger',
-			}, status=404)
+			}, status=HTTP_404_NOT_FOUND)
 
 		return func(telegram_bot_user=telegram_bot.users.get(id=telegram_bot_user_id), *args, **kwargs)
 	return wrapper

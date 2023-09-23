@@ -32,7 +32,7 @@ class TelegramBot(models.Model):
 	is_private = models.BooleanField(_('Приватный'), default=False)
 	is_running = models.BooleanField(_('Включён'), default=False)
 	is_stopped = models.BooleanField(default=True)
-	added_date = models.DateTimeField(_('Дата добавления'), auto_now_add=True)
+	added_date = models.DateTimeField(_('Добавлен'), auto_now_add=True)
 
 	diagram_current_scale = models.FloatField(default=1.0)
 

@@ -1,6 +1,7 @@
 from django.utils.translation import gettext as _
 
 from rest_framework.response import Response
+from rest_framework.status import *
 
 from .models import Plugin
 
@@ -16,7 +17,7 @@ def check_plugin_id(func):
 			return Response({
 				'message': _('Плагин не найден!'),
 				'level': 'danger',
-			}, status=404)
+			}, status=HTTP_404_NOT_FOUND)
 
 		return func(plugin=Plugin.objects.get(id=plugin_id), *args, **kwargs)
 	return wrapper

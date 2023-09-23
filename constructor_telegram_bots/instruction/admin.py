@@ -4,6 +4,7 @@ from modeltranslation.admin import TranslationAdmin
 from ckeditor.widgets import CKEditorWidget
 
 from django.db import models
+
 from .models import InstructionSection
 
 
