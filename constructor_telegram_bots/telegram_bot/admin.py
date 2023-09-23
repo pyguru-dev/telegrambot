@@ -16,6 +16,8 @@ class TelegramBotAdmin(admin.ModelAdmin):
 	date_hierarchy = 'added_date'
 	list_filter = ('is_running', 'added_date')
 
+	actions = ('start_telegram_bot_action', 'stop_telegram_bot_action')
+
 	list_display = ('id', 'owner', 'username_', 'is_private', 'is_running', 'commands_count', 'users_count', 'added_date')
 
 	fields = ('id', 'owner', 'username_', 'api_token', 'is_private', 'is_running', 'commands_count', 'users_count', 'added_date')
@@ -32,7 +34,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 	def users_count(self, telegram_bot: TelegramBot) -> int:
 		return telegram_bot.users.count()
 
-	@admin.action(description=_('Включить Telegram бота'), permissions=['change'])
+	@admin.action(description=_('Включить Telegram бота'))
 	def start_telegram_bot_action(self, request: HttpRequest, telegram_bots: List[TelegramBot]) -> None:
 		for telegram_bot in telegram_bots:
 			if not telegram_bot.is_running and telegram_bot.is_stopped:
@@ -45,7 +47,7 @@ class TelegramBotAdmin(admin.ModelAdmin):
 			else:
 				messages.error(request, f"@{telegram_bot.username} {_('Telegram бот уже включен!')}")
 
-	@admin.action(description=_('Выключить Telegram бота'), permissions=['change'])
+	@admin.action(description=_('Выключить Telegram бота'))
 	def stop_telegram_bot_action(self, request: HttpRequest, telegram_bots: List[TelegramBot]) -> None:
 		for telegram_bot in telegram_bots:
 			if telegram_bot.is_running and not telegram_bot.is_stopped:
@@ -57,8 +59,6 @@ class TelegramBotAdmin(admin.ModelAdmin):
 				messages.success(request, f"@{telegram_bot.username} {_('Telegram бот успешно выключен.')}")
 			else:
 				messages.error(request, f"@{telegram_bot.username} {_('Telegram бот уже выключен!')}")
-
-	actions = [start_telegram_bot_action, stop_telegram_bot_action]
 
 	def has_add_permission(self, *args, **kwargs) -> bool:
 		return False
