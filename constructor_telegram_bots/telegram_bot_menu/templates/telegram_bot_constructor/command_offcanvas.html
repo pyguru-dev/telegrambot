@@ -57,14 +57,12 @@
 			<h6 class="mb-1">{% trans "Клавиатура" %}</h6>
 			<div class="d-flex flex-column gap-2">
 				<div class="btn-group" role="group">
-					{% with 'telegramBotCommandOffcanvasKeyboardModes' as radio_name %}
-						<input class="btn-check" id="telegramBotCommandOffcanvasDefaultKeyboardRadio" name="{{ radio_name }}" value="default" type="radio" autocomplete="off">
-						<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasDefaultKeyboardRadio" style="width: 33%;">{% trans "Обычная" %}</label>
-						<input class="btn-check" id="telegramBotCommandOffcanvasInlineKeyboardRadio" name="{{ radio_name }}" value="inline" type="radio" autocomplete="off">
-						<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasInlineKeyboardRadio" style="width: 34%;">{% trans "Встроенная" %}</label>
-						<input class="btn-check" id="telegramBotCommandOffcanvasPaymentKeyboardRadio" name="{{ radio_name }}" value="payment" type="radio" autocomplete="off">
-						<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasPaymentKeyboardRadio" style="width: 33%;">{% trans "Платёжная" %}</label>
-					{% endwith %}
+					<input class="btn-check" id="telegramBotCommandOffcanvasDefaultKeyboardRadio" name="telegramBotCommandOffcanvasKeyboardModes" value="default" type="radio" autocomplete="off">
+					<label class="btn btn-sm btn-outline-dark w-50" for="telegramBotCommandOffcanvasDefaultKeyboardRadio">{% trans "Обычная" %}</label>
+					<input class="btn-check" id="telegramBotCommandOffcanvasInlineKeyboardRadio" name="telegramBotCommandOffcanvasKeyboardModes" value="inline" type="radio" autocomplete="off">
+					<label class="btn btn-sm btn-outline-dark w-50" for="telegramBotCommandOffcanvasInlineKeyboardRadio">{% trans "Встроенная" %}</label>
+					{% comment %} <input class="btn-check" id="telegramBotCommandOffcanvasPaymentKeyboardRadio" name="telegramBotCommandOffcanvasKeyboardModes" value="payment" type="radio" autocomplete="off">
+					<label class="btn btn-sm btn-outline-dark" for="telegramBotCommandOffcanvasPaymentKeyboardRadio" style="width: 33%;">{% trans "Платёжная" %}</label> {% endcomment %}
 				</div>
 				<div class="d-flex flex-wrap bg-light border rounded gap-1 p-1" id="telegramBotCommandOffcanvasKeyboardButtonsRows" style="min-height: 41px;"></div>
 				<div>

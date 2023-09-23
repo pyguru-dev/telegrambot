@@ -49,7 +49,7 @@
 						const telegramBotUserDeleteAllowedButton = telegramBotUserDiv.querySelector('.delete-allowed');
 						const telegramBotUserDeleteButton = telegramBotUserDiv.querySelector('.delete');
 
-						if (telegramBotIsPrivateCheckBox.checked) {
+						if (telegramBotIsPrivate) {
 							if (telegramBotUser.is_allowed) {
 								telegramBotUserDeleteAllowedButton.classList.add('rounded-start');
 								telegramBotUserDeleteAllowedButton.classList.remove('d-none');

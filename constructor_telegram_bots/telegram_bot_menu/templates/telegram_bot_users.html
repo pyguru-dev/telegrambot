@@ -24,6 +24,7 @@
 {{ block.super }}
 <script>
 	const telegramBotUsersUrl = "{% url 'telegram_bot_users' telegram_bot.id %}";
+	const telegramBotIsPrivate = ('{{ telegram_bot.is_private }}' === 'True');
 
 	const telegramBotNotActivatedText = "{% trans 'Вашего Telegram бота ещё никто не активировал' %}";
 

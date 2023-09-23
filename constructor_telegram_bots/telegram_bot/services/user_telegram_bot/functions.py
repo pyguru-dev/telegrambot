@@ -38,54 +38,56 @@ async def get_text_variables(
 	for record in database_telegram_bot.get_records(telegram_bot):
 		database_records[record['_id']] = record
 
+	if isinstance(request, types.Message):
+		user_message_id = request.message_id
+		user_message_text = request.text
+	else:
+		user_message_id = request.message.message_id
+		user_message_text = request.message.text
+
 	text_variables = {
 		'user_id': request.from_user.id,
 		'user_username': request.from_user.username,
 		'user_first_name': request.from_user.first_name,
 		'user_last_name': request.from_user.last_name,
-		'user_message_id': request.message_id if isinstance(request, types.Message) else request.message.message_id,
-		'user_message_text': request.text if isinstance(request, types.Message) else request.message.text,
+		'user_message_id': user_message_id,
+		'user_message_text': user_message_text,
 		'database_records': database_records,
 	}
 
 	return text_variables
 
-async def get_telegram_keyboard(command: TelegramBotCommand) -> Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup]:
-	telegram_bot_command_keyboard: TelegramBotCommandKeyboard =  await sync_to_async(command.get_keyboard)()
+async def get_keyboard(telegram_bot_command: TelegramBotCommand) -> Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup]:
+	telegram_bot_command_keyboard: TelegramBotCommandKeyboard =  await sync_to_async(telegram_bot_command.get_keyboard)()
 
 	if telegram_bot_command_keyboard:
-		telegram_keyboard_buttons = {}
+		keyboard_buttons = {}
+		keyboard_row = 1
 
 		for num in range(await telegram_bot_command_keyboard.buttons.acount()):
-			telegram_keyboard_buttons.update({num + 1: []})
-
-		telegram_keyboard_row = 1
+			keyboard_buttons.update({num + 1: []})
 
 		if telegram_bot_command_keyboard.mode == 'default':
 			telegram_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 
 			async for button in telegram_bot_command_keyboard.buttons.all():
-				telegram_keyboard_buttons[telegram_keyboard_row if not button.row else button.row].append(
-					types.KeyboardButton(text=button.text)
-				)
-
-				telegram_keyboard_row += 1
+				keyboard_buttons[keyboard_row if not button.row else button.row].append(types.KeyboardButton(text=button.text))
+				keyboard_row += 1
 		else:
 			telegram_keyboard = types.InlineKeyboardMarkup()
 
 			async for button in telegram_bot_command_keyboard.buttons.all():
-				telegram_keyboard_buttons[telegram_keyboard_row if not button.row else button.row].append(
+				keyboard_buttons[keyboard_row if not button.row else button.row].append(
 					types.InlineKeyboardButton(
 						text=button.text,
 						url=button.url,
 						callback_data=button.id
 					)
 				)
+				keyboard_row += 1
 
-				telegram_keyboard_row += 1
-
-		for telegram_keyboard_button in telegram_keyboard_buttons:
-			telegram_keyboard.add(*telegram_keyboard_buttons[telegram_keyboard_button])
+		for keyboard_button in keyboard_buttons:
+			telegram_keyboard.add(*keyboard_buttons[keyboard_button])
 	else:
 		telegram_keyboard = None
 

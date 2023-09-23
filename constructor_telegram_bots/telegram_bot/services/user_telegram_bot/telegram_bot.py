@@ -3,10 +3,10 @@ from aiogram.utils.exceptions import *
 
 from telegram_bot.services.custom_aiogram import CustomBot, CustomDispatcher
 
-from telegram_bot.models import TelegramBot, TelegramBotCommand
+from telegram_bot.models import *
 
 from .decorators import *
-from .functions import get_telegram_keyboard
+from .functions import get_keyboard
 
 import asyncio
 from aiohttp import ClientSession
@@ -32,8 +32,9 @@ class UserTelegramBot:
 		message_text: str
 	) -> None:
 		chat_id = (request if isinstance(request, types.Message) else request.message).chat.id
-		message_text_: Optional[TelegramBotCommandMessageText] = await telegram_bot_command.aget_message_text()
-		telegram_keyboard: Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup] = await get_telegram_keyboard(telegram_bot_command)
+		telegram_bot_command_message_text: Optional[TelegramBotCommandMessageText] = await telegram_bot_command.aget_message_text()
+		parse_mode = telegram_bot_command_message_text.mode if telegram_bot_command_message_text.mode != 'default' else None
+		telegram_keyboard: Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup] = await get_keyboard(telegram_bot_command)
 
 		async def send_answer(message_text: str):
 			try:
@@ -52,20 +53,18 @@ class UserTelegramBot:
 							chat_id=chat_id,
 							photo=types.InputFile(telegram_bot_command.image.path),
 							caption=message_text,
-							parse_mode=message_text_.mode,
+							parse_mode=parse_mode,
 							reply_markup=telegram_keyboard
 						)
 						return
 					except FileNotFoundError:
 						telegram_bot_command.image = None
 						await telegram_bot_command.asave()
-					except Exception as exception:
-						message_text=f'Error: {exception}'
 
 				await self.dispatcher.bot.send_message(
 					chat_id=chat_id,
 					text=message_text,
-					parse_mode=message_text_.mode,
+					parse_mode=parse_mode,
 					reply_markup=telegram_keyboard
 				)
 			except RetryAfter as exception:
@@ -75,6 +74,19 @@ class UserTelegramBot:
 		await send_answer(message_text=message_text)
 
 	async def setup(self) -> None:
+		bot_commands = []
+
+		async for telegram_bot_command in self.telegram_bot.commands.all():
+			telegram_bot_command_command: TelegramBotCommandCommand = await telegram_bot_command.aget_command()
+
+			if telegram_bot_command_command and telegram_bot_command_command.is_show_in_menu:
+				bot_commands.append(types.BotCommand(
+					command=telegram_bot_command_command.text.replace('/', ''),
+					description=telegram_bot_command_command.description
+				))
+
+		await self.bot.set_my_commands(bot_commands)
+
 		self.dispatcher.register_message_handler(self.message_and_callback_query_handler)
 		self.dispatcher.register_callback_query_handler(self.message_and_callback_query_handler)
 
@@ -102,4 +114,4 @@ class UserTelegramBot:
 				self.dispatcher.stop_polling()
 				break
 
-			await asyncio.sleep(10)
+			await asyncio.sleep(5)

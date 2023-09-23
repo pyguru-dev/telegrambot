@@ -80,9 +80,7 @@
 					'api_token': null,
 					'is_private': telegramBotIsPrivateCheckBox.checked,
 				}),
-			}).then(response => {
-				response.json().then(jsonResponse => createToast(jsonResponse.message, jsonResponse.level));
-			});
+			}).then(response => response.json().then(jsonResponse => createToast(jsonResponse.message, jsonResponse.level)));
 		});
 	}
 
@@ -105,9 +103,7 @@
 							telegramBotStartOrStopButton.disabled = false;
 							telegramBotStartOrStopButton.innerHTML = telegramBotStartButtonText;
 
-							if (extraFunc != null) {
-								extraFunc();
-							}
+							if (extraFunc != null) extraFunc();
 						} else if (jsonResponse.is_running && !jsonResponse.is_stopped && wait == 'start') {
 							telegramBotStatusDiv.classList.replace('bg-danger', 'bg-success');
 							telegramBotStatusDiv.innerHTML = telegramBotCardHeaderIsRunningText;
@@ -116,9 +112,7 @@
 							telegramBotStartOrStopButton.disabled = false;
 							telegramBotStartOrStopButton.innerHTML = telegramBotStopButtonText;
 
-							if (extraFunc != null) {
-								extraFunc();
-							}
+							if (extraFunc != null) extraFunc();
 						}
 					} else {
 						createToast(jsonResponse.message, jsonResponse.level);
