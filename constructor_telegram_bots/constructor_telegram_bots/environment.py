@@ -57,7 +57,8 @@ def replace_text_variables(telegram_bot, text: str, text_variables: dict) -> str
 	if settings.DEBUG or settings.DEBUG_ENVIRONMENT or settings.TEST:
 		environment = jinja2.Environment()
 		template: jinja2.Template = environment.from_string(text)
-		return template.render(text_variables)
+		text: str = template.render(text_variables)
+		return text.replace('\n\n', '\n')
 
 	return requests.post('http://127.0.0.1:99/generate/template/', json={
 		'user_id': telegram_bot.owner.id,

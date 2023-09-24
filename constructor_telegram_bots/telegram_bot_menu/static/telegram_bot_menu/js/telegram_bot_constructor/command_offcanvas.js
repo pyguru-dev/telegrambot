@@ -251,6 +251,15 @@ const copyToBuffer = (value) => {
 			document.querySelector('#telegramBotCommandOffcanvasKeyboardAddButton').addEventListener('click', () => this.createButton());
 
 		}
+		insertRowButton(keyboardButtonDiv, keyboardButtonNameInput, keyboardButtonRowButton_) {
+			const keyboardButtonRowButton = keyboardButtonRowButton_.cloneNode(true);
+			keyboardButtonRowButton.classList.replace('btn-dark', 'btn-secondary');
+			keyboardButtonRowButton.style.width = '35px';
+			keyboardButtonDiv.appendChild(keyboardButtonRowButton);
+			keyboardButtonDiv.insertBefore(keyboardButtonRowButton, keyboardButtonNameInput);
+
+			keyboardButtonRowButton.addEventListener('click', () => keyboardButtonRowButton.remove());
+		}
 		createRowButton() {
 			const keyboardButtonsCount = this.buttonsDiv.querySelectorAll('.keyboard-button').length + 1;
 			const keyboardButtonRowButtonWidth = (this.buttonsRowsDiv.clientWidth - (8 + 4 * 7)) / 8;
@@ -273,14 +282,15 @@ const copyToBuffer = (value) => {
 				}
 			});
 		}
-		insertRowButton(keyboardButtonDiv, keyboardButtonNameInput, keyboardButtonRowButton_) {
-			const keyboardButtonRowButton = keyboardButtonRowButton_.cloneNode(true);
-			keyboardButtonRowButton.classList.replace('btn-dark', 'btn-secondary');
-			keyboardButtonRowButton.style.width = '35px';
-			keyboardButtonDiv.appendChild(keyboardButtonRowButton);
-			keyboardButtonDiv.insertBefore(keyboardButtonRowButton, keyboardButtonNameInput);
-
-			keyboardButtonRowButton.addEventListener('click', () => keyboardButtonRowButton.remove());
+		addLinkButtonClick(keyboardButtonDiv, keyboardButtonAddLinkButton, value=null) {
+			const keyboardButtonLinkInput = document.createElement('input');
+			keyboardButtonLinkInput.classList = 'form-control form-control-sm border border-dark link-input text-center';
+			keyboardButtonLinkInput.type = 'text';
+			keyboardButtonLinkInput.placeholder = telegramBotCommandOffcanvasKeyboardButtonUrlInputPlaceholderText;
+			keyboardButtonLinkInput.style.boxShadow = 'none';
+			if (value) keyboardButtonLinkInput.value = value;
+			keyboardButtonDiv.replaceChild(keyboardButtonLinkInput, keyboardButtonAddLinkButton);
+			keyboardButtonLinkInput.focus();
 		}
 		createAddLinkButton(keyboardButtonDiv) {
 			const keyboardButtonAddLinkButton = document.createElement('button');
@@ -290,15 +300,7 @@ const copyToBuffer = (value) => {
 			keyboardButtonDiv.appendChild(keyboardButtonAddLinkButton);
 			keyboardButtonDiv.insertBefore(keyboardButtonAddLinkButton, keyboardButtonDiv.querySelector('.btn-delete'));
 
-			keyboardButtonAddLinkButton.addEventListener('click', function() {
-				const keyboardButtonLinkInput = document.createElement('input');
-				keyboardButtonLinkInput.classList = 'form-control form-control-sm border border-dark link-input text-center';
-				keyboardButtonLinkInput.type = 'text';
-				keyboardButtonLinkInput.placeholder = telegramBotCommandOffcanvasKeyboardButtonUrlInputPlaceholderText;
-				keyboardButtonLinkInput.style.boxShadow = 'none';
-				keyboardButtonDiv.replaceChild(keyboardButtonLinkInput, keyboardButtonAddLinkButton);
-				keyboardButtonLinkInput.focus();
-			});
+			keyboardButtonAddLinkButton.addEventListener('click', () => this.addLinkButtonClick(keyboardButtonDiv, keyboardButtonAddLinkButton));
 		}
 		createButton(telegramBotCommandKeyboardButton=null) {
 			this.createRowButton();
@@ -405,12 +407,19 @@ const copyToBuffer = (value) => {
 				this.setMode(telegramBotCommand.keyboard.mode);
 				telegramBotCommand.keyboard.buttons.forEach(telegramBotCommandKeyboardButton => this.createButton(telegramBotCommandKeyboardButton));
 				telegramBotCommand.keyboard.buttons.forEach(telegramBotCommandKeyboardButton => {
+					const keyboardButtonDiv = document.querySelector(`.keyboard-button[id="${telegramBotCommandKeyboardButton.id}"]`);
+
 					if (telegramBotCommandKeyboardButton.row) {
-						const keyboardButtonDiv = document.querySelector(`.keyboard-button[id="${telegramBotCommandKeyboardButton.id}"]`);
 						const keyboardButtonNameInput = keyboardButtonDiv.querySelector('.name-input');
 						const keyboardButtonRowButton = this.buttonsRowsDiv.querySelector(`button[row-num="${telegramBotCommandKeyboardButton.row}"]`);
 
 						this.insertRowButton(keyboardButtonDiv, keyboardButtonNameInput, keyboardButtonRowButton);
+					}
+
+					if (telegramBotCommandKeyboardButton.url) {
+						const keyboardButtonAddLinkButton = keyboardButtonDiv.querySelector('.btn-add-link');
+
+						this.addLinkButtonClick(keyboardButtonDiv, keyboardButtonAddLinkButton, telegramBotCommandKeyboardButton.url);
 					}
 				});
 			}
@@ -464,7 +473,7 @@ const copyToBuffer = (value) => {
 				this.showDataEditorDivButton,
 				this.hideDataEditorDivButton
 			));
-			document.querySelectorAll('[name="telegramBotCommandOffcanvasApiRequestMethods"]').forEach(apiRequestMethodRadio => this.setMethod(apiRequestMethodRadio.value));
+			document.querySelectorAll('[name="telegramBotCommandOffcanvasApiRequestMethods"]').forEach(apiRequestMethodRadio => apiRequestMethodRadio.addEventListener('click', () => this.setMethod(apiRequestMethodRadio.value)));
 		}
 		setMethod(method) {
 			if (method !== this.method) {
@@ -552,7 +561,7 @@ const copyToBuffer = (value) => {
 						'dataMonacoEditor',
 						this.showDataEditorDivButton,
 						this.hideDataEditorDivButton,
-						telegramBotCommand.api_request.headers,
+						telegramBotCommand.api_request.data,
 					);
 				}
 			}

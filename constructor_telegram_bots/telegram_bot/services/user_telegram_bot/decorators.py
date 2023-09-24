@@ -81,11 +81,12 @@ def check_telegram_bot_command_database_record(func):
 
 		if telegram_bot_command.database_record:
 			text_variables: dict = await get_text_variables(telegram_bot=self.telegram_bot, request=request)
-			database_record: dict = await environment.areplace_text_variables(
+			database_record: str = await environment.areplace_text_variables(
 				telegram_bot=self.telegram_bot,
 				text=telegram_bot_command.database_record,
 				text_variables=text_variables
 			)
+			database_record: dict = json.loads(database_record)
 
 			database_telegram_bot.insert_record(self.telegram_bot, database_record)
 		return await func(self, request, *args, **kwargs)
@@ -108,20 +109,22 @@ def check_message_text(func):
 				)
 
 				if telegram_bot_command_api_request.headers:
-					headers: dict = await environment.areplace_text_variables(
+					headers: str = await environment.areplace_text_variables(
 						telegram_bot=self.telegram_bot,
-						text=json.dumps(telegram_bot_command_api_request.headers),
+						text=telegram_bot_command_api_request.headers,
 						text_variables=text_variables
 					)
+					headers: dict = json.loads(headers)
 				else:
 					headers = None
 
 				if telegram_bot_command_api_request.data:
-					data: dict = await environment.areplace_text_variables(
+					data: str = await environment.areplace_text_variables(
 						telegram_bot=self.telegram_bot,
-						text=json.dumps(telegram_bot_command_api_request.data),
+						text=telegram_bot_command_api_request.data,
 						text_variables=text_variables
 					)
+					data: dict = json.loads(data)
 				else:
 					data = None
 
@@ -141,8 +144,11 @@ def check_message_text(func):
 			text_variables=text_variables
 		)
 
-		if len(message_text) > 4096:
-			message_text = 'The message text must contain no more than 4096 characters!'
+		if message_text:
+			if len(message_text) > 4096:
+				message_text = 'The message text must contain no more than 4096 characters!'
+		else:
+			message_text = 'The message text is empty!'
 
 		return await func(self, request, message_text=message_text, *args, **kwargs)
 	return wrapper

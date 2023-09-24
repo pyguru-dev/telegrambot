@@ -281,10 +281,10 @@
 				const diagramBlockKeyboardButton = document.createElement('div')
 				diagramBlockKeyboardButton.className = 'diagram-block-keyboard-button bg-dark rounded text-light text-center text-break w-100 p-2';
 				diagramBlockKeyboardButton.id = diagramBlock.id;
-				diagramBlockKeyboardButton.innerHTML = [
+				diagramBlockKeyboardButton.innerHTML = (telegramBotCommandKeyboardButton.url) ? telegramBotCommandKeyboardButton.text : [
 					`${telegramBotCommandKeyboardButton.text}`,
-					`<div class="diagram-block-connector diagram-block-connector-left${(telegramBotCommandKeyboardButton.url != null) ? ' d-none' : ''}" id="${diagramBlock.id}:left:${telegramBotCommandKeyboardButton.id}"></div>`,
-					`<div class="diagram-block-connector diagram-block-connector-right${(telegramBotCommandKeyboardButton.url != null) ? ' d-none' : ''}" id="${diagramBlock.id}:right:${telegramBotCommandKeyboardButton.id}"></div>`,
+					`<div class="diagram-block-connector diagram-block-connector-left" id="${diagramBlock.id}:left:${telegramBotCommandKeyboardButton.id}"></div>`,
+					`<div class="diagram-block-connector diagram-block-connector-right" id="${diagramBlock.id}:right:${telegramBotCommandKeyboardButton.id}"></div>`,
 				].join('');
 				diagramBlock.appendChild(diagramBlockKeyboardButton);
 			});
@@ -304,7 +304,6 @@
 			diagramBlockKeyboardButtonPosition += diagramBlockKeyboardButton.offsetHeight + 4;
 			diagramBlockKeyboardButton.style.bottom = `-${diagramBlockKeyboardButtonPosition}px`;
 		});
-
 		diagramBlock.querySelectorAll('.diagram-block-connector').forEach(diagramBlockConnector => diagramBlockConnector.addEventListener('click', diagramBlockConnectorClick));
 
 		const diagramBlockEditButton = diagramBlock.querySelector('.btn-diagram-edit');
