@@ -1,4 +1,4 @@
-from django.utils.translation import gettext as _
+from django.utils.translation import gettext_lazy as _
 
 from rest_framework import serializers
 
@@ -78,6 +78,7 @@ class TelegramBotCommandKeyboardButtonSerializer(serializers.Serializer):
 		'max_length': _('Название кнопки клавиатуры должно содержать не более 4096 символов!'),
 	})
 	url = serializers.URLField(max_length=2048, error_messages={
+		'blank': _('Введите URL-адрес для кнопки клавиатуры!'),
 		'invalid': _('Введите правильный URL-адрес для кнопки клавиатуры!'),
 		'max_length': _('URL-адрес кнопки клавиатуры должен содержать не более 2048 символов!'),
 	}, allow_null=True)
