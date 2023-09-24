@@ -53,7 +53,7 @@ class UserTelegramBotTests(BaseTestCase):
 			database_record=None
 		)
 
-		result: dict = (await self.send_message(self.handler, '/test'))[0]
+		result: dict = (await self.send_message(self.handler, '/test'))[1]
 
 		assert result['method'] == 'sendMessage'
 		assert result['text'] == 'Test...'
@@ -97,7 +97,7 @@ class UserTelegramBotTests(BaseTestCase):
 			database_record=None
 		)
 
-		result: dict = (await self.send_message(self.handler, '/test'))[0]
+		result: dict = (await self.send_message(self.handler, '/test'))[1]
 		result_keyboard: dict = json.loads(result['reply_markup'])['keyboard']
 
 		assert result['method'] == 'sendMessage'
@@ -135,7 +135,7 @@ class UserTelegramBotTests(BaseTestCase):
 			database_record=None
 		)
 
-		result: dict = (await self.send_message(self.handler, '/test'))[0]
+		result: dict = (await self.send_message(self.handler, '/test'))[1]
 		result_keyboard: dict = json.loads(result['reply_markup'])['inline_keyboard']
 
 		assert result['method'] == 'sendMessage'
@@ -190,7 +190,7 @@ class UserTelegramBotTests(BaseTestCase):
 		telegram_bot_command_keyboard_button.telegram_bot_command = telegram_bot_command_2
 		await telegram_bot_command_keyboard_button.asave()
 
-		result: dict = (await self.send_message(self.handler, '1'))[0]
+		result: dict = (await self.send_message(self.handler, '1'))[1]
 
 		assert result['method'] == 'sendMessage'
 		assert result['text'] == 'Test1...'
@@ -244,6 +244,6 @@ class UserTelegramBotTests(BaseTestCase):
 
 		results: list = await self.send_callback_query(self.handler, '1')
 
-		assert results[0]['method'] == 'deleteMessage'
-		assert results[1]['method'] == 'sendMessage'
-		assert results[1]['text'] == 'Test1...'
+		assert results[1]['method'] == 'deleteMessage'
+		assert results[2]['method'] == 'sendMessage'
+		assert results[2]['text'] == 'Test1...'

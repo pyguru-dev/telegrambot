@@ -106,18 +106,6 @@ class PluginsViewTests(BaseTestCase):
 			headers={'Authorization': f'Token {self.user.auth_token.key}'},
 			content_type='application/json',
 			data={
-				'name': 'Test',
-				'code': 'def test():\n\tpass',
-			}
-		)
-		self.assertEqual(response.status_code, 400)
-		self.assertEqual(response.json()['code'], 'invalid')
-
-		response: HttpResponse = self.client.post(
-			self.url_1,
-			headers={'Authorization': f'Token {self.user.auth_token.key}'},
-			content_type='application/json',
-			data={
 				'name': 'Test1',
 				'code': 'def test():\n\tpass',
 			}
@@ -162,7 +150,9 @@ class PluginViewTests(BaseTestCase):
 			self.url_1,
 			headers={'Authorization': f'Token {self.user.auth_token.key}'},
 			content_type='application/json',
-			data={'code': 'def test_():\n\tpass'}
+			data={
+				'code': 'def test_():\n\tpass',
+			}
 		)
 		self.assertEqual(response.status_code, 200)
 

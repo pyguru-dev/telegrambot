@@ -474,6 +474,18 @@ class TelegramBotViewTests(BaseTestCase):
 			headers={'Authorization': f'Token {self.user.auth_token.key}'},
 			content_type='application/json',
 			data={
+				'api_token': '',
+				'is_private': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertEqual(response.json()['code'], 'blank')
+
+		response: HttpResponse = self.client.patch(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
 				'api_token': '123456789:qwertyuiop',
 				'is_private': None,
 			}
@@ -613,10 +625,52 @@ class TelegramBotCommandsViewTests(BaseTestCase):
 			content_type='application/json',
 			data={
 				'name': 'Test',
+				'command': None,
+				'message_text': {
+					'mode': 'default',
+					'text': '',
+				},
+				'keyboard': None,
+				'api_request': None,
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertEqual(response.json()['code'], 'blank')
+
+		response: HttpResponse = self.client.post(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Test',
 				'command': {
 					'text': '',
 					'is_show_in_menu': False,
 					'description': None
+				},
+				'message_text': {
+					'mode': 'default',
+					'text': 'Test...',
+				},
+				'keyboard': None,
+				'api_request': None,
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertEqual(response.json()['code'], 'blank')
+
+		response: HttpResponse = self.client.post(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Test',
+				'command': {
+					'text': '/start',
+					'is_show_in_menu': True,
+					'description': ''
 				},
 				'message_text': {
 					'mode': 'default',
@@ -642,6 +696,64 @@ class TelegramBotCommandsViewTests(BaseTestCase):
 					'text': '',
 				},
 				'keyboard': None,
+				'api_request': None,
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertEqual(response.json()['code'], 'blank')
+
+		response: HttpResponse = self.client.post(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Test',
+				'command': None,
+				'message_text': {
+					'mode': 'default',
+					'text': 'Test...',
+				},
+				'keyboard': {
+					'mode': 'default',
+					'buttons': [
+						{
+							'id': None,
+							'row': None,
+							'text': '',
+							'url': None,
+						},
+					],
+				},
+				'api_request': None,
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertEqual(response.json()['code'], 'blank')
+
+		response: HttpResponse = self.client.post(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Test',
+				'command': None,
+				'message_text': {
+					'mode': 'default',
+					'text': 'Test...',
+				},
+				'keyboard': {
+					'mode': 'default',
+					'buttons': [
+						{
+							'id': None,
+							'row': None,
+							'text': '1',
+							'url': '',
+						},
+					],
+				},
 				'api_request': None,
 				'database_record': None,
 			}
@@ -807,6 +919,25 @@ class TelegramBotCommandViewTests(BaseTestCase):
 			content_type='application/json',
 			data={
 				'name': 'Test',
+				'command': None,
+				'message_text': {
+					'mode': 'default',
+					'text': '',
+				},
+				'keyboard': None,
+				'api_request': None,
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertEqual(response.json()['code'], 'blank')
+
+		response: HttpResponse = self.client.patch(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Test',
 				'command': {
 					'text': '',
 					'is_show_in_menu': False,
@@ -830,12 +961,74 @@ class TelegramBotCommandViewTests(BaseTestCase):
 			content_type='application/json',
 			data={
 				'name': 'Test',
+				'command': {
+					'text': '/start',
+					'is_show_in_menu': True,
+					'description': '',
+				},
+				'message_text': {
+					'mode': 'default',
+					'text': 'Test...',
+				},
+				'keyboard': None,
+				'api_request': None,
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertEqual(response.json()['code'], 'blank')
+
+		response: HttpResponse = self.client.patch(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Test',
 				'command': None,
 				'message_text': {
 					'mode': 'default',
-					'text': '',
+					'text': 'Test...',
 				},
-				'keyboard': None,
+				'keyboard': {
+					'mode': 'default',
+					'buttons': [
+						{
+							'id': '1',
+							'row': None,
+							'text': '',
+							'url': None,
+						},
+					],
+				},
+				'api_request': None,
+				'database_record': None,
+			}
+		)
+		self.assertEqual(response.status_code, 400)
+		self.assertEqual(response.json()['code'], 'blank')
+
+		response: HttpResponse = self.client.patch(
+			self.url_1,
+			headers={'Authorization': f'Token {self.user.auth_token.key}'},
+			content_type='application/json',
+			data={
+				'name': 'Test',
+				'command': None,
+				'message_text': {
+					'mode': 'default',
+					'text': 'Test...',
+				},
+				'keyboard': {
+					'mode': 'default',
+					'buttons': [
+						{
+							'id': '1',
+							'row': None,
+							'text': '1',
+							'url': '',
+						},
+					],
+				},
 				'api_request': None,
 				'database_record': None,
 			}
@@ -1049,8 +1242,8 @@ class TelegramBotCommandKeyboardButtonTelegramBotCommandViewTests(BaseTestCase):
 			content_type='application/json',
 			data={
 				'telegram_bot_command_id': 0,
-				'start_diagram_connector': '',
-				'end_diagram_connector': '',
+				'start_diagram_connector': 'test',
+				'end_diagram_connector': 'test',
 			}
 		)
 		self.assertEqual(response.status_code, 404)
