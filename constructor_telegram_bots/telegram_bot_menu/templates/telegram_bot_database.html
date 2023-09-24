@@ -6,11 +6,10 @@
 
 {% block content %}
 <div class="card border">
-	<h5 class="card-header border-bottom text-center">{% trans "База данных Telegram бота" %}</h5>
 	<div class="card-body">
 		{% trans "Добавить запись" as add_button_text %}
 		{% include 'object_tools.html' with id="telegramBotDatabaseRecords" show_add_button=True add_button_text=add_button_text %}
-		<div class="collapse show" id="telegramBotDatabaseRecordsСollapse">
+		<div class="collapse mt-2 show" id="telegramBotDatabaseRecordsСollapse">
 			<div class="list-group" id="telegramBotDatabaseRecords"></div>
 		</div>
 	</div>
@@ -24,7 +23,7 @@
 
 	const telegramBotDatabaseNotHaveRecordText = "{% trans 'В базе данных вашего Telegram бота ещё нет никаких записей' %}";
 
-	const deleteTelegramBotDatabaseRecordAskConfirmModalTitle = "{% trans 'Удаление записи из базы данных Telegram бота' %}";
+	const deleteTelegramBotDatabaseRecordAskConfirmModalTitle = "{% trans 'Удаление записи из базы данных' %}";
 	const deleteTelegramBotDatabaseRecordAskConfirmModalText = "{% trans 'Вы точно хотите удалить запись из базы данных Telegram бота?' %}";
 </script>
 <script src="{% static 'telegram_bot_menu/js/telegram_bot_database.js' %}"></script>

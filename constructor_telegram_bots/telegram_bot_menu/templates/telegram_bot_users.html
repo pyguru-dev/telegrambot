@@ -8,10 +8,9 @@
 
 {% block content %}
 <div class="card border">
-	<h5 class="card-header border-bottom text-center">{% trans "Список пользователей Telegram бота" %}</h5>
 	<div class="card-body">
 		{% include 'object_tools.html' with id="telegramBotUsers" show_add_button=False %}
-		<div class="collapse show" id="telegramBotUsersСollapse">
+		<div class="collapse mt-2 show" id="telegramBotUsersСollapse">
 			<div class="list-group" id="telegramBotUsers"></div>
 		</div>
 	</div>
@@ -28,7 +27,7 @@
 
 	const telegramBotNotActivatedText = "{% trans 'Вашего Telegram бота ещё никто не активировал' %}";
 
-	const deleteTelegramBotUserAskConfirmModalTitle = "{% trans 'Удаление пользователя Telegram бота' %}";
+	const deleteTelegramBotUserAskConfirmModalTitle = "{% trans 'Удаление пользователя' %}";
 	const deleteTelegramBotUserAskConfirmModalText = "{% trans 'Вы точно хотите удалить пользователя Telegram бота?' %}";
 </script>
 <script src="{% static 'telegram_bot_menu/js/telegram_bot_users.js' %}"></script>
