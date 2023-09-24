@@ -14,7 +14,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv()
 
 SECRET_KEY = os.getenv('SECRET_KEY', f"django-insecure-{generate_random_string(length=50, chars='abcdefghijklnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!@#$%^&*()_')}")
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
+DEBUG_ENVIRONMENT = os.getenv('DEBUG_ENVIRONMENT', 'True') == 'True'
 TEST = len(sys.argv) >= 2 and sys.argv[0] == 'manage.py' and sys.argv[1] == 'test'
 
 CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN')
