@@ -63,8 +63,8 @@
 			{% include 'widgets/info_area.html' with class="col-6" value=telegram_bot.users.count text=info_area_text %}
 			{% trans "Количество команд" as info_area_text %}
 			{% include 'widgets/info_area.html' with class="col-6" value=telegram_bot.commands.count text=info_area_text %}
-			{% trans "Активность за 24 ч." as info_area_text %}
-			{% include 'widgets/info_area.html' with class="col-6" value="0" text=info_area_text %}
+			{% comment %} {% trans "Активность за 24 ч." as info_area_text %}
+			{% include 'widgets/info_area.html' with class="col-6" value="0" text=info_area_text %} {% endcomment %}
 		</div>
 	</div>
 </div>
