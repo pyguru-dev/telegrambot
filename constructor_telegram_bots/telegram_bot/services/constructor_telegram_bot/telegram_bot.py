@@ -13,6 +13,9 @@ class ConstructorTelegramBot:
 	def __init__(self) -> None:
 		self.loop: asyncio.AbstractEventLoop = asyncio.new_event_loop()
 
+		self.bot = CustomBot(token=settings.CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN, loop=self.loop)
+		self.dispatcher = CustomDispatcher(bot_username=settings.CONSTRUCTOR_TELEGRAM_BOT_USERNAME, bot=self.bot)
+
 	@check_user
 	async def start_command(self, message: types.Message) -> None:
 		await self.bot.send_message(chat_id=message.chat.id, text=f"""\
@@ -21,25 +24,21 @@ class ConstructorTelegramBot:
 			Thank you for being with us ❤️
 		""".replace('\t', ''))
 
-		message_list: list = message.text.split()
+		commands_list: list = message.text.split()
 
-		if len(message_list) > 1 and message_list[1] == 'login':
+		if len(commands_list) > 1 and commands_list[1] == 'login':
 			await self.login_command(message)
 
 	@check_user
 	async def login_command(self, message: types.Message) -> None:
 		user: User = await User.objects.aget(telegram_id=message.from_user.id)
-		login_url: str = await user.alogin_url
 
-		inline_keyboard = types.InlineKeyboardMarkup(row_width=1)
-		inline_keyboard.add(types.InlineKeyboardButton(text='Login', url=login_url))
+		keyboard = types.InlineKeyboardMarkup(row_width=1)
+		keyboard.add(types.InlineKeyboardButton(text='Login', url=await user.alogin_url))
 
-		await self.bot.send_message(chat_id=message.chat.id, text='Click on the button below to login on the site.', reply_markup=inline_keyboard)
+		await self.bot.send_message(chat_id=message.chat.id, text='Click on the button below to login on the site.', reply_markup=keyboard)
 
 	async def setup(self) -> None:
-		self.bot = CustomBot(token=settings.CONSTRUCTOR_TELEGRAM_BOT_API_TOKEN, loop=self.loop)
-		self.dispatcher = CustomDispatcher(bot_username=settings.CONSTRUCTOR_TELEGRAM_BOT_USERNAME, bot=self.bot)
-
 		self.dispatcher.register_message_handler(self.start_command, commands=['start'])
 		self.dispatcher.register_message_handler(self.login_command, commands=['login'])
 

@@ -4,6 +4,5 @@ from . import views
 
 
 urlpatterns = [
-	path('', views.personal_cabinet, name='personal_cabinet'),
-	path('<int:telegram_bot_id>/', views.telegram_bot_menu, name='telegram_bot_menu'),
+	path('', views.personal_cabinet_view, name='personal_cabinet'),
 ]

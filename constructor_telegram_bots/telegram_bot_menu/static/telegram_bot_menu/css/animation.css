@@ -1,0 +1,23 @@
+.btn-toggle i::before {
+	transition: transform .40s ease;
+	transform-origin: 0.5em 50%;
+	transform: rotate(180deg);
+}
+
+.btn-toggle[aria-expanded="true"] i::before {
+	transform: rotate(360deg);
+}
+
+.btn-update[aria-updating="true"] i::before {
+	animation-name: btn-update;
+	animation-duration: 1s;
+	animation-iteration-count: 1;
+}
+
+@keyframes btn-update {
+	0% {transform: rotate(360deg)}
+}
+
+.monaco-editor .line-numbers {
+	text-align: center!important;
+}

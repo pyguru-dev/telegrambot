@@ -1,0 +1,43 @@
+.btn-new-update {
+	font-size: 14px;
+	background-color: #ffdb59;
+	box-shadow: 0 0 6px #ffe073;
+}
+
+.btn-new-update:hover {
+	background-color: #f5d256;
+}
+
+.about-site,
+.information-about-site,
+.donations {
+	width: 100%;
+}
+
+@media (min-width: 992px) {
+	.about-site {
+		width: 60%;
+	}
+
+	.information-about-site {
+		width: 40%;
+	}
+
+	.donations {
+		width: 50%;
+	}
+}
+
+.sum, .date {
+	width: 30%;
+}
+
+.btn-support-site {
+	width: 180px;
+	padding: 5px 12px 5px 12px;
+	background-color: #2bd987;
+}
+
+.btn-support-site:hover {
+	background-color: #28cc7f;
+}

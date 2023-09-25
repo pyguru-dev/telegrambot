@@ -1,0 +1,13 @@
+<div class="d-flex justify-content-between">
+	<div class="btn-group" role="group">
+		<button class="btn btn-light btn-toggle border px-2 py-1" id="{{ id }}СollapseButton" type="button" data-bs-toggle="collapse" data-bs-target="#{{ id }}Сollapse" aria-expanded="true" aria-controls="{{ id }}Сollapse">
+			<i class="bi bi-arrow-down d-flex" style="font-size: 20px;"></i>
+		</button>
+		<button class="btn btn-light btn-update border px-2 py-1" id="{{ id }}UpdateButton" type="button" aria-updating="false">
+			<i class="bi bi-arrow-repeat d-flex" style="font-size: 20px;"></i>
+		</button>
+	</div>
+	{% if show_add_button %}
+		{% include 'widgets/add_button.html' with size="sm" id=id|add:"AddButton" text=add_button_text %}
+	{% endif %}
+</div>

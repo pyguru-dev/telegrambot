@@ -6,19 +6,17 @@
 
 {% block styles %}
 {{ block.super }}
-<link rel="stylesheet" href="{% static 'team/css/team_members.css' %}">
+<link rel="stylesheet" href="{% static 'team/css/main.css' %}">
 {% endblock styles %}
 
 {% block main %}
 <div class="container text-center my-3 my-lg-4">
 	<div class="row row-cols-1 row-cols-lg-5 justify-content-center g-4">
 		{% for team_member in team_members %}
-			<div class="col px-2">
-				<div class="d-flex flex-column align-items-center">
-					<img class="border team-member-image mb-1" src="/{{ team_member.image }}">
-					<h5 class="fw-bold mb-1">@<a class="link-dark" href="tg://resolve?domain={{ team_member.username }}">{{ team_member.username }}</a></h5>
-					<span>{{ team_member.speciality }}</span>
-				</div>
+			<div class="col d-flex flex-column align-items-center px-2">
+				{% if team_member.image %}<img class="border team-member-image mb-1" src="{{ team_member.image.url }}">{% endif %}
+				<a class="h5 link-dark link-underline-opacity-0 fw-semibold mb-0" href="tg://resolve?domain={{ team_member.username }}">@{{ team_member.username }}</a>
+				<span>{{ team_member.speciality }}</span>
 			</div>
 		{% endfor %}
 	</div>

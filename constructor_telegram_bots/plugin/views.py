@@ -6,12 +6,12 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.response import Response
 
-from constructor_telegram_bots.decorators import check_post_request_data_items
-from telegram_bot.decorators import check_telegram_bot_id
-from .decorators import check_plugin_id, check_plugin_data
-
-from .models import Plugin, PluginLog
 from telegram_bot.models import TelegramBot
+from telegram_bot.decorators import check_telegram_bot_id
+
+from .models import *
+from .decorators import *
+from .serializers import *
 
 from constructor_telegram_bots import environment
 
@@ -21,10 +21,15 @@ class PluginsView(APIView):
 	permission_classes = [IsAuthenticated]
 
 	@check_telegram_bot_id
-	@check_post_request_data_items({'name': str, 'code': str})
-	@check_plugin_data
-	def post(self, request: Request, telegram_bot: TelegramBot, name: str, code: str) -> Response:
-		plugin: Plugin = Plugin.objects.create(user=request.user, telegram_bot=telegram_bot, name=name, code=code)
+	def post(self, request: Request, telegram_bot: TelegramBot) -> Response:
+		serializer = CreatePluginSerializer(data=request.data, context={'telegram_bot': telegram_bot})
+		serializer.is_valid(raise_exception=True)
+
+		plugin: Plugin = Plugin.objects.create(
+			user=request.user,
+			telegram_bot=telegram_bot,
+			**serializer.validated_data
+		)
 
 		return Response({
 			'message': _('Вы успешно добавили плагин вашему Telegram боту.'),
@@ -42,11 +47,12 @@ class PluginView(APIView):
 	permission_classes = [IsAuthenticated]
 
 	@check_plugin_id
-	@check_post_request_data_items({'code': str})
-	@check_plugin_data
-	def patch(self, request: Request, plugin: Plugin, code: str) -> Response:
+	def patch(self, request: Request, plugin: Plugin) -> Response:
+		serializer = UpdatePluginSerializer(data=request.data)
+		serializer.is_valid(raise_exception=True)
+
 		plugin.is_checked = False
-		plugin.code = code
+		plugin.code = serializer.validated_data['code']
 		plugin.save()
 
 		environment.delete_plugin(plugin)
@@ -78,14 +84,15 @@ def get_plugins_logs_view(request: Request, telegram_bot: TelegramBot) -> Respon
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 @check_plugin_id
-@check_post_request_data_items({'message': str, 'level': str})
-def add_plugin_log_view(request: Request, plugin: Plugin, message: str, level: str) -> Response:
+def add_plugin_log_view(request: Request, plugin: Plugin) -> Response:
+	serializer = AddPluginLogSerializer(data=request.data)
+	serializer.is_valid(raise_exception=True)
+
 	PluginLog.objects.create(
 		user=request.user,
 		telegram_bot=plugin.telegram_bot,
 		plugin=plugin,
-		message=message,
-		level=level
+		**serializer.validated_data
 	)
 
 	return Response({

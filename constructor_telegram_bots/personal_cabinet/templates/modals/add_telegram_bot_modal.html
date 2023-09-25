@@ -1,0 +1,22 @@
+{% load i18n %}
+
+<div class="modal fade" id="addTelegramBotModal" tabindex="-1" aria-labelledby="addTelegramBotModalTitle" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="addTelegramBotModalTitle">{% trans "Добавление Telegram бота" %}</h5>
+				<button class="btn-close" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<input class="form-control mb-1" id="addTelegramBotModalApiTokenInput" type="text" placeholder="{% trans "Введите API-токен Telegram бота" %}">
+				<div class="form-check form-switch form-check-reverse mb-0" style="width: max-content;">
+					<input class="form-check-input" id="addTelegramBotModalIsPrivateCheckBox" type="checkbox">
+					<label class="form-check-label" for="addTelegramBotModalIsPrivateCheckBox">{% trans "Сделать Telegram бота приватным" %}:</label>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-success w-100" id="addTelegramBotModalAddTelegramBotButton" type="button">{% trans "Добавить Telegram бота" %}</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block styles %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'telegram_bot_menu/css/main.css' %}">
+{% block animation_styles %}
+<link rel="stylesheet" href="{% static 'telegram_bot_menu/css/animation.css' %}">
+{% endblock animation_styles %}
+{% block monaco_editor_styles %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.40.0/min/vs/editor/editor.main.min.css" integrity="sha512-MOoQ02h80hklccfLrXFYkCzG+WVjORflOp9Zp8dltiaRP+35LYnO4LKOklR64oMGfGgJDLO8WJpkM1o5gZXYZQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+{% endblock monaco_editor_styles %}
+{% endblock styles %}
+
+{% block main_class %}{% endblock main_class %}
+
+{% block main %}
+<div class="container my-3 my-lg-4">
+	<nav class="nav nav-pills nav-fill bg-light border rounded mb-3 mb-lg-4 p-2">
+		{% url 'telegram_bot_menu:telegram_bot' telegram_bot.id as telegram_bot_menu_url %}
+		<a class="nav-link link-dark {% if request.path == telegram_bot_menu_url %}active {% endif %}p-2" href="{{ telegram_bot_menu_url }}">{% trans "Telegram бот" %}</a>
+		{% url 'telegram_bot_menu:telegram_bot_users' telegram_bot.id as telegram_bot_users_url %}
+		<a class="nav-link link-dark {% if request.path == telegram_bot_users_url %}active {% endif %}p-2" href="{{ telegram_bot_users_url }}">{% trans "Список пользователей" %}</a>
+		{% url 'telegram_bot_menu:telegram_bot_database' telegram_bot.id as telegram_bot_database_url %}
+		<a class="nav-link link-dark {% if request.path == telegram_bot_database_url %}active {% endif %}p-2" href="{{ telegram_bot_database_url }}">{% trans "База данных" %}</a>
+		{% url 'telegram_bot_menu:telegram_bot_plugins' telegram_bot.id as telegram_bot_plugins_url %}
+		<a class="nav-link link-dark {% if request.path == telegram_bot_plugins_url %}active {% endif %}p-2" href="{{ telegram_bot_plugins_url }}">{% trans "Плагины" %}</a>
+		{% url 'telegram_bot_menu:telegram_bot_constructor' telegram_bot.id as telegram_bot_constructor_url %}
+		<a class="nav-link link-dark {% if request.path == telegram_bot_constructor_url %}active {% endif %}p-2" href="{{ telegram_bot_constructor_url }}">{% trans "Конструктор" %}</a>
+	</nav>
+	{% block content %}{% endblock content %}
+</div>
+{% endblock main %}
+
+{% block footer_class %}mt-auto{% endblock footer_class %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+	const telegramBotId = {{ telegram_bot.id }};
+	var telegramBotIsRunning = {% if telegram_bot.is_running %}true{% else %}false{% endif %};
+	var diagramCurrentScale = parseFloat('{{ telegram_bot.diagram_current_scale }}'.replace(',', '.'));
+</script>
+{% block animation_scripts %}
+<script src="{% static 'telegram_bot_menu/js/animation.js' %}"></script>
+{% endblock animation_scripts %}
+{% block monaco_editor_scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.40.0/min/vs/loader.min.js" integrity="sha512-QzMpXeCPciAHP4wbYlV2PYgrQcaEkDQUjzkPU4xnjyVSD9T36/udamxtNBqb4qK4/bMQMPZ8ayrBe9hrGdBFjQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+	require.config({paths: {'vs': "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.40.0/min/vs"}});
+</script>
+<script src="{% static 'telegram_bot_menu/js/monaco_editor.js' %}"></script>
+{% endblock monaco_editor_scripts %}
+{% endblock scripts %}

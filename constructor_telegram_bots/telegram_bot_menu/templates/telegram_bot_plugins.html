@@ -1,0 +1,50 @@
+{% extends 'base_telegram_bot_menu.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Плагины" %}{% endblock title %}
+
+{% block content %}
+<div class="card border my-3 my-lg-4">
+	<h5 class="card-header border-bottom text-center">{% trans "Список плагинов" %}</h5>
+	<div class="card-body">
+		{% trans "Добавить плагин" as add_button_text %}
+		{% include 'object_tools.html' with id="telegramBotPlugins" show_add_button=True add_button_text=add_button_text %}
+		<div class="collapse mt-2 show" id="telegramBotPluginsСollapse">
+			<div class="list-group" id="telegramBotPlugins"></div>
+		</div>
+	</div>
+</div>
+<div class="card border">
+	<h5 class="card-header border-bottom text-center">{% trans "Логи плагинов" %}</h5>
+	<div class="card-body">
+		{% include 'object_tools.html' with id="telegramBotPluginsLogs" show_add_button=False %}
+		<div class="collapse mt-2 show" id="telegramBotPluginsLogsСollapse">
+			<div class="list-group" id="telegramBotPluginsLogs"></div>
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+	const telegramBotPluginsUrl = "{% url 'plugins' telegram_bot.id %}";
+
+	const telegramBotNotHavePluginText = "{% trans 'Вы ещё не добавили плагины для вашего Telegram бота' %}";
+
+	const telegramBotPluginNameInputPlaceholderText = "{% trans 'Введите название' %}";
+	const telegramBotPluginCodePlaceholderText = "{% trans 'Введите код вашего плагина' %}";
+
+	const telegramBotPluginNameText = "{% trans 'Название плагина:' %}";
+
+	const deleteTelegramBotPluginAskConfirmModalTitle = "{% trans 'Удаление плагина' %}";
+	const deleteTelegramBotPluginAskConfirmModalText = "{% trans 'Вы точно хотите удалить плагин Telegram бота?' %}";
+
+	const telegramBotPluginsLogs = "{% url 'plugins_logs' telegram_bot.id %}";
+
+	const telegramBotNotHavePluginsLogsText = "{% trans 'Сообщений в логах плагинов вашего Telegram бота ещё нет' %}";
+</script>
+<script src="{% static 'telegram_bot_menu/js/telegram_bot_plugins/plugins.js' %}"></script>
+<script src="{% static 'telegram_bot_menu/js/telegram_bot_plugins/plugins_logs.js' %}"></script>
+{% endblock scripts %}

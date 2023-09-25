@@ -14,7 +14,7 @@
 | <a href="https://www.buymeacoffee.com/exg1o" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a> | [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=RBCS5HAMZS5Z6) |
 
 ## Требования
-- Python 3.10.11
+- Python 3.10.x
 - PostgreSQL
 - MongoDB
 - Redis
@@ -25,13 +25,12 @@
 git clone https://github.com/EXG1O/Constructor-Telegram-Bots.git
 cd Constructor-Telegram-Bots
 source scripts/setup.sh
-cd constructor_telegram_bots
 ```
 2. Теперь запускаем сайт:
 ```
 python manage.py runserver
 ```
-3. Открываем ещё один терминал и запускаем Celery:
+3. Открываем ещё один терминал и запускаем Celery worker:
 ```
 cd Constructor-Telegram-Bots
 source env/bin/activate
@@ -56,7 +55,7 @@ celery -A constructor_telegram_bots worker --loglevel=INFO -f logs/celery.log
 | <a href="https://www.buymeacoffee.com/exg1o" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a> | [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=RBCS5HAMZS5Z6) |
 
 ## Вимоги
-- Python 3.10.11
+- Python 3.10.x
 - PostgreSQL
 - MongoDB
 - Redis
@@ -67,13 +66,12 @@ celery -A constructor_telegram_bots worker --loglevel=INFO -f logs/celery.log
 git clone https://github.com/EXG1O/Constructor-Telegram-Bots.git
 cd Constructor-Telegram-Bots
 source scripts/setup.sh
-cd constructor_telegram_bots
 ```
 2. Тепер запускаємо сайт:
 ```
 python manage.py runserver
 ```
-3. Відкриваємо ще один термінал та запускаємо Celery:
+3. Відкриваємо ще один термінал та запускаємо Celery worker:
 ```
 cd Constructor-Telegram-Bots
 source env/bin/activate
@@ -98,7 +96,7 @@ Your donation will greatly contribute to the development and improvement of the 
 | <a href="https://www.buymeacoffee.com/exg1o" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-yellow.png" alt="Buy Me A Coffee" style="height: 60px !important;width: 217px !important;" ></a> | [![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=RBCS5HAMZS5Z6) |
 
 ## Requirements
-- Python 3.10.11
+- Python 3.10.x
 - PostgreSQL
 - MongoDB
 - Redis
@@ -109,13 +107,12 @@ Your donation will greatly contribute to the development and improvement of the 
 git clone https://github.com/EXG1O/Constructor-Telegram-Bots.git
 cd Constructor-Telegram-Bots
 source scripts/setup.sh
-cd constructor_telegram_bots
 ```
 2. Now run the site:
 ```
 python manage.py runserver
 ```
-3. Open another terminal and run Celery:
+3. Open another terminal and run Celery worker:
 ```
 cd Constructor-Telegram-Bots
 source env/bin/activate

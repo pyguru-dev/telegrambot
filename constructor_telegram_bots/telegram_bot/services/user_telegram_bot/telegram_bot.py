@@ -1,112 +1,117 @@
 from aiogram import types
-from aiogram.utils.exceptions import ValidationError, Unauthorized
+from aiogram.utils.exceptions import *
 
 from telegram_bot.services.custom_aiogram import CustomBot, CustomDispatcher
 
-from telegram_bot.models import TelegramBot, TelegramBotCommand
+from telegram_bot.models import *
 
 from .decorators import *
-from .functions import get_telegram_keyboard
+from .functions import get_keyboard
 
 import asyncio
 from aiohttp import ClientSession
-
-from typing import Optional, Union
-
-
-PARSE_MODE = 'HTML'
+from typing import Union
 
 
 class UserTelegramBot:
 	def __init__(self, telegram_bot: TelegramBot) -> None:
-		self.loop = asyncio.new_event_loop()
 		self.telegram_bot = telegram_bot
+		self.loop = asyncio.new_event_loop()
 
-	@check_request
+		self.bot = CustomBot(token=self.telegram_bot.api_token, loop=self.loop)
+		self.dispatcher = CustomDispatcher(bot_username=self.telegram_bot.username, bot=self.bot)
+
 	@check_telegram_bot_user
 	@check_telegram_bot_command
 	@check_telegram_bot_command_database_record
 	@check_message_text
 	async def message_and_callback_query_handler(
 		self,
-		message: types.Message,
-		callback_query: Optional[types.CallbackQuery],
+		request: Union[types.Message, types.CallbackQuery],
 		telegram_bot_command: TelegramBotCommand,
 		message_text: str
 	) -> None:
-		telegram_keyboard: Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup] = await get_telegram_keyboard(telegram_bot_command)
+		chat_id = (request if isinstance(request, types.Message) else request.message).chat.id
+		telegram_bot_command_message_text: Optional[TelegramBotCommandMessageText] = await telegram_bot_command.aget_message_text()
+		parse_mode = telegram_bot_command_message_text.mode if telegram_bot_command_message_text.mode != 'default' else None
+		telegram_keyboard: Union[types.ReplyKeyboardMarkup, types.InlineKeyboardMarkup] = await get_keyboard(telegram_bot_command)
 
-		try:
-			if callback_query:
-				await self.dispatcher.bot.delete_message(
-					chat_id=message.chat.id,
-					message_id=message.message_id
-				)
+		async def send_answer(message_text: str):
+			try:
+				if isinstance(request, types.CallbackQuery):
+					try:
+						await self.dispatcher.bot.delete_message(
+							chat_id=chat_id,
+							message_id=request.message.message_id
+						)
+					except (MessageToDeleteNotFound, MessageCantBeDeleted):
+						pass
 
-			if not telegram_bot_command.image:
+				if telegram_bot_command.image:
+					try:
+						await self.dispatcher.bot.send_photo(
+							chat_id=chat_id,
+							photo=types.InputFile(telegram_bot_command.image.path),
+							caption=message_text,
+							parse_mode=parse_mode,
+							reply_markup=telegram_keyboard
+						)
+						return
+					except FileNotFoundError:
+						telegram_bot_command.image = None
+						await telegram_bot_command.asave()
+
 				await self.dispatcher.bot.send_message(
-					chat_id=message.chat.id,
+					chat_id=chat_id,
 					text=message_text,
-					parse_mode=PARSE_MODE,
+					parse_mode=parse_mode,
 					reply_markup=telegram_keyboard
 				)
-			else:
-				await self.dispatcher.bot.send_photo(
-					chat_id=message.chat.id,
-					photo=types.InputFile(telegram_bot_command.image.path),
-					caption=message_text,
-					parse_mode=PARSE_MODE,
-					reply_markup=telegram_keyboard
-				)
-		except FileNotFoundError:
-			telegram_bot_command.image = None
-			await telegram_bot_command.asave()
+			except RetryAfter as exception:
+				await asyncio.sleep(exception.timeout)
+				await send_answer(message_text=message_text)
 
-			await self.dispatcher.bot.send_message(
-				chat_id=message.chat.id,
-				text=message_text,
-				parse_mode=PARSE_MODE,
-				reply_markup=telegram_keyboard
-			)
-		except Exception as exception:
-			await self.dispatcher.bot.send_message(
-				chat_id=message.chat.id,
-				text=f'<b>Error</b>: {exception}',
-				parse_mode=PARSE_MODE,
-				reply_markup=telegram_keyboard
-			)
+		await send_answer(message_text=message_text)
 
 	async def setup(self) -> None:
-		self.bot = CustomBot(token=self.telegram_bot.api_token, loop=self.loop)
-		self.dispatcher = CustomDispatcher(bot_username=self.telegram_bot.username, bot=self.bot)
+		bot_commands = []
+
+		async for telegram_bot_command in self.telegram_bot.commands.all():
+			telegram_bot_command_command: TelegramBotCommandCommand = await telegram_bot_command.aget_command()
+
+			if telegram_bot_command_command and telegram_bot_command_command.is_show_in_menu:
+				bot_commands.append(types.BotCommand(
+					command=telegram_bot_command_command.text.replace('/', ''),
+					description=telegram_bot_command_command.description
+				))
+
+		await self.bot.set_my_commands(bot_commands)
 
 		self.dispatcher.register_message_handler(self.message_and_callback_query_handler)
 		self.dispatcher.register_callback_query_handler(self.message_and_callback_query_handler)
 
 	async def start(self) -> None:
-		task = self.loop.create_task(self.stop())
+		task: asyncio.Task = self.loop.create_task(self.stop())
 
 		try:
-			await self.dispatcher.skip_updates()
 			await self.dispatcher.start_polling()
-
-			task.cancel()
 
 			self.telegram_bot.is_stopped = True
 			await self.telegram_bot.asave()
 		except (ValidationError, Unauthorized):
-			task.cancel()
-
 			await self.telegram_bot.adelete()
+
+		task.cancel()
 
 		session: ClientSession = await self.bot.get_session()
 		await session.close()
 
 	async def stop(self) -> None:
-		while self.telegram_bot.is_running:
-			self.telegram_bot: TelegramBot = await TelegramBot.objects.aget(id=self.telegram_bot.id)
+		while True:
+			await self.telegram_bot.arefresh_from_db()
 
 			if not self.telegram_bot.is_running:
 				self.dispatcher.stop_polling()
-			else:
-				await asyncio.sleep(30)
+				break
+
+			await asyncio.sleep(5)

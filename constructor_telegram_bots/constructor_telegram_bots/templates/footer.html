@@ -1,0 +1,24 @@
+{% load i18n %}
+
+<div class="container">
+	<div class="row justify-content-center text-center py-2">
+		<div class="col-12 col-lg-2 d-flex flex-column">
+			<h5 class="text-light mb-0">{% trans "Проект" %}</h5>
+			<a class="link-secondary link-underline-opacity-0" href="https://github.com/EXG1O/Constructor-Telegram-Bots" target="_blank">GitHub</a>
+			<a class="link-secondary link-underline-opacity-0" href="https://github.com/EXG1O/Constructor-Telegram-Bots/blob/master/LICENSE.md" target="_blank">License</a>
+		</div>
+		<div class="col-12 col-lg-3 d-flex flex-column my-1 my-lg-0">
+			<h5 class="text-light mb-0">{% trans "Контакты Основателя" %}</h5>
+			<a class="link-secondary link-underline-opacity-0" href="mailto:helper.exg1o@gmail.com" target="_blank">helper.exg1o@gmail.com</a>
+			<a class="link-secondary link-underline-opacity-0" href="https://github.com/EXG1O" target="_blank">GitHub</a>
+			<a class="link-secondary link-underline-opacity-0" href="tg://resolve?domain=exg1o" target="_blank">Telegram</a>
+			<a class="link-secondary link-underline-opacity-0" href="tg://resolve?domain=exg1o_channel" target="_blank">Telegram Channel</a>
+		</div>
+		<div class="col-12 col-lg-2 d-flex flex-column">
+			<h5 class="text-light mb-0">{% trans "Другое" %}</h5>
+			<a class="link-secondary link-underline-opacity-0" href="{% url 'privacy_policy' %}">Privacy Policy</a>
+		</div>
+		<hr class="col-11 col-lg-7 text-white-50 my-2">
+		<p class="text-light text-center mb-0">&copy; 2023 exg1o</p>
+	</div>
+</div>

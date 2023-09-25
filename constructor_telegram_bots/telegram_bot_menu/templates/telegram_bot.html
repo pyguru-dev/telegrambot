@@ -1,0 +1,98 @@
+{% extends 'base_telegram_bot_menu.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Telegram бот" %}{% endblock title %}
+
+{% block animation_styles %}{% endblock animation_styles %}
+{% block monaco_editor_styles %}{% endblock monaco_editor_styles %}
+
+{% block content %}
+<div class="row g-3 g-lg-4">
+	<div class="col-12 col-lg-6">
+		<div class="card border">
+			<h5 class="card-header border-0 bg-{% if not telegram_bot.is_running and telegram_bot.is_stopped %}danger{% else %}success{% endif %} fw-semibold text-light text-center" id="telegramBotStatus">{% if not telegram_bot.is_running and telegram_bot.is_stopped %}{% trans "Telegram бот выключен" %}{% else %}{% trans "Telegram бот включен" %}{% endif %}</h5>
+			<div class="card-body p-2">
+				<table class="table table-borderless mb-0">
+					<tbody>
+						<tr>
+							<th class="align-middle" scope="row">@username:</th>
+							<td class="text-break"><a class="link-dark link-underline-opacity-0" id="telegramBotUsername"></a></td>
+						</tr>
+						<tr>
+							<th class="align-middle" scope="row">{% trans "API-токен" %}:</td>
+							<td class="text-break" id="telegramBotApiToken"></td>
+							<td class="align-middle">
+								<i class="bi bi-pencil-square text-secondary" id="telegramBotApiTokenEditButton" type="button" style="font-size: 1.2rem; -webkit-text-stroke: 0.4px;"></i>
+								<div class="d-flex">
+									<i class="bi bi-check-lg text-success mx-auto d-none" id="telegramBotApiTokenSaveButton" type="button" style="font-size: 1.2rem; -webkit-text-stroke: 1.4px;"></i>
+									<i class="bi bi-x-lg text-danger mx-auto d-none" id="telegramBotApiTokenCancelButton" type="button" style="font-size: 1.2rem; -webkit-text-stroke: 1.8px;"></i>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">{% trans "Приватный" %}:</th>
+							<td>
+								<div class="form-check form-switch mb-0">
+									<input class="form-check-input" id="telegramBotIsPrivateCheckBox" type="checkbox" {% if telegram_bot.is_private %}checked{% endif %}>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">{% trans "Добавлен" %}:</th>
+							<td class="align-middle">{{ telegram_bot.added_date }}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="card-footer border-top p-3">
+				<div class="row row-cols-1 row-cols-lg-2 g-2 g-lg-3">
+					<div class="col">
+						<button class="btn btn-{% if not telegram_bot.is_running and telegram_bot.is_stopped %}success{% else %}danger{% endif %} w-100" id="telegramBotStartOrStopButton" type="button">{% if not telegram_bot.is_running and telegram_bot.is_stopped %}{% trans "Включить Telegram бота" %}{% else %}{% trans "Выключить Telegram бота" %}{% endif %}</button>
+					</div>
+					<div class="col">
+						<button class="btn btn-danger w-100" id="telegramBotDeleteButton" type="button">{% trans "Удалить Telegram бота" %}</button>	
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-12 col-lg-6">
+		<div class="row text-center g-3">
+			{% trans "Количество пользователей" as info_area_text %}
+			{% include 'widgets/info_area.html' with class="col-6" value=telegram_bot.users.count text=info_area_text %}
+			{% trans "Количество команд" as info_area_text %}
+			{% include 'widgets/info_area.html' with class="col-6" value=telegram_bot.commands.count text=info_area_text %}
+			{% comment %} {% trans "Активность за 24 ч." as info_area_text %}
+			{% include 'widgets/info_area.html' with class="col-6" value="0" text=info_area_text %} {% endcomment %}
+		</div>
+	</div>
+</div>
+{% endblock content %}
+
+{% block animation_scripts %}{% endblock animation_scripts %}
+{% block monaco_editor_scripts %}{% endblock monaco_editor_scripts %}
+
+{% block scripts %}
+{{ block.super }}
+<script>
+	const personalCabinetUrl = "{% url 'personal_cabinet' %}";
+	const telegramBotUrl = "{% url 'telegram_bot' telegram_bot.id %}";
+	const startOrStopTelegramBotUrl = "{% url 'start_or_stop_telegram_bot' telegram_bot.id %}";
+
+	const telegramBotCardHeaderIsRunningText = "{% trans 'Telegram бот включен' %}";
+	const telegramBotCardHeaderIsNotRunningText = "{% trans 'Telegram бот выключен' %}";
+
+	const telegramBotTableLineApiTokenInputText = "{% trans 'Введите API-токен Telegram бота' %}";
+
+	const startTelegramBotMessage = "{% trans 'Вы успешно включили Telegram бота.' %}";
+	const stopTelegramBotMessage = "{% trans 'Вы успешно выключили Telegram бота.' %}";
+
+	const telegramBotStartButtonText = "{% trans 'Включить Telegram бота' %}";
+	const telegramBotStopButtonText = "{% trans 'Выключить Telegram бота' %}";
+
+	const deleteTelegramBotAskConfirmModalTitle = "{% trans 'Удаление Telegram бота' %}";
+	const deleteTelegramBotAskConfirmModalText = "{% trans 'Вы точно хотите удалить Telegram бота?' %}";
+</script>
+<script src="{% static 'telegram_bot_menu/js/telegram_bot.js' %}"></script>
+{% endblock scripts %}

@@ -1,20 +1,19 @@
-from telegram_bot.services.tests import CustomTestCase
-
+from telegram_bot.services.tests import BaseTestCase
 from telegram_bot.services.custom_aiogram import CustomBot
 
 from user.models import User
-from telegram_bot.models import TelegramBot, TelegramBotCommand, TelegramBotCommandKeyboard, TelegramBotCommandKeyboardButton
+from telegram_bot.models import *
 
 from .telegram_bot import UserTelegramBot
 
 from asgiref.sync import sync_to_async
-
 from functools import wraps
+import json
 
 
-class UserTelegramBotTests(CustomTestCase):
+class UserTelegramBotTests(BaseTestCase):
 	def setUp(self) -> None:
-		self.user: User = User.objects.create(123456789, 'exg1o')
+		self.user: User = User.objects.create(telegram_id=123456789, first_name='exg1o')
 		self.telegram_bot: TelegramBot = TelegramBot.objects.create(
 			owner=self.user,
 			api_token='123456789:qwertyuiop',
@@ -35,33 +34,47 @@ class UserTelegramBotTests(CustomTestCase):
 		return wrapper
 
 	@setup
-	async def test_send_message(self) -> None:
-		assert not await self.send_message(self.handler, 'Hello')
-
-	@setup
 	async def test_send_command(self) -> None:
-		telegram_bot_command: TelegramBotCommand = await sync_to_async(TelegramBotCommand.objects.create)(
+		await TelegramBotCommand.objects.acreate(
 			telegram_bot=self.telegram_bot,
-			name='Стартовая команда',
-			command='/start',
-			message_text='Это стартовая команда'
+			name='Test',
+			command={
+				'text': '/test',
+				'is_show_in_menu': False,
+				'description': None,
+			},
+			image=None,
+			message_text={
+				'mode': 'default',
+				'text': 'Test...',
+			},
+			keyboard=None,
+			api_request=None,
+			database_record=None
 		)
 
-		results: list = await self.send_message(self.handler,  telegram_bot_command.command)
+		result: dict = (await self.send_message(self.handler, '/test'))[1]
 
-		assert results[0]['method'] == 'send_message'
-		assert results[0]['text'] == telegram_bot_command.message_text
-		assert results[0]['reply_markup'] == None
+		assert result['method'] == 'sendMessage'
+		assert result['text'] == 'Test...'
 
 	@setup
 	async def test_send_command_with_default_keyboard(self) -> None:
-		telegram_bot_command: TelegramBotCommand = await sync_to_async(TelegramBotCommand.objects.create)(
+		await TelegramBotCommand.objects.acreate(
 			telegram_bot=self.telegram_bot,
-			name='Стартовая команда',
-			command='/start',
-			message_text='Это стартовая команда',
+			name='Test',
+			command={
+				'text': '/test',
+				'is_show_in_menu': False,
+				'description': None,
+			},
+			image=None,
+			message_text={
+				'mode': 'default',
+				'text': 'Test...',
+			},
 			keyboard={
-				'type': 'default',
+				'mode': 'default',
 				'buttons': [
 					{
 						'row': None,
@@ -79,26 +92,37 @@ class UserTelegramBotTests(CustomTestCase):
 						'url': None,
 					},
 				],
-			}
+			},
+			api_request=None,
+			database_record=None
 		)
 
-		results: list = await self.send_message(self.handler,  telegram_bot_command.command)
+		result: dict = (await self.send_message(self.handler, '/test'))[1]
+		result_keyboard: dict = json.loads(result['reply_markup'])['keyboard']
 
-		assert results[0]['method'] == 'send_message'
-		assert results[0]['text'] == telegram_bot_command.message_text
-		assert results[0]['reply_markup']['keyboard'][0][0]['text'] == '1'
-		assert results[0]['reply_markup']['keyboard'][1][0]['text'] == '2'
-		assert results[0]['reply_markup']['keyboard'][1][1]['text'] == '3'
+		assert result['method'] == 'sendMessage'
+		assert result['text'] == 'Test...'
+		assert result_keyboard[0][0]['text'] == '1'
+		assert result_keyboard[1][0]['text'] == '2'
+		assert result_keyboard[1][1]['text'] == '3'
 
 	@setup
 	async def test_send_command_with_inline_keyboard(self) -> None:
-		telegram_bot_command: TelegramBotCommand = await sync_to_async(TelegramBotCommand.objects.create)(
+		await TelegramBotCommand.objects.acreate(
 			telegram_bot=self.telegram_bot,
-			name='Стартовая команда',
-			command='/start',
-			message_text='Это стартовая команда',
+			name='Test',
+			command={
+				'text': '/test',
+				'is_show_in_menu': False,
+				'description': None,
+			},
+			image=None,
+			message_text={
+				'mode': 'default',
+				'text': 'Test...',
+			},
 			keyboard={
-				'type': 'inline',
+				'mode': 'inline',
 				'buttons': [
 					{
 						'row': None,
@@ -106,25 +130,36 @@ class UserTelegramBotTests(CustomTestCase):
 						'url': 'https://example.com/',
 					},
 				],
-			}
+			},
+			api_request=None,
+			database_record=None
 		)
 
-		results: list = await self.send_message(self.handler,  telegram_bot_command.command)
+		result: dict = (await self.send_message(self.handler, '/test'))[1]
+		result_keyboard: dict = json.loads(result['reply_markup'])['inline_keyboard']
 
-		assert results[0]['method'] == 'send_message'
-		assert results[0]['text'] == telegram_bot_command.message_text
-		assert results[0]['reply_markup']['inline_keyboard'][0][0]['text'] == '1'
-		assert results[0]['reply_markup']['inline_keyboard'][0][0]['url'] == 'https://example.com/'
+		assert result['method'] == 'sendMessage'
+		assert result['text'] == 'Test...'
+		assert result_keyboard[0][0]['text'] == '1'
+		assert result_keyboard[0][0]['url'] == 'https://example.com/'
 
 	@setup
 	async def test_click_default_keyboard_button(self) -> None:
-		telegram_bot_command_1: TelegramBotCommand = await sync_to_async(TelegramBotCommand.objects.create)(
+		telegram_bot_command_1: TelegramBotCommand = await TelegramBotCommand.objects.acreate(
 			telegram_bot=self.telegram_bot,
-			name='Стартовая команда',
-			command='/start',
-			message_text='Это стартовая команда',
+			name='Test',
+			command={
+				'text': '/test',
+				'is_show_in_menu': False,
+				'description': None,
+			},
+			image=None,
+			message_text={
+				'mode': 'default',
+				'text': 'Test...',
+			},
 			keyboard={
-				'type': 'default',
+				'mode': 'default',
 				'buttons': [
 					{
 						'row': None,
@@ -132,34 +167,51 @@ class UserTelegramBotTests(CustomTestCase):
 						'url': None,
 					},
 				],
-			}
+			},
+			api_request=None,
+			database_record=None
 		)
-
-		telegram_bot_command_2: TelegramBotCommand = await sync_to_async(TelegramBotCommand.objects.create)(
+		telegram_bot_command_2: TelegramBotCommand = await TelegramBotCommand.objects.acreate(
 			telegram_bot=self.telegram_bot,
-			name='Нажал на кнопку',
-			message_text='Ты нажал на кнопку!',
+			name='Test1',
+			command=None,
+			image=None,
+			message_text={
+				'mode': 'default',
+				'text': 'Test1...',
+			},
+			keyboard=None,
+			api_request=None,
+			database_record=None
 		)
 
 		telegram_bot_command_keyboard: TelegramBotCommandKeyboard = await sync_to_async(telegram_bot_command_1.get_keyboard)()
-
 		telegram_bot_command_keyboard_button: TelegramBotCommandKeyboardButton = await telegram_bot_command_keyboard.buttons.afirst()
 		telegram_bot_command_keyboard_button.telegram_bot_command = telegram_bot_command_2
 		await telegram_bot_command_keyboard_button.asave()
 
-		results: list = await self.send_message(self.handler,  '1')
-		assert results[0]['method'] == 'send_message'
-		assert results[0]['text'] == telegram_bot_command_2.message_text
+		result: dict = (await self.send_message(self.handler, '1'))[1]
+
+		assert result['method'] == 'sendMessage'
+		assert result['text'] == 'Test1...'
 
 	@setup
 	async def test_click_inline_keyboard_button(self) -> None:
-		telegram_bot_command_1: TelegramBotCommand = await sync_to_async(TelegramBotCommand.objects.create)(
+		telegram_bot_command_1: TelegramBotCommand = await TelegramBotCommand.objects.acreate(
 			telegram_bot=self.telegram_bot,
-			name='Стартовая команда',
-			command='/start',
-			message_text='Это стартовая команда',
+			name='Test',
+			command={
+				'text': '/test',
+				'is_show_in_menu': False,
+				'description': None,
+			},
+			image=None,
+			message_text={
+				'mode': 'default',
+				'text': 'Test...',
+			},
 			keyboard={
-				'type': 'inline',
+				'mode': 'inline',
 				'buttons': [
 					{
 						'row': None,
@@ -167,22 +219,31 @@ class UserTelegramBotTests(CustomTestCase):
 						'url': None,
 					},
 				],
-			}
+			},
+			api_request=None,
+			database_record=None
 		)
-
-		telegram_bot_command_2: TelegramBotCommand = await sync_to_async(TelegramBotCommand.objects.create)(
+		telegram_bot_command_2: TelegramBotCommand = await TelegramBotCommand.objects.acreate(
 			telegram_bot=self.telegram_bot,
-			name='Нажал на кнопку',
-			message_text='Ты нажал на кнопку!',
+			name='Test1',
+			command=None,
+			image=None,
+			message_text={
+				'mode': 'default',
+				'text': 'Test1...',
+			},
+			keyboard=None,
+			api_request=None,
+			database_record=None
 		)
 
 		telegram_bot_command_keyboard: TelegramBotCommandKeyboard = await sync_to_async(telegram_bot_command_1.get_keyboard)()
-
 		telegram_bot_command_keyboard_button: TelegramBotCommandKeyboardButton = await telegram_bot_command_keyboard.buttons.afirst()
 		telegram_bot_command_keyboard_button.telegram_bot_command = telegram_bot_command_2
 		await telegram_bot_command_keyboard_button.asave()
 
 		results: list = await self.send_callback_query(self.handler, '1')
-		assert results[0]['method'] == 'delete_message'
-		assert results[1]['method'] == 'send_message'
-		assert results[1]['text'] == telegram_bot_command_2.message_text
+
+		assert results[1]['method'] == 'deleteMessage'
+		assert results[2]['method'] == 'sendMessage'
+		assert results[2]['text'] == 'Test1...'
