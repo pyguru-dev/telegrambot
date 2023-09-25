@@ -16,11 +16,11 @@ click-plugins==1.1.1
 click-repl==0.2.0
 Django==4.2.3
 django-admin-interface==0.26.0
-django-ckeditor==6.6.1
 django-colorfield==0.9.0
 django-js-asset==2.0.0
 django-json-widget==1.1.1
 django-modeltranslation==0.18.10
+django-tinymce==3.6.1
 djangorestframework==3.14.0
 dnspython==2.3.0
 drf-standardized-errors==0.12.5

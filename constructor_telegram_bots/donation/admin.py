@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.utils import html
 
 from modeltranslation.admin import TranslationAdmin
-from ckeditor.widgets import CKEditorWidget
+from tinymce.widgets import TinyMCE
 
 from .models import *
 
@@ -29,4 +29,8 @@ class DonationSectionAdmin(TranslationAdmin):
 	list_display = ('title', 'position')
 
 	fields = ('title', 'text', 'position')
-	formfield_overrides = {models.TextField: {'widget': CKEditorWidget}}
+	formfield_overrides = {
+		models.TextField: {
+			'widget': TinyMCE,
+		},
+	}

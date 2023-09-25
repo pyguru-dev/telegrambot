@@ -1,7 +1,7 @@
 from django.contrib import admin
-from modeltranslation.admin import TranslationAdmin
 
-from ckeditor.widgets import CKEditorWidget
+from modeltranslation.admin import TranslationAdmin
+from tinymce.widgets import TinyMCE
 
 from django.db import models
 
@@ -13,4 +13,8 @@ class InstructionSectionAdmin(TranslationAdmin):
 	list_display = ('title', 'position')
 
 	fields = ('title', 'text', 'position')
-	formfield_overrides = {models.TextField: {'widget': CKEditorWidget}}
+	formfield_overrides = {
+		models.TextField: {
+			'widget': TinyMCE,
+		},
+	}

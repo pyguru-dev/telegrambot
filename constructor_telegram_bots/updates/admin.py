@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.db import models
 
 from modeltranslation.admin import TranslationAdmin
-from ckeditor.widgets import CKEditorWidget
+from tinymce.widgets import TinyMCE
 
 from .models import Update
 
@@ -14,4 +14,8 @@ class UpdateAdmin(TranslationAdmin):
 	list_display = ('version', 'added_date')
 
 	fields = ('image', 'version', 'description')
-	formfield_overrides = {models.TextField: {'widget': CKEditorWidget}}
+	formfield_overrides = {
+		models.TextField: {
+			'widget': TinyMCE,
+		},
+	}
